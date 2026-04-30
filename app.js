@@ -1,11 +1,20 @@
 /* ═══════════════════════════════════════════════
    Dog Show — app.js
-   Slideshow, fake chat, intermissions, sponsor banners.
-   Phase 2 will replace fake chat with PartyKit.
+   Slideshow, real-time chat via PartyKit, bone frenzy.
+   Falls back to local fake chat if WebSocket fails.
    ═══════════════════════════════════════════════ */
 
 (function () {
   'use strict';
+
+  // ─── CONFIG ─────────────────────────────────────
+
+  // PartyKit server URL — update after deploying party server
+  var PARTY_HOST = 'dogshow.schemestudio.partykit.dev';
+  var PARTY_ROOM = 'dogshow-live';
+  var ws = null;
+  var wsConnected = false;
+  var myUsername = 'viewer_' + Math.floor(Math.random() * 9999);
 
   // ─── SEED DATA ──────────────────────────────────
 
@@ -32,6 +41,7 @@
     'Queen Pawlina', 'Sir Licksalot', 'The Grand Poobah of Paws',
   ];
 
+  // Fallback data for when WebSocket is not connected
   var FAKE_USERS = [
     'doglover99', 'barkfan', 'woofwatcher', 'puppyperson', 'snootboop',
     'goodboy_greg', 'fetchqueen', 'pawsitive_vibes', 'treatseeker', 'zoomies4life',
@@ -48,7 +58,6 @@
     'that dog looks like my boss',
     'someone tell this dog I love them',
     "I've been here for 40 minutes",
-    'the curtain really got me',
     'worth every penny',
     'is this what the internet was made for',
     "I'm showing this to everyone at work",
@@ -59,32 +68,8 @@
     'dogs.',
     'this is art',
     'my therapist is going to hear about this',
-    'just venmo\'d my friend $1.99 to join lol',
-    'the old timey music during intermission killed me',
     'RARE DOG RARE DOG',
     'LIFETIME MEMBER HERE. I LIVE HERE NOW.',
-    'the jingle is stuck in my head',
-  ];
-
-  var INTERMISSION_MESSAGES = [
-    'here comes the jingle',
-    'NOT THE JINGLE AGAIN',
-    'I love the jingle actually',
-    'intermission gang rise up',
-    'the dogs... where did they go',
-    'I can still hear the jingle in my dreams',
-    "who's sponsoring this one",
-    'please stand by lmaooo',
-    'the curtain is CLOSED',
-    '3 2 1... dogs incoming',
-  ];
-
-  var SPONSOR_MESSAGES = [
-    'This Dog Show brought to you by Kevin from Ohio',
-    'Sponsored by: my crippling inability to close browser tabs',
-    "This moment of dogs powered by Sarah's birthday fund",
-    'Corporate sponsor: Jeff (he is not a corporation)',
-    'Brought to you by the letter W (for Woof)',
   ];
 
   var VIP_SKINS = [
@@ -102,15 +87,14 @@
   var currentIndex = 0;
   var nameIndex = 0;
   var isIntermission = false;
-  var viewerCount = Math.floor(Math.random() * 40) + 12;
+  var viewerCount = 1;
   var boneCount = 0;
-  var boneTimestamps = [];    // tracks recent bone times for streak calc
+  var boneTimestamps = [];
   var isFrenzy = false;
   var frenzyMulti = 0;
   var dogTimer = null;
-  var dogBaseTime = 5000;     // 5s default
-  var dogBonusTime = 0;       // accumulated from bones
-  var dogTimeRemaining = 0;
+  var dogBaseTime = 5000;
+  var dogBonusTime = 0;
 
   // ─── DOM REFS ───────────────────────────────────
 
@@ -155,7 +139,6 @@
         }
       })
       .catch(function () {
-        // Recycle seeds if API fails
         dogQueue = dogQueue.concat(SEED_DOGS);
       });
   }
@@ -185,13 +168,15 @@
     boneStreakEl.textContent = '';
     boneStreakEl.className = 'bone-streak';
 
+    // Tell server about new dog (resets shared bone count)
+    wsSend({ type: 'newdog' });
+
     // Briefly fade out, then show new dog
     dogImage.classList.remove('loaded');
     setTimeout(function () {
       showDog(url, name);
     }, 300);
 
-    // Fetch more when running low
     if (currentIndex > dogQueue.length - 5) {
       fetchMoreDogs();
     }
@@ -205,11 +190,9 @@
   // Dynamic dog timer — bones extend screen time
   function scheduleDog() {
     dogBonusTime = 0;
-    var totalTime = dogBaseTime;
     dogTimer = setTimeout(function () {
-      // If bonus time was added, wait that too
       if (dogBonusTime > 0) {
-        var bonus = Math.min(dogBonusTime, 15000); // cap at 15s bonus
+        var bonus = Math.min(dogBonusTime, 15000);
         dogBonusTime = 0;
         dogTimer = setTimeout(function () {
           nextDog();
@@ -219,11 +202,11 @@
         nextDog();
         scheduleDog();
       }
-    }, totalTime);
+    }, dogBaseTime);
   }
   scheduleDog();
 
-  // ─── FAKE CHAT ──────────────────────────────────
+  // ─── CHAT DISPLAY ─────────────────────────────
 
   function addChatMessage(user, msg, opts) {
     opts = opts || {};
@@ -266,32 +249,30 @@
 
     div.appendChild(userSpan);
     div.appendChild(textSpan);
-
     chatMessages.appendChild(div);
 
-    // Keep chat scrolled and trim old messages
     if (chatMessages.children.length > 80) {
       chatMessages.removeChild(chatMessages.firstChild);
     }
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  function addFakeMessage() {
-    var user = pick(FAKE_USERS);
-    var pool = isIntermission ? INTERMISSION_MESSAGES : FAKE_MESSAGES;
-    var msg = pick(pool);
-    var isVip = Math.random() > 0.7;
-    var skin = isVip ? pick(VIP_SKINS) : null;
-    var isLt = isVip && Math.random() > 0.8;
+  // ─── SEND MESSAGES ─────────────────────────────
 
-    addChatMessage(user, msg, { isVip: isVip, skin: skin, isLifetime: isLt });
-  }
-
-  // Send user messages
   function sendUserMessage() {
     var msg = chatInput.value.trim();
     if (!msg) return;
+
+    // Show locally immediately
     addChatMessage('you', msg, { isMe: true });
+
+    // Send to server
+    wsSend({
+      type: 'chat',
+      user: myUsername,
+      text: msg,
+    });
+
     chatInput.value = '';
   }
 
@@ -300,16 +281,13 @@
     if (e.key === 'Enter') sendUserMessage();
   });
 
-  // Fake chat trickle
-  addFakeMessage();
-  setInterval(function () {
-    addFakeMessage();
-  }, 2000 + Math.random() * 4000);
-
   // ─── VIEWER COUNT ───────────────────────────────
 
   viewerCountEl.textContent = viewerCount;
-  setInterval(function () {
+
+  // Fallback viewer count sim (only when offline)
+  var fakeViewerInterval = setInterval(function () {
+    if (wsConnected) return;
     viewerCount = Math.max(5, viewerCount + Math.floor(Math.random() * 7) - 3);
     viewerCountEl.textContent = viewerCount;
   }, 8000);
@@ -323,7 +301,6 @@
     isIntermission = true;
     intermission.classList.add('active');
     chatIntermissionLabel.classList.add('active');
-
     dots = '';
     dotsInterval = setInterval(function () {
       dots = dots.length >= 3 ? '' : dots + '.';
@@ -339,23 +316,6 @@
     intermissionTitle.textContent = 'Please Stand By';
   }
 
-  // Intermission disabled for now — will re-enable later
-  // setInterval(function () {
-  //   startIntermission();
-  //   setTimeout(endIntermission, 12000);
-  // }, 45000);
-
-  // Sponsor banners disabled for now
-  // setInterval(function () {
-  //   if (Math.random() > 0.4) {
-  //     sponsorBanner.textContent = '✳ ' + pick(SPONSOR_MESSAGES) + ' ✳';
-  //     sponsorBanner.classList.add('visible');
-  //     setTimeout(function () {
-  //       sponsorBanner.classList.remove('visible');
-  //     }, 8000);
-  //   }
-  // }, 15000);
-
   // ─── BONE REACTIONS ─────────────────────────────
 
   function spawnBone(x, y) {
@@ -370,7 +330,6 @@
 
   function getBonesPerSecond() {
     var now = Date.now();
-    // Keep only bones from the last 5 seconds
     boneTimestamps = boneTimestamps.filter(function (t) { return now - t < 5000; });
     return boneTimestamps.length / 5;
   }
@@ -393,14 +352,12 @@
       boneStreakEl.className = 'bone-streak fire';
     }
 
-    // Frenzy threshold: 3+ bones per second
     if (bps >= 3 && !isFrenzy) {
       startFrenzy();
     } else if (bps < 1.5 && isFrenzy) {
       endFrenzy();
     }
 
-    // Update frenzy multiplier while active
     if (isFrenzy) {
       frenzyMulti = Math.floor(bps * 2);
       boneFrenzyMultiEl.textContent = 'x' + frenzyMulti;
@@ -421,29 +378,24 @@
     dogFrame.classList.remove('frenzy');
   }
 
-  function addBone(fromBot) {
+  function addBone(fromRemote) {
     boneCount++;
     boneCountEl.textContent = boneCount;
     boneTimestamps.push(Date.now());
-
-    // Each bone extends dog screen time by 0.5s
     dogBonusTime += 500;
 
-    // Spawn floating bone near the button area
     var rect = boneBtn.getBoundingClientRect();
     var x = rect.left + rect.width / 2 + (Math.random() * 60 - 30);
     var y = rect.top + (Math.random() * 10);
     spawnBone(x, y);
 
-    // During frenzy, spawn extra bones for visual intensity
     if (isFrenzy) {
       var ex = rect.left + rect.width / 2 + (Math.random() * 100 - 50);
       var ey = rect.top + (Math.random() * 20 - 10);
       spawnBone(ex, ey);
     }
 
-    // Bounce the button
-    if (!fromBot) {
+    if (!fromRemote) {
       boneBtn.style.transform = 'scale(1.25)';
       setTimeout(function () { boneBtn.style.transform = ''; }, 100);
     }
@@ -451,22 +403,150 @@
     updateStreak();
   }
 
-  // Update streak display regularly (so it decays when bones stop)
   setInterval(updateStreak, 500);
 
   boneBtn.addEventListener('click', function () {
     addBone(false);
+    // Send bone to server
+    wsSend({ type: 'bone', user: myUsername });
   });
 
-  // Fake bot bone spam — bots react every 2-6s, faster during frenzy
-  setInterval(function () {
+  // Fallback bot bones (only when offline)
+  var fakeBoneInterval = setInterval(function () {
+    if (wsConnected) return;
     if (isFrenzy) {
-      // Bots get excited during frenzy
       addBone(true);
       if (Math.random() > 0.5) addBone(true);
     } else if (Math.random() > 0.4) {
       addBone(true);
     }
   }, 2000 + Math.random() * 4000);
+
+  // ─── PARTYKIT WEBSOCKET ─────────────────────────
+
+  function wsSend(data) {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify(data));
+    }
+  }
+
+  function connectPartyKit() {
+    try {
+      ws = new WebSocket('wss://' + PARTY_HOST + '/party/' + PARTY_ROOM);
+    } catch (e) {
+      console.log('PartyKit: connection failed, using local fallback');
+      startFallbackChat();
+      return;
+    }
+
+    ws.onopen = function () {
+      wsConnected = true;
+      console.log('PartyKit: connected');
+    };
+
+    ws.onmessage = function (event) {
+      var data;
+      try {
+        data = JSON.parse(event.data);
+      } catch (e) {
+        return;
+      }
+
+      if (data.type === 'sync') {
+        // Initial state from server
+        boneCount = data.boneCount || 0;
+        boneCountEl.textContent = boneCount;
+        viewerCount = data.viewers || 1;
+        viewerCountEl.textContent = viewerCount;
+
+        // Load recent messages
+        if (data.messages) {
+          data.messages.forEach(function (m) {
+            addChatMessage(m.user, m.text, {
+              isVip: m.isVip,
+              skin: m.skin,
+            });
+          });
+        }
+      }
+
+      if (data.type === 'chat') {
+        // Don't echo our own messages (already shown locally)
+        if (data.user === myUsername) return;
+        addChatMessage(data.user, data.text, {
+          isVip: data.isVip,
+          skin: data.skin,
+        });
+      }
+
+      if (data.type === 'bone') {
+        // Remote bone — animate it but don't double-count our own
+        if (data.from === myUsername && !data.isBot) return;
+        addBone(true);
+      }
+
+      if (data.type === 'bone_reset') {
+        boneCount = 0;
+        boneCountEl.textContent = '0';
+      }
+
+      if (data.type === 'viewers') {
+        viewerCount = data.count;
+        viewerCountEl.textContent = viewerCount;
+      }
+    };
+
+    ws.onclose = function () {
+      wsConnected = false;
+      console.log('PartyKit: disconnected, retrying in 3s');
+      setTimeout(connectPartyKit, 3000);
+    };
+
+    ws.onerror = function () {
+      wsConnected = false;
+      console.log('PartyKit: error, falling back to local chat');
+      startFallbackChat();
+    };
+  }
+
+  // ─── FALLBACK LOCAL CHAT ────────────────────────
+
+  var fallbackStarted = false;
+
+  function startFallbackChat() {
+    if (fallbackStarted) return;
+    fallbackStarted = true;
+
+    // Simulate viewer count
+    viewerCount = Math.floor(Math.random() * 40) + 12;
+    viewerCountEl.textContent = viewerCount;
+
+    // Fake chat trickle
+    addFakeMessage();
+    setInterval(function () {
+      addFakeMessage();
+    }, 2000 + Math.random() * 4000);
+  }
+
+  function addFakeMessage() {
+    var user = pick(FAKE_USERS);
+    var msg = pick(FAKE_MESSAGES);
+    var isVip = Math.random() > 0.7;
+    var skin = isVip ? pick(VIP_SKINS) : null;
+    var isLt = isVip && Math.random() > 0.8;
+    addChatMessage(user, msg, { isVip: isVip, skin: skin, isLifetime: isLt });
+  }
+
+  // ─── INIT ───────────────────────────────────────
+
+  // Try to connect to PartyKit; fall back to local if it fails
+  connectPartyKit();
+
+  // If not connected after 5s, start fallback
+  setTimeout(function () {
+    if (!wsConnected) {
+      startFallbackChat();
+    }
+  }, 5000);
 
 })();
