@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Dog Show — Live</title>
+  <meta name="description" content="You're in. Welcome to The Dog Show.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="show-body">
+
+  <!-- Header -->
+  <div class="show-header">
+    <div class="show-header-left">
+      <span class="show-header-title">The Dog Show</span>
+      <span class="show-header-est">est. 2026</span>
+    </div>
+    <div class="show-header-right">
+      <span class="live-badge" id="liveBadge">&#9679; LIVE &mdash; <span id="viewerCount">0</span> watching</span>
+    </div>
+  </div>
+
+  <!-- Sponsor banner -->
+  <div class="sponsor-banner" id="sponsorBanner"></div>
+
+  <!-- Main content -->
+  <div class="show-main">
+
+    <!-- Dog display area -->
+    <div class="dog-stage">
+
+      <!-- Intermission overlay -->
+      <div class="intermission-overlay" id="intermission">
+        <div class="intermission-card">
+          <div class="intermission-label">&mdash; Intermission &mdash;</div>
+          <div class="intermission-title" id="intermissionTitle">Please Stand By</div>
+          <div class="intermission-subtitle">The dogs will return shortly.</div>
+          <div class="intermission-divider"></div>
+          <div class="intermission-sponsor">
+            This intermission sponsored by:<br>
+            <strong>Your Ad Here &mdash; $5.00</strong>
+          </div>
+          <div class="intermission-music">&#9835; (imagine an old-timey jangle playing) &#9835;</div>
+        </div>
+      </div>
+
+      <!-- Dog frame -->
+      <div class="dog-frame">
+        <div class="dog-frame-drape">
+          <div class="dog-frame-drape-inner"></div>
+        </div>
+        <div class="dog-viewport">
+          <img id="dogImage" src="" alt="A good dog">
+        </div>
+        <div class="dog-frame-footer"></div>
+      </div>
+
+      <!-- Name plate -->
+      <div class="dog-nameplate" id="dogNameplate">
+        Now presenting: <strong id="dogName">...</strong>
+      </div>
+
+      <!-- Bone reaction -->
+      <div class="bone-area">
+        <button class="bone-btn" id="boneBtn">🦴 Give a Dog a Bone</button>
+        <span class="bone-count" id="boneCount">0</span>
+        <span class="bone-streak" id="boneStreak"></span>
+      </div>
+      <div class="bone-frenzy" id="boneFrenzy">
+        <span class="bone-frenzy-text" id="boneFrenzyText">BONE FRENZY</span>
+        <span class="bone-frenzy-multi" id="boneFrenzyMulti">x0</span>
+      </div>
+      <div class="bone-rain" id="boneRain"></div>
+
+      <div class="community-count" id="communityCount" hidden>
+        <span id="communityNum">0</span> community dog<span id="communityPlural">s</span> in the show
+      </div>
+    </div>
+
+    <!-- Chat panel -->
+    <div class="chat-panel">
+      <div class="chat-header">
+        <span>Live Chat</span>
+        <span class="chat-header-intermission" id="chatIntermissionLabel">&#9835; intermission &#9835;</span>
+      </div>
+
+      <div class="chat-messages" id="chatMessages"></div>
+
+      <div class="chat-input-area">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Say something..." maxlength="200">
+        <button class="chat-send" id="chatSend">Send</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+
+</body>
+</html>
