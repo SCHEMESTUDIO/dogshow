@@ -566,14 +566,13 @@
 
 /* Dog name plate */
 .dog-nameplate {
-  margin-top: 12px;
-  padding: 6px 20px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  font-size: 14px;
+  margin-top: 16px;
+  padding: 8px 24px;
+  font-size: 15px;
   color: var(--text-bright);
   font-style: italic;
   text-align: center;
+  letter-spacing: 0.3px;
 }
 
 .community-count {
@@ -584,35 +583,40 @@
 }
 
 /* Bone reaction */
+.bone-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
 .bone-area {
-  margin-top: 10px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   justify-content: center;
 }
 
 .bone-btn {
-  font-size: 14px;
+  font-size: 15px;
   font-family: var(--font-serif);
   font-weight: bold;
-  background: var(--bg-card);
-  border: 2px solid #D4AF37;
-  border-radius: 6px;
-  padding: 8px 18px;
+  background: rgba(255, 140, 66, 0.1);
+  border: 2px solid #FF8C42;
+  border-radius: 8px;
+  padding: 10px 22px;
   cursor: pointer;
-  transition: transform 0.1s ease, border-color 0.2s ease;
+  transition: transform 0.1s ease, background 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   user-select: none;
-  color: #D4AF37;
-  background: rgba(212, 175, 55, 0.08);
+  color: #FF8C42;
 }
 
 .bone-btn:hover {
-  background: rgba(212, 175, 55, 0.15);
-  border-color: #E0C04A;
+  background: rgba(255, 140, 66, 0.2);
 }
 
 .bone-btn:active {
@@ -620,19 +624,18 @@
 }
 
 .bone-count {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
-  color: #D4AF37;
+  color: #FF8C42;
   font-family: var(--font-serif);
   min-width: 30px;
 }
 
 .bone-hint {
   text-align: center;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-  font-style: italic;
-  margin-top: 6px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.3px;
 }
 
 .bone-rain {
@@ -671,11 +674,11 @@
 }
 
 .bone-streak.hot {
-  color: #D4AF37;
+  color: #FF8C42;
 }
 
 .bone-streak.fire {
-  color: #FF6B35;
+  color: #FF5722;
 }
 
 /* Bone Frenzy */
@@ -684,7 +687,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .bone-frenzy.active {
@@ -693,19 +696,19 @@
 }
 
 .bone-frenzy-text {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   font-family: var(--font-system);
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #D4AF37;
+  color: #FF8C42;
 }
 
 .bone-frenzy-multi {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: bold;
   font-family: var(--font-system);
-  color: #FF6B35;
+  color: #FF5722;
 }
 
 @keyframes frenzyPulse {
