@@ -3,6 +3,7 @@
    est. 2026
    ═══════════════════════════════════════════════ */
 
+
 @font-face {
   font-family: 'YangBagus';
   src: url('YangBagus.ttf') format('truetype');
@@ -60,40 +61,62 @@
 }
 
 .landing-title {
-  font-family: 'YangBagus', sans-serif;
-  font-size: clamp(48px, 10vw, 80px);
+  font-family: 'Yang Bagus', 'YangBagus', cursive;
+  font-size: clamp(56px, 12vw, 90px);
   margin: 0 0 16px 0;
   color: #FF8C42;
-  -webkit-text-stroke: 6px #FF8C42;
-  paint-order: stroke fill;
-  text-shadow: 5px 5px 0px #8B3A0F;
-  line-height: 1.1;
-}
-
-.title-big {
-  font-size: 1.4em;
-  color: #BB86FC;
-  -webkit-text-stroke: 6px #BB86FC;
-  text-shadow: 5px 5px 0px #3C1A78;
+  text-shadow: 2px 2px 0px #8B3A0F;
+  line-height: 1;
+  letter-spacing: 2px;
 }
 
 .landing-tagline {
-  color: var(--accent-dark);
-  font-size: 15px;
-  margin: 0 0 48px 0;
-  font-weight: 300;
-  font-style: italic;
-  height: 24px;
-  overflow: hidden;
+  margin: 0 0 40px 0;
   position: relative;
+  height: 44px;
+  width: 100%;
+  max-width: 380px;
+  background: #f5f0e1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.15), 0 1px 0 rgba(255,255,255,0.06);
+  border-top: 3px solid #e8dfc8;
+  border-bottom: 3px solid #d4c9a8;
 }
+
+.landing-tagline::before,
+.landing-tagline::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
+  background: linear-gradient(180deg, #d4c9a8, #c4b898, #d4c9a8);
+  border-radius: 2px;
+}
+
+.landing-tagline::before { left: 8px; }
+.landing-tagline::after { right: 8px; }
 
 .tagline-quote {
   opacity: 0;
   transition: opacity 0.5s ease;
   position: absolute;
-  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  color: #2a2218;
+  font-size: 14px;
+  font-style: italic;
+  font-family: Georgia, 'Times New Roman', serif;
+  letter-spacing: 0.3px;
 }
 
 .tagline-quote.active {
@@ -138,7 +161,7 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 28px 24px;
-  width: 220px;
+  width: 280px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -177,12 +200,13 @@
 }
 
 .landing-tier-perks {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-dim);
   text-align: left;
   line-height: 2;
   width: 100%;
-  padding: 0 8px;
+  padding: 0;
+  white-space: nowrap;
 }
 
 .landing-features {
@@ -775,11 +799,20 @@
   .landing-tiers {
     flex-direction: column;
     gap: 16px;
+    align-items: center;
   }
 
   .landing-tier {
     width: 100%;
-    max-width: 280px;
+    max-width: 320px;
+  }
+
+  .landing-tier-perks {
+    white-space: normal;
+  }
+
+  .landing-tagline {
+    max-width: 90%;
   }
 
   .show-main {

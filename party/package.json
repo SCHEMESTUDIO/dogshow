@@ -1,0 +1,13 @@
+{
+  "name": "dogshow-party",
+  "version": "1.0.0",
+  "description": "PartyKit server for dogshow.lol real-time chat + bones",
+  "main": "server.js",
+  "scripts": {
+    "dev": "npx partykit dev",
+    "deploy": "npx partykit deploy"
+  },
+  "dependencies": {
+    "partykit": "^0.0.108"
+  }
+}
