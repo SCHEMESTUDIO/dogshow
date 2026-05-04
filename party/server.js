@@ -278,11 +278,12 @@ export default class DogShowServer {
   }
 
   startBot() {
-    // Seed initial bots (3-6 join immediately)
+    // Seed initial bots — stagger joins over the first 60 seconds
     const initialCount = 3 + Math.floor(Math.random() * 4);
     const shuffled = [...BOTS].sort(() => Math.random() - 0.5);
     for (let i = 0; i < initialCount && i < shuffled.length; i++) {
-      this.botJoin(shuffled[i]);
+      const delay = i * (8000 + Math.floor(Math.random() * 7000)); // 8-15s apart
+      setTimeout(() => this.botJoin(shuffled[i]), delay);
     }
 
     // Bots chat at random intervals
@@ -338,31 +339,11 @@ export default class DogShowServer {
 
   botJoin(bot) {
     this.activeBots.push(bot);
-    const joinMsg = {
-      type: 'chat',
-      user: bot.name,
-      text: pick(['just got here', 'hey everyone', "what'd i miss", 'im back', 'hello hello', 'ooh dogs', 'lets go']),
-      isBot: true,
-      isSystem: false,
-      ts: Date.now(),
-    };
-    this.addMessage(joinMsg);
-    this.room.broadcast(JSON.stringify(joinMsg));
     this.broadcastViewers();
   }
 
   botLeave(bot) {
     this.activeBots = this.activeBots.filter(b => b !== bot);
-    const leaveMsg = {
-      type: 'chat',
-      user: bot.name,
-      text: pick(['gotta go, bye!', 'brb', 'see ya', 'later everyone', 'my boss is coming', 'ok i need to sleep']),
-      isBot: true,
-      isSystem: false,
-      ts: Date.now(),
-    };
-    this.addMessage(leaveMsg);
-    this.room.broadcast(JSON.stringify(leaveMsg));
     this.broadcastViewers();
   }
 

@@ -11,6 +11,13 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Yang Bagus';
+  src: url('YangBagus.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
