@@ -15,6 +15,7 @@
   <meta name="description" content="A dog appeared on The Dog Show — the live, exclusive dog-viewing experience at dogshow.lol">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="The Dog Show">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
   <link rel="canonical" id="canonicalLink" href="https://dogshow.lol/dog.html">
   <style>
@@ -212,8 +213,11 @@
     .share-btn:hover { opacity: 0.85; }
 
     .share-btn.facebook { background: #1877F2; }
-    .share-btn.twitter { background: #1DA1F2; }
+    .share-btn.twitter { background: #000; }
+    .share-btn.whatsapp { background: #25D366; }
     .share-btn.sms { background: #4CAF50; }
+    .share-btn.snapchat { background: #FFFC00; color: #000; }
+    .share-btn.native-share { background: var(--accent); color: #1a1035; }
     .share-btn.copy { background: rgba(255,255,255,0.12); color: var(--text-bright); }
     .share-btn.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
 
@@ -532,37 +536,73 @@
 
       // Share buttons
       var pageUrl = 'https://dogshow.lol/dog.html?id=' + dog.id;
+      // Social share URL goes through PartyKit for proper OG tags (crawlers don't run JS)
+      var shareUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/dog-meta?id=' + dog.id;
       var shareText = 'Check out ' + dog.dogName + ' on The Dog Show! 🐕';
       var shareButtons = document.getElementById('shareButtons');
+      var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-      // Facebook
+      // On mobile: native share sheet first (covers IG Stories, Snapchat, iMessage, etc.)
+      if (isMobile && navigator.share) {
+        var nativeBtn = createShareBtn('Share...', 'native-share', '#');
+        nativeBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          navigator.share({
+            title: dog.dogName + ' — The Dog Show',
+            text: shareText,
+            url: shareUrl,
+          }).catch(function() {});
+        });
+        shareButtons.appendChild(nativeBtn);
+      }
+
+      // Facebook — shareUrl has OG tags so FB shows rich preview card
       var fbBtn = createShareBtn('Facebook', 'facebook',
-        'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(pageUrl));
+        'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) +
+        '&quote=' + encodeURIComponent(shareText));
       shareButtons.appendChild(fbBtn);
 
-      // Twitter/X
-      var twBtn = createShareBtn('Twitter', 'twitter',
-        'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(pageUrl));
+      // X/Twitter — shareUrl has twitter:card meta for large image preview
+      var twBtn = createShareBtn('X', 'twitter',
+        'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) +
+        '&url=' + encodeURIComponent(shareUrl) +
+        '&hashtags=DogShow,DogsOfTheInternet');
       shareButtons.appendChild(twBtn);
 
-      // SMS
-      var smsBtn = createShareBtn('SMS', 'sms',
-        'sms:?body=' + encodeURIComponent(shareText + ' ' + pageUrl));
-      shareButtons.appendChild(smsBtn);
+      // WhatsApp — fetches OG from shareUrl for rich link preview
+      var waBtn = createShareBtn('WhatsApp', 'whatsapp',
+        'https://api.whatsapp.com/send?text=' + encodeURIComponent(shareText + '\n' + shareUrl));
+      shareButtons.appendChild(waBtn);
 
-      // Instagram (copy to clipboard — can't deep link stories from web)
+      // Instagram — no web share API; copy link + instruct user
       var igBtn = createShareBtn('Instagram', 'instagram', '#');
       igBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        copyToClipboard(shareText + ' ' + pageUrl);
+        copyToClipboard(shareUrl);
+        showCopiedMsg('Link copied! Paste in your Instagram Story or bio');
       });
       shareButtons.appendChild(igBtn);
 
-      // Copy link
+      // Snapchat — Creative Kit URL on mobile
+      if (isMobile) {
+        var snapBtn = createShareBtn('Snapchat', 'snapchat',
+          'https://www.snapchat.com/scan?attachmentUrl=' + encodeURIComponent(shareUrl));
+        shareButtons.appendChild(snapBtn);
+      }
+
+      // SMS — iOS uses & separator, Android uses ?
+      var smsDelimiter = isIOS ? '&' : '?';
+      var smsBtn = createShareBtn('SMS', 'sms',
+        'sms:' + smsDelimiter + 'body=' + encodeURIComponent(shareText + ' ' + shareUrl));
+      shareButtons.appendChild(smsBtn);
+
+      // Copy link (always last)
       var copyBtn = createShareBtn('Copy Link', 'copy', '#');
       copyBtn.addEventListener('click', function(e) {
         e.preventDefault();
         copyToClipboard(pageUrl);
+        showCopiedMsg('Link copied!');
       });
       shareButtons.appendChild(copyBtn);
 
@@ -584,11 +624,24 @@
     }
 
     function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(function() {
-        var el = document.getElementById('shareCopied');
-        el.classList.add('show');
-        setTimeout(function() { el.classList.remove('show'); }, 2000);
+      navigator.clipboard.writeText(text).catch(function() {
+        // Fallback for older browsers
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
       });
+    }
+
+    function showCopiedMsg(msg) {
+      var el = document.getElementById('shareCopied');
+      el.textContent = msg || 'Link copied!';
+      el.classList.add('show');
+      setTimeout(function() { el.classList.remove('show'); }, 3000);
     }
 
     function setMeta(property, content) {

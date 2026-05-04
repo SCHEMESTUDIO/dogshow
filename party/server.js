@@ -561,6 +561,9 @@ export default class DogShowServer {
       if (path === 'dog-stats' && req.method === 'GET') {
         return await this.handleGetDogStats(req, headers);
       }
+      if (path === 'dog-meta' && req.method === 'GET') {
+        return await this.handleDogMeta(req);
+      }
       if (path === 'all-dogs' && req.method === 'GET') {
         return await this.handleGetAllDogs(req, headers);
       }
@@ -853,6 +856,52 @@ export default class DogShowServer {
         'Content-Type': mime,
         'Cache-Control': 'public, max-age=86400',
         'Access-Control-Allow-Origin': '*',
+      },
+    });
+  }
+
+  // Serve OG meta tags as HTML for social crawlers
+  async handleDogMeta(req) {
+    const url = new URL(req.url);
+    const id = url.searchParams.get('id');
+    if (!id) return new Response('not found', { status: 404 });
+
+    const dog = this.communityDogs.find(d => d.id === id);
+    if (!dog) return new Response('not found', { status: 404 });
+
+    const imageUrl = `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${dog.id}`;
+    const pageUrl = `${SITE_URL}/dog.html?id=${dog.id}`;
+    const bones = (dog.stats && dog.stats.totalBones) || 0;
+    const desc = `${dog.dogName} appeared on The Dog Show! ${dog.breed && dog.breed !== 'Mystery Breed' ? 'Breed: ' + dog.breed + '. ' : ''}${bones} bones received. View their certificate.`;
+
+    const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${dog.dogName} — The Dog Show Certificate</title>
+<meta name="description" content="${desc}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="${dog.dogName} — The Dog Show">
+<meta property="og:description" content="${desc}">
+<meta property="og:image" content="${imageUrl}">
+<meta property="og:image:width" content="600">
+<meta property="og:image:height" content="600">
+<meta property="og:url" content="${pageUrl}">
+<meta property="og:site_name" content="The Dog Show">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${dog.dogName} — The Dog Show">
+<meta name="twitter:description" content="${desc}">
+<meta name="twitter:image" content="${imageUrl}">
+<meta http-equiv="refresh" content="0;url=${pageUrl}">
+</head>
+<body><p>Redirecting to <a href="${pageUrl}">${dog.dogName}'s certificate</a>...</p></body>
+</html>`;
+
+    return new Response(html, {
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'public, max-age=3600',
       },
     });
   }
