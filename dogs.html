@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V830P7PPHQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V830P7PPHQ');
+  </script>
+  <title>All Dogs — The Dog Show | Online Dog Photo Gallery</title>
+  <meta name="description" content="Browse every dog that has appeared on The Dog Show — the live, online dog-viewing experience. See photos, stats, breed info, and certificates for community-submitted dogs.">
+  <meta property="og:title" content="All Dogs — The Dog Show">
+  <meta property="og:description" content="Browse every dog featured on The Dog Show. View certificates, stats, and breed info.">
+  <meta property="og:url" content="https://dogshow.lol/dogs.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Dog Show">
+  <link rel="canonical" href="https://dogshow.lol/dogs.html">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
+  <style>
+    @font-face {
+      font-family: 'Yang Bagus';
+      src: url('YangBagus.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #1a1035;
+      --bg-card: #241a45;
+      --accent: #FF8C42;
+      --text-bright: #e0d8f0;
+      --text-dim: rgba(255,255,255,0.4);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-bright);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    .dir-header {
+      text-align: center;
+      padding: 40px 20px 12px;
+    }
+
+    .dir-title {
+      font-family: 'Yang Bagus', serif;
+      color: var(--accent);
+      font-size: 36px;
+    }
+
+    .dir-subtitle {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 6px;
+    }
+
+    .dir-stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding: 16px 20px 24px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    .dir-stats-bar strong {
+      color: var(--accent);
+    }
+
+    /* Filter / Sort */
+    .dir-controls {
+      max-width: 800px;
+      margin: 0 auto 20px;
+      padding: 0 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .dir-controls select, .dir-controls input {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-bright);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+    }
+    .dir-controls input {
+      flex: 1;
+      min-width: 180px;
+    }
+    .dir-controls select:focus, .dir-controls input:focus {
+      border-color: var(--accent);
+    }
+
+    /* Dog grid */
+    .dog-grid {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .dog-card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .dog-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .dog-card-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: var(--bg);
+      display: block;
+    }
+
+    .dog-card-body {
+      padding: 14px;
+    }
+
+    .dog-card-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 4px;
+    }
+
+    .dog-card-breed {
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .dog-card-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .dog-card-meta strong {
+      color: var(--text-bright);
+    }
+
+    .dog-card-owner {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
+
+    .no-dogs {
+      text-align: center;
+      grid-column: 1 / -1;
+      padding: 60px 20px;
+      color: var(--text-dim);
+    }
+
+    .loading-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-dim);
+    }
+
+    /* CTA */
+    .dir-cta {
+      text-align: center;
+      padding: 40px 20px 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .dir-cta-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #1a1035;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .dir-cta-btn:hover { transform: scale(1.03); }
+
+    .dir-cta-sub {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
+
+    /* SEO section */
+    .seo-footer {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .seo-footer h2 {
+      font-family: 'Yang Bagus', serif;
+      color: var(--accent);
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .seo-footer h3 {
+      font-size: 16px;
+      color: var(--text-bright);
+      margin: 20px 0 8px;
+    }
+
+    .seo-footer p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .seo-footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .seo-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="dir-header">
+    <div class="dir-title">The Dog Show</div>
+    <div class="dir-subtitle">Every Dog That's Graced the Stage</div>
+  </div>
+
+  <div class="dir-stats-bar" id="statsBar">
+    <span><strong id="totalDogsCount">0</strong> dogs</span>
+    <span><strong id="totalBonesCount">0</strong> total bones</span>
+    <span><strong id="totalAppearancesCount">0</strong> appearances</span>
+  </div>
+
+  <div class="dir-controls">
+    <input type="text" id="searchInput" placeholder="Search by name or breed...">
+    <select id="sortSelect">
+      <option value="newest">Newest first</option>
+      <option value="oldest">Oldest first</option>
+      <option value="bones">Most bones</option>
+      <option value="appearances">Most appearances</option>
+      <option value="name">A → Z</option>
+    </select>
+  </div>
+
+  <div id="loading" class="loading-state">Loading dogs...</div>
+
+  <div class="dog-grid" id="dogGrid" hidden></div>
+
+  <div class="dir-cta" id="dirCta" hidden>
+    <a href="https://dogshow.lol" class="dir-cta-btn">Watch The Dog Show Live</a>
+    <div class="dir-cta-sub">Premium members ($3.99) can submit their dog to the show</div>
+  </div>
+
+  <div class="seo-footer">
+    <h2>The Dog Show — Community Dog Gallery</h2>
+    <p>Welcome to the complete gallery of every dog that has appeared on <a href="https://dogshow.lol">The Dog Show</a>, the internet's only live, real-time dog-viewing experience. Every dog on this page was submitted by a premium member and verified by AI to be a real dog. Each dog earns bones from live viewers, accumulates stats across multiple appearances, and gets a permanent certificate page.</p>
+
+    <h3>Online Dog Show &amp; Photo Contest</h3>
+    <p>Unlike traditional dog shows, The Dog Show welcomes every breed — purebreds, mixed breeds, rescues, puppies, and seniors. Our AI identifies the breed and each dog gets its own profile page with stats, a shareable certificate, and breed information. It's the most accessible dog photo contest on the internet.</p>
+
+    <h3>How It Works</h3>
+    <p>Dogs appear one at a time in a live slideshow visible to all viewers simultaneously. The community reacts by giving bones — each bone extends the dog's screen time. Premium members can upload their own dog to join the rotation. Every appearance is tracked: viewer count, bones received, time on screen, and more. After appearing, the dog's owner receives an email with a link to their dog's updated certificate page.</p>
+
+    <h3>Dog Breeds on The Dog Show</h3>
+    <p>From Golden Retrievers and Labrador Retrievers to Corgis, Huskies, Poodles, German Shepherds, Beagles, Bulldogs, Dachshunds, and Samoyeds — The Dog Show has featured dozens of breeds. Each dog's breed is identified by AI and displayed on their certificate. Browse the gallery above to see all the breeds that have appeared.</p>
+
+    <h3>Submit Your Dog</h3>
+    <p>Want your dog on this page? <a href="https://dogshow.lol">Visit The Dog Show</a>, get a premium membership ($3.99), and upload your dog's photo. Your dog will enter the live rotation, earn bones from viewers, and get a permanent certificate page you can share with friends and family.</p>
+  </div>
+
+  <script>
+    var PARTY_HOST = 'dogshow.schemestudio.partykit.dev';
+    var PARTY_ROOM = 'dogshow-live';
+    var API_BASE = 'https://' + PARTY_HOST + '/party/' + PARTY_ROOM;
+
+    var allDogs = [];
+
+    async function loadDogs() {
+      try {
+        var res = await fetch(API_BASE + '/all-dogs');
+        var data = await res.json();
+
+        if (!data.ok || !data.dogs) {
+          document.getElementById('loading').textContent = 'No dogs in the show yet. Be the first!';
+          document.getElementById('dirCta').hidden = false;
+          return;
+        }
+
+        allDogs = data.dogs;
+        document.getElementById('loading').hidden = true;
+        document.getElementById('dogGrid').hidden = false;
+        document.getElementById('dirCta').hidden = false;
+
+        // Aggregate stats
+        var totalBones = 0;
+        var totalAppearances = 0;
+        allDogs.forEach(function(d) {
+          totalBones += (d.stats && d.stats.totalBones) || 0;
+          totalAppearances += (d.stats && d.stats.totalAppearances) || 0;
+        });
+        document.getElementById('totalDogsCount').textContent = allDogs.length;
+        document.getElementById('totalBonesCount').textContent = totalBones.toLocaleString();
+        document.getElementById('totalAppearancesCount').textContent = totalAppearances;
+
+        renderDogs(allDogs);
+      } catch (e) {
+        document.getElementById('loading').textContent = 'Failed to load dogs. Please try again.';
+      }
+    }
+
+    function renderDogs(dogs) {
+      var grid = document.getElementById('dogGrid');
+      grid.innerHTML = '';
+
+      if (dogs.length === 0) {
+        grid.innerHTML = '<div class="no-dogs">No dogs match your search.</div>';
+        return;
+      }
+
+      dogs.forEach(function(dog) {
+        var card = document.createElement('a');
+        card.className = 'dog-card';
+        card.href = 'dog.html?id=' + dog.id;
+
+        var imgUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=' + dog.id;
+        var bones = (dog.stats && dog.stats.totalBones) || 0;
+        var appearances = (dog.stats && dog.stats.totalAppearances) || 0;
+
+        card.innerHTML =
+          '<img class="dog-card-img" src="' + imgUrl + '" alt="' + dog.dogName + ' - ' + (dog.breed || 'Dog') + ' on The Dog Show" loading="lazy">' +
+          '<div class="dog-card-body">' +
+            '<div class="dog-card-name">' + dog.dogName + '</div>' +
+            '<div class="dog-card-breed">' + (dog.breed || 'Mystery Breed') + '</div>' +
+            '<div class="dog-card-meta">' +
+              '<span>🦴 <strong>' + bones + '</strong></span>' +
+              '<span>🎬 <strong>' + appearances + '</strong></span>' +
+            '</div>' +
+            '<div class="dog-card-owner">by ' + dog.username + '</div>' +
+          '</div>';
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Search
+    document.getElementById('searchInput').addEventListener('input', function() {
+      var q = this.value.toLowerCase().trim();
+      var filtered = allDogs.filter(function(d) {
+        return d.dogName.toLowerCase().includes(q) ||
+               (d.breed || '').toLowerCase().includes(q) ||
+               d.username.toLowerCase().includes(q);
+      });
+      applySortAndRender(filtered);
+    });
+
+    // Sort
+    document.getElementById('sortSelect').addEventListener('change', function() {
+      var q = document.getElementById('searchInput').value.toLowerCase().trim();
+      var filtered = allDogs.filter(function(d) {
+        return !q || d.dogName.toLowerCase().includes(q) ||
+               (d.breed || '').toLowerCase().includes(q) ||
+               d.username.toLowerCase().includes(q);
+      });
+      applySortAndRender(filtered);
+    });
+
+    function applySortAndRender(dogs) {
+      var sort = document.getElementById('sortSelect').value;
+      var sorted = dogs.slice();
+
+      if (sort === 'newest') {
+        sorted.sort(function(a, b) { return (b.uploadedAt || 0) - (a.uploadedAt || 0); });
+      } else if (sort === 'oldest') {
+        sorted.sort(function(a, b) { return (a.uploadedAt || 0) - (b.uploadedAt || 0); });
+      } else if (sort === 'bones') {
+        sorted.sort(function(a, b) {
+          return ((b.stats && b.stats.totalBones) || 0) - ((a.stats && a.stats.totalBones) || 0);
+        });
+      } else if (sort === 'appearances') {
+        sorted.sort(function(a, b) {
+          return ((b.stats && b.stats.totalAppearances) || 0) - ((a.stats && a.stats.totalAppearances) || 0);
+        });
+      } else if (sort === 'name') {
+        sorted.sort(function(a, b) { return a.dogName.localeCompare(b.dogName); });
+      }
+
+      renderDogs(sorted);
+    }
+
+    // Add structured data
+    var schema = {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      'name': 'The Dog Show — Community Dog Gallery',
+      'description': 'Browse every dog featured on The Dog Show. View certificates, stats, and breed info for community-submitted dogs.',
+      'url': 'https://dogshow.lol/dogs.html',
+      'isPartOf': {
+        '@type': 'WebSite',
+        'name': 'The Dog Show',
+        'url': 'https://dogshow.lol',
+      },
+    };
+    var s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.textContent = JSON.stringify(schema);
+    document.head.appendChild(s);
+
+    loadDogs();
+  </script>
+</body>
+</html>

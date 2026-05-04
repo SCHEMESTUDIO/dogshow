@@ -575,11 +575,72 @@
   letter-spacing: 0.3px;
 }
 
+/* Community dog section */
+.community-section {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
 .community-count {
-  margin-top: 8px;
   font-size: 11px;
   color: var(--text-dim);
   font-style: italic;
+}
+
+.community-upload {
+  margin-top: 4px;
+}
+
+.community-upload-btn {
+  background: rgba(255, 140, 66, 0.1);
+  border: 1px solid rgba(255, 140, 66, 0.4);
+  color: #FF8C42;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.community-upload-btn:hover:not(:disabled) {
+  background: rgba(255, 140, 66, 0.2);
+  border-color: #FF8C42;
+}
+.community-upload-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.community-upload-btn.submitted {
+  border-color: rgba(76, 175, 80, 0.5);
+  color: #4CAF50;
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.community-upload-status {
+  font-size: 12px;
+  color: #FF8C42;
+  margin-top: 4px;
+}
+.community-upload-status.error {
+  color: #FF5722;
+}
+
+/* Community dog nameplate */
+.dog-nameplate.community {
+  background: rgba(255, 140, 66, 0.08);
+  border: 1px solid rgba(255, 140, 66, 0.3);
+  border-radius: 8px;
+  padding: 10px 24px;
+}
+.dog-nameplate.community .community-badge {
+  display: inline-block;
+  font-size: 11px;
+  color: #FF8C42;
+  font-style: normal;
+  margin-left: 8px;
+  opacity: 0.9;
 }
 
 /* Bone reaction */

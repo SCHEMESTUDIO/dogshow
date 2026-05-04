@@ -3,6 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V830P7PPHQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V830P7PPHQ');
+  </script>
   <title>The Dog Show — Live</title>
   <meta name="description" content="You're in. Welcome to The Dog Show.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
@@ -81,8 +89,16 @@
       </div>
       <div class="bone-rain" id="boneRain"></div>
 
-      <div class="community-count" id="communityCount" hidden>
-        <span id="communityNum">0</span> community dog<span id="communityPlural">s</span> in the show
+      <!-- Community dog upload (premium only) -->
+      <div class="community-section" id="communitySection">
+        <div class="community-count" id="communityCount">
+          <span id="communityNum">0</span> community dog<span id="communityPlural">s</span> in the show
+        </div>
+        <div class="community-upload" id="communityUpload" hidden>
+          <button class="community-upload-btn" id="uploadBtn">📸 Add Your Dog to the Show</button>
+          <input type="file" id="uploadInput" accept="image/jpeg,image/png,image/webp" hidden>
+        </div>
+        <div class="community-upload-status" id="uploadStatus" hidden></div>
       </div>
     </div>
 

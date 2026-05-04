@@ -54,12 +54,16 @@ export default class DogShowServer {
     this.fanIds = new Set();
 
     // Dog slideshow state
-    this.currentDog = null;       // { url, name }
+    this.currentDog = null;       // { url, name, isCommunity?, submittedBy? }
     this.dogCount = 0;
     this.dogInterval = null;
     this.isIntermission = false;
     this.dogQueue = [];
     this.nameIndex = 0;
+
+    // Community dogs
+    this.communityDogs = [];      // [{ id, imageKey, username, uploadedAt }]
+    this.communityIndex = 0;
   }
 
   async onStart() {
@@ -67,6 +71,9 @@ export default class DogShowServer {
     this.totalFans = (await this.room.storage.get('totalFans')) || 0;
     const storedIds = (await this.room.storage.get('fanIds')) || [];
     this.fanIds = new Set(storedIds);
+
+    // Load community dogs list
+    this.communityDogs = (await this.room.storage.get('communityDogs')) || [];
 
     // Pre-fetch initial dogs
     await this.fetchDogs();
@@ -83,6 +90,7 @@ export default class DogShowServer {
       totalFans: this.totalFans,
       currentDog: this.currentDog,
       isIntermission: this.isIntermission,
+      communityCount: this.communityDogs.length,
     }));
 
     // Broadcast updated viewer count
@@ -209,23 +217,43 @@ export default class DogShowServer {
   advanceDog() {
     if (this.isIntermission) return;
 
+    // ─── Record stats for the community dog that just finished ───
+    if (this.currentDog && this.currentDog.isCommunity && this.currentDog._communityId) {
+      this.recordCommunityDogStats(this.currentDog._communityId);
+    }
+
     this.dogCount++;
 
-    // Intermission every 5 dogs
+    // Intermission every 15 dogs
     if (this.dogCount > 1 && this.dogCount % 15 === 0) {
       this.startIntermission();
-      return;
+      return; // Stats already recorded at top of advanceDog()
     }
 
-    // Pick next dog from queue
-    const url = this.dogQueue.shift();
-    if (!url) {
-      // Queue empty — fetch more and retry
-      this.fetchDogs().then(() => this.advanceDog());
-      return;
+    // Every 5th dog, show a community dog (if any exist)
+    if (this.communityDogs.length > 0 && this.dogCount % 5 === 0) {
+      const communityDog = this.communityDogs[this.communityIndex % this.communityDogs.length];
+      this.communityIndex++;
+      this.currentDog = {
+        url: `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${communityDog.id}`,
+        name: communityDog.dogName || 'A Good Dog',
+        isCommunity: true,
+        submittedBy: communityDog.username,
+        _communityId: communityDog.id,
+        _communityUserId: communityDog.userId,
+        _appearedAt: Date.now(),
+      };
+    } else {
+      // Pick next dog from queue
+      const url = this.dogQueue.shift();
+      if (!url) {
+        // Queue empty — fetch more and retry
+        this.fetchDogs().then(() => this.advanceDog());
+        return;
+      }
+      const name = this.getNextName();
+      this.currentDog = { url, name, isCommunity: false };
     }
-    const name = this.getNextName();
-    this.currentDog = { url, name };
 
     // Reset bone count and bonus time
     this.boneCount = 0;
@@ -234,7 +262,13 @@ export default class DogShowServer {
     // Broadcast new dog + bone reset to all clients
     this.room.broadcast(JSON.stringify({
       type: 'newdog',
-      dog: this.currentDog,
+      dog: {
+        url: this.currentDog.url,
+        name: this.currentDog.name,
+        isCommunity: this.currentDog.isCommunity || false,
+        submittedBy: this.currentDog.submittedBy || null,
+        id: this.currentDog._communityId || null,
+      },
       boneCount: 0,
     }));
 
@@ -243,17 +277,143 @@ export default class DogShowServer {
       this.fetchDogs();
     }
 
-    // Schedule next dog (8s base, then check for bone bonus)
+    // Schedule next dog (8s base + community dogs get 10s for extra visibility)
+    const baseTime = this.currentDog.isCommunity ? 10000 : 8000;
     this.dogInterval = setTimeout(() => {
       const bonus = this.dogBonusTime || 0;
       if (bonus > 0) {
         this.dogBonusTime = 0;
-        // Extended stay — wait the bonus then advance
         this.dogInterval = setTimeout(() => this.advanceDog(), bonus);
       } else {
         this.advanceDog();
       }
-    }, 8000);
+    }, baseTime);
+  }
+
+  async recordCommunityDogStats(dogId) {
+    const idx = this.communityDogs.findIndex(d => d.id === dogId);
+    if (idx === -1) return;
+
+    const dog = this.communityDogs[idx];
+    const viewers = [...this.room.getConnections()].length + this.activeBots.length;
+    const screenTime = Date.now() - (this.currentDog._appearedAt || Date.now());
+
+    dog.stats = dog.stats || {
+      totalAppearances: 0, totalBones: 0, totalViewers: 0,
+      totalScreenTime: 0, peakViewers: 0, firstAppearance: null, lastAppearance: null,
+    };
+
+    dog.stats.totalAppearances++;
+    dog.stats.totalBones += this.boneCount;
+    dog.stats.totalViewers += viewers;
+    dog.stats.totalScreenTime += screenTime;
+    dog.stats.peakViewers = Math.max(dog.stats.peakViewers, viewers);
+    dog.stats.lastAppearance = Date.now();
+    if (!dog.stats.firstAppearance) {
+      dog.stats.firstAppearance = this.currentDog._appearedAt || Date.now();
+    }
+
+    this.communityDogs[idx] = dog;
+    await this.room.storage.put('communityDogs', this.communityDogs);
+
+    // Notify the dog's owner in chat with their page link
+    const pageUrl = `${SITE_URL}/dog.html?id=${dogId}`;
+    const notifyMsg = {
+      type: 'chat',
+      user: '🏆 Dog Show',
+      text: `${dog.dogName} just appeared! View their page: ${pageUrl}`,
+      isSystem: true,
+      ts: Date.now(),
+      targetUserId: dog.userId,
+    };
+    this.addMessage(notifyMsg);
+    this.room.broadcast(JSON.stringify(notifyMsg));
+
+    // Email the owner (max once per day per dog)
+    const lastEmailKey = `lastEmail:${dogId}`;
+    const lastEmail = await this.room.storage.get(lastEmailKey);
+    const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+
+    if (!lastEmail || lastEmail < oneDayAgo) {
+      await this.room.storage.put(lastEmailKey, Date.now());
+      // Look up user's email
+      const user = await this.room.storage.get(`user:${dog.userId}`);
+      if (user && user.email) {
+        this.sendAppearanceEmail(user.email, dog, pageUrl, this.boneCount, viewers, screenTime);
+      }
+    }
+  }
+
+  async sendAppearanceEmail(email, dog, pageUrl, bones, viewers, screenTimeMs) {
+    const screenTimeSec = Math.round(screenTimeMs / 1000);
+    const screenTimeStr = screenTimeSec >= 60
+      ? Math.floor(screenTimeSec / 60) + 'm ' + (screenTimeSec % 60) + 's'
+      : screenTimeSec + 's';
+
+    try {
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Dog Show <noreply@dogshow.lol>',
+          to: [email],
+          subject: `🐕 ${dog.dogName} just appeared on The Dog Show!`,
+          html: `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
+              <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 4px; text-align: center;">The Dog Show</h1>
+              <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">Appearance Report</p>
+
+              <div style="background: #241a45; border-radius: 12px; padding: 24px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px;">
+                <h2 style="color: #e0d8f0; font-size: 22px; margin-bottom: 4px; text-align: center;">${dog.dogName}</h2>
+                <p style="text-align: center; font-size: 13px; color: #FF8C42; margin-bottom: 16px;">${dog.breed || 'Mystery Breed'}</p>
+
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr>
+                    <td style="padding: 10px; text-align: center; border-right: 1px solid rgba(255,255,255,0.06);">
+                      <div style="font-size: 24px; font-weight: 700; color: #FF8C42;">🦴 ${bones}</div>
+                      <div style="font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase;">Bones</div>
+                    </td>
+                    <td style="padding: 10px; text-align: center; border-right: 1px solid rgba(255,255,255,0.06);">
+                      <div style="font-size: 24px; font-weight: 700; color: #FF8C42;">👀 ${viewers}</div>
+                      <div style="font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase;">Viewers</div>
+                    </td>
+                    <td style="padding: 10px; text-align: center;">
+                      <div style="font-size: 24px; font-weight: 700; color: #FF8C42;">⏱️ ${screenTimeStr}</div>
+                      <div style="font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase;">Screen Time</div>
+                    </td>
+                  </tr>
+                </table>
+
+                <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 12px;">
+                  Total appearances: ${dog.stats.totalAppearances} · All-time bones: ${dog.stats.totalBones}
+                </p>
+              </div>
+
+              <div style="text-align: center; margin-bottom: 24px;">
+                <a href="${pageUrl}" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;">View ${dog.dogName}'s Certificate</a>
+              </div>
+
+              <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.3);">
+                Share your dog's page with friends:<br>
+                <a href="${pageUrl}" style="color: #FF8C42;">${pageUrl}</a>
+              </p>
+
+              <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 24px 0;">
+
+              <p style="text-align: center; font-size: 11px; color: rgba(255,255,255,0.2);">
+                You're receiving this because ${dog.dogName} appeared on <a href="https://dogshow.lol" style="color: #FF8C42;">The Dog Show</a>.<br>
+                You'll get at most one email per day per dog.
+              </p>
+            </div>
+          `,
+        }),
+      });
+    } catch (e) {
+      console.log('Failed to send appearance email:', e.message);
+    }
   }
 
   startIntermission() {
@@ -388,6 +548,21 @@ export default class DogShowServer {
       }
       if (path === 'create-checkout' && req.method === 'POST') {
         return await this.handleCreateCheckout(req, headers);
+      }
+      if (path === 'upload-dog' && req.method === 'POST') {
+        return await this.handleUploadDog(req, headers);
+      }
+      if (path === 'community-image' && req.method === 'GET') {
+        return await this.handleCommunityImage(req, headers);
+      }
+      if (path === 'community-count' && req.method === 'GET') {
+        return new Response(JSON.stringify({ count: this.communityDogs.length }), { headers });
+      }
+      if (path === 'dog-stats' && req.method === 'GET') {
+        return await this.handleGetDogStats(req, headers);
+      }
+      if (path === 'all-dogs' && req.method === 'GET') {
+        return await this.handleGetAllDogs(req, headers);
       }
     } catch (e) {
       return new Response(JSON.stringify({ error: e.message }), { status: 500, headers });
@@ -575,6 +750,233 @@ export default class DogShowServer {
     }
 
     return new Response(JSON.stringify({ url: session.url }), { headers });
+  }
+
+  // Upload a community dog (premium only, AI-verified)
+  async handleUploadDog(req, headers) {
+    const { token, imageData, dogName } = await req.json();
+    if (!token || !imageData) {
+      return new Response(JSON.stringify({ error: 'token and imageData required' }), { status: 400, headers });
+    }
+
+    // Verify session
+    const session = await this.room.storage.get(`token:${token}`);
+    if (!session || session.expires < Date.now()) {
+      return new Response(JSON.stringify({ error: 'invalid session' }), { status: 401, headers });
+    }
+
+    // Get user and verify premium tier
+    const user = await this.room.storage.get(`user:${session.userId}`);
+    if (!user) {
+      return new Response(JSON.stringify({ error: 'user not found' }), { status: 404, headers });
+    }
+    if (user.tier !== 'premium') {
+      return new Response(JSON.stringify({ error: 'premium tier required' }), { status: 403, headers });
+    }
+
+    // Check if user already uploaded (limit 1 per user for now)
+    const existingUpload = this.communityDogs.find(d => d.userId === session.userId);
+    if (existingUpload) {
+      return new Response(JSON.stringify({ error: 'you already have a dog in the show! (1 per member)' }), { status: 400, headers });
+    }
+
+    // Validate image data (must be a data URL, max ~500KB base64)
+    if (!imageData.startsWith('data:image/') || imageData.length > 700000) {
+      return new Response(JSON.stringify({ error: 'invalid image (max 500KB, JPEG/PNG only)' }), { status: 400, headers });
+    }
+
+    // ─── AI Dog Detection ───────────────────────────
+    const classification = await this.classifyDogImage(imageData);
+    if (!classification.isDog) {
+      return new Response(JSON.stringify({
+        error: "We can't tell if that's a picture of a dog. Can you try another pic?"
+      }), { status: 400, headers });
+    }
+
+    // Store image
+    const id = 'cdog_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    await this.room.storage.put(`img:${id}`, imageData);
+
+    // Add to community dogs list
+    const entry = {
+      id,
+      userId: session.userId,
+      username: user.username || 'Anonymous',
+      dogName: this.sanitize(dogName || 'A Good Dog').slice(0, 30),
+      breed: classification.breed || 'Mystery Breed',
+      breedConfidence: classification.confidence || 0,
+      uploadedAt: Date.now(),
+      // Stats — populated when dog appears in slideshow
+      stats: {
+        totalAppearances: 0,
+        totalBones: 0,
+        totalViewers: 0,
+        totalScreenTime: 0,
+        peakViewers: 0,
+        firstAppearance: null,
+        lastAppearance: null,
+      },
+    };
+    this.communityDogs.push(entry);
+    await this.room.storage.put('communityDogs', this.communityDogs);
+
+    // Broadcast updated community count
+    this.room.broadcast(JSON.stringify({
+      type: 'communityCount',
+      count: this.communityDogs.length,
+    }));
+
+    return new Response(JSON.stringify({ ok: true, id, message: 'Your dog is now in the show!' }), { headers });
+  }
+
+  // Serve a community dog image
+  async handleCommunityImage(req, headers) {
+    const url = new URL(req.url);
+    const id = url.searchParams.get('id');
+    if (!id) {
+      return new Response('not found', { status: 404 });
+    }
+
+    const imageData = await this.room.storage.get(`img:${id}`);
+    if (!imageData) {
+      return new Response('not found', { status: 404 });
+    }
+
+    // Convert data URL to binary response
+    const [meta, base64] = imageData.split(',');
+    const mimeMatch = meta.match(/data:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+    const binary = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+
+    return new Response(binary, {
+      headers: {
+        'Content-Type': mime,
+        'Cache-Control': 'public, max-age=86400',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+  }
+
+  // Get stats for a specific community dog
+  async handleGetDogStats(req, headers) {
+    const url = new URL(req.url);
+    const id = url.searchParams.get('id');
+    if (!id) {
+      return new Response(JSON.stringify({ error: 'id required' }), { status: 400, headers });
+    }
+
+    const dog = this.communityDogs.find(d => d.id === id);
+    if (!dog) {
+      return new Response(JSON.stringify({ error: 'dog not found' }), { status: 404, headers });
+    }
+
+    // Return all data needed for the certificate page
+    return new Response(JSON.stringify({
+      ok: true,
+      dog: {
+        id: dog.id,
+        dogName: dog.dogName,
+        username: dog.username,
+        breed: dog.breed || 'Mystery Breed',
+        breedConfidence: dog.breedConfidence || 0,
+        uploadedAt: dog.uploadedAt,
+        imageUrl: `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${dog.id}`,
+        stats: dog.stats || {
+          totalAppearances: 0, totalBones: 0, totalViewers: 0,
+          totalScreenTime: 0, peakViewers: 0, firstAppearance: null, lastAppearance: null,
+        },
+      },
+      // Include other community dogs for "More dogs" section (SEO internal links)
+      otherDogs: this.communityDogs
+        .filter(d => d.id !== id)
+        .slice(0, 12)
+        .map(d => ({ id: d.id, dogName: d.dogName, breed: d.breed, username: d.username })),
+      totalCommunityDogs: this.communityDogs.length,
+    }), { headers });
+  }
+
+  // Get all community dogs (for directory/SEO pages)
+  async handleGetAllDogs(req, headers) {
+    return new Response(JSON.stringify({
+      ok: true,
+      dogs: this.communityDogs.map(d => ({
+        id: d.id,
+        dogName: d.dogName,
+        username: d.username,
+        breed: d.breed || 'Mystery Breed',
+        uploadedAt: d.uploadedAt,
+        stats: d.stats || {},
+      })),
+    }), { headers });
+  }
+
+  // ─── AI Classification ──────────────────────────
+
+  async classifyDogImage(imageData) {
+    try {
+      // Convert data URL to binary array
+      const [meta, base64] = imageData.split(',');
+      const binary = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+
+      // Run image classification via Cloudflare Workers AI
+      const ai = this.room.context.ai;
+      const result = await ai.run('@cf/microsoft/resnet-50', {
+        image: [...binary],
+      });
+
+      if (!result || !Array.isArray(result)) {
+        // If AI is unavailable, fail open
+        return { isDog: true, breed: 'Mystery Breed', confidence: 0 };
+      }
+
+      // Dog-related keywords matching ImageNet dog breed classes
+      const DOG_KEYWORDS = [
+        'dog', 'puppy', 'hound', 'terrier', 'retriever', 'spaniel', 'collie',
+        'shepherd', 'poodle', 'bulldog', 'beagle', 'corgi', 'husky', 'labrador',
+        'dachshund', 'chihuahua', 'rottweiler', 'boxer', 'dalmatian', 'pug',
+        'schnauzer', 'mastiff', 'greyhound', 'whippet', 'samoyed', 'malamute',
+        'pointer', 'setter', 'wolfhound', 'sheepdog', 'doberman', 'pinscher',
+        'weimaraner', 'vizsla', 'ridgeback', 'basenji', 'akita', 'shiba',
+        'papillon', 'maltese', 'havanese', 'bichon', 'lhasa', 'shih-tzu',
+        'pekinese', 'pomeranian', 'keeshond', 'chow', 'newfoundland',
+        'bernese', 'great dane', 'saint bernard', 'bloodhound', 'basset',
+        'coonhound', 'foxhound', 'otterhound', 'deerhound', 'borzoi',
+        'afghan', 'saluki', 'komondor', 'kuvasz', 'briard', 'bouvier',
+        'malinois', 'tervuren', 'groenendael', 'kelpie', 'cattledog',
+        'Australian', 'cur', 'heeler', 'dingo', 'canine', 'canis',
+      ];
+
+      // Check top 5 predictions for dog-related labels
+      const topResults = result.slice(0, 5);
+      for (const item of topResults) {
+        const label = (item.label || '').toLowerCase();
+        const score = item.score || 0;
+
+        for (const keyword of DOG_KEYWORDS) {
+          if (label.includes(keyword) && score > 0.05) {
+            // Format breed name nicely from ImageNet label
+            const breed = this.formatBreedName(item.label);
+            return { isDog: true, breed, confidence: score };
+          }
+        }
+      }
+
+      // No dog detected
+      return { isDog: false, breed: null, confidence: 0 };
+    } catch (e) {
+      console.log('AI classification error:', e.message);
+      return { isDog: true, breed: 'Mystery Breed', confidence: 0 };
+    }
+  }
+
+  formatBreedName(label) {
+    if (!label) return 'Mystery Breed';
+    // ImageNet labels look like "golden_retriever" or "German shepherd, German shepherd dog"
+    let name = label.split(',')[0]; // Take first part before comma
+    name = name.replace(/_/g, ' '); // Underscores to spaces
+    // Title case
+    name = name.replace(/\b\w/g, c => c.toUpperCase());
+    return name.trim();
   }
 
   // ─── Helpers ────────────────────────────────────

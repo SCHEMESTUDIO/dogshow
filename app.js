@@ -141,11 +141,12 @@
       dogImage.classList.add('loaded');
     };
     dogImage.onerror = function () {
-      // If image fails, show a placeholder message
-      dogName.textContent = name + ' (shy dog, hiding!)';
+      var el = document.getElementById('dogName');
+      if (el) el.textContent = name + ' (shy dog, hiding!)';
     };
     dogImage.src = url;
-    dogName.textContent = name;
+    var el = document.getElementById('dogName');
+    if (el) el.textContent = name;
   }
 
   function handleNewDog(dog) {
@@ -167,7 +168,8 @@
   }
 
   // Show a loading state until server sends the first dog
-  dogName.textContent = 'Waiting for the show to start...';
+  var dogNameInit = document.getElementById('dogName');
+  if (dogNameInit) dogNameInit.textContent = 'Waiting for the show to start...';
 
   // ─── CHAT DISPLAY ─────────────────────────────
 
@@ -186,7 +188,12 @@
 
     var textSpan = document.createElement('span');
     textSpan.className = 'chat-msg-text';
-    textSpan.textContent = ': ' + msg;
+    // Make URLs clickable in chat messages
+    var msgWithLinks = (': ' + msg).replace(
+      /(https?:\/\/[^\s]+)/g,
+      '<a href="$1" target="_blank" style="color:#FF8C42;">$1</a>'
+    );
+    textSpan.innerHTML = msgWithLinks;
 
     div.appendChild(userSpan);
     div.appendChild(textSpan);
@@ -452,6 +459,19 @@
           showDog(data.currentDog.url, data.currentDog.name);
         }
 
+        // Community count
+        if (data.communityCount) {
+          communityNumEl.textContent = data.communityCount;
+          communityPluralEl.textContent = data.communityCount === 1 ? '' : 's';
+        }
+
+        // Show community dog frame if current dog is community
+        if (data.currentDog && data.currentDog.isCommunity) {
+          var nameplate = document.getElementById('dogNameplate');
+          nameplate.classList.add('community');
+          nameplate.innerHTML = '📸 <strong>' + data.currentDog.name + '</strong> <span class="community-badge">submitted by ' + data.currentDog.submittedBy + '</span>';
+        }
+
         // Show intermission if server is in intermission
         if (data.isIntermission) {
           startIntermission();
@@ -472,6 +492,21 @@
       if (data.type === 'newdog') {
         // Server sent a new dog — everyone sees the same one
         handleNewDog(data.dog);
+
+        // Show/hide community dog frame
+        var nameplate = document.getElementById('dogNameplate');
+        if (data.dog && data.dog.isCommunity) {
+          nameplate.classList.add('community');
+          nameplate.innerHTML = '📸 <strong>' + data.dog.name + '</strong> <span class="community-badge">submitted by ' + data.dog.submittedBy + '</span>';
+        } else {
+          nameplate.classList.remove('community');
+          nameplate.innerHTML = 'Now presenting: <strong id="dogName">' + (data.dog ? data.dog.name : '...') + '</strong>';
+        }
+      }
+
+      if (data.type === 'communityCount') {
+        communityNumEl.textContent = data.count;
+        communityPluralEl.textContent = data.count === 1 ? '' : 's';
       }
 
       if (data.type === 'intermission') {
@@ -536,6 +571,121 @@
     var user = pick(FAKE_USERS);
     var msg = pick(FAKE_MESSAGES);
     addChatMessage(user, msg);
+  }
+
+  // ─── COMMUNITY DOG UPLOAD (Premium only) ────────
+
+  var communitySection = document.getElementById('communitySection');
+  var communityUpload = document.getElementById('communityUpload');
+  var uploadBtn = document.getElementById('uploadBtn');
+  var uploadInput = document.getElementById('uploadInput');
+  var uploadStatus = document.getElementById('uploadStatus');
+  var communityNumEl = document.getElementById('communityNum');
+  var communityPluralEl = document.getElementById('communityPlural');
+
+  // Show upload button for premium users
+  if (tier === 'premium' && sessionToken) {
+    communityUpload.hidden = false;
+  }
+
+  if (uploadBtn) {
+    uploadBtn.addEventListener('click', function () {
+      uploadInput.click();
+    });
+  }
+
+  if (uploadInput) {
+    uploadInput.addEventListener('change', function (e) {
+      var file = e.target.files[0];
+      if (!file) return;
+
+      // Validate file type
+      if (!file.type.match(/^image\/(jpeg|png|webp)$/)) {
+        showUploadStatus('Please upload a JPEG, PNG, or WebP image.', true);
+        return;
+      }
+
+      // Validate size (max 5MB before resize)
+      if (file.size > 5 * 1024 * 1024) {
+        showUploadStatus('Image too large (max 5MB).', true);
+        return;
+      }
+
+      // Ask for dog name
+      var dogName = prompt("What's your dog's name?") || 'A Good Dog';
+
+      // Resize and upload
+      resizeAndUpload(file, dogName);
+    });
+  }
+
+  function resizeAndUpload(file, dogName) {
+    showUploadStatus('Preparing your dog for the show...', false);
+    uploadBtn.disabled = true;
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var img = new Image();
+      img.onload = function () {
+        // Resize to max 600px wide, maintain aspect ratio
+        var canvas = document.createElement('canvas');
+        var maxWidth = 600;
+        var scale = Math.min(1, maxWidth / img.width);
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // Convert to JPEG at 0.7 quality
+        var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+        // Send to server
+        fetch(API_BASE + '/upload-dog', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            token: sessionToken,
+            imageData: dataUrl,
+            dogName: dogName,
+          }),
+        })
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
+            if (data.ok) {
+              var dogPageUrl = 'https://dogshow.lol/dog.html?id=' + data.id;
+              showUploadStatus('Your dog is in the show! 🎉', false);
+              uploadBtn.textContent = '✓ Dog Submitted';
+              uploadBtn.disabled = true;
+              uploadBtn.classList.add('submitted');
+
+              // Show link to their dog's page
+              var linkEl = document.createElement('a');
+              linkEl.href = dogPageUrl;
+              linkEl.target = '_blank';
+              linkEl.textContent = 'View your dog\'s page →';
+              linkEl.style.cssText = 'display:block;color:#FF8C42;font-size:13px;margin-top:8px;';
+              uploadStatus.parentNode.insertBefore(linkEl, uploadStatus.nextSibling);
+            } else {
+              showUploadStatus(data.error || 'Upload failed.', true);
+              uploadBtn.disabled = false;
+              uploadInput.value = '';  // Reset so they can try again
+            }
+          })
+          .catch(function () {
+            showUploadStatus('Upload failed. Try again.', true);
+            uploadBtn.disabled = false;
+          });
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function showUploadStatus(msg, isError) {
+    uploadStatus.hidden = false;
+    uploadStatus.textContent = msg;
+    uploadStatus.className = 'community-upload-status' + (isError ? ' error' : '');
   }
 
   // ─── INIT ───────────────────────────────────────

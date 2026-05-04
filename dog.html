@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V830P7PPHQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V830P7PPHQ');
+  </script>
+  <title>Dog Show — Certificate</title>
+  <meta name="description" content="A dog appeared on The Dog Show — the live, exclusive dog-viewing experience at dogshow.lol">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Dog Show">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
+  <link rel="canonical" id="canonicalLink" href="https://dogshow.lol/dog.html">
+  <style>
+    @font-face {
+      font-family: 'Yang Bagus';
+      src: url('YangBagus.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #1a1035;
+      --bg-card: #241a45;
+      --accent: #FF8C42;
+      --text-bright: #e0d8f0;
+      --text-dim: rgba(255,255,255,0.4);
+      --gold: #FFD700;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-bright);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ─── CERTIFICATE (above the fold) ─── */
+
+    .certificate {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+      text-align: center;
+    }
+
+    .cert-header {
+      font-family: 'Yang Bagus', serif;
+      color: var(--accent);
+      font-size: 36px;
+      margin-bottom: 4px;
+    }
+
+    .cert-subtitle {
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .cert-frame {
+      position: relative;
+      border: 3px solid var(--accent);
+      border-radius: 12px;
+      padding: 6px;
+      background: rgba(255, 140, 66, 0.05);
+      margin-bottom: 24px;
+    }
+
+    .cert-frame img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+      min-height: 200px;
+      object-fit: cover;
+      background: var(--bg-card);
+    }
+
+    .cert-breed-badge {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--accent);
+      border: 1px solid rgba(255, 140, 66, 0.3);
+    }
+
+    .cert-dog-name {
+      font-family: 'Yang Bagus', serif;
+      font-size: 28px;
+      color: var(--text-bright);
+      margin-bottom: 4px;
+    }
+
+    .cert-owner {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+    .cert-owner strong {
+      color: var(--accent);
+    }
+
+    /* Stats grid */
+    .cert-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .cert-stat {
+      background: var(--bg-card);
+      border-radius: 10px;
+      padding: 16px 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .cert-stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .cert-stat-label {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .cert-stat.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .cert-date {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
+    /* ─── Titles / Fun Awards ─── */
+    .cert-titles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+
+    .cert-title-badge {
+      background: rgba(255, 215, 0, 0.1);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      color: var(--gold);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ─── SHARE BUTTONS ─── */
+    .share-section {
+      margin-bottom: 32px;
+    }
+
+    .share-label {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .share-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .share-btn:hover { opacity: 0.85; }
+
+    .share-btn.facebook { background: #1877F2; }
+    .share-btn.twitter { background: #1DA1F2; }
+    .share-btn.sms { background: #4CAF50; }
+    .share-btn.copy { background: rgba(255,255,255,0.12); color: var(--text-bright); }
+    .share-btn.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+
+    .share-copied {
+      font-size: 12px;
+      color: #4CAF50;
+      margin-top: 8px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .share-copied.show { opacity: 1; }
+
+    /* ─── CTA ─── */
+    .cert-cta {
+      margin-bottom: 40px;
+    }
+
+    .cert-cta-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #1a1035;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .cert-cta-btn:hover { transform: scale(1.03); }
+
+    .cert-cta-sub {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
+
+    /* ─── SEO CONTENT (below the fold) ─── */
+
+    .seo-section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .seo-section h2 {
+      font-family: 'Yang Bagus', serif;
+      color: var(--accent);
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .seo-section h3 {
+      font-size: 16px;
+      color: var(--text-bright);
+      margin: 20px 0 8px;
+    }
+
+    .seo-section p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .seo-section a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .seo-section a:hover { text-decoration: underline; }
+
+    .seo-breed-info {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* More dogs grid */
+    .more-dogs {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin: 16px 0 24px;
+    }
+
+    .more-dog-card {
+      background: var(--bg-card);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: border-color 0.2s;
+    }
+    .more-dog-card:hover { border-color: var(--accent); }
+    .more-dog-card-name {
+      font-size: 13px;
+      color: var(--text-bright);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .more-dog-card-breed {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .loading-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-dim);
+      font-size: 16px;
+    }
+
+    .error-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: #FF5722;
+      font-size: 16px;
+    }
+
+    /* Schema.org structured data is added via JS */
+  </style>
+</head>
+<body>
+
+  <div id="loading" class="loading-state">Loading dog profile...</div>
+  <div id="error" class="error-state" hidden></div>
+
+  <!-- Certificate (populated by JS) -->
+  <div class="certificate" id="certificate" hidden>
+    <div class="cert-header">The Dog Show</div>
+    <div class="cert-subtitle">Certificate of Appearance</div>
+
+    <div class="cert-frame">
+      <img id="certImage" src="" alt="">
+      <div class="cert-breed-badge" id="certBreed"></div>
+    </div>
+
+    <div class="cert-dog-name" id="certDogName"></div>
+    <div class="cert-owner">submitted by <strong id="certOwner"></strong></div>
+
+    <div class="cert-titles" id="certTitles"></div>
+
+    <div class="cert-stats" id="certStats"></div>
+
+    <div class="cert-date" id="certDate"></div>
+
+    <div class="share-section">
+      <div class="share-label">Share this good dog</div>
+      <div class="share-buttons" id="shareButtons"></div>
+      <div class="share-copied" id="shareCopied">Link copied!</div>
+    </div>
+
+    <div class="cert-cta">
+      <a href="https://dogshow.lol" class="cert-cta-btn">Watch The Dog Show Live</a>
+      <div class="cert-cta-sub">Premium members can submit their own dog</div>
+    </div>
+  </div>
+
+  <!-- SEO Content (below the fold) -->
+  <div class="seo-section" id="seoSection" hidden>
+    <div id="seoContent"></div>
+
+    <h2 style="margin-top: 32px;">More Dogs in The Show</h2>
+    <div class="more-dogs" id="moreDogs"></div>
+    <p style="text-align: center; margin: 8px 0 24px;"><a href="dogs.html">Browse all dogs in The Dog Show →</a></p>
+
+    <div class="seo-breed-info" id="seoBreedInfo" hidden>
+      <h3 id="seoBreedTitle"></h3>
+      <p id="seoBreedText"></p>
+    </div>
+
+    <h3>About The Dog Show</h3>
+    <p>The Dog Show is a live, online dog-viewing experience where viewers watch dogs appear one at a time in a shared, real-time slideshow. Premium members can upload their own dogs to appear in the show, earning bones (votes) from the community. Each dog that appears gets a permanent certificate page like this one, documenting their moment in the spotlight.</p>
+    <p>Whether you're looking for a <a href="https://dogshow.lol">live dog show online</a>, a dog photo contest, or simply a place to celebrate good dogs, The Dog Show has you covered. Join hundreds of viewers watching dogs live at <a href="https://dogshow.lol">dogshow.lol</a>.</p>
+
+    <h3>Dog Shows, Dog Contests & Dog Photo Competitions</h3>
+    <p>Unlike traditional dog shows that require in-person attendance and breed standards, The Dog Show celebrates every dog — mixed breeds, rescues, puppies, and seniors alike. Our online dog show format means anyone can participate from anywhere in the world. Premium members get their dog featured in the live show, complete with a shareable certificate and stats page.</p>
+    <p>Looking for a cute dog contest online? The Dog Show's bone voting system lets viewers react to each dog in real time. The most loved dogs earn the most bones, creating a fun and friendly competition.</p>
+
+    <h3>Submit Your Dog</h3>
+    <p>Want your dog to appear on The Dog Show? <a href="https://dogshow.lol">Get a premium membership</a> ($3.99) and upload your dog's photo. Our AI verifies it's a real dog, and then your pup enters the rotation — appearing to all live viewers with your name credited. Every appearance earns stats, bones, and a permanent certificate page you can share with friends and family.</p>
+  </div>
+
+  <script>
+    var PARTY_HOST = 'dogshow.schemestudio.partykit.dev';
+    var PARTY_ROOM = 'dogshow-live';
+    var API_BASE = 'https://' + PARTY_HOST + '/party/' + PARTY_ROOM;
+
+    var params = new URLSearchParams(window.location.search);
+    var dogId = params.get('id');
+
+    // Fun titles based on stats
+    function generateTitles(stats, breed) {
+      var titles = [];
+      if (stats.totalBones >= 100) titles.push('Bone Collector');
+      if (stats.totalBones >= 50) titles.push('Fan Favorite');
+      else if (stats.totalBones >= 10) titles.push('Crowd Pleaser');
+      if (stats.peakViewers >= 50) titles.push('Showstopper');
+      else if (stats.peakViewers >= 20) titles.push('Audience Darling');
+      if (stats.totalAppearances >= 10) titles.push('Show Veteran');
+      else if (stats.totalAppearances >= 3) titles.push('Returning Star');
+      if (stats.totalScreenTime >= 120000) titles.push('Spotlight Hog');
+      if (breed && breed !== 'Mystery Breed') titles.push('Certified ' + breed);
+      // Everyone gets at least one title
+      if (titles.length === 0) titles.push('Good Dog');
+      titles.push('Dog Show Alumni');
+      return titles;
+    }
+
+    function formatDate(ts) {
+      if (!ts) return 'Awaiting first appearance';
+      var d = new Date(ts);
+      return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function formatTime(ms) {
+      if (!ms || ms <= 0) return '0s';
+      var secs = Math.round(ms / 1000);
+      if (secs < 60) return secs + 's';
+      var mins = Math.floor(secs / 60);
+      var remSecs = secs % 60;
+      return mins + 'm ' + remSecs + 's';
+    }
+
+    function formatAvgViewers(stats) {
+      if (!stats.totalAppearances || stats.totalAppearances === 0) return '0';
+      return Math.round(stats.totalViewers / stats.totalAppearances);
+    }
+
+    async function loadDogPage() {
+      if (!dogId) {
+        showError('No dog specified. Visit dogshow.lol to see the show!');
+        return;
+      }
+
+      try {
+        var res = await fetch(API_BASE + '/dog-stats?id=' + encodeURIComponent(dogId));
+        var data = await res.json();
+
+        if (!data.ok || !data.dog) {
+          showError('Dog not found. They may have left the show.');
+          return;
+        }
+
+        renderCertificate(data.dog, data.otherDogs || [], data.totalCommunityDogs || 0);
+      } catch (e) {
+        showError('Failed to load dog profile. Please try again.');
+      }
+    }
+
+    function renderCertificate(dog, otherDogs, totalDogs) {
+      document.getElementById('loading').hidden = true;
+      document.getElementById('certificate').hidden = false;
+      document.getElementById('seoSection').hidden = false;
+
+      // Update page title and meta
+      document.title = dog.dogName + ' — The Dog Show Certificate';
+      var desc = dog.dogName + ' appeared on The Dog Show! ' + (dog.breed !== 'Mystery Breed' ? 'Breed: ' + dog.breed + '. ' : '') + 'Bones received: ' + (dog.stats.totalBones || 0) + '. View their certificate at dogshow.lol';
+      document.querySelector('meta[name="description"]').content = desc;
+
+      // OG tags (for social sharing previews)
+      setMeta('og:title', dog.dogName + ' — The Dog Show');
+      setMeta('og:description', desc);
+      setMeta('og:image', dog.imageUrl);
+      setMeta('og:url', 'https://dogshow.lol/dog.html?id=' + dog.id);
+
+      // Canonical URL
+      document.getElementById('canonicalLink').href = 'https://dogshow.lol/dog.html?id=' + dog.id;
+
+      // Image
+      document.getElementById('certImage').src = dog.imageUrl;
+      document.getElementById('certImage').alt = dog.dogName + ' - ' + dog.breed + ' on The Dog Show';
+
+      // Breed badge
+      document.getElementById('certBreed').textContent = dog.breed || 'Mystery Breed';
+
+      // Name and owner
+      document.getElementById('certDogName').textContent = dog.dogName;
+      document.getElementById('certOwner').textContent = dog.username;
+
+      // Fun titles
+      var titles = generateTitles(dog.stats, dog.breed);
+      var titlesEl = document.getElementById('certTitles');
+      titles.forEach(function(t) {
+        var span = document.createElement('span');
+        span.className = 'cert-title-badge';
+        span.textContent = t;
+        titlesEl.appendChild(span);
+      });
+
+      // Stats
+      var statsEl = document.getElementById('certStats');
+      var statsData = [
+        { value: dog.stats.totalBones || 0, label: 'Bones Received', icon: '🦴' },
+        { value: dog.stats.totalAppearances || 0, label: 'Show Appearances', icon: '🎬' },
+        { value: dog.stats.peakViewers || 0, label: 'Peak Viewers', icon: '👀' },
+        { value: formatAvgViewers(dog.stats), label: 'Avg. Viewers', icon: '📊' },
+        { value: formatTime(dog.stats.totalScreenTime || 0), label: 'Total Screen Time', icon: '⏱️', fullWidth: true },
+      ];
+      statsData.forEach(function(s) {
+        var div = document.createElement('div');
+        div.className = 'cert-stat' + (s.fullWidth ? ' full-width' : '');
+        div.innerHTML = '<div class="cert-stat-value">' + s.icon + ' ' + s.value + '</div>' +
+                        '<div class="cert-stat-label">' + s.label + '</div>';
+        statsEl.appendChild(div);
+      });
+
+      // Date
+      document.getElementById('certDate').textContent =
+        dog.stats.firstAppearance
+          ? 'First appeared ' + formatDate(dog.stats.firstAppearance)
+          : 'Uploaded ' + formatDate(dog.uploadedAt) + ' — awaiting first appearance';
+
+      // Share buttons
+      var pageUrl = 'https://dogshow.lol/dog.html?id=' + dog.id;
+      var shareText = 'Check out ' + dog.dogName + ' on The Dog Show! 🐕';
+      var shareButtons = document.getElementById('shareButtons');
+
+      // Facebook
+      var fbBtn = createShareBtn('Facebook', 'facebook',
+        'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(pageUrl));
+      shareButtons.appendChild(fbBtn);
+
+      // Twitter/X
+      var twBtn = createShareBtn('Twitter', 'twitter',
+        'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(pageUrl));
+      shareButtons.appendChild(twBtn);
+
+      // SMS
+      var smsBtn = createShareBtn('SMS', 'sms',
+        'sms:?body=' + encodeURIComponent(shareText + ' ' + pageUrl));
+      shareButtons.appendChild(smsBtn);
+
+      // Instagram (copy to clipboard — can't deep link stories from web)
+      var igBtn = createShareBtn('Instagram', 'instagram', '#');
+      igBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        copyToClipboard(shareText + ' ' + pageUrl);
+      });
+      shareButtons.appendChild(igBtn);
+
+      // Copy link
+      var copyBtn = createShareBtn('Copy Link', 'copy', '#');
+      copyBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        copyToClipboard(pageUrl);
+      });
+      shareButtons.appendChild(copyBtn);
+
+      // SEO content
+      renderSeoContent(dog, otherDogs, totalDogs);
+
+      // Add Schema.org structured data
+      addStructuredData(dog);
+    }
+
+    function createShareBtn(label, cls, href) {
+      var a = document.createElement('a');
+      a.className = 'share-btn ' + cls;
+      a.href = href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = label;
+      return a;
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(function() {
+        var el = document.getElementById('shareCopied');
+        el.classList.add('show');
+        setTimeout(function() { el.classList.remove('show'); }, 2000);
+      });
+    }
+
+    function setMeta(property, content) {
+      var el = document.querySelector('meta[property="' + property + '"]');
+      if (el) {
+        el.content = content;
+      } else {
+        var meta = document.createElement('meta');
+        meta.setAttribute('property', property);
+        meta.content = content;
+        document.head.appendChild(meta);
+      }
+    }
+
+    function renderSeoContent(dog, otherDogs, totalDogs) {
+      var seoContent = document.getElementById('seoContent');
+
+      // Dog-specific content
+      var html = '<h2>About ' + dog.dogName + '</h2>';
+      html += '<p>' + dog.dogName + ' is ';
+      if (dog.breed && dog.breed !== 'Mystery Breed') {
+        html += 'a ' + dog.breed + ' who ';
+      } else {
+        html += 'a dog who ';
+      }
+      html += 'appeared on <a href="https://dogshow.lol">The Dog Show</a>, a live online dog show experience. ';
+
+      if (dog.stats.totalBones > 0) {
+        html += dog.dogName + ' has received ' + dog.stats.totalBones + ' bones from the audience';
+        if (dog.stats.totalAppearances > 1) {
+          html += ' across ' + dog.stats.totalAppearances + ' appearances';
+        }
+        html += '. ';
+      }
+
+      if (dog.stats.peakViewers > 0) {
+        html += 'At peak, ' + dog.stats.peakViewers + ' viewers were watching ' + dog.dogName + ' live. ';
+      }
+
+      html += 'Submitted by ' + dog.username + '.</p>';
+
+      // Breed info section
+      if (dog.breed && dog.breed !== 'Mystery Breed') {
+        var breedInfo = getBreedSeoText(dog.breed);
+        if (breedInfo) {
+          html += '<div class="seo-breed-info">';
+          html += '<h3>' + dog.breed + ' at The Dog Show</h3>';
+          html += '<p>' + breedInfo + '</p>';
+          html += '<p>See more ' + dog.breed + ' dogs and other breeds on <a href="https://dogshow.lol">The Dog Show</a>.</p>';
+          html += '</div>';
+        }
+      }
+
+      // Stats summary for SEO
+      html += '<h3>' + dog.dogName + '\'s Show Stats</h3>';
+      html += '<p>' + dog.dogName + ' has appeared in the live dog show ' + (dog.stats.totalAppearances || 0) + ' time' + ((dog.stats.totalAppearances || 0) !== 1 ? 's' : '') + ', ';
+      html += 'spending a total of ' + formatTime(dog.stats.totalScreenTime || 0) + ' on screen. ';
+      html += 'The community has given ' + dog.dogName + ' ' + (dog.stats.totalBones || 0) + ' bones — each bone extends a dog\'s screen time during the live show. ';
+      html += 'Every dog that appears on The Dog Show gets their own permanent certificate page like this one.</p>';
+
+      seoContent.innerHTML = html;
+
+      // Other dogs grid
+      var moreDogs = document.getElementById('moreDogs');
+      if (otherDogs.length > 0) {
+        otherDogs.forEach(function(d) {
+          var card = document.createElement('a');
+          card.className = 'more-dog-card';
+          card.href = 'dog.html?id=' + d.id;
+          card.innerHTML = '<div class="more-dog-card-name">' + d.dogName + '</div>' +
+                           '<div class="more-dog-card-breed">' + (d.breed || 'Mystery Breed') + '</div>';
+          moreDogs.appendChild(card);
+        });
+      }
+    }
+
+    function getBreedSeoText(breed) {
+      // Breed-specific SEO text for common breeds
+      var breedTexts = {
+        'Golden Retriever': 'Golden Retrievers are one of the most popular dog breeds in the world, known for their friendly temperament, beautiful golden coats, and love of play. They make excellent family pets and are frequent favorites on The Dog Show, often earning top bone counts from viewers.',
+        'Labrador Retriever': 'Labrador Retrievers are the most popular dog breed in America, known for their loyalty, intelligence, and playful nature. Labs come in three colors — yellow, black, and chocolate — and are beloved on The Dog Show for their photogenic personalities.',
+        'German Shepherd': 'German Shepherds are known for their intelligence, courage, and versatility. One of the most recognizable dog breeds in the world, they always make a strong impression when they appear on The Dog Show.',
+        'Poodle': 'Poodles come in standard, miniature, and toy sizes, and are known for their intelligence and hypoallergenic coats. Their elegant appearance makes them standout stars on The Dog Show.',
+        'Bulldog': 'Bulldogs are known for their muscular build, wrinkled face, and gentle disposition. Their distinctive look makes them instantly recognizable and beloved by Dog Show viewers.',
+        'Beagle': 'Beagles are small hound dogs known for their excellent sense of smell and friendly personality. Their adorable expressions make them consistent crowd pleasers on The Dog Show.',
+        'Husky': 'Siberian Huskies are known for their striking blue eyes, thick double coat, and wolf-like appearance. They are energetic and photogenic, making them fan favorites on The Dog Show.',
+        'Corgi': 'Corgis, including both Pembroke and Cardigan varieties, are known for their short legs, long bodies, and big personalities. They are internet favorites and always earn tons of bones on The Dog Show.',
+        'Samoyed': 'Samoyeds are known for their fluffy white coats and perpetual "Sammy smile." These cloud-like dogs are some of the most visually stunning breeds to appear on The Dog Show.',
+        'Dachshund': 'Dachshunds, affectionately known as "wiener dogs," are recognized for their long bodies and short legs. Their unique appearance and spirited personalities make them memorable Dog Show contestants.',
+      };
+
+      // Check for partial matches
+      var breedLower = breed.toLowerCase();
+      for (var key in breedTexts) {
+        if (breedLower.includes(key.toLowerCase()) || key.toLowerCase().includes(breedLower)) {
+          return breedTexts[key];
+        }
+      }
+
+      // Generic fallback
+      return breed + ' dogs bring their own unique charm to The Dog Show. Every breed is welcome on the live stage, where viewers from around the world can show their appreciation with bones. Whether purebred or mixed breed, every dog deserves their moment in the spotlight.';
+    }
+
+    function addStructuredData(dog) {
+      var schema = {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        'headline': dog.dogName + ' — The Dog Show Certificate',
+        'description': dog.dogName + ' appeared on The Dog Show live. ' + (dog.breed !== 'Mystery Breed' ? 'Breed: ' + dog.breed + '. ' : '') + 'Bones: ' + (dog.stats.totalBones || 0),
+        'image': dog.imageUrl,
+        'author': {
+          '@type': 'Person',
+          'name': dog.username,
+        },
+        'publisher': {
+          '@type': 'Organization',
+          'name': 'The Dog Show',
+          'url': 'https://dogshow.lol',
+        },
+        'datePublished': new Date(dog.uploadedAt).toISOString(),
+        'dateModified': new Date(dog.stats.lastAppearance || dog.uploadedAt).toISOString(),
+        'mainEntityOfPage': 'https://dogshow.lol/dog.html?id=' + dog.id,
+      };
+
+      var script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.textContent = JSON.stringify(schema);
+      document.head.appendChild(script);
+    }
+
+    function showError(msg) {
+      document.getElementById('loading').hidden = true;
+      document.getElementById('error').hidden = false;
+      document.getElementById('error').innerHTML = msg + '<br><br><a href="https://dogshow.lol" style="color:#FF8C42;">Visit The Dog Show →</a>';
+    }
+
+    // Load!
+    loadDogPage();
+  </script>
+</body>
+</html>
