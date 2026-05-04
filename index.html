@@ -16,6 +16,7 @@
   <meta name="twitter:description" content="A live, exclusive dog-viewing experience. $1.99 entry.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
   <link rel="stylesheet" href="style.css">
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body class="landing-body">
 
@@ -70,8 +71,16 @@
   </div>
 
   <script>
-    // For now: clicking Enter goes straight to the curtain reveal, then the show.
-    // In Phase 4, this will redirect to Stripe Checkout with the appropriate tier.
+    // ─── STRIPE CONFIG ─────────────────────────────
+    // TODO: Replace with your real keys from https://dashboard.stripe.com
+    const STRIPE_PK = 'pk_live_51TTMiZBOUqMOkBpQc3vXqgQ1GBmkZPYORaCRbhGUHTeNQpeYEixN2jRYwxnvVJa0XdxCVBSRHosDZj9p1oNJFjza005aps4D19';
+    const PRICE_GENERAL = 'price_1TTMssBOUqMOkBpQVQR3zFdr';
+    const PRICE_PREMIUM = 'price_1TTMtiBOUqMOkBpQvxnJMu3e';
+    const SUCCESS_URL = window.location.origin + '/success.html?tier={CHECKOUT_SESSION_ID}';
+    const CANCEL_URL = window.location.origin + '/';
+
+    const stripe = Stripe(STRIPE_PK);
+
     const enterBtn = document.getElementById('enterBtn');
     const enterPremiumBtn = document.getElementById('enterPremiumBtn');
     const curtainOverlay = document.getElementById('curtainOverlay');
@@ -79,7 +88,28 @@
     const curtainRight = document.getElementById('curtainRight');
     const curtainText = document.getElementById('curtainText');
 
-    function enterShow(tier) {
+    async function enterShow(tier) {
+      const priceId = tier === 'premium' ? PRICE_PREMIUM : PRICE_GENERAL;
+
+      try {
+        const { error } = await stripe.redirectToCheckout({
+          lineItems: [{ price: priceId, quantity: 1 }],
+          mode: 'payment',
+          successUrl: SUCCESS_URL.replace('{CHECKOUT_SESSION_ID}', '') + '&tier=' + tier,
+          cancelUrl: CANCEL_URL,
+        });
+        if (error) {
+          console.error(error);
+          // Fallback: go to show anyway
+          playCurtainAndGo(tier);
+        }
+      } catch (e) {
+        console.error('Stripe error:', e);
+        playCurtainAndGo(tier);
+      }
+    }
+
+    function playCurtainAndGo(tier) {
       curtainOverlay.classList.add('active');
       document.body.classList.add('curtain-active');
 
@@ -92,7 +122,6 @@
         curtainText.classList.add('visible');
       }, 2000);
 
-      // Pass tier as query param so show.html knows if upload is unlocked
       setTimeout(() => {
         window.location.href = 'show.html?tier=' + tier;
       }, 3500);

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dog Show — Payment Successful</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="landing-body">
+  <div class="landing">
+    <div class="landing-presenting">payment confirmed</div>
+    <h1 class="landing-title">You're In</h1>
+    <p class="landing-tagline">Redirecting you to The Dog Show...</p>
+  </div>
+
+  <div class="curtain-overlay active" id="curtainOverlay">
+    <div class="curtain-rod"></div>
+    <div class="curtain-left" id="curtainLeft"></div>
+    <div class="curtain-right" id="curtainRight"></div>
+    <div class="curtain-text" id="curtainText">
+      <div class="curtain-welcome">Welcome to</div>
+      <div class="curtain-show-name">The Dog Show</div>
+      <div class="curtain-enjoy">Enjoy.</div>
+    </div>
+  </div>
+
+  <script>
+    // Extract tier from URL params
+    const params = new URLSearchParams(window.location.search);
+    const tier = params.get('tier') || 'general';
+
+    // Play curtain animation then redirect
+    const curtainLeft = document.getElementById('curtainLeft');
+    const curtainRight = document.getElementById('curtainRight');
+    const curtainText = document.getElementById('curtainText');
+
+    setTimeout(() => {
+      curtainLeft.classList.add('open');
+      curtainRight.classList.add('open');
+    }, 500);
+
+    setTimeout(() => {
+      curtainText.classList.add('visible');
+    }, 2000);
+
+    setTimeout(() => {
+      window.location.href = 'show.html?tier=' + tier;
+    }, 3500);
+  </script>
+</body>
+</html>

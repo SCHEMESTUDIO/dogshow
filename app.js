@@ -156,6 +156,17 @@
     if (isIntermission) return;
 
     currentIndex++;
+
+    // Intermission every 5 dogs
+    if (currentIndex > 1 && currentIndex % 5 === 0) {
+      startIntermission();
+      setTimeout(function () {
+        endIntermission();
+        nextDog();
+      }, 8000);
+      return;
+    }
+
     var idx = currentIndex % Math.max(dogQueue.length, 1);
     var url = dogQueue[idx] || SEED_DOGS[0];
     var name = getNextName();
