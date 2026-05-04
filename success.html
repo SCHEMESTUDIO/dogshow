@@ -26,9 +26,51 @@
   </div>
 
   <script>
-    // Extract tier from URL params
+    const PARTY_HOST = 'dogshow.schemestudio.partykit.dev';
+    const PARTY_ROOM = 'dogshow-live';
+    const API_BASE = `https://${PARTY_HOST}/party/${PARTY_ROOM}`;
+
+    // Extract tier and Stripe session from URL params
     const params = new URLSearchParams(window.location.search);
     const tier = params.get('tier') || 'general';
+    const sessionId = params.get('session_id') || '';
+
+    // Register user with PartyKit
+    async function registerUser() {
+      // Stripe Checkout prefills customer_email — we retrieve it from the session
+      // For now, prompt if we can't get it from Stripe (client-side can't read session details)
+      // The email is collected by Stripe; we pass it via a query param from Checkout
+      const email = params.get('email') || '';
+
+      if (!email) {
+        // If no email in URL, skip registration (will need to handle differently)
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: email,
+            tier: tier,
+            stripeCustomerId: sessionId,
+          }),
+        });
+        const data = await res.json();
+        if (data.ok && data.token) {
+          localStorage.setItem('dogshow_token', data.token);
+          localStorage.setItem('dogshow_tier', data.user.tier);
+          if (data.user.username) {
+            localStorage.setItem('dogshow_username', data.user.username);
+          }
+        }
+      } catch (e) {
+        console.error('Registration failed:', e);
+      }
+    }
+
+    registerUser();
 
     // Play curtain animation then redirect
     const curtainLeft = document.getElementById('curtainLeft');

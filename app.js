@@ -12,13 +12,25 @@
   // PartyKit server URL — update after deploying party server
   var PARTY_HOST = 'dogshow.schemestudio.partykit.dev';
   var PARTY_ROOM = 'dogshow-live';
+  var API_BASE = 'https://' + PARTY_HOST + '/party/' + PARTY_ROOM;
   var ws = null;
   var wsConnected = false;
-  var myUsername = 'viewer_' + Math.floor(Math.random() * 9999);
 
-  // Tier detection from URL
+  // Load saved username or generate temporary one
+  var myUsername = localStorage.getItem('dogshow_username') || 'viewer_' + Math.floor(Math.random() * 9999);
+  var hasPickedUsername = !!localStorage.getItem('dogshow_username');
+  var sessionToken = localStorage.getItem('dogshow_token') || null;
+
+  // Unique fan ID (persists across sessions to avoid double-counting)
+  var myFanId = localStorage.getItem('dogshow_fan_id');
+  if (!myFanId) {
+    myFanId = 'fan_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+    localStorage.setItem('dogshow_fan_id', myFanId);
+  }
+
+  // Tier detection: URL param takes priority, then localStorage
   var params = new URLSearchParams(window.location.search);
-  var tier = params.get('tier') || 'free';
+  var tier = params.get('tier') || localStorage.getItem('dogshow_tier') || 'free';
   var isFreeUser = (tier === 'free');
 
   // ─── SEED DATA ──────────────────────────────────
@@ -109,6 +121,7 @@
   var chatInput = document.getElementById('chatInput');
   var chatSend = document.getElementById('chatSend');
   var viewerCountEl = document.getElementById('viewerCount');
+  var totalFansCountEl = document.getElementById('totalFansCount');
   var sponsorBanner = document.getElementById('sponsorBanner');
   var intermission = document.getElementById('intermission');
   var intermissionTitle = document.getElementById('intermissionTitle');
@@ -275,9 +288,33 @@
 
   // ─── SEND MESSAGES ─────────────────────────────
 
+  function promptForUsername() {
+    var name = prompt('Pick a username for the chat (max 20 chars):');
+    if (!name || !name.trim()) return false;
+    name = name.trim().slice(0, 20);
+    myUsername = name;
+    hasPickedUsername = true;
+    localStorage.setItem('dogshow_username', name);
+
+    // Save to server if logged in
+    if (sessionToken) {
+      fetch(API_BASE + '/set-username', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: sessionToken, username: name }),
+      }).catch(function () {});
+    }
+    return true;
+  }
+
   function sendUserMessage() {
     var msg = chatInput.value.trim();
     if (!msg) return;
+
+    // Prompt for username on first message
+    if (!hasPickedUsername) {
+      if (!promptForUsername()) return;
+    }
 
     // Show locally immediately
     addChatMessage('you', msg, { isMe: true });
@@ -474,6 +511,8 @@
     ws.onopen = function () {
       wsConnected = true;
       console.log('PartyKit: connected');
+      // Register as unique fan
+      wsSend({ type: 'join', fanId: myFanId });
     };
 
     ws.onmessage = function (event) {
@@ -491,6 +530,11 @@
         viewerCount = data.viewers || 1;
         viewerCountEl.textContent = viewerCount;
 
+        // Total fans
+        if (data.totalFans) {
+          totalFansCountEl.textContent = data.totalFans;
+        }
+
         // Load recent messages
         if (data.messages) {
           data.messages.forEach(function (m) {
@@ -500,6 +544,10 @@
             });
           });
         }
+      }
+
+      if (data.type === 'totalFans') {
+        totalFansCountEl.textContent = data.count;
       }
 
       if (data.type === 'chat') {

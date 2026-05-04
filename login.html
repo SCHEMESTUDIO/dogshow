@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dog Show — Logging In</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="landing-body">
+  <div class="landing">
+    <div class="landing-presenting">welcome back</div>
+    <h1 class="landing-title">DOG SHOW</h1>
+    <p class="landing-tagline-static" id="statusMessage">Verifying your login...</p>
+  </div>
+
+  <div class="curtain-overlay" id="curtainOverlay" hidden>
+    <div class="curtain-rod"></div>
+    <div class="curtain-left" id="curtainLeft"></div>
+    <div class="curtain-right" id="curtainRight"></div>
+    <div class="curtain-text" id="curtainText">
+      <div class="curtain-welcome">Welcome back to</div>
+      <div class="curtain-show-name">The Dog Show</div>
+      <div class="curtain-enjoy">Enjoy.</div>
+    </div>
+  </div>
+
+  <script>
+    const PARTY_HOST = 'dogshow.schemestudio.partykit.dev';
+    const PARTY_ROOM = 'dogshow-live';
+    const API_BASE = `https://${PARTY_HOST}/party/${PARTY_ROOM}`;
+
+    const params = new URLSearchParams(window.location.search);
+    const magicToken = params.get('token');
+    const statusMessage = document.getElementById('statusMessage');
+
+    async function verifyLogin() {
+      if (!magicToken) {
+        statusMessage.textContent = 'Invalid login link. Please request a new one.';
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/verify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: magicToken }),
+        });
+        const data = await res.json();
+
+        if (data.ok && data.token) {
+          // Save session
+          localStorage.setItem('dogshow_token', data.token);
+          localStorage.setItem('dogshow_tier', data.user.tier);
+          if (data.user.username) {
+            localStorage.setItem('dogshow_username', data.user.username);
+          }
+
+          statusMessage.textContent = 'You\'re in! Entering the show...';
+
+          // Play curtain and go
+          const curtainOverlay = document.getElementById('curtainOverlay');
+          const curtainLeft = document.getElementById('curtainLeft');
+          const curtainRight = document.getElementById('curtainRight');
+          const curtainText = document.getElementById('curtainText');
+
+          curtainOverlay.hidden = false;
+          curtainOverlay.classList.add('active');
+
+          setTimeout(() => {
+            curtainLeft.classList.add('open');
+            curtainRight.classList.add('open');
+          }, 500);
+
+          setTimeout(() => {
+            curtainText.classList.add('visible');
+          }, 2000);
+
+          setTimeout(() => {
+            window.location.href = 'show.html?tier=' + data.user.tier;
+          }, 3500);
+        } else {
+          statusMessage.textContent = data.error || 'This link has expired. Please request a new one.';
+        }
+      } catch (e) {
+        statusMessage.textContent = 'Something went wrong. Please try again.';
+      }
+    }
+
+    verifyLogin();
+  </script>
+</body>
+</html>

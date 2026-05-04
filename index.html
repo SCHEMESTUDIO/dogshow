@@ -16,7 +16,6 @@
   <meta name="twitter:description" content="A live, exclusive dog-viewing experience. $1.99 entry.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
   <link rel="stylesheet" href="style.css">
-  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body class="landing-body">
 
@@ -74,6 +73,15 @@
       <span class="dot">·</span>
       <span>Instant Access</span>
     </div>
+
+    <div class="landing-login" id="loginSection">
+      <div class="landing-login-divider">Already paid?</div>
+      <div class="landing-login-form" id="loginForm">
+        <input type="email" class="landing-login-input" id="loginEmail" placeholder="Enter your email">
+        <button class="landing-login-btn" id="loginBtn">Send Login Link</button>
+      </div>
+      <div class="landing-login-message" id="loginMessage" hidden></div>
+    </div>
   </div>
 
   <!-- Curtain Reveal Overlay -->
@@ -89,16 +97,10 @@
   </div>
 
   <script>
-    // ─── STRIPE CONFIG ─────────────────────────────
-    // TODO: Replace with your real keys from https://dashboard.stripe.com
-    const STRIPE_PK = 'pk_live_51TTMiZBOUqMOkBpQc3vXqgQ1GBmkZPYORaCRbhGUHTeNQpeYEixN2jRYwxnvVJa0XdxCVBSRHosDZj9p1oNJFjza005aps4D19';
-    const PRICE_FREE = 'price_1TTS6WBOUqMOkBpQm65rUkvi';
-    const PRICE_GENERAL = 'price_1TTMssBOUqMOkBpQVQR3zFdr';
-    const PRICE_PREMIUM = 'price_1TTMtiBOUqMOkBpQvxnJMu3e';
-    const SUCCESS_URL = window.location.origin + '/success.html?tier={CHECKOUT_SESSION_ID}';
-    const CANCEL_URL = window.location.origin + '/';
-
-    const stripe = Stripe(STRIPE_PK);
+    // ─── CONFIG ─────────────────────────────────────
+    const PARTY_HOST_LANDING = 'dogshow.schemestudio.partykit.dev';
+    const PARTY_ROOM_LANDING = 'dogshow-live';
+    const API_BASE_LANDING = `https://${PARTY_HOST_LANDING}/party/${PARTY_ROOM_LANDING}`;
 
     // ─── ROTATING TAGLINE ────────────────────────
     const QUOTES = [
@@ -134,28 +136,36 @@
     const curtainText = document.getElementById('curtainText');
 
     async function enterShow(tier) {
-      const priceMap = { free: PRICE_FREE, general: PRICE_GENERAL, premium: PRICE_PREMIUM };
-      const priceId = priceMap[tier];
+      // Ask for email before checkout
+      const email = prompt('Enter your email to continue:');
+      if (!email || !email.includes('@')) {
+        alert('Please enter a valid email address.');
+        return;
+      }
 
       try {
-        const { error } = await stripe.redirectToCheckout({
-          lineItems: [{ price: priceId, quantity: 1 }],
-          mode: 'payment',
-          successUrl: SUCCESS_URL.replace('{CHECKOUT_SESSION_ID}', '') + '&tier=' + tier,
-          cancelUrl: CANCEL_URL,
+        // Create checkout session server-side
+        const res = await fetch(`${API_BASE_LANDING}/create-checkout`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tier, email: email.trim().toLowerCase() }),
         });
-        if (error) {
-          console.error(error);
-          // Fallback: go to show anyway
-          playCurtainAndGo(tier);
+        const data = await res.json();
+
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          console.error('Checkout error:', data.error);
+          alert('Payment setup failed. Please try again.');
         }
       } catch (e) {
-        console.error('Stripe error:', e);
-        playCurtainAndGo(tier);
+        console.error('Checkout error:', e);
+        alert('Something went wrong. Please try again.');
       }
     }
 
     function playCurtainAndGo(tier) {
+      curtainOverlay.hidden = false;
       curtainOverlay.classList.add('active');
       document.body.classList.add('curtain-active');
 
@@ -176,6 +186,65 @@
     enterFreeBtn.addEventListener('click', () => enterShow('free'));
     enterBtn.addEventListener('click', () => enterShow('general'));
     enterPremiumBtn.addEventListener('click', () => enterShow('premium'));
+
+    // ─── LOGIN FLOW ──────────────────────────────
+
+    const loginBtn = document.getElementById('loginBtn');
+    const loginEmail = document.getElementById('loginEmail');
+    const loginMessage = document.getElementById('loginMessage');
+    const loginForm = document.getElementById('loginForm');
+
+    // Check if already logged in
+    const savedToken = localStorage.getItem('dogshow_token');
+    if (savedToken) {
+      // Verify token and auto-enter
+      fetch(`${API_BASE_LANDING}/get-user`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: savedToken }),
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (data.ok && data.user) {
+            // Show a "Welcome back" option
+            loginForm.innerHTML = `
+              <div class="landing-login-welcome">Welcome back! Tier: <strong>${data.user.tier}</strong></div>
+              <button class="landing-login-btn" id="reenterBtn">Re-enter The Dog Show</button>
+            `;
+            document.getElementById('reenterBtn').addEventListener('click', () => {
+              playCurtainAndGo(data.user.tier);
+            });
+          }
+        })
+        .catch(() => {});
+    }
+
+    loginBtn.addEventListener('click', async () => {
+      const email = loginEmail.value.trim().toLowerCase();
+      if (!email || !email.includes('@')) {
+        alert('Please enter a valid email.');
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Sending...';
+
+      try {
+        const res = await fetch(`${API_BASE_LANDING}/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+        const data = await res.json();
+        loginForm.hidden = true;
+        loginMessage.hidden = false;
+        loginMessage.textContent = '✓ Check your email for a login link!';
+      } catch (e) {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Send Login Link';
+        alert('Something went wrong. Please try again.');
+      }
+    });
   </script>
 
 </body>
