@@ -3,6 +3,14 @@
    est. 2026
    ═══════════════════════════════════════════════ */
 
+@font-face {
+  font-family: 'YangBagus';
+  src: url('YangBagus.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
@@ -52,14 +60,21 @@
 }
 
 .landing-title {
-  font-size: clamp(42px, 8vw, 72px);
-  font-weight: 200;
-  letter-spacing: -1px;
-  margin: 0 0 12px 0;
-  background: linear-gradient(135deg, #fff 0%, #ccc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: 'YangBagus', sans-serif;
+  font-size: clamp(48px, 10vw, 80px);
+  margin: 0 0 16px 0;
+  color: #FF8C42;
+  -webkit-text-stroke: 6px #FF8C42;
+  paint-order: stroke fill;
+  text-shadow: 5px 5px 0px #8B3A0F;
+  line-height: 1.1;
+}
+
+.title-big {
+  font-size: 1.4em;
+  color: #BB86FC;
+  -webkit-text-stroke: 6px #BB86FC;
+  text-shadow: 5px 5px 0px #3C1A78;
 }
 
 .landing-tagline {
@@ -67,6 +82,22 @@
   font-size: 15px;
   margin: 0 0 48px 0;
   font-weight: 300;
+  font-style: italic;
+  height: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+.tagline-quote {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+
+.tagline-quote.active {
+  opacity: 1;
 }
 
 .landing-enter {
@@ -148,8 +179,10 @@
 .landing-tier-perks {
   font-size: 12px;
   color: var(--text-dim);
-  text-align: center;
-  line-height: 1.6;
+  text-align: left;
+  line-height: 2;
+  width: 100%;
+  padding: 0 8px;
 }
 
 .landing-features {

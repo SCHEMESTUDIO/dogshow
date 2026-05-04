@@ -22,22 +22,30 @@
 
   <div class="landing">
     <div class="landing-presenting">presenting</div>
-    <h1 class="landing-title">Dog Show</h1>
-    <p class="landing-tagline">A live, exclusive experience.</p>
+    <h1 class="landing-title"><span class="title-big">D</span>OG <span class="title-big">S</span>HOW</h1>
+    <div class="landing-tagline" id="rotatingTagline"></div>
 
     <div class="landing-tiers">
       <div class="landing-tier">
         <div class="landing-tier-name">General Admission</div>
         <div class="landing-tier-price">$1.99</div>
-        <div class="landing-tier-perks">Watch the show · Live chat · Give bones</div>
-        <button class="landing-enter" id="enterBtn">Enter</button>
+        <div class="landing-tier-perks">
+          <div>🦴 Watch the show</div>
+          <div>🦴 Live chat with other fans</div>
+          <div>🦴 Give bones</div>
+        </div>
+        <button class="landing-enter premium" id="enterBtn">Enter</button>
       </div>
       <div class="landing-tier tier-premium">
         <div class="landing-tier-badge">Most Popular</div>
         <div class="landing-tier-name">Bring Your Dog</div>
         <div class="landing-tier-price">$2.99</div>
-        <div class="landing-tier-perks">Everything above · Upload your dog to the show</div>
-        <button class="landing-enter premium" id="enterPremiumBtn">Enter with Your Dog</button>
+        <div class="landing-tier-perks">
+          <div>🦴 Everything in General</div>
+          <div>🦴 Upload your dog to the show</div>
+          <div>🦴 Your dog in the spotlight</div>
+        </div>
+        <button class="landing-enter" id="enterPremiumBtn">Enter with Your Dog</button>
       </div>
     </div>
 
@@ -80,6 +88,31 @@
     const CANCEL_URL = window.location.origin + '/';
 
     const stripe = Stripe(STRIPE_PK);
+
+    // ─── ROTATING TAGLINE ────────────────────────
+    const QUOTES = [
+      '"If you want dogs, they got \'em."',
+      '"Unforgettable."',
+      '"Real dogs, real fun."',
+      '"Woof! Woof!"',
+      '"Simply electric."',
+      '"I made friends for life!"',
+      '"Two paws way up!"',
+    ];
+    const taglineEl = document.getElementById('rotatingTagline');
+    QUOTES.forEach((q, i) => {
+      const span = document.createElement('span');
+      span.className = 'tagline-quote' + (i === 0 ? ' active' : '');
+      span.textContent = q;
+      taglineEl.appendChild(span);
+    });
+    let quoteIndex = 0;
+    setInterval(() => {
+      const spans = taglineEl.querySelectorAll('.tagline-quote');
+      spans[quoteIndex].classList.remove('active');
+      quoteIndex = (quoteIndex + 1) % spans.length;
+      spans[quoteIndex].classList.add('active');
+    }, 3000);
 
     const enterBtn = document.getElementById('enterBtn');
     const enterPremiumBtn = document.getElementById('enterPremiumBtn');
