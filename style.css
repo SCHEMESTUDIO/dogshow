@@ -207,6 +207,10 @@
   white-space: nowrap;
 }
 
+.perk-disabled {
+  opacity: 0.4;
+}
+
 .landing-features {
   margin-top: 32px;
   display: flex;
@@ -802,7 +806,7 @@
 
   .landing-tier {
     width: 100%;
-    max-width: 320px;
+    max-width: 300px;
   }
 
   .landing-tier-perks {

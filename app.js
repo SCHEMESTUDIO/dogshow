@@ -16,6 +16,11 @@
   var wsConnected = false;
   var myUsername = 'viewer_' + Math.floor(Math.random() * 9999);
 
+  // Tier detection from URL
+  var params = new URLSearchParams(window.location.search);
+  var tier = params.get('tier') || 'free';
+  var isFreeUser = (tier === 'free');
+
   // ─── SEED DATA ──────────────────────────────────
 
   var SEED_DOGS = [
@@ -287,10 +292,19 @@
     chatInput.value = '';
   }
 
-  chatSend.addEventListener('click', sendUserMessage);
-  chatInput.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') sendUserMessage();
-  });
+  if (isFreeUser) {
+    chatInput.disabled = true;
+    chatInput.placeholder = '🔒 Chat is for paid members';
+    chatSend.disabled = true;
+    chatSend.style.opacity = '0.4';
+    chatSend.style.cursor = 'not-allowed';
+    chatInput.style.cursor = 'not-allowed';
+  } else {
+    chatSend.addEventListener('click', sendUserMessage);
+    chatInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') sendUserMessage();
+    });
+  }
 
   // ─── VIEWER COUNT ───────────────────────────────
 
@@ -416,11 +430,18 @@
 
   setInterval(updateStreak, 500);
 
-  boneBtn.addEventListener('click', function () {
-    addBone(false);
-    // Send bone to server
-    wsSend({ type: 'bone', user: myUsername });
-  });
+  if (isFreeUser) {
+    boneBtn.disabled = true;
+    boneBtn.style.opacity = '0.4';
+    boneBtn.style.cursor = 'not-allowed';
+    boneBtn.title = 'Upgrade to give bones!';
+  } else {
+    boneBtn.addEventListener('click', function () {
+      addBone(false);
+      // Send bone to server
+      wsSend({ type: 'bone', user: myUsername });
+    });
+  }
 
   // Fallback bot bones (only when offline)
   var fakeBoneInterval = setInterval(function () {

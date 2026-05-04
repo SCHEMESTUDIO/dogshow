@@ -27,6 +27,16 @@
 
     <div class="landing-tiers">
       <div class="landing-tier">
+        <div class="landing-tier-name">Free Peek</div>
+        <div class="landing-tier-price">Free</div>
+        <div class="landing-tier-perks">
+          <div>🦴 Watch the show</div>
+          <div class="perk-disabled">🚫 No chat</div>
+          <div class="perk-disabled">🚫 No bones</div>
+        </div>
+        <button class="landing-enter premium" id="enterFreeBtn">Peek Inside</button>
+      </div>
+      <div class="landing-tier">
         <div class="landing-tier-name">General Admission</div>
         <div class="landing-tier-price">$1.99</div>
         <div class="landing-tier-perks">
@@ -39,7 +49,7 @@
       <div class="landing-tier tier-premium">
         <div class="landing-tier-badge">Most Popular</div>
         <div class="landing-tier-name">Bring Your Dog</div>
-        <div class="landing-tier-price">$2.99</div>
+        <div class="landing-tier-price">$3.99</div>
         <div class="landing-tier-perks">
           <div>🦴 Everything in General</div>
           <div>🦴 Upload your dog to the show</div>
@@ -82,6 +92,7 @@
     // ─── STRIPE CONFIG ─────────────────────────────
     // TODO: Replace with your real keys from https://dashboard.stripe.com
     const STRIPE_PK = 'pk_live_51TTMiZBOUqMOkBpQc3vXqgQ1GBmkZPYORaCRbhGUHTeNQpeYEixN2jRYwxnvVJa0XdxCVBSRHosDZj9p1oNJFjza005aps4D19';
+    const PRICE_FREE = 'price_1TTS6WBOUqMOkBpQm65rUkvi';
     const PRICE_GENERAL = 'price_1TTMssBOUqMOkBpQVQR3zFdr';
     const PRICE_PREMIUM = 'price_1TTMtiBOUqMOkBpQvxnJMu3e';
     const SUCCESS_URL = window.location.origin + '/success.html?tier={CHECKOUT_SESSION_ID}';
@@ -114,6 +125,7 @@
       spans[quoteIndex].classList.add('active');
     }, 3000);
 
+    const enterFreeBtn = document.getElementById('enterFreeBtn');
     const enterBtn = document.getElementById('enterBtn');
     const enterPremiumBtn = document.getElementById('enterPremiumBtn');
     const curtainOverlay = document.getElementById('curtainOverlay');
@@ -122,7 +134,8 @@
     const curtainText = document.getElementById('curtainText');
 
     async function enterShow(tier) {
-      const priceId = tier === 'premium' ? PRICE_PREMIUM : PRICE_GENERAL;
+      const priceMap = { free: PRICE_FREE, general: PRICE_GENERAL, premium: PRICE_PREMIUM };
+      const priceId = priceMap[tier];
 
       try {
         const { error } = await stripe.redirectToCheckout({
@@ -160,6 +173,7 @@
       }, 3500);
     }
 
+    enterFreeBtn.addEventListener('click', () => enterShow('free'));
     enterBtn.addEventListener('click', () => enterShow('general'));
     enterPremiumBtn.addEventListener('click', () => enterShow('premium'));
   </script>
