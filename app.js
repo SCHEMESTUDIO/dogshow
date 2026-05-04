@@ -89,28 +89,15 @@
     'LIFETIME MEMBER HERE. I LIVE HERE NOW.',
   ];
 
-  var VIP_SKINS = [
-    { name: 'Amethyst', color: '#BB86FC', bg: 'rgba(187,134,252,0.12)', border: '#BB86FC' },
-    { name: 'Electric Violet', color: '#7C4DFF', bg: 'rgba(124,77,255,0.12)', border: '#7C4DFF' },
-    { name: 'Hot Pink', color: '#FF1493', bg: 'rgba(255,20,147,0.12)', border: '#FF1493' },
-    { name: 'Neon Green', color: '#39FF14', bg: 'rgba(57,255,20,0.10)', border: '#39FF14' },
-    { name: 'Ice Blue', color: '#00D4FF', bg: 'rgba(0,212,255,0.12)', border: '#00D4FF' },
-    { name: 'Sunset Orange', color: '#FF6B35', bg: 'rgba(255,107,53,0.12)', border: '#FF6B35' },
-  ];
 
   // ─── STATE ──────────────────────────────────────
 
-  var dogQueue = SEED_DOGS.slice();
-  var currentIndex = 0;
-  var nameIndex = 0;
   var isIntermission = false;
   var viewerCount = 1;
   var boneCount = 0;
   var boneTimestamps = [];
   var isFrenzy = false;
   var frenzyMulti = 0;
-  var dogTimer = null;
-  var dogBaseTime = 5000;
   var dogBonusTime = 0;
 
   // ─── DOM REFS ───────────────────────────────────
@@ -146,48 +133,23 @@
     return name;
   }
 
-  // ─── DOG SLIDESHOW ──────────────────────────────
-
-  function fetchMoreDogs() {
-    fetch('https://dog.ceo/api/breeds/image/random/5')
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        if (data.status === 'success') {
-          dogQueue = dogQueue.concat(data.message);
-        }
-      })
-      .catch(function () {
-        dogQueue = dogQueue.concat(SEED_DOGS);
-      });
-  }
+  // ─── DOG SLIDESHOW (server-synced) ───────────────
 
   function showDog(url, name) {
     dogImage.classList.remove('loaded');
     dogImage.onload = function () {
       dogImage.classList.add('loaded');
     };
+    dogImage.onerror = function () {
+      // If image fails, show a placeholder message
+      dogName.textContent = name + ' (shy dog, hiding!)';
+    };
     dogImage.src = url;
     dogName.textContent = name;
   }
 
-  function nextDog() {
-    if (isIntermission) return;
-
-    currentIndex++;
-
-    // Intermission every 5 dogs
-    if (currentIndex > 1 && currentIndex % 5 === 0) {
-      startIntermission();
-      setTimeout(function () {
-        endIntermission();
-        nextDog();
-      }, 8000);
-      return;
-    }
-
-    var idx = currentIndex % Math.max(dogQueue.length, 1);
-    var url = dogQueue[idx] || SEED_DOGS[0];
-    var name = getNextName();
+  function handleNewDog(dog) {
+    if (!dog || !dog.url) return;
 
     // Reset bone count and frenzy for new dog
     boneCount = 0;
@@ -197,43 +159,15 @@
     boneStreakEl.textContent = '';
     boneStreakEl.className = 'bone-streak';
 
-    // Tell server about new dog (resets shared bone count)
-    wsSend({ type: 'newdog' });
-
     // Briefly fade out, then show new dog
     dogImage.classList.remove('loaded');
     setTimeout(function () {
-      showDog(url, name);
+      showDog(dog.url, dog.name);
     }, 300);
-
-    if (currentIndex > dogQueue.length - 5) {
-      fetchMoreDogs();
-    }
   }
 
-  // Initialize first dog
-  fetchMoreDogs();
-  showDog(SEED_DOGS[0], DOG_NAMES[0]);
-  nameIndex = 1;
-
-  // Dynamic dog timer — bones extend screen time
-  function scheduleDog() {
-    dogBonusTime = 0;
-    dogTimer = setTimeout(function () {
-      if (dogBonusTime > 0) {
-        var bonus = Math.min(dogBonusTime, 15000);
-        dogBonusTime = 0;
-        dogTimer = setTimeout(function () {
-          nextDog();
-          scheduleDog();
-        }, bonus);
-      } else {
-        nextDog();
-        scheduleDog();
-      }
-    }, dogBaseTime);
-  }
-  scheduleDog();
+  // Show a loading state until server sends the first dog
+  dogName.textContent = 'Waiting for the show to start...';
 
   // ─── CHAT DISPLAY ─────────────────────────────
 
@@ -242,35 +176,13 @@
     var div = document.createElement('div');
     div.className = 'chat-msg';
 
-    var isVip = opts.isVip || false;
-    var skin = opts.skin || null;
-    var isLifetime = opts.isLifetime || false;
     var isMe = opts.isMe || false;
-
-    if (isVip && skin) {
-      div.classList.add('vip');
-      div.style.background = skin.bg;
-      div.style.borderLeft = '2px solid ' + skin.border;
-    }
-    if (isLifetime) {
-      div.style.background = 'rgba(123,104,238,0.08)';
-      div.style.borderLeft = '2px solid #7B68EE';
-    }
 
     var userSpan = document.createElement('span');
     userSpan.className = 'chat-msg-user';
     if (isMe) userSpan.classList.add('me');
-
-    if (isLifetime) {
-      userSpan.style.color = '#7B68EE';
-      userSpan.textContent = '🏆 ' + user;
-    } else if (isVip && skin) {
-      userSpan.style.color = skin.color;
-      userSpan.textContent = '✳ ' + user;
-    } else {
-      userSpan.style.color = isMe ? '#BB86FC' : '#9B8FD0';
-      userSpan.textContent = user;
-    }
+    userSpan.style.color = isMe ? '#BB86FC' : '#9B8FD0';
+    userSpan.textContent = user;
 
     var textSpan = document.createElement('span');
     textSpan.className = 'chat-msg-text';
@@ -458,7 +370,7 @@
     }
 
     if (!fromRemote) {
-      boneBtn.style.transform = 'scale(1.25)';
+      boneBtn.style.transform = 'scale(1.1)';
       setTimeout(function () { boneBtn.style.transform = ''; }, 100);
     }
 
@@ -535,13 +447,20 @@
           totalFansCountEl.textContent = data.totalFans;
         }
 
+        // Show current dog from server
+        if (data.currentDog) {
+          showDog(data.currentDog.url, data.currentDog.name);
+        }
+
+        // Show intermission if server is in intermission
+        if (data.isIntermission) {
+          startIntermission();
+        }
+
         // Load recent messages
         if (data.messages) {
           data.messages.forEach(function (m) {
-            addChatMessage(m.user, m.text, {
-              isVip: m.isVip,
-              skin: m.skin,
-            });
+            addChatMessage(m.user, m.text);
           });
         }
       }
@@ -550,24 +469,29 @@
         totalFansCountEl.textContent = data.count;
       }
 
+      if (data.type === 'newdog') {
+        // Server sent a new dog — everyone sees the same one
+        handleNewDog(data.dog);
+      }
+
+      if (data.type === 'intermission') {
+        if (data.active) {
+          startIntermission();
+        } else {
+          endIntermission();
+        }
+      }
+
       if (data.type === 'chat') {
         // Don't echo our own messages (already shown locally)
         if (data.user === myUsername) return;
-        addChatMessage(data.user, data.text, {
-          isVip: data.isVip,
-          skin: data.skin,
-        });
+        addChatMessage(data.user, data.text);
       }
 
       if (data.type === 'bone') {
         // Remote bone — animate it but don't double-count our own
         if (data.from === myUsername && !data.isBot) return;
         addBone(true);
-      }
-
-      if (data.type === 'bone_reset') {
-        boneCount = 0;
-        boneCountEl.textContent = '0';
       }
 
       if (data.type === 'viewers') {
@@ -611,10 +535,7 @@
   function addFakeMessage() {
     var user = pick(FAKE_USERS);
     var msg = pick(FAKE_MESSAGES);
-    var isVip = Math.random() > 0.7;
-    var skin = isVip ? pick(VIP_SKINS) : null;
-    var isLt = isVip && Math.random() > 0.8;
-    addChatMessage(user, msg, { isVip: isVip, skin: skin, isLifetime: isLt });
+    addChatMessage(user, msg);
   }
 
   // ─── INIT ───────────────────────────────────────

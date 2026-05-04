@@ -8,41 +8,34 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const STRIPE_SK = process.env.STRIPE_SK;
 const SITE_URL = 'https://dogshow.lol';
 
-const BOT_NAMES = [
-  'doglover99', 'barkfan', 'woofwatcher', 'puppyperson', 'snootboop',
-  'goodboy_greg', 'fetchqueen', 'pawsitive_vibes', 'treatseeker', 'zoomies4life',
+// Bot pool — each has a personality and message style
+const BOTS = [
+  { name: 'doglover99', msgs: ['omg look at this one', 'I LOVE THIS DOG', 'ok this might be my favorite', 'my heart', 'NO STOP TOO CUTE', 'i will die for this dog'] },
+  { name: 'barkfan', msgs: ['10/10 good dog', 'solid 8/10', 'easy 10', 'hmmm 7/10 but still good', 'ELEVEN OUT OF TEN', 'rating: immaculate'] },
+  { name: 'woofwatcher', msgs: ['wait is this actually just dogs', 'yes. yes it is.', "I've been here for 40 minutes", "I can't leave", 'how do i leave', 'still here'] },
+  { name: 'puppyperson', msgs: ['someone tell this dog I love them', 'i want to pet this one so bad', 'LOOK AT THE EARS', 'the paws!!!', 'i need this dog in my life'] },
+  { name: 'snootboop', msgs: ['boop', 'BOOP', 'would boop 10/10', 'snoot: booped', 'that snoot needs booping', 'boop boop boop'] },
+  { name: 'goodboy_greg', msgs: ['THIS IS THE BEST $1.99 I EVER SPENT', 'worth every penny', "I'm showing this to everyone at work", 'legendary', 'money well spent'] },
+  { name: 'fetchqueen', msgs: ['ok but the chat is actually the best part', 'who else is watching at 2am', 'this is art', 'dogs.', 'i told my friends about this and they think im weird'] },
+  { name: 'pawsitive_vibes', msgs: ['this dog has more charisma than me', 'that dog looks like my boss', 'my therapist is going to hear about this', 'this is better than therapy honestly'] },
+  { name: 'treatseeker', msgs: ["I paid $1.99 for this and I'm not even mad", 'is this what the internet was made for', 'take my money', 'best purchase of 2026'] },
+  { name: 'zoomies4life', msgs: ['RARE DOG RARE DOG', 'BONE BONE BONE', 'LETS GOOOOO', 'ZOOMIES', 'AHHHHHH', '*throws bones aggressively*'] },
+  { name: 'sir_barks_alot', msgs: ['a distinguished gentleman', 'quite refined', 'exquisite specimen', 'rather dashing', 'impeccable floof'] },
+  { name: 'the_dog_critic', msgs: ['interesting composition', 'the lighting is superb', 'a bold choice of pose', 'the fur texture tells a story', 'derivative but charming'] },
+  { name: 'midnight_howler', msgs: ['its 3am and here i am', 'cant sleep, watching dogs', 'this is what insomnia looks like', 'night crew represent'] },
+  { name: 'belly_rub_bandit', msgs: ['THAT BELLY NEEDS RUBS', 'give the belly rub NOW', 'look at that belly', 'flipped for belly rub access'] },
+  { name: 'floof_inspector', msgs: ['floof level: maximum', 'floof certified', 'inspecting... yes, very floofy', 'official floof rating: S tier'] },
 ];
 
-const BOT_MESSAGES = [
-  'omg look at this one',
-  '10/10 good dog',
-  "I paid $1.99 for this and I'm not even mad",
-  'THIS IS THE BEST $1.99 I EVER SPENT',
-  'wait is this actually just dogs',
-  'yes. yes it is.',
-  'legendary',
-  'that dog looks like my boss',
-  'someone tell this dog I love them',
-  "I've been here for 40 minutes",
-  'worth every penny',
-  'is this what the internet was made for',
-  "I'm showing this to everyone at work",
-  'this dog has more charisma than me',
-  'ok but the chat is actually the best part',
-  'who else is watching at 2am',
-  "I can't leave",
-  'dogs.',
-  'this is art',
-  'my therapist is going to hear about this',
-  'RARE DOG RARE DOG',
-  'LIFETIME MEMBER HERE. I LIVE HERE NOW.',
-];
 
-const VIP_SKINS = [
-  { name: 'Amethyst', color: '#BB86FC', bg: 'rgba(187,134,252,0.12)', border: '#BB86FC' },
-  { name: 'Electric Violet', color: '#7C4DFF', bg: 'rgba(124,77,255,0.12)', border: '#7C4DFF' },
-  { name: 'Hot Pink', color: '#FF1493', bg: 'rgba(255,20,147,0.12)', border: '#FF1493' },
-  { name: 'Ice Blue', color: '#00D4FF', bg: 'rgba(0,212,255,0.12)', border: '#00D4FF' },
+const DOG_NAMES = [
+  'Sir Barkington III', 'Princess Fluffernutter', 'Captain Wiggles',
+  'Duke of Snootsville', 'Lady Woofsworth', 'Baron von Fetchington',
+  'Countess Pawdington', 'Lord Droolsbury', 'Empress Belly Rubs',
+  'The Honorable Mr. Sniffs', 'Brigadier Boop', 'Dame Floofington',
+  'Chancellor Chomps', 'Viscount Waggles', 'Archduke Zoomies',
+  'Madame Snugglesworth', 'General Good Boy', 'Professor Borkenstein',
+  'Queen Pawlina', 'Sir Licksalot', 'The Grand Poobah of Paws',
 ];
 
 function pick(arr) {
@@ -55,8 +48,18 @@ export default class DogShowServer {
     this.boneCount = 0;
     this.messages = [];       // last 100 messages
     this.botInterval = null;
+    this.botJoinLeaveInterval = null;
+    this.activeBots = [];          // bots currently "in the room"
     this.totalFans = 0;
     this.fanIds = new Set();
+
+    // Dog slideshow state
+    this.currentDog = null;       // { url, name }
+    this.dogCount = 0;
+    this.dogInterval = null;
+    this.isIntermission = false;
+    this.dogQueue = [];
+    this.nameIndex = 0;
   }
 
   async onStart() {
@@ -64,35 +67,55 @@ export default class DogShowServer {
     this.totalFans = (await this.room.storage.get('totalFans')) || 0;
     const storedIds = (await this.room.storage.get('fanIds')) || [];
     this.fanIds = new Set(storedIds);
+
+    // Pre-fetch initial dogs
+    await this.fetchDogs();
+    this.advanceDog();
   }
 
   async onConnect(conn, ctx) {
-    // Send current state to new connection
+    // Send current state to new connection (including current dog)
     conn.send(JSON.stringify({
       type: 'sync',
       boneCount: this.boneCount,
       messages: this.messages.slice(-50),
-      viewers: [...this.room.getConnections()].length || 1,
+      viewers: ([...this.room.getConnections()].length + this.activeBots.length) || 1,
       totalFans: this.totalFans,
+      currentDog: this.currentDog,
+      isIntermission: this.isIntermission,
     }));
 
     // Broadcast updated viewer count
     this.broadcastViewers();
 
-    // Start bot if this is the first connection
+    // Start bot and dog slideshow if not already running
     if (!this.botInterval) {
       this.startBot();
+    }
+    if (!this.dogInterval && !this.isIntermission) {
+      this.advanceDog();
     }
   }
 
   onClose(conn) {
     this.broadcastViewers();
 
-    // Stop bot if no one is connected
+    // Stop bot and dog slideshow if no one is connected
     const count = [...this.room.getConnections()].length;
-    if (count === 0 && this.botInterval) {
-      clearInterval(this.botInterval);
-      this.botInterval = null;
+    if (count === 0) {
+      if (this.botInterval) {
+        clearInterval(this.botInterval);
+        this.botInterval = null;
+      }
+      if (this.botJoinLeaveInterval) {
+        clearInterval(this.botJoinLeaveInterval);
+        this.botJoinLeaveInterval = null;
+      }
+      this.activeBots = [];
+      if (this.dogInterval) {
+        clearTimeout(this.dogInterval);
+        this.dogInterval = null;
+      }
     }
   }
 
@@ -138,6 +161,8 @@ export default class DogShowServer {
 
     if (data.type === 'bone') {
       this.boneCount++;
+      // Each bone extends current dog's screen time by 500ms (max 15s total bonus)
+      this.dogBonusTime = Math.min((this.dogBonusTime || 0) + 500, 15000);
       this.room.broadcast(JSON.stringify({
         type: 'bone',
         count: this.boneCount,
@@ -145,14 +170,6 @@ export default class DogShowServer {
       }));
     }
 
-    if (data.type === 'newdog') {
-      // Reset bone count for new dog (sent by any client, first one wins)
-      this.boneCount = 0;
-      this.room.broadcast(JSON.stringify({
-        type: 'bone_reset',
-        count: 0,
-      }));
-    }
   }
 
   addMessage(msg) {
@@ -162,27 +179,124 @@ export default class DogShowServer {
     }
   }
 
+  // ─── DOG SLIDESHOW (server-controlled) ──────────
+
+  async fetchDogs() {
+    try {
+      const res = await fetch('https://dog.ceo/api/breeds/image/random/10');
+      const data = await res.json();
+      if (data.status === 'success') {
+        this.dogQueue = this.dogQueue.concat(data.message);
+      }
+    } catch (e) {
+      // Fallback seed dogs
+      this.dogQueue = this.dogQueue.concat([
+        'https://images.dog.ceo/breeds/retriever-golden/n02099601_1722.jpg',
+        'https://images.dog.ceo/breeds/husky/n02110185_10047.jpg',
+        'https://images.dog.ceo/breeds/corgi-cardigan/n02113186_10475.jpg',
+        'https://images.dog.ceo/breeds/beagle/n02088364_11136.jpg',
+        'https://images.dog.ceo/breeds/samoyed/n02111889_10206.jpg',
+      ]);
+    }
+  }
+
+  getNextName() {
+    const name = DOG_NAMES[this.nameIndex % DOG_NAMES.length];
+    this.nameIndex++;
+    return name;
+  }
+
+  advanceDog() {
+    if (this.isIntermission) return;
+
+    this.dogCount++;
+
+    // Intermission every 5 dogs
+    if (this.dogCount > 1 && this.dogCount % 15 === 0) {
+      this.startIntermission();
+      return;
+    }
+
+    // Pick next dog from queue
+    const url = this.dogQueue.shift();
+    if (!url) {
+      // Queue empty — fetch more and retry
+      this.fetchDogs().then(() => this.advanceDog());
+      return;
+    }
+    const name = this.getNextName();
+    this.currentDog = { url, name };
+
+    // Reset bone count and bonus time
+    this.boneCount = 0;
+    this.dogBonusTime = 0;
+
+    // Broadcast new dog + bone reset to all clients
+    this.room.broadcast(JSON.stringify({
+      type: 'newdog',
+      dog: this.currentDog,
+      boneCount: 0,
+    }));
+
+    // Pre-fetch more dogs when queue is low
+    if (this.dogQueue.length < 5) {
+      this.fetchDogs();
+    }
+
+    // Schedule next dog (8s base, then check for bone bonus)
+    this.dogInterval = setTimeout(() => {
+      const bonus = this.dogBonusTime || 0;
+      if (bonus > 0) {
+        this.dogBonusTime = 0;
+        // Extended stay — wait the bonus then advance
+        this.dogInterval = setTimeout(() => this.advanceDog(), bonus);
+      } else {
+        this.advanceDog();
+      }
+    }, 8000);
+  }
+
+  startIntermission() {
+    this.isIntermission = true;
+    this.room.broadcast(JSON.stringify({ type: 'intermission', active: true }));
+
+    // End intermission after 8 seconds
+    setTimeout(() => {
+      this.isIntermission = false;
+      this.room.broadcast(JSON.stringify({ type: 'intermission', active: false }));
+      this.advanceDog();
+    }, 8000);
+  }
+
   broadcastViewers() {
-    const count = [...this.room.getConnections()].length;
+    const realCount = [...this.room.getConnections()].length;
+    const totalCount = realCount + this.activeBots.length;
     this.room.broadcast(JSON.stringify({
       type: 'viewers',
-      count: Math.max(count, 1),
+      count: Math.max(totalCount, 1),
     }));
   }
 
   startBot() {
+    // Seed initial bots (3-6 join immediately)
+    const initialCount = 3 + Math.floor(Math.random() * 4);
+    const shuffled = [...BOTS].sort(() => Math.random() - 0.5);
+    for (let i = 0; i < initialCount && i < shuffled.length; i++) {
+      this.botJoin(shuffled[i]);
+    }
+
+    // Bots chat at random intervals
     this.botInterval = setInterval(() => {
+      if (this.activeBots.length === 0) return;
       const connections = [...this.room.getConnections()];
       if (connections.length === 0) return;
 
-      // Random bot message
-      const isVip = Math.random() > 0.7;
+      // Pick a random active bot to speak
+      const bot = pick(this.activeBots);
       const msg = {
         type: 'chat',
-        user: pick(BOT_NAMES),
-        text: pick(BOT_MESSAGES),
-        isVip: isVip,
-        skin: isVip ? pick(VIP_SKINS) : null,
+        user: bot.name,
+        text: pick(bot.msgs),
         isBot: true,
         ts: Date.now(),
       };
@@ -192,14 +306,64 @@ export default class DogShowServer {
       // Bots also throw bones sometimes
       if (Math.random() > 0.6) {
         this.boneCount++;
+        this.dogBonusTime = Math.min((this.dogBonusTime || 0) + 500, 15000);
         this.room.broadcast(JSON.stringify({
           type: 'bone',
           count: this.boneCount,
-          from: pick(BOT_NAMES),
+          from: bot.name,
           isBot: true,
         }));
       }
-    }, 3000 + Math.random() * 5000);
+    }, 2000 + Math.random() * 4000);
+
+    // Bots join and leave periodically
+    this.botJoinLeaveInterval = setInterval(() => {
+      const connections = [...this.room.getConnections()];
+      if (connections.length === 0) return;
+
+      const roll = Math.random();
+
+      if (roll < 0.4 && this.activeBots.length < 10) {
+        // Try to add a bot that's not already active
+        const available = BOTS.filter(b => !this.activeBots.includes(b));
+        if (available.length > 0) {
+          this.botJoin(pick(available));
+        }
+      } else if (roll > 0.7 && this.activeBots.length > 2) {
+        // Remove a random bot
+        this.botLeave(pick(this.activeBots));
+      }
+    }, 10000 + Math.random() * 15000);
+  }
+
+  botJoin(bot) {
+    this.activeBots.push(bot);
+    const joinMsg = {
+      type: 'chat',
+      user: bot.name,
+      text: pick(['just got here', 'hey everyone', "what'd i miss", 'im back', 'hello hello', 'ooh dogs', 'lets go']),
+      isBot: true,
+      isSystem: false,
+      ts: Date.now(),
+    };
+    this.addMessage(joinMsg);
+    this.room.broadcast(JSON.stringify(joinMsg));
+    this.broadcastViewers();
+  }
+
+  botLeave(bot) {
+    this.activeBots = this.activeBots.filter(b => b !== bot);
+    const leaveMsg = {
+      type: 'chat',
+      user: bot.name,
+      text: pick(['gotta go, bye!', 'brb', 'see ya', 'later everyone', 'my boss is coming', 'ok i need to sleep']),
+      isBot: true,
+      isSystem: false,
+      ts: Date.now(),
+    };
+    this.addMessage(leaveMsg);
+    this.room.broadcast(JSON.stringify(leaveMsg));
+    this.broadcastViewers();
   }
 
   sanitize(str) {

@@ -365,7 +365,7 @@
 }
 
 .curtain-welcome { font-size: 24px; margin-bottom: 8px; }
-.curtain-show-name { font-size: 48px; font-weight: bold; color: var(--accent); }
+.curtain-show-name { font-family: 'Yang Bagus', 'YangBagus', cursive; font-size: 56px; color: #FF8C42; }
 .curtain-enjoy { font-size: 16px; margin-top: 12px; color: var(--text-dim); }
 
 /* ─── SHOW PAGE ────────────────────────────────── */
@@ -397,9 +397,9 @@
 }
 
 .show-header-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--text-bright);
+  font-family: 'Yang Bagus', 'YangBagus', cursive;
+  font-size: 24px;
+  color: #FF8C42;
 }
 
 .show-header-est {
@@ -581,7 +581,7 @@
   margin-top: 10px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
   justify-content: center;
 }
 
@@ -609,7 +609,7 @@
 }
 
 .bone-btn:active {
-  transform: scale(1.25);
+  transform: scale(1.1);
 }
 
 .bone-count {
@@ -618,6 +618,14 @@
   color: #D4AF37;
   font-family: var(--font-serif);
   min-width: 30px;
+}
+
+.bone-hint {
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+  margin-top: 6px;
 }
 
 .bone-rain {
