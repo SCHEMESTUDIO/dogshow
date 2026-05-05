@@ -1008,10 +1008,14 @@
   inset: 0;
   z-index: 90;
   background: rgba(15, 10, 34, 0.85);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(4px);
+}
+
+.username-modal-overlay.active {
+  display: flex;
 }
 
 .username-modal {

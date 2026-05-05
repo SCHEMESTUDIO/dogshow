@@ -213,7 +213,7 @@
 
   function showUsernameModal() {
     if (usernameModal) {
-      usernameModal.hidden = false;
+      usernameModal.classList.add('active');
       setTimeout(function () { usernameInput.focus(); }, 100);
     }
   }
@@ -224,7 +224,7 @@
     myUsername = name;
     hasPickedUsername = true;
     localStorage.setItem('dogshow_username', name);
-    usernameModal.hidden = true;
+    usernameModal.classList.remove('active');
 
     // Save to server if logged in
     if (sessionToken) {
