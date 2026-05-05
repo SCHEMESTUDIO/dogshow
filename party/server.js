@@ -775,7 +775,7 @@ export default class DogShowServer {
 
   // Create a Stripe Checkout Session (server-side)
   async handleCreateCheckout(req, headers) {
-    const { tier, email } = await req.json();
+    const { tier, email, faurya_visitor_id, faurya_session_id } = await req.json();
     if (!tier || !email) {
       return new Response(JSON.stringify({ error: 'tier and email required' }), { status: 400, headers });
     }
@@ -808,6 +808,10 @@ export default class DogShowServer {
     params.append('customer_email', email.toLowerCase().trim());
     params.append('success_url', `${SITE_URL}/success.html?tier=${tier}&email=${encodedEmail}`);
     params.append('cancel_url', `${SITE_URL}/`);
+
+    // Faurya analytics attribution
+    if (faurya_visitor_id) params.append('metadata[faurya_visitor_id]', faurya_visitor_id);
+    if (faurya_session_id) params.append('metadata[faurya_session_id]', faurya_session_id);
 
     try {
       const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {

@@ -984,6 +984,11 @@
     var curtainRight = document.getElementById('curtainRight');
     var curtainText = document.getElementById('curtainText');
 
+    function getCookie(name) {
+      var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+      return match ? match[2] : null;
+    }
+
     function enterShow(tier) {
       var email = prompt('Enter your email to continue:');
       if (!email || email.indexOf('@') === -1) {
@@ -1021,7 +1026,12 @@
       fetch(API_BASE_LANDING + '/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tier: tier, email: cleanEmail }),
+        body: JSON.stringify({
+          tier: tier,
+          email: cleanEmail,
+          faurya_visitor_id: getCookie('faurya_visitor_id') || undefined,
+          faurya_session_id: getCookie('faurya_session_id') || undefined,
+        }),
       })
         .then(function(r) { return r.json(); })
         .then(function(data) {
