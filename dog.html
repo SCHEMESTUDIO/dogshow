@@ -416,6 +416,12 @@
 
     var params = new URLSearchParams(window.location.search);
     var dogId = params.get('id');
+    var dogSlug = params.get('slug');
+
+    // Check if we arrived via /d/slug (handled by d.html redirect)
+    if (!dogId && dogSlug) {
+      // Will resolve slug to ID before loading
+    }
 
     // Fun titles based on stats
     function generateTitles(stats, breed) {
@@ -456,6 +462,23 @@
     }
 
     async function loadDogPage() {
+      // Resolve slug to ID if needed
+      if (!dogId && dogSlug) {
+        try {
+          var slugRes = await fetch(API_BASE + '/resolve-slug?slug=' + encodeURIComponent(dogSlug));
+          var slugData = await slugRes.json();
+          if (slugData.ok && slugData.id) {
+            dogId = slugData.id;
+          } else {
+            showError('Dog not found. They may have left the show.');
+            return;
+          }
+        } catch (e) {
+          showError('Failed to load dog profile. Please try again.');
+          return;
+        }
+      }
+
       if (!dogId) {
         showError('No dog specified. Visit dogshow.lol to see the show!');
         return;
@@ -490,10 +513,10 @@
       setMeta('og:title', dog.dogName + ' — The Dog Show');
       setMeta('og:description', desc);
       setMeta('og:image', dog.imageUrl);
-      setMeta('og:url', 'https://dogshow.lol/dog.html?id=' + dog.id);
+      setMeta('og:url', dog.slug ? 'https://dogshow.lol/d/' + dog.slug : 'https://dogshow.lol/dog.html?id=' + dog.id);
 
       // Canonical URL
-      document.getElementById('canonicalLink').href = 'https://dogshow.lol/dog.html?id=' + dog.id;
+      document.getElementById('canonicalLink').href = dog.slug ? 'https://dogshow.lol/d/' + dog.slug : 'https://dogshow.lol/dog.html?id=' + dog.id;
 
       // Image
       document.getElementById('certImage').src = dog.imageUrl;
@@ -539,8 +562,9 @@
           ? 'First appeared ' + formatDate(dog.stats.firstAppearance)
           : 'Uploaded ' + formatDate(dog.uploadedAt) + ' — awaiting first appearance';
 
-      // Share buttons
-      var pageUrl = 'https://dogshow.lol/dog.html?id=' + dog.id;
+      // Share buttons — use clean slug URL if available
+      var dogSlugUrl = dog.slug ? 'https://dogshow.lol/d/' + dog.slug : 'https://dogshow.lol/dog.html?id=' + dog.id;
+      var pageUrl = dogSlugUrl;
       // Social share URL goes through PartyKit for proper OG tags (crawlers don't run JS)
       var shareUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/dog-meta?id=' + dog.id;
       var shareText = 'Check out ' + dog.dogName + ' on The Dog Show! 🐕';
@@ -715,7 +739,7 @@
         otherDogs.forEach(function(d) {
           var card = document.createElement('a');
           card.className = 'more-dog-card';
-          card.href = 'dog.html?id=' + d.id;
+          card.href = d.slug ? '/d/' + d.slug : 'dog.html?id=' + d.id;
           card.innerHTML = '<div class="more-dog-card-name">' + d.dogName + '</div>' +
                            '<div class="more-dog-card-breed">' + (d.breed || 'Mystery Breed') + '</div>';
           moreDogs.appendChild(card);

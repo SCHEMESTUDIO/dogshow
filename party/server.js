@@ -4,8 +4,6 @@
 // user auth (magic link via Resend).
 // ═══════════════════════════════════════════════
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const STRIPE_SK = process.env.STRIPE_SK;
 const SITE_URL = 'https://dogshow.lol';
 
 // Bot pool — each has a personality and message style
@@ -350,12 +348,17 @@ export default class DogShowServer {
       ? Math.floor(screenTimeSec / 60) + 'm ' + (screenTimeSec % 60) + 's'
       : screenTimeSec + 's';
 
+    if (!this.room.env.RESEND_API_KEY) {
+      console.error('[Email] RESEND_API_KEY env var is not set, skipping appearance email');
+      return;
+    }
+
     try {
-      await fetch('https://api.resend.com/emails', {
+      const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${RESEND_API_KEY}`,
+          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
         },
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
@@ -412,7 +415,7 @@ export default class DogShowServer {
         }),
       });
     } catch (e) {
-      console.log('Failed to send appearance email:', e.message);
+      console.error('[Email] Failed to send appearance email:', e.message);
     }
   }
 
@@ -608,7 +611,11 @@ export default class DogShowServer {
       if (path === 'all-dogs' && req.method === 'GET') {
         return await this.handleGetAllDogs(req, headers);
       }
+      if (path === 'resolve-slug' && req.method === 'GET') {
+        return await this.handleResolveSlug(req, headers);
+      }
     } catch (e) {
+      console.error(`[Server] Unhandled error on ${path}:`, e.message, e.stack?.slice(0, 300));
       return new Response(JSON.stringify({ error: e.message }), { status: 500, headers });
     }
 
@@ -759,14 +766,23 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'tier and email required' }), { status: 400, headers });
     }
 
+    // Free tier is handled via /register, not Stripe
+    if (tier === 'free') {
+      return new Response(JSON.stringify({ error: 'free tier does not require checkout' }), { status: 400, headers });
+    }
+
     const priceMap = {
-      free: 'price_1TTS6WBOUqMOkBpQm65rUkvi',
       general: 'price_1TTMssBOUqMOkBpQVQR3zFdr',
       premium: 'price_1TTMtiBOUqMOkBpQvxnJMu3e',
     };
     const priceId = priceMap[tier];
     if (!priceId) {
       return new Response(JSON.stringify({ error: 'invalid tier' }), { status: 400, headers });
+    }
+
+    if (!this.room.env.STRIPE_SK) {
+      console.error('[Stripe] STRIPE_SK env var is not set');
+      return new Response(JSON.stringify({ error: 'payment system misconfigured' }), { status: 500, headers });
     }
 
     const encodedEmail = encodeURIComponent(email.toLowerCase().trim());
@@ -779,21 +795,32 @@ export default class DogShowServer {
     params.append('success_url', `${SITE_URL}/success.html?tier=${tier}&email=${encodedEmail}`);
     params.append('cancel_url', `${SITE_URL}/`);
 
-    const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${STRIPE_SK}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: params.toString(),
-    });
+    try {
+      const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.room.env.STRIPE_SK}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
+      });
 
-    const session = await res.json();
-    if (session.error) {
-      return new Response(JSON.stringify({ error: session.error.message }), { status: 400, headers });
+      const session = await res.json();
+      if (session.error) {
+        console.error('[Stripe] Checkout error:', session.error.type, session.error.message);
+        return new Response(JSON.stringify({ error: session.error.message }), { status: 400, headers });
+      }
+
+      if (!session.url) {
+        console.error('[Stripe] No checkout URL in response:', JSON.stringify(session).slice(0, 200));
+        return new Response(JSON.stringify({ error: 'checkout session created but no URL returned' }), { status: 500, headers });
+      }
+
+      return new Response(JSON.stringify({ url: session.url }), { headers });
+    } catch (e) {
+      console.error('[Stripe] Network/fetch error:', e.message);
+      return new Response(JSON.stringify({ error: 'payment service unavailable' }), { status: 502, headers });
     }
-
-    return new Response(JSON.stringify({ url: session.url }), { headers });
   }
 
   // Upload a community dog (premium only, AI-verified)
@@ -841,12 +868,18 @@ export default class DogShowServer {
     const id = 'cdog_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
     await this.room.storage.put(`img:${id}`, imageData);
 
+    // Generate clean URL slug
+    const cleanName = this.sanitize(dogName || 'A Good Dog').slice(0, 30);
+    const slug = await this.getUniqueSlug(cleanName);
+    await this.room.storage.put(`slug:${slug}`, id);
+
     // Add to community dogs list
     const entry = {
       id,
+      slug,
       userId: session.userId,
       username: user.username || 'Anonymous',
-      dogName: this.sanitize(dogName || 'A Good Dog').slice(0, 30),
+      dogName: cleanName,
       breed: classification.breed || 'Mystery Breed',
       breedConfidence: classification.confidence || 0,
       uploadedAt: Date.now(),
@@ -870,7 +903,7 @@ export default class DogShowServer {
       count: this.communityDogs.length,
     }));
 
-    return new Response(JSON.stringify({ ok: true, id, message: 'Your dog is now in the show!' }), { headers });
+    return new Response(JSON.stringify({ ok: true, id, slug, message: 'Your dog is now in the show!' }), { headers });
   }
 
   // Serve a community dog image
@@ -965,6 +998,7 @@ export default class DogShowServer {
       ok: true,
       dog: {
         id: dog.id,
+        slug: dog.slug || null,
         dogName: dog.dogName,
         username: dog.username,
         breed: dog.breed || 'Mystery Breed',
@@ -980,7 +1014,7 @@ export default class DogShowServer {
       otherDogs: this.communityDogs
         .filter(d => d.id !== id)
         .slice(0, 12)
-        .map(d => ({ id: d.id, dogName: d.dogName, breed: d.breed, username: d.username })),
+        .map(d => ({ id: d.id, slug: d.slug || null, dogName: d.dogName, breed: d.breed, username: d.username })),
       totalCommunityDogs: this.communityDogs.length,
     }), { headers });
   }
@@ -991,6 +1025,7 @@ export default class DogShowServer {
       ok: true,
       dogs: this.communityDogs.map(d => ({
         id: d.id,
+        slug: d.slug || null,
         dogName: d.dogName,
         username: d.username,
         breed: d.breed || 'Mystery Breed',
@@ -998,6 +1033,29 @@ export default class DogShowServer {
         stats: d.stats || {},
       })),
     }), { headers });
+  }
+
+  // Resolve a slug to a dog ID
+  async handleResolveSlug(req, headers) {
+    const url = new URL(req.url);
+    const slug = url.searchParams.get('slug');
+    if (!slug) {
+      return new Response(JSON.stringify({ error: 'slug required' }), { status: 400, headers });
+    }
+
+    // Try slug lookup first
+    const id = await this.room.storage.get(`slug:${slug}`);
+    if (id) {
+      return new Response(JSON.stringify({ ok: true, id }), { headers });
+    }
+
+    // Fallback: search community dogs by slug field
+    const dog = this.communityDogs.find(d => d.slug === slug);
+    if (dog) {
+      return new Response(JSON.stringify({ ok: true, id: dog.id }), { headers });
+    }
+
+    return new Response(JSON.stringify({ error: 'dog not found' }), { status: 404, headers });
   }
 
   // ─── AI Classification ──────────────────────────
@@ -1080,6 +1138,30 @@ export default class DogShowServer {
     return result;
   }
 
+  slugify(name) {
+    let slug = name.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
+      .slice(0, 40);
+    if (!slug) slug = 'good-dog';
+    return slug;
+  }
+
+  async getUniqueSlug(name) {
+    const base = this.slugify(name);
+    let slug = base;
+    let existing = await this.room.storage.get(`slug:${slug}`);
+    let counter = 2;
+    while (existing) {
+      slug = base + '-' + counter;
+      existing = await this.room.storage.get(`slug:${slug}`);
+      counter++;
+    }
+    return slug;
+  }
+
   hashEmail(email) {
     // Simple deterministic hash for email → userId mapping
     let hash = 0;
@@ -1092,26 +1174,40 @@ export default class DogShowServer {
   }
 
   async sendMagicLinkEmail(email, loginUrl) {
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
-      },
-      body: JSON.stringify({
-        from: 'Dog Show <noreply@dogshow.lol>',
-        to: [email],
-        subject: '🐕 Your Dog Show Login Link',
-        html: `
-          <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 40px 20px;">
-            <h1 style="color: #FF8C42; font-size: 28px;">The Dog Show</h1>
-            <p style="font-size: 16px; color: #333;">Click below to enter the show:</p>
-            <a href="${loginUrl}" style="display: inline-block; background: #FF8C42; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; margin: 20px 0;">Enter The Dog Show</a>
-            <p style="font-size: 13px; color: #888; margin-top: 30px;">This link expires in 15 minutes. If you didn't request this, you can ignore this email.</p>
-          </div>
-        `,
-      }),
-    });
-    return res.ok;
+    if (!this.room.env.RESEND_API_KEY) {
+      console.error('[Email] RESEND_API_KEY env var is not set, skipping magic link email');
+      return false;
+    }
+
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Dog Show <noreply@dogshow.lol>',
+          to: [email],
+          subject: '🐕 Your Dog Show Login Link',
+          html: `
+            <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 40px 20px;">
+              <h1 style="color: #FF8C42; font-size: 28px;">The Dog Show</h1>
+              <p style="font-size: 16px; color: #333;">Click below to enter the show:</p>
+              <a href="${loginUrl}" style="display: inline-block; background: #FF8C42; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; margin: 20px 0;">Enter The Dog Show</a>
+              <p style="font-size: 13px; color: #888; margin-top: 30px;">This link expires in 15 minutes. If you didn't request this, you can ignore this email.</p>
+            </div>
+          `,
+        }),
+      });
+      if (!res.ok) {
+        const errBody = await res.text();
+        console.error('[Email] Magic link send failed:', res.status, errBody.slice(0, 200));
+      }
+      return res.ok;
+    } catch (e) {
+      console.error('[Email] Magic link network error:', e.message);
+      return false;
+    }
   }
 }

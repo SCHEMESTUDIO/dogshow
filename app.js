@@ -205,15 +205,26 @@
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  // ─── SEND MESSAGES ─────────────────────────────
+  // ─── USERNAME MODAL ─────────────────────────────
 
-  function promptForUsername() {
-    var name = prompt('Pick a username for the chat (max 20 chars):');
-    if (!name || !name.trim()) return false;
-    name = name.trim().slice(0, 20);
+  var usernameModal = document.getElementById('usernameModal');
+  var usernameInput = document.getElementById('usernameInput');
+  var usernameSubmit = document.getElementById('usernameSubmit');
+
+  function showUsernameModal() {
+    if (usernameModal) {
+      usernameModal.hidden = false;
+      setTimeout(function () { usernameInput.focus(); }, 100);
+    }
+  }
+
+  function submitUsername() {
+    var name = usernameInput.value.trim().slice(0, 20);
+    if (!name) return;
     myUsername = name;
     hasPickedUsername = true;
     localStorage.setItem('dogshow_username', name);
+    usernameModal.hidden = true;
 
     // Save to server if logged in
     if (sessionToken) {
@@ -223,16 +234,32 @@
         body: JSON.stringify({ token: sessionToken, username: name }),
       }).catch(function () {});
     }
-    return true;
   }
+
+  if (usernameSubmit) {
+    usernameSubmit.addEventListener('click', submitUsername);
+  }
+  if (usernameInput) {
+    usernameInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') submitUsername();
+    });
+  }
+
+  // Show modal for paid users who haven't picked a username
+  if (!isFreeUser && !hasPickedUsername) {
+    showUsernameModal();
+  }
+
+  // ─── SEND MESSAGES ─────────────────────────────
 
   function sendUserMessage() {
     var msg = chatInput.value.trim();
     if (!msg) return;
 
-    // Prompt for username on first message
+    // If somehow they haven't picked a username, show modal
     if (!hasPickedUsername) {
-      if (!promptForUsername()) return;
+      showUsernameModal();
+      return;
     }
 
     // Show locally immediately
@@ -350,6 +377,7 @@
     frenzyMulti = 1;
     boneFrenzyEl.classList.add('active');
     dogFrame.classList.add('frenzy');
+    if (dockBar) dockBar.classList.add('frenzy');
   }
 
   function endFrenzy() {
@@ -357,6 +385,7 @@
     frenzyMulti = 0;
     boneFrenzyEl.classList.remove('active');
     dogFrame.classList.remove('frenzy');
+    if (dockBar) dockBar.classList.remove('frenzy');
   }
 
   function addBone(fromRemote) {
@@ -575,13 +604,17 @@
 
   // ─── COMMUNITY DOG UPLOAD (Premium only) ────────
 
-  var communitySection = document.getElementById('communitySection');
   var communityUpload = document.getElementById('communityUpload');
   var uploadBtn = document.getElementById('uploadBtn');
   var uploadInput = document.getElementById('uploadInput');
-  var uploadStatus = document.getElementById('uploadStatus');
   var communityNumEl = document.getElementById('communityNum');
   var communityPluralEl = document.getElementById('communityPlural');
+  var dockStatus = document.getElementById('dockStatus');
+  var dockStatusDot = document.getElementById('dockStatusDot');
+  var dockStatusText = document.getElementById('dockStatusText');
+  var dockDogLink = document.getElementById('dockDogLink');
+  var dockPatience = document.getElementById('dockPatience');
+  var dockBar = document.getElementById('dockBar');
 
   // Show upload button for premium users
   if (tier === 'premium' && sessionToken) {
@@ -620,7 +653,7 @@
   }
 
   function resizeAndUpload(file, dogName) {
-    showUploadStatus('Preparing your dog for the show...', false);
+    uploadBtn.textContent = 'Uploading...';
     uploadBtn.disabled = true;
 
     var reader = new FileReader();
@@ -653,19 +686,24 @@
           .then(function (res) { return res.json(); })
           .then(function (data) {
             if (data.ok) {
-              var dogPageUrl = 'https://dogshow.lol/dog.html?id=' + data.id;
-              showUploadStatus('Your dog is in the show! 🎉', false);
-              uploadBtn.textContent = '✓ Dog Submitted';
-              uploadBtn.disabled = true;
-              uploadBtn.classList.add('submitted');
+              var slug = data.slug || data.id;
+              var dogPageUrl = 'https://dogshow.lol/d/' + slug;
 
-              // Show link to their dog's page
-              var linkEl = document.createElement('a');
-              linkEl.href = dogPageUrl;
-              linkEl.target = '_blank';
-              linkEl.textContent = 'View your dog\'s page →';
-              linkEl.style.cssText = 'display:block;color:#FF8C42;font-size:13px;margin-top:8px;';
-              uploadStatus.parentNode.insertBefore(linkEl, uploadStatus.nextSibling);
+              // Update dock UI
+              communityUpload.hidden = true;
+              dockStatus.hidden = false;
+              dockStatusDot.className = 'dock-status-dot pending';
+              dockStatusText.textContent = 'Submitted — waiting to appear';
+              dockDogLink.href = dogPageUrl;
+              dockDogLink.hidden = false;
+              dockPatience.hidden = false;
+
+              // After a bit, switch to "live" status
+              setTimeout(function () {
+                dockStatusDot.className = 'dock-status-dot';
+                dockStatusText.textContent = 'Your dog is live';
+                dockPatience.hidden = true;
+              }, 60000);
             } else {
               showUploadStatus(data.error || 'Upload failed.', true);
               uploadBtn.disabled = false;
@@ -683,9 +721,10 @@
   }
 
   function showUploadStatus(msg, isError) {
-    uploadStatus.hidden = false;
-    uploadStatus.textContent = msg;
-    uploadStatus.className = 'community-upload-status' + (isError ? ' error' : '');
+    // Show error as a brief alert since we removed the status element
+    if (isError) {
+      alert(msg);
+    }
   }
 
   // ─── INIT ───────────────────────────────────────

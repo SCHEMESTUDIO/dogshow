@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Dog Show</title>
+  <script>
+    // Route /d/slug-name → dog.html?slug=slug-name
+    var path = window.location.pathname;
+    var match = path.match(/^\/d\/([a-z0-9-]+)$/);
+    if (match && match[1]) {
+      window.location.replace('/dog.html?slug=' + encodeURIComponent(match[1]));
+    } else {
+      window.location.replace('/');
+    }
+  </script>
+</head>
+<body></body>
+</html>

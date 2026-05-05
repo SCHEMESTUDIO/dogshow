@@ -1,0 +1,2 @@
+# Clean dog page URLs — rewrite /d/slug to dog.html with slug param
+/d/:slug  /dog.html?slug=:slug  200
