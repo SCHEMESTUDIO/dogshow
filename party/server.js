@@ -112,7 +112,7 @@ export default class DogShowServer {
     const count = [...this.room.getConnections()].length;
     if (count === 0) {
       if (this.botInterval) {
-        clearInterval(this.botInterval);
+        clearTimeout(this.botInterval);
         this.botInterval = null;
       }
       if (this.botJoinLeaveInterval) {
@@ -438,6 +438,11 @@ export default class DogShowServer {
   }
 
   startBot() {
+    // Track recent messages to prevent repetition
+    this.botLastMsg = {};       // { botName: lastMessageText }
+    this.lastBotSpeaker = null; // prevent same bot speaking twice in a row
+    this.recentBotMessages = []; // last 10 messages across all bots
+
     // Seed initial bots — stagger joins over the first 60 seconds
     const initialCount = 3 + Math.floor(Math.random() * 4);
     const shuffled = [...BOTS].sort(() => Math.random() - 0.5);
@@ -446,36 +451,8 @@ export default class DogShowServer {
       setTimeout(() => this.botJoin(shuffled[i]), delay);
     }
 
-    // Bots chat at random intervals
-    this.botInterval = setInterval(() => {
-      if (this.activeBots.length === 0) return;
-      const connections = [...this.room.getConnections()];
-      if (connections.length === 0) return;
-
-      // Pick a random active bot to speak
-      const bot = pick(this.activeBots);
-      const msg = {
-        type: 'chat',
-        user: bot.name,
-        text: pick(bot.msgs),
-        isBot: true,
-        ts: Date.now(),
-      };
-      this.addMessage(msg);
-      this.room.broadcast(JSON.stringify(msg));
-
-      // Bots also throw bones sometimes
-      if (Math.random() > 0.6) {
-        this.boneCount++;
-        this.dogBonusTime = Math.min((this.dogBonusTime || 0) + 500, 15000);
-        this.room.broadcast(JSON.stringify({
-          type: 'bone',
-          count: this.boneCount,
-          from: bot.name,
-          isBot: true,
-        }));
-      }
-    }, 2000 + Math.random() * 4000);
+    // Bots chat at varying intervals (schedule next after each message)
+    this.scheduleBotChat();
 
     // Bots join and leave periodically
     this.botJoinLeaveInterval = setInterval(() => {
@@ -495,6 +472,70 @@ export default class DogShowServer {
         this.botLeave(pick(this.activeBots));
       }
     }, 10000 + Math.random() * 15000);
+  }
+
+  scheduleBotChat() {
+    // Variable delay: 4-10 seconds between bot messages
+    const delay = 4000 + Math.random() * 6000;
+    this.botInterval = setTimeout(() => {
+      this.doBotChat();
+      this.scheduleBotChat(); // schedule next
+    }, delay);
+  }
+
+  doBotChat() {
+    if (this.activeBots.length === 0) return;
+    const connections = [...this.room.getConnections()];
+    if (connections.length === 0) return;
+
+    // Pick a bot that didn't just speak
+    let candidates = this.activeBots.filter(b => b.name !== this.lastBotSpeaker);
+    if (candidates.length === 0) candidates = this.activeBots;
+    const bot = pick(candidates);
+
+    // Pick a message that wasn't this bot's last, and isn't in recent global messages
+    let msgText = null;
+    const attempts = bot.msgs.length;
+    for (let i = 0; i < attempts; i++) {
+      const candidate = bot.msgs[Math.floor(Math.random() * bot.msgs.length)];
+      if (candidate !== this.botLastMsg[bot.name] && !this.recentBotMessages.includes(candidate)) {
+        msgText = candidate;
+        break;
+      }
+    }
+    // Fallback: pick any message that's not the same as last
+    if (!msgText) {
+      const pool = bot.msgs.filter(m => m !== this.botLastMsg[bot.name]);
+      msgText = pool.length > 0 ? pick(pool) : pick(bot.msgs);
+    }
+
+    // Track state
+    this.botLastMsg[bot.name] = msgText;
+    this.lastBotSpeaker = bot.name;
+    this.recentBotMessages.push(msgText);
+    if (this.recentBotMessages.length > 10) this.recentBotMessages.shift();
+
+    const msg = {
+      type: 'chat',
+      user: bot.name,
+      text: msgText,
+      isBot: true,
+      ts: Date.now(),
+    };
+    this.addMessage(msg);
+    this.room.broadcast(JSON.stringify(msg));
+
+    // Bots also throw bones sometimes
+    if (Math.random() > 0.65) {
+      this.boneCount++;
+      this.dogBonusTime = Math.min((this.dogBonusTime || 0) + 500, 15000);
+      this.room.broadcast(JSON.stringify({
+        type: 'bone',
+        count: this.boneCount,
+        from: bot.name,
+        isBot: true,
+      }));
+    }
   }
 
   botJoin(bot) {

@@ -11,6 +11,8 @@
     gtag('js', new Date());
     gtag('config', 'G-V830P7PPHQ');
   </script>
+  <!-- Faurya Analytics -->
+  <script async defer src="https://www.faurya.com/js/script.js" data-website-id="cmosekmvz000xl204a7bhm4cm" data-domain="dogshow.lol"></script>
   <title>Dog Show — A Live, Exclusive Experience</title>
   <meta name="description" content="A live, exclusive dog-viewing experience. $1.99 entry. You know you want to.">
   <link rel="canonical" href="https://dogshow.lol/">
@@ -22,7 +24,10 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Dog Show">
   <meta name="twitter:description" content="A live, exclusive dog-viewing experience. $1.99 entry.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="landing-body">
@@ -151,12 +156,40 @@
         return;
       }
 
+      const cleanEmail = email.trim().toLowerCase();
+
+      // Free tier — bypass Stripe, register directly
+      if (tier === 'free') {
+        try {
+          const res = await fetch(`${API_BASE_LANDING}/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: cleanEmail, tier: 'free' }),
+          });
+          const data = await res.json();
+          if (data.ok && data.token) {
+            localStorage.setItem('dogshow_token', data.token);
+            localStorage.setItem('dogshow_tier', 'free');
+            if (data.user && data.user.username) {
+              localStorage.setItem('dogshow_username', data.user.username);
+            }
+            playCurtainAndGo('free');
+          } else {
+            alert(data.error || 'Registration failed. Please try again.');
+          }
+        } catch (e) {
+          console.error('Registration error:', e);
+          alert('Something went wrong. Please try again.');
+        }
+        return;
+      }
+
+      // Paid tiers — go through Stripe Checkout
       try {
-        // Create checkout session server-side
         const res = await fetch(`${API_BASE_LANDING}/create-checkout`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tier, email: email.trim().toLowerCase() }),
+          body: JSON.stringify({ tier, email: cleanEmail }),
         });
         const data = await res.json();
 
