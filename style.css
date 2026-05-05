@@ -1101,6 +1101,30 @@
   margin-top: 14px;
 }
 
+/* ─── SHOW FOOTER ────────────────────────────── */
+
+.show-footer {
+  text-align: center;
+  padding: 24px 20px;
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.show-footer a {
+  color: var(--text-faint);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.show-footer a:hover {
+  color: #FF8C42;
+}
+
+.show-footer-dot {
+  margin: 0 8px;
+  color: var(--border);
+}
+
 /* ─── BOTTOM DOCK ─────────────────────────────── */
 
 .bottom-dock {

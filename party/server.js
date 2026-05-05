@@ -314,18 +314,21 @@ export default class DogShowServer {
     this.communityDogs[idx] = dog;
     await this.room.storage.put('communityDogs', this.communityDogs);
 
-    // Notify the dog's owner in chat with their page link
-    const pageUrl = `${SITE_URL}/dog.html?id=${dogId}`;
-    const notifyMsg = {
-      type: 'chat',
-      user: '🏆 Dog Show',
-      text: `${dog.dogName} just appeared! View their page: ${pageUrl}`,
-      isSystem: true,
-      ts: Date.now(),
-      targetUserId: dog.userId,
-    };
-    this.addMessage(notifyMsg);
-    this.room.broadcast(JSON.stringify(notifyMsg));
+    // Build clean page URL
+    const pageUrl = dog.slug ? `${SITE_URL}/d/${dog.slug}` : `${SITE_URL}/dog.html?id=${dogId}`;
+
+    // Notify chat on first appearance only (not every rotation)
+    if (dog.stats.totalAppearances === 1) {
+      const notifyMsg = {
+        type: 'chat',
+        user: '🏆 Dog Show',
+        text: `${dog.dogName} just appeared! View their page: ${pageUrl}`,
+        isSystem: true,
+        ts: Date.now(),
+      };
+      this.addMessage(notifyMsg);
+      this.room.broadcast(JSON.stringify(notifyMsg));
+    }
 
     // Email the owner (max once per day per dog)
     const lastEmailKey = `lastEmail:${dogId}`;
@@ -613,6 +616,17 @@ export default class DogShowServer {
       }
       if (path === 'resolve-slug' && req.method === 'GET') {
         return await this.handleResolveSlug(req, headers);
+      }
+      if (path === 'landing-stats' && req.method === 'GET') {
+        const totalBones = this.communityDogs.reduce((sum, d) => sum + ((d.stats && d.stats.totalBones) || 0), 0) + this.boneCount;
+        const watching = [...this.room.getConnections()].length + this.activeBots.length;
+        return new Response(JSON.stringify({
+          ok: true,
+          totalFans: this.totalFans,
+          totalBones: totalBones,
+          totalDogs: this.communityDogs.length + (this.dogQueue ? this.dogQueue.length : 0),
+          watching: watching,
+        }), { headers });
       }
     } catch (e) {
       console.error(`[Server] Unhandled error on ${path}:`, e.message, e.stack?.slice(0, 300));
@@ -944,7 +958,7 @@ export default class DogShowServer {
     if (!dog) return new Response('not found', { status: 404 });
 
     const imageUrl = `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${dog.id}`;
-    const pageUrl = `${SITE_URL}/dog.html?id=${dog.id}`;
+    const pageUrl = dog.slug ? `${SITE_URL}/d/${dog.slug}` : `${SITE_URL}/dog.html?id=${dog.id}`;
     const bones = (dog.stats && dog.stats.totalBones) || 0;
     const desc = `${dog.dogName} appeared on The Dog Show! ${dog.breed && dog.breed !== 'Mystery Breed' ? 'Breed: ' + dog.breed + '. ' : ''}${bones} bones received. View their certificate.`;
 
