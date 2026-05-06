@@ -634,7 +634,18 @@ export default class DogShowServer {
         }), { headers });
       }
       if (path === 'leaderboard' && req.method === 'GET') {
-        const dogs = this.communityDogs
+        const imgBase = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=';
+        // Seed dogs for early days — replaced as real dogs accumulate bones
+        const seedDogs = [
+          { dogName: 'Biscuit', breed: 'Golden Retriever', username: 'sarahk', totalBones: 64, imageUrl: 'https://images.dog.ceo/breeds/retriever-golden/n02099601_7771.jpg' },
+          { dogName: 'Mochi', breed: 'Shiba Inu', username: 'yuki_tanaka', totalBones: 51, imageUrl: 'https://images.dog.ceo/breeds/shiba/shiba-11.jpg' },
+          { dogName: 'Rufus', breed: 'Beagle', username: 'dogdad_mike', totalBones: 47, imageUrl: 'https://images.dog.ceo/breeds/beagle/n02088364_11136.jpg' },
+          { dogName: 'Luna', breed: 'German Shepherd', username: 'emmawalks', totalBones: 38, imageUrl: 'https://images.dog.ceo/breeds/germanshepherd/n02106662_18405.jpg' },
+          { dogName: 'Churro', breed: 'Chihuahua', username: 'carlos_mx', totalBones: 29, imageUrl: 'https://images.dog.ceo/breeds/chihuahua/n02085620_5093.jpg' },
+          { dogName: 'Peggy', breed: 'Pug', username: 'annab', totalBones: 22, imageUrl: 'https://images.dog.ceo/breeds/pug/n02110958_15307.jpg' },
+          { dogName: 'Björn', breed: 'Samoyed', username: 'nordichound', totalBones: 11, imageUrl: 'https://images.dog.ceo/breeds/samoyed/n02111889_4564.jpg' },
+        ];
+        const realDogs = this.communityDogs
           .filter(d => d.stats && d.stats.totalBones > 0)
           .map(d => ({
             id: d.id,
@@ -645,7 +656,10 @@ export default class DogShowServer {
             totalBones: d.stats.totalBones || 0,
             totalAppearances: d.stats.totalAppearances || 0,
             peakViewers: d.stats.peakViewers || 0,
-          }))
+            imageUrl: imgBase + d.id,
+          }));
+        // Merge real + seed, real dogs take priority, sort by bones, cap at 10
+        const allDogs = [...realDogs, ...seedDogs]
           .sort((a, b) => b.totalBones - a.totalBones)
           .slice(0, 10);
         const recent = this.communityDogs
@@ -659,10 +673,11 @@ export default class DogShowServer {
             breed: d.breed || 'Mystery Breed',
             username: d.username,
             uploadedAt: d.uploadedAt,
+            imageUrl: imgBase + d.id,
           }));
         return new Response(JSON.stringify({
           ok: true,
-          topDogs: dogs,
+          topDogs: allDogs,
           recentDogs: recent,
           totalCommunityDogs: this.communityDogs.length,
         }), { headers });

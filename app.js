@@ -763,12 +763,16 @@
           leaderboardEl.hidden = false;
           leaderboardTopEl.innerHTML = '';
           data.topDogs.forEach(function (dog, i) {
-            var href = dog.slug ? '/d/' + dog.slug : 'dog.html?id=' + dog.id;
+            var href = dog.slug ? '/d/' + dog.slug : (dog.id ? 'dog.html?id=' + dog.id : '#');
             var entry = document.createElement('a');
             entry.className = 'leaderboard-entry';
             entry.href = href;
-            entry.target = '_blank';
+            if (href !== '#') entry.target = '_blank';
+            var thumbHtml = dog.imageUrl
+              ? '<img class="leaderboard-thumb" src="' + dog.imageUrl + '" alt="' + dog.dogName + '">'
+              : '<div class="leaderboard-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🐕</div>';
             entry.innerHTML =
+              thumbHtml +
               '<span class="leaderboard-rank">' + (i + 1) + '</span>' +
               '<div class="leaderboard-info">' +
                 '<div class="leaderboard-name">' + dog.dogName + '</div>' +
@@ -782,12 +786,16 @@
         if (data.recentDogs && data.recentDogs.length > 0) {
           leaderboardRecentEl.innerHTML = '';
           data.recentDogs.forEach(function (dog) {
-            var href = dog.slug ? '/d/' + dog.slug : 'dog.html?id=' + dog.id;
+            var href = dog.slug ? '/d/' + dog.slug : (dog.id ? 'dog.html?id=' + dog.id : '#');
             var entry = document.createElement('a');
             entry.className = 'leaderboard-entry';
             entry.href = href;
-            entry.target = '_blank';
+            if (href !== '#') entry.target = '_blank';
+            var thumbHtml = dog.imageUrl
+              ? '<img class="leaderboard-thumb" src="' + dog.imageUrl + '" alt="' + dog.dogName + '">'
+              : '<div class="leaderboard-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🐕</div>';
             entry.innerHTML =
+              thumbHtml +
               '<span class="leaderboard-rank" style="color: var(--text-faint);">NEW</span>' +
               '<div class="leaderboard-info">' +
                 '<div class="leaderboard-name">' + dog.dogName + '</div>' +

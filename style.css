@@ -1138,7 +1138,6 @@
 /* ─── LEADERBOARD ────────────────────────────── */
 
 .leaderboard {
-  max-width: 520px;
   margin: 0 auto;
   padding: 24px 20px;
 }
@@ -1166,23 +1165,33 @@
 .leaderboard-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .leaderboard-entry {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 14px;
+  padding: 0;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+  border-radius: 10px;
   text-decoration: none;
   transition: border-color 0.2s;
+  overflow: hidden;
+  cursor: pointer;
 }
 
 .leaderboard-entry:hover {
   border-color: rgba(255, 140, 66, 0.3);
+}
+
+.leaderboard-thumb {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .leaderboard-rank {
@@ -1191,6 +1200,7 @@
   color: var(--text-faint);
   min-width: 20px;
   text-align: center;
+  padding-left: 8px;
 }
 
 .leaderboard-entry:nth-child(1) .leaderboard-rank { color: #FFD700; }
@@ -1200,6 +1210,7 @@
 .leaderboard-info {
   flex: 1;
   min-width: 0;
+  padding: 10px 0;
 }
 
 .leaderboard-name {
@@ -1221,6 +1232,7 @@
   color: #FF8C42;
   font-weight: 600;
   white-space: nowrap;
+  padding-right: 14px;
 }
 
 /* ─── SHOW FOOTER ────────────────────────────── */
