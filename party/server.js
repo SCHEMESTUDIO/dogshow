@@ -638,13 +638,13 @@ export default class DogShowServer {
         const imgBase = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=';
         // Seed dogs for early days — replaced as real dogs accumulate bones
         const seedDogs = [
-          { dogName: 'Biscuit', breed: 'Golden Retriever', username: 'sarahk', totalBones: 64, imageUrl: 'https://images.dog.ceo/breeds/retriever-golden/n02099601_7771.jpg' },
-          { dogName: 'Mochi', breed: 'Shiba Inu', username: 'yuki_tanaka', totalBones: 51, imageUrl: 'https://images.dog.ceo/breeds/shiba/shiba-11.jpg' },
-          { dogName: 'Rufus', breed: 'Beagle', username: 'dogdad_mike', totalBones: 47, imageUrl: 'https://images.dog.ceo/breeds/beagle/n02088364_11136.jpg' },
-          { dogName: 'Luna', breed: 'German Shepherd', username: 'emmawalks', totalBones: 38, imageUrl: 'https://images.dog.ceo/breeds/germanshepherd/n02106662_18405.jpg' },
-          { dogName: 'Churro', breed: 'Chihuahua', username: 'carlos_mx', totalBones: 29, imageUrl: 'https://images.dog.ceo/breeds/chihuahua/n02085620_5093.jpg' },
-          { dogName: 'Peggy', breed: 'Pug', username: 'annab', totalBones: 22, imageUrl: 'https://images.dog.ceo/breeds/pug/n02110958_15307.jpg' },
-          { dogName: 'Björn', breed: 'Samoyed', username: 'nordichound', totalBones: 11, imageUrl: 'https://images.dog.ceo/breeds/samoyed/n02111889_4564.jpg' },
+          { dogName: 'Biscuit', breed: 'Golden Retriever', username: 'sarahk', totalBones: 64, imageUrl: 'https://images.dog.ceo/breeds/retriever-golden/n02099601_2688.jpg' },
+          { dogName: 'Mochi', breed: 'Shiba Inu', username: 'yuki_tanaka', totalBones: 51, imageUrl: 'https://images.dog.ceo/breeds/shiba/shiba-12.jpg' },
+          { dogName: 'Rufus', breed: 'Beagle', username: 'dogdad_mike', totalBones: 47, imageUrl: 'https://images.dog.ceo/breeds/beagle/n02088364_14220.jpg' },
+          { dogName: 'Luna', breed: 'German Shepherd', username: 'emmawalks', totalBones: 38, imageUrl: 'https://images.dog.ceo/breeds/german-shepherd/n02106662_20711.jpg' },
+          { dogName: 'Churro', breed: 'Chihuahua', username: 'carlos_mx', totalBones: 29, imageUrl: 'https://images.dog.ceo/breeds/chihuahua/n02085620_8636.jpg' },
+          { dogName: 'Peggy', breed: 'Pug', username: 'annab', totalBones: 22, imageUrl: 'https://images.dog.ceo/breeds/pug/n02110958_8627.jpg' },
+          { dogName: 'Björn', breed: 'Samoyed', username: 'nordichound', totalBones: 11, imageUrl: 'https://images.dog.ceo/breeds/samoyed/n02111889_899.jpg' },
         ];
         const realDogs = this.communityDogs
           .filter(d => d.stats && d.stats.totalBones > 0)
@@ -1019,7 +1019,21 @@ export default class DogShowServer {
     const imageUrl = `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${dog.id}`;
     const pageUrl = dog.slug ? `${SITE_URL}/d/${dog.slug}` : `${SITE_URL}/dog.html?id=${dog.id}`;
     const bones = (dog.stats && dog.stats.totalBones) || 0;
-    const desc = `${dog.dogName} appeared on The Dog Show! ${dog.breed && dog.breed !== 'Mystery Breed' ? 'Breed: ' + dog.breed + '. ' : ''}${bones} bones received. View their certificate.`;
+    const appearances = (dog.stats && dog.stats.totalAppearances) || 0;
+    const peakViewers = (dog.stats && dog.stats.peakViewers) || 0;
+    const breed = dog.breed && dog.breed !== 'Mystery Breed' ? dog.breed : null;
+
+    // Generate title badges
+    const titles = [];
+    if (bones >= 100) titles.push('Bone Collector');
+    if (bones >= 50) titles.push('Fan Favorite');
+    else if (bones >= 10) titles.push('Crowd Pleaser');
+    if (peakViewers >= 20) titles.push('Audience Darling');
+    if (appearances >= 3) titles.push('Returning Star');
+    if (titles.length === 0) titles.push('Good Dog');
+
+    const ogTitle = `${dog.dogName} — 🦴 ${bones} bones · The Dog Show`;
+    const desc = `${breed || 'Mystery Breed'} · ${titles.join(' · ')} · ${appearances} appearance${appearances !== 1 ? 's' : ''} · Submitted by ${dog.username} · View their certificate on The Dog Show!`;
 
     const html = `<!DOCTYPE html>
 <html>
@@ -1028,15 +1042,15 @@ export default class DogShowServer {
 <title>${dog.dogName} — The Dog Show Certificate</title>
 <meta name="description" content="${desc}">
 <meta property="og:type" content="article">
-<meta property="og:title" content="${dog.dogName} — The Dog Show">
+<meta property="og:title" content="${ogTitle}">
 <meta property="og:description" content="${desc}">
 <meta property="og:image" content="${imageUrl}">
 <meta property="og:image:width" content="600">
 <meta property="og:image:height" content="600">
-<meta property="og:url" content="${pageUrl}">
+<meta property="og:image:alt" content="${dog.dogName} - ${breed || 'a good dog'} on The Dog Show">
 <meta property="og:site_name" content="The Dog Show">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${dog.dogName} — The Dog Show">
+<meta name="twitter:title" content="${ogTitle}">
 <meta name="twitter:description" content="${desc}">
 <meta name="twitter:image" content="${imageUrl}">
 <meta http-equiv="refresh" content="0;url=${pageUrl}">

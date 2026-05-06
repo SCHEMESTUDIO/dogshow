@@ -1,3 +1,2 @@
-# /d/:slug is handled by Pages Function (functions/d/[slug].js)
-# This redirect is a fallback if Functions are disabled
+# Clean dog page URLs — rewrite /d/slug to dog.html with slug param
 /d/:slug  /dog.html?slug=:slug  200

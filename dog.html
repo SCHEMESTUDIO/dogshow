@@ -565,9 +565,9 @@
           ? 'First appeared ' + formatDate(dog.stats.firstAppearance)
           : 'Uploaded ' + formatDate(dog.uploadedAt) + ' — awaiting first appearance';
 
-      // Share buttons — use clean slug URL (Pages Function serves OG tags to crawlers)
+      // Share buttons — shareUrl goes to PartyKit dog-meta endpoint (serves OG tags server-side for crawlers, then redirects to real page)
       var pageUrl = dog.slug ? 'https://dogshow.lol/d/' + dog.slug : 'https://dogshow.lol/dog.html?id=' + dog.id;
-      var shareUrl = pageUrl;
+      var shareUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/dog-meta?id=' + dog.id;
       var shareText = 'Check out ' + dog.dogName + ' on The Dog Show! 🐕';
       var shareButtons = document.getElementById('shareButtons');
       var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
