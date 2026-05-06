@@ -1053,9 +1053,9 @@ export default class DogShowServer {
 <meta name="twitter:title" content="${ogTitle}">
 <meta name="twitter:description" content="${desc}">
 <meta name="twitter:image" content="${imageUrl}">
-<meta http-equiv="refresh" content="0;url=${pageUrl}">
 </head>
-<body><p>Redirecting to <a href="${pageUrl}">${dog.dogName}'s certificate</a>...</p></body>
+<body><p>Redirecting to <a href="${pageUrl}">${dog.dogName}'s certificate</a>...</p>
+<script>window.location.replace("${pageUrl}");</script></body>
 </html>`;
 
     return new Response(html, {
