@@ -74,9 +74,114 @@ export default class DogShowServer {
     // Load community dogs list
     this.communityDogs = (await this.room.storage.get('communityDogs')) || [];
 
+    // Seed fake dogs (runs once)
+    await this.seedDogs();
+
     // Pre-fetch initial dogs
     await this.fetchDogs();
     this.advanceDog();
+  }
+
+  async seedDogs() {
+    const seeded = await this.room.storage.get('_seeded_v2');
+    if (seeded) return;
+
+    const seeds = [
+      {
+        name: 'Biscuit', breed: 'Golden Retriever', username: 'sarahk',
+        bones: 64, appearances: 42, peakViewers: 18, avgViewers: 9,
+        screenTime: 630000, daysAgo: 12,
+        imageUrl: 'https://images.dog.ceo/breeds/retriever-golden/n02099601_2688.jpg',
+      },
+      {
+        name: 'Mochi', breed: 'Shiba Inu', username: 'yuki_tanaka',
+        bones: 51, appearances: 34, peakViewers: 15, avgViewers: 7,
+        screenTime: 510000, daysAgo: 9,
+        imageUrl: 'https://images.dog.ceo/breeds/shiba/shiba-12.jpg',
+      },
+      {
+        name: 'Rufus', breed: 'Beagle', username: 'dogdad_mike',
+        bones: 47, appearances: 29, peakViewers: 12, avgViewers: 6,
+        screenTime: 435000, daysAgo: 14,
+        imageUrl: 'https://images.dog.ceo/breeds/beagle/n02088364_14220.jpg',
+      },
+      {
+        name: 'Luna', breed: 'German Shepherd', username: 'emmawalks',
+        bones: 38, appearances: 25, peakViewers: 11, avgViewers: 5,
+        screenTime: 375000, daysAgo: 7,
+        imageUrl: 'https://images.dog.ceo/breeds/german-shepherd/n02106662_20711.jpg',
+      },
+      {
+        name: 'Churro', breed: 'Chihuahua', username: 'carlos_mx',
+        bones: 29, appearances: 19, peakViewers: 9, avgViewers: 5,
+        screenTime: 285000, daysAgo: 5,
+        imageUrl: 'https://images.dog.ceo/breeds/chihuahua/n02085620_8636.jpg',
+      },
+      {
+        name: 'Peggy', breed: 'Pug', username: 'annab',
+        bones: 22, appearances: 15, peakViewers: 8, avgViewers: 4,
+        screenTime: 225000, daysAgo: 3,
+        imageUrl: 'https://images.dog.ceo/breeds/pug/n02110958_8627.jpg',
+      },
+      {
+        name: 'Björn', breed: 'Samoyed', username: 'nordichound',
+        bones: 11, appearances: 8, peakViewers: 6, avgViewers: 3,
+        screenTime: 120000, daysAgo: 2,
+        imageUrl: 'https://images.dog.ceo/breeds/samoyed/n02111889_899.jpg',
+      },
+    ];
+
+    for (const seed of seeds) {
+      try {
+        // Fetch image from dog.ceo and convert to data URL
+        const imgRes = await fetch(seed.imageUrl);
+        if (!imgRes.ok) continue;
+        const imgBuf = await imgRes.arrayBuffer();
+        const base64 = btoa(String.fromCharCode(...new Uint8Array(imgBuf)));
+        const contentType = imgRes.headers.get('content-type') || 'image/jpeg';
+        const dataUrl = `data:${contentType};base64,${base64}`;
+
+        const id = 'cdog_seed_' + seed.name.toLowerCase().replace(/[^a-z]/g, '');
+        const slug = await this.getUniqueSlug(seed.name);
+
+        // Store image
+        await this.room.storage.put(`img:${id}`, dataUrl);
+        // Store slug mapping
+        await this.room.storage.put(`slug:${slug}`, id);
+
+        const uploadedAt = Date.now() - (seed.daysAgo * 86400000);
+        const firstAppearance = uploadedAt + 60000; // 1 min after upload
+
+        const entry = {
+          id,
+          slug,
+          userId: 'seed_' + seed.username,
+          username: seed.username,
+          dogName: seed.name,
+          breed: seed.breed,
+          breedConfidence: 0.95,
+          uploadedAt,
+          stats: {
+            totalAppearances: seed.appearances,
+            totalBones: seed.bones,
+            totalViewers: seed.appearances * seed.avgViewers,
+            totalScreenTime: seed.screenTime,
+            peakViewers: seed.peakViewers,
+            firstAppearance,
+            lastAppearance: Date.now() - 3600000,
+          },
+        };
+
+        this.communityDogs.push(entry);
+        console.log(`[Seed] Created dog: ${seed.name} (${slug})`);
+      } catch (e) {
+        console.error(`[Seed] Failed to create ${seed.name}:`, e.message);
+      }
+    }
+
+    await this.room.storage.put('communityDogs', this.communityDogs);
+    await this.room.storage.put('_seeded_v2', true);
+    console.log(`[Seed] Done — ${seeds.length} dogs seeded`);
   }
 
   async onConnect(conn, ctx) {
@@ -659,8 +764,10 @@ export default class DogShowServer {
             peakViewers: d.stats.peakViewers || 0,
             imageUrl: imgBase + d.id,
           }));
-        // Merge real + seed, real dogs take priority, sort by bones, cap at 10
-        const allDogs = [...realDogs, ...seedDogs]
+        // Merge real + seed, real dogs take priority (dedup by name), sort by bones, cap at 10
+        const seenNames = new Set(realDogs.map(d => d.dogName));
+        const uniqueSeeds = seedDogs.filter(d => !seenNames.has(d.dogName));
+        const allDogs = [...realDogs, ...uniqueSeeds]
           .sort((a, b) => b.totalBones - a.totalBones)
           .slice(0, 10);
         const recent = this.communityDogs

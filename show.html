@@ -31,7 +31,6 @@
     </div>
     <div class="show-header-right">
       <span class="live-badge" id="liveBadge">&#9679; LIVE &mdash; <span id="viewerCount">0</span> watching</span>
-      <button class="show-share-btn" id="showShareBtn" title="Share The Dog Show">&#x1F4E4;</button>
     </div>
   </div>
 
@@ -126,6 +125,13 @@
         <div class="dock-patience" id="dockPatience" hidden>Your dog is in the show — they'll appear in the rotation shortly</div>
       </div>
       <div class="bone-rain" id="boneRain"></div>
+
+      <!-- Share rail -->
+      <div class="show-share-rail" id="showShareRail">
+        <div class="show-share-rail-label">Share this good dog</div>
+        <div class="show-share-rail-buttons" id="showShareButtons"></div>
+        <div class="show-share-rail-copied" id="showShareCopied">Link copied!</div>
+      </div>
     </div>
 
     <!-- Chat panel -->
@@ -169,16 +175,6 @@
     <a href="dogs.html">All Dogs</a>
   </div>
 
-  <!-- Share Panel -->
-  <div class="show-share-overlay" id="showShareOverlay">
-    <div class="show-share-panel">
-      <div class="show-share-title">Share The Dog Show</div>
-      <div class="show-share-subtitle">Send your friends to the show</div>
-      <div class="show-share-buttons" id="showShareButtons"></div>
-      <div class="show-share-copied" id="showShareCopied">Link copied!</div>
-      <button class="show-share-close" id="showShareClose">&times;</button>
-    </div>
-  </div>
 
   <!-- Username Modal -->
   <div class="username-modal-overlay" id="usernameModal">

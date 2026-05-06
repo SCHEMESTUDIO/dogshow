@@ -813,20 +813,18 @@
   // Refresh every 2 minutes
   setInterval(loadLeaderboard, 120000);
 
-  // ─── SHARE PANEL ────────────────────────────────
+  // ─── SHARE RAIL (inline below dock) ─────────────
 
-  var showShareBtn = document.getElementById('showShareBtn');
-  var showShareOverlay = document.getElementById('showShareOverlay');
   var showShareButtons = document.getElementById('showShareButtons');
   var showShareCopied = document.getElementById('showShareCopied');
-  var showShareClose = document.getElementById('showShareClose');
 
   var shareUrl = 'https://dogshow.lol';
-  var shareText = "I'm watching The Dog Show — a live dog-viewing experience. Come watch dogs with me! 🐕";
+  var shareText = "I'm watching The Dog Show — a live dog-viewing experience. Come watch dogs with me!";
   var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  function buildShareButtons() {
+  function buildShareRail() {
+    if (!showShareButtons) return;
     showShareButtons.innerHTML = '';
 
     // Native share (mobile)
@@ -836,7 +834,6 @@
       nBtn.textContent = 'Share...';
       nBtn.addEventListener('click', function() {
         navigator.share({ title: 'The Dog Show', text: shareText, url: shareUrl }).catch(function(){});
-        closeSharePanel();
       });
       showShareButtons.appendChild(nBtn);
     }
@@ -868,6 +865,15 @@
     waLink.textContent = 'WhatsApp';
     showShareButtons.appendChild(waLink);
 
+    // Instagram (opens app / story share on mobile)
+    var igLink = document.createElement('a');
+    igLink.className = 's-instagram';
+    igLink.href = 'https://www.instagram.com/';
+    igLink.target = '_blank';
+    igLink.rel = 'noopener';
+    igLink.textContent = 'Instagram';
+    showShareButtons.appendChild(igLink);
+
     // SMS
     var smsDelim = isIOS ? '&' : '?';
     var smsLink = document.createElement('a');
@@ -897,26 +903,7 @@
     showShareButtons.appendChild(copyBtn);
   }
 
-  function openSharePanel() {
-    buildShareButtons();
-    showShareOverlay.classList.add('active');
-  }
-
-  function closeSharePanel() {
-    showShareOverlay.classList.remove('active');
-  }
-
-  if (showShareBtn) {
-    showShareBtn.addEventListener('click', openSharePanel);
-  }
-  if (showShareClose) {
-    showShareClose.addEventListener('click', closeSharePanel);
-  }
-  if (showShareOverlay) {
-    showShareOverlay.addEventListener('click', function(e) {
-      if (e.target === showShareOverlay) closeSharePanel();
-    });
-  }
+  buildShareRail();
 
   // ─── COMMUNITY DOG UPLOAD (Premium only) ────────
 
