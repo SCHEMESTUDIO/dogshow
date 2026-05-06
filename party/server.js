@@ -235,6 +235,7 @@ export default class DogShowServer {
       this.currentDog = {
         url: `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${communityDog.id}`,
         name: communityDog.dogName || 'A Good Dog',
+        breed: communityDog.breed || null,
         isCommunity: true,
         submittedBy: communityDog.username,
         _communityId: communityDog.id,
@@ -250,7 +251,10 @@ export default class DogShowServer {
         return;
       }
       const name = this.getNextName();
-      this.currentDog = { url, name, isCommunity: false };
+      // Extract breed from dog.ceo URL (e.g., /breeds/retriever-golden/...)
+      const breedMatch = url.match(/\/breeds\/([^/]+)\//);
+      const breed = breedMatch ? breedMatch[1].replace(/-/g, ' ') : null;
+      this.currentDog = { url, name, isCommunity: false, breed };
     }
 
     // Reset bone count and bonus time
@@ -263,6 +267,7 @@ export default class DogShowServer {
       dog: {
         url: this.currentDog.url,
         name: this.currentDog.name,
+        breed: this.currentDog.breed || null,
         isCommunity: this.currentDog.isCommunity || false,
         submittedBy: this.currentDog.submittedBy || null,
         id: this.currentDog._communityId || null,
@@ -626,6 +631,40 @@ export default class DogShowServer {
           totalBones: totalBones,
           totalDogs: this.communityDogs.length + (this.dogQueue ? this.dogQueue.length : 0),
           watching: watching,
+        }), { headers });
+      }
+      if (path === 'leaderboard' && req.method === 'GET') {
+        const dogs = this.communityDogs
+          .filter(d => d.stats && d.stats.totalBones > 0)
+          .map(d => ({
+            id: d.id,
+            slug: d.slug || null,
+            dogName: d.dogName,
+            breed: d.breed || 'Mystery Breed',
+            username: d.username,
+            totalBones: d.stats.totalBones || 0,
+            totalAppearances: d.stats.totalAppearances || 0,
+            peakViewers: d.stats.peakViewers || 0,
+          }))
+          .sort((a, b) => b.totalBones - a.totalBones)
+          .slice(0, 10);
+        const recent = this.communityDogs
+          .slice()
+          .sort((a, b) => (b.uploadedAt || 0) - (a.uploadedAt || 0))
+          .slice(0, 5)
+          .map(d => ({
+            id: d.id,
+            slug: d.slug || null,
+            dogName: d.dogName,
+            breed: d.breed || 'Mystery Breed',
+            username: d.username,
+            uploadedAt: d.uploadedAt,
+          }));
+        return new Response(JSON.stringify({
+          ok: true,
+          topDogs: dogs,
+          recentDogs: recent,
+          totalCommunityDogs: this.communityDogs.length,
         }), { headers });
       }
     } catch (e) {

@@ -165,6 +165,9 @@
     setTimeout(function () {
       showDog(dog.url, dog.name);
     }, 300);
+
+    // Show breed fact
+    showBreedFact(dog.breed);
   }
 
   // Show a loading state until server sends the first dog
@@ -486,6 +489,7 @@
         // Show current dog from server
         if (data.currentDog) {
           showDog(data.currentDog.url, data.currentDog.name);
+          showBreedFact(data.currentDog.breed);
         }
 
         // Community count
@@ -602,6 +606,205 @@
     addChatMessage(user, msg);
   }
 
+  // ─── BREED FACTS / TRIVIA ───────────────────────
+
+  var breedFactEl = document.getElementById('breedFact');
+  var breedFactTextEl = document.getElementById('breedFactText');
+
+  var BREED_FACTS = {
+    'retriever golden': [
+      'Golden Retrievers were originally bred in Scotland in the mid-1800s for retrieving waterfowl.',
+      'Goldens have water-repellent double coats that shed heavily twice a year.',
+      'A Golden Retriever named Augie held 5 tennis balls in her mouth at once — a world record.',
+      'Golden Retrievers are the 3rd most popular dog breed in America.',
+    ],
+    'labrador retriever': [
+      'Labrador Retrievers have been the most popular dog breed in the US for over 30 years.',
+      'Labs were originally from Newfoundland, not Labrador — the name stuck anyway.',
+      'Labs have webbed toes, making them excellent swimmers.',
+      'A Lab\'s coat is so water-resistant it acts almost like a wetsuit.',
+    ],
+    'german shepherd': [
+      'German Shepherds can learn a new command in as few as 5 repetitions.',
+      'The first seeing-eye dog in America was a German Shepherd named Buddy.',
+      'GSDs have a bite force of about 238 pounds — one of the strongest of any breed.',
+      'Rin Tin Tin, a GSD rescued from a WWI battlefield, starred in 27 Hollywood films.',
+    ],
+    'poodle': [
+      'Poodles are the 2nd smartest dog breed, after Border Collies.',
+      'That fancy poodle haircut was originally designed to help them swim — puffs of fur protect joints and organs.',
+      'Poodles come from Germany, not France. The name comes from the German "pudelin" (to splash).',
+      'Elvis Presley loved poodles and gave them as gifts to women he dated.',
+    ],
+    'bulldog': [
+      'Bulldogs can\'t swim. Their heavy heads and short legs make them sink like rocks.',
+      'The Bulldog is the mascot of more universities than any other breed.',
+      'English Bulldogs were originally bred for bull-baiting in the 1200s.',
+      '80% of Bulldog litters are delivered by caesarean section due to their large heads.',
+    ],
+    'beagle': [
+      'Beagles have about 220 million scent receptors — humans have about 5 million.',
+      'The USDA employs a "Beagle Brigade" to sniff out contraband food at airports.',
+      'Snoopy, the world\'s most famous beagle, debuted in the Peanuts comic strip in 1950.',
+      'Beagles are one of the most vocal breeds — they have three distinct vocalizations.',
+    ],
+    'husky': [
+      'Huskies can run up to 100 miles per day at speeds of 10-12 mph.',
+      'Their double coat keeps them warm at temperatures as low as -75°F (-60°C).',
+      'Huskies have a special membrane behind their retinas that helps them see in low light.',
+      'In 1925, a relay of Husky sled dog teams carried diphtheria antitoxin 674 miles across Alaska.',
+    ],
+    'corgi': [
+      'Welsh legend says corgis were ridden by fairy warriors into battle.',
+      'Queen Elizabeth II owned more than 30 corgis during her reign.',
+      'Despite their short legs, corgis can run up to 25 mph.',
+      'Corgi means "dwarf dog" in Welsh.',
+    ],
+    'dachshund': [
+      'Dachshunds were originally bred to hunt badgers — their name literally means "badger dog" in German.',
+      'A dachshund named Waldi was the first official Olympic mascot (Munich 1972).',
+      'Dachshunds come in over 15 color combinations and 3 coat types.',
+      'Hot dogs were originally called "dachshund sausages" — the bun was modeled after the dog.',
+    ],
+    'pug': [
+      'Pugs are one of the oldest breeds, dating back to 400 BC in China.',
+      'A group of pugs is called a "grumble."',
+      'Pugs were once used by the military — the Dutch credited a pug with saving the Prince of Orange\'s life.',
+      'Pugs have 3 times more scent glands than most breeds despite their flat noses.',
+    ],
+    'rottweiler': [
+      'Rottweilers were originally bred to herd cattle and pull carts for butchers.',
+      'They are one of the oldest herding breeds, dating back to the Roman Empire.',
+      'Rottweilers have one of the strongest bite forces of any domestic dog — about 328 PSI.',
+      'Despite their tough reputation, Rottweilers are known to be "leaners" who press against their owners for affection.',
+    ],
+    'boxer': [
+      'Boxers get their name from their tendency to stand on hind legs and "box" with front paws during play.',
+      'A Boxer named Brandy holds the Guinness record for the longest tongue on a dog — 17 inches.',
+      'Boxers are one of the last breeds to mature — they\'re not considered fully adult until age 3.',
+      'Boxers were among the first breeds trained as police dogs in Germany.',
+    ],
+    'samoyed': [
+      'Samoyeds were bred by the Samoyede people of Siberia to herd reindeer and pull sleds.',
+      'Their famous "Sammy smile" isn\'t just cute — the upturned mouth prevents drooling, which would freeze into icicles.',
+      'Samoyed fur is sometimes spun into yarn — it\'s hypoallergenic and warm as cashmere.',
+      'They were essential to polar expeditions — Roald Amundsen used Samoyeds to reach the South Pole.',
+    ],
+  };
+
+  var GENERAL_FACTS = [
+    'Dogs can understand up to 250 words and gestures — about the same as a two-year-old human.',
+    'A dog\'s nose print is unique, just like a human fingerprint.',
+    'Dogs can smell about 10,000 to 100,000 times better than humans.',
+    'The tallest dog ever recorded was a Great Dane named Zeus, standing 44 inches at the shoulder.',
+    'Dogs dream just like humans — small dogs dream more frequently than large ones.',
+    'Greyhounds can reach speeds of 45 mph, making them the fastest dog breed.',
+    'Three dogs survived the sinking of the Titanic — two Pomeranians and one Pekingese.',
+    'Dogs have three eyelids — the third one helps keep their eyes moist.',
+    'A one-year-old dog is roughly as physically mature as a 15-year-old human.',
+    'Dogs curl up when sleeping to protect their organs — a holdover from their wild ancestors.',
+    'Puppies are born deaf and blind. They begin to hear and see at around 2 weeks old.',
+    'Dogs have about 1,700 taste buds — humans have about 9,000.',
+    'The Basenji is the only breed that doesn\'t bark — it yodels instead.',
+    'Dogs can be trained to detect certain cancers and low blood sugar in humans.',
+    'The Norwegian Lundehund has 6 toes on each foot, an adaptation for climbing cliffs.',
+    'Dogs wag their tails to the right when happy and to the left when nervous.',
+    'The oldest known dog breed is the Saluki, dating back to ancient Egypt around 329 BC.',
+    'A dog\'s sense of smell is so powerful it can detect a teaspoon of sugar in a million gallons of water.',
+  ];
+
+  function showBreedFact(breed) {
+    if (!breedFactEl || !breedFactTextEl) return;
+
+    var fact = null;
+
+    if (breed) {
+      var breedKey = breed.toLowerCase().replace(/_/g, ' ');
+      // Try exact match
+      if (BREED_FACTS[breedKey]) {
+        fact = pick(BREED_FACTS[breedKey]);
+      } else {
+        // Try partial match
+        for (var key in BREED_FACTS) {
+          if (breedKey.indexOf(key) !== -1 || key.indexOf(breedKey) !== -1) {
+            fact = pick(BREED_FACTS[key]);
+            break;
+          }
+        }
+      }
+    }
+
+    // Fall back to general fact
+    if (!fact) {
+      fact = pick(GENERAL_FACTS);
+    }
+
+    breedFactTextEl.textContent = fact;
+    breedFactEl.hidden = false;
+    // Re-trigger animation
+    breedFactEl.style.animation = 'none';
+    breedFactEl.offsetHeight;
+    breedFactEl.style.animation = '';
+  }
+
+  // ─── LEADERBOARD ───────────────────────────────
+
+  var leaderboardEl = document.getElementById('leaderboard');
+  var leaderboardTopEl = document.getElementById('leaderboardTop');
+  var leaderboardRecentEl = document.getElementById('leaderboardRecent');
+
+  function loadLeaderboard() {
+    fetch(API_BASE + '/leaderboard')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data.ok) return;
+
+        if (data.topDogs && data.topDogs.length > 0) {
+          leaderboardEl.hidden = false;
+          leaderboardTopEl.innerHTML = '';
+          data.topDogs.forEach(function (dog, i) {
+            var href = dog.slug ? '/d/' + dog.slug : 'dog.html?id=' + dog.id;
+            var entry = document.createElement('a');
+            entry.className = 'leaderboard-entry';
+            entry.href = href;
+            entry.target = '_blank';
+            entry.innerHTML =
+              '<span class="leaderboard-rank">' + (i + 1) + '</span>' +
+              '<div class="leaderboard-info">' +
+                '<div class="leaderboard-name">' + dog.dogName + '</div>' +
+                '<div class="leaderboard-meta">' + dog.breed + ' &middot; by ' + dog.username + '</div>' +
+              '</div>' +
+              '<span class="leaderboard-bones">🦴 ' + dog.totalBones + '</span>';
+            leaderboardTopEl.appendChild(entry);
+          });
+        }
+
+        if (data.recentDogs && data.recentDogs.length > 0) {
+          leaderboardRecentEl.innerHTML = '';
+          data.recentDogs.forEach(function (dog) {
+            var href = dog.slug ? '/d/' + dog.slug : 'dog.html?id=' + dog.id;
+            var entry = document.createElement('a');
+            entry.className = 'leaderboard-entry';
+            entry.href = href;
+            entry.target = '_blank';
+            entry.innerHTML =
+              '<span class="leaderboard-rank" style="color: var(--text-faint);">NEW</span>' +
+              '<div class="leaderboard-info">' +
+                '<div class="leaderboard-name">' + dog.dogName + '</div>' +
+                '<div class="leaderboard-meta">' + dog.breed + ' &middot; by ' + dog.username + '</div>' +
+              '</div>';
+            leaderboardRecentEl.appendChild(entry);
+          });
+        }
+      })
+      .catch(function () {});
+  }
+
+  // Load leaderboard on page load
+  loadLeaderboard();
+  // Refresh every 2 minutes
+  setInterval(loadLeaderboard, 120000);
+
   // ─── COMMUNITY DOG UPLOAD (Premium only) ────────
 
   var communityUpload = document.getElementById('communityUpload');
@@ -615,6 +818,12 @@
   var dockDogLink = document.getElementById('dockDogLink');
   var dockPatience = document.getElementById('dockPatience');
   var dockBar = document.getElementById('dockBar');
+
+  // Hide row 2 entirely for free users (no upload, no dog status)
+  var dockRow2 = document.getElementById('dockRow2');
+  if (isFreeUser && dockRow2) {
+    dockRow2.hidden = true;
+  }
 
   // Show upload button for premium users
   if (tier === 'premium' && sessionToken) {

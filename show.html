@@ -79,6 +79,12 @@
         Now presenting: <strong id="dogName">...</strong>
       </div>
 
+      <!-- Breed fact card -->
+      <div class="breed-fact" id="breedFact" hidden>
+        <span class="breed-fact-icon">&#128054;</span>
+        <span class="breed-fact-text" id="breedFactText"></span>
+      </div>
+
       <!-- Bottom dock -->
       <div class="bottom-dock" id="bottomDock">
         <div class="dock-bar" id="dockBar">
@@ -136,6 +142,19 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- Leaderboard -->
+  <div class="leaderboard" id="leaderboard" hidden>
+    <div class="leaderboard-header">Hall of Fame</div>
+    <div class="leaderboard-section">
+      <div class="leaderboard-label">Top Dogs</div>
+      <div class="leaderboard-list" id="leaderboardTop"></div>
+    </div>
+    <div class="leaderboard-section">
+      <div class="leaderboard-label">New Arrivals</div>
+      <div class="leaderboard-list" id="leaderboardRecent"></div>
+    </div>
   </div>
 
   <!-- Footer -->

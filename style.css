@@ -20,6 +20,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 :root {
   --bg: #1a1035;
@@ -1099,6 +1100,127 @@
   font-size: 11px;
   color: var(--text-faint);
   margin-top: 14px;
+}
+
+/* ─── BREED FACT CARD ─────────────────────────── */
+
+.breed-fact {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 520px;
+  margin: 12px auto 0;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  animation: factFadeIn 0.4s ease;
+}
+
+.breed-fact-icon {
+  flex-shrink: 0;
+  font-size: 14px;
+  margin-top: 1px;
+}
+
+.breed-fact-text {
+  flex: 1;
+}
+
+@keyframes factFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── LEADERBOARD ────────────────────────────── */
+
+.leaderboard {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+.leaderboard-header {
+  font-family: 'Yang Bagus', 'YangBagus', cursive;
+  font-size: 22px;
+  color: #FF8C42;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.leaderboard-section {
+  margin-bottom: 20px;
+}
+
+.leaderboard-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 10px;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.leaderboard-entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+
+.leaderboard-entry:hover {
+  border-color: rgba(255, 140, 66, 0.3);
+}
+
+.leaderboard-rank {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-faint);
+  min-width: 20px;
+  text-align: center;
+}
+
+.leaderboard-entry:nth-child(1) .leaderboard-rank { color: #FFD700; }
+.leaderboard-entry:nth-child(2) .leaderboard-rank { color: #C0C0C0; }
+.leaderboard-entry:nth-child(3) .leaderboard-rank { color: #CD7F32; }
+
+.leaderboard-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.leaderboard-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leaderboard-meta {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.leaderboard-bones {
+  font-size: 12px;
+  color: #FF8C42;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 /* ─── SHOW FOOTER ────────────────────────────── */
