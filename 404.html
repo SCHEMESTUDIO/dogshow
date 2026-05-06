@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script>
+  // GitHub Pages SPA router — catches /d/slug and redirects to dog.html?slug=slug
+  (function() {
+    var match = window.location.pathname.match(/^\/d\/([^/]+)\/?$/);
+    if (match) {
+      var slug = decodeURIComponent(match[1]);
+      window.location.replace('/dog.html?slug=' + encodeURIComponent(slug));
+    }
+  })();
+</script>
+<title>Page Not Found — The Dog Show</title>
+<style>
+  body { background: #0f0a22; color: #b8a9d4; font-family: system-ui, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; text-align: center; }
+  .wrap { max-width: 400px; padding: 40px 20px; }
+  h1 { font-size: 48px; color: #FF8C42; margin: 0 0 12px; }
+  p { font-size: 16px; line-height: 1.5; margin: 0 0 24px; }
+  a { color: #FF8C42; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>404</h1>
+  <p>This dog wandered off. Maybe try the <a href="/">main stage</a>?</p>
+</div>
+</body>
+</html>
