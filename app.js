@@ -818,7 +818,7 @@
   var showShareButtons = document.getElementById('showShareButtons');
   var showShareCopied = document.getElementById('showShareCopied');
 
-  var shareUrl = 'https://dogshow.lol';
+  var shareUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/show-meta';
   var shareText = "I'm watching The Dog Show — a live dog-viewing experience. Come watch dogs with me!";
   var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);

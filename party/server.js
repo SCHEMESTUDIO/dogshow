@@ -722,6 +722,9 @@ export default class DogShowServer {
       if (path === 'dog-meta' && req.method === 'GET') {
         return await this.handleDogMeta(req);
       }
+      if (path === 'show-meta' && req.method === 'GET') {
+        return this.handleShowMeta();
+      }
       if (path === 'all-dogs' && req.method === 'GET') {
         return await this.handleGetAllDogs(req, headers);
       }
@@ -1111,6 +1114,38 @@ export default class DogShowServer {
         'Cache-Control': 'public, max-age=86400',
         'Access-Control-Allow-Origin': '*',
       },
+    });
+  }
+
+  // Serve OG meta for the landing page — crawlers get tags, browsers get redirected
+  handleShowMeta() {
+    const totalDogs = this.communityDogs.length;
+    const totalBones = this.communityDogs.reduce((sum, d) => sum + ((d.stats && d.stats.totalBones) || 0), 0) + this.boneCount;
+    const watching = ([...this.room.getConnections()].length + this.activeBots.length) || 1;
+
+    const title = 'The Dog Show — A Live Dog-Viewing Experience';
+    const desc = `${watching} watching now · ${totalDogs} dogs entered · ${totalBones} bones thrown. Watch dogs appear one at a time in a shared, real-time slideshow. Give bones. Chat with fans.`;
+
+    const html = `<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Dog Show">
+<meta property="og:image" content="https://dogshow.lol/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${desc}">
+<meta name="twitter:image" content="https://dogshow.lol/og-image.png">
+<title>${title}</title>
+<script>window.location.replace("https://dogshow.lol");</script>
+</head><body><p>${title}</p></body></html>`;
+
+    return new Response(html, {
+      headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' },
     });
   }
 
