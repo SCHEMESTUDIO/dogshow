@@ -5,6 +5,7 @@
 // ═══════════════════════════════════════════════
 
 const SITE_URL = 'https://dogshow.lol';
+const FAN_COUNT_OFFSET = 100; // Seed number — real fans count from here
 
 // Bot pool — each has a personality and message style
 const BOTS = [
@@ -85,7 +86,7 @@ export default class DogShowServer {
       boneCount: this.boneCount,
       messages: this.messages.slice(-50),
       viewers: ([...this.room.getConnections()].length + this.activeBots.length) || 1,
-      totalFans: this.totalFans,
+      totalFans: this.totalFans + FAN_COUNT_OFFSET,
       currentDog: this.currentDog,
       isIntermission: this.isIntermission,
       communityCount: this.communityDogs.length,
@@ -145,7 +146,7 @@ export default class DogShowServer {
         // Broadcast new total
         this.room.broadcast(JSON.stringify({
           type: 'totalFans',
-          count: this.totalFans,
+          count: this.totalFans + FAN_COUNT_OFFSET,
         }));
       }
       return;
@@ -627,7 +628,7 @@ export default class DogShowServer {
         const watching = [...this.room.getConnections()].length + this.activeBots.length;
         return new Response(JSON.stringify({
           ok: true,
-          totalFans: this.totalFans,
+          totalFans: this.totalFans + FAN_COUNT_OFFSET,
           totalBones: totalBones,
           totalDogs: this.communityDogs.length + (this.dogQueue ? this.dogQueue.length : 0),
           watching: watching,
