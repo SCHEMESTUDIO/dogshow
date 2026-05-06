@@ -637,6 +637,149 @@
       color: #3d2d6b;
     }
 
+    /* ─── EMAIL MODAL ─────────────────────────── */
+
+    .lp-email-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 10, 34, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .lp-email-overlay.active { display: flex; }
+
+    .lp-email-modal {
+      background: #1a1035;
+      border: 1px solid rgba(255, 140, 66, 0.2);
+      border-radius: 16px;
+      padding: 40px 32px 32px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      animation: lp-modal-in 0.25s ease-out;
+    }
+
+    @keyframes lp-modal-in {
+      from { opacity: 0; transform: scale(0.95) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .lp-email-modal-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .lp-email-modal-title {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 24px;
+      color: #FF8C42;
+      margin-bottom: 6px;
+    }
+
+    .lp-email-modal-subtitle {
+      font-size: 13px;
+      color: #7B6BA0;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .lp-email-modal-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #3d2d6b;
+      background: rgba(255,255,255,0.04);
+      color: #e0d8f0;
+      font-size: 15px;
+      outline: none;
+      box-sizing: border-box;
+      margin-bottom: 8px;
+      font-family: inherit;
+    }
+
+    .lp-email-modal-input:focus { border-color: #FF8C42; }
+    .lp-email-modal-input.error { border-color: #e74c3c; }
+
+    .lp-email-modal-error {
+      font-size: 12px;
+      color: #e74c3c;
+      margin-bottom: 8px;
+      min-height: 18px;
+    }
+
+    .lp-email-modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .lp-email-modal-cancel {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #3d2d6b;
+      background: transparent;
+      color: #7B6BA0;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .lp-email-modal-cancel:hover {
+      border-color: #7B68EE;
+      color: #e0d8f0;
+    }
+
+    .lp-email-modal-submit {
+      flex: 1.5;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #FF8C42;
+      color: #1a1035;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .lp-email-modal-submit:hover {
+      background: #ff9d5c;
+      transform: translateY(-1px);
+    }
+
+    .lp-email-modal-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .lp-email-modal-submit .spinner-bone {
+      display: inline-block;
+      animation: lp-spin-bone 0.8s linear infinite;
+      margin-right: 6px;
+    }
+
+    @keyframes lp-spin-bone {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .lp-email-modal-hint {
+      font-size: 11px;
+      color: #3d2d6b;
+      margin-top: 16px;
+    }
+
     /* ─── RESPONSIVE ──────────────────────────── */
 
     @media (max-width: 768px) {
@@ -888,6 +1031,22 @@
     <div class="lp-footer-copy">The Dog Show &copy; 2026. All dogs are good dogs.</div>
   </footer>
 
+  <!-- Email Modal -->
+  <div class="lp-email-overlay" id="emailOverlay">
+    <div class="lp-email-modal">
+      <div class="lp-email-modal-icon">🐾</div>
+      <div class="lp-email-modal-title">One more thing</div>
+      <div class="lp-email-modal-subtitle">Enter your email so we can let you back in if you ever get lost.</div>
+      <input type="email" class="lp-email-modal-input" id="emailModalInput" placeholder="you@email.com" autocomplete="email" spellcheck="false">
+      <div class="lp-email-modal-error" id="emailModalError"></div>
+      <div class="lp-email-modal-actions">
+        <button class="lp-email-modal-cancel" id="emailModalCancel">Cancel</button>
+        <button class="lp-email-modal-submit" id="emailModalSubmit">Continue</button>
+      </div>
+      <div class="lp-email-modal-hint">We'll never spam you. Dogs' honour.</div>
+    </div>
+  </div>
+
   <!-- Curtain Reveal Overlay -->
   <div class="curtain-overlay" id="curtainOverlay" hidden>
     <div class="curtain-rod"></div>
@@ -989,15 +1148,56 @@
       return match ? match[2] : null;
     }
 
-    function enterShow(tier) {
-      var email = prompt('Enter your email to continue:');
-      if (!email || email.indexOf('@') === -1) {
-        alert('Please enter a valid email address.');
+    // ─── EMAIL MODAL ──────────────────────────────
+    var emailOverlay = document.getElementById('emailOverlay');
+    var emailInput = document.getElementById('emailModalInput');
+    var emailError = document.getElementById('emailModalError');
+    var emailSubmit = document.getElementById('emailModalSubmit');
+    var emailCancel = document.getElementById('emailModalCancel');
+    var pendingTier = null;
+
+    function openEmailModal(tier) {
+      pendingTier = tier;
+      emailInput.value = '';
+      emailError.textContent = '';
+      emailInput.classList.remove('error');
+      emailSubmit.disabled = false;
+      emailSubmit.innerHTML = 'Continue';
+      emailOverlay.classList.add('active');
+      setTimeout(function() { emailInput.focus(); }, 100);
+    }
+
+    function closeEmailModal() {
+      emailOverlay.classList.remove('active');
+      pendingTier = null;
+    }
+
+    function submitEmail() {
+      var email = emailInput.value.trim().toLowerCase();
+      if (!email || email.indexOf('@') === -1 || email.indexOf('.') === -1) {
+        emailError.textContent = 'Please enter a valid email address.';
+        emailInput.classList.add('error');
         return;
       }
+      emailError.textContent = '';
+      emailInput.classList.remove('error');
+      emailSubmit.disabled = true;
+      emailSubmit.innerHTML = '<span class="spinner-bone">🦴</span>Sniffing...';
 
-      var cleanEmail = email.trim().toLowerCase();
+      enterShow(pendingTier, email);
+    }
 
+    emailCancel.addEventListener('click', closeEmailModal);
+    emailSubmit.addEventListener('click', submitEmail);
+    emailInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') submitEmail();
+      if (e.key === 'Escape') closeEmailModal();
+    });
+    emailOverlay.addEventListener('click', function(e) {
+      if (e.target === emailOverlay) closeEmailModal();
+    });
+
+    function enterShow(tier, cleanEmail) {
       if (tier === 'free') {
         fetch(API_BASE_LANDING + '/register', {
           method: 'POST',
@@ -1012,13 +1212,18 @@
               if (data.user && data.user.username) {
                 localStorage.setItem('dogshow_username', data.user.username);
               }
+              closeEmailModal();
               playCurtainAndGo('free');
             } else {
-              alert(data.error || 'Registration failed. Please try again.');
+              emailError.textContent = data.error || 'Registration failed. Please try again.';
+              emailSubmit.disabled = false;
+              emailSubmit.innerHTML = 'Continue';
             }
           })
           .catch(function() {
-            alert('Something went wrong. Please try again.');
+            emailError.textContent = 'Something went wrong. Please try again.';
+            emailSubmit.disabled = false;
+            emailSubmit.textContent = 'Continue';
           });
         return;
       }
@@ -1036,14 +1241,57 @@
         .then(function(r) { return r.json(); })
         .then(function(data) {
           if (data.url) {
+            closeEmailModal();
             window.location.href = data.url;
           } else {
-            alert('Payment setup failed. Please try again.');
+            emailError.textContent = 'Payment setup failed. Please try again.';
+            emailSubmit.disabled = false;
+            emailSubmit.textContent = 'Continue';
           }
         })
         .catch(function() {
-          alert('Something went wrong. Please try again.');
+          emailError.textContent = 'Something went wrong. Please try again.';
+          emailSubmit.disabled = false;
+          emailSubmit.textContent = 'Continue';
         });
+    }
+
+    // ─── BARK SOUND (Web Audio synthesis) ──────────
+    function playBark() {
+      try {
+        var ctx = new (window.AudioContext || window.webkitAudioContext)();
+        // Bark 1 — short high "yip"
+        var o1 = ctx.createOscillator();
+        var g1 = ctx.createGain();
+        o1.type = 'sawtooth';
+        o1.frequency.setValueAtTime(600, ctx.currentTime);
+        o1.frequency.exponentialRampToValueAtTime(250, ctx.currentTime + 0.12);
+        g1.gain.setValueAtTime(0.18, ctx.currentTime);
+        g1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+        o1.connect(g1);
+        g1.connect(ctx.destination);
+        o1.start(ctx.currentTime);
+        o1.stop(ctx.currentTime + 0.15);
+
+        // Bark 2 — deeper follow-up "boof"
+        var o2 = ctx.createOscillator();
+        var g2 = ctx.createGain();
+        o2.type = 'sawtooth';
+        o2.frequency.setValueAtTime(400, ctx.currentTime + 0.18);
+        o2.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.35);
+        g2.gain.setValueAtTime(0.001, ctx.currentTime);
+        g2.gain.setValueAtTime(0.15, ctx.currentTime + 0.18);
+        g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+        o2.connect(g2);
+        g2.connect(ctx.destination);
+        o2.start(ctx.currentTime + 0.18);
+        o2.stop(ctx.currentTime + 0.4);
+
+        // Cleanup
+        setTimeout(function() { ctx.close(); }, 1000);
+      } catch (e) {
+        // Audio not supported — no problem
+      }
     }
 
     function playCurtainAndGo(tier) {
@@ -1054,6 +1302,7 @@
       setTimeout(function() {
         curtainLeft.classList.add('open');
         curtainRight.classList.add('open');
+        playBark();
       }, 500);
 
       setTimeout(function() {
@@ -1066,11 +1315,11 @@
     }
 
     // Button listeners
-    document.getElementById('heroCta').addEventListener('click', function() { enterShow('premium'); });
-    document.getElementById('heroFree').addEventListener('click', function() { enterShow('free'); });
-    document.getElementById('planFree').addEventListener('click', function() { enterShow('free'); });
-    document.getElementById('planGeneral').addEventListener('click', function() { enterShow('general'); });
-    document.getElementById('planPremium').addEventListener('click', function() { enterShow('premium'); });
+    document.getElementById('heroCta').addEventListener('click', function() { openEmailModal('premium'); });
+    document.getElementById('heroFree').addEventListener('click', function() { openEmailModal('free'); });
+    document.getElementById('planFree').addEventListener('click', function() { openEmailModal('free'); });
+    document.getElementById('planGeneral').addEventListener('click', function() { openEmailModal('general'); });
+    document.getElementById('planPremium').addEventListener('click', function() { openEmailModal('premium'); });
 
     // ─── LOGIN FLOW ──────────────────────────────────
     var loginBtn = document.getElementById('loginBtn');
