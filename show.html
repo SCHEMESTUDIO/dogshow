@@ -31,6 +31,7 @@
     </div>
     <div class="show-header-right">
       <span class="live-badge" id="liveBadge">&#9679; LIVE &mdash; <span id="viewerCount">0</span> watching</span>
+      <button class="show-share-btn" id="showShareBtn" title="Share The Dog Show">&#x1F4E4;</button>
     </div>
   </div>
 
@@ -166,6 +167,17 @@
     <a href="about.html#contact">Contact</a>
     <span class="show-footer-dot">&middot;</span>
     <a href="dogs.html">All Dogs</a>
+  </div>
+
+  <!-- Share Panel -->
+  <div class="show-share-overlay" id="showShareOverlay">
+    <div class="show-share-panel">
+      <div class="show-share-title">Share The Dog Show</div>
+      <div class="show-share-subtitle">Send your friends to the show</div>
+      <div class="show-share-buttons" id="showShareButtons"></div>
+      <div class="show-share-copied" id="showShareCopied">Link copied!</div>
+      <button class="show-share-close" id="showShareClose">&times;</button>
+    </div>
   </div>
 
   <!-- Username Modal -->

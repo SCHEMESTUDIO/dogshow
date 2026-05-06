@@ -813,6 +813,111 @@
   // Refresh every 2 minutes
   setInterval(loadLeaderboard, 120000);
 
+  // ─── SHARE PANEL ────────────────────────────────
+
+  var showShareBtn = document.getElementById('showShareBtn');
+  var showShareOverlay = document.getElementById('showShareOverlay');
+  var showShareButtons = document.getElementById('showShareButtons');
+  var showShareCopied = document.getElementById('showShareCopied');
+  var showShareClose = document.getElementById('showShareClose');
+
+  var shareUrl = 'https://dogshow.lol';
+  var shareText = "I'm watching The Dog Show — a live dog-viewing experience. Come watch dogs with me! 🐕";
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  function buildShareButtons() {
+    showShareButtons.innerHTML = '';
+
+    // Native share (mobile)
+    if (isMobile && navigator.share) {
+      var nBtn = document.createElement('button');
+      nBtn.className = 's-native';
+      nBtn.textContent = 'Share...';
+      nBtn.addEventListener('click', function() {
+        navigator.share({ title: 'The Dog Show', text: shareText, url: shareUrl }).catch(function(){});
+        closeSharePanel();
+      });
+      showShareButtons.appendChild(nBtn);
+    }
+
+    // Facebook
+    var fbLink = document.createElement('a');
+    fbLink.className = 's-facebook';
+    fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) + '&quote=' + encodeURIComponent(shareText);
+    fbLink.target = '_blank';
+    fbLink.rel = 'noopener';
+    fbLink.textContent = 'Facebook';
+    showShareButtons.appendChild(fbLink);
+
+    // X / Twitter
+    var twLink = document.createElement('a');
+    twLink.className = 's-twitter';
+    twLink.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(shareUrl) + '&hashtags=DogShow';
+    twLink.target = '_blank';
+    twLink.rel = 'noopener';
+    twLink.textContent = 'X';
+    showShareButtons.appendChild(twLink);
+
+    // WhatsApp
+    var waLink = document.createElement('a');
+    waLink.className = 's-whatsapp';
+    waLink.href = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(shareText + '\n' + shareUrl);
+    waLink.target = '_blank';
+    waLink.rel = 'noopener';
+    waLink.textContent = 'WhatsApp';
+    showShareButtons.appendChild(waLink);
+
+    // SMS
+    var smsDelim = isIOS ? '&' : '?';
+    var smsLink = document.createElement('a');
+    smsLink.className = 's-sms';
+    smsLink.href = 'sms:' + smsDelim + 'body=' + encodeURIComponent(shareText + ' ' + shareUrl);
+    smsLink.textContent = 'SMS';
+    showShareButtons.appendChild(smsLink);
+
+    // Copy
+    var copyBtn = document.createElement('button');
+    copyBtn.className = 's-copy';
+    copyBtn.textContent = 'Copy Link';
+    copyBtn.addEventListener('click', function() {
+      navigator.clipboard.writeText(shareUrl).catch(function() {
+        var ta = document.createElement('textarea');
+        ta.value = shareUrl;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      });
+      showShareCopied.classList.add('show');
+      setTimeout(function() { showShareCopied.classList.remove('show'); }, 2500);
+    });
+    showShareButtons.appendChild(copyBtn);
+  }
+
+  function openSharePanel() {
+    buildShareButtons();
+    showShareOverlay.classList.add('active');
+  }
+
+  function closeSharePanel() {
+    showShareOverlay.classList.remove('active');
+  }
+
+  if (showShareBtn) {
+    showShareBtn.addEventListener('click', openSharePanel);
+  }
+  if (showShareClose) {
+    showShareClose.addEventListener('click', closeSharePanel);
+  }
+  if (showShareOverlay) {
+    showShareOverlay.addEventListener('click', function(e) {
+      if (e.target === showShareOverlay) closeSharePanel();
+    });
+  }
+
   // ─── COMMUNITY DOG UPLOAD (Premium only) ────────
 
   var communityUpload = document.getElementById('communityUpload');

@@ -418,9 +418,12 @@
     var dogId = params.get('id');
     var dogSlug = params.get('slug');
 
-    // Check if we arrived via /d/slug (handled by d.html redirect)
-    if (!dogId && dogSlug) {
-      // Will resolve slug to ID before loading
+    // Also check URL path for /d/slug pattern (Pages Function serves dog.html at /d/:slug)
+    if (!dogId && !dogSlug) {
+      var pathMatch = window.location.pathname.match(/^\/d\/([^/]+)\/?$/);
+      if (pathMatch) {
+        dogSlug = decodeURIComponent(pathMatch[1]);
+      }
     }
 
     // Fun titles based on stats
@@ -562,11 +565,9 @@
           ? 'First appeared ' + formatDate(dog.stats.firstAppearance)
           : 'Uploaded ' + formatDate(dog.uploadedAt) + ' — awaiting first appearance';
 
-      // Share buttons — use clean slug URL if available
-      var dogSlugUrl = dog.slug ? 'https://dogshow.lol/d/' + dog.slug : 'https://dogshow.lol/dog.html?id=' + dog.id;
-      var pageUrl = dogSlugUrl;
-      // Social share URL goes through PartyKit for proper OG tags (crawlers don't run JS)
-      var shareUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/dog-meta?id=' + dog.id;
+      // Share buttons — use clean slug URL (Pages Function serves OG tags to crawlers)
+      var pageUrl = dog.slug ? 'https://dogshow.lol/d/' + dog.slug : 'https://dogshow.lol/dog.html?id=' + dog.id;
+      var shareUrl = pageUrl;
       var shareText = 'Check out ' + dog.dogName + ' on The Dog Show! 🐕';
       var shareButtons = document.getElementById('shareButtons');
       var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
