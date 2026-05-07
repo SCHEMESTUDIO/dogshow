@@ -1017,6 +1017,7 @@
 /* ─── MOBILE ───────────────────────────────────── */
 
 @media (max-width: 700px) {
+  /* Landing page */
   .landing-tiers {
     flex-direction: column;
     gap: 16px;
@@ -1036,28 +1037,161 @@
     max-width: 90%;
   }
 
-  .show-main {
-    flex-direction: column;
-  }
-
-  .chat-panel {
-    flex: 0 0 250px;
-    border-left: none;
-    border-top: 2px solid var(--border);
-  }
-
-  .chat-messages {
-    max-height: 200px;
-  }
-
-  .dog-frame {
-    max-width: 100%;
-  }
-
   .landing-trust {
     position: relative;
     bottom: auto;
     margin-top: 48px;
+  }
+
+  /* #10: Hide total fans banner on mobile — saves vertical space */
+  .total-fans {
+    display: none;
+  }
+
+  /* Show page layout */
+  .show-main {
+    flex-direction: column;
+  }
+
+  /* #9: Header — hide est., tighten spacing */
+  .show-header-est {
+    display: none;
+  }
+
+  .show-header-title {
+    font-size: 20px;
+  }
+
+  .live-badge {
+    font-size: 11px;
+  }
+
+  /* #8: Mobile padding on stage area + prevent horizontal overflow */
+  .dog-stage {
+    padding: 16px 12px;
+    overflow: hidden;
+  }
+
+  /* #11: Hide redundant stage label on mobile — plaque is enough */
+  .stage-label {
+    display: none;
+  }
+
+  /* #13: Prevent frame gradient from causing horizontal scroll */
+  .dog-frame {
+    max-width: 100%;
+  }
+
+  .dog-frame::before {
+    inset: 0;
+    border-radius: 4px;
+  }
+
+  /* #6: Bump plaque text for mobile readability */
+  .dog-frame-plaque {
+    font-size: 10px;
+    padding: 3px 12px;
+  }
+
+  /* #4: Dog name responsive sizing + overflow protection */
+  .dog-nameplate-name {
+    font-size: clamp(18px, 5vw, 24px);
+    word-break: break-word;
+    overflow-wrap: break-word;
+    padding: 0 8px;
+  }
+
+  /* #5: Breed fact — slightly larger and more breathing room */
+  .breed-fact {
+    font-size: 13px;
+    padding: 12px 16px;
+    gap: 10px;
+    margin: 12px 8px 0;
+  }
+
+  .breed-fact-icon {
+    font-size: 16px;
+  }
+
+  /* #1: Action bar — wrap to stack Enter button below bones */
+  .dock-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .dock-enter-wrap {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 4px;
+  }
+
+  .dock-enter-btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  /* #7: Slightly more padding in dock for touch */
+  .dock-bar {
+    padding: 12px 14px;
+  }
+
+  /* #3: Share buttons — smaller padding, compact on mobile */
+  .show-share-rail-buttons a,
+  .show-share-rail-buttons button {
+    padding: 8px 12px;
+    font-size: 12px;
+    gap: 4px;
+  }
+
+  .show-share-rail-buttons {
+    gap: 6px;
+  }
+
+  /* #2: Chat panel — more compact on mobile */
+  .chat-panel {
+    flex: 0 0 auto;
+    border-left: none;
+    border-top: 2px solid var(--border);
+    max-height: 200px;
+  }
+
+  .chat-messages {
+    max-height: 120px;
+  }
+
+  .chat-input-area {
+    padding: 6px 8px;
+  }
+
+  .chat-input {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  /* #12: Leaderboard — smaller thumbnails, tighter layout */
+  .leaderboard-thumb {
+    width: 48px;
+    height: 48px;
+  }
+
+  .leaderboard-name {
+    font-size: 12px;
+  }
+
+  .leaderboard-meta {
+    font-size: 10px;
+  }
+
+  .leaderboard-bones {
+    font-size: 11px;
+    padding-right: 10px;
+  }
+
+  .leaderboard-rank {
+    font-size: 13px;
+    padding-left: 6px;
   }
 }
 
@@ -1550,45 +1684,33 @@
   cursor: not-allowed;
 }
 
-/* Prominent Enter Your Dog CTA */
+/* Enter Your Dog inline CTA */
+.dock-enter-wrap {
+  margin-left: auto;
+}
+
 .dock-enter-btn {
-  width: 100%;
-  background: linear-gradient(135deg, #FF8C42, #e67a30);
-  color: #1a1035;
-  font-weight: 700;
-  font-size: 16px;
+  background: rgba(255, 140, 66, 0.1);
+  border: 1px solid rgba(255, 140, 66, 0.4);
+  color: #FF8C42;
+  font-size: 13px;
+  font-weight: 600;
   font-family: var(--font-system);
-  padding: 14px 24px;
+  padding: 8px 16px;
   border-radius: 10px;
-  border: none;
   cursor: pointer;
-  text-align: center;
-  letter-spacing: -0.2px;
+  white-space: nowrap;
   transition: all 0.2s;
 }
 
 .dock-enter-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  background: rgba(255, 140, 66, 0.2);
+  border-color: #FF8C42;
 }
 
 .dock-enter-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
-  transform: none;
-}
-
-.dock-row-enter {
-  flex-direction: column;
-}
-
-.dock-enter-hint {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.3);
-  font-style: italic;
-  text-align: center;
-  font-family: var(--font-system);
-  padding: 0 0 2px;
 }
 
 .dock-patience {

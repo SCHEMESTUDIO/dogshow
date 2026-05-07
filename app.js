@@ -887,8 +887,10 @@
     if (!showShareButtons) return;
     showShareButtons.innerHTML = '';
 
-    // Native share (mobile)
-    if (isMobile && navigator.share) {
+    var hasNativeShare = isMobile && navigator.share;
+
+    // Native share (mobile) — if available, show this + copy only
+    if (hasNativeShare) {
       var nBtn = document.createElement('button');
       nBtn.className = 's-native';
       nBtn.textContent = 'Share...';
@@ -898,51 +900,54 @@
       showShareButtons.appendChild(nBtn);
     }
 
-    // Facebook
-    var fbLink = document.createElement('a');
-    fbLink.className = 's-facebook';
-    fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) + '&quote=' + encodeURIComponent(shareText);
-    fbLink.target = '_blank';
-    fbLink.rel = 'noopener';
-    fbLink.textContent = 'Facebook';
-    showShareButtons.appendChild(fbLink);
+    // On mobile with native share, skip individual buttons — just show Share + Copy
+    if (!hasNativeShare) {
+      // Facebook
+      var fbLink = document.createElement('a');
+      fbLink.className = 's-facebook';
+      fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) + '&quote=' + encodeURIComponent(shareText);
+      fbLink.target = '_blank';
+      fbLink.rel = 'noopener';
+      fbLink.textContent = 'Facebook';
+      showShareButtons.appendChild(fbLink);
 
-    // X / Twitter
-    var twLink = document.createElement('a');
-    twLink.className = 's-twitter';
-    twLink.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(shareUrl) + '&hashtags=DogShow';
-    twLink.target = '_blank';
-    twLink.rel = 'noopener';
-    twLink.textContent = 'X';
-    showShareButtons.appendChild(twLink);
+      // X / Twitter
+      var twLink = document.createElement('a');
+      twLink.className = 's-twitter';
+      twLink.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(shareUrl) + '&hashtags=DogShow';
+      twLink.target = '_blank';
+      twLink.rel = 'noopener';
+      twLink.textContent = 'X';
+      showShareButtons.appendChild(twLink);
 
-    // WhatsApp
-    var waLink = document.createElement('a');
-    waLink.className = 's-whatsapp';
-    waLink.href = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(shareText + '\n' + shareUrl);
-    waLink.target = '_blank';
-    waLink.rel = 'noopener';
-    waLink.textContent = 'WhatsApp';
-    showShareButtons.appendChild(waLink);
+      // WhatsApp
+      var waLink = document.createElement('a');
+      waLink.className = 's-whatsapp';
+      waLink.href = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(shareText + '\n' + shareUrl);
+      waLink.target = '_blank';
+      waLink.rel = 'noopener';
+      waLink.textContent = 'WhatsApp';
+      showShareButtons.appendChild(waLink);
 
-    // Instagram (opens app / story share on mobile)
-    var igLink = document.createElement('a');
-    igLink.className = 's-instagram';
-    igLink.href = 'https://www.instagram.com/';
-    igLink.target = '_blank';
-    igLink.rel = 'noopener';
-    igLink.textContent = 'Instagram';
-    showShareButtons.appendChild(igLink);
+      // Instagram
+      var igLink = document.createElement('a');
+      igLink.className = 's-instagram';
+      igLink.href = 'https://www.instagram.com/';
+      igLink.target = '_blank';
+      igLink.rel = 'noopener';
+      igLink.textContent = 'Instagram';
+      showShareButtons.appendChild(igLink);
 
-    // SMS
-    var smsDelim = isIOS ? '&' : '?';
-    var smsLink = document.createElement('a');
-    smsLink.className = 's-sms';
-    smsLink.href = 'sms:' + smsDelim + 'body=' + encodeURIComponent(shareText + ' ' + shareUrl);
-    smsLink.textContent = 'SMS';
-    showShareButtons.appendChild(smsLink);
+      // SMS
+      var smsDelim = isIOS ? '&' : '?';
+      var smsLink = document.createElement('a');
+      smsLink.className = 's-sms';
+      smsLink.href = 'sms:' + smsDelim + 'body=' + encodeURIComponent(shareText + ' ' + shareUrl);
+      smsLink.textContent = 'SMS';
+      showShareButtons.appendChild(smsLink);
+    }
 
-    // Copy
+    // Copy — always shown
     var copyBtn = document.createElement('button');
     copyBtn.className = 's-copy';
     copyBtn.textContent = 'Copy Link';
@@ -980,9 +985,7 @@
   var dockBar = document.getElementById('dockBar');
 
   // For free users: show enter button but trigger upgrade modal
-  var dockRow2 = document.getElementById('dockRow2');
-  var dockEnterHint = document.getElementById('dockEnterHint');
-  if (isFreeUser && dockRow2) {
+  if (isFreeUser) {
     communityUpload.hidden = false;
     uploadBtn.textContent = 'Enter Your Dog — $3.99';
     uploadBtn.className = 'dock-enter-btn';
@@ -1008,7 +1011,6 @@
     communityUpload.hidden = false;
     uploadBtn.textContent = '📸 Add your dog';
     uploadBtn.className = 'dock-upload-btn';
-    if (dockEnterHint) dockEnterHint.hidden = true;
   }
 
   if (uploadBtn) {
