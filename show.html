@@ -63,20 +63,26 @@
         </div>
       </div>
 
+      <!-- Stage label -->
+      <div class="stage-label">The Main Stage</div>
+
       <!-- Dog frame -->
       <div class="dog-frame">
         <div class="dog-frame-drape">
           <div class="dog-frame-drape-inner"></div>
+          <div class="dog-frame-plaque">The Main Stage</div>
         </div>
         <div class="dog-viewport">
           <img id="dogImage" src="" alt="A good dog">
+          <div class="dog-viewport-glow"></div>
         </div>
         <div class="dog-frame-footer"></div>
       </div>
 
       <!-- Name plate -->
       <div class="dog-nameplate" id="dogNameplate">
-        Now presenting: <strong id="dogName">...</strong>
+        <div class="dog-nameplate-label">Now presenting</div>
+        <div class="dog-nameplate-name" id="dogName">...</div>
       </div>
 
       <!-- Breed fact card -->
@@ -85,10 +91,10 @@
         <span class="breed-fact-text" id="breedFactText"></span>
       </div>
 
-      <!-- Bottom dock -->
+      <!-- Action card -->
       <div class="bottom-dock" id="bottomDock">
         <div class="dock-bar" id="dockBar">
-          <!-- Row 1: bone + count + community -->
+          <!-- Row 1: bone + count -->
           <div class="dock-row">
             <button class="dock-bone-btn" id="boneBtn">🦴 Give a bone</button>
             <div class="dock-bone-pill">
@@ -100,35 +106,37 @@
               <span id="boneFrenzyText">BONE FRENZY</span>
               <span id="boneFrenzyMulti">x0</span>
             </div>
-            <div class="dock-community">
-              <span>🐕</span>
-              <span><span class="dock-community-count" id="communityNum">0</span> dog<span id="communityPlural">s</span></span>
-            </div>
           </div>
 
           <!-- Divider -->
           <div class="dock-divider-h"></div>
 
-          <!-- Row 2: status + upload/link -->
-          <div class="dock-row" id="dockRow2">
+          <!-- Row 2: Enter Your Dog CTA -->
+          <div class="dock-row dock-row-enter" id="dockRow2">
             <div class="dock-status" id="dockStatus" hidden>
               <div class="dock-status-dot" id="dockStatusDot"></div>
               <span id="dockStatusText">Your dog is live</span>
             </div>
             <div id="communityUpload" hidden>
-              <button class="dock-upload-btn" id="uploadBtn">📸 Add your dog</button>
+              <button class="dock-enter-btn" id="uploadBtn">Enter Your Dog &mdash; $3.99</button>
               <input type="file" id="uploadInput" accept="image/jpeg,image/png,image/webp" hidden>
             </div>
-            <a class="dock-link" id="dockDogLink" href="#" target="_blank" hidden>View page <span>→</span></a>
+            <a class="dock-link" id="dockDogLink" href="#" target="_blank" hidden>View page <span>&rarr;</span></a>
           </div>
+          <div class="dock-enter-hint" id="dockEnterHint">Your dog could be on The Main Stage.</div>
         </div>
-        <div class="dock-patience" id="dockPatience" hidden>Your dog is in the show — they'll appear in the rotation shortly</div>
+        <div class="dock-patience" id="dockPatience" hidden>Your dog is in the show &mdash; they'll appear in the rotation shortly</div>
       </div>
       <div class="bone-rain" id="boneRain"></div>
+
+      <!-- Hidden elements for JS compatibility -->
+      <span id="communityNum" hidden>0</span>
+      <span id="communityPlural" hidden>s</span>
 
       <!-- Share rail -->
       <div class="show-share-rail" id="showShareRail">
         <div class="show-share-rail-label">Share this good dog</div>
+        <div class="show-share-rail-sub">Send this good dog to someone who owes him bones.</div>
         <div class="show-share-rail-buttons" id="showShareButtons"></div>
         <div class="show-share-rail-copied" id="showShareCopied">Link copied!</div>
       </div>

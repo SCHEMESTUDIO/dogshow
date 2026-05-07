@@ -513,29 +513,66 @@
   position: relative;
 }
 
-/* Mini curtain frame */
+/* Stage label */
+.stage-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 12px;
+}
+
+/* Premium stage frame */
 .dog-frame {
   position: relative;
-  border: 3px solid var(--curtain);
-  padding: 4px;
+  border: 2px solid rgba(255, 140, 66, 0.2);
+  border-radius: 4px;
   background: #0f0a22;
   max-width: 480px;
   width: 100%;
+  overflow: hidden;
+}
+
+.dog-frame::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(255, 140, 66, 0.25), rgba(123, 104, 238, 0.2), rgba(255, 140, 66, 0.1));
+  z-index: -1;
 }
 
 .dog-frame-drape {
-  height: 24px;
+  height: 28px;
   background: linear-gradient(180deg, var(--curtain), var(--curtain-dark));
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .dog-frame-drape-inner {
-  width: 60%;
-  height: 12px;
+  width: 50%;
+  height: 14px;
   border-radius: 0 0 50% 50%;
   background: radial-gradient(ellipse at center, var(--curtain-light), var(--curtain));
+}
+
+.dog-frame-plaque {
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #2a1a4a, #1a1035);
+  border: 1px solid rgba(255, 140, 66, 0.25);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  padding: 3px 14px;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(255, 140, 66, 0.7);
+  white-space: nowrap;
 }
 
 .dog-viewport {
@@ -560,20 +597,42 @@
   opacity: 1;
 }
 
-.dog-frame-footer {
-  height: 6px;
-  background: linear-gradient(90deg, var(--accent-dark), var(--accent), var(--accent-dark));
+.dog-viewport-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 60%;
+  background: radial-gradient(ellipse at top center, rgba(255, 140, 66, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
 }
 
-/* Dog name plate */
+.dog-frame-footer {
+  height: 4px;
+  background: linear-gradient(90deg, var(--curtain-dark), var(--accent), var(--curtain-dark));
+}
+
+/* Dog name plate — split label + name */
 .dog-nameplate {
   margin-top: 16px;
-  padding: 8px 24px;
-  font-size: 15px;
-  color: var(--text-bright);
-  font-style: italic;
   text-align: center;
-  letter-spacing: 0.3px;
+}
+
+.dog-nameplate-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 4px;
+}
+
+.dog-nameplate-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FF8C42;
+  letter-spacing: -0.3px;
 }
 
 /* Community dog section */
@@ -1248,7 +1307,14 @@
   color: var(--text-dim);
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-bottom: 12px;
+  margin-bottom: 4px;
+}
+
+.show-share-rail-sub {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.2);
+  font-style: italic;
+  margin-bottom: 14px;
 }
 
 .show-share-rail-buttons {
@@ -1412,13 +1478,7 @@
 }
 
 .dock-community {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.45);
-  font-family: var(--font-system);
-  margin-left: auto;
+  display: none;
 }
 
 .dock-community-count {
@@ -1488,6 +1548,47 @@
 .dock-upload-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+/* Prominent Enter Your Dog CTA */
+.dock-enter-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #FF8C42, #e67a30);
+  color: #1a1035;
+  font-weight: 700;
+  font-size: 16px;
+  font-family: var(--font-system);
+  padding: 14px 24px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: -0.2px;
+  transition: all 0.2s;
+}
+
+.dock-enter-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.dock-enter-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dock-row-enter {
+  flex-direction: column;
+}
+
+.dock-enter-hint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+  font-style: italic;
+  text-align: center;
+  font-family: var(--font-system);
+  padding: 0 0 2px;
 }
 
 .dock-patience {

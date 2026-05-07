@@ -557,7 +557,7 @@
         if (data.currentDog && data.currentDog.isCommunity) {
           var nameplate = document.getElementById('dogNameplate');
           nameplate.classList.add('community');
-          nameplate.innerHTML = '📸 <strong>' + data.currentDog.name + '</strong> <span class="community-badge">submitted by ' + data.currentDog.submittedBy + '</span>';
+          nameplate.innerHTML = '<div class="dog-nameplate-label">Now presenting</div><div class="dog-nameplate-name">' + data.currentDog.name + '</div><span class="community-badge">submitted by ' + data.currentDog.submittedBy + '</span>';
         }
 
         // Show intermission if server is in intermission
@@ -585,10 +585,15 @@
         var nameplate = document.getElementById('dogNameplate');
         if (data.dog && data.dog.isCommunity) {
           nameplate.classList.add('community');
-          nameplate.innerHTML = '📸 <strong>' + data.dog.name + '</strong> <span class="community-badge">submitted by ' + data.dog.submittedBy + '</span>';
+          nameplate.innerHTML = '<div class="dog-nameplate-label">Now presenting</div><div class="dog-nameplate-name">' + data.dog.name + '</div><span class="community-badge">submitted by ' + data.dog.submittedBy + '</span>';
         } else {
           nameplate.classList.remove('community');
-          nameplate.innerHTML = 'Now presenting: <strong id="dogName">' + (data.dog ? data.dog.name : '...') + '</strong>';
+          var dogNameEl = document.getElementById('dogName');
+          if (dogNameEl) {
+            dogNameEl.textContent = data.dog ? data.dog.name : '...';
+          } else {
+            nameplate.innerHTML = '<div class="dog-nameplate-label">Now presenting</div><div class="dog-nameplate-name" id="dogName">' + (data.dog ? data.dog.name : '...') + '</div>';
+          }
         }
       }
 
@@ -974,11 +979,24 @@
   var dockPatience = document.getElementById('dockPatience');
   var dockBar = document.getElementById('dockBar');
 
-  // For free users: show upload button but trigger upgrade modal
+  // For free users: show enter button but trigger upgrade modal
   var dockRow2 = document.getElementById('dockRow2');
+  var dockEnterHint = document.getElementById('dockEnterHint');
   if (isFreeUser && dockRow2) {
     communityUpload.hidden = false;
-    uploadBtn.textContent = '📸 Enter Your Dog';
+    uploadBtn.textContent = 'Enter Your Dog — $3.99';
+    uploadBtn.className = 'dock-enter-btn';
+    uploadBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showUpgradeModal('upload');
+    });
+  }
+
+  // Show enter button for general tier (bones but no upload)
+  if (tier === 'general' && sessionToken) {
+    communityUpload.hidden = false;
+    uploadBtn.textContent = 'Enter Your Dog — $3.99';
+    uploadBtn.className = 'dock-enter-btn';
     uploadBtn.addEventListener('click', function(e) {
       e.stopPropagation();
       showUpgradeModal('upload');
@@ -988,6 +1006,9 @@
   // Show upload button for premium users
   if (tier === 'premium' && sessionToken) {
     communityUpload.hidden = false;
+    uploadBtn.textContent = '📸 Add your dog';
+    uploadBtn.className = 'dock-upload-btn';
+    if (dockEnterHint) dockEnterHint.hidden = true;
   }
 
   if (uploadBtn) {
