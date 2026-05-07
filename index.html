@@ -175,18 +175,18 @@
 
     .lp-hero h1 {
       font-family: 'Yang Bagus', 'YangBagus', cursive;
-      font-size: clamp(42px, 8vw, 72px);
+      font-size: clamp(56px, 10vw, 96px);
       color: #FF8C42;
       line-height: 1.05;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .lp-hero-sub {
-      font-size: clamp(16px, 2.5vw, 20px);
+      font-size: clamp(17px, 2.5vw, 22px);
       color: #9B8FD0;
-      line-height: 1.5;
-      max-width: 520px;
-      margin: 0 auto 12px;
+      line-height: 1.4;
+      max-width: 560px;
+      margin: 0 auto 28px;
     }
 
     .lp-hero-trust {
@@ -200,6 +200,27 @@
       gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .lp-hero-bullets {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 24px;
+      padding: 0;
+    }
+
+    .lp-hero-bullets li {
+      font-size: 14px;
+      color: #7B6BA0;
+    }
+
+    .lp-hero-bullets li::before {
+      content: '\2022';
+      color: #FF8C42;
+      margin-right: 8px;
     }
 
     .lp-btn {
@@ -1187,13 +1208,18 @@
       <span class="lp-hero-dot"></span>
       Live right now
     </div>
-    <h1>The internet's live dog show &mdash; featuring your dog.</h1>
-    <p class="lp-hero-sub">Watch real dogs take the stage, give bones, chat with spectators, and enter your own pup for a slot on stage and custom certificate.</p>
-    <p class="lp-hero-trust">One-time payment. No subscription. All dogs welcome.</p>
+    <h1>The Dog Show</h1>
+    <p class="lp-hero-sub">The internet's live dog show &mdash; featuring your dog.</p>
     <div class="lp-hero-actions">
       <button class="lp-btn lp-btn-primary" id="heroCta">Enter Your Dog &mdash; $3.99</button>
       <button class="lp-btn lp-btn-secondary" id="heroFree">Peek Inside Free</button>
     </div>
+    <ul class="lp-hero-bullets">
+      <li>Watch real dogs take the stage</li>
+      <li>Chat with spectators</li>
+      <li>Give bones to the dogs</li>
+      <li>Enter your own pup for a slot on stage</li>
+    </ul>
   </section>
 
   <!-- Ticker -->
