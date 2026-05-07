@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V830P7PPHQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V830P7PPHQ');
+  </script>
+  <!-- Faurya Analytics -->
+  <script async defer src="https://www.faurya.com/js/script.js" data-website-id="cmosekmvz000xl204a7bhm4cm" data-domain="dogshow.lol"></script>
+  <title>Dog Photo Contest: Enter Your Dog in the Internet's Least Serious Dog Show | dogshow.lol</title>
+  <meta name="description" content="The dog photo contest where nobody loses, your dog gets a stage, and the audience throws bones. No judges, no breed requirements, no AI-generated nonsense. $3.99 once.">
+  <link rel="canonical" href="https://dogshow.lol/dog-photo-contest">
+  <meta property="og:title" content="Dog Photo Contest — The Internet's Least Serious Dog Show">
+  <meta property="og:description" content="Enter your dog in a live show where the audience throws bones and every dog gets unnecessarily famous. No judges. $3.99 once.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dogshow.lol/dog-photo-contest">
+  <meta property="og:site_name" content="The Dog Show">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Dog Photo Contest — Enter Your Dog">
+  <meta name="twitter:description" content="The dog photo contest where every dog gets a spotlight, a certificate, and an unreasonable amount of attention. $3.99 once.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is the dog photo contest free to enter?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can watch the live dog show for free with a Free Peek ticket. To enter your own dog in the contest, it's a one-time payment of $3.99 for the Bring Your Dog tier. No subscriptions, no vote-buying, no monthly fees."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What breeds are allowed in the dog photo contest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "All breeds are welcome, including mixed breeds, rescues, mutts, and dogs of mysterious origin. There are no breed restrictions. If it's a dog, it can enter."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the live dog show work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Dogs appear one at a time on a live stage that everyone watches together. Viewers throw bones (reactions), chat with other spectators, and see breed facts. Your dog gets their moment in the spotlight — literally."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do I get when I enter my dog?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your dog gets a permanent show page with a certificate, stats, breed information, and a shareable link. They also enter the live show rotation and the Hall of Bones leaderboard."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is this different from other dog photo contests?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most dog photo contests are static voting galleries where you can pay for more votes. The Dog Show is a live experience — your dog appears on stage in real time, with live chat, bone reactions, and streaks. There's no pay-to-win. A $3.99 entry is the same whether you're entering a labradoodle or the actual president's dog."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I enter more than one dog in the photo contest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Each dog gets their own entry and their own permanent page. Multi-dog households are encouraged."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dogshow.lol/" },
+      { "@type": "ListItem", "position": 2, "name": "Dog Photo Contest", "item": "https://dogshow.lol/dog-photo-contest" }
+    ]
+  }
+  </script>
+  <style>
+    @font-face {
+      font-family: 'Yang Bagus';
+      src: url('YangBagus.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'YangBagus';
+      src: url('YangBagus.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    .contest-page {
+      background: #0f0a22;
+      color: #e0d8f0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─────────────────────────────────── */
+    .ct-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 24px;
+    }
+    .ct-nav-brand {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 22px;
+      color: #FF8C42;
+      text-decoration: none;
+    }
+    .ct-nav-links { display: flex; gap: 24px; align-items: center; }
+    .ct-nav-link {
+      font-size: 13px;
+      color: #7B6BA0;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .ct-nav-link:hover { color: #e0d8f0; }
+    .ct-nav-cta {
+      font-size: 13px;
+      font-weight: 600;
+      color: #FF8C42;
+      text-decoration: none;
+      border: 1px solid rgba(255, 140, 66, 0.3);
+      padding: 6px 16px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .ct-nav-cta:hover {
+      background: rgba(255, 140, 66, 0.1);
+      border-color: #FF8C42;
+    }
+
+    /* ─── HERO ────────────────────────────────── */
+    .ct-hero {
+      text-align: center;
+      padding: 80px 24px 60px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .ct-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 140, 66, 0.1);
+      border: 1px solid rgba(255, 140, 66, 0.2);
+      color: #FF8C42;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .ct-hero-dot {
+      width: 6px; height: 6px;
+      background: #4CAF50;
+      border-radius: 50%;
+      animation: ct-pulse 2s ease-in-out infinite;
+    }
+    @keyframes ct-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .ct-hero h1 {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: clamp(36px, 7vw, 64px);
+      color: #FF8C42;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .ct-hero-sub {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: #9B8FD0;
+      line-height: 1.5;
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+    .ct-hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .ct-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .ct-btn-primary {
+      background: #FF8C42;
+      color: #1a1035;
+    }
+    .ct-btn-primary:hover {
+      background: #ff9d5c;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(255, 140, 66, 0.3);
+    }
+    .ct-btn-secondary {
+      background: transparent;
+      color: #e0d8f0;
+      border: 1px solid #3d2d6b;
+    }
+    .ct-btn-secondary:hover {
+      border-color: #7B68EE;
+      background: rgba(123, 104, 238, 0.08);
+    }
+
+    /* ─── SECTIONS ────────────────────────────── */
+    .ct-section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .ct-section-label {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #FF8C42;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .ct-section-title {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: clamp(28px, 5vw, 40px);
+      color: #e0d8f0;
+      text-align: center;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .ct-section-subtitle {
+      font-size: 15px;
+      color: #7B6BA0;
+      text-align: center;
+      max-width: 520px;
+      margin: 0 auto 48px;
+      line-height: 1.6;
+    }
+
+    /* ─── HOW IT WORKS ────────────────────────── */
+    .ct-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .ct-step {
+      text-align: center;
+      padding: 32px 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
+    }
+    .ct-step-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+    .ct-step-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #e0d8f0;
+      margin-bottom: 8px;
+    }
+    .ct-step-desc {
+      font-size: 14px;
+      color: #7B6BA0;
+      line-height: 1.5;
+    }
+
+    /* ─── WHAT MAKES THIS DIFFERENT ───────────── */
+    .ct-diff-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .ct-diff-card {
+      padding: 28px 24px;
+      border: 1px solid rgba(123, 104, 238, 0.15);
+      border-radius: 14px;
+      background: rgba(123, 104, 238, 0.04);
+    }
+    .ct-diff-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .ct-diff-label.them { color: #7B6BA0; }
+    .ct-diff-label.us { color: #FF8C42; }
+    .ct-diff-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #e0d8f0;
+      margin-bottom: 8px;
+    }
+    .ct-diff-desc {
+      font-size: 14px;
+      color: #7B6BA0;
+      line-height: 1.5;
+    }
+
+    /* ─── CATEGORIES PREVIEW ──────────────────── */
+    .ct-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .ct-category-card {
+      padding: 28px 20px;
+      border: 1px solid rgba(255, 140, 66, 0.12);
+      border-radius: 14px;
+      background: rgba(255, 140, 66, 0.03);
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .ct-category-card:hover {
+      border-color: rgba(255, 140, 66, 0.35);
+      transform: translateY(-2px);
+    }
+    .ct-category-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+    .ct-category-name {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 18px;
+      color: #FF8C42;
+      margin-bottom: 6px;
+    }
+    .ct-category-desc {
+      font-size: 13px;
+      color: #7B6BA0;
+      line-height: 1.4;
+    }
+
+    /* ─── ANTI PAY-TO-WIN ─────────────────────── */
+    .ct-fairness {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .ct-fairness-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 40px;
+      text-align: left;
+    }
+    .ct-fairness-item {
+      padding: 20px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .ct-fairness-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    .ct-fairness-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #e0d8f0;
+      margin-bottom: 6px;
+    }
+    .ct-fairness-desc {
+      font-size: 13px;
+      color: #7B6BA0;
+      line-height: 1.5;
+    }
+
+    /* ─── FEATURED DOG ────────────────────────── */
+    .ct-featured {
+      max-width: 520px;
+      margin: 0 auto;
+      border: 1px solid rgba(255, 140, 66, 0.25);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #1a1035;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: border-color 0.2s;
+    }
+    .ct-featured:hover { border-color: #FF8C42; }
+    .ct-featured-img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      background: #0f0a22;
+    }
+    .ct-featured-body {
+      padding: 24px;
+      text-align: center;
+    }
+    .ct-featured-name {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 28px;
+      color: #FF8C42;
+      margin-bottom: 4px;
+    }
+    .ct-featured-breed {
+      font-size: 14px;
+      color: #7B6BA0;
+      margin-bottom: 8px;
+    }
+    .ct-featured-bones {
+      font-size: 14px;
+      color: #9B8FD0;
+    }
+
+    /* ─── DOG GALLERY ─────────────────────────── */
+    .ct-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .ct-dog-card {
+      background: #1a1035;
+      border: 1px solid rgba(255, 140, 66, 0.15);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .ct-dog-card:hover {
+      transform: translateY(-3px);
+      border-color: #FF8C42;
+    }
+    .ct-dog-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      background: #0f0a22;
+    }
+    .ct-dog-info {
+      padding: 12px 14px;
+    }
+    .ct-dog-name {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 18px;
+      color: #FF8C42;
+      margin-bottom: 2px;
+    }
+    .ct-dog-breed {
+      font-size: 12px;
+      color: #7B6BA0;
+    }
+    .ct-dog-bones {
+      font-size: 12px;
+      color: #9B8FD0;
+      margin-top: 4px;
+    }
+
+    /* ─── COMPARISON TABLE ────────────────────── */
+    .ct-compare {
+      max-width: 800px;
+      margin: 0 auto;
+      overflow-x: auto;
+    }
+    .ct-compare table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .ct-compare th {
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 2px solid #3d2d6b;
+      color: #9B8FD0;
+      font-weight: 600;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .ct-compare th.highlight {
+      color: #FF8C42;
+      border-bottom-color: #FF8C42;
+    }
+    .ct-compare td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: #7B6BA0;
+    }
+    .ct-compare td.highlight {
+      color: #e0d8f0;
+      font-weight: 500;
+    }
+    .ct-compare tr:last-child td { border-bottom: none; }
+    .ct-check { color: #4CAF50; }
+    .ct-cross { color: #e57373; }
+
+    /* ─── FAQ ─────────────────────────────────── */
+    .ct-faq {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .ct-faq-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .ct-faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      cursor: pointer;
+      font-size: 16px;
+      color: #e0d8f0;
+      font-weight: 500;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+    }
+    .ct-faq-q:hover { color: #FF8C42; }
+    .ct-faq-arrow {
+      font-size: 18px;
+      color: #5a4d80;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+      margin-left: 16px;
+    }
+    .ct-faq-item.open .ct-faq-arrow { transform: rotate(180deg); }
+    .ct-faq-a {
+      display: none;
+      padding: 0 0 20px;
+      font-size: 14px;
+      color: #7B6BA0;
+      line-height: 1.6;
+    }
+    .ct-faq-item.open .ct-faq-a { display: block; }
+
+    /* ─── FINAL CTA ───────────────────────────── */
+    .ct-final-cta {
+      text-align: center;
+      padding: 80px 24px 120px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .ct-final-cta h2 {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: clamp(28px, 5vw, 44px);
+      color: #FF8C42;
+      margin-bottom: 16px;
+    }
+    .ct-final-cta p {
+      font-size: 16px;
+      color: #7B6BA0;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    /* ─── STATS BAR ───────────────────────────── */
+    .ct-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding: 40px 24px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .ct-stat { text-align: center; }
+    .ct-stat-num {
+      font-size: 28px;
+      font-weight: 700;
+      color: #FF8C42;
+    }
+    .ct-stat-label {
+      font-size: 12px;
+      color: #5a4d80;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* ─── STICKY CTA BAR ──────────────────────── */
+    .ct-sticky {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 10, 34, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255, 140, 66, 0.2);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      z-index: 100;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    .ct-sticky.visible { transform: translateY(0); }
+    .ct-sticky-text {
+      font-size: 14px;
+      color: #9B8FD0;
+    }
+    .ct-sticky-btn {
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: #FF8C42;
+      color: #1a1035;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .ct-sticky-btn:hover { background: #ff9d5c; }
+
+    /* ─── BREADCRUMB ──────────────────────────── */
+    .ct-breadcrumb {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 12px 24px 0;
+      font-size: 12px;
+    }
+    .ct-breadcrumb a {
+      color: #5a4d80;
+      text-decoration: none;
+    }
+    .ct-breadcrumb a:hover { color: #9B8FD0; }
+    .ct-breadcrumb span { color: #3d2d6b; margin: 0 6px; }
+
+    /* ─── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 640px) {
+      .ct-steps { grid-template-columns: 1fr; gap: 16px; }
+      .ct-diff-grid { grid-template-columns: 1fr; }
+      .ct-fairness-grid { grid-template-columns: 1fr; }
+      .ct-stats { gap: 24px; flex-wrap: wrap; }
+      .ct-nav-links { gap: 12px; }
+      .ct-nav-link { display: none; }
+      .ct-sticky-text { display: none; }
+      .ct-categories { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body class="contest-page">
+
+  <!-- Nav -->
+  <nav class="ct-nav">
+    <a href="/" class="ct-nav-brand">The Dog Show</a>
+    <div class="ct-nav-links">
+      <a href="/" class="ct-nav-link">Home</a>
+      <a href="dogs.html" class="ct-nav-link">All Dogs</a>
+      <a href="about.html" class="ct-nav-link">About</a>
+      <a href="#enter" class="ct-nav-cta">Enter Your Dog</a>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="ct-breadcrumb">
+    <a href="/">Home</a><span>/</span>Dog Photo Contest
+  </div>
+
+  <!-- Hero -->
+  <section class="ct-hero">
+    <div class="ct-hero-badge">
+      <span class="ct-hero-dot"></span>
+      Live show running now
+    </div>
+    <h1>The dog photo contest where nobody loses</h1>
+    <p class="ct-hero-sub">Upload a photo of your dog. Watch them walk onto a live stage in front of an actual audience. Receive bones. Achieve unnecessary fame. No judges, no rankings, no breed requirements. Just dogs being celebrated for existing.</p>
+    <div class="ct-hero-actions">
+      <a href="#enter" class="ct-btn ct-btn-primary">Enter Your Dog &mdash; $3.99</a>
+      <a href="show.html" class="ct-btn ct-btn-secondary">Watch the Show Free</a>
+    </div>
+  </section>
+
+  <!-- Live Stats -->
+  <div class="ct-stats" id="liveStats">
+    <div class="ct-stat">
+      <div class="ct-stat-num" id="statDogs">--</div>
+      <div class="ct-stat-label">Dogs entered</div>
+    </div>
+    <div class="ct-stat">
+      <div class="ct-stat-num" id="statBones">--</div>
+      <div class="ct-stat-label">Bones thrown</div>
+    </div>
+    <div class="ct-stat">
+      <div class="ct-stat-num" id="statFans">--</div>
+      <div class="ct-stat-label">Fans</div>
+    </div>
+    <div class="ct-stat">
+      <div class="ct-stat-num" id="statWatching">--</div>
+      <div class="ct-stat-label">Watching now</div>
+    </div>
+  </div>
+
+  <!-- How It Works -->
+  <section class="ct-section">
+    <div class="ct-section-label">How it works</div>
+    <div class="ct-section-title">Three steps to dog fame</div>
+    <div class="ct-section-subtitle">No applications. No waiting list. No panel of experts squinting at your dog's posture. Your dog goes live immediately.</div>
+
+    <div class="ct-steps">
+      <div class="ct-step">
+        <div class="ct-step-icon">&#128247;</div>
+        <div class="ct-step-title">1. Upload a photo</div>
+        <div class="ct-step-desc">Pick your dog's best angle. Or worst angle. We're not judging &mdash; that's literally the whole point.</div>
+      </div>
+      <div class="ct-step">
+        <div class="ct-step-icon">&#127909;</div>
+        <div class="ct-step-title">2. They go live on stage</div>
+        <div class="ct-step-desc">Your dog enters the live show rotation. One dog at a time. Everyone watching together. Think late night TV, but every guest is a dog.</div>
+      </div>
+      <div class="ct-step">
+        <div class="ct-step-icon">&#129460;</div>
+        <div class="ct-step-title">3. Bones rain down</div>
+        <div class="ct-step-desc">The audience throws bones, streaks fire off, and your dog climbs the Hall of Bones leaderboard. It's the recognition they always deserved.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Dog -->
+  <section class="ct-section">
+    <div class="ct-section-label">On stage now</div>
+    <div class="ct-section-title">Today's featured dog</div>
+    <div class="ct-section-subtitle">This is what fame looks like. Your dog could be here.</div>
+    <a class="ct-featured" id="featuredDog" href="show.html" style="display:none;">
+      <img class="ct-featured-img" id="featuredImg" src="" alt="Featured dog on stage" loading="lazy">
+      <div class="ct-featured-body">
+        <div class="ct-featured-name" id="featuredName"></div>
+        <div class="ct-featured-breed" id="featuredBreed"></div>
+        <div class="ct-featured-bones" id="featuredBones"></div>
+      </div>
+    </a>
+  </section>
+
+  <!-- Anti Pay-to-Win -->
+  <section class="ct-section">
+    <div class="ct-section-label">No pay-to-win</div>
+    <div class="ct-section-title">A dog contest that isn't rigged</div>
+    <div class="ct-section-subtitle">Other pet photo contests let you buy extra votes. We think that's weird. Here's how we do things differently.</div>
+
+    <div class="ct-fairness">
+      <div class="ct-fairness-grid">
+        <div class="ct-fairness-item">
+          <div class="ct-fairness-icon">&#128176;</div>
+          <div class="ct-fairness-title">Flat entry fee</div>
+          <div class="ct-fairness-desc">$3.99. Once. Same price whether you're entering a golden retriever or a chihuahua in a sweater. No upsells, no vote packages, no premium placements.</div>
+        </div>
+        <div class="ct-fairness-item">
+          <div class="ct-fairness-icon">&#127922;</div>
+          <div class="ct-fairness-title">No purchased votes</div>
+          <div class="ct-fairness-desc">Bones come from the audience, not from your wallet. You can't buy your way to the top of the leaderboard. Your dog has to earn it by being, you know, a dog.</div>
+        </div>
+        <div class="ct-fairness-item">
+          <div class="ct-fairness-icon">&#128336;</div>
+          <div class="ct-fairness-title">Equal stage time</div>
+          <div class="ct-fairness-desc">Every dog gets their moment in the spotlight. No paying for priority placement or featured positioning. The show rotates through everyone.</div>
+        </div>
+        <div class="ct-fairness-item">
+          <div class="ct-fairness-icon">&#127942;</div>
+          <div class="ct-fairness-title">No elimination</div>
+          <div class="ct-fairness-desc">This isn't a competition with one winner and a thousand losers. Every dog gets a permanent page, a certificate, and a place in the Hall of Bones. There are no losers here. Except maybe cats.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What Makes This Different -->
+  <section class="ct-section">
+    <div class="ct-section-label">Not your typical puppy picture contest</div>
+    <div class="ct-section-title">Why this is different</div>
+    <div class="ct-section-subtitle">Most pet photo contests are galleries where you upload a picture and hope for the best. This is a live show.</div>
+
+    <div class="ct-diff-grid">
+      <div class="ct-diff-card">
+        <div class="ct-diff-label them">Other dog photo contests</div>
+        <div class="ct-diff-title">Upload and forget</div>
+        <div class="ct-diff-desc">You submit a photo. It sits in a grid with 10,000 other photos. Strangers vote (or don't). Maybe you can buy extra votes. Very exciting. Much wow.</div>
+      </div>
+      <div class="ct-diff-card" style="border-color: rgba(255, 140, 66, 0.3); background: rgba(255, 140, 66, 0.04);">
+        <div class="ct-diff-label us">The Dog Show</div>
+        <div class="ct-diff-title">Live on stage, right now</div>
+        <div class="ct-diff-desc">Your dog appears on a live stage. One dog at a time. Everyone watches together. The audience throws bones, streaks fire off, chat goes wild. It's a show, not a spreadsheet.</div>
+      </div>
+      <div class="ct-diff-card">
+        <div class="ct-diff-label them">Other dog photo contests</div>
+        <div class="ct-diff-title">One winner, everyone else goes home</div>
+        <div class="ct-diff-desc">One dog wins a gift card. The rest get a participation email. Your $3 in votes went nowhere. The winning dog's owner spent $200 on premium vote packages.</div>
+      </div>
+      <div class="ct-diff-card" style="border-color: rgba(255, 140, 66, 0.3); background: rgba(255, 140, 66, 0.04);">
+        <div class="ct-diff-label us">The Dog Show</div>
+        <div class="ct-diff-title">Every dog is the main character</div>
+        <div class="ct-diff-desc">Every dog gets their own moment on stage, their own permanent page with a certificate, stats, and breed facts. No losers. Just dogs with varying levels of fame.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Preview -->
+  <section class="ct-section">
+    <div class="ct-section-label">Categories</div>
+    <div class="ct-section-title">Departments of dog excellence</div>
+    <div class="ct-section-subtitle">Because one leaderboard isn't enough when there are this many good dogs.</div>
+
+    <div class="ct-categories">
+      <div class="ct-category-card">
+        <div class="ct-category-icon">&#128054;</div>
+        <div class="ct-category-name">Cutest Dog</div>
+        <div class="ct-category-desc">The classic. Big eyes, small snoot, weaponised adorableness.</div>
+      </div>
+      <div class="ct-category-card">
+        <div class="ct-category-icon">&#129439;</div>
+        <div class="ct-category-name">Funniest Dog</div>
+        <div class="ct-category-desc">Dogs caught mid-sneeze, mid-zoom, or mid-existential crisis.</div>
+      </div>
+      <div class="ct-category-card">
+        <div class="ct-category-icon">&#128142;</div>
+        <div class="ct-category-name">Best Dressed</div>
+        <div class="ct-category-desc">Sweaters, bow ties, full outfits. We don't ask why. We just applaud.</div>
+      </div>
+      <div class="ct-category-card">
+        <div class="ct-category-icon">&#129522;</div>
+        <div class="ct-category-name">Biggest Dog</div>
+        <div class="ct-category-desc">Great danes, mastiffs, and dogs who think they're lap dogs but aren't.</div>
+      </div>
+      <div class="ct-category-card">
+        <div class="ct-category-icon">&#128021;</div>
+        <div class="ct-category-name">Tiniest Dog</div>
+        <div class="ct-category-desc">Fits in a handbag. Thinks it's a wolf. Has the energy of a thousand suns.</div>
+      </div>
+      <div class="ct-category-card">
+        <div class="ct-category-icon">&#127869;</div>
+        <div class="ct-category-name">Most Bones</div>
+        <div class="ct-category-desc">The all-time bone champions. Fan favourites. Legends of the Hall.</div>
+      </div>
+    </div>
+    <p style="text-align: center; margin-top: 32px; font-size: 14px; color: #5a4d80;">Categories launch soon. Your dog will be automatically eligible for all of them.</p>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="ct-section">
+    <div class="ct-section-label">Compare</div>
+    <div class="ct-section-title">How we stack up</div>
+    <div class="ct-section-subtitle">A quick look at how The Dog Show compares to other dog photography competitions and pet photo contests.</div>
+
+    <div class="ct-compare">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="highlight">The Dog Show</th>
+            <th>PupVote</th>
+            <th>KingPet</th>
+            <th>Traditional Shows</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cost to enter</td>
+            <td class="highlight">$3.99 once</td>
+            <td>Free (+ vote upsells)</td>
+            <td>Free (+ vote upsells)</td>
+            <td>$30&ndash;$100+</td>
+          </tr>
+          <tr>
+            <td>Live experience</td>
+            <td class="highlight"><span class="ct-check">&#10003;</span> Real-time show</td>
+            <td><span class="ct-cross">&#10007;</span></td>
+            <td><span class="ct-cross">&#10007;</span></td>
+            <td><span class="ct-check">&#10003;</span> In person</td>
+          </tr>
+          <tr>
+            <td>Pay-to-win</td>
+            <td class="highlight"><span class="ct-check">&#10003;</span> Nope</td>
+            <td><span class="ct-cross">&#10007;</span> Vote packages</td>
+            <td><span class="ct-cross">&#10007;</span> Vote packages</td>
+            <td>N/A</td>
+          </tr>
+          <tr>
+            <td>All breeds welcome</td>
+            <td class="highlight"><span class="ct-check">&#10003;</span></td>
+            <td><span class="ct-check">&#10003;</span></td>
+            <td><span class="ct-check">&#10003;</span></td>
+            <td><span class="ct-cross">&#10007;</span> Breed-specific</td>
+          </tr>
+          <tr>
+            <td>Permanent dog page</td>
+            <td class="highlight"><span class="ct-check">&#10003;</span> Certificate + stats</td>
+            <td><span class="ct-cross">&#10007;</span></td>
+            <td><span class="ct-cross">&#10007;</span></td>
+            <td><span class="ct-cross">&#10007;</span></td>
+          </tr>
+          <tr>
+            <td>Live chat</td>
+            <td class="highlight"><span class="ct-check">&#10003;</span></td>
+            <td><span class="ct-cross">&#10007;</span></td>
+            <td><span class="ct-cross">&#10007;</span></td>
+            <td>N/A</td>
+          </tr>
+          <tr>
+            <td>Audience reactions</td>
+            <td class="highlight"><span class="ct-check">&#10003;</span> Bones + streaks</td>
+            <td>Votes only</td>
+            <td>Votes only</td>
+            <td>Applause</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Recent Dogs Gallery -->
+  <section class="ct-section">
+    <div class="ct-section-label">Recent entries</div>
+    <div class="ct-section-title">Dogs on stage right now</div>
+    <div class="ct-section-subtitle">These dogs are in the live show rotation. Yours could be next.</div>
+    <div class="ct-gallery" id="dogGallery">
+      <!-- Populated by JS -->
+    </div>
+    <div style="text-align: center; margin-top: 32px;">
+      <a href="dogs.html" class="ct-btn ct-btn-secondary">See all dogs &rarr;</a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="ct-section">
+    <div class="ct-section-label">FAQ</div>
+    <div class="ct-section-title">Questions you probably have</div>
+    <div class="ct-section-subtitle">Reasonable things to wonder before putting your dog on the internet.</div>
+
+    <div class="ct-faq">
+      <div class="ct-faq-item">
+        <button class="ct-faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Is this dog photo contest free to enter?
+          <span class="ct-faq-arrow">&#9660;</span>
+        </button>
+        <div class="ct-faq-a">You can watch the live dog show for free with a Free Peek ticket. To enter your own dog, it's a one-time payment of $3.99 for the "Bring Your Dog" tier. No subscriptions, no recurring charges, no surprise vote packages three weeks later.</div>
+      </div>
+
+      <div class="ct-faq-item">
+        <button class="ct-faq-q" onclick="this.parentElement.classList.toggle('open')">
+          What breeds are allowed?
+          <span class="ct-faq-arrow">&#9660;</span>
+        </button>
+        <div class="ct-faq-a">All of them. Purebreds, mixed breeds, rescues, mutts, mystery dogs who may or may not be part bear &mdash; every dog is welcome. There are no breed restrictions and no judging based on breed standards. If it's a dog, it can enter. If it might be a dog, it can probably still enter.</div>
+      </div>
+
+      <div class="ct-faq-item">
+        <button class="ct-faq-q" onclick="this.parentElement.classList.toggle('open')">
+          How does the live show work?
+          <span class="ct-faq-arrow">&#9660;</span>
+        </button>
+        <div class="ct-faq-a">Dogs appear one at a time on a live stage that everyone watches together in real time. When your dog is on stage, viewers throw bones (like reactions), chat about how good your dog is, and see breed facts. There are streak bonuses when the audience goes wild, a frenzy mode, and a leaderboard tracking the most-loved dogs.</div>
+      </div>
+
+      <div class="ct-faq-item">
+        <button class="ct-faq-q" onclick="this.parentElement.classList.toggle('open')">
+          What do I get when I enter my dog?
+          <span class="ct-faq-arrow">&#9660;</span>
+        </button>
+        <div class="ct-faq-a">Your dog gets a permanent show page with a certificate, stats (bones received, times shown, breed facts), and a shareable link you can send to everyone you've ever met. They enter the live show rotation and appear on the Hall of Bones leaderboard. You also get full show access &mdash; chat, bone-throwing, and the ability to upload community dogs.</div>
+      </div>
+
+      <div class="ct-faq-item">
+        <button class="ct-faq-q" onclick="this.parentElement.classList.toggle('open')">
+          How is this different from other puppy picture contests?
+          <span class="ct-faq-arrow">&#9660;</span>
+        </button>
+        <div class="ct-faq-a">Most pet photo contests are voting galleries with paid vote packages &mdash; whoever spends the most wins. The Dog Show is a live experience with no pay-to-win. Your dog appears on stage in real time with live chat, bone reactions, and streak mechanics. Think of it as the difference between uploading a photo to a folder and performing on a stage to an actual crowd.</div>
+      </div>
+
+      <div class="ct-faq-item">
+        <button class="ct-faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Can I enter more than one dog?
+          <span class="ct-faq-arrow">&#9660;</span>
+        </button>
+        <div class="ct-faq-a">Yes. Each dog gets their own entry and their own permanent page. Multi-dog households are strongly encouraged. We will not impose a limit until someone tries to enter 50 dogs, at which point we'll probably just give them a trophy.</div>
+      </div>
+
+      <div class="ct-faq-item">
+        <button class="ct-faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Is there actually a winner?
+          <span class="ct-faq-arrow">&#9660;</span>
+        </button>
+        <div class="ct-faq-a">Technically, the Hall of Bones tracks who has the most bones. But there's no grand prize, no elimination, and no end date. Your dog's page stays up forever. So in a sense, every dog wins. In another sense, no dog wins. It's a philosophical grey area and we're at peace with that.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="ct-final-cta" id="enter">
+    <h2>Your dog deserves a stage</h2>
+    <p>One photo. One payment. A permanent spot in the internet's least serious dog show. No subscriptions. No breed requirements. No AI-generated dogs allowed. Just yours.</p>
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <button class="ct-btn ct-btn-primary" id="finalCta">Enter Your Dog &mdash; $3.99</button>
+      <a href="show.html" class="ct-btn ct-btn-secondary">Peek Inside Free</a>
+    </div>
+  </section>
+
+  <!-- Sticky CTA -->
+  <div class="ct-sticky" id="stickyBar">
+    <span class="ct-sticky-text">Your dog could be on stage right now</span>
+    <a href="#enter" class="ct-sticky-btn">Enter Your Dog &mdash; $3.99</a>
+  </div>
+
+  <script>
+    // ── Fetch live stats ──
+    fetch('https://dogshow.schemestudio.partykit.dev/parties/main/dogshow-live/landing-stats')
+      .then(r => r.json())
+      .then(data => {
+        if (data.bones) document.getElementById('statBones').textContent = Number(data.bones).toLocaleString();
+        if (data.fans) document.getElementById('statFans').textContent = Number(data.fans).toLocaleString();
+        if (data.dogs) document.getElementById('statDogs').textContent = Number(data.dogs).toLocaleString();
+        if (data.watching) document.getElementById('statWatching').textContent = Number(data.watching).toLocaleString();
+      })
+      .catch(() => {});
+
+    // ── Fetch featured dog (top of leaderboard) ──
+    fetch('https://dogshow.schemestudio.partykit.dev/parties/main/dogshow-live/leaderboard')
+      .then(r => r.json())
+      .then(data => {
+        var top = (data.top || [])[0];
+        if (top && top.imageUrl) {
+          var el = document.getElementById('featuredDog');
+          el.style.display = 'block';
+          el.href = top.slug ? '/d/' + top.slug : '/dog.html?id=' + top.id;
+          document.getElementById('featuredImg').src = top.imageUrl;
+          document.getElementById('featuredImg').alt = (top.name || 'Dog') + ' on stage';
+          document.getElementById('featuredName').textContent = top.name || 'Mystery Dog';
+          document.getElementById('featuredBreed').textContent = top.breed || '';
+          document.getElementById('featuredBones').textContent = '\u{1F9B4} ' + (top.bones || 0).toLocaleString() + ' bones';
+        }
+
+        // ── Also populate recent dogs gallery ──
+        var gallery = document.getElementById('dogGallery');
+        var dogs = (data.recent || data.top || []).slice(0, 8);
+        dogs.forEach(function(dog) {
+          var card = document.createElement('a');
+          card.className = 'ct-dog-card';
+          card.href = dog.slug ? '/d/' + dog.slug : '/dog.html?id=' + dog.id;
+          card.innerHTML =
+            '<img class="ct-dog-img" src="' + (dog.imageUrl || '') + '" alt="' + (dog.name || 'Dog') + '" loading="lazy">' +
+            '<div class="ct-dog-info">' +
+              '<div class="ct-dog-name">' + (dog.name || 'Unknown') + '</div>' +
+              (dog.breed ? '<div class="ct-dog-breed">' + dog.breed + '</div>' : '') +
+              '<div class="ct-dog-bones">\u{1F9B4} ' + (dog.bones || 0).toLocaleString() + ' bones</div>' +
+            '</div>';
+          gallery.appendChild(card);
+        });
+      })
+      .catch(() => {});
+
+    // ── Sticky bar visibility ──
+    var sticky = document.getElementById('stickyBar');
+    window.addEventListener('scroll', function() {
+      sticky.classList.toggle('visible', window.scrollY > 600);
+    });
+
+    // ── CTA buttons → pricing on homepage ──
+    function goToCheckout() {
+      window.location.href = '/#pricing';
+    }
+    document.getElementById('finalCta').addEventListener('click', goToCheckout);
+  </script>
+
+</body>
+</html>

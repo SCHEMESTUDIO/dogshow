@@ -1,2 +1,9 @@
 # Clean dog page URLs — rewrite /d/slug to dog.html with slug param
 /d/:slug  /dog.html?slug=:slug  200
+
+# Clean SEO page URLs
+/dog-photo-contest  /contest.html  200
+/contest  /contest.html  301
+/dog-contest  /contest.html  301
+/puppy-picture-contest  /puppy-picture-contest.html  200
+/dog-show-near-me  /dog-show-near-me.html  200

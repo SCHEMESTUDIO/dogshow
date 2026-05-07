@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V830P7PPHQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V830P7PPHQ');
+  </script>
+  <!-- Faurya Analytics -->
+  <script async defer src="https://www.faurya.com/js/script.js" data-website-id="cmosekmvz000xl204a7bhm4cm" data-domain="dogshow.lol"></script>
+  <title>Puppy Picture Contest — Enter Your Puppy in a Live Dog Show | dogshow.lol</title>
+  <meta name="description" content="Enter your puppy in the internet's live dog show. No age limits, no judging, no sitting still required. Your puppy gets a stage, a certificate, and an audience throwing bones. $3.99 once.">
+  <link rel="canonical" href="https://dogshow.lol/puppy-picture-contest">
+  <meta property="og:title" content="Puppy Picture Contest — The Internet's Least Serious Dog Show">
+  <meta property="og:description" content="Enter your puppy in a live show. They walk on stage, the crowd throws bones, everyone agrees your puppy is perfect. $3.99 once.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dogshow.lol/puppy-picture-contest">
+  <meta property="og:site_name" content="The Dog Show">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Puppy Picture Contest — Enter Your Puppy">
+  <meta name="twitter:description" content="The puppy picture contest where every puppy gets a live stage, a permanent page, and more attention than they already demand. $3.99 once.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is there an age limit for the puppy picture contest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No age limit. Puppies, adults, seniors — every dog is welcome. If your puppy is 8 weeks old or 8 years old and still acts like a puppy, they qualify. We don't check IDs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if my puppy won't sit still for a photo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Perfect. Blurry photos, mid-zoomie shots, and accidental selfies are all welcome. Some of our most-boned dogs are slightly out of focus. The audience loves chaos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I enter an adult dog in the puppy picture contest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. All dogs enter the same live show — there's no separate puppy division. Every dog gets equal stage time, a permanent page, and a certificate regardless of age."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does it cost to enter a puppy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A one-time payment of $3.99 for the Bring Your Dog tier. No subscriptions, no vote packages, no monthly fees. Your puppy gets a permanent page and enters the live show rotation forever."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do puppies compete against adult dogs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "There's no competition. Every dog gets their own time on stage and their own permanent page. The Hall of Bones leaderboard tracks total bones received, but there's no winner and no elimination. Puppies tend to do very well though — the audience has a weakness for small things."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dogshow.lol/" },
+      { "@type": "ListItem", "position": 2, "name": "Dog Photo Contest", "item": "https://dogshow.lol/dog-photo-contest" },
+      { "@type": "ListItem", "position": 3, "name": "Puppy Picture Contest", "item": "https://dogshow.lol/puppy-picture-contest" }
+    ]
+  }
+  </script>
+  <style>
+    @font-face {
+      font-family: 'Yang Bagus';
+      src: url('YangBagus.ttf') format('truetype');
+      font-weight: normal; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'YangBagus';
+      src: url('YangBagus.ttf') format('truetype');
+      font-weight: normal; font-style: normal; font-display: swap;
+    }
+
+    .pp-page {
+      background: #0f0a22;
+      color: #e0d8f0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─────────────────────────────────── */
+    .pp-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: 960px; margin: 0 auto; padding: 20px 24px;
+    }
+    .pp-nav-brand {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 22px; color: #FF8C42; text-decoration: none;
+    }
+    .pp-nav-links { display: flex; gap: 24px; align-items: center; }
+    .pp-nav-link {
+      font-size: 13px; color: #7B6BA0; text-decoration: none; transition: color 0.2s;
+    }
+    .pp-nav-link:hover { color: #e0d8f0; }
+    .pp-nav-cta {
+      font-size: 13px; font-weight: 600; color: #FF8C42; text-decoration: none;
+      border: 1px solid rgba(255, 140, 66, 0.3); padding: 6px 16px; border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .pp-nav-cta:hover { background: rgba(255, 140, 66, 0.1); border-color: #FF8C42; }
+
+    /* ─── BREADCRUMB ──────────────────────────── */
+    .pp-breadcrumb {
+      max-width: 960px; margin: 0 auto; padding: 12px 24px 0; font-size: 12px;
+    }
+    .pp-breadcrumb a { color: #5a4d80; text-decoration: none; }
+    .pp-breadcrumb a:hover { color: #9B8FD0; }
+    .pp-breadcrumb span { color: #3d2d6b; margin: 0 6px; }
+
+    /* ─── HERO ────────────────────────────────── */
+    .pp-hero {
+      text-align: center; padding: 80px 24px 60px;
+      max-width: 720px; margin: 0 auto;
+    }
+    .pp-hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255, 140, 66, 0.1); border: 1px solid rgba(255, 140, 66, 0.2);
+      color: #FF8C42; font-size: 12px; font-weight: 600;
+      padding: 6px 14px; border-radius: 20px; margin-bottom: 28px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .pp-hero-dot {
+      width: 6px; height: 6px; background: #4CAF50; border-radius: 50%;
+      animation: pp-pulse 2s ease-in-out infinite;
+    }
+    @keyframes pp-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .pp-hero h1 {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: clamp(36px, 7vw, 60px); color: #FF8C42; line-height: 1.1; margin-bottom: 20px;
+    }
+    .pp-hero-sub {
+      font-size: clamp(16px, 2.5vw, 20px); color: #9B8FD0; line-height: 1.5;
+      max-width: 560px; margin: 0 auto 32px;
+    }
+    .pp-hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ─── BUTTONS ──────────────────────────────── */
+    .pp-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 600;
+      border: none; cursor: pointer; transition: all 0.2s; text-decoration: none;
+    }
+    .pp-btn-primary { background: #FF8C42; color: #1a1035; }
+    .pp-btn-primary:hover {
+      background: #ff9d5c; transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(255, 140, 66, 0.3);
+    }
+    .pp-btn-secondary {
+      background: transparent; color: #e0d8f0; border: 1px solid #3d2d6b;
+    }
+    .pp-btn-secondary:hover { border-color: #7B68EE; background: rgba(123, 104, 238, 0.08); }
+
+    /* ─── STATS BAR ───────────────────────────── */
+    .pp-stats {
+      display: flex; justify-content: center; gap: 48px; padding: 40px 24px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .pp-stat { text-align: center; }
+    .pp-stat-num { font-size: 28px; font-weight: 700; color: #FF8C42; }
+    .pp-stat-label {
+      font-size: 12px; color: #5a4d80; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;
+    }
+
+    /* ─── SECTIONS ────────────────────────────── */
+    .pp-section { max-width: 960px; margin: 0 auto; padding: 80px 24px; }
+    .pp-section-label {
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: #FF8C42; margin-bottom: 12px; text-align: center;
+    }
+    .pp-section-title {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: clamp(28px, 5vw, 40px); color: #e0d8f0;
+      text-align: center; margin-bottom: 16px; line-height: 1.2;
+    }
+    .pp-section-subtitle {
+      font-size: 15px; color: #7B6BA0; text-align: center;
+      max-width: 520px; margin: 0 auto 48px; line-height: 1.6;
+    }
+
+    /* ─── WHY PUPPIES LOVE IT ─────────────────── */
+    .pp-reasons {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+      max-width: 800px; margin: 0 auto;
+    }
+    .pp-reason {
+      text-align: center; padding: 32px 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 16px;
+    }
+    .pp-reason-icon { font-size: 40px; margin-bottom: 16px; }
+    .pp-reason-title { font-size: 16px; font-weight: 600; color: #e0d8f0; margin-bottom: 8px; }
+    .pp-reason-desc { font-size: 14px; color: #7B6BA0; line-height: 1.5; }
+
+    /* ─── HOW IT WORKS ────────────────────────── */
+    .pp-steps {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+      max-width: 800px; margin: 0 auto;
+    }
+    .pp-step {
+      text-align: center; padding: 32px 20px;
+      background: rgba(255, 140, 66, 0.03);
+      border: 1px solid rgba(255, 140, 66, 0.1); border-radius: 16px;
+    }
+    .pp-step-num {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 32px; color: #FF8C42; margin-bottom: 12px;
+    }
+    .pp-step-title { font-size: 16px; font-weight: 600; color: #e0d8f0; margin-bottom: 8px; }
+    .pp-step-desc { font-size: 14px; color: #7B6BA0; line-height: 1.5; }
+
+    /* ─── DOG GALLERY ─────────────────────────── */
+    .pp-gallery {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px; max-width: 860px; margin: 0 auto;
+    }
+    .pp-dog-card {
+      background: #1a1035; border: 1px solid rgba(255, 140, 66, 0.15);
+      border-radius: 14px; overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+      text-decoration: none; color: inherit; display: block;
+    }
+    .pp-dog-card:hover { transform: translateY(-3px); border-color: #FF8C42; }
+    .pp-dog-img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #0f0a22; }
+    .pp-dog-info { padding: 12px 14px; }
+    .pp-dog-name {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 18px; color: #FF8C42; margin-bottom: 2px;
+    }
+    .pp-dog-breed { font-size: 12px; color: #7B6BA0; }
+    .pp-dog-bones { font-size: 12px; color: #9B8FD0; margin-top: 4px; }
+
+    /* ─── HUB LINK ────────────────────────────── */
+    .pp-hub-link {
+      text-align: center; padding: 48px 24px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .pp-hub-link p { font-size: 15px; color: #7B6BA0; margin-bottom: 16px; }
+    .pp-hub-link a {
+      color: #FF8C42; text-decoration: none; font-weight: 600;
+      border-bottom: 1px solid rgba(255, 140, 66, 0.3); padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+    .pp-hub-link a:hover { border-color: #FF8C42; }
+
+    /* ─── FAQ ──────────────────────────────────── */
+    .pp-faq { max-width: 640px; margin: 0 auto; }
+    .pp-faq-item { border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+    .pp-faq-q {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 0; cursor: pointer; font-size: 16px; color: #e0d8f0;
+      font-weight: 500; background: none; border: none; width: 100%;
+      text-align: left; font-family: inherit;
+    }
+    .pp-faq-q:hover { color: #FF8C42; }
+    .pp-faq-arrow {
+      font-size: 18px; color: #5a4d80; transition: transform 0.2s;
+      flex-shrink: 0; margin-left: 16px;
+    }
+    .pp-faq-item.open .pp-faq-arrow { transform: rotate(180deg); }
+    .pp-faq-a {
+      display: none; padding: 0 0 20px; font-size: 14px;
+      color: #7B6BA0; line-height: 1.6;
+    }
+    .pp-faq-item.open .pp-faq-a { display: block; }
+
+    /* ─── FINAL CTA ───────────────────────────── */
+    .pp-final-cta {
+      text-align: center; padding: 80px 24px 120px;
+      max-width: 600px; margin: 0 auto;
+    }
+    .pp-final-cta h2 {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: clamp(28px, 5vw, 44px); color: #FF8C42; margin-bottom: 16px;
+    }
+    .pp-final-cta p {
+      font-size: 16px; color: #7B6BA0; margin-bottom: 32px; line-height: 1.5;
+    }
+
+    /* ─── STICKY CTA ──────────────────────────── */
+    .pp-sticky {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(15, 10, 34, 0.95); backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255, 140, 66, 0.2); padding: 12px 24px;
+      display: flex; justify-content: center; align-items: center; gap: 16px;
+      z-index: 100; transform: translateY(100%); transition: transform 0.3s ease;
+    }
+    .pp-sticky.visible { transform: translateY(0); }
+    .pp-sticky-text { font-size: 14px; color: #9B8FD0; }
+    .pp-sticky-btn {
+      padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600;
+      border: none; cursor: pointer; background: #FF8C42; color: #1a1035;
+      transition: background 0.2s; text-decoration: none;
+    }
+    .pp-sticky-btn:hover { background: #ff9d5c; }
+
+    /* ─── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 640px) {
+      .pp-reasons, .pp-steps { grid-template-columns: 1fr; gap: 16px; }
+      .pp-stats { gap: 24px; flex-wrap: wrap; }
+      .pp-nav-link { display: none; }
+      .pp-sticky-text { display: none; }
+    }
+  </style>
+</head>
+<body class="pp-page">
+
+  <!-- Nav -->
+  <nav class="pp-nav">
+    <a href="/" class="pp-nav-brand">The Dog Show</a>
+    <div class="pp-nav-links">
+      <a href="/" class="pp-nav-link">Home</a>
+      <a href="dogs.html" class="pp-nav-link">All Dogs</a>
+      <a href="/dog-photo-contest" class="pp-nav-link">Contest</a>
+      <a href="#enter" class="pp-nav-cta">Enter Your Puppy</a>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="pp-breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/dog-photo-contest">Dog Photo Contest</a><span>/</span>Puppy Picture Contest
+  </div>
+
+  <!-- Hero -->
+  <section class="pp-hero">
+    <div class="pp-hero-badge">
+      <span class="pp-hero-dot"></span>
+      Live show running now
+    </div>
+    <h1>The puppy picture contest that doesn't require sitting still</h1>
+    <p class="pp-hero-sub">Upload a photo of your puppy. Any photo. Blurry is fine. They walk onto a live stage, the audience loses it, and bones start flying. Your puppy gets a permanent page, a certificate, and the kind of attention they already think they deserve.</p>
+    <div class="pp-hero-actions">
+      <a href="#enter" class="pp-btn pp-btn-primary">Enter Your Puppy &mdash; $3.99</a>
+      <a href="show.html" class="pp-btn pp-btn-secondary">Watch the Show Free</a>
+    </div>
+  </section>
+
+  <!-- Live Stats -->
+  <div class="pp-stats" id="liveStats">
+    <div class="pp-stat">
+      <div class="pp-stat-num" id="statDogs">--</div>
+      <div class="pp-stat-label">Dogs entered</div>
+    </div>
+    <div class="pp-stat">
+      <div class="pp-stat-num" id="statBones">--</div>
+      <div class="pp-stat-label">Bones thrown</div>
+    </div>
+    <div class="pp-stat">
+      <div class="pp-stat-num" id="statFans">--</div>
+      <div class="pp-stat-label">Fans</div>
+    </div>
+    <div class="pp-stat">
+      <div class="pp-stat-num" id="statWatching">--</div>
+      <div class="pp-stat-label">Watching now</div>
+    </div>
+  </div>
+
+  <!-- Why Puppies Love It -->
+  <section class="pp-section">
+    <div class="pp-section-label">Why puppies love it</div>
+    <div class="pp-section-title">Built for photogenic chaos</div>
+    <div class="pp-section-subtitle">Puppy photo contests usually mean uploading to a grid and hoping. This is a live show where your puppy is the main event.</div>
+
+    <div class="pp-reasons">
+      <div class="pp-reason">
+        <div class="pp-reason-icon">&#128248;</div>
+        <div class="pp-reason-title">Bad photos welcome</div>
+        <div class="pp-reason-desc">Puppies don't pose. They zoom. They blur. They stare at the wrong camera. The audience loves all of it. Your worst photo is someone else's favourite moment.</div>
+      </div>
+      <div class="pp-reason">
+        <div class="pp-reason-icon">&#9200;</div>
+        <div class="pp-reason-title">They grow up fast</div>
+        <div class="pp-reason-desc">That tiny potato phase lasts about six weeks. Capture it now and your puppy gets a permanent page that freezes them at peak adorable. Future-you will thank present-you.</div>
+      </div>
+      <div class="pp-reason">
+        <div class="pp-reason-icon">&#129460;</div>
+        <div class="pp-reason-title">Puppies get more bones</div>
+        <div class="pp-reason-desc">We can't prove this statistically but we're pretty sure. Small dogs with big eyes tend to trigger what scientists call "the audience collectively losing their minds."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="pp-section">
+    <div class="pp-section-label">How it works</div>
+    <div class="pp-section-title">Three steps to puppy fame</div>
+    <div class="pp-section-subtitle">No applications. No grooming requirements. No committee deciding if your puppy's ears are symmetrical enough.</div>
+
+    <div class="pp-steps">
+      <div class="pp-step">
+        <div class="pp-step-num">1</div>
+        <div class="pp-step-title">Snap a photo</div>
+        <div class="pp-step-desc">Grab your phone. Point it at your puppy. Accept whatever happens. The best puppy photos are the ones where something went slightly wrong.</div>
+      </div>
+      <div class="pp-step">
+        <div class="pp-step-num">2</div>
+        <div class="pp-step-title">They go live</div>
+        <div class="pp-step-desc">Your puppy enters the live show rotation. One dog at a time, everyone watching. When your puppy's on stage, the whole audience sees them. It's their moment.</div>
+      </div>
+      <div class="pp-step">
+        <div class="pp-step-num">3</div>
+        <div class="pp-step-title">Bones happen</div>
+        <div class="pp-step-desc">The audience throws bones, streaks fire off, and your puppy climbs the Hall of Bones leaderboard. They also get a permanent page with a certificate, stats, and a shareable link.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="pp-section">
+    <div class="pp-section-label">In the show now</div>
+    <div class="pp-section-title">Puppies (and puppy-adjacent dogs) on stage</div>
+    <div class="pp-section-subtitle">These dogs are in the live rotation right now. Yours could join them.</div>
+    <div class="pp-gallery" id="dogGallery"></div>
+    <div style="text-align: center; margin-top: 32px;">
+      <a href="dogs.html" class="pp-btn pp-btn-secondary">See all dogs &rarr;</a>
+    </div>
+  </section>
+
+  <!-- Hub Link -->
+  <div class="pp-hub-link">
+    <p>The puppy picture contest is part of The Dog Show &mdash; the internet's live dog photo contest.</p>
+    <a href="/dog-photo-contest">Learn more about the Dog Photo Contest &rarr;</a>
+  </div>
+
+  <!-- FAQ -->
+  <section class="pp-section">
+    <div class="pp-section-label">Puppy FAQ</div>
+    <div class="pp-section-title">Reasonable puppy questions</div>
+    <div class="pp-section-subtitle">Everything you need to know before giving your puppy a stage.</div>
+
+    <div class="pp-faq">
+      <div class="pp-faq-item">
+        <button class="pp-faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Is there an age limit for puppies?
+          <span class="pp-faq-arrow">&#9660;</span>
+        </button>
+        <div class="pp-faq-a">No age limit. Puppies, adults, seniors &mdash; every dog is welcome regardless of age. If your dog is technically 12 years old but still acts like a puppy, that counts. We don't verify ages and we never will.</div>
+      </div>
+
+      <div class="pp-faq-item">
+        <button class="pp-faq-q" onclick="this.parentElement.classList.toggle('open')">
+          What if my puppy won't sit still for a photo?
+          <span class="pp-faq-arrow">&#9660;</span>
+        </button>
+        <div class="pp-faq-a">Then you have the perfect photo. Blurry action shots, mid-sneeze portraits, the back of their head as they sprint away from the camera &mdash; all of these are excellent submissions. Some of the most-boned dogs in the show are slightly out of focus and clearly not cooperating.</div>
+      </div>
+
+      <div class="pp-faq-item">
+        <button class="pp-faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Can I enter an adult dog too?
+          <span class="pp-faq-arrow">&#9660;</span>
+        </button>
+        <div class="pp-faq-a">Absolutely. All dogs enter the same live show &mdash; there's no separate puppy division. Every dog gets equal stage time, a permanent page, and a certificate. The <a href="/dog-photo-contest" style="color: #FF8C42;">main dog photo contest page</a> has full details on how it works for all dogs.</div>
+      </div>
+
+      <div class="pp-faq-item">
+        <button class="pp-faq-q" onclick="this.parentElement.classList.toggle('open')">
+          How much does it cost?
+          <span class="pp-faq-arrow">&#9660;</span>
+        </button>
+        <div class="pp-faq-a">$3.99. Once. That's it. No subscriptions, no vote packages, no "premium placement" upsells. Your puppy gets a permanent page, enters the live show rotation, and you get full access to chat and bone-throwing. One price for every dog, forever.</div>
+      </div>
+
+      <div class="pp-faq-item">
+        <button class="pp-faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Do puppies compete against older dogs?
+          <span class="pp-faq-arrow">&#9660;</span>
+        </button>
+        <div class="pp-faq-a">There's no competition, so there's nothing to compete against. Every dog gets their own time on stage and their own page. The Hall of Bones leaderboard tracks total bones, but there's no winner and no elimination. That said, puppies tend to receive a disproportionate amount of bones. The audience knows what it likes.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="pp-final-cta" id="enter">
+    <h2>Your puppy won't be this small forever</h2>
+    <p>One photo. One payment. A permanent page that captures your puppy exactly as they are right now &mdash; small, chaotic, and perfect. No subscriptions. No breed requirements. No sitting still required.</p>
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <button class="pp-btn pp-btn-primary" id="finalCta">Enter Your Puppy &mdash; $3.99</button>
+      <a href="show.html" class="pp-btn pp-btn-secondary">Peek Inside Free</a>
+    </div>
+  </section>
+
+  <!-- Sticky CTA -->
+  <div class="pp-sticky" id="stickyBar">
+    <span class="pp-sticky-text">Your puppy deserves a stage</span>
+    <a href="#enter" class="pp-sticky-btn">Enter Your Puppy &mdash; $3.99</a>
+  </div>
+
+  <script>
+    // ── Fetch live stats ──
+    fetch('https://dogshow.schemestudio.partykit.dev/parties/main/dogshow-live/landing-stats')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.bones) document.getElementById('statBones').textContent = Number(data.bones).toLocaleString();
+        if (data.fans) document.getElementById('statFans').textContent = Number(data.fans).toLocaleString();
+        if (data.dogs) document.getElementById('statDogs').textContent = Number(data.dogs).toLocaleString();
+        if (data.watching) document.getElementById('statWatching').textContent = Number(data.watching).toLocaleString();
+      })
+      .catch(function() {});
+
+    // ── Fetch dog gallery ──
+    fetch('https://dogshow.schemestudio.partykit.dev/parties/main/dogshow-live/leaderboard')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var gallery = document.getElementById('dogGallery');
+        var dogs = (data.recent || data.top || []).slice(0, 8);
+        dogs.forEach(function(dog) {
+          var card = document.createElement('a');
+          card.className = 'pp-dog-card';
+          card.href = dog.slug ? '/d/' + dog.slug : '/dog.html?id=' + dog.id;
+          card.innerHTML =
+            '<img class="pp-dog-img" src="' + (dog.imageUrl || '') + '" alt="' + (dog.name || 'Dog') + '" loading="lazy">' +
+            '<div class="pp-dog-info">' +
+              '<div class="pp-dog-name">' + (dog.name || 'Unknown') + '</div>' +
+              (dog.breed ? '<div class="pp-dog-breed">' + dog.breed + '</div>' : '') +
+              '<div class="pp-dog-bones">\u{1F9B4} ' + (dog.bones || 0).toLocaleString() + ' bones</div>' +
+            '</div>';
+          gallery.appendChild(card);
+        });
+      })
+      .catch(function() {});
+
+    // ── Sticky bar ──
+    var sticky = document.getElementById('stickyBar');
+    window.addEventListener('scroll', function() {
+      sticky.classList.toggle('visible', window.scrollY > 600);
+    });
+
+    // ── CTA → pricing ──
+    document.getElementById('finalCta').addEventListener('click', function() {
+      window.location.href = '/#pricing';
+    });
+  </script>
+
+</body>
+</html>
