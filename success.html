@@ -13,21 +13,250 @@
   </script>
   <!-- Faurya Analytics -->
   <script async defer src="https://www.faurya.com/js/script.js" data-website-id="cmosekmvz000xl204a7bhm4cm" data-domain="dogshow.lol"></script>
-  <title>Dog Show — Payment Successful</title>
+  <title>Dog Show — You're In!</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="stylesheet" href="style.css">
+  <style>
+    @font-face {
+      font-family: 'Yang Bagus';
+      src: url('YangBagus.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'YangBagus';
+      src: url('YangBagus.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    .success-body {
+      background: #0f0a22;
+      color: #e0d8f0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .success-icon { font-size: 64px; margin-bottom: 16px; }
+
+    .success-title {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: clamp(28px, 6vw, 48px);
+      color: #FF8C42;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .success-subtitle {
+      font-size: 16px;
+      color: #9B8FD0;
+      margin-bottom: 32px;
+      max-width: 400px;
+    }
+
+    .success-dog-preview {
+      background: #1a1035;
+      border: 2px solid rgba(255, 140, 66, 0.25);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 320px;
+      width: 100%;
+      margin-bottom: 32px;
+    }
+
+    .success-dog-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 140, 66, 0.3);
+      margin-bottom: 12px;
+    }
+
+    .success-dog-name {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 22px;
+      color: #FF8C42;
+      margin-bottom: 4px;
+    }
+
+    .success-dog-status {
+      font-size: 13px;
+      color: #4CAF50;
+      margin-bottom: 16px;
+    }
+
+    .success-share-label {
+      font-size: 12px;
+      color: #5a4d80;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .success-share-buttons {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .success-share-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid;
+      background: transparent;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      font-family: inherit;
+    }
+
+    .success-share-btn.share-facebook {
+      color: #4267B2;
+      border-color: rgba(66, 103, 178, 0.4);
+    }
+    .success-share-btn.share-facebook:hover {
+      background: rgba(66, 103, 178, 0.12);
+      border-color: #4267B2;
+    }
+
+    .success-share-btn.share-twitter {
+      color: #e0d8f0;
+      border-color: rgba(224, 216, 240, 0.3);
+    }
+    .success-share-btn.share-twitter:hover {
+      background: rgba(224, 216, 240, 0.1);
+      border-color: #e0d8f0;
+    }
+
+    .success-share-btn.share-whatsapp {
+      color: #25D366;
+      border-color: rgba(37, 211, 102, 0.4);
+    }
+    .success-share-btn.share-whatsapp:hover {
+      background: rgba(37, 211, 102, 0.12);
+      border-color: #25D366;
+    }
+
+    .success-share-btn.share-copy {
+      color: #FF8C42;
+      border-color: rgba(255, 140, 66, 0.4);
+    }
+    .success-share-btn.share-copy:hover {
+      background: rgba(255, 140, 66, 0.12);
+      border-color: #FF8C42;
+    }
+
+    .success-share-btn:hover {
+      border-color: #FF8C42;
+      color: #FF8C42;
+    }
+
+    .success-share-copied {
+      font-size: 12px;
+      color: #4CAF50;
+      height: 20px;
+    }
+
+    .success-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 320px;
+      width: 100%;
+    }
+
+    .success-btn-primary {
+      padding: 14px 28px;
+      border-radius: 10px;
+      border: none;
+      background: #FF8C42;
+      color: #1a1035;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .success-btn-primary:hover {
+      background: #ff9d5c;
+      transform: translateY(-1px);
+    }
+
+    .success-btn-secondary {
+      padding: 12px 24px;
+      border-radius: 10px;
+      border: 1px solid #3d2d6b;
+      background: transparent;
+      color: #9B8FD0;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+
+    .success-btn-secondary:hover {
+      border-color: #7B68EE;
+      color: #e0d8f0;
+    }
+
+    .success-trust {
+      font-size: 11px;
+      color: #3d2d6b;
+      margin-top: 24px;
+    }
+  </style>
 </head>
-<body class="landing-body">
-  <div class="landing">
-    <div class="landing-presenting">payment confirmed</div>
-    <h1 class="landing-title">You're In</h1>
-    <p class="landing-tagline">Redirecting you to The Dog Show...</p>
+<body class="success-body">
+
+  <div class="success-icon" id="successIcon">&#127881;</div>
+  <div class="success-title" id="successTitle">You're officially in The Dog Show.</div>
+  <div class="success-subtitle" id="successSubtitle">The campaign for bones begins now.</div>
+
+  <!-- Dog preview (shown if dog data is pending) -->
+  <div class="success-dog-preview" id="dogPreview" hidden>
+    <img class="success-dog-img" id="successDogImg" src="" alt="Your dog">
+    <div class="success-dog-name" id="successDogName"></div>
+    <div class="success-dog-status">&#10003; Entered into The Dog Show</div>
+
+    <div class="success-share-label">Share the news</div>
+    <div class="success-share-buttons">
+      <a class="success-share-btn share-facebook" id="shareFacebook" href="#" target="_blank">Facebook</a>
+      <a class="success-share-btn share-twitter" id="shareTwitter" href="#" target="_blank">X / Twitter</a>
+      <a class="success-share-btn share-whatsapp" id="shareWhatsApp" href="#" target="_blank">WhatsApp</a>
+      <button class="success-share-btn share-copy" id="shareCopy">Copy Link</button>
+    </div>
+    <div class="success-share-copied" id="shareCopied"></div>
   </div>
 
-  <div class="curtain-overlay active" id="curtainOverlay">
+  <div class="success-actions">
+    <button class="success-btn-primary" id="enterShowBtn">Enter The Dog Show</button>
+    <a class="success-btn-secondary" href="/" id="enterAnotherBtn" hidden>Enter Another Dog</a>
+  </div>
+
+  <div class="success-trust">Payment confirmed. Lifetime access activated.</div>
+
+  <!-- Curtain Reveal Overlay -->
+  <div class="curtain-overlay" id="curtainOverlay" hidden>
     <div class="curtain-rod"></div>
     <div class="curtain-left" id="curtainLeft"></div>
     <div class="curtain-right" id="curtainRight"></div>
@@ -43,22 +272,52 @@
     const PARTY_ROOM = 'dogshow-live';
     const API_BASE = `https://${PARTY_HOST}/party/${PARTY_ROOM}`;
 
-    // Extract tier and Stripe session from URL params
     const params = new URLSearchParams(window.location.search);
     const tier = params.get('tier') || 'general';
     const sessionId = params.get('session_id') || '';
+    const email = params.get('email') || '';
 
-    // Register user with PartyKit
-    async function registerUser() {
-      // Stripe Checkout prefills customer_email — we retrieve it from the session
-      // For now, prompt if we can't get it from Stripe (client-side can't read session details)
-      // The email is collected by Stripe; we pass it via a query param from Checkout
-      const email = params.get('email') || '';
+    // Check for pending dog upload
+    const pendingDogName = localStorage.getItem('dogshow_pending_dog_name');
+    const pendingDogImage = localStorage.getItem('dogshow_pending_dog_image');
 
-      if (!email) {
-        // If no email in URL, skip registration (will need to handle differently)
-        return;
+    if (pendingDogName) {
+      document.getElementById('successTitle').textContent = pendingDogName + ' is officially in The Dog Show.';
+      document.getElementById('successSubtitle').textContent = "Their campaign for bones begins now.";
+      document.getElementById('successIcon').textContent = '🐕';
+
+      const dogPreview = document.getElementById('dogPreview');
+      dogPreview.hidden = false;
+      document.getElementById('successDogName').textContent = pendingDogName;
+
+      if (pendingDogImage) {
+        document.getElementById('successDogImg').src = pendingDogImage;
       }
+
+      document.getElementById('enterAnotherBtn').hidden = false;
+
+      // Share URLs
+      const shareText = 'My dog ' + pendingDogName + ' is officially in The Dog Show. Please give them bones.';
+      const shareUrl = 'https://dogshow.lol';
+
+      document.getElementById('shareFacebook').href =
+        'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) + '&quote=' + encodeURIComponent(shareText);
+      document.getElementById('shareTwitter').href =
+        'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(shareUrl);
+      document.getElementById('shareWhatsApp').href =
+        'https://wa.me/?text=' + encodeURIComponent(shareText + ' ' + shareUrl);
+
+      document.getElementById('shareCopy').addEventListener('click', function() {
+        navigator.clipboard.writeText(shareText + ' ' + shareUrl).then(function() {
+          document.getElementById('shareCopied').textContent = 'Copied!';
+          setTimeout(function() { document.getElementById('shareCopied').textContent = ''; }, 2000);
+        });
+      });
+    }
+
+    // Register user
+    async function registerUser() {
+      if (!email) return;
 
       try {
         const res = await fetch(`${API_BASE}/register`, {
@@ -77,6 +336,9 @@
           if (data.user.username) {
             localStorage.setItem('dogshow_username', data.user.username);
           }
+          if (data.user.fan_id) {
+            localStorage.setItem('dogshow_fan_id', data.user.fan_id);
+          }
         }
       } catch (e) {
         console.error('Registration failed:', e);
@@ -85,23 +347,61 @@
 
     registerUser();
 
-    // Play curtain animation then redirect
+    // Enter show button
+    const curtainOverlay = document.getElementById('curtainOverlay');
     const curtainLeft = document.getElementById('curtainLeft');
     const curtainRight = document.getElementById('curtainRight');
     const curtainText = document.getElementById('curtainText');
 
-    setTimeout(() => {
-      curtainLeft.classList.add('open');
-      curtainRight.classList.add('open');
-    }, 500);
+    function playBark() {
+      try {
+        var ctx = new (window.AudioContext || window.webkitAudioContext)();
+        var o1 = ctx.createOscillator();
+        var g1 = ctx.createGain();
+        o1.type = 'sawtooth';
+        o1.frequency.setValueAtTime(600, ctx.currentTime);
+        o1.frequency.exponentialRampToValueAtTime(250, ctx.currentTime + 0.12);
+        g1.gain.setValueAtTime(0.18, ctx.currentTime);
+        g1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+        o1.connect(g1);
+        g1.connect(ctx.destination);
+        o1.start(ctx.currentTime);
+        o1.stop(ctx.currentTime + 0.15);
+        var o2 = ctx.createOscillator();
+        var g2 = ctx.createGain();
+        o2.type = 'sawtooth';
+        o2.frequency.setValueAtTime(400, ctx.currentTime + 0.18);
+        o2.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.35);
+        g2.gain.setValueAtTime(0.001, ctx.currentTime);
+        g2.gain.setValueAtTime(0.15, ctx.currentTime + 0.18);
+        g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+        o2.connect(g2);
+        g2.connect(ctx.destination);
+        o2.start(ctx.currentTime + 0.18);
+        o2.stop(ctx.currentTime + 0.4);
+        setTimeout(function() { ctx.close(); }, 1000);
+      } catch (e) {}
+    }
 
-    setTimeout(() => {
-      curtainText.classList.add('visible');
-    }, 2000);
+    document.getElementById('enterShowBtn').addEventListener('click', function() {
+      curtainOverlay.hidden = false;
+      curtainOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
 
-    setTimeout(() => {
-      window.location.href = 'show.html?tier=' + tier;
-    }, 3500);
+      setTimeout(function() {
+        curtainLeft.classList.add('open');
+        curtainRight.classList.add('open');
+        playBark();
+      }, 500);
+
+      setTimeout(function() {
+        curtainText.classList.add('visible');
+      }, 2000);
+
+      setTimeout(function() {
+        window.location.href = 'show.html?tier=' + tier;
+      }, 3500);
+    });
   </script>
 </body>
 </html>

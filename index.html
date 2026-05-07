@@ -13,24 +13,40 @@
   </script>
   <!-- Faurya Analytics -->
   <script async defer src="https://www.faurya.com/js/script.js" data-website-id="cmosekmvz000xl204a7bhm4cm" data-domain="dogshow.lol"></script>
-  <title>The Dog Show — A Live Dog-Viewing Experience</title>
-  <meta name="description" content="The world's only live, real-time dog show. Watch dogs appear one at a time. Chat with other fans. Give bones. Submit your own dog. It's exactly what it sounds like.">
+  <title>The Dog Show — Put Your Dog in the Internet's Live Dog Show</title>
+  <meta name="description" content="The internet's live dog show. Watch one dog at a time, give bones, and enter your own dog for a permanent show page. One-time payment. All dogs welcome.">
   <link rel="canonical" href="https://dogshow.lol/">
-  <meta property="og:title" content="The Dog Show — A Live Dog-Viewing Experience">
-  <meta property="og:description" content="The world's only live, real-time dog show. Watch dogs. Chat with fans. Give bones.">
+  <meta property="og:title" content="The Dog Show — Enter Your Dog">
+  <meta property="og:description" content="Put your dog in the internet's live dog show. One dog at a time. Everyone watching. Enter yours for $3.99.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dogshow.lol/">
   <meta property="og:site_name" content="The Dog Show">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="The Dog Show — Live Right Now 🐕">
-  <meta name="twitter:description" content="A live dog-viewing experience. One dog at a time. Everyone watching. Give bones. Chat with fans. It's exactly what it sounds like.">
+  <meta name="twitter:title" content="The Dog Show — Enter Your Dog">
+  <meta name="twitter:description" content="Put your dog in the internet's live dog show. Permanent page, bones, and unnecessary recognition. $3.99 once.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ─── LANDING PAGE REDESIGN ─────────────────── */
+    @font-face {
+      font-family: 'Yang Bagus';
+      src: url('YangBagus.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'YangBagus';
+      src: url('YangBagus.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* ─── LANDING PAGE ─────────────────────────── */
 
     .lp {
       background: #0f0a22;
@@ -159,9 +175,9 @@
 
     .lp-hero h1 {
       font-family: 'Yang Bagus', 'YangBagus', cursive;
-      font-size: clamp(48px, 10vw, 80px);
+      font-size: clamp(42px, 8vw, 72px);
       color: #FF8C42;
-      line-height: 1;
+      line-height: 1.05;
       margin-bottom: 20px;
     }
 
@@ -169,8 +185,14 @@
       font-size: clamp(16px, 2.5vw, 20px);
       color: #9B8FD0;
       line-height: 1.5;
-      max-width: 480px;
-      margin: 0 auto 36px;
+      max-width: 520px;
+      margin: 0 auto 12px;
+    }
+
+    .lp-hero-trust {
+      font-size: 13px;
+      color: #5a4d80;
+      margin-bottom: 36px;
     }
 
     .lp-hero-actions {
@@ -178,7 +200,6 @@
       gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-bottom: 32px;
     }
 
     .lp-btn {
@@ -217,30 +238,6 @@
       background: rgba(123, 104, 238, 0.08);
     }
 
-    .lp-hero-proof {
-      display: flex;
-      gap: 32px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .lp-hero-stat {
-      text-align: center;
-    }
-
-    .lp-hero-stat-value {
-      font-size: 22px;
-      font-weight: 700;
-      color: #e0d8f0;
-    }
-
-    .lp-hero-stat-label {
-      font-size: 11px;
-      color: #5a4d80;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
     /* ─── TAGLINE TICKER ─────────────────────── */
 
     .lp-ticker-wrap {
@@ -270,6 +267,312 @@
     @keyframes lp-scroll {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
+    }
+
+    /* ─── PRODUCT PREVIEW ────────────────────── */
+
+    .lp-preview-section {
+      text-align: center;
+      padding-bottom: 40px;
+    }
+
+    .lp-preview-card {
+      background: #1a1035;
+      border: 1px solid rgba(255, 140, 66, 0.2);
+      border-radius: 16px;
+      max-width: 360px;
+      margin: 0 auto 24px;
+      overflow: hidden;
+    }
+
+    .lp-preview-badge {
+      background: rgba(255, 140, 66, 0.15);
+      color: #FF8C42;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .lp-preview-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #4CAF50;
+      border-radius: 50%;
+      animation: lp-pulse 2s ease-in-out infinite;
+    }
+
+    .lp-preview-image {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: #0f0a22;
+    }
+
+    .lp-preview-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .lp-preview-info {
+      padding: 16px 20px 20px;
+    }
+
+    .lp-preview-name {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 22px;
+      color: #FF8C42;
+      margin-bottom: 8px;
+    }
+
+    .lp-preview-stats {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      font-size: 13px;
+      color: #9B8FD0;
+      margin-bottom: 8px;
+    }
+
+    .lp-preview-title {
+      font-size: 12px;
+      color: #5a4d80;
+      font-style: italic;
+    }
+
+    .lp-preview-hook {
+      font-size: 18px;
+      color: #9B8FD0;
+      margin-bottom: 20px;
+    }
+
+    /* ─── CERTIFICATE PREVIEW ────────────────── */
+
+    .lp-cert-preview {
+      max-width: 400px;
+      margin: 0 auto 32px;
+    }
+
+    .lp-cert-card {
+      background: #1a1035;
+      border: 2px solid rgba(255, 140, 66, 0.25);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .lp-cert-card::before {
+      content: '\2605';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f0a22;
+      color: #FF8C42;
+      font-size: 20px;
+      padding: 0 12px;
+    }
+
+    .lp-cert-header {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #FF8C42;
+      margin-bottom: 16px;
+    }
+
+    .lp-cert-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 12px;
+      border: 2px solid rgba(255, 140, 66, 0.3);
+    }
+
+    .lp-cert-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .lp-cert-name {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 20px;
+      color: #e0d8f0;
+      margin-bottom: 4px;
+    }
+
+    .lp-cert-breed {
+      font-size: 12px;
+      color: #5a4d80;
+      margin-bottom: 16px;
+    }
+
+    .lp-cert-stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .lp-cert-stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #FF8C42;
+    }
+
+    .lp-cert-stat-label {
+      font-size: 10px;
+      color: #5a4d80;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .lp-cert-url {
+      font-size: 12px;
+      color: #7B68EE;
+      margin-bottom: 8px;
+    }
+
+    .lp-cert-share {
+      font-size: 12px;
+      color: #5a4d80;
+    }
+
+    .lp-cert-hall-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 700px;
+      margin: 0 auto 32px;
+      align-items: start;
+    }
+
+    .lp-hall-preview {
+      display: flex;
+      justify-content: center;
+    }
+
+    .lp-hall-card {
+      background: #1a1035;
+      border: 2px solid rgba(255, 140, 66, 0.25);
+      border-radius: 16px;
+      padding: 24px 20px;
+      width: 100%;
+    }
+
+    .lp-hall-header {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 20px;
+      color: #FF8C42;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .lp-hall-subtitle {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #5a4d80;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .lp-hall-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .lp-hall-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 13px;
+    }
+
+    .lp-hall-row:last-child { border-bottom: none; }
+
+    .lp-hall-rank {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: #9B8FD0;
+      flex-shrink: 0;
+    }
+
+    .lp-hall-row-gold .lp-hall-rank {
+      background: rgba(255, 215, 0, 0.15);
+      color: #FFD700;
+    }
+
+    .lp-hall-row-silver .lp-hall-rank {
+      background: rgba(192, 192, 192, 0.15);
+      color: #C0C0C0;
+    }
+
+    .lp-hall-name {
+      flex: 1;
+      color: #e0d8f0;
+    }
+
+    .lp-hall-row:last-child .lp-hall-name {
+      color: #FF8C42;
+      font-style: italic;
+    }
+
+    .lp-hall-bones {
+      font-size: 12px;
+      color: #9B8FD0;
+    }
+
+    /* ─── WHY ENTER ──────────────────────────── */
+
+    .lp-why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .lp-why-card {
+      background: #1a1035;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+
+    .lp-why-card:hover {
+      border-color: rgba(255, 140, 66, 0.2);
+    }
+
+    .lp-why-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .lp-why-text {
+      font-size: 14px;
+      color: #9B8FD0;
+      line-height: 1.5;
     }
 
     /* ─── FEATURES ────────────────────────────── */
@@ -310,36 +613,7 @@
       line-height: 1.6;
     }
 
-    /* ─── SOCIAL PROOF ────────────────────────── */
-
-    .lp-proof-stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-bottom: 48px;
-    }
-
-    .lp-proof-stat {
-      text-align: center;
-      background: #1a1035;
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 12px;
-      padding: 24px 16px;
-    }
-
-    .lp-proof-stat-value {
-      font-size: 32px;
-      font-weight: 700;
-      color: #FF8C42;
-      margin-bottom: 4px;
-    }
-
-    .lp-proof-stat-label {
-      font-size: 11px;
-      color: #7B6BA0;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+    /* ─── TESTIMONIALS ────────────────────────── */
 
     .lp-testimonials {
       display: grid;
@@ -414,6 +688,7 @@
       text-transform: uppercase;
       padding: 4px 14px;
       border-radius: 20px;
+      white-space: nowrap;
     }
 
     .lp-plan-name {
@@ -494,6 +769,22 @@
     .lp-plan-btn-outline:hover {
       border-color: #7B68EE;
       color: #e0d8f0;
+    }
+
+    .lp-trust-strip {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+      font-size: 12px;
+      color: #5a4d80;
+    }
+
+    .lp-trust-strip span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     /* ─── FAQ ──────────────────────────────────── */
@@ -637,9 +928,9 @@
       color: #3d2d6b;
     }
 
-    /* ─── EMAIL MODAL ─────────────────────────── */
+    /* ─── MODAL SHARED ───────────────────────── */
 
-    .lp-email-overlay {
+    .lp-modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
@@ -652,14 +943,14 @@
       padding: 24px;
     }
 
-    .lp-email-overlay.active { display: flex; }
+    .lp-modal-overlay.active { display: flex; }
 
-    .lp-email-modal {
+    .lp-modal {
       background: #1a1035;
       border: 1px solid rgba(255, 140, 66, 0.2);
       border-radius: 16px;
       padding: 40px 32px 32px;
-      max-width: 380px;
+      max-width: 420px;
       width: 100%;
       text-align: center;
       animation: lp-modal-in 0.25s ease-out;
@@ -670,26 +961,23 @@
       to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    .lp-email-modal-icon {
-      font-size: 36px;
-      margin-bottom: 12px;
-    }
+    .lp-modal-icon { font-size: 36px; margin-bottom: 12px; }
 
-    .lp-email-modal-title {
+    .lp-modal-title {
       font-family: 'Yang Bagus', 'YangBagus', cursive;
       font-size: 24px;
       color: #FF8C42;
       margin-bottom: 6px;
     }
 
-    .lp-email-modal-subtitle {
+    .lp-modal-subtitle {
       font-size: 13px;
       color: #7B6BA0;
       margin-bottom: 24px;
       line-height: 1.5;
     }
 
-    .lp-email-modal-input {
+    .lp-modal-input {
       width: 100%;
       padding: 12px 14px;
       border-radius: 10px;
@@ -703,23 +991,23 @@
       font-family: inherit;
     }
 
-    .lp-email-modal-input:focus { border-color: #FF8C42; }
-    .lp-email-modal-input.error { border-color: #e74c3c; }
+    .lp-modal-input:focus { border-color: #FF8C42; }
+    .lp-modal-input.error { border-color: #e74c3c; }
 
-    .lp-email-modal-error {
+    .lp-modal-error {
       font-size: 12px;
       color: #e74c3c;
       margin-bottom: 8px;
       min-height: 18px;
     }
 
-    .lp-email-modal-actions {
+    .lp-modal-actions {
       display: flex;
       gap: 10px;
       margin-top: 8px;
     }
 
-    .lp-email-modal-cancel {
+    .lp-modal-btn-cancel {
       flex: 1;
       padding: 12px;
       border-radius: 10px;
@@ -733,12 +1021,12 @@
       transition: all 0.2s;
     }
 
-    .lp-email-modal-cancel:hover {
+    .lp-modal-btn-cancel:hover {
       border-color: #7B68EE;
       color: #e0d8f0;
     }
 
-    .lp-email-modal-submit {
+    .lp-modal-btn-submit {
       flex: 1.5;
       padding: 12px;
       border-radius: 10px;
@@ -752,18 +1040,18 @@
       transition: all 0.2s;
     }
 
-    .lp-email-modal-submit:hover {
+    .lp-modal-btn-submit:hover {
       background: #ff9d5c;
       transform: translateY(-1px);
     }
 
-    .lp-email-modal-submit:disabled {
+    .lp-modal-btn-submit:disabled {
       opacity: 0.5;
       cursor: not-allowed;
       transform: none;
     }
 
-    .lp-email-modal-submit .spinner-bone {
+    .lp-modal-btn-submit .spinner-bone {
       display: inline-block;
       animation: lp-spin-bone 0.8s linear infinite;
       margin-right: 6px;
@@ -774,10 +1062,95 @@
       100% { transform: rotate(360deg); }
     }
 
-    .lp-email-modal-hint {
+    .lp-modal-hint {
       font-size: 11px;
       color: #3d2d6b;
       margin-top: 16px;
+    }
+
+    /* ─── UPLOAD MODAL ───────────────────────── */
+
+    .lp-upload-dropzone {
+      width: 100%;
+      aspect-ratio: 4/3;
+      border: 2px dashed #3d2d6b;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .lp-upload-dropzone:hover { border-color: #FF8C42; }
+
+    .lp-upload-dropzone-text {
+      color: #5a4d80;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .lp-upload-preview-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+
+    /* ─── CHECKOUT BRIDGE ────────────────────── */
+
+    .lp-bridge-card {
+      background: rgba(255, 140, 66, 0.05);
+      border: 1px solid rgba(255, 140, 66, 0.2);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .lp-bridge-dog-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 12px;
+      border: 2px solid rgba(255, 140, 66, 0.3);
+    }
+
+    .lp-bridge-dog-name {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 22px;
+      color: #FF8C42;
+      margin-bottom: 16px;
+    }
+
+    .lp-bridge-perks {
+      text-align: left;
+      font-size: 13px;
+      color: #9B8FD0;
+      margin-bottom: 16px;
+    }
+
+    .lp-bridge-perks div {
+      padding: 4px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lp-bridge-price {
+      font-size: 16px;
+      font-weight: 600;
+      color: #e0d8f0;
+      margin-bottom: 8px;
+    }
+
+    .lp-bridge-trust {
+      font-size: 12px;
+      color: #5a4d80;
     }
 
     /* ─── RESPONSIVE ──────────────────────────── */
@@ -786,11 +1159,12 @@
       .lp-nav-links { gap: 16px; }
       .lp-hero { padding: 60px 20px 60px; }
       .lp-features-grid { grid-template-columns: 1fr; }
-      .lp-proof-stats { grid-template-columns: repeat(2, 1fr); }
+      .lp-why-grid { grid-template-columns: 1fr; }
       .lp-testimonials { grid-template-columns: 1fr; }
       .lp-pricing-grid { grid-template-columns: 1fr; max-width: 360px; }
-      .lp-hero-proof { gap: 20px; }
+      .lp-cert-hall-grid { grid-template-columns: 1fr; }
       .lp-section { padding: 60px 20px; }
+      .lp-trust-strip { gap: 12px; }
     }
   </style>
 </head>
@@ -800,10 +1174,10 @@
   <nav class="lp-nav">
     <a href="/" class="lp-nav-brand">The Dog Show</a>
     <div class="lp-nav-links">
-      <a href="#features" class="lp-nav-link">Features</a>
+      <a href="#how-it-works" class="lp-nav-link">How It Works</a>
       <a href="#pricing" class="lp-nav-link">Pricing</a>
       <a href="about.html" class="lp-nav-link">About</a>
-      <a href="#pricing" class="lp-nav-cta">Get In</a>
+      <a href="#pricing" class="lp-nav-cta">Enter Your Dog</a>
     </div>
   </nav>
 
@@ -813,29 +1187,12 @@
       <span class="lp-hero-dot"></span>
       Live right now
     </div>
-    <h1>The Dog Show</h1>
-    <p class="lp-hero-sub">A live dog-viewing experience. Unlimited dogs, all of the time.</p>
+    <h1>The internet's live dog show &mdash; featuring your dog.</h1>
+    <p class="lp-hero-sub">Watch real dogs take the stage, give bones, chat with spectators, and enter your own pup for a slot on stage and custom certificate.</p>
+    <p class="lp-hero-trust">One-time payment. No subscription. All dogs welcome.</p>
     <div class="lp-hero-actions">
-      <button class="lp-btn lp-btn-primary" id="heroCta">Bring Your Dog</button>
-      <button class="lp-btn lp-btn-secondary" id="heroFree">Peek for Free</button>
-    </div>
-    <div class="lp-hero-proof">
-      <div class="lp-hero-stat">
-        <div class="lp-hero-stat-value">24/7</div>
-        <div class="lp-hero-stat-label">Uptime</div>
-      </div>
-      <div class="lp-hero-stat">
-        <div class="lp-hero-stat-value" id="statBones">0</div>
-        <div class="lp-hero-stat-label">Bones Given</div>
-      </div>
-      <div class="lp-hero-stat">
-        <div class="lp-hero-stat-value">100%</div>
-        <div class="lp-hero-stat-label">Real Dogs</div>
-      </div>
-      <div class="lp-hero-stat">
-        <div class="lp-hero-stat-value" id="statWatching">0</div>
-        <div class="lp-hero-stat-label">Watching Now</div>
-      </div>
+      <button class="lp-btn lp-btn-primary" id="heroCta">Enter Your Dog &mdash; $3.99</button>
+      <button class="lp-btn lp-btn-secondary" id="heroFree">Peek Inside Free</button>
     </div>
   </section>
 
@@ -844,91 +1201,102 @@
     <div class="lp-ticker" id="ticker"></div>
   </div>
 
-  <!-- Features -->
-  <section class="lp-section" id="features">
-    <div class="lp-section-label">How It Works</div>
-    <div class="lp-section-title">One dog. Everyone watching. Total chaos.</div>
-    <div class="lp-section-subtitle">Dogs appear one at a time in a shared live stream. You watch, you react, you move on with your life slightly happier.</div>
-
-    <div class="lp-features-grid">
-      <div class="lp-feature">
-        <div class="lp-feature-icon">🐕</div>
-        <div class="lp-feature-title">Live Dog Rotation</div>
-        <div class="lp-feature-desc">A new dog appears every 15 seconds. Random breeds, community uploads, and the occasional mystery mutt. You never know what's next.</div>
+  <!-- Product Preview -->
+  <section class="lp-section lp-preview-section">
+    <div class="lp-preview-card">
+      <div class="lp-preview-badge">Now Showing</div>
+      <div class="lp-preview-image">
+        <img src="https://images.dog.ceo/breeds/corgi-cardigan/n02113186_10475.jpg" alt="A good dog in The Dog Show" id="previewDogImg">
       </div>
-      <div class="lp-feature">
-        <div class="lp-feature-icon">💬</div>
-        <div class="lp-feature-title">Live Chat</div>
-        <div class="lp-feature-desc">React in real time with other viewers. Rate dogs. Argue about breeds. Make friends you'll never meet. The usual.</div>
-      </div>
-      <div class="lp-feature">
-        <div class="lp-feature-icon">🦴</div>
-        <div class="lp-feature-title">Bone Economy</div>
-        <div class="lp-feature-desc">Give bones to dogs you love. More bones = more screen time. Hit a streak and trigger a Bone Frenzy. It matters more than it should.</div>
-      </div>
-      <div class="lp-feature">
-        <div class="lp-feature-icon">📸</div>
-        <div class="lp-feature-title">Submit Your Dog</div>
-        <div class="lp-feature-desc">Premium members can upload their own dog to appear in the live rotation. AI verifies it's actually a dog. Your dog gets a permanent certificate page.</div>
-      </div>
-      <div class="lp-feature">
-        <div class="lp-feature-icon">🏆</div>
-        <div class="lp-feature-title">Dog Certificates</div>
-        <div class="lp-feature-desc">Every dog that appears gets a shareable stats page with bones earned, peak viewers, screen time, and fun titles. Brag-worthy.</div>
-      </div>
-      <div class="lp-feature">
-        <div class="lp-feature-icon">🔴</div>
-        <div class="lp-feature-title">Always Live</div>
-        <div class="lp-feature-desc">The show runs 24/7. There's always a dog on screen. Even at 3am. Especially at 3am.</div>
+      <div class="lp-preview-info">
+        <div class="lp-preview-name" id="previewDogName">Captain Wiggles</div>
+        <div class="lp-preview-stats">
+          <span>&#129460; 34 bones</span>
+          <span>&#128064; 19 watching</span>
+        </div>
+        <div class="lp-preview-title">Professional Zoomies Champion</div>
       </div>
     </div>
+    <p class="lp-preview-hook">Your dog could be next.</p>
+    <button class="lp-btn lp-btn-primary" id="previewCta">Enter Your Dog &mdash; $3.99</button>
   </section>
 
-  <!-- Social Proof -->
+  <!-- Certificate + Hall of Bones -->
   <section class="lp-section" style="background: rgba(255,255,255,0.01);">
-    <div class="lp-section-label">The Numbers</div>
-    <div class="lp-section-title">Dogs don't lie. Neither do metrics.</div>
-    <div class="lp-section-subtitle">Real stats from The Dog Show. Updated live.</div>
+    <div class="lp-section-label">Every Dog Gets Their Moment</div>
+    <div class="lp-section-title">Your dog could earn a spot in the Hall of Bones.</div>
+    <div class="lp-section-subtitle">Enter your dog and they'll get a permanent Dog Show certificate page with their photo, bones, appearances, and a shareable link. The most-boned dogs earn a spot in the Hall of Bones &mdash; our leaderboard of the internet's most beloved pups.</div>
 
-    <div class="lp-proof-stats">
-      <div class="lp-proof-stat">
-        <div class="lp-proof-stat-value" id="statFans">0</div>
-        <div class="lp-proof-stat-label">Fans</div>
+    <div class="lp-cert-hall-grid">
+      <div class="lp-cert-preview">
+        <div class="lp-cert-card">
+          <div class="lp-cert-header">Official Dog Show Certificate</div>
+          <div class="lp-cert-image">
+            <img src="https://images.dog.ceo/breeds/samoyed/n02111889_10206.jpg" alt="Certificate preview">
+          </div>
+          <div class="lp-cert-name">Princess Fluffernutter</div>
+          <div class="lp-cert-breed">Samoyed</div>
+          <div class="lp-cert-stats">
+            <div>
+              <div class="lp-cert-stat-value">34</div>
+              <div class="lp-cert-stat-label">Bones</div>
+            </div>
+            <div>
+              <div class="lp-cert-stat-value">8</div>
+              <div class="lp-cert-stat-label">Appearances</div>
+            </div>
+            <div>
+              <div class="lp-cert-stat-value">23</div>
+              <div class="lp-cert-stat-label">Peak Viewers</div>
+            </div>
+          </div>
+          <div class="lp-cert-url">dogshow.lol/d/princess-fluffernutter</div>
+          <div class="lp-cert-share">Share &#128279;</div>
+        </div>
       </div>
-      <div class="lp-proof-stat">
-        <div class="lp-proof-stat-value" id="statDogs">0</div>
-        <div class="lp-proof-stat-label">Dogs Shown</div>
-      </div>
-      <div class="lp-proof-stat">
-        <div class="lp-proof-stat-value">15s</div>
-        <div class="lp-proof-stat-label">Per Dog</div>
-      </div>
-      <div class="lp-proof-stat">
-        <div class="lp-proof-stat-value">0</div>
-        <div class="lp-proof-stat-label">Cats</div>
+
+      <div class="lp-hall-preview">
+        <div class="lp-hall-card">
+          <div class="lp-hall-header">&#129460; Hall of Bones</div>
+          <div class="lp-hall-subtitle">Top Dogs</div>
+          <div class="lp-hall-list">
+            <div class="lp-hall-row lp-hall-row-gold">
+              <span class="lp-hall-rank">1</span>
+              <span class="lp-hall-name">Sir Barkington III</span>
+              <span class="lp-hall-bones">&#129460; 47</span>
+            </div>
+            <div class="lp-hall-row lp-hall-row-silver">
+              <span class="lp-hall-rank">2</span>
+              <span class="lp-hall-name">Princess Fluffernutter</span>
+              <span class="lp-hall-bones">&#129460; 34</span>
+            </div>
+            <div class="lp-hall-row">
+              <span class="lp-hall-rank">3</span>
+              <span class="lp-hall-name">Captain Waffles</span>
+              <span class="lp-hall-bones">&#129460; 28</span>
+            </div>
+            <div class="lp-hall-row">
+              <span class="lp-hall-rank">4</span>
+              <span class="lp-hall-name">Señor Fluffbutt</span>
+              <span class="lp-hall-bones">&#129460; 21</span>
+            </div>
+            <div class="lp-hall-row">
+              <span class="lp-hall-rank">5</span>
+              <span class="lp-hall-name">Your dog?</span>
+              <span class="lp-hall-bones">&#129460; ???</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="lp-testimonials">
-      <div class="lp-testimonial">
-        <div class="lp-testimonial-text">"I opened it to see what it was. That was 40 minutes ago. Send help."</div>
-        <div class="lp-testimonial-author"><strong>woofwatcher</strong> &mdash; General Admission</div>
-      </div>
-      <div class="lp-testimonial">
-        <div class="lp-testimonial-text">"This is the best $3.99 I've ever spent and I will not be taking questions at this time."</div>
-        <div class="lp-testimonial-author"><strong>goodboy_greg</strong> &mdash; Bring Your Dog</div>
-      </div>
-      <div class="lp-testimonial">
-        <div class="lp-testimonial-text">"My dog got 47 bones on their first appearance. I've never been more proud of anything in my life."</div>
-        <div class="lp-testimonial-author"><strong>puppyperson</strong> &mdash; Bring Your Dog</div>
-      </div>
-    </div>
+    <button class="lp-btn lp-btn-primary" style="margin: 0 auto; display: block;" id="certCta">Enter Your Dog &mdash; $3.99</button>
   </section>
 
   <!-- Pricing -->
   <section class="lp-section" id="pricing">
     <div class="lp-section-label">Pricing</div>
-    <div class="lp-section-title">Pick your seat</div>
+    <div class="lp-section-title">Choose your level of dog involvement.</div>
     <div class="lp-section-subtitle">One-time payment. Lifetime access. No subscriptions. No tricks. Just dogs.</div>
 
     <div class="lp-pricing-grid">
@@ -939,6 +1307,7 @@
         <div class="lp-plan-price-note">Forever</div>
         <div class="lp-plan-features">
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Watch the live show</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> See one dog at a time</div>
           <div class="lp-plan-feature disabled"><span class="x">&#10005;</span> No chat access</div>
           <div class="lp-plan-feature disabled"><span class="x">&#10005;</span> No bone giving</div>
           <div class="lp-plan-feature disabled"><span class="x">&#10005;</span> No dog uploads</div>
@@ -953,26 +1322,131 @@
         <div class="lp-plan-price-note">One-time</div>
         <div class="lp-plan-features">
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Watch the live show</div>
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Live chat with fans</div>
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Give bones to dogs</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Live chat with fans</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Pick a display name</div>
           <div class="lp-plan-feature disabled"><span class="x">&#10005;</span> No dog uploads</div>
         </div>
-        <button class="lp-plan-btn lp-plan-btn-outline" id="planGeneral">Enter the Show</button>
+        <button class="lp-plan-btn lp-plan-btn-outline" id="planGeneral">Join the Crowd &mdash; $1.99</button>
       </div>
 
       <div class="lp-plan lp-plan-popular">
-        <div class="lp-plan-badge">MOST POPULAR</div>
-        <div class="lp-plan-name">Bring Your Dog</div>
+        <div class="lp-plan-badge">BEST FOR PROUD DOG PEOPLE</div>
+        <div class="lp-plan-name">Enter Your Dog</div>
         <div class="lp-plan-desc">The star treatment</div>
         <div class="lp-plan-price">$3.99</div>
         <div class="lp-plan-price-note">One-time</div>
         <div class="lp-plan-features">
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Everything in General</div>
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Upload your dog</div>
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Your dog in the spotlight</div>
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Shareable certificate page</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Dog appears in live rotation</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Permanent dog page</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Shareable certificate</div>
         </div>
-        <button class="lp-plan-btn lp-plan-btn-primary" id="planPremium">Enter with Your Dog</button>
+        <button class="lp-plan-btn lp-plan-btn-primary" id="planPremium">Enter Your Dog &mdash; $3.99</button>
+      </div>
+    </div>
+
+    <div class="lp-trust-strip">
+      <span>&#128274; Secure checkout</span>
+      <span>&#10003; One-time payment</span>
+      <span>&#10003; No subscription</span>
+      <span>&#128231; Access saved by email</span>
+    </div>
+  </section>
+
+  <!-- Why Enter Your Dog -->
+  <section class="lp-section" style="background: rgba(255,255,255,0.01);">
+    <div class="lp-section-label">Why Enter?</div>
+    <div class="lp-section-title">Because your dog deserves unnecessary recognition.</div>
+    <div class="lp-section-subtitle">Here's what happens when your dog enters The Dog Show.</div>
+
+    <div class="lp-why-grid">
+      <div class="lp-why-card">
+        <div class="lp-why-icon">&#127942;</div>
+        <div class="lp-why-text">Get a permanent Dog Show page</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">&#129460;</div>
+        <div class="lp-why-text">Collect bones from friends, family, and strangers</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">&#128250;</div>
+        <div class="lp-why-text">Appear in the live dog rotation</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">&#128279;</div>
+        <div class="lp-why-text">Share your dog's certificate with anyone</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">&#128202;</div>
+        <div class="lp-why-text">Track bones, appearances, and peak viewers</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">&#128054;</div>
+        <div class="lp-why-text">Because your dog deserves to be temporarily internet famous</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="lp-section" id="how-it-works">
+    <div class="lp-section-label">How It Works</div>
+    <div class="lp-section-title">One dog. Everyone watching. Total chaos.</div>
+    <div class="lp-section-subtitle">Dogs appear one at a time in a shared live stream. You watch, you react, you move on with your life slightly happier.</div>
+
+    <div class="lp-features-grid">
+      <div class="lp-feature">
+        <div class="lp-feature-icon">&#128021;</div>
+        <div class="lp-feature-title">Live Dog Rotation</div>
+        <div class="lp-feature-desc">A new dog appears every 15 seconds. Random breeds, community uploads, and the occasional mystery mutt. You never know what's next.</div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature-icon">&#128172;</div>
+        <div class="lp-feature-title">Live Chat</div>
+        <div class="lp-feature-desc">React in real time with other viewers. Rate dogs. Argue about breeds. Make friends you'll never meet. The usual.</div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature-icon">&#129460;</div>
+        <div class="lp-feature-title">Bone Economy</div>
+        <div class="lp-feature-desc">Give bones to dogs you love. More bones = more screen time. Hit a streak and trigger a Bone Frenzy. It matters more than it should.</div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature-icon">&#128248;</div>
+        <div class="lp-feature-title">Enter Your Dog</div>
+        <div class="lp-feature-desc">Upload your dog to appear in the live rotation. AI verifies it's actually a dog. Your dog gets a permanent certificate page.</div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature-icon">&#127942;</div>
+        <div class="lp-feature-title">Dog Certificates</div>
+        <div class="lp-feature-desc">Every dog gets a shareable stats page with bones earned, peak viewers, screen time, and fun titles. Brag-worthy.</div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature-icon">&#128308;</div>
+        <div class="lp-feature-title">Always Live</div>
+        <div class="lp-feature-desc">The show runs 24/7. There's always a dog on screen. Even at 3am. Especially at 3am.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="lp-section" style="background: rgba(255,255,255,0.01);">
+    <div class="lp-section-label">From the Crowd</div>
+    <div class="lp-section-title">Dogs don't lie. Neither do fans.</div>
+    <div class="lp-section-subtitle"></div>
+
+    <div class="lp-testimonials">
+      <div class="lp-testimonial">
+        <div class="lp-testimonial-text">"I opened it to see what it was. That was 40 minutes ago. Send help."</div>
+        <div class="lp-testimonial-author"><strong>woofwatcher</strong> &mdash; General Admission</div>
+      </div>
+      <div class="lp-testimonial">
+        <div class="lp-testimonial-text">"This is the best $3.99 I've ever spent. My dog finally has the public platform he deserves."</div>
+        <div class="lp-testimonial-author"><strong>goodboy_greg</strong> &mdash; Enter Your Dog</div>
+      </div>
+      <div class="lp-testimonial">
+        <div class="lp-testimonial-text">"My dog got 47 bones on their first appearance. I've never been more proud of anything in my life."</div>
+        <div class="lp-testimonial-author"><strong>puppyperson</strong> &mdash; Enter Your Dog</div>
       </div>
     </div>
   </section>
@@ -990,11 +1464,11 @@
       </div>
       <div class="lp-faq-item">
         <button class="lp-faq-q">Why would I pay for this? <span class="lp-faq-arrow">+</span></button>
-        <div class="lp-faq-a">The free tier lets you watch. But paid members can chat, give bones, and (on premium) upload their own dog to appear in the live show. Your dog gets a permanent certificate with stats. It's worth it.</div>
+        <div class="lp-faq-a">The free tier lets you watch. But paid members can chat, give bones, and (for $3.99) upload their own dog to appear in the live show. Your dog gets a permanent certificate with stats. It's worth it.</div>
       </div>
       <div class="lp-faq-item">
         <button class="lp-faq-q">Is this a subscription? <span class="lp-faq-arrow">+</span></button>
-        <div class="lp-faq-a">No. One payment, lifetime access. We don't believe in charging you monthly to look at dogs. You should be able to look at all dogs for free, and pay once to unlock chat or upload your dog photo for immortalisation in the show.</div>
+        <div class="lp-faq-a">No. One payment, lifetime access. We don't believe in charging you monthly to look at dogs.</div>
       </div>
       <div class="lp-faq-item">
         <button class="lp-faq-q">Can I submit a cat? <span class="lp-faq-arrow">+</span></button>
@@ -1002,11 +1476,15 @@
       </div>
       <div class="lp-faq-item">
         <button class="lp-faq-q">What happens when I give a bone? <span class="lp-faq-arrow">+</span></button>
-        <div class="lp-faq-a">Each bone extends the current dog's screen time by half a second. If enough people give bones quickly, it triggers a Bone Frenzy — double bones, screen shake, pure excitement. Your bones appear for everyone to see.</div>
+        <div class="lp-faq-a">Each bone extends the current dog's screen time by half a second. If enough people give bones quickly, it triggers a Bone Frenzy — double bones, screen shake, pure excitement.</div>
       </div>
       <div class="lp-faq-item">
         <button class="lp-faq-q">Is the show actually live 24/7? <span class="lp-faq-arrow">+</span></button>
         <div class="lp-faq-a">Yes. The dogs never stop. The show rotates through random breeds and community-uploaded dogs around the clock. There are always people watching. Perhaps also some dogs.</div>
+      </div>
+      <div class="lp-faq-item">
+        <button class="lp-faq-q">What do I get for $3.99? <span class="lp-faq-arrow">+</span></button>
+        <div class="lp-faq-a">Your dog enters the live rotation, gets a permanent show page with stats, bones, and appearances. You also get full access to chat, bone giving, and everything in General Admission. One payment. Forever.</div>
       </div>
     </div>
   </section>
@@ -1032,18 +1510,70 @@
   </footer>
 
   <!-- Email Modal -->
-  <div class="lp-email-overlay" id="emailOverlay">
-    <div class="lp-email-modal">
-      <div class="lp-email-modal-icon">🐾</div>
-      <div class="lp-email-modal-title">One more thing</div>
-      <div class="lp-email-modal-subtitle">Enter your email so we can let you back in if you ever get lost.</div>
-      <input type="email" class="lp-email-modal-input" id="emailModalInput" placeholder="you@email.com" autocomplete="email" spellcheck="false">
-      <div class="lp-email-modal-error" id="emailModalError"></div>
-      <div class="lp-email-modal-actions">
-        <button class="lp-email-modal-cancel" id="emailModalCancel">Cancel</button>
-        <button class="lp-email-modal-submit" id="emailModalSubmit">Continue</button>
+  <div class="lp-modal-overlay" id="emailOverlay">
+    <div class="lp-modal">
+      <div class="lp-modal-icon">&#128062;</div>
+      <div class="lp-modal-title" id="emailModalTitle">Where should we send your lifetime pass?</div>
+      <div class="lp-modal-subtitle" id="emailModalSubtitle">No password. No spam. This email unlocks your Dog Show access forever.</div>
+      <input type="email" class="lp-modal-input" id="emailModalInput" placeholder="you@email.com" autocomplete="email" spellcheck="false">
+      <div class="lp-modal-error" id="emailModalError"></div>
+      <div class="lp-modal-actions">
+        <button class="lp-modal-btn-cancel" id="emailModalCancel">Cancel</button>
+        <button class="lp-modal-btn-submit" id="emailModalSubmit">Continue</button>
       </div>
-      <div class="lp-email-modal-hint">We'll never spam you. Dogs' honour.</div>
+      <div class="lp-modal-hint">We'll never spam you. Dogs' honour.</div>
+    </div>
+  </div>
+
+  <!-- Upload Modal (Enter Your Dog flow) -->
+  <div class="lp-modal-overlay" id="uploadOverlay">
+    <div class="lp-modal" style="max-width: 440px;">
+      <!-- Step 1: Upload dog -->
+      <div id="uploadStep1">
+        <div class="lp-modal-icon">&#128248;</div>
+        <div class="lp-modal-title">Enter your dog</div>
+        <div class="lp-modal-subtitle">Upload a photo and tell us their name.</div>
+
+        <div class="lp-upload-dropzone" id="uploadDropzone">
+          <div class="lp-upload-dropzone-text" id="dropzoneText">
+            <span style="font-size: 36px;">&#128021;</span><br>
+            Click to upload or drag a photo
+          </div>
+          <img class="lp-upload-preview-img" id="uploadPreviewImg" hidden>
+          <input type="file" id="dogFileInput" accept="image/jpeg,image/png,image/webp" hidden>
+        </div>
+
+        <input type="text" class="lp-modal-input" id="dogNameInput" placeholder="Dog's name (e.g., Bella)" maxlength="30">
+
+        <div class="lp-modal-actions">
+          <button class="lp-modal-btn-cancel" id="uploadCancel">Cancel</button>
+          <button class="lp-modal-btn-submit" id="uploadNext" disabled>See Preview</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Checkout bridge -->
+      <div id="uploadStep2" hidden>
+        <div class="lp-modal-title" id="bridgeTitle">Ready to enter The Dog Show</div>
+
+        <div class="lp-bridge-card">
+          <img class="lp-bridge-dog-img" id="bridgeDogImg" src="" alt="Your dog">
+          <div class="lp-bridge-dog-name" id="bridgeDogName"></div>
+          <div class="lp-bridge-perks">
+            <div>&#10003; Appears in the live rotation</div>
+            <div>&#10003; Permanent show page</div>
+            <div>&#10003; Collects bones from viewers</div>
+            <div>&#10003; Shareable certificate</div>
+            <div>&#10003; Lifetime access + chat + bones</div>
+          </div>
+          <div class="lp-bridge-price">One-time payment: $3.99</div>
+          <div class="lp-bridge-trust">&#128274; Secure checkout &middot; No subscription</div>
+        </div>
+
+        <div class="lp-modal-actions">
+          <button class="lp-modal-btn-cancel" id="bridgeBack">Edit Details</button>
+          <button class="lp-modal-btn-submit" id="bridgePay">Make It Official &mdash; $3.99</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1069,7 +1599,7 @@
     var quotes = [
       '"If you want dogs, they got \'em."',
       '"Simply electric."',
-      '"I made friends for life."',
+      '"My dog is famous now."',
       '"Two paws way up."',
       '"Unforgettable."',
       '"Real dogs, real fun."',
@@ -1079,7 +1609,6 @@
       '"This is art."',
     ];
     var tickerEl = document.getElementById('ticker');
-    // Double the quotes for seamless loop
     var tickerHtml = '';
     for (var i = 0; i < 2; i++) {
       quotes.forEach(function(q) {
@@ -1088,30 +1617,10 @@
     }
     tickerEl.innerHTML = tickerHtml;
 
-    // ─── LIVE STATS ─────────────────────────────────
-    // Fetch real stats from server
-    (function loadStats() {
-      fetch(API_BASE_LANDING + '/landing-stats')
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          if (data.ok) {
-            animateCounter('statFans', data.totalFans || 0);
-            animateCounter('statBones', data.totalBones || 0);
-            animateCounter('statDogs', data.totalDogs || 0);
-            animateCounter('statWatching', data.watching || 0);
-          }
-        })
-        .catch(function() {
-          // Fallback display
-          document.getElementById('statFans').textContent = '--';
-          document.getElementById('statBones').textContent = '--';
-          document.getElementById('statDogs').textContent = '--';
-          document.getElementById('statWatching').textContent = '--';
-        });
-    })();
-
+    // ─── COUNTER ANIMATION ──────────────────────────
     function animateCounter(id, target) {
       var el = document.getElementById(id);
+      if (!el) return;
       var current = 0;
       var duration = 1200;
       var start = null;
@@ -1131,13 +1640,12 @@
       btn.addEventListener('click', function() {
         var item = this.parentElement;
         var isOpen = item.classList.contains('open');
-        // Close all
         document.querySelectorAll('.lp-faq-item').forEach(function(i) { i.classList.remove('open'); });
         if (!isOpen) item.classList.add('open');
       });
     });
 
-    // ─── CHECKOUT FLOW ───────────────────────────────
+    // ─── HELPERS ─────────────────────────────────────
     var curtainOverlay = document.getElementById('curtainOverlay');
     var curtainLeft = document.getElementById('curtainLeft');
     var curtainRight = document.getElementById('curtainRight');
@@ -1154,6 +1662,8 @@
     var emailError = document.getElementById('emailModalError');
     var emailSubmit = document.getElementById('emailModalSubmit');
     var emailCancel = document.getElementById('emailModalCancel');
+    var emailTitle = document.getElementById('emailModalTitle');
+    var emailSubtitle = document.getElementById('emailModalSubtitle');
     var pendingTier = null;
 
     function openEmailModal(tier) {
@@ -1163,6 +1673,18 @@
       emailInput.classList.remove('error');
       emailSubmit.disabled = false;
       emailSubmit.innerHTML = 'Continue';
+
+      if (tier === 'premium') {
+        emailTitle.textContent = "Where should we send your dog's show page?";
+        emailSubtitle.textContent = "We'll use this email to save your entry and let you access your dog's page later.";
+      } else if (tier === 'free') {
+        emailTitle.textContent = 'Almost in!';
+        emailSubtitle.textContent = "Enter your email and you're in. No password. No spam.";
+      } else {
+        emailTitle.textContent = 'Where should we send your lifetime pass?';
+        emailSubtitle.textContent = 'No password. No spam. This email unlocks your Dog Show access forever.';
+      }
+
       emailOverlay.classList.add('active');
       setTimeout(function() { emailInput.focus(); }, 100);
     }
@@ -1182,8 +1704,7 @@
       emailError.textContent = '';
       emailInput.classList.remove('error');
       emailSubmit.disabled = true;
-      emailSubmit.innerHTML = '<span class="spinner-bone">🦴</span>Sniffing...';
-
+      emailSubmit.innerHTML = '<span class="spinner-bone">&#129460;</span>Sniffing...';
       enterShow(pendingTier, email);
     }
 
@@ -1197,6 +1718,7 @@
       if (e.target === emailOverlay) closeEmailModal();
     });
 
+    // ─── CHECKOUT FLOW ───────────────────────────────
     function enterShow(tier, cleanEmail) {
       if (tier === 'free') {
         fetch(API_BASE_LANDING + '/register', {
@@ -1256,11 +1778,101 @@
         });
     }
 
+    // ─── DOG UPLOAD FLOW (Enter Your Dog) ────────────
+    var uploadOverlay = document.getElementById('uploadOverlay');
+    var uploadStep1 = document.getElementById('uploadStep1');
+    var uploadStep2 = document.getElementById('uploadStep2');
+    var dogFileInput = document.getElementById('dogFileInput');
+    var dogNameInput = document.getElementById('dogNameInput');
+    var uploadPreviewImg = document.getElementById('uploadPreviewImg');
+    var dropzoneText = document.getElementById('dropzoneText');
+    var uploadNext = document.getElementById('uploadNext');
+    var pendingDogImage = null;
+
+    function startDogEntry() {
+      uploadStep1.hidden = false;
+      uploadStep2.hidden = true;
+      dogNameInput.value = '';
+      uploadPreviewImg.hidden = true;
+      dropzoneText.hidden = false;
+      uploadNext.disabled = true;
+      pendingDogImage = null;
+      dogFileInput.value = '';
+      uploadOverlay.classList.add('active');
+    }
+
+    document.getElementById('uploadDropzone').addEventListener('click', function() {
+      dogFileInput.click();
+    });
+
+    dogFileInput.addEventListener('change', function(e) {
+      var file = e.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          var maxDim = 600;
+          var w = img.width, h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = h * maxDim / w; w = maxDim; }
+            else { w = w * maxDim / h; h = maxDim; }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          pendingDogImage = canvas.toDataURL('image/jpeg', 0.7);
+          uploadPreviewImg.src = pendingDogImage;
+          uploadPreviewImg.hidden = false;
+          dropzoneText.hidden = true;
+          checkUploadReady();
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    dogNameInput.addEventListener('input', checkUploadReady);
+
+    function checkUploadReady() {
+      uploadNext.disabled = !(pendingDogImage && dogNameInput.value.trim().length > 0);
+    }
+
+    uploadNext.addEventListener('click', function() {
+      var name = dogNameInput.value.trim();
+      uploadStep1.hidden = true;
+      uploadStep2.hidden = false;
+      document.getElementById('bridgeDogImg').src = pendingDogImage;
+      document.getElementById('bridgeDogName').textContent = name;
+      document.getElementById('bridgeTitle').textContent = "You're entering " + name + " into The Dog Show";
+    });
+
+    document.getElementById('bridgeBack').addEventListener('click', function() {
+      uploadStep1.hidden = false;
+      uploadStep2.hidden = true;
+    });
+
+    document.getElementById('bridgePay').addEventListener('click', function() {
+      var name = dogNameInput.value.trim();
+      localStorage.setItem('dogshow_pending_dog_name', name);
+      localStorage.setItem('dogshow_pending_dog_image', pendingDogImage);
+      uploadOverlay.classList.remove('active');
+      openEmailModal('premium');
+    });
+
+    document.getElementById('uploadCancel').addEventListener('click', function() {
+      uploadOverlay.classList.remove('active');
+    });
+
+    uploadOverlay.addEventListener('click', function(e) {
+      if (e.target === uploadOverlay) uploadOverlay.classList.remove('active');
+    });
+
     // ─── BARK SOUND (Web Audio synthesis) ──────────
     function playBark() {
       try {
         var ctx = new (window.AudioContext || window.webkitAudioContext)();
-        // Bark 1 — short high "yip"
         var o1 = ctx.createOscillator();
         var g1 = ctx.createGain();
         o1.type = 'sawtooth';
@@ -1273,7 +1885,6 @@
         o1.start(ctx.currentTime);
         o1.stop(ctx.currentTime + 0.15);
 
-        // Bark 2 — deeper follow-up "boof"
         var o2 = ctx.createOscillator();
         var g2 = ctx.createGain();
         o2.type = 'sawtooth';
@@ -1287,11 +1898,8 @@
         o2.start(ctx.currentTime + 0.18);
         o2.stop(ctx.currentTime + 0.4);
 
-        // Cleanup
         setTimeout(function() { ctx.close(); }, 1000);
-      } catch (e) {
-        // Audio not supported — no problem
-      }
+      } catch (e) {}
     }
 
     function playCurtainAndGo(tier) {
@@ -1314,12 +1922,14 @@
       }, 3500);
     }
 
-    // Button listeners
-    document.getElementById('heroCta').addEventListener('click', function() { openEmailModal('premium'); });
+    // ─── BUTTON LISTENERS ────────────────────────────
+    document.getElementById('heroCta').addEventListener('click', function() { startDogEntry(); });
     document.getElementById('heroFree').addEventListener('click', function() { openEmailModal('free'); });
+    document.getElementById('previewCta').addEventListener('click', function() { startDogEntry(); });
+    document.getElementById('certCta').addEventListener('click', function() { startDogEntry(); });
     document.getElementById('planFree').addEventListener('click', function() { openEmailModal('free'); });
     document.getElementById('planGeneral').addEventListener('click', function() { openEmailModal('general'); });
-    document.getElementById('planPremium').addEventListener('click', function() { openEmailModal('premium'); });
+    document.getElementById('planPremium').addEventListener('click', function() { startDogEntry(); });
 
     // ─── LOGIN FLOW ──────────────────────────────────
     var loginBtn = document.getElementById('loginBtn');
@@ -1327,7 +1937,6 @@
     var loginMessage = document.getElementById('loginMessage');
     var loginForm = document.getElementById('loginForm');
 
-    // Auto-detect returning user
     var savedToken = localStorage.getItem('dogshow_token');
     if (savedToken) {
       fetch(API_BASE_LANDING + '/get-user', {

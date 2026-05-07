@@ -1521,6 +1521,117 @@
   gap: 6px;
 }
 
+/* ─── UPGRADE PROMPT MODAL ─────────────────────── */
+
+.upgrade-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 10, 34, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.upgrade-overlay.active { display: flex; }
+
+.upgrade-modal {
+  background: #1a1035;
+  border: 1px solid rgba(255, 140, 66, 0.2);
+  border-radius: 16px;
+  padding: 36px 28px 28px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  animation: upgradeIn 0.25s ease-out;
+}
+
+@keyframes upgradeIn {
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.upgrade-icon { font-size: 36px; margin-bottom: 12px; }
+
+.upgrade-title {
+  font-family: 'Yang Bagus', 'YangBagus', cursive;
+  font-size: 22px;
+  color: #FF8C42;
+  margin-bottom: 8px;
+}
+
+.upgrade-subtitle {
+  font-size: 14px;
+  color: #7B6BA0;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.upgrade-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.upgrade-btn-primary {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #FF8C42;
+  color: #1a1035;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.upgrade-btn-primary:hover {
+  background: #ff9d5c;
+  transform: translateY(-1px);
+}
+
+.upgrade-btn-secondary {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 140, 66, 0.15);
+  color: #FF8C42;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.upgrade-btn-secondary:hover {
+  background: rgba(255, 140, 66, 0.25);
+  color: #FF8C42;
+}
+
+.upgrade-hint {
+  font-size: 11px;
+  color: #5a4d80;
+  margin-top: -2px;
+  margin-bottom: 4px;
+}
+
+.upgrade-dismiss {
+  padding: 8px;
+  border: none;
+  background: transparent;
+  color: #5a4d80;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: 4px;
+}
+
+.upgrade-dismiss:hover { color: #7B6BA0; }
+
 /* ─── ANIMATIONS ───────────────────────────────── */
 
 @keyframes spin {

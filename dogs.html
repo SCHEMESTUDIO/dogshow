@@ -313,9 +313,14 @@
         var res = await fetch(API_BASE + '/all-dogs');
         var data = await res.json();
 
-        if (!data.ok || !data.dogs) {
-          document.getElementById('loading').textContent = 'No dogs in the show yet. Be the first!';
-          document.getElementById('dirCta').hidden = false;
+        if (!data.ok || !data.dogs || data.dogs.length === 0) {
+          document.getElementById('loading').innerHTML =
+            '<div style="text-align:center;padding:40px 20px;">' +
+            '<div style="font-size:48px;margin-bottom:16px;">🐕</div>' +
+            '<div style="font-family:\'Yang Bagus\',cursive;font-size:24px;color:#FF8C42;margin-bottom:8px;">The show is just getting started.</div>' +
+            '<div style="color:#7B6BA0;margin-bottom:24px;">Be one of the founding dogs. Enter yours for $3.99.</div>' +
+            '<a href="/" style="display:inline-block;padding:12px 24px;background:#FF8C42;color:#1a1035;border-radius:10px;font-weight:600;text-decoration:none;">Enter Your Dog</a>' +
+            '</div>';
           return;
         }
 

@@ -278,13 +278,70 @@
     chatInput.value = '';
   }
 
+  // ─── UPGRADE MODAL LOGIC ─────────────────────────
+  var upgradeOverlay = document.getElementById('upgradeOverlay');
+  var upgradeIcon = document.getElementById('upgradeIcon');
+  var upgradeTitle = document.getElementById('upgradeTitle');
+  var upgradeSubtitle = document.getElementById('upgradeSubtitle');
+  var upgradePrimary = document.getElementById('upgradePrimary');
+  var upgradeSecondary = document.getElementById('upgradeSecondary');
+  var upgradeDismiss = document.getElementById('upgradeDismiss');
+  var upgradeHint = document.getElementById('upgradeHint');
+
+  function showUpgradeModal(context) {
+    if (!upgradeOverlay) return;
+    if (upgradeHint) upgradeHint.textContent = '';
+    if (context === 'bone') {
+      upgradeIcon.innerHTML = '&#129460;';
+      upgradeTitle.textContent = 'Bones are for ticket holders.';
+      upgradeSubtitle.textContent = 'Upgrade once and give bones forever.';
+      upgradePrimary.textContent = 'Unlock Bones — $1.99';
+      upgradePrimary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
+      upgradeSecondary.textContent = 'Enter Your Dog Instead — $3.99';
+      upgradeSecondary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
+      if (upgradeHint) upgradeHint.textContent = 'Includes bones, chat, and a permanent dog page.';
+    } else if (context === 'chat') {
+      upgradeIcon.innerHTML = '&#128172;';
+      upgradeTitle.textContent = 'Chat is for General Admission and up.';
+      upgradeSubtitle.textContent = 'Join the conversation. One payment, lifetime access.';
+      upgradePrimary.textContent = 'Join the Crowd — $1.99';
+      upgradePrimary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
+      upgradeSecondary.textContent = 'Enter Your Dog Instead — $3.99';
+      upgradeSecondary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
+      if (upgradeHint) upgradeHint.textContent = 'Includes chat, bones, and a permanent dog page.';
+    } else if (context === 'upload') {
+      upgradeIcon.innerHTML = '&#128248;';
+      upgradeTitle.textContent = 'Your dog needs a ticket to the show.';
+      upgradeSubtitle.textContent = 'Enter your dog, get a permanent page, and start collecting bones.';
+      upgradePrimary.textContent = 'Enter Your Dog — $3.99';
+      upgradePrimary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
+      upgradeSecondary.hidden = true;
+      if (upgradeHint) upgradeHint.textContent = 'Includes chat, unlimited bones, and a permanent certificate page for your dog.';
+    }
+    upgradeOverlay.classList.add('active');
+  }
+
+  if (upgradeDismiss) {
+    upgradeDismiss.addEventListener('click', function() {
+      upgradeOverlay.classList.remove('active');
+      if (upgradeSecondary) upgradeSecondary.hidden = false;
+    });
+  }
+  if (upgradeOverlay) {
+    upgradeOverlay.addEventListener('click', function(e) {
+      if (e.target === upgradeOverlay) {
+        upgradeOverlay.classList.remove('active');
+        if (upgradeSecondary) upgradeSecondary.hidden = false;
+      }
+    });
+  }
+
   if (isFreeUser) {
-    chatInput.disabled = true;
-    chatInput.placeholder = '🔒 Chat is for paid members';
-    chatSend.disabled = true;
-    chatSend.style.opacity = '0.4';
-    chatSend.style.cursor = 'not-allowed';
-    chatInput.style.cursor = 'not-allowed';
+    chatInput.placeholder = 'Chat is for paid members...';
+    chatInput.style.cursor = 'pointer';
+    chatSend.style.cursor = 'pointer';
+    chatInput.addEventListener('click', function () { showUpgradeModal('chat'); });
+    chatSend.addEventListener('click', function () { showUpgradeModal('chat'); });
   } else {
     chatSend.addEventListener('click', sendUserMessage);
     chatInput.addEventListener('keydown', function (e) {
@@ -419,10 +476,8 @@
   setInterval(updateStreak, 500);
 
   if (isFreeUser) {
-    boneBtn.disabled = true;
-    boneBtn.style.opacity = '0.4';
-    boneBtn.style.cursor = 'not-allowed';
-    boneBtn.title = 'Upgrade to give bones!';
+    boneBtn.style.cursor = 'pointer';
+    boneBtn.addEventListener('click', function () { showUpgradeModal('bone'); });
   } else {
     boneBtn.addEventListener('click', function () {
       addBone(false);
@@ -919,10 +974,15 @@
   var dockPatience = document.getElementById('dockPatience');
   var dockBar = document.getElementById('dockBar');
 
-  // Hide row 2 entirely for free users (no upload, no dog status)
+  // For free users: show upload button but trigger upgrade modal
   var dockRow2 = document.getElementById('dockRow2');
   if (isFreeUser && dockRow2) {
-    dockRow2.hidden = true;
+    communityUpload.hidden = false;
+    uploadBtn.textContent = '📸 Enter Your Dog';
+    uploadBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showUpgradeModal('upload');
+    });
   }
 
   // Show upload button for premium users
