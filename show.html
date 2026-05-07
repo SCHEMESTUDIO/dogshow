@@ -15,6 +15,7 @@
   <script async defer src="https://www.faurya.com/js/script.js" data-website-id="cmosekmvz000xl204a7bhm4cm" data-domain="dogshow.lol"></script>
   <title>The Dog Show — Live</title>
   <meta name="description" content="You're in. Welcome to The Dog Show.">
+  <link rel="canonical" href="https://dogshow.lol/show.html">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -91,10 +92,9 @@
         <span class="breed-fact-text" id="breedFactText"></span>
       </div>
 
-      <!-- Action card -->
+      <!-- Action bar -->
       <div class="bottom-dock" id="bottomDock">
         <div class="dock-bar" id="dockBar">
-          <!-- Row 1: bone + count -->
           <div class="dock-row">
             <button class="dock-bone-btn" id="boneBtn">🦴 Give a bone</button>
             <div class="dock-bone-pill">
@@ -106,24 +106,16 @@
               <span id="boneFrenzyText">BONE FRENZY</span>
               <span id="boneFrenzyMulti">x0</span>
             </div>
-          </div>
-
-          <!-- Divider -->
-          <div class="dock-divider-h"></div>
-
-          <!-- Row 2: Enter Your Dog CTA -->
-          <div class="dock-row dock-row-enter" id="dockRow2">
             <div class="dock-status" id="dockStatus" hidden>
               <div class="dock-status-dot" id="dockStatusDot"></div>
               <span id="dockStatusText">Your dog is live</span>
             </div>
-            <div id="communityUpload" hidden>
+            <div id="communityUpload" class="dock-enter-wrap" hidden>
               <button class="dock-enter-btn" id="uploadBtn">Enter Your Dog &mdash; $3.99</button>
               <input type="file" id="uploadInput" accept="image/jpeg,image/png,image/webp" hidden>
             </div>
             <a class="dock-link" id="dockDogLink" href="#" target="_blank" hidden>View page <span>&rarr;</span></a>
           </div>
-          <div class="dock-enter-hint" id="dockEnterHint">Your dog could be on The Main Stage.</div>
         </div>
         <div class="dock-patience" id="dockPatience" hidden>Your dog is in the show &mdash; they'll appear in the rotation shortly</div>
       </div>

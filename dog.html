@@ -346,6 +346,41 @@
     }
 
     /* Schema.org structured data is added via JS */
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 768px) {
+      .certificate { padding: 16px 14px 32px; }
+      .cert-header { font-size: 28px; }
+      .cert-subtitle { font-size: 11px; letter-spacing: 2px; margin-bottom: 20px; }
+      .cert-dog-name { font-size: clamp(20px, 5.5vw, 28px); word-break: break-word; }
+      .cert-owner { font-size: 13px; margin-bottom: 18px; }
+      .cert-stat-value { font-size: 22px; }
+      .cert-stat { padding: 12px 10px; }
+      .cert-stat-label { font-size: 10px; }
+      .cert-titles { gap: 6px; margin-bottom: 20px; }
+      .cert-title-badge { padding: 5px 10px; font-size: 11px; }
+      .cert-date { font-size: 12px; margin-bottom: 20px; }
+      .share-buttons { gap: 8px; }
+      .share-btn { padding: 8px 12px; font-size: 12px; }
+      .cert-cta { margin-bottom: 28px; }
+      .cert-cta-btn { display: block; width: 100%; text-align: center; padding: 14px 20px; font-size: 14px; }
+      .cert-cta-sub { font-size: 11px; }
+      .cert-breed-badge { bottom: 10px; left: 10px; font-size: 11px; padding: 5px 10px; }
+      .seo-section { padding: 28px 16px 40px; }
+      .seo-section h2 { font-size: 19px; }
+      .seo-section h3 { font-size: 15px; }
+      .seo-section p { font-size: 13px; }
+      .seo-breed-info { padding: 16px; }
+      .more-dogs { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+      .more-dog-card { padding: 10px; }
+    }
+
+    @media (max-width: 380px) {
+      .cert-header { font-size: 24px; }
+      .cert-stats { gap: 8px; }
+      .cert-stat-value { font-size: 20px; }
+      .more-dogs { grid-template-columns: 1fr 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -573,8 +608,10 @@
       var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-      // On mobile: native share sheet first (covers IG Stories, Snapchat, iMessage, etc.)
-      if (isMobile && navigator.share) {
+      // On mobile with native share: show only Share + Copy (cleaner, no overflow)
+      var hasNativeShare = isMobile && navigator.share;
+
+      if (hasNativeShare) {
         var nativeBtn = createShareBtn('Share...', 'native-share', '#');
         nativeBtn.addEventListener('click', function(e) {
           e.preventDefault();
@@ -587,47 +624,49 @@
         shareButtons.appendChild(nativeBtn);
       }
 
-      // Facebook — shareUrl has OG tags so FB shows rich preview card
-      var fbBtn = createShareBtn('Facebook', 'facebook',
-        'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) +
-        '&quote=' + encodeURIComponent(shareText));
-      shareButtons.appendChild(fbBtn);
+      if (!hasNativeShare) {
+        // Facebook
+        var fbBtn = createShareBtn('Facebook', 'facebook',
+          'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) +
+          '&quote=' + encodeURIComponent(shareText));
+        shareButtons.appendChild(fbBtn);
 
-      // X/Twitter — shareUrl has twitter:card meta for large image preview
-      var twBtn = createShareBtn('X', 'twitter',
-        'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) +
-        '&url=' + encodeURIComponent(shareUrl) +
-        '&hashtags=DogShow,DogsOfTheInternet');
-      shareButtons.appendChild(twBtn);
+        // X/Twitter
+        var twBtn = createShareBtn('X', 'twitter',
+          'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) +
+          '&url=' + encodeURIComponent(shareUrl) +
+          '&hashtags=DogShow,DogsOfTheInternet');
+        shareButtons.appendChild(twBtn);
 
-      // WhatsApp — fetches OG from shareUrl for rich link preview
-      var waBtn = createShareBtn('WhatsApp', 'whatsapp',
-        'https://api.whatsapp.com/send?text=' + encodeURIComponent(shareText + '\n' + shareUrl));
-      shareButtons.appendChild(waBtn);
+        // WhatsApp
+        var waBtn = createShareBtn('WhatsApp', 'whatsapp',
+          'https://api.whatsapp.com/send?text=' + encodeURIComponent(shareText + '\n' + shareUrl));
+        shareButtons.appendChild(waBtn);
 
-      // Instagram — no web share API; copy link + instruct user
-      var igBtn = createShareBtn('Instagram', 'instagram', '#');
-      igBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        copyToClipboard(shareUrl);
-        showCopiedMsg('Link copied! Paste in your Instagram Story or bio');
-      });
-      shareButtons.appendChild(igBtn);
+        // Instagram
+        var igBtn = createShareBtn('Instagram', 'instagram', '#');
+        igBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          copyToClipboard(shareUrl);
+          showCopiedMsg('Link copied! Paste in your Instagram Story or bio');
+        });
+        shareButtons.appendChild(igBtn);
 
-      // Snapchat — Creative Kit URL on mobile
-      if (isMobile) {
-        var snapBtn = createShareBtn('Snapchat', 'snapchat',
-          'https://www.snapchat.com/scan?attachmentUrl=' + encodeURIComponent(shareUrl));
-        shareButtons.appendChild(snapBtn);
+        // Snapchat (mobile only, but only when no native share)
+        if (isMobile) {
+          var snapBtn = createShareBtn('Snapchat', 'snapchat',
+            'https://www.snapchat.com/scan?attachmentUrl=' + encodeURIComponent(shareUrl));
+          shareButtons.appendChild(snapBtn);
+        }
+
+        // SMS
+        var smsDelimiter = isIOS ? '&' : '?';
+        var smsBtn = createShareBtn('SMS', 'sms',
+          'sms:' + smsDelimiter + 'body=' + encodeURIComponent(shareText + ' ' + shareUrl));
+        shareButtons.appendChild(smsBtn);
       }
 
-      // SMS — iOS uses & separator, Android uses ?
-      var smsDelimiter = isIOS ? '&' : '?';
-      var smsBtn = createShareBtn('SMS', 'sms',
-        'sms:' + smsDelimiter + 'body=' + encodeURIComponent(shareText + ' ' + shareUrl));
-      shareButtons.appendChild(smsBtn);
-
-      // Copy link (always last)
+      // Copy link (always shown)
       var copyBtn = createShareBtn('Copy Link', 'copy', '#');
       copyBtn.addEventListener('click', function(e) {
         e.preventDefault();

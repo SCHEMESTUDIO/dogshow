@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head><title>Sitemap Generator — dogshow.lol</title></head>
+<body style="font-family: monospace; background: #1a1035; color: #b8a9d4; padding: 40px;">
+<h1 style="color: #FF8C42;">dogshow.lol sitemap generator</h1>
+<p>Click the button to fetch all dogs and generate a complete sitemap.xml.</p>
+<button onclick="generate()" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Generate Sitemap</button>
+<pre id="output" style="margin-top: 20px; white-space: pre-wrap; max-height: 600px; overflow: auto;"></pre>
+<button id="copyBtn" onclick="copyToClipboard()" style="display:none; padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 10px;">Copy to Clipboard</button>
+<script>
+const STATIC_PAGES = [
+  { loc: 'https://dogshow.lol/', changefreq: 'daily', priority: '1.0' },
+  { loc: 'https://dogshow.lol/show.html', changefreq: 'daily', priority: '0.9' },
+  { loc: 'https://dogshow.lol/dogs.html', changefreq: 'daily', priority: '0.8' },
+  { loc: 'https://dogshow.lol/about.html', changefreq: 'monthly', priority: '0.5' },
+  { loc: 'https://dogshow.lol/contest.html', changefreq: 'weekly', priority: '0.8' },
+  { loc: 'https://dogshow.lol/dog-show-near-me.html', changefreq: 'monthly', priority: '0.7' },
+];
+
+async function generate() {
+  const out = document.getElementById('output');
+  out.textContent = 'Fetching all dogs...\n';
+
+  try {
+    const res = await fetch('https://dogshow.schemestudio.partykit.dev/parties/main/dogshow-live/all-dogs');
+    const dogs = await res.json();
+    out.textContent += `Found ${dogs.length} dogs.\n\nGenerating sitemap...\n\n`;
+
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+
+    for (const page of STATIC_PAGES) {
+      xml += `  <url>\n    <loc>${page.loc}</loc>\n    <changefreq>${page.changefreq}</changefreq>\n    <priority>${page.priority}</priority>\n  </url>\n`;
+    }
+
+    for (const dog of dogs) {
+      if (dog.slug) {
+        xml += `  <url>\n    <loc>https://dogshow.lol/d/${dog.slug}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
+      }
+    }
+
+    xml += '</urlset>';
+    out.textContent = xml;
+    document.getElementById('copyBtn').style.display = 'inline-block';
+  } catch (e) {
+    out.textContent += 'Error: ' + e.message;
+  }
+}
+
+function copyToClipboard() {
+  navigator.clipboard.writeText(document.getElementById('output').textContent);
+  document.getElementById('copyBtn').textContent = 'Copied!';
+  setTimeout(() => { document.getElementById('copyBtn').textContent = 'Copy to Clipboard'; }, 2000);
+}
+</script>
+</body>
+</html>

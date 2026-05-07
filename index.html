@@ -29,6 +29,20 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "The Dog Show",
+    "url": "https://dogshow.lol/",
+    "description": "The internet's live dog show. Watch one dog at a time, give bones, and enter your own dog for a permanent show page.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Scheme Studio",
+      "url": "https://wearescheme.studio"
+    }
+  }
+  </script>
   <style>
     @font-face {
       font-family: 'Yang Bagus';
@@ -1177,15 +1191,82 @@
     /* ─── RESPONSIVE ──────────────────────────── */
 
     @media (max-width: 768px) {
-      .lp-nav-links { gap: 16px; }
-      .lp-hero { padding: 60px 20px 60px; }
-      .lp-features-grid { grid-template-columns: 1fr; }
-      .lp-why-grid { grid-template-columns: 1fr; }
-      .lp-testimonials { grid-template-columns: 1fr; }
-      .lp-pricing-grid { grid-template-columns: 1fr; max-width: 360px; }
-      .lp-cert-hall-grid { grid-template-columns: 1fr; }
-      .lp-section { padding: 60px 20px; }
-      .lp-trust-strip { gap: 12px; }
+      /* Nav — hide text links, keep brand + CTA only */
+      .lp-nav { padding: 16px 20px; }
+      .lp-nav-links { gap: 12px; }
+      .lp-nav-link { display: none; }
+      .lp-nav-cta { font-size: 12px; padding: 6px 14px; }
+
+      /* Hero — tighter padding, stack bullets vertically */
+      .lp-hero { padding: 48px 20px 48px; }
+      .lp-hero h1 { font-size: clamp(40px, 10vw, 96px); margin-bottom: 12px; }
+      .lp-hero-sub { font-size: 16px; margin-bottom: 24px; }
+      .lp-hero-actions { gap: 10px; margin-bottom: 24px; }
+      .lp-btn { padding: 12px 22px; font-size: 14px; }
+      .lp-hero-bullets {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+      .lp-hero-bullets li { font-size: 13px; }
+
+      /* Sections — less vertical padding */
+      .lp-section { padding: 48px 20px; }
+      .lp-section-title { font-size: clamp(24px, 5vw, 40px); }
+      .lp-section-subtitle { font-size: 14px; margin-bottom: 32px; }
+
+      /* Grids — all single column */
+      .lp-features-grid { grid-template-columns: 1fr; gap: 16px; }
+      .lp-why-grid { grid-template-columns: 1fr; gap: 12px; }
+      .lp-testimonials { grid-template-columns: 1fr; gap: 12px; }
+      .lp-pricing-grid { grid-template-columns: 1fr; max-width: 360px; gap: 16px; }
+      .lp-cert-hall-grid { grid-template-columns: 1fr; gap: 16px; }
+
+      /* Cards — slightly less padding on mobile */
+      .lp-feature { padding: 20px 18px; }
+      .lp-why-card { padding: 20px 18px; }
+      .lp-testimonial { padding: 20px; }
+      .lp-plan { padding: 24px 20px; }
+
+      /* Preview card — full bleed with margin */
+      .lp-preview-card { max-width: 100%; margin: 0 0 24px; }
+
+      /* Cert card tighter */
+      .lp-cert-card { padding: 24px 18px; }
+      .lp-cert-stats { gap: 14px; }
+
+      /* Trust strip — wrap nicely */
+      .lp-trust-strip { gap: 10px 20px; }
+
+      /* Footer — tighter gap, wrap */
+      .lp-footer-links { gap: 16px; flex-wrap: wrap; }
+      .lp-footer { padding: 32px 20px; }
+
+      /* Login row — stack on very narrow */
+      .lp-login-row { flex-wrap: wrap; }
+      .lp-login-input { min-width: 0; }
+
+      /* Modals — less padding on mobile */
+      .lp-modal { padding: 28px 20px 24px; }
+      .lp-modal-title { font-size: 20px; }
+      .lp-modal-actions { flex-direction: column; }
+      .lp-modal-btn-cancel, .lp-modal-btn-submit { flex: none; }
+
+      /* Upload dropzone — shorter aspect ratio on mobile */
+      .lp-upload-dropzone { aspect-ratio: 3/2; }
+
+      /* Hall of bones rows */
+      .lp-hall-row { padding: 8px 10px; font-size: 12px; }
+      .lp-hall-rank { width: 20px; height: 20px; font-size: 10px; }
+    }
+
+    @media (max-width: 380px) {
+      /* Very small phones — hero buttons stack */
+      .lp-hero-actions { flex-direction: column; align-items: center; }
+      .lp-btn { width: 100%; justify-content: center; }
+
+      /* Nav brand smaller */
+      .lp-nav-brand { font-size: 18px; }
     }
   </style>
 </head>
