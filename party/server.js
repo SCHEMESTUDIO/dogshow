@@ -835,6 +835,11 @@ export default class DogShowServer {
     await this.room.storage.put(`user:${userId}`, user);
     await this.room.storage.put(`email:${normalizedEmail}`, userId);
 
+    // Notify admin of new signup
+    this.sendAdminSignupNotification(normalizedEmail, tier || 'general').catch(e =>
+      console.error('[Email] Admin notification failed:', e.message)
+    );
+
     // Generate session token
     const token = this.generateToken(userId);
     await this.room.storage.put(`token:${token}`, { userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
@@ -1438,5 +1443,35 @@ export default class DogShowServer {
       console.error('[Email] Magic link network error:', e.message);
       return false;
     }
+  }
+
+  async sendAdminSignupNotification(email, tier) {
+    if (!this.room.env.RESEND_API_KEY) return;
+
+    const tierLabel = tier === 'premium' ? 'Bring Your Dog ($3.99)'
+      : tier === 'general' ? 'General Admission ($1.99)'
+      : 'Free Peek';
+    const time = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+      },
+      body: JSON.stringify({
+        from: 'Dog Show <noreply@dogshow.lol>',
+        to: ['james@wearescheme.studio'],
+        subject: `🐾 New signup: ${tierLabel}`,
+        html: `
+          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 480px; margin: 0 auto; padding: 32px 20px;">
+            <h2 style="color: #FF8C42; margin-bottom: 16px;">New Dog Show Signup</h2>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Tier:</strong> ${tierLabel}</p>
+            <p><strong>Time:</strong> ${time}</p>
+          </div>
+        `,
+      }),
+    });
   }
 }
