@@ -33,8 +33,8 @@ DogShowPrototype.jsx is an OLD React prototype from early brainstorming. It is *
 | `dogs.html` | ~450 | All Dogs gallery. Search, sort, dog cards, aggregate stats, founding-dogs CTA empty state. |
 | `about.html` | ~208 | About page + contact (james@wearescheme.studio). |
 | `login.html` | ~108 | Returning user login. |
-| `d.html` | ~19 | Slug router: `/d/slug-name` → `/dog.html?slug=slug-name` |
-| `404.html` | ~31 | Custom 404 page. |
+| `d.html` | ~19 | Slug router: `/d/slug-name` → `/dog.html?slug=slug-name`. **Client-side JS only — these URLs return HTTP 404 to crawlers.** |
+| `404.html` | ~31 | Custom 404 page. Also doubles as a SPA router for `/d/{slug}` URLs (the redirect JS runs on the 404 page). **Note for SEO: `/d/{slug}` URLs are NOT in sitemap.xml on purpose — they return 404 to Googlebot regardless of the JS redirect. To make dog pages indexable, would need Vercel migration or pre-built static files.** |
 
 ### SEO landing pages (added 2026-05-07)
 

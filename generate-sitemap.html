@@ -24,22 +24,18 @@ async function generate() {
   out.textContent = 'Fetching all dogs...\n';
 
   try {
-    const res = await fetch('https://dogshow.schemestudio.partykit.dev/parties/main/dogshow-live/all-dogs');
-    const payload = await res.json();
-    const dogs = Array.isArray(payload) ? payload : (payload.dogs || []);
-    out.textContent += `Found ${dogs.length} dogs.\n\nGenerating sitemap...\n\n`;
+    // Note: we intentionally do NOT include /d/{slug} dog pages in the sitemap.
+    // On GitHub Pages, /d/{slug} URLs return HTTP 404 — the dog page is rendered
+    // client-side via JS in 404.html. Including these in the sitemap causes GSC
+    // to flag them as broken. If we ever migrate to Vercel (where _redirects works)
+    // or pre-generate per-dog HTML files, restore the dog loop below.
+    out.textContent += `Generating sitemap (static pages only)...\n\n`;
 
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
 
     for (const page of STATIC_PAGES) {
       xml += `  <url>\n    <loc>${page.loc}</loc>\n    <changefreq>${page.changefreq}</changefreq>\n    <priority>${page.priority}</priority>\n  </url>\n`;
-    }
-
-    for (const dog of dogs) {
-      if (dog.slug) {
-        xml += `  <url>\n    <loc>https://dogshow.lol/d/${dog.slug}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
-      }
     }
 
     xml += '</urlset>';
