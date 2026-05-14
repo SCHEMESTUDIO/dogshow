@@ -24,17 +24,26 @@ DogShowPrototype.jsx is an OLD React prototype from early brainstorming. It is *
 
 | File | Lines | Purpose |
 |------|-------|---------|
-| `index.html` | ~1390 | Landing/sales page. Hero, pricing tiers, testimonials, FAQ, email modal, Stripe checkout flow, curtain animation. Inline `<style>` block with `.lp-*` classes. JS at bottom. |
-| `show.html` | ~195 | Live show page. Dog frame, bottom dock (bones, upload), chat panel, leaderboard, share rail, username modal. Loads `app.js`. |
-| `app.js` | ~1052 | Show page JS (IIFE). PartyKit WebSocket, dog slideshow sync, live chat, bone reactions/streaks/frenzy, community upload (canvas resize 600px JPEG 0.7), breed facts DB, leaderboard, share rail. |
-| `style.css` | ~1529 | Shared stylesheet. CSS vars, font-face, all page styles, responsive breakpoints. |
-| `success.html` | ~108 | Post-Stripe payment. Registers user via `/register`, curtain animation, redirect to show.html. |
-| `dog.html` | ~816 | Individual dog certificate. Stats, SEO content, Schema.org structured data, share buttons, "More Dogs" section. |
-| `dogs.html` | ~444 | All Dogs gallery. Search, sort, dog cards, aggregate stats. |
+| `index.html` | ~2109 | Landing/sales page. Hero, pricing tiers, testimonials, FAQ, email modal, Stripe checkout flow, curtain animation. Inline `<style>` block with `.lp-*` classes. JS at bottom. |
+| `show.html` | ~211 | Live show page. Dog frame, bottom dock (bones, upload), chat panel, leaderboard, share rail, username modal. Loads `app.js`. |
+| `app.js` | ~1134 | Show page JS (IIFE). PartyKit WebSocket, dog slideshow sync, live chat, bone reactions/streaks/frenzy, community upload (canvas resize 600px JPEG 0.7), breed facts DB, leaderboard, share rail, upgrade modals for free users. |
+| `style.css` | ~1862 | Shared stylesheet. CSS vars, font-face, all page styles, responsive breakpoints, upgrade modal CSS. |
+| `success.html` | ~409 | Post-Stripe payment. Registers user via `/register`, celebration page with dog preview + share buttons (FB/X/WhatsApp/copy). No auto-redirect. |
+| `dog.html` | ~857 | Individual dog certificate. Stats, SEO content, Schema.org structured data, share buttons, "More Dogs" section. Mobile-responsive. |
+| `dogs.html` | ~450 | All Dogs gallery. Search, sort, dog cards, aggregate stats, founding-dogs CTA empty state. |
 | `about.html` | ~208 | About page + contact (james@wearescheme.studio). |
-| `login.html` | ~100 | Returning user login. |
-| `d.html` | ~20 | Slug router: `/d/slug-name` → `/dog.html?slug=slug-name` |
-| `404.html` | ~50 | Custom 404 page. |
+| `login.html` | ~108 | Returning user login. |
+| `d.html` | ~19 | Slug router: `/d/slug-name` → `/dog.html?slug=slug-name` |
+| `404.html` | ~31 | Custom 404 page. |
+
+### SEO landing pages (added 2026-05-07)
+
+| File | Lines | Clean URL | Purpose |
+|------|-------|-----------|---------|
+| `dog-photo-contest.html` | ~1104 | `/dog-photo-contest` | "Dog photo contest" SEO landing, funnels to $3.99 BYD tier. Renamed from `contest.html` on 2026-05-14 — GH Pages doesn't honor `_redirects`, so filename must match the clean URL. |
+| `puppy-picture-contest.html` | ~567 | `/puppy-picture-contest` | "Puppy picture contest" SEO landing |
+| `dog-show-near-me.html` | ~625 | `/dog-show-near-me` | "Dog show near me" SEO landing, reframes to live online show |
+| `generate-sitemap.html` | ~58 | (utility) | Local utility — fetches all-dogs from PartyKit, outputs sitemap.xml |
 
 ### Non-page files
 
@@ -42,12 +51,15 @@ DogShowPrototype.jsx is an OLD React prototype from early brainstorming. It is *
 |------|---------|
 | `DogShowPrototype.jsx` | ⚠️ OLD prototype. Do NOT edit. Not deployed. |
 | `dogshow-architecture.docx` | Early architecture planning doc |
+| `dogshow-seo-strategy.docx`, `dogshow-seo-strategy-v2.docx` | SEO planning docs |
+| `Claude Project Memory - Best Practices.md` | Notes on memory file conventions |
 | `CNAME` | Domain: `dogshow.lol` |
-| `_redirects` | Netlify redirect rules |
+| `_redirects` | Netlify redirect rules (`/d/:slug`, SEO clean URLs) |
 | `robots.txt` | SEO crawl rules |
+| `sitemap.xml` | Static sitemap (regenerate via `generate-sitemap.html`) |
 | `YangBagus.ttf` | Custom font |
 | `favicon.svg` + PNG variants | Favicons |
-| `party/` | PartyKit server code (has its own node_modules) |
+| `party/` | PartyKit server code — single `server.js` (~60KB), has its own node_modules |
 
 ## API Endpoints (PartyKit)
 
@@ -57,11 +69,17 @@ Base: `dogshow.schemestudio.partykit.dev/parties/main/dogshow-live`
 |--------|------|---------|
 | GET | `/landing-stats` | Stats for landing page (bones, fans, dogs, watching) |
 | POST | `/register` | Register new user → returns token |
-| POST | `/create-checkout` | Create Stripe checkout session |
 | POST | `/login` | Login with token |
-| GET | `/get-user` | Get user data by token |
+| POST | `/verify` | Verify token / session |
+| POST | `/get-user` | Get user data by token |
+| POST | `/set-username` | Set username for current user |
+| POST | `/create-checkout` | Create Stripe checkout session |
 | POST | `/upload-dog` | Upload community dog (premium only) |
+| GET | `/community-image?id=X` | Fetch uploaded community dog image |
+| GET | `/community-count` | Count of community-uploaded dogs |
 | GET | `/dog-stats?id=X` | Individual dog stats |
+| GET | `/dog-meta?slug=X` | Per-dog OG/meta tags for share crawlers |
+| GET | `/show-meta` | OG/meta tags for show share rail |
 | GET | `/resolve-slug?slug=X` | Resolve slug to dog ID |
 | GET | `/all-dogs` | All dogs for gallery |
 | GET | `/leaderboard` | Top dogs + recent arrivals |

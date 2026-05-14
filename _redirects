@@ -2,8 +2,9 @@
 /d/:slug  /dog.html?slug=:slug  200
 
 # Clean SEO page URLs
-/dog-photo-contest  /contest.html  200
-/contest  /contest.html  301
-/dog-contest  /contest.html  301
-/puppy-picture-contest  /puppy-picture-contest.html  200
-/dog-show-near-me  /dog-show-near-me.html  200
+# Note: this _redirects file is a Netlify/Vercel format. GitHub Pages (current host)
+# ignores it — clean URLs work because filenames match (e.g. /dog-photo-contest
+# resolves to dog-photo-contest.html via GH Pages' .html stripping). Rules kept
+# for any future host migration.
+/contest  /dog-photo-contest  301
+/dog-contest  /dog-photo-contest  301
