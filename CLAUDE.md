@@ -43,6 +43,7 @@ DogShowPrototype.jsx is an OLD React prototype from early brainstorming. It is *
 | `dog-photo-contest.html` | ~1104 | `/dog-photo-contest` | "Dog photo contest" SEO landing, funnels to $3.99 BYD tier. Renamed from `contest.html` on 2026-05-14 — GH Pages doesn't honor `_redirects`, so filename must match the clean URL. |
 | `puppy-picture-contest.html` | ~567 | `/puppy-picture-contest` | "Puppy picture contest" SEO landing |
 | `dog-show-near-me.html` | ~625 | `/dog-show-near-me` | "Dog show near me" SEO landing, reframes to live online show |
+| `cutest-dog-contest.html` | ~570 | `/cutest-dog-contest` | "Cutest dog contest" SEO landing (added 2026-05-14). Targets the cutest cluster (~990/mo). Positioning: no judges, every dog is the cutest. Pay-to-vote critique vs The Dog Show. |
 | `generate-sitemap.html` | ~58 | (utility) | Local utility — fetches all-dogs from PartyKit, outputs sitemap.xml |
 
 ### Non-page files
