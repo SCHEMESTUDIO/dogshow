@@ -508,8 +508,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
+  justify-content: flex-start;
+  padding: 16px 24px;
   position: relative;
 }
 
@@ -522,13 +522,15 @@
   margin-bottom: 12px;
 }
 
-/* Premium stage frame */
+/* Premium stage frame — sized as the hero element (Twitch-style).
+   Was capped at 480px which left the dog-stage column mostly empty on
+   desktop. 800px lets the stage actually dominate the layout. */
 .dog-frame {
   position: relative;
   border: 2px solid rgba(255, 140, 66, 0.2);
   border-radius: 4px;
   background: #0f0a22;
-  max-width: 480px;
+  max-width: 800px;
   width: 100%;
   overflow: hidden;
 }
@@ -859,8 +861,13 @@
   background: var(--bg);
 }
 
+/* Intermission display intentionally suppressed 2026-05-19 (James).
+   Markup + app.js intermission state machine left intact in case we want
+   to re-enable later; just preventing the overlay from rendering.
+   Side effect: the stage shows the last dog frozen for the intermission
+   duration (~30s every 15 dogs) rather than the "Please Stand By" card. */
 .intermission-overlay.active {
-  display: flex;
+  display: none;
 }
 
 .intermission-card {
@@ -923,7 +930,7 @@
 /* ─── CHAT PANEL ───────────────────────────────── */
 
 .chat-panel {
-  flex: 0 0 300px;
+  flex: 0 0 360px;
   display: flex;
   flex-direction: column;
   border-left: 2px solid var(--border);
@@ -1365,9 +1372,11 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  max-width: 520px;
+  width: 100%;
+  max-width: 800px;
   margin: 12px auto 0;
   padding: 10px 16px;
+  box-sizing: border-box;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 8px;
@@ -1490,6 +1499,61 @@
   font-weight: 600;
   white-space: nowrap;
   padding-right: 14px;
+}
+
+/* Desktop leaderboard layout — Top Dogs + New Arrivals side-by-side
+   instead of the mobile vertical stack. Mobile rules above stay default. */
+@media (min-width: 701px) {
+  .leaderboard {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 36px 24px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 32px;
+    row-gap: 16px;
+  }
+
+  .leaderboard-header {
+    grid-column: 1 / -1;
+    margin-bottom: 4px;
+    font-size: 28px;
+  }
+
+  .leaderboard-section {
+    margin-bottom: 0;
+  }
+
+  .leaderboard-label {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    margin-bottom: 12px;
+  }
+
+  /* Slightly larger cards on desktop — bigger thumbnails + more readable text */
+  .leaderboard-thumb {
+    width: 72px;
+    height: 72px;
+  }
+
+  .leaderboard-name {
+    font-size: 14px;
+  }
+
+  .leaderboard-meta {
+    font-size: 12px;
+  }
+
+  .leaderboard-rank {
+    font-size: 16px;
+    padding-left: 12px;
+    min-width: 24px;
+  }
+
+  .leaderboard-bones {
+    font-size: 13px;
+    padding-right: 18px;
+  }
 }
 
 /* ─── SHARE RAIL (inline below dock) ─────────── */
@@ -1938,9 +2002,9 @@
   justify-content: space-between;
   gap: 12px;
   margin: 14px auto 0;
-  padding: 10px 12px;
+  padding: 10px 14px;
   width: 100%;
-  max-width: 480px;
+  max-width: 800px;
   box-sizing: border-box;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -2007,7 +2071,7 @@
   align-items: center;
   gap: 8px;
   width: 100%;
-  max-width: 480px;
+  max-width: 800px;
   box-sizing: border-box;
 }
 
@@ -2064,7 +2128,7 @@
   align-items: stretch;
   gap: 10px;
   width: 100%;
-  max-width: 480px;
+  max-width: 800px;
   box-sizing: border-box;
 }
 

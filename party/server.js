@@ -328,11 +328,13 @@ export default class DogShowServer {
 
     this.dogCount++;
 
-    // Intermission every 15 dogs
-    if (this.dogCount > 1 && this.dogCount % 15 === 0) {
-      this.startIntermission();
-      return; // Stats already recorded at top of advanceDog()
-    }
+    // Intermission trigger disabled 2026-05-19 — endless dog rotation.
+    // The startIntermission() method + isIntermission state machine are kept
+    // intact in case we want to re-enable later.
+    // if (this.dogCount > 1 && this.dogCount % 15 === 0) {
+    //   this.startIntermission();
+    //   return;
+    // }
 
     // Every 5th dog, show a community dog (if any exist)
     if (this.communityDogs.length > 0 && this.dogCount % 5 === 0) {
@@ -386,8 +388,9 @@ export default class DogShowServer {
       this.fetchDogs();
     }
 
-    // Schedule next dog (8s base + community dogs get 10s for extra visibility)
-    const baseTime = this.currentDog.isCommunity ? 10000 : 8000;
+    // Every dog gets 10 seconds — no special treatment for community vs API.
+    // Frenzy bonus time (dogBonusTime) is still applied on top when triggered.
+    const baseTime = 10000;
     this.dogInterval = setTimeout(() => {
       const bonus = this.dogBonusTime || 0;
       if (bonus > 0) {
