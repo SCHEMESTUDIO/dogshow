@@ -1929,19 +1929,35 @@
 
 /* Header row beneath the stage: nameplate left, bones cluster right.
    Carries id="dockBar" so the existing app.js frenzy-class toggle still
-   targets the correct element. */
+   targets the correct element. Constrained to dog-frame's 480px max-width
+   so on desktop it stacks cleanly under the stage rather than stretching
+   the full dog-stage column width. */
 .stage-header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin: 14px 0 0;
+  margin: 14px auto 0;
   padding: 10px 12px;
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   flex-wrap: wrap;
   transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+/* Suppress the .dog-nameplate.community box (border + bg + padding) when it
+   sits inside the new stage-header-row — otherwise you get a doubled-frame
+   read (community orange border nested inside the row's white-tint border).
+   The "submitted by X" badge alone provides the attribution cue. */
+.stage-header-row .dog-nameplate.community {
+  background: none;
+  border: none;
+  padding: 0;
+  border-radius: 0;
 }
 
 .stage-header-row.frenzy {
@@ -1982,13 +1998,17 @@
 }
 
 /* Paid-user row: holds the upload prompt OR the dog-in-show status link.
-   Hidden by default; app.js reveals based on tier. */
+   Hidden by default; app.js reveals based on tier. Constrained to 480px so
+   it visually stacks with the stage frame + header row above it. */
 .paid-user-row {
-  margin: 12px 0 0;
+  margin: 12px auto 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
 }
 
 .paid-user-row[hidden] { display: none; }
@@ -2035,13 +2055,17 @@
 
 /* House rotator: rotating real CTAs + fake-door interest captures.
    Replaces the old fixed "Enter Your Dog" dock button by turning it into
-   a position in the rotation, plus 4 fake-door cards. */
+   a position in the rotation, plus 4 fake-door cards. Constrained to 480px
+   so it stacks under the stage frame on desktop instead of stretching. */
 .house-rotator {
-  margin: 14px 0 0;
+  margin: 14px auto 0;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 10px;
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
 }
 
 .house-rotator-card {

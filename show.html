@@ -60,13 +60,13 @@
   <!-- Sponsor banner -->
   <div class="sponsor-banner" id="sponsorBanner"></div>
 
-  <!-- Main content -->
-  <div class="show-main">
+  <!-- Total fans top banner (hidden on mobile via CSS; spans full width on desktop) -->
+  <div class="total-fans" id="totalFans">
+    <span class="total-fans-count" id="totalFansCount">0</span> fans have entered The Dog Show
+  </div>
 
-    <!-- Total fans counter -->
-    <div class="total-fans" id="totalFans">
-      <span class="total-fans-count" id="totalFansCount">0</span> fans have entered The Dog Show
-    </div>
+  <!-- Main content — two columns on desktop (stage 60% + chat 300px), stacked on mobile -->
+  <div class="show-main">
 
     <!-- Dog display area -->
     <div class="dog-stage">
@@ -175,14 +175,15 @@
       </div>
     </div>
 
-    <!-- Share rail — de-emphasized, sits below chat. Users on mobile can also use the
-         browser's native share button at the top of the page. -->
-    <div class="show-share-rail show-share-rail-bottom" id="showShareRail">
-      <div class="show-share-rail-label">Share this good dog</div>
-      <div class="show-share-rail-buttons" id="showShareButtons"></div>
-      <div class="show-share-rail-copied" id="showShareCopied">Link copied!</div>
-    </div>
+  </div>
 
+  <!-- Share rail — full-width band below the main content area on desktop;
+       falls below chat on mobile (natural document order). De-emphasized — on
+       mobile users can also use the browser's native share button at the top. -->
+  <div class="show-share-rail show-share-rail-bottom" id="showShareRail">
+    <div class="show-share-rail-label">Share this good dog</div>
+    <div class="show-share-rail-buttons" id="showShareButtons"></div>
+    <div class="show-share-rail-copied" id="showShareCopied">Link copied!</div>
   </div>
 
   <!-- "Coming soon — get notified" modal for fake-door CTAs in the house rotator -->
