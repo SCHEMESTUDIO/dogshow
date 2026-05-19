@@ -1123,11 +1123,17 @@
     width: 100%;
     margin-left: 0;
     margin-top: 4px;
+    display: flex;
+    justify-content: center;
   }
 
   .dock-enter-btn {
-    width: 100%;
-    padding: 12px 16px;
+    /* Constrain width so the outlined button sits inside the dock-bar
+       frame as a CTA pill rather than stretching to match the dock's
+       border (which created a doubled-frame read). */
+    width: auto;
+    max-width: 100%;
+    padding: 12px 24px;
     font-size: 14px;
     text-align: center;
   }
@@ -1192,6 +1198,64 @@
   .leaderboard-rank {
     font-size: 13px;
     padding-left: 6px;
+  }
+
+  /* ── New mobile layout overrides (wireframe-applied) ───────────────
+     Tighten the bones cluster + rotator so they fit narrow widths. */
+
+  .stage-header-row {
+    margin-top: 12px;
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .stage-header-row .dog-nameplate-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .stage-header-row .dog-nameplate-name {
+    font-size: clamp(18px, 5vw, 22px);
+  }
+
+  /* On the narrowest phones, allow the bones cluster to break to its own
+     line below the nameplate rather than overflowing horizontally. */
+  .bones-cluster {
+    gap: 6px;
+  }
+
+  .stage-header-row .dock-bone-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .stage-header-row .dock-bone-pill {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .paid-user-upload-btn {
+    width: 100%;
+    max-width: 320px;
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+
+  .house-rotator {
+    margin: 14px 8px 0;
+  }
+
+  .house-rotator-card {
+    padding: 12px 14px;
+  }
+
+  .house-rotator-title {
+    font-size: 14px;
+  }
+
+  .show-share-rail-bottom {
+    margin: 16px 8px 8px;
+    padding: 14px 12px 10px;
   }
 }
 
@@ -1854,6 +1918,353 @@
 }
 
 .upgrade-dismiss:hover { color: #7B6BA0; }
+
+/* ─── NEW MOBILE LAYOUT ─────────────────────────────
+ * Components introduced when applying James's mobile UX wireframe.
+ * Bones cluster moves up beside the nameplate; paid-user row sits
+ * above the breed fact; a house rotator (real CTA + fake-door cards)
+ * sits between the breed fact and the chat panel. Bottom dock is
+ * dissolved (its inner elements redistribute; IDs preserved for app.js).
+ * ──────────────────────────────────────────────────── */
+
+/* Header row beneath the stage: nameplate left, bones cluster right.
+   Carries id="dockBar" so the existing app.js frenzy-class toggle still
+   targets the correct element. */
+.stage-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  flex-wrap: wrap;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.stage-header-row.frenzy {
+  border-color: rgba(255, 140, 66, 0.35);
+  background: rgba(255, 140, 66, 0.06);
+}
+
+.stage-header-row .dog-nameplate {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+  text-align: left;
+  padding: 0;
+}
+
+.stage-header-row .dog-nameplate-label {
+  text-align: left;
+}
+
+.stage-header-row .dog-nameplate-name {
+  text-align: left;
+  font-size: clamp(20px, 4.5vw, 28px);
+  padding: 0;
+}
+
+.bones-cluster {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.stage-header-row.frenzy .dock-frenzy-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Paid-user row: holds the upload prompt OR the dog-in-show status link.
+   Hidden by default; app.js reveals based on tier. */
+.paid-user-row {
+  margin: 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.paid-user-row[hidden] { display: none; }
+
+.paid-user-upload {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.paid-user-upload[hidden] { display: none; }
+
+.paid-user-upload-btn {
+  width: auto;
+  padding: 12px 24px;
+  background: rgba(255, 140, 66, 0.12);
+  border: 1px solid rgba(255, 140, 66, 0.5);
+  border-radius: 10px;
+  color: #FF8C42;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.paid-user-upload-btn:hover {
+  background: rgba(255, 140, 66, 0.22);
+  border-color: #FF8C42;
+}
+
+.paid-user-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.paid-user-status[hidden] { display: none; }
+
+/* House rotator: rotating real CTAs + fake-door interest captures.
+   Replaces the old fixed "Enter Your Dog" dock button by turning it into
+   a position in the rotation, plus 4 fake-door cards. */
+.house-rotator {
+  margin: 14px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.house-rotator-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(123, 104, 238, 0.10), rgba(255, 140, 66, 0.06));
+  border: 1px solid rgba(255, 140, 66, 0.28);
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: var(--font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  text-align: left;
+  transition: opacity 0.25s ease, transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  color: inherit;
+}
+
+.house-rotator-card:hover {
+  border-color: rgba(255, 140, 66, 0.55);
+  background: linear-gradient(135deg, rgba(123, 104, 238, 0.16), rgba(255, 140, 66, 0.10));
+  transform: translateY(-1px);
+}
+
+.house-rotator.fading .house-rotator-card {
+  opacity: 0.35;
+}
+
+.house-rotator-eyebrow {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 140, 66, 0.8);
+  font-weight: 600;
+}
+
+.house-rotator-eyebrow:empty {
+  display: none;
+}
+
+.house-rotator-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #f0e8ff;
+  line-height: 1.35;
+}
+
+.house-rotator-cta {
+  font-size: 12px;
+  color: #FF8C42;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.house-rotator-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.house-rotator-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  transition: background 0.25s ease, transform 0.2s ease;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+.house-rotator-dot.active {
+  background: #FF8C42;
+  transform: scale(1.2);
+}
+
+/* Share rail variant: appears below chat, de-emphasized */
+.show-share-rail-bottom {
+  margin: 20px auto 12px;
+  padding: 16px 16px 12px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: transparent;
+  max-width: 600px;
+}
+
+.show-share-rail-bottom .show-share-rail-label {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 10px;
+}
+
+/* Interest (fake-door) modal — appears when user clicks any fake-door card */
+.interest-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  background: rgba(15, 10, 34, 0.88);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  padding: 20px;
+}
+
+.interest-overlay.active {
+  display: flex;
+}
+
+.interest-modal {
+  background: var(--bg-card, #1a1035);
+  border: 1px solid rgba(255, 140, 66, 0.25);
+  border-radius: 16px;
+  padding: 28px 24px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  animation: modalIn 0.3s ease;
+  font-family: var(--font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+}
+
+.interest-modal-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.interest-modal-title {
+  font-family: 'Yang Bagus', 'YangBagus', cursive;
+  font-size: 26px;
+  color: #FF8C42;
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+
+.interest-modal-subtitle {
+  font-size: 14px;
+  color: rgba(224, 216, 240, 0.7);
+  margin-bottom: 18px;
+  line-height: 1.4;
+}
+
+.interest-modal-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #f0e8ff;
+  font-size: 14px;
+  font-family: inherit;
+  margin-bottom: 6px;
+  box-sizing: border-box;
+}
+
+.interest-modal-input:focus {
+  outline: none;
+  border-color: rgba(255, 140, 66, 0.5);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.interest-modal-input.error {
+  border-color: rgba(220, 80, 80, 0.6);
+}
+
+.interest-modal-error {
+  font-size: 12px;
+  color: #dc5050;
+  min-height: 16px;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.interest-modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.interest-modal-cancel {
+  flex: 0 0 auto;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  color: rgba(224, 216, 240, 0.5);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.interest-modal-cancel:hover { color: rgba(224, 216, 240, 0.85); }
+
+.interest-modal-submit {
+  flex: 1 1 auto;
+  padding: 12px 18px;
+  background: #FF8C42;
+  border: none;
+  border-radius: 10px;
+  color: #1a1035;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease;
+}
+
+.interest-modal-submit:hover { background: #FFA060; }
+
+.interest-modal-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.interest-modal-thanks {
+  font-size: 14px;
+  color: #4CAF50;
+  margin-top: 14px;
+  font-weight: 500;
+}
 
 /* ─── ANIMATIONS ───────────────────────────────── */
 

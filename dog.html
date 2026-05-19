@@ -13,11 +13,32 @@
   </script>
   <!-- Faurya Analytics -->
   <script async defer src="https://www.faurya.com/js/script.js" data-website-id="cmosekmvz000xl204a7bhm4cm" data-domain="dogshow.lol"></script>
+  <!-- Bing UET + Clarity (see analytics.js for setup) -->
+  <script src="analytics.js" defer></script>
   <title>Dog Show — Certificate</title>
   <meta name="description" content="A dog appeared on The Dog Show — the live, exclusive dog-viewing experience at dogshow.lol">
-  <meta property="og:type" content="website">
+
+  <!-- Open Graph — generic site image is the interim default. JS in this file
+       updates og:title and og:description with the dog's name once loaded, but
+       social crawlers (which don't execute JS) will see the static defaults
+       below. Per-dog og:image requires server-side rendering — planned for v2. -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="A dog on The Dog Show — see their certificate">
+  <meta property="og:description" content="One dog, one stage, one permanent page on dogshow.lol. Give them bones and watch the show live.">
   <meta property="og:site_name" content="The Dog Show">
+  <meta property="og:image" content="https://dogshow.lol/og-image.png">
+  <meta property="og:image:secure_url" content="https://dogshow.lol/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Dog Show — A Live Dog-Viewing Experience">
+
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="A dog on The Dog Show — see their certificate">
+  <meta name="twitter:description" content="One dog, one stage, one permanent page on dogshow.lol.">
+  <meta name="twitter:image" content="https://dogshow.lol/og-image.png">
+  <meta name="twitter:image:alt" content="The Dog Show — A Live Dog-Viewing Experience">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -603,9 +624,14 @@
           ? 'First appeared ' + formatDate(dog.stats.firstAppearance)
           : 'Uploaded ' + formatDate(dog.uploadedAt) + ' — awaiting first appearance';
 
-      // Share buttons — shareUrl goes to PartyKit dog-meta endpoint (serves OG tags server-side for crawlers, then redirects to real page)
+      // Share URLs now point to dogshow.lol directly (no longer the PartyKit
+      // /dog-meta endpoint, which exposed schemestudio.partykit.dev in social
+      // previews). Tradeoff: per-dog OG image is not yet wired — d.html serves
+      // the same generic site OG image as homepage shares for the interim.
+      // To restore per-dog images later, set up a Cloudflare Worker or migrate
+      // to Vercel/Netlify so we can serve dynamic OG HTML at /d/{slug} paths.
       var pageUrl = dog.slug ? 'https://dogshow.lol/d/' + dog.slug : 'https://dogshow.lol/dog.html?id=' + dog.id;
-      var shareUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/dog-meta?id=' + dog.id;
+      var shareUrl = pageUrl;
       var shareText = 'Check out ' + dog.dogName + ' on The Dog Show! 🐕';
       var shareButtons = document.getElementById('shareButtons');
       var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);

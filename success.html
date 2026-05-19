@@ -13,9 +13,31 @@
   </script>
   <!-- Faurya Analytics -->
   <script async defer src="https://www.faurya.com/js/script.js" data-website-id="cmosekmvz000xl204a7bhm4cm" data-domain="dogshow.lol"></script>
+  <!-- Bing UET + Clarity (see analytics.js for setup) -->
+  <script src="analytics.js" defer></script>
   <title>Dog Show — You're In!</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="canonical" href="https://dogshow.lol/success.html">
+  <meta name="description" content="You're officially in The Dog Show.">
+
+  <!-- Open Graph + Twitter — success URLs may get shared by enthusiastic
+       new users. Provide a clean preview even though noindex. -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="I'm in The Dog Show">
+  <meta property="og:description" content="The internet's live dog show. Watch dogs, give bones, enter your own for $3.99.">
+  <meta property="og:url" content="https://dogshow.lol/">
+  <meta property="og:site_name" content="The Dog Show">
+  <meta property="og:image" content="https://dogshow.lol/og-image.png">
+  <meta property="og:image:secure_url" content="https://dogshow.lol/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Dog Show — A Live Dog-Viewing Experience">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="I'm in The Dog Show">
+  <meta name="twitter:description" content="The internet's live dog show. Watch dogs, give bones, enter your own for $3.99.">
+  <meta name="twitter:image" content="https://dogshow.lol/og-image.png">
+  <meta name="twitter:image:alt" content="The Dog Show — A Live Dog-Viewing Experience">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -278,6 +300,24 @@
     const tier = params.get('tier') || 'general';
     const sessionId = params.get('session_id') || '';
     const email = params.get('email') || '';
+
+    // Fire Bing UET + GA4 purchase event. Only paid tiers reach this page
+    // (free tier skips Stripe and goes straight to show.html from index.html).
+    // Revenue values must match Stripe prices.
+    // analytics.js is loaded with `defer`, so it executes AFTER inline scripts
+    // during parsing. We must wait for DOMContentLoaded before calling helpers
+    // — otherwise window.trackPurchase is undefined and the event silently no-ops.
+    const revenueByTier = { general: 1.99, premium: 3.99 };
+    function fireBingPurchaseConversion() {
+      if (window.trackPurchase && revenueByTier[tier] != null) {
+        window.trackPurchase(tier, revenueByTier[tier]);
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fireBingPurchaseConversion);
+    } else {
+      fireBingPurchaseConversion();
+    }
 
     // Check for pending dog upload
     const pendingDogName = localStorage.getItem('dogshow_pending_dog_name');

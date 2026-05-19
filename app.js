@@ -878,7 +878,10 @@
   var showShareButtons = document.getElementById('showShareButtons');
   var showShareCopied = document.getElementById('showShareCopied');
 
-  var shareUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/show-meta';
+  // Clean dogshow.lol URL — was previously a PartyKit endpoint that served
+  // dynamic OG HTML, but exposed schemestudio.partykit.dev in social previews.
+  // OG/Twitter tags now live in show.html directly; static og-image.png at /.
+  var shareUrl = 'https://dogshow.lol/show.html';
   var shareText = "I'm watching The Dog Show — a live dog-viewing experience. Come watch dogs with me!";
   var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -984,34 +987,19 @@
   var dockPatience = document.getElementById('dockPatience');
   var dockBar = document.getElementById('dockBar');
 
-  // For free users: show enter button but trigger upgrade modal
-  if (isFreeUser) {
-    communityUpload.hidden = false;
-    uploadBtn.textContent = 'Enter Your Dog — $3.99';
-    uploadBtn.className = 'dock-enter-btn';
-    uploadBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showUpgradeModal('upload');
-    });
-  }
-
-  // Show enter button for general tier (bones but no upload)
-  if (tier === 'general' && sessionToken) {
-    communityUpload.hidden = false;
-    uploadBtn.textContent = 'Enter Your Dog — $3.99';
-    uploadBtn.className = 'dock-enter-btn';
-    uploadBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showUpgradeModal('upload');
-    });
-  }
-
-  // Show upload button for premium users
+  // ── Paid-user row visibility (new mobile layout) ──
+  // Free + general tiers no longer see an upload button on this page —
+  // the $3.99 CTA now rotates in the house rotator below the breed fact.
+  // Only premium ($3.99) buyers see the paid-user-row, which reveals their
+  // upload prompt or (once uploaded) the link to their dog's certificate.
+  var bottomDock = document.getElementById('bottomDock');
   if (tier === 'premium' && sessionToken) {
+    if (bottomDock) bottomDock.hidden = false;
     communityUpload.hidden = false;
-    uploadBtn.textContent = '📸 Add your dog';
-    uploadBtn.className = 'dock-upload-btn';
+    uploadBtn.textContent = '📸 Upload your dog now';
+    uploadBtn.className = 'dock-enter-btn paid-user-upload-btn';
   }
+  // For free + general, leave bottomDock + communityUpload hidden.
 
   if (uploadBtn) {
     uploadBtn.addEventListener('click', function () {
@@ -1117,6 +1105,284 @@
     if (isError) {
       alert(msg);
     }
+  }
+
+  // ─── HOUSE ROTATOR (mobile layout — real CTA + fake-door cards) ───
+  // Replaces the old fixed "Enter Your Dog" dock button. Rotates 5 messages
+  // every 15 seconds. The $3.99 entry message is a real CTA → upgrade modal.
+  // Premium tier users have it filtered out (they already paid). The other 4
+  // messages are fake doors that open an interest-capture modal.
+
+  var ROTATOR_INTERVAL_MS = 15000;
+  var ROTATOR_FADE_MS = 200;
+
+  var rotatorMessages = [
+    {
+      eyebrow: 'Tonight',
+      title: 'Put your dog in the show — $3.99',
+      cta: 'Enter →',
+      action: 'real_entry',
+      excludeForTiers: ['premium'],
+    },
+    {
+      eyebrow: 'Coming soon',
+      title: 'Custom stage frames for your dog',
+      cta: 'Get notified →',
+      action: 'interest',
+      feature: 'stage_frames',
+      modalIcon: '🎭',
+      modalTitle: 'Custom stage frames',
+      modalSubtitle: "Pick a frame that matches your dog — gilded, bone-themed, beach bum, royal velvet. We'll email you when frames launch.",
+    },
+    {
+      eyebrow: 'Coming soon',
+      title: 'Bone packs — throw more love',
+      cta: 'Get notified →',
+      action: 'interest',
+      feature: 'bone_packs',
+      modalIcon: '🦴',
+      modalTitle: 'Bone packs',
+      modalSubtitle: "Buy bones in bulk and throw them at the dogs that deserve them most. We'll email you when packs go live.",
+    },
+    {
+      eyebrow: 'Coming soon',
+      title: "Boost your dog's frequency",
+      cta: 'Get notified →',
+      action: 'interest',
+      feature: 'frequency_boost',
+      modalIcon: '⚡',
+      modalTitle: "Boost your dog's frequency",
+      modalSubtitle: "Get your dog on stage every 4 hours, every hour, or every 15 minutes. We'll email you when boost packs launch.",
+    },
+    {
+      eyebrow: 'Our mission',
+      title: 'Helping dogs in need',
+      cta: 'Learn more →',
+      action: 'interest',
+      feature: 'rescue_donation',
+      modalIcon: '💝',
+      modalTitle: 'Helping dogs in need',
+      modalSubtitle: 'Every month we donate to a dog rescue near the dog with the most bones. Drop your email and we will share our plans first.',
+    },
+  ];
+
+  // Filter out messages excluded for this tier (e.g. premium doesn't see entry CTA)
+  var activeRotatorMessages = rotatorMessages.filter(function (m) {
+    if (!m.excludeForTiers) return true;
+    return m.excludeForTiers.indexOf(tier) === -1;
+  });
+
+  var rotatorContainer = document.getElementById('houseRotator');
+  var rotatorCard = document.getElementById('houseRotatorCard');
+  var rotatorEyebrow = document.getElementById('houseRotatorEyebrow');
+  var rotatorTitle = document.getElementById('houseRotatorTitle');
+  var rotatorCta = document.getElementById('houseRotatorCta');
+  var rotatorDots = document.getElementById('houseRotatorDots');
+
+  var rotatorIndex = 0;
+  var rotatorTimer = null;
+
+  function renderRotatorMessage(index) {
+    var msg = activeRotatorMessages[index];
+    if (!msg || !rotatorTitle) return;
+    if (rotatorEyebrow) rotatorEyebrow.textContent = msg.eyebrow || '';
+    rotatorTitle.textContent = msg.title;
+    if (rotatorCta) rotatorCta.textContent = msg.cta || 'Learn more →';
+    if (rotatorDots) {
+      Array.prototype.forEach.call(rotatorDots.children, function (dot, i) {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+  }
+
+  function buildRotatorDots() {
+    if (!rotatorDots) return;
+    rotatorDots.innerHTML = '';
+    activeRotatorMessages.forEach(function (_, i) {
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'house-rotator-dot';
+      dot.setAttribute('aria-label', 'Show message ' + (i + 1));
+      dot.addEventListener('click', function () {
+        rotatorIndex = i;
+        renderRotatorMessage(i);
+        restartRotatorTimer();
+      });
+      rotatorDots.appendChild(dot);
+    });
+  }
+
+  function advanceRotator() {
+    if (activeRotatorMessages.length < 2) return;
+    if (rotatorContainer) rotatorContainer.classList.add('fading');
+    setTimeout(function () {
+      rotatorIndex = (rotatorIndex + 1) % activeRotatorMessages.length;
+      renderRotatorMessage(rotatorIndex);
+      if (rotatorContainer) rotatorContainer.classList.remove('fading');
+    }, ROTATOR_FADE_MS);
+  }
+
+  function restartRotatorTimer() {
+    if (rotatorTimer) clearInterval(rotatorTimer);
+    if (activeRotatorMessages.length >= 2) {
+      rotatorTimer = setInterval(advanceRotator, ROTATOR_INTERVAL_MS);
+    }
+  }
+
+  function handleRotatorClick() {
+    var msg = activeRotatorMessages[rotatorIndex];
+    if (!msg) return;
+    var label = msg.feature || msg.action;
+    try {
+      if (window.gtag) {
+        window.gtag('event', 'house_rotator_click', {
+          event_category: 'engagement',
+          event_label: label,
+        });
+      }
+    } catch (e) {}
+    try {
+      if (window.uetq) {
+        window.uetq.push('event', 'house_rotator_click', {
+          event_category: 'engagement',
+          event_label: label,
+        });
+      }
+    } catch (e) {}
+
+    if (msg.action === 'real_entry') {
+      if (typeof showUpgradeModal === 'function') {
+        showUpgradeModal('upload');
+      } else {
+        window.location.href = '/?scroll=pricing#pricing';
+      }
+    } else if (msg.action === 'interest') {
+      openInterestModal(msg);
+    }
+  }
+
+  if (rotatorCard) {
+    rotatorCard.addEventListener('click', handleRotatorClick);
+  }
+
+  if (activeRotatorMessages.length > 0 && rotatorTitle) {
+    buildRotatorDots();
+    renderRotatorMessage(0);
+    restartRotatorTimer();
+  }
+
+  // ─── INTEREST (FAKE-DOOR) MODAL ───
+  // Opens when a fake-door card is clicked. Captures email and posts to
+  // /register with tier='interest_<feature>' so leads land in the existing
+  // user store. Also fires UET + GA4 events for analytics.
+
+  var interestOverlay = document.getElementById('interestOverlay');
+  var interestIconEl = document.getElementById('interestIcon');
+  var interestTitleEl = document.getElementById('interestTitle');
+  var interestSubtitleEl = document.getElementById('interestSubtitle');
+  var interestInput = document.getElementById('interestInput');
+  var interestError = document.getElementById('interestError');
+  var interestCancel = document.getElementById('interestCancel');
+  var interestSubmit = document.getElementById('interestSubmit');
+  var interestThanks = document.getElementById('interestThanks');
+  var interestActions = interestOverlay ? interestOverlay.querySelector('.interest-modal-actions') : null;
+  var currentInterestFeature = null;
+
+  function openInterestModal(msg) {
+    if (!interestOverlay) return;
+    currentInterestFeature = msg.feature || 'unknown';
+    if (interestIconEl) interestIconEl.textContent = msg.modalIcon || '✨';
+    if (interestTitleEl) interestTitleEl.textContent = msg.modalTitle || msg.title || 'Coming soon';
+    if (interestSubtitleEl) {
+      interestSubtitleEl.textContent = msg.modalSubtitle || "We'll let you know when this launches.";
+      interestSubtitleEl.hidden = false;
+    }
+    if (interestInput) {
+      interestInput.value = '';
+      interestInput.classList.remove('error');
+      interestInput.hidden = false;
+    }
+    if (interestError) interestError.textContent = '';
+    if (interestSubmit) {
+      interestSubmit.disabled = false;
+      interestSubmit.textContent = 'Notify me';
+    }
+    if (interestActions) interestActions.hidden = false;
+    if (interestThanks) interestThanks.hidden = true;
+    interestOverlay.classList.add('active');
+    setTimeout(function () { if (interestInput) interestInput.focus(); }, 100);
+  }
+
+  function closeInterestModal() {
+    if (interestOverlay) interestOverlay.classList.remove('active');
+    currentInterestFeature = null;
+  }
+
+  function showInterestThanks() {
+    if (interestSubtitleEl) interestSubtitleEl.hidden = true;
+    if (interestInput) interestInput.hidden = true;
+    if (interestActions) interestActions.hidden = true;
+    if (interestThanks) interestThanks.hidden = false;
+    setTimeout(closeInterestModal, 1800);
+  }
+
+  function submitInterest() {
+    if (!interestInput) return;
+    var email = (interestInput.value || '').trim().toLowerCase();
+    if (!email || email.indexOf('@') === -1 || email.indexOf('.') === -1) {
+      if (interestError) interestError.textContent = 'Please enter a valid email address.';
+      interestInput.classList.add('error');
+      return;
+    }
+    if (interestError) interestError.textContent = '';
+    interestInput.classList.remove('error');
+    if (interestSubmit) {
+      interestSubmit.disabled = true;
+      interestSubmit.textContent = 'Saving...';
+    }
+
+    var featureLabel = currentInterestFeature || 'unknown';
+    try {
+      if (window.gtag) {
+        window.gtag('event', 'fake_door_email_capture', {
+          event_category: 'lead',
+          event_label: featureLabel,
+        });
+      }
+    } catch (e) {}
+    try {
+      if (window.uetq) {
+        window.uetq.push('event', 'fake_door_email_capture', {
+          event_category: 'lead',
+          event_label: featureLabel,
+        });
+      }
+    } catch (e) {}
+
+    fetch('https://dogshow.schemestudio.partykit.dev/party/dogshow-live/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        tier: 'interest_' + featureLabel,
+      }),
+    }).then(showInterestThanks).catch(showInterestThanks);
+    // Note: success-path UI regardless of server response. Fake doors are
+    // about intent capture; don't trap users on backend errors.
+  }
+
+  if (interestCancel) interestCancel.addEventListener('click', closeInterestModal);
+  if (interestSubmit) interestSubmit.addEventListener('click', submitInterest);
+  if (interestInput) {
+    interestInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') submitInterest();
+      if (e.key === 'Escape') closeInterestModal();
+    });
+  }
+  if (interestOverlay) {
+    interestOverlay.addEventListener('click', function (e) {
+      if (e.target === interestOverlay) closeInterestModal();
+    });
   }
 
   // ─── INIT ───────────────────────────────────────

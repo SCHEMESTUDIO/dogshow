@@ -13,9 +13,31 @@
   </script>
   <!-- Faurya Analytics -->
   <script async defer src="https://www.faurya.com/js/script.js" data-website-id="cmosekmvz000xl204a7bhm4cm" data-domain="dogshow.lol"></script>
+  <!-- Bing UET + Clarity (see analytics.js for setup) -->
+  <script src="analytics.js" defer></script>
   <title>The Dog Show — Live</title>
-  <meta name="description" content="You're in. Welcome to The Dog Show.">
+  <meta name="description" content="The internet's live dog show. One dog at a time, everyone watching. Give bones, chat with fans, or enter your own dog for a permanent show page.">
   <link rel="canonical" href="https://dogshow.lol/show.html">
+
+  <!-- Open Graph (Facebook, LinkedIn, iMessage, Slack, Discord, WhatsApp, Telegram, Reddit) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="The Dog Show — A Live Dog-Viewing Experience">
+  <meta property="og:description" content="Watch one dog at a time, give bones, and chat with the crowd. Enter your own dog for $3.99 and get a permanent page.">
+  <meta property="og:url" content="https://dogshow.lol/show.html">
+  <meta property="og:site_name" content="The Dog Show">
+  <meta property="og:image" content="https://dogshow.lol/og-image.png">
+  <meta property="og:image:secure_url" content="https://dogshow.lol/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Dog Show — A Live Dog-Viewing Experience">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Dog Show — A Live Dog-Viewing Experience">
+  <meta name="twitter:description" content="Watch one dog at a time, give bones, chat with the crowd. Enter yours for $3.99.">
+  <meta name="twitter:image" content="https://dogshow.lol/og-image.png">
+  <meta name="twitter:image:alt" content="The Dog Show — A Live Dog-Viewing Experience">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -64,9 +86,6 @@
         </div>
       </div>
 
-      <!-- Stage label -->
-      <div class="stage-label">The Main Stage</div>
-
       <!-- Dog frame -->
       <div class="dog-frame">
         <div class="dog-frame-drape">
@@ -80,10 +99,41 @@
         <div class="dog-frame-footer"></div>
       </div>
 
-      <!-- Name plate -->
-      <div class="dog-nameplate" id="dogNameplate">
-        <div class="dog-nameplate-label">Now presenting</div>
-        <div class="dog-nameplate-name" id="dogName">...</div>
+      <!-- Header row: dog name on the left, bones cluster on the right.
+           id="dockBar" is preserved so app.js can still toggle the .frenzy class. -->
+      <div class="stage-header-row" id="dockBar">
+        <div class="dog-nameplate" id="dogNameplate">
+          <div class="dog-nameplate-label">Now presenting</div>
+          <div class="dog-nameplate-name" id="dogName">...</div>
+        </div>
+        <div class="bones-cluster">
+          <button class="dock-bone-btn" id="boneBtn">🦴 Give a bone</button>
+          <div class="dock-bone-pill">
+            <span class="dock-bone-pill-count" id="boneCount">0</span>
+            <span class="dock-bone-pill-label">bones</span>
+          </div>
+          <span class="bone-streak" id="boneStreak"></span>
+          <div class="dock-frenzy-badge" id="boneFrenzy">
+            <span id="boneFrenzyText">BONE FRENZY</span>
+            <span id="boneFrenzyMulti">x0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paid-user row: upload prompt → status link once uploaded.
+           id="bottomDock" preserved for any legacy refs.
+           Hidden by default; app.js reveals based on tier. -->
+      <div class="paid-user-row" id="bottomDock" hidden>
+        <div id="communityUpload" class="paid-user-upload" hidden>
+          <button class="dock-enter-btn paid-user-upload-btn" id="uploadBtn">📸 Upload your dog now</button>
+          <input type="file" id="uploadInput" accept="image/jpeg,image/png,image/webp" hidden>
+        </div>
+        <div class="paid-user-status" id="dockStatus" hidden>
+          <div class="dock-status-dot" id="dockStatusDot"></div>
+          <span id="dockStatusText">Your dog is in the show</span>
+          <a class="dock-link" id="dockDogLink" href="#" target="_blank">View page <span>&rarr;</span></a>
+        </div>
+        <div class="dock-patience" id="dockPatience" hidden>Your dog is in the show &mdash; they'll appear in the rotation shortly</div>
       </div>
 
       <!-- Breed fact card -->
@@ -92,49 +142,25 @@
         <span class="breed-fact-text" id="breedFactText"></span>
       </div>
 
-      <!-- Action bar -->
-      <div class="bottom-dock" id="bottomDock">
-        <div class="dock-bar" id="dockBar">
-          <div class="dock-row">
-            <button class="dock-bone-btn" id="boneBtn">🦴 Give a bone</button>
-            <div class="dock-bone-pill">
-              <span class="dock-bone-pill-count" id="boneCount">0</span>
-              <span class="dock-bone-pill-label">bones</span>
-            </div>
-            <span class="bone-streak" id="boneStreak"></span>
-            <div class="dock-frenzy-badge" id="boneFrenzy">
-              <span id="boneFrenzyText">BONE FRENZY</span>
-              <span id="boneFrenzyMulti">x0</span>
-            </div>
-            <div class="dock-status" id="dockStatus" hidden>
-              <div class="dock-status-dot" id="dockStatusDot"></div>
-              <span id="dockStatusText">Your dog is live</span>
-            </div>
-            <div id="communityUpload" class="dock-enter-wrap" hidden>
-              <button class="dock-enter-btn" id="uploadBtn">Enter Your Dog &mdash; $3.99</button>
-              <input type="file" id="uploadInput" accept="image/jpeg,image/png,image/webp" hidden>
-            </div>
-            <a class="dock-link" id="dockDogLink" href="#" target="_blank" hidden>View page <span>&rarr;</span></a>
-          </div>
-        </div>
-        <div class="dock-patience" id="dockPatience" hidden>Your dog is in the show &mdash; they'll appear in the rotation shortly</div>
+      <!-- House rotator: rotates real CTA + fake-door interest captures.
+           See app.js HOUSE_ROTATOR for messages + click handlers. -->
+      <div class="house-rotator" id="houseRotator">
+        <button class="house-rotator-card" id="houseRotatorCard" type="button">
+          <span class="house-rotator-eyebrow" id="houseRotatorEyebrow"></span>
+          <span class="house-rotator-title" id="houseRotatorTitle">Loading...</span>
+          <span class="house-rotator-cta" id="houseRotatorCta">Learn more &rarr;</span>
+        </button>
+        <div class="house-rotator-dots" id="houseRotatorDots"></div>
       </div>
+
       <div class="bone-rain" id="boneRain"></div>
 
       <!-- Hidden elements for JS compatibility -->
       <span id="communityNum" hidden>0</span>
       <span id="communityPlural" hidden>s</span>
-
-      <!-- Share rail -->
-      <div class="show-share-rail" id="showShareRail">
-        <div class="show-share-rail-label">Share this good dog</div>
-        <div class="show-share-rail-sub">Send this good dog to someone who owes him bones.</div>
-        <div class="show-share-rail-buttons" id="showShareButtons"></div>
-        <div class="show-share-rail-copied" id="showShareCopied">Link copied!</div>
-      </div>
     </div>
 
-    <!-- Chat panel -->
+    <!-- Chat panel (moved up to be the main content area below the stage) -->
     <div class="chat-panel">
       <div class="chat-header">
         <span>Live Chat</span>
@@ -149,6 +175,30 @@
       </div>
     </div>
 
+    <!-- Share rail — de-emphasized, sits below chat. Users on mobile can also use the
+         browser's native share button at the top of the page. -->
+    <div class="show-share-rail show-share-rail-bottom" id="showShareRail">
+      <div class="show-share-rail-label">Share this good dog</div>
+      <div class="show-share-rail-buttons" id="showShareButtons"></div>
+      <div class="show-share-rail-copied" id="showShareCopied">Link copied!</div>
+    </div>
+
+  </div>
+
+  <!-- "Coming soon — get notified" modal for fake-door CTAs in the house rotator -->
+  <div class="interest-overlay" id="interestOverlay">
+    <div class="interest-modal">
+      <div class="interest-modal-icon" id="interestIcon">&#127775;</div>
+      <div class="interest-modal-title" id="interestTitle">Coming soon</div>
+      <div class="interest-modal-subtitle" id="interestSubtitle">Drop your email and we'll let you know when this lands.</div>
+      <input type="email" class="interest-modal-input" id="interestInput" placeholder="you@email.com" autocomplete="email" spellcheck="false">
+      <div class="interest-modal-error" id="interestError"></div>
+      <div class="interest-modal-actions">
+        <button class="interest-modal-cancel" id="interestCancel">No thanks</button>
+        <button class="interest-modal-submit" id="interestSubmit">Notify me</button>
+      </div>
+      <div class="interest-modal-thanks" id="interestThanks" hidden>You're on the list. We'll be in touch.</div>
+    </div>
   </div>
 
   <!-- Leaderboard -->
