@@ -986,6 +986,9 @@
   var dockDogLink = document.getElementById('dockDogLink');
   var dockPatience = document.getElementById('dockPatience');
   var dockBar = document.getElementById('dockBar');
+  var dockError = document.getElementById('dockError');
+  var dockErrorText = document.getElementById('dockErrorText');
+  var dockErrorRetry = document.getElementById('dockErrorRetry');
 
   // ── Paid-user row visibility (new mobile layout) ──
   // Free + general tiers no longer see an upload button on this page —
@@ -1012,15 +1015,17 @@
       var file = e.target.files[0];
       if (!file) return;
 
+      clearUploadError();
+
       // Validate file type
       if (!file.type.match(/^image\/(jpeg|png|webp)$/)) {
-        showUploadStatus('Please upload a JPEG, PNG, or WebP image.', true);
+        showUploadStatus('Please upload a JPEG, PNG, or WebP image.', true, 'bad_file_type');
         return;
       }
 
       // Validate size (max 5MB before resize)
       if (file.size > 5 * 1024 * 1024) {
-        showUploadStatus('Image too large (max 5MB).', true);
+        showUploadStatus('Image too large (max 5MB).', true, 'file_too_large');
         return;
       }
 
@@ -1085,14 +1090,16 @@
                 dockPatience.hidden = true;
               }, 60000);
             } else {
-              showUploadStatus(data.error || 'Upload failed.', true);
+              showUploadStatus(data.error || 'Upload failed.', true, data.code || 'server_rejected');
               uploadBtn.disabled = false;
+              uploadBtn.textContent = '📸 Upload your dog now';
               uploadInput.value = '';  // Reset so they can try again
             }
           })
           .catch(function () {
-            showUploadStatus('Upload failed. Try again.', true);
+            showUploadStatus('Upload failed. Try again.', true, 'network');
             uploadBtn.disabled = false;
+            uploadBtn.textContent = '📸 Upload your dog now';
           });
       };
       img.src = e.target.result;
@@ -1100,11 +1107,46 @@
     reader.readAsDataURL(file);
   }
 
-  function showUploadStatus(msg, isError) {
-    // Show error as a brief alert since we removed the status element
-    if (isError) {
-      alert(msg);
+  function clearUploadError() {
+    if (dockError) dockError.hidden = true;
+  }
+
+  function showUploadStatus(msg, isError, code) {
+    if (!isError) return;
+    // Persistent inline error — replaces the old alert() that mobile users
+    // routinely missed (platform audit Critical-4 / the Emily incident).
+    if (dockError && dockErrorText) {
+      dockErrorText.textContent = msg;
+      dockError.hidden = false;
+    } else if (typeof alert === 'function') {
+      alert(msg); // defensive fallback if the markup is missing
     }
+    // Emit a specific, queryable error label so upload failures are observable.
+    var label = 'upload_error_' + (code || 'unknown');
+    try {
+      if (window.gtag) {
+        window.gtag('event', label, { event_category: 'upload', event_label: code || 'unknown' });
+      }
+    } catch (e) {}
+    try {
+      if (window.uetq) {
+        window.uetq.push('event', label, { event_category: 'upload' });
+      }
+    } catch (e) {}
+  }
+
+  if (dockErrorRetry) {
+    dockErrorRetry.addEventListener('click', function () {
+      clearUploadError();
+      if (uploadBtn) {
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = '📸 Upload your dog now';
+      }
+      if (uploadInput) {
+        uploadInput.value = '';
+        uploadInput.click();
+      }
+    });
   }
 
   // ─── HOUSE ROTATOR (mobile layout — real CTA + fake-door cards) ───

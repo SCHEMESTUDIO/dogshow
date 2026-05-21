@@ -1,3 +1,4 @@
+// @ts-check
 // ═══════════════════════════════════════════════
 // Dog Show — PartyKit Server
 // Real-time chat, shared bone counts, bot seeding,
@@ -80,6 +81,9 @@ export default class DogShowServer {
     // Pre-fetch initial dogs
     await this.fetchDogs();
     this.advanceDog();
+
+    // Arm the daily stuck-user reconciliation alarm (audit Critical-6).
+    await this.scheduleAuditAlarm();
   }
 
   async seedDogs() {
@@ -692,8 +696,17 @@ export default class DogShowServer {
     }
 
     try {
+      if (path === 'admin-audit' && req.method === 'GET') {
+        return await this.handleAdminAudit(req, headers);
+      }
       if (path === 'register' && req.method === 'POST') {
         return await this.handleRegister(req, headers);
+      }
+      if (path === 'verify-checkout' && req.method === 'POST') {
+        return await this.handleVerifyCheckout(req, headers);
+      }
+      if (path === 'stripe-webhook' && req.method === 'POST') {
+        return await this.handleStripeWebhook(req, headers);
       }
       if (path === 'login' && req.method === 'POST') {
         return await this.handleLogin(req, headers);
@@ -804,34 +817,52 @@ export default class DogShowServer {
     return new Response(JSON.stringify({ error: 'not found' }), { status: 404, headers });
   }
 
-  // Register a new user after Stripe payment
+  // Register a free signup or a fake-door interest lead.
+  // SECURITY (audit Critical-1): paid tiers MUST be provisioned through
+  // /verify-checkout, which confirms a real Stripe payment. /register trusts
+  // its input, so it must never be able to grant a general/premium tier.
   async handleRegister(req, headers) {
-    const { email, tier, stripeCustomerId } = await req.json();
+    const { email, tier } = await req.json();
     if (!email) {
       return new Response(JSON.stringify({ error: 'email required' }), { status: 400, headers });
+    }
+    if (tier === 'general' || tier === 'premium') {
+      return new Response(
+        JSON.stringify({ error: 'paid tiers must be purchased through checkout' }),
+        { status: 403, headers }
+      );
     }
 
     const normalizedEmail = email.toLowerCase().trim();
     const userId = 'user_' + this.hashEmail(normalizedEmail);
+    const isInterest = typeof tier === 'string' && tier.startsWith('interest_');
 
     // Check if already registered
     const existing = await this.room.storage.get(`user:${userId}`);
     if (existing) {
-      // Update tier if upgrading
-      existing.tier = tier || existing.tier;
-      existing.stripeCustomerId = stripeCustomerId || existing.stripeCustomerId;
+      if (isInterest) {
+        // Fake-door lead from someone who already has an account — record the
+        // interest signal WITHOUT touching their tier. (A premium user
+        // entering a fake door must not be downgraded to interest_*.)
+        existing.interests = Array.isArray(existing.interests) ? existing.interests : [];
+        if (!existing.interests.includes(tier)) existing.interests.push(tier);
+      } else if (tier) {
+        // Only ever move a tier upward.
+        existing.tier = this.higherTier(existing.tier, tier);
+      }
       await this.room.storage.put(`user:${userId}`, existing);
       const token = this.generateToken(userId);
       await this.room.storage.put(`token:${token}`, { userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
       return new Response(JSON.stringify({ ok: true, token, user: existing }), { headers });
     }
 
-    // Create new user
+    // Create new user. Interest leads keep their interest_<feature> tier so
+    // they remain countable in /admin-audit; everyone else defaults to free.
     const user = {
       id: userId,
       email: normalizedEmail,
-      tier: tier || 'general',
-      stripeCustomerId: stripeCustomerId || null,
+      tier: tier || 'free',
+      stripeCustomerId: null,
       username: null,
       createdAt: Date.now(),
     };
@@ -839,7 +870,7 @@ export default class DogShowServer {
     await this.room.storage.put(`email:${normalizedEmail}`, userId);
 
     // Notify admin of new signup
-    this.sendAdminSignupNotification(normalizedEmail, tier || 'general').catch(e =>
+    this.sendAdminSignupNotification(normalizedEmail, user.tier).catch(e =>
       console.error('[Email] Admin notification failed:', e.message)
     );
 
@@ -979,8 +1010,15 @@ export default class DogShowServer {
     params.append('line_items[0][quantity]', '1');
     params.append('mode', 'payment');
     params.append('customer_email', email.toLowerCase().trim());
-    params.append('success_url', `${SITE_URL}/success.html?tier=${tier}&email=${encodedEmail}`);
+    // session_id is substituted by Stripe at redirect time — success.html
+    // forwards it to /verify-checkout so the server confirms the payment
+    // before granting any paid tier (audit Critical-1 / Critical-2).
+    params.append('success_url', `${SITE_URL}/success.html?tier=${tier}&email=${encodedEmail}&session_id={CHECKOUT_SESSION_ID}`);
     params.append('cancel_url', `${SITE_URL}/`);
+
+    // Tier recorded in metadata — /verify-checkout reads it back from Stripe
+    // as the source of truth for what was purchased (never trust the client).
+    params.append('metadata[tier]', tier);
 
     // Faurya analytics attribution
     if (faurya_visitor_id) params.append('metadata[faurya_visitor_id]', faurya_visitor_id);
@@ -1014,44 +1052,349 @@ export default class DogShowServer {
     }
   }
 
+  // Verify a completed Stripe Checkout Session, then provision the paid user.
+  // This is the ONLY path that can grant a general/premium tier. Tier and
+  // email are read back from Stripe — never trusted from the client
+  // (audit Critical-1). success.html calls this with the session_id that
+  // Stripe substitutes into the success URL (audit Critical-2).
+  async handleVerifyCheckout(req, headers) {
+    let body;
+    try {
+      body = await req.json();
+    } catch (e) {
+      return new Response(JSON.stringify({ error: 'invalid request' }), { status: 400, headers });
+    }
+    const sessionId = body && body.session_id;
+    if (!sessionId || typeof sessionId !== 'string') {
+      return new Response(JSON.stringify({ error: 'session_id required' }), { status: 400, headers });
+    }
+    if (!this.room.env.STRIPE_SK) {
+      console.error('[Stripe] STRIPE_SK env var is not set');
+      return new Response(JSON.stringify({ error: 'payment system misconfigured' }), { status: 500, headers });
+    }
+
+    // Retrieve the Checkout Session from Stripe.
+    let session;
+    try {
+      const res = await fetch(
+        `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`,
+        { headers: { 'Authorization': `Bearer ${this.room.env.STRIPE_SK}` } }
+      );
+      session = await res.json();
+    } catch (e) {
+      console.error('[Stripe] verify-checkout network error:', e.message);
+      return new Response(JSON.stringify({ error: 'payment service unavailable' }), { status: 502, headers });
+    }
+    if (!session || session.error) {
+      console.error('[Stripe] verify-checkout: session not found —',
+        session && session.error && session.error.message);
+      return new Response(JSON.stringify({ error: 'could not verify payment' }), { status: 400, headers });
+    }
+
+    // The session must be both complete AND paid.
+    if (session.status !== 'complete' || session.payment_status !== 'paid') {
+      return new Response(
+        JSON.stringify({ error: 'payment not completed', payment_status: session.payment_status || null }),
+        { status: 402, headers }
+      );
+    }
+
+    // Tier + email come from Stripe, not from the client.
+    const tier = session.metadata && session.metadata.tier;
+    if (tier !== 'general' && tier !== 'premium') {
+      console.error('[Stripe] verify-checkout: unexpected tier on session:', tier);
+      return new Response(JSON.stringify({ error: 'could not verify payment' }), { status: 400, headers });
+    }
+    const email = (session.customer_details && session.customer_details.email)
+      || session.customer_email;
+    if (!email) {
+      console.error('[Stripe] verify-checkout: no email on session', sessionId);
+      return new Response(JSON.stringify({ error: 'could not verify payment' }), { status: 400, headers });
+    }
+
+    // Idempotency: a given checkout session provisions exactly once. A page
+    // refresh just re-issues a session token for the same user — no duplicate
+    // emails, no duplicate admin pings.
+    const sessionKey = `checkout:${session.id}`;
+    const prior = await this.room.storage.get(sessionKey);
+    if (prior && prior.userId) {
+      const existingUser = await this.room.storage.get(`user:${prior.userId}`);
+      if (existingUser) {
+        const token = this.generateToken(prior.userId);
+        await this.room.storage.put(`token:${token}`,
+          { userId: prior.userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
+        return new Response(JSON.stringify({ ok: true, token, user: existingUser }), { headers });
+      }
+    }
+
+    const { token, user } = await this._provisionPaidUser({
+      email,
+      tier,
+      stripeSessionId: session.id,
+      stripePaymentIntentId: typeof session.payment_intent === 'string' ? session.payment_intent : null,
+    });
+    await this.room.storage.put(sessionKey, { userId: user.id, at: Date.now() });
+
+    // Admin notification + buyer confirmation email (fire-and-forget).
+    this.sendAdminSignupNotification(user.email, tier).catch(e =>
+      console.error('[Email] Admin notification failed:', e.message));
+    this.sendPurchaseConfirmationEmail(user.email, tier).catch(e =>
+      console.error('[Email] Purchase confirmation failed:', e.message));
+
+    return new Response(JSON.stringify({ ok: true, token, user }), { headers });
+  }
+
+  // Create or upgrade a paying user. Called ONLY after a Stripe payment has
+  // been verified. Returns { token, user, isNew }.
+  async _provisionPaidUser({ email, tier, stripeSessionId, stripePaymentIntentId }) {
+    const normalizedEmail = email.toLowerCase().trim();
+    const userId = 'user_' + this.hashEmail(normalizedEmail);
+    const existing = await this.room.storage.get(`user:${userId}`);
+    const isNew = !existing;
+
+    const user = existing || {
+      id: userId,
+      email: normalizedEmail,
+      tier: 'free',
+      stripeCustomerId: null,
+      username: null,
+      createdAt: Date.now(),
+    };
+    user.tier = this.higherTier(user.tier, tier);
+    user.stripeSessionId = stripeSessionId || user.stripeSessionId || null;
+    user.stripePaymentIntentId = stripePaymentIntentId || user.stripePaymentIntentId || null;
+    // Keep the legacy stripeCustomerId field populated — it was always null
+    // before Critical-2; store the session id so paid users are traceable.
+    user.stripeCustomerId = stripeSessionId || user.stripeCustomerId || null;
+    user.paidAt = user.paidAt || Date.now();
+    await this.room.storage.put(`user:${userId}`, user);
+    await this.room.storage.put(`email:${normalizedEmail}`, userId);
+
+    // Reverse lookup so the Stripe webhook can map a refund/dispute — which
+    // arrives as a charge carrying a payment_intent — back to this user.
+    if (stripePaymentIntentId) {
+      await this.room.storage.put(`stripe_pi:${stripePaymentIntentId}`, userId);
+    }
+
+    const token = this.generateToken(userId);
+    await this.room.storage.put(`token:${token}`, { userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
+
+    return { token, user, isNew };
+  }
+
+  // Returns whichever tier ranks higher — premium > general > free.
+  higherTier(a, b) {
+    const rank = { free: 1, general: 2, premium: 3 };
+    const ra = rank[a] || 0;
+    const rb = rank[b] || 0;
+    return rb > ra ? b : (a || b);
+  }
+
+  // ─── STRIPE WEBHOOK (audit Critical-3) ───────────────────
+  // POST /stripe-webhook — handles refunds and disputes so a reversed payment
+  // does not leave a user holding a paid tier forever. Configure in the Stripe
+  // dashboard pointing at:
+  //   https://dogshow.schemestudio.partykit.dev/party/dogshow-live/stripe-webhook
+  // and set STRIPE_WEBHOOK_SECRET (`npx partykit env add STRIPE_WEBHOOK_SECRET`).
+  async handleStripeWebhook(req, headers) {
+    const secret = this.room.env.STRIPE_WEBHOOK_SECRET;
+    if (!secret) {
+      console.error('[Stripe] STRIPE_WEBHOOK_SECRET not set — rejecting webhook');
+      return new Response(JSON.stringify({ error: 'webhook not configured' }), { status: 500, headers });
+    }
+
+    const payload = await req.text();
+    const sig = req.headers.get('stripe-signature') || '';
+    const valid = await this.verifyStripeSignature(payload, sig, secret);
+    if (!valid) {
+      console.error('[Stripe] Webhook signature verification failed');
+      return new Response(JSON.stringify({ error: 'invalid signature' }), { status: 400, headers });
+    }
+
+    let event;
+    try {
+      event = JSON.parse(payload);
+    } catch (e) {
+      return new Response(JSON.stringify({ error: 'invalid payload' }), { status: 400, headers });
+    }
+
+    try {
+      if (event.type === 'charge.refunded') {
+        await this.handleStripeRefund(event);
+      } else if (event.type === 'charge.dispute.created') {
+        await this.handleStripeDispute(event);
+      }
+      // Other event types are simply acknowledged.
+    } catch (e) {
+      // Return 500 so Stripe retries (bounded, exponential backoff) rather
+      // than silently losing a refund on a transient storage error.
+      console.error('[Stripe] Webhook handler error — returning 500 for retry:', e.message);
+      return new Response(JSON.stringify({ error: 'handler error' }), { status: 500, headers });
+    }
+
+    return new Response(JSON.stringify({ received: true }), { headers });
+  }
+
+  async handleStripeRefund(event) {
+    const charge = event.data && event.data.object;
+    const paymentIntentId = charge && charge.payment_intent;
+    if (!paymentIntentId) {
+      console.error('[Stripe] Refund event has no payment_intent');
+      return;
+    }
+    const userId = await this.room.storage.get(`stripe_pi:${paymentIntentId}`);
+    if (!userId) {
+      // Pre-Critical-2 users have no stripe_pi mapping — alert James to
+      // reconcile by hand.
+      console.error('[Stripe] Refund for unmapped payment_intent:', paymentIntentId);
+      await this.sendAdminAlert('Stripe refund — user not matched',
+        `<h2 style="color:#FF8C42;">Refund could not be auto-applied</h2>
+         <p>A charge was refunded but no user matched <code>${paymentIntentId}</code>
+         (likely an account created before payment traceability was added).
+         Downgrade the user manually in the dashboard if needed.</p>`);
+      return;
+    }
+    const user = await this.room.storage.get(`user:${userId}`);
+    if (!user) {
+      console.error('[Stripe] Refund: user record missing for', userId);
+      return;
+    }
+    const previousTier = user.tier;
+    user.tier = 'free';
+    user.refundedAt = Date.now();
+    await this.room.storage.put(`user:${userId}`, user);
+    console.log(`[Stripe] Refund processed — ${user.email} downgraded ${previousTier} -> free`);
+    await this.sendAdminAlert('Stripe refund processed',
+      `<h2 style="color:#FF8C42;">Refund processed</h2>
+       <p><strong>${user.email}</strong> was refunded and downgraded from
+       <strong>${previousTier}</strong> to <strong>free</strong>.</p>`);
+  }
+
+  async handleStripeDispute(event) {
+    const dispute = event.data && event.data.object;
+    const paymentIntentId = dispute && dispute.payment_intent;
+    const reason = (dispute && dispute.reason) || 'unknown';
+    if (!paymentIntentId) {
+      console.error('[Stripe] Dispute event has no payment_intent');
+      return;
+    }
+    const userId = await this.room.storage.get(`stripe_pi:${paymentIntentId}`);
+    if (!userId) {
+      await this.sendAdminAlert('Stripe dispute — user not matched',
+        `<h2 style="color:#FF8C42;">Dispute opened</h2>
+         <p>A dispute was opened (reason: <strong>${reason}</strong>) but no user
+         matched <code>${paymentIntentId}</code>. Review in the Stripe dashboard.</p>`);
+      return;
+    }
+    const user = await this.room.storage.get(`user:${userId}`);
+    if (!user) return;
+    user.flagged = 'dispute';
+    user.disputedAt = Date.now();
+    await this.room.storage.put(`user:${userId}`, user);
+    console.log(`[Stripe] Dispute opened for ${user.email} (reason: ${reason})`);
+    // Disputes are not final — flag for review, leave the tier unchanged.
+    await this.sendAdminAlert('Stripe dispute opened',
+      `<h2 style="color:#FF8C42;">Dispute opened</h2>
+       <p><strong>${user.email}</strong> (tier: ${user.tier}) has a dispute opened
+       against their payment. Reason: <strong>${reason}</strong>.</p>
+       <p>The account is flagged but the tier is left unchanged — resolve it in
+       the Stripe dashboard.</p>`);
+  }
+
+  // Verify a Stripe webhook signature (HMAC-SHA256) using Web Crypto.
+  // The Stripe-Signature header looks like: "t=<ts>,v1=<sig>[,v1=<sig>...]".
+  async verifyStripeSignature(payload, sigHeader, secret) {
+    if (!sigHeader || !secret) return false;
+    let timestamp = null;
+    const v1 = [];
+    for (const part of sigHeader.split(',')) {
+      const idx = part.indexOf('=');
+      if (idx === -1) continue;
+      const k = part.slice(0, idx).trim();
+      const v = part.slice(idx + 1).trim();
+      if (k === 't') timestamp = v;
+      else if (k === 'v1') v1.push(v);
+    }
+    if (!timestamp || v1.length === 0) return false;
+
+    const signedPayload = `${timestamp}.${payload}`;
+    let expected;
+    try {
+      const key = await crypto.subtle.importKey(
+        'raw',
+        new TextEncoder().encode(secret),
+        { name: 'HMAC', hash: 'SHA-256' },
+        false,
+        ['sign']
+      );
+      const sigBuf = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(signedPayload));
+      expected = [...new Uint8Array(sigBuf)].map(b => b.toString(16).padStart(2, '0')).join('');
+    } catch (e) {
+      console.error('[Stripe] Signature computation failed:', e.message);
+      return false;
+    }
+
+    if (!v1.some(candidate => this.hexEqual(candidate, expected))) return false;
+
+    // Soft replay-window check — log but don't reject. Stripe retries delayed
+    // webhooks; the HMAC over `${t}.${payload}` is the real security boundary.
+    const ageSec = Math.abs(Date.now() / 1000 - Number(timestamp));
+    if (Number.isFinite(ageSec) && ageSec > 600) {
+      console.warn(`[Stripe] Webhook timestamp ${Math.round(ageSec)}s old (accepted; signature valid)`);
+    }
+    return true;
+  }
+
+  // Constant-time comparison of two equal-length hex strings.
+  hexEqual(a, b) {
+    if (typeof a !== 'string' || typeof b !== 'string' || a.length !== b.length) return false;
+    let diff = 0;
+    for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+    return diff === 0;
+  }
+
   // Upload a community dog (premium only, AI-verified)
   async handleUploadDog(req, headers) {
     const { token, imageData, dogName } = await req.json();
     if (!token || !imageData) {
-      return new Response(JSON.stringify({ error: 'token and imageData required' }), { status: 400, headers });
+      return new Response(JSON.stringify({ error: 'token and imageData required', code: 'bad_request' }), { status: 400, headers });
     }
 
     // Verify session
     const session = await this.room.storage.get(`token:${token}`);
     if (!session || session.expires < Date.now()) {
-      return new Response(JSON.stringify({ error: 'invalid session' }), { status: 401, headers });
+      return new Response(JSON.stringify({ error: 'invalid session', code: 'session_invalid' }), { status: 401, headers });
     }
 
     // Get user and verify premium tier
     const user = await this.room.storage.get(`user:${session.userId}`);
     if (!user) {
-      return new Response(JSON.stringify({ error: 'user not found' }), { status: 404, headers });
+      return new Response(JSON.stringify({ error: 'user not found', code: 'user_not_found' }), { status: 404, headers });
     }
     if (user.tier !== 'premium') {
-      return new Response(JSON.stringify({ error: 'premium tier required' }), { status: 403, headers });
+      return new Response(JSON.stringify({ error: 'premium tier required', code: 'not_premium' }), { status: 403, headers });
     }
 
-    // Check if user already uploaded (limit 1 per user for now)
-    const existingUpload = this.communityDogs.find(d => d.userId === session.userId);
-    if (existingUpload) {
-      return new Response(JSON.stringify({ error: 'you already have a dog in the show! (1 per member)' }), { status: 400, headers });
-    }
+    // 1-per-member limit removed 2026-05-19 — was silently blocking re-uploads
+    // (including the admin's own test uploads). Re-introduce when we have
+    // per-entry pricing wired up (encore appearances etc.) so additional dogs
+    // are paid for, not free.
+    // const existingUpload = this.communityDogs.find(d => d.userId === session.userId);
+    // if (existingUpload) {
+    //   return new Response(JSON.stringify({ error: 'you already have a dog in the show! (1 per member)' }), { status: 400, headers });
+    // }
 
     // Validate image data (must be a data URL, max ~500KB base64)
     if (!imageData.startsWith('data:image/') || imageData.length > 700000) {
-      return new Response(JSON.stringify({ error: 'invalid image (max 500KB, JPEG/PNG only)' }), { status: 400, headers });
+      return new Response(JSON.stringify({ error: 'invalid image (max 500KB, JPEG/PNG only)', code: 'image_invalid' }), { status: 400, headers });
     }
 
     // ─── AI Dog Detection ───────────────────────────
     const classification = await this.classifyDogImage(imageData);
     if (!classification.isDog) {
       return new Response(JSON.stringify({
-        error: "We can't tell if that's a picture of a dog. Can you try another pic?"
+        error: "We can't tell if that's a picture of a dog. Can you try another pic?",
+        code: 'not_a_dog'
       }), { status: 400, headers });
     }
 
@@ -1085,7 +1428,12 @@ export default class DogShowServer {
         lastAppearance: null,
       },
     };
-    this.communityDogs.push(entry);
+    // Queue-jump: insert the new dog at the next-up position in the community
+    // rotation instead of pushing to the end. Guarantees first appearance
+    // within ~50s (the gap between community slots) rather than waiting through
+    // a full cycle of all existing community dogs.
+    const insertAt = this.communityIndex % (this.communityDogs.length + 1);
+    this.communityDogs.splice(insertAt, 0, entry);
     await this.room.storage.put('communityDogs', this.communityDogs);
 
     // Broadcast updated community count
@@ -1123,6 +1471,147 @@ export default class DogShowServer {
         'Access-Control-Allow-Origin': '*',
       },
     });
+  }
+
+  // ─── ADMIN AUDIT ─────────────────────────────────────────
+  // GET /admin-audit?key=<ADMIN_KEY>
+  // (Note: PartyKit path extraction uses the LAST URL segment — server.js:681 —
+  // so multi-segment paths like `admin/audit` don't match. Keep as one segment.)
+  // Returns: user counts by tier, list of premium users without a community
+  // dog entry (i.e. paid but stuck), and any orphaned img:/slug: storage keys.
+  // Requires process.env.ADMIN_KEY to be set on the PartyKit deployment
+  // (`npx partykit env add ADMIN_KEY` then deploy). Returns 401 otherwise.
+  async handleAdminAudit(req, headers) {
+    const url = new URL(req.url);
+    const key = url.searchParams.get('key');
+    // PartyKit exposes env vars via this.room.env, not process.env.
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    if (!adminKey || !key || key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+
+    const body = await this.computeAudit();
+    return new Response(JSON.stringify(body, null, 2), {
+      headers: { ...headers, 'Content-Type': 'application/json' },
+    });
+  }
+
+  // Shared audit computation — used by /admin-audit and the daily
+  // reconciliation alarm. Reads fresh from storage so it is correct even on
+  // an alarm-triggered cold wake (where in-memory state may not be loaded).
+  async computeAudit() {
+    const communityDogs = (await this.room.storage.get('communityDogs')) || [];
+    const userEntries = await this.room.storage.list({ prefix: 'user:' });
+    const users = [...userEntries.values()];
+
+    const tierCounts = {};
+    users.forEach(u => {
+      const t = (u && u.tier) || 'unknown';
+      tierCounts[t] = (tierCounts[t] || 0) + 1;
+    });
+
+    const dogsByUserId = new Map();
+    communityDogs.forEach(d => { if (d.userId) dogsByUserId.set(d.userId, d); });
+
+    // Premium users WITHOUT a community dog entry — the stuck ones.
+    const stuckPremium = users
+      .filter(u => u && u.tier === 'premium')
+      .filter(u => !dogsByUserId.has(u.id))
+      .map(u => ({
+        email: u.email,
+        userId: u.id,
+        stripeCustomerId: u.stripeCustomerId || null,
+        stripeSessionId: u.stripeSessionId || null,
+        stripePaymentIntentId: u.stripePaymentIntentId || null,
+        username: u.username || null,
+        createdAt: u.createdAt,
+        createdAtIso: u.createdAt ? new Date(u.createdAt).toISOString() : null,
+      }))
+      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+    // Orphaned storage keys (image / slug stored but no communityDogs entry).
+    const validDogIds = new Set(communityDogs.map(d => d.id));
+    const validDogSlugs = new Set(communityDogs.map(d => d.slug).filter(Boolean));
+
+    const imgEntries = await this.room.storage.list({ prefix: 'img:' });
+    const orphanedImgKeys = [...imgEntries.keys()].filter(k => !validDogIds.has(k.slice('img:'.length)));
+
+    const slugEntries = await this.room.storage.list({ prefix: 'slug:' });
+    const orphanedSlugKeys = [...slugEntries.keys()].filter(k => !validDogSlugs.has(k.slice('slug:'.length)));
+
+    return {
+      ok: true,
+      summary: {
+        totalUsers: users.length,
+        tierCounts,
+        communityDogsCount: communityDogs.length,
+        stuckPremiumCount: stuckPremium.length,
+        orphanedImgCount: orphanedImgKeys.length,
+        orphanedSlugCount: orphanedSlugKeys.length,
+      },
+      stuckPremium,
+      orphanedImgKeys,
+      orphanedSlugKeys,
+    };
+  }
+
+  // ─── DAILY RECONCILIATION ALARM (audit Critical-6) ───────
+  // Arm a daily storage alarm if one is not already set. Safe on every start.
+  async scheduleAuditAlarm() {
+    try {
+      const existing = await this.room.storage.getAlarm();
+      if (existing == null) {
+        await this.room.storage.setAlarm(Date.now() + 24 * 60 * 60 * 1000);
+      }
+    } catch (e) {
+      console.error('[Audit] Could not schedule reconciliation alarm:', e.message);
+    }
+  }
+
+  // Fires daily via the storage alarm (wakes the room even when idle).
+  // Emails James if paid users are stuck without a dog entry, and sends each
+  // stuck premium user a one-time upload nudge.
+  async onAlarm() {
+    try {
+      const audit = await this.computeAudit();
+      const stuck = audit.stuckPremium || [];
+      if (stuck.length > 0) {
+        await this.sendStuckUserAdminAlert(stuck);
+        await this.nudgeStuckPremiumUsers(stuck);
+      }
+      console.log(`[Audit] Daily reconciliation — ${stuck.length} stuck premium user(s)`);
+    } catch (e) {
+      console.error('[Audit] Reconciliation alarm failed:', e.message);
+    } finally {
+      // Always re-arm for the next day.
+      try {
+        await this.room.storage.setAlarm(Date.now() + 24 * 60 * 60 * 1000);
+      } catch (e) {
+        console.error('[Audit] Could not re-arm reconciliation alarm:', e.message);
+      }
+    }
+  }
+
+  // One-time "you haven't uploaded yet" nudge to stuck premium users. Only
+  // nudges accounts 2h–30d old (give fresh buyers time to upload naturally;
+  // skip long-abandoned accounts). Guarded by nudged:<userId> so each user is
+  // nudged at most once.
+  async nudgeStuckPremiumUsers(stuck) {
+    const now = Date.now();
+    const twoHours = 2 * 60 * 60 * 1000;
+    const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+    for (const u of stuck) {
+      try {
+        const age = now - (u.createdAt || now);
+        if (age < twoHours || age > thirtyDays) continue;
+        const nudgeKey = `nudged:${u.userId}`;
+        if (await this.room.storage.get(nudgeKey)) continue;
+        const sent = await this.sendUploadNudgeEmail(u.email);
+        if (sent) await this.room.storage.put(nudgeKey, now);
+      } catch (e) {
+        console.error('[Audit] Nudge failed for', u.email, '-', e.message);
+      }
+    }
   }
 
   // Serve OG meta for the landing page — crawlers get tags, browsers get redirected
@@ -1476,5 +1965,154 @@ export default class DogShowServer {
         `,
       }),
     });
+  }
+
+  // ─── BUYER + ADMIN EMAILS (audit Critical-5 / Critical-6) ────
+
+  // Sent immediately after a verified purchase. Premium buyers get an upload
+  // prompt; general buyers get a watch-the-show nudge.
+  async sendPurchaseConfirmationEmail(email, tier) {
+    if (!this.room.env.RESEND_API_KEY) {
+      console.error('[Email] RESEND_API_KEY not set, skipping purchase confirmation');
+      return false;
+    }
+    const isPremium = tier === 'premium';
+    const heading = isPremium ? 'You\'re in — now bring your dog on stage'
+                              : 'You\'re in — the show is live';
+    const ctaLabel = isPremium ? 'Upload your dog' : 'Watch the show';
+    const ctaUrl = `${SITE_URL}/show.html?tier=${tier}`;
+    const blurb = isPremium
+      ? 'Your spot in The Dog Show is confirmed. The last step is the fun one: upload a photo of your dog so they can take the main stage. It only takes a moment — and your dog gets a permanent page of their own.'
+      : 'Your ticket to The Dog Show is confirmed. Head in to give bones, chat with the crowd, and cheer on every dog that takes the stage.';
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Dog Show <noreply@dogshow.lol>',
+          to: [email],
+          subject: isPremium ? '🐕 You\'re in — upload your dog'
+                             : '🎟️ You\'re in — The Dog Show is live',
+          html: `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
+              <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 4px; text-align: center;">The Dog Show</h1>
+              <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">Payment Confirmed</p>
+              <div style="background: #241a45; border-radius: 12px; padding: 28px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px;">
+                <h2 style="color: #e0d8f0; font-size: 21px; margin: 0 0 12px; text-align: center;">${heading}</h2>
+                <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); text-align: center; margin: 0;">${blurb}</p>
+              </div>
+              <div style="text-align: center; margin-bottom: 24px;">
+                <a href="${ctaUrl}" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;">${ctaLabel}</a>
+              </div>
+              <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 24px 0;">
+              <p style="text-align: center; font-size: 11px; color: rgba(255,255,255,0.25);">
+                Questions? Just reply to this email.<br>
+                <a href="${SITE_URL}" style="color: #FF8C42;">dogshow.lol</a>
+              </p>
+            </div>
+          `,
+        }),
+      });
+      if (!res.ok) console.error('[Email] Purchase confirmation send failed:', res.status);
+      return res.ok;
+    } catch (e) {
+      console.error('[Email] Purchase confirmation network error:', e.message);
+      return false;
+    }
+  }
+
+  // One-time nudge to a premium buyer who hasn't uploaded a dog yet.
+  async sendUploadNudgeEmail(email) {
+    if (!this.room.env.RESEND_API_KEY) {
+      console.error('[Email] RESEND_API_KEY not set, skipping upload nudge');
+      return false;
+    }
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Dog Show <noreply@dogshow.lol>',
+          to: [email],
+          subject: '🐾 Your dog hasn\'t taken the stage yet',
+          html: `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
+              <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 24px; text-align: center;">The Dog Show</h1>
+              <div style="background: #241a45; border-radius: 12px; padding: 28px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px;">
+                <h2 style="color: #e0d8f0; font-size: 21px; margin: 0 0 12px; text-align: center;">One step left</h2>
+                <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); text-align: center; margin: 0;">
+                  You paid to bring your dog to The Dog Show, but we haven't seen their photo yet. Upload one and they'll join the rotation — bones, fans, and a permanent page of their own included.
+                </p>
+              </div>
+              <div style="text-align: center; margin-bottom: 24px;">
+                <a href="${SITE_URL}/show.html?tier=premium" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;">Upload your dog</a>
+              </div>
+              <p style="text-align: center; font-size: 11px; color: rgba(255,255,255,0.25);">
+                Trouble uploading? Just reply to this email and we'll sort it out.
+              </p>
+            </div>
+          `,
+        }),
+      });
+      return res.ok;
+    } catch (e) {
+      console.error('[Email] Upload nudge network error:', e.message);
+      return false;
+    }
+  }
+
+  // Plain admin alert to James (refunds, disputes, reconciliation).
+  async sendAdminAlert(subject, bodyHtml) {
+    if (!this.room.env.RESEND_API_KEY) {
+      console.error('[Email] RESEND_API_KEY not set, skipping admin alert:', subject);
+      return false;
+    }
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Dog Show <noreply@dogshow.lol>',
+          to: ['james@wearescheme.studio'],
+          subject: `[Dog Show] ${subject}`,
+          html: `<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 540px; margin: 0 auto; padding: 28px 20px;">${bodyHtml}</div>`,
+        }),
+      });
+      return res.ok;
+    } catch (e) {
+      console.error('[Email] Admin alert network error:', e.message);
+      return false;
+    }
+  }
+
+  // Daily reconciliation summary to James when paid users are stuck.
+  async sendStuckUserAdminAlert(stuck) {
+    const rows = stuck.map(u => `
+      <tr>
+        <td style="padding:6px 10px;border-bottom:1px solid #eee;">${u.email || '—'}</td>
+        <td style="padding:6px 10px;border-bottom:1px solid #eee;">${u.createdAtIso || '—'}</td>
+        <td style="padding:6px 10px;border-bottom:1px solid #eee;">${u.stripeSessionId || u.stripeCustomerId || '—'}</td>
+      </tr>`).join('');
+    return this.sendAdminAlert(`${stuck.length} paid user(s) stuck without a dog`,
+      `<h2 style="color:#FF8C42;">Daily reconciliation</h2>
+       <p>${stuck.length} premium user(s) have paid but have no dog in the show.
+       Each was sent a one-time upload nudge. Follow up if any persist:</p>
+       <table style="border-collapse:collapse;width:100%;font-size:13px;">
+         <tr>
+           <th style="text-align:left;padding:6px 10px;border-bottom:2px solid #ccc;">Email</th>
+           <th style="text-align:left;padding:6px 10px;border-bottom:2px solid #ccc;">Registered</th>
+           <th style="text-align:left;padding:6px 10px;border-bottom:2px solid #ccc;">Stripe ref</th>
+         </tr>
+         ${rows}
+       </table>`);
   }
 }

@@ -357,19 +357,20 @@
       });
     }
 
-    // Register user
+    // Verify the Stripe payment server-side, then provision the account.
+    // The server reads tier + email back from Stripe — the URL params are no
+    // longer trusted to grant a tier (see platform audit Critical-1/Critical-2).
     async function registerUser() {
-      if (!email) return;
+      if (!sessionId) {
+        console.error('No session_id on success page — cannot verify payment.');
+        return;
+      }
 
       try {
-        const res = await fetch(`${API_BASE}/register`, {
+        const res = await fetch(`${API_BASE}/verify-checkout`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: email,
-            tier: tier,
-            stripeCustomerId: sessionId,
-          }),
+          body: JSON.stringify({ session_id: sessionId }),
         });
         const data = await res.json();
         if (data.ok && data.token) {
@@ -381,9 +382,11 @@
           if (data.user.fan_id) {
             localStorage.setItem('dogshow_fan_id', data.user.fan_id);
           }
+        } else {
+          console.error('Checkout verification failed:', data.error || res.status);
         }
       } catch (e) {
-        console.error('Registration failed:', e);
+        console.error('Checkout verification failed:', e);
       }
     }
 
@@ -441,7 +444,10 @@
       }, 2000);
 
       setTimeout(function() {
-        window.location.href = 'show.html?tier=' + tier;
+        // Use the server-verified tier (set by registerUser) rather than the
+        // URL param, which is no longer trusted.
+        var finalTier = localStorage.getItem('dogshow_tier') || tier;
+        window.location.href = 'show.html?tier=' + finalTier;
       }, 3500);
     });
   </script>

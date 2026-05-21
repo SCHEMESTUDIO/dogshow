@@ -2117,6 +2117,57 @@
 
 .paid-user-status[hidden] { display: none; }
 
+/* Persistent inline upload error (audit Critical-4) — replaces the old
+   alert() that mobile users routinely missed. Stays visible until dismissed
+   or a retry is started. */
+.paid-user-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  background: rgba(231, 76, 60, 0.12);
+  border: 1px solid rgba(231, 76, 60, 0.55);
+  border-radius: 10px;
+  font-family: var(--font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-size: 13px;
+  line-height: 1.4;
+  color: #ffb4ab;
+}
+
+.paid-user-error[hidden] { display: none; }
+
+.paid-user-error-icon {
+  flex-shrink: 0;
+  font-size: 15px;
+  color: #ff6b5e;
+}
+
+.paid-user-error-text {
+  flex: 1 1 auto;
+}
+
+.paid-user-error-retry {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  background: rgba(231, 76, 60, 0.2);
+  border: 1px solid rgba(231, 76, 60, 0.6);
+  border-radius: 8px;
+  color: #ffd4cf;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.paid-user-error-retry:hover {
+  background: rgba(231, 76, 60, 0.32);
+  border-color: #e74c3c;
+}
+
 /* House rotator: rotating real CTAs + fake-door interest captures.
    Replaces the old fixed "Enter Your Dog" dock button by turning it into
    a position in the rotation, plus 4 fake-door cards. Constrained to 480px
