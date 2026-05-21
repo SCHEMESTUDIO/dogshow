@@ -1001,6 +1001,19 @@
     communityUpload.hidden = false;
     uploadBtn.textContent = '📸 Upload your dog now';
     uploadBtn.className = 'dock-enter-btn paid-user-upload-btn';
+
+    // Auto-submit a dog photo uploaded before checkout. index.html's
+    // pre-purchase flow stashes the photo in localStorage; without this it was
+    // silently dropped and the buyer had to upload again — many didn't, ending
+    // up as paid-but-no-dog users (audit finding #37).
+    var pendingImage = localStorage.getItem('dogshow_pending_dog_image');
+    var pendingName = localStorage.getItem('dogshow_pending_dog_name');
+    if (pendingImage && pendingImage.indexOf('data:image/') === 0) {
+      // Clear first so a page refresh can't double-submit the same dog.
+      localStorage.removeItem('dogshow_pending_dog_image');
+      localStorage.removeItem('dogshow_pending_dog_name');
+      submitDogImage(pendingImage, pendingName || 'A Good Dog');
+    }
   }
   // For free + general, leave bottomDock + communityUpload hidden.
 
@@ -1038,9 +1051,6 @@
   }
 
   function resizeAndUpload(file, dogName) {
-    uploadBtn.textContent = 'Uploading...';
-    uploadBtn.disabled = true;
-
     var reader = new FileReader();
     reader.onload = function (e) {
       var img = new Image();
@@ -1055,56 +1065,64 @@
         var ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        // Convert to JPEG at 0.7 quality
+        // Convert to JPEG at 0.7 quality, then hand off to the shared submitter.
         var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-
-        // Send to server
-        fetch(API_BASE + '/upload-dog', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            token: sessionToken,
-            imageData: dataUrl,
-            dogName: dogName,
-          }),
-        })
-          .then(function (res) { return res.json(); })
-          .then(function (data) {
-            if (data.ok) {
-              var slug = data.slug || data.id;
-              var dogPageUrl = 'https://dogshow.lol/d/' + slug;
-
-              // Update dock UI
-              communityUpload.hidden = true;
-              dockStatus.hidden = false;
-              dockStatusDot.className = 'dock-status-dot pending';
-              dockStatusText.textContent = 'Submitted — waiting to appear';
-              dockDogLink.href = dogPageUrl;
-              dockDogLink.hidden = false;
-              dockPatience.hidden = false;
-
-              // After a bit, switch to "live" status
-              setTimeout(function () {
-                dockStatusDot.className = 'dock-status-dot';
-                dockStatusText.textContent = 'Your dog is live';
-                dockPatience.hidden = true;
-              }, 60000);
-            } else {
-              showUploadStatus(data.error || 'Upload failed.', true, data.code || 'server_rejected');
-              uploadBtn.disabled = false;
-              uploadBtn.textContent = '📸 Upload your dog now';
-              uploadInput.value = '';  // Reset so they can try again
-            }
-          })
-          .catch(function () {
-            showUploadStatus('Upload failed. Try again.', true, 'network');
-            uploadBtn.disabled = false;
-            uploadBtn.textContent = '📸 Upload your dog now';
-          });
+        submitDogImage(dataUrl, dogName);
       };
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
+  }
+
+  // POST a prepared image data URL to the server. Shared by the in-show upload
+  // (after resizing a picked file) and by the pre-purchase auto-submit above.
+  function submitDogImage(dataUrl, dogName) {
+    clearUploadError();
+    uploadBtn.textContent = 'Uploading...';
+    uploadBtn.disabled = true;
+
+    fetch(API_BASE + '/upload-dog', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: sessionToken,
+        imageData: dataUrl,
+        dogName: dogName,
+      }),
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data.ok) {
+          var slug = data.slug || data.id;
+          var dogPageUrl = 'https://dogshow.lol/d/' + slug;
+
+          // Update dock UI
+          communityUpload.hidden = true;
+          dockStatus.hidden = false;
+          dockStatusDot.className = 'dock-status-dot pending';
+          dockStatusText.textContent = 'Submitted — waiting to appear';
+          dockDogLink.href = dogPageUrl;
+          dockDogLink.hidden = false;
+          dockPatience.hidden = false;
+
+          // After a bit, switch to "live" status
+          setTimeout(function () {
+            dockStatusDot.className = 'dock-status-dot';
+            dockStatusText.textContent = 'Your dog is live';
+            dockPatience.hidden = true;
+          }, 60000);
+        } else {
+          showUploadStatus(data.error || 'Upload failed.', true, data.code || 'server_rejected');
+          uploadBtn.disabled = false;
+          uploadBtn.textContent = '📸 Upload your dog now';
+          uploadInput.value = '';  // Reset so they can try again
+        }
+      })
+      .catch(function () {
+        showUploadStatus('Upload failed. Try again.', true, 'network');
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = '📸 Upload your dog now';
+      });
   }
 
   function clearUploadError() {
