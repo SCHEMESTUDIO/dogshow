@@ -699,6 +699,9 @@ export default class DogShowServer {
       if (path === 'admin-audit' && req.method === 'GET') {
         return await this.handleAdminAudit(req, headers);
       }
+      if (path === 'admin-delete-dog' && req.method === 'GET') {
+        return await this.handleAdminDeleteDog(req, headers);
+      }
       if (path === 'register' && req.method === 'POST') {
         return await this.handleRegister(req, headers);
       }
@@ -1494,6 +1497,64 @@ export default class DogShowServer {
     return new Response(JSON.stringify(body, null, 2), {
       headers: { ...headers, 'Content-Type': 'application/json' },
     });
+  }
+
+  // GET /admin-delete-dog?key=<ADMIN_KEY>&id=<dogId>
+  // Removes a community dog — its communityDogs entry plus its img:/slug:
+  // storage keys. Built so non-dog uploads can be pulled (the AI classifier
+  // currently fails open and accepts anything — see audit High-4).
+  async handleAdminDeleteDog(req, headers) {
+    const url = new URL(req.url);
+    const key = url.searchParams.get('key');
+    const id = url.searchParams.get('id');
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    if (!adminKey || !key || key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+    if (!id) {
+      return new Response(JSON.stringify({ error: 'id required' }), { status: 400, headers });
+    }
+
+    // Read fresh from storage.
+    const communityDogs = (await this.room.storage.get('communityDogs')) || [];
+    const idx = communityDogs.findIndex(d => d.id === id);
+    if (idx === -1) {
+      return new Response(JSON.stringify({ error: 'dog not found', id }), { status: 404, headers });
+    }
+    const removed = communityDogs[idx];
+
+    communityDogs.splice(idx, 1);
+    await this.room.storage.put('communityDogs', communityDogs);
+    this.communityDogs = communityDogs; // keep the in-memory copy in sync
+
+    // Clean up associated storage keys.
+    await this.room.storage.delete(`img:${id}`);
+    if (removed.slug) await this.room.storage.delete(`slug:${removed.slug}`);
+
+    // If the deleted dog is on stage right now, move the slideshow on.
+    if (this.currentDog && this.currentDog._communityId === id && this.dogInterval) {
+      clearTimeout(this.dogInterval);
+      this.dogInterval = null;
+      this.advanceDog();
+    }
+
+    // Broadcast the new community count.
+    this.room.broadcast(JSON.stringify({
+      type: 'communityCount',
+      count: communityDogs.length,
+    }));
+
+    console.log(`[Admin] Deleted community dog ${id} (${removed.dogName})`);
+    return new Response(JSON.stringify({
+      ok: true,
+      deleted: {
+        id: removed.id,
+        slug: removed.slug || null,
+        dogName: removed.dogName,
+        username: removed.username || null,
+      },
+      remainingCommunityDogs: communityDogs.length,
+    }), { headers });
   }
 
   // Shared audit computation — used by /admin-audit and the daily

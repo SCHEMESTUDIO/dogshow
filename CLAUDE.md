@@ -92,6 +92,7 @@ Base: `dogshow.schemestudio.partykit.dev/party/dogshow-live` (PartyKit single-pa
 | GET | `/all-dogs` | All dogs for gallery |
 | GET | `/leaderboard` | Top dogs + recent arrivals |
 | GET | `/admin-audit?key=X` | Admin audit — tier counts, stuck premium users (paid but no dog entry), orphaned `img:`/`slug:` storage keys. Requires `ADMIN_KEY` env var. Logic shared with the daily reconciliation alarm via `computeAudit()`. |
+| GET | `/admin-delete-dog?key=X&id=Y` | Admin — remove a community dog (its `communityDogs` entry + `img:`/`slug:` keys). For pulling non-dog uploads. Requires `ADMIN_KEY`. |
 
 > **Daily reconciliation alarm:** `server.js` arms a PartyKit storage alarm (`onAlarm`, re-armed every 24h). It runs `computeAudit()`; if any premium users are stuck it emails James a summary and sends each stuck user a one-time upload nudge (`nudged:<userId>` guard). Audit Critical-6.
 
