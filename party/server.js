@@ -1399,7 +1399,7 @@ export default class DogShowServer {
 
   // Upload a community dog (premium only, AI-verified)
   async handleUploadDog(req, headers) {
-    const { token, imageData, dogName } = await req.json();
+    const { token, imageData, dogName, breed } = await req.json();
     if (!token || !imageData) {
       return new Response(JSON.stringify({ error: 'token and imageData required', code: 'bad_request' }), { status: 400, headers });
     }
@@ -1451,6 +1451,11 @@ export default class DogShowServer {
     const slug = await this.getUniqueSlug(cleanName);
     await this.room.storage.put(`slug:${slug}`, id);
 
+    // Breed comes from the uploader's dropdown pick (#48) — far more accurate
+    // than the AI guess. Fall back to the classifier's guess only if empty.
+    let cleanBreed = breed ? this.sanitize(breed).trim().slice(0, 40) : '';
+    if (!cleanBreed) cleanBreed = classification.breed || 'Mystery Breed';
+
     // Add to community dogs list
     const entry = {
       id,
@@ -1458,7 +1463,7 @@ export default class DogShowServer {
       userId: session.userId,
       username: user.username || 'Anonymous',
       dogName: cleanName,
-      breed: classification.breed || 'Mystery Breed',
+      breed: cleanBreed,
       breedConfidence: classification.confidence || 0,
       uploadedAt: Date.now(),
       // Stats — populated when dog appears in slideshow
@@ -2052,7 +2057,9 @@ export default class DogShowServer {
     if (!label) return 'Mystery Breed';
     // ImageNet labels look like "golden_retriever" or "German shepherd, German shepherd dog"
     let name = label.split(',')[0]; // Take first part before comma
-    name = name.replace(/_/g, ' '); // Underscores to spaces
+    // Normalize case first — the Workers AI REST API returns labels in ALL
+    // CAPS; lowercasing first makes the title-casing below correct.
+    name = name.replace(/_/g, ' ').toLowerCase();
     // Title case
     name = name.replace(/\b\w/g, c => c.toUpperCase());
     return name.trim();

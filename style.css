@@ -2410,3 +2410,98 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* ─── Dog details modal (#48 — name + breed picker) ─── */
+.upload-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 5, 18, 0.82);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+.upload-modal-overlay.active { display: flex; }
+
+.upload-modal {
+  background: #1a1035;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 28px 24px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+.upload-modal-icon { font-size: 40px; margin-bottom: 6px; }
+.upload-modal-title {
+  font-family: 'Yang Bagus', 'YangBagus', cursive;
+  font-size: 24px;
+  color: #FF8C42;
+  margin-bottom: 4px;
+}
+.upload-modal-subtitle {
+  font-size: 13px;
+  color: rgba(224, 216, 240, 0.6);
+  margin-bottom: 16px;
+}
+.upload-modal-label {
+  display: block;
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(224, 216, 240, 0.5);
+  margin: 12px 0 5px;
+}
+.upload-modal-input,
+.upload-modal-select {
+  width: 100%;
+  padding: 11px 12px;
+  background: #0f0a22;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9px;
+  color: #e0d8f0;
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.upload-modal-input:focus,
+.upload-modal-select:focus { outline: none; border-color: #FF8C42; }
+.upload-modal-error {
+  color: #ff6b6b;
+  font-size: 12px;
+  min-height: 16px;
+  margin-top: 8px;
+  text-align: left;
+}
+.upload-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.upload-modal-cancel,
+.upload-modal-submit {
+  flex: 1;
+  padding: 11px 14px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: 1px solid;
+}
+.upload-modal-cancel {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.18);
+  color: rgba(224, 216, 240, 0.7);
+}
+.upload-modal-cancel:hover { border-color: rgba(255, 255, 255, 0.35); }
+.upload-modal-submit {
+  background: #FF8C42;
+  border-color: #FF8C42;
+  color: #1a1035;
+}
+.upload-modal-submit:hover { background: #ff9d5c; }
+.upload-modal-submit:disabled { opacity: 0.6; cursor: default; }

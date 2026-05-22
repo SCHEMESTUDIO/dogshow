@@ -261,6 +261,27 @@
     </div>
   </div>
 
+  <!-- Dog details modal — name + breed, shown after a photo is picked (#48) -->
+  <div class="upload-modal-overlay" id="uploadModalOverlay">
+    <div class="upload-modal">
+      <div class="upload-modal-icon">🐶</div>
+      <div class="upload-modal-title">Tell us about your dog</div>
+      <div class="upload-modal-subtitle">This is how they'll appear in the show.</div>
+      <label class="upload-modal-label" for="uploadDogName">Dog's name</label>
+      <input type="text" class="upload-modal-input" id="uploadDogName" placeholder="e.g. Biscuit" maxlength="30" autocomplete="off" spellcheck="false">
+      <label class="upload-modal-label" for="uploadDogBreed">Breed</label>
+      <select class="upload-modal-select" id="uploadDogBreed">
+        <option value="">Select breed…</option>
+      </select>
+      <div class="upload-modal-error" id="uploadModalError"></div>
+      <div class="upload-modal-actions">
+        <button class="upload-modal-cancel" id="uploadModalCancel" type="button">Cancel</button>
+        <button class="upload-modal-submit" id="uploadModalSubmit" type="button">Add to the show</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="breeds.js"></script>
   <script src="app.js"></script>
 
 </body>

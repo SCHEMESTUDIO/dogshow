@@ -989,6 +989,14 @@
   var dockError = document.getElementById('dockError');
   var dockErrorText = document.getElementById('dockErrorText');
   var dockErrorRetry = document.getElementById('dockErrorRetry');
+  var uploadModalOverlay = document.getElementById('uploadModalOverlay');
+  var uploadDogName = document.getElementById('uploadDogName');
+  var uploadDogBreed = document.getElementById('uploadDogBreed');
+  var uploadModalError = document.getElementById('uploadModalError');
+  var uploadModalCancel = document.getElementById('uploadModalCancel');
+  var uploadModalSubmit = document.getElementById('uploadModalSubmit');
+  var pendingUploadFile = null;
+  if (window.populateBreedSelect) window.populateBreedSelect(uploadDogBreed);
 
   // ── Paid-user row visibility (new mobile layout) ──
   // Free + general tiers no longer see an upload button on this page —
@@ -1008,11 +1016,13 @@
     // up as paid-but-no-dog users (audit finding #37).
     var pendingImage = localStorage.getItem('dogshow_pending_dog_image');
     var pendingName = localStorage.getItem('dogshow_pending_dog_name');
+    var pendingBreed = localStorage.getItem('dogshow_pending_dog_breed');
     if (pendingImage && pendingImage.indexOf('data:image/') === 0) {
       // Clear first so a page refresh can't double-submit the same dog.
       localStorage.removeItem('dogshow_pending_dog_image');
       localStorage.removeItem('dogshow_pending_dog_name');
-      submitDogImage(pendingImage, pendingName || 'A Good Dog');
+      localStorage.removeItem('dogshow_pending_dog_breed');
+      submitDogImage(pendingImage, pendingName || 'A Good Dog', pendingBreed || '');
     }
   }
   // For free + general, leave bottomDock + communityUpload hidden.
@@ -1042,15 +1052,13 @@
         return;
       }
 
-      // Ask for dog name
-      var dogName = prompt("What's your dog's name?") || 'A Good Dog';
-
-      // Resize and upload
-      resizeAndUpload(file, dogName);
+      // Photo is valid — collect name + breed in the modal, then upload.
+      pendingUploadFile = file;
+      openUploadModal();
     });
   }
 
-  function resizeAndUpload(file, dogName) {
+  function resizeAndUpload(file, dogName, breed) {
     var reader = new FileReader();
     reader.onload = function (e) {
       var img = new Image();
@@ -1067,7 +1075,7 @@
 
         // Convert to JPEG at 0.7 quality, then hand off to the shared submitter.
         var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-        submitDogImage(dataUrl, dogName);
+        submitDogImage(dataUrl, dogName, breed);
       };
       img.src = e.target.result;
     };
@@ -1076,7 +1084,7 @@
 
   // POST a prepared image data URL to the server. Shared by the in-show upload
   // (after resizing a picked file) and by the pre-purchase auto-submit above.
-  function submitDogImage(dataUrl, dogName) {
+  function submitDogImage(dataUrl, dogName, breed) {
     clearUploadError();
     uploadBtn.textContent = 'Uploading...';
     uploadBtn.disabled = true;
@@ -1088,6 +1096,7 @@
         token: sessionToken,
         imageData: dataUrl,
         dogName: dogName,
+        breed: breed || '',
       }),
     })
       .then(function (res) { return res.json(); })
@@ -1164,6 +1173,57 @@
         uploadInput.value = '';
         uploadInput.click();
       }
+    });
+  }
+
+  // ─── DOG DETAILS MODAL (#48 — name + breed picker) ───
+  function openUploadModal() {
+    if (!uploadModalOverlay) return;
+    if (uploadDogName) uploadDogName.value = '';
+    if (uploadDogBreed) uploadDogBreed.value = '';
+    if (uploadModalError) uploadModalError.textContent = '';
+    if (uploadModalSubmit) {
+      uploadModalSubmit.disabled = false;
+      uploadModalSubmit.textContent = 'Add to the show';
+    }
+    uploadModalOverlay.classList.add('active');
+    setTimeout(function () { if (uploadDogName) uploadDogName.focus(); }, 100);
+  }
+
+  function closeUploadModal() {
+    if (uploadModalOverlay) uploadModalOverlay.classList.remove('active');
+  }
+
+  function cancelUploadModal() {
+    closeUploadModal();
+    pendingUploadFile = null;
+    if (uploadInput) uploadInput.value = '';
+  }
+
+  if (uploadModalSubmit) {
+    uploadModalSubmit.addEventListener('click', function () {
+      var name = ((uploadDogName && uploadDogName.value) || '').trim();
+      var breed = ((uploadDogBreed && uploadDogBreed.value) || '').trim();
+      if (!name) {
+        if (uploadModalError) uploadModalError.textContent = "Please enter your dog's name.";
+        return;
+      }
+      if (!pendingUploadFile) {
+        if (uploadModalError) uploadModalError.textContent = 'Something went wrong — please pick the photo again.';
+        return;
+      }
+      closeUploadModal();
+      var file = pendingUploadFile;
+      pendingUploadFile = null;
+      resizeAndUpload(file, name, breed);
+    });
+  }
+  if (uploadModalCancel) {
+    uploadModalCancel.addEventListener('click', cancelUploadModal);
+  }
+  if (uploadModalOverlay) {
+    uploadModalOverlay.addEventListener('click', function (e) {
+      if (e.target === uploadModalOverlay) cancelUploadModal();
     });
   }
 

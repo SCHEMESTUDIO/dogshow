@@ -15,6 +15,7 @@
   <script async defer src="https://www.faurya.com/js/script.js" data-website-id="cmosekmvz000xl204a7bhm4cm" data-domain="dogshow.lol"></script>
   <!-- Bing UET + Clarity (see analytics.js for setup) -->
   <script src="analytics.js" defer></script>
+  <script src="breeds.js"></script>
   <title>The Dog Show — Put Your Dog in the Internet's Live Dog Show</title>
   <meta name="description" content="The internet's live dog show. Watch one dog at a time, give bones, and enter your own dog for a permanent show page. One-time payment. All dogs welcome.">
   <link rel="canonical" href="https://dogshow.lol/">
@@ -1671,6 +1672,10 @@
 
         <input type="text" class="lp-modal-input" id="dogNameInput" placeholder="Dog's name (e.g., Bella)" maxlength="30">
 
+        <select class="lp-modal-input" id="dogBreedInput" style="margin-top: 10px;">
+          <option value="">Select breed…</option>
+        </select>
+
         <div class="lp-modal-actions">
           <button class="lp-modal-btn-cancel" id="uploadCancel">Cancel</button>
           <button class="lp-modal-btn-submit" id="uploadNext" disabled>See Preview</button>
@@ -1917,11 +1922,14 @@
     var dropzoneText = document.getElementById('dropzoneText');
     var uploadNext = document.getElementById('uploadNext');
     var pendingDogImage = null;
+    var dogBreedInput = document.getElementById('dogBreedInput');
+    if (window.populateBreedSelect) window.populateBreedSelect(dogBreedInput);
 
     function startDogEntry() {
       uploadStep1.hidden = false;
       uploadStep2.hidden = true;
       dogNameInput.value = '';
+      if (dogBreedInput) dogBreedInput.value = '';
       uploadPreviewImg.hidden = true;
       dropzoneText.hidden = false;
       uploadNext.disabled = true;
@@ -1986,6 +1994,7 @@
       var name = dogNameInput.value.trim();
       localStorage.setItem('dogshow_pending_dog_name', name);
       localStorage.setItem('dogshow_pending_dog_image', pendingDogImage);
+      localStorage.setItem('dogshow_pending_dog_breed', (dogBreedInput && dogBreedInput.value) || '');
       uploadOverlay.classList.remove('active');
       openEmailModal('premium');
     });

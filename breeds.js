@@ -1,0 +1,108 @@
+// ─────────────────────────────────────────────────────────────
+// breeds.js — shared dog-breed list for the upload breed picker.
+// Loaded by show.html (in-show upload) and index.html (pre-purchase
+// upload). The uploading owner picks the breed themselves (#48) —
+// more accurate than AI guessing, and it can never mislabel a dog.
+// "Mixed Breed" is pinned first, "Other / Not sure" last.
+// ─────────────────────────────────────────────────────────────
+window.DOG_BREEDS = [
+  'Mixed Breed',
+  'Affenpinscher',
+  'Afghan Hound',
+  'Airedale Terrier',
+  'Akita',
+  'Alaskan Malamute',
+  'American Bulldog',
+  'American Eskimo Dog',
+  'Australian Cattle Dog',
+  'Australian Shepherd',
+  'Basenji',
+  'Basset Hound',
+  'Beagle',
+  'Bernese Mountain Dog',
+  'Bichon Frise',
+  'Bloodhound',
+  'Border Collie',
+  'Border Terrier',
+  'Boston Terrier',
+  'Boxer',
+  'Brittany',
+  'Bull Terrier',
+  'Bulldog',
+  'Bullmastiff',
+  'Cairn Terrier',
+  'Cane Corso',
+  'Cavalier King Charles Spaniel',
+  'Chesapeake Bay Retriever',
+  'Chihuahua',
+  'Chinese Crested',
+  'Chow Chow',
+  'Cocker Spaniel',
+  'Collie',
+  'Coonhound',
+  'Corgi',
+  'Dachshund',
+  'Dalmatian',
+  'Doberman Pinscher',
+  'English Setter',
+  'English Springer Spaniel',
+  'French Bulldog',
+  'German Shepherd',
+  'German Shorthaired Pointer',
+  'Golden Retriever',
+  'Great Dane',
+  'Great Pyrenees',
+  'Greyhound',
+  'Havanese',
+  'Irish Setter',
+  'Irish Wolfhound',
+  'Italian Greyhound',
+  'Jack Russell Terrier',
+  'Labrador Retriever',
+  'Lhasa Apso',
+  'Maltese',
+  'Mastiff',
+  'Miniature Pinscher',
+  'Miniature Schnauzer',
+  'Newfoundland',
+  'Norwegian Elkhound',
+  'Old English Sheepdog',
+  'Papillon',
+  'Pekingese',
+  'Pit Bull',
+  'Pointer',
+  'Pomeranian',
+  'Poodle',
+  'Portuguese Water Dog',
+  'Pug',
+  'Rat Terrier',
+  'Rhodesian Ridgeback',
+  'Rottweiler',
+  'Saint Bernard',
+  'Samoyed',
+  'Schnauzer',
+  'Scottish Terrier',
+  'Shar Pei',
+  'Shetland Sheepdog',
+  'Shiba Inu',
+  'Shih Tzu',
+  'Siberian Husky',
+  'Staffordshire Bull Terrier',
+  'Vizsla',
+  'Weimaraner',
+  'West Highland White Terrier',
+  'Whippet',
+  'Yorkshire Terrier',
+  'Other / Not sure',
+];
+
+// Appends the breed list as <option>s to a given <select> element.
+window.populateBreedSelect = function (selectEl) {
+  if (!selectEl || !window.DOG_BREEDS) return;
+  window.DOG_BREEDS.forEach(function (breed) {
+    var opt = document.createElement('option');
+    opt.value = breed;
+    opt.textContent = breed;
+    selectEl.appendChild(opt);
+  });
+};
