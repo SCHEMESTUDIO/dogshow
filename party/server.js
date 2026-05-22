@@ -1599,9 +1599,9 @@ export default class DogShowServer {
   }
 
   // GET /admin-ai-test?key=<ADMIN_KEY>
-  // Throwaway diagnostic for the dog classifier (audit #38). Probes the AI
-  // binding and runs resnet-50 on a known dog image, reporting exactly what
-  // happens. Safe to delete once the classifier is fixed.
+  // Throwaway diagnostic for the dog classifier (audit #38). Verifies the
+  // Cloudflare Workers AI REST classifier end-to-end on a known dog image and
+  // a known non-dog image. Safe to delete once the classifier is confirmed.
   async handleAdminAiTest(req, headers) {
     const url = new URL(req.url);
     const key = url.searchParams.get('key');
@@ -1610,66 +1610,64 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
     }
 
-    const ctx = (this.room && this.room.context) || {};
     const diag = {};
-    diag.contextKeys = Object.keys(ctx);
+    const accountId = this.room.env.CF_ACCOUNT_ID;
+    const apiToken = this.room.env.CF_AI_TOKEN;
+    diag.cfAccountIdSet = !!accountId;
+    diag.cfApiTokenSet = !!apiToken;
 
-    const ctxAi = ctx.ai;
-    diag.contextAi = {
-      type: typeof ctxAi,
-      keys: (ctxAi && typeof ctxAi === 'object') ? Object.keys(ctxAi) : null,
-      runType: ctxAi ? typeof ctxAi.run : 'n/a',
+    // Bytes -> base64 data URL, chunked to avoid call-stack limits.
+    const toDataUrl = (bytes) => {
+      let bin = '';
+      for (let i = 0; i < bytes.length; i += 8192) {
+        bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 8192));
+      }
+      return 'data:image/jpeg;base64,' + btoa(bin);
     };
 
-    // Inspect the value INSIDE the stub: context.ai.binding
-    const ctxAiBinding = ctxAi ? ctxAi.binding : undefined;
-    diag.contextAiBinding = {
-      type: typeof ctxAiBinding,
-      stringValue: (typeof ctxAiBinding === 'string') ? ctxAiBinding : null,
-      keys: (ctxAiBinding && typeof ctxAiBinding === 'object') ? Object.keys(ctxAiBinding) : null,
-      runType: ctxAiBinding ? typeof ctxAiBinding.run : 'n/a',
-    };
-
-    const bindings = ctx.bindings;
-    diag.bindings = {
-      type: typeof bindings,
-      keys: (bindings && typeof bindings === 'object') ? Object.keys(bindings) : null,
-    };
-    const bindingAI = bindings ? bindings.AI : undefined;
-    diag.bindingsAI = {
-      type: typeof bindingAI,
-      runType: bindingAI ? typeof bindingAI.run : 'n/a',
-    };
-
-    // Fetch a known dog image to classify.
-    let imageBytes = null;
+    // Fetch a known dog image and a known non-dog image (the site's OG card).
+    let dogBytes = null;
+    let nonDogBytes = null;
     try {
-      const imgRes = await fetch('https://images.dog.ceo/breeds/retriever-golden/n02099601_2688.jpg');
-      imageBytes = [...new Uint8Array(await imgRes.arrayBuffer())];
-      diag.testImageByteCount = imageBytes.length;
+      dogBytes = new Uint8Array(await (await fetch('https://images.dog.ceo/breeds/retriever-golden/n02099601_2688.jpg')).arrayBuffer());
+      diag.dogImageBytes = dogBytes.length;
     } catch (e) {
-      diag.testImageFetchError = e.message;
+      diag.dogImageError = e.message;
+    }
+    try {
+      nonDogBytes = new Uint8Array(await (await fetch('https://dogshow.lol/og-image.png')).arrayBuffer());
+      diag.nonDogImageBytes = nonDogBytes.length;
+    } catch (e) {
+      diag.nonDogImageError = e.message;
     }
 
-    // Try each plausible way to call the model; report which one works.
-    const tryRun = async (runner) => {
+    // Direct CF REST probe with the dog image — raw HTTP status + body.
+    if (accountId && apiToken && dogBytes) {
       try {
-        const result = await runner();
-        return { ok: true, isArray: Array.isArray(result), sample: JSON.stringify(result).slice(0, 400) };
+        const r = await fetch(
+          `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/microsoft/resnet-50`,
+          {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${apiToken}`, 'Content-Type': 'application/octet-stream' },
+            body: dogBytes,
+          }
+        );
+        const j = await r.json();
+        diag.restProbe = { httpStatus: r.status, body: JSON.stringify(j).slice(0, 500) };
       } catch (e) {
-        return { ok: false, error: e && e.message };
+        diag.restProbe = { error: e.message };
       }
-    };
+    }
 
-    diag.attemptContextAiRun = (ctxAi && typeof ctxAi.run === 'function')
-      ? await tryRun(() => ctxAi.run('@cf/microsoft/resnet-50', { image: imageBytes }))
-      : 'skipped — context.ai has no run()';
-    diag.attemptBindingsAiRun = (bindingAI && typeof bindingAI.run === 'function')
-      ? await tryRun(() => bindingAI.run('@cf/microsoft/resnet-50', { image: imageBytes }))
-      : 'skipped — context.bindings.AI has no run()';
-    diag.attemptContextAiBindingRun = (ctxAiBinding && typeof ctxAiBinding.run === 'function')
-      ? await tryRun(() => ctxAiBinding.run('@cf/microsoft/resnet-50', { image: imageBytes }))
-      : 'skipped — context.ai.binding has no run()';
+    // End-to-end: run the real classifier on both images.
+    if (dogBytes) {
+      try { diag.classifyDog = await this.classifyDogImage(toDataUrl(dogBytes)); }
+      catch (e) { diag.classifyDogError = e.message; }
+    }
+    if (nonDogBytes) {
+      try { diag.classifyNonDog = await this.classifyDogImage(toDataUrl(nonDogBytes)); }
+      catch (e) { diag.classifyNonDogError = e.message; }
+    }
 
     return new Response(JSON.stringify(diag, null, 2), { headers });
   }
@@ -1970,14 +1968,43 @@ export default class DogShowServer {
       const [meta, base64] = imageData.split(',');
       const binary = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
 
-      // Run image classification via Cloudflare Workers AI
-      const ai = this.room.context.ai;
-      const result = await ai.run('@cf/microsoft/resnet-50', {
-        image: [...binary],
-      });
+      // Classify via the Cloudflare Workers AI REST API. The in-deployment AI
+      // binding is not provisioned (audit #38), so we call the REST endpoint
+      // with an account-scoped API token instead.
+      const accountId = this.room.env.CF_ACCOUNT_ID;
+      const apiToken = this.room.env.CF_AI_TOKEN;
+      if (!accountId || !apiToken) {
+        console.error('[AI] CF_ACCOUNT_ID / CF_AI_TOKEN not set — failing open');
+        return { isDog: true, breed: 'Mystery Breed', confidence: 0 };
+      }
 
-      if (!result || !Array.isArray(result)) {
-        // If AI is unavailable, fail open
+      let result = null;
+      try {
+        const aiRes = await fetch(
+          `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/microsoft/resnet-50`,
+          {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${apiToken}`,
+              'Content-Type': 'application/octet-stream',
+            },
+            body: binary,
+          }
+        );
+        const aiData = await aiRes.json();
+        if (aiData && aiData.success && Array.isArray(aiData.result)) {
+          result = aiData.result;
+        } else {
+          console.error('[AI] Classifier returned no usable result:',
+            JSON.stringify((aiData && aiData.errors) || aiData).slice(0, 200));
+        }
+      } catch (e) {
+        console.error('[AI] Classifier request failed:', e.message);
+      }
+
+      if (!result) {
+        // Classifier unavailable — fail open so a paying customer is never
+        // blocked by an AI outage (audit High-4).
         return { isDog: true, breed: 'Mystery Breed', confidence: 0 };
       }
 
