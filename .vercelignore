@@ -1,0 +1,7 @@
+# Files in the repo that should NOT be deployed to the public site.
+# (GitHub Pages currently serves these — excluding them here also closes
+#  that small pre-existing leak of internal docs.)
+party
+*.md
+*.docx
+DogShowPrototype.jsx
