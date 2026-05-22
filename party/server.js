@@ -798,6 +798,9 @@ export default class DogShowServer {
       if (path === 'get-user' && req.method === 'POST') {
         return await this.handleGetUser(req, headers);
       }
+      if (path === 'my-dog' && req.method === 'POST') {
+        return await this.handleMyDog(req, headers);
+      }
       if (path === 'create-checkout' && req.method === 'POST') {
         return await this.handleCreateCheckout(req, headers);
       }
@@ -1072,6 +1075,40 @@ export default class DogShowServer {
     }
 
     return new Response(JSON.stringify({ ok: true, user }), { headers });
+  }
+
+  // POST /my-dog { token } — returns the caller's real (server-side) tier and
+  // their dog, if any. The show page calls this on entry so a returning
+  // premium user who already uploaded sees a "view your certificate" link
+  // instead of the upload prompt, and a refunded/free account doesn't see the
+  // upload UI at all (the ?tier= URL param alone is not trusted).
+  async handleMyDog(req, headers) {
+    let body;
+    try {
+      body = await req.json();
+    } catch (e) {
+      return new Response(JSON.stringify({ error: 'invalid request' }), { status: 400, headers });
+    }
+    const token = body && body.token;
+    if (!token) {
+      return new Response(JSON.stringify({ error: 'token required' }), { status: 400, headers });
+    }
+    const session = await this.room.storage.get(`token:${token}`);
+    if (!session || session.expires < Date.now()) {
+      return new Response(JSON.stringify({ error: 'invalid session' }), { status: 401, headers });
+    }
+    const user = await this.room.storage.get(`user:${session.userId}`);
+    if (!user) {
+      return new Response(JSON.stringify({ error: 'user not found' }), { status: 404, headers });
+    }
+    // Most recent dog this user uploaded, if any.
+    const mine = this.communityDogs
+      .filter(d => d.userId === session.userId)
+      .sort((a, b) => (b.uploadedAt || 0) - (a.uploadedAt || 0));
+    const dog = mine.length
+      ? { id: mine[0].id, slug: mine[0].slug || null, dogName: mine[0].dogName }
+      : null;
+    return new Response(JSON.stringify({ ok: true, tier: user.tier, dog }), { headers });
   }
 
   // Create a Stripe Checkout Session (server-side)
@@ -1452,7 +1489,7 @@ export default class DogShowServer {
 
   // Upload a community dog (premium only, AI-verified)
   async handleUploadDog(req, headers) {
-    const { token, imageData, dogName, breed } = await req.json();
+    const { token, imageData, dogName, breed, username, adminKey } = await req.json();
     if (!token || !imageData) {
       return new Response(JSON.stringify({ error: 'token and imageData required', code: 'bad_request' }), { status: 400, headers });
     }
@@ -1472,14 +1509,26 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'premium tier required', code: 'not_premium' }), { status: 403, headers });
     }
 
-    // 1-per-member limit removed 2026-05-19 — was silently blocking re-uploads
-    // (including the admin's own test uploads). Re-introduce when we have
-    // per-entry pricing wired up (encore appearances etc.) so additional dogs
-    // are paid for, not free.
-    // const existingUpload = this.communityDogs.find(d => d.userId === session.userId);
-    // if (existingUpload) {
-    //   return new Response(JSON.stringify({ error: 'you already have a dog in the show! (1 per member)' }), { status: 400, headers });
-    // }
+    // One dog per account — a second dog is a second $3.99. Re-enabled
+    // 2026-05-22 alongside the returning-user "view your certificate" UI.
+    // Bypassable with the admin key (added manually via ?admin= on the show
+    // page; it never reaches a normal client) so test uploads aren't blocked.
+    // On rejection we return the existing dog's slug so the client can show
+    // the certificate link instead of a dead-end error.
+    const isAdminUpload = !!adminKey && !!this.room.env.ADMIN_KEY
+      && adminKey === this.room.env.ADMIN_KEY;
+    if (!isAdminUpload) {
+      const existingUpload = this.communityDogs.find(d => d.userId === session.userId);
+      if (existingUpload) {
+        return new Response(JSON.stringify({
+          error: 'You already have a dog in the show.',
+          code: 'already_have_dog',
+          slug: existingUpload.slug || null,
+          id: existingUpload.id,
+          dogName: existingUpload.dogName,
+        }), { status: 409, headers });
+      }
+    }
 
     // Validate image data (must be a data URL, max ~500KB base64)
     if (!imageData.startsWith('data:image/') || imageData.length > 700000) {
@@ -1509,12 +1558,23 @@ export default class DogShowServer {
     let cleanBreed = breed ? this.sanitize(breed).trim().slice(0, 40) : '';
     if (!cleanBreed) cleanBreed = classification.breed || 'Mystery Breed';
 
+    // Resolve the uploader's display name. The client now forces a username
+    // before upload AND passes it here — so a dog is never created as
+    // "Anonymous" just because /set-username hadn't landed yet. Persist it to
+    // the user record if it was missing.
+    const cleanUsername = username ? this.sanitize(username).trim().slice(0, 20) : '';
+    if (!user.username && cleanUsername) {
+      user.username = cleanUsername;
+      await this.room.storage.put(`user:${session.userId}`, user);
+    }
+    const dogUsername = user.username || cleanUsername || 'Anonymous';
+
     // Add to community dogs list
     const entry = {
       id,
       slug,
       userId: session.userId,
-      username: user.username || 'Anonymous',
+      username: dogUsername,
       dogName: cleanName,
       breed: cleanBreed,
       breedConfidence: classification.confidence || 0,
@@ -1543,6 +1603,12 @@ export default class DogShowServer {
       type: 'communityCount',
       count: this.communityDogs.length,
     }));
+
+    // Certificate email — fire-and-forget. This is the first moment the server
+    // has the photo + slug, so it is the only email that can actually show the
+    // dog (the purchase-confirmation email fires before any photo is uploaded).
+    this.sendCertificateEmail(user.email, { id, slug, dogName: cleanName, breed: cleanBreed })
+      .catch(e => console.error('[Email] Certificate email failed:', e.message));
 
     return new Response(JSON.stringify({ ok: true, id, slug, message: 'Your dog is now in the show!' }), { headers });
   }
@@ -2379,6 +2445,65 @@ export default class DogShowServer {
       return res.ok;
     } catch (e) {
       console.error('[Email] Purchase confirmation network error:', e.message);
+      return false;
+    }
+  }
+
+  // Sent the moment a dog is added to the show — the "your dog is in" email.
+  // This is the first point the server has the photo + slug, so it is the only
+  // email that can actually show the dog. dogName/breed are pre-sanitized by
+  // handleUploadDog (this.sanitize strips < > & " '), so they are safe to
+  // interpolate into the HTML and the subject line.
+  async sendCertificateEmail(email, dog) {
+    if (!email) return false;
+    if (!this.room.env.RESEND_API_KEY) {
+      console.error('[Email] RESEND_API_KEY not set, skipping certificate email');
+      return false;
+    }
+    const dogName = dog.dogName || 'Your dog';
+    const breed = dog.breed || 'Mystery Breed';
+    const imageUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=' + dog.id;
+    const pageUrl = dog.slug ? `${SITE_URL}/d/${dog.slug}` : `${SITE_URL}/dog.html?id=${dog.id}`;
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Dog Show <noreply@dogshow.lol>',
+          to: [email],
+          subject: `🏆 ${dogName} is in The Dog Show`,
+          html: `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
+              <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 4px; text-align: center;">The Dog Show</h1>
+              <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">On Stage</p>
+              <div style="background: #241a45; border-radius: 12px; padding: 28px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px;">
+                <img src="${imageUrl}" alt="${dogName}" width="240" style="display: block; width: 240px; max-width: 100%; height: auto; border-radius: 12px; margin: 0 auto 18px;">
+                <h2 style="color: #e0d8f0; font-size: 21px; margin: 0 0 6px; text-align: center;">${dogName} is in the show</h2>
+                <p style="font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.65); text-align: center; margin: 0;">${breed} &middot; now in the rotation, collecting bones from the crowd.</p>
+              </div>
+              <div style="text-align: center; margin-bottom: 24px;">
+                <a href="${pageUrl}" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;">View ${dogName}'s certificate</a>
+              </div>
+              <p style="text-align: center; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 4px;">Share their page so friends can throw bones:</p>
+              <p style="text-align: center; font-size: 13px; margin-top: 0; word-break: break-all;">
+                <a href="${pageUrl}" style="color: #FF8C42;">${pageUrl}</a>
+              </p>
+              <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 24px 0;">
+              <p style="text-align: center; font-size: 11px; color: rgba(255,255,255,0.25);">
+                Questions? Just reply to this email.<br>
+                <a href="${SITE_URL}" style="color: #FF8C42;">dogshow.lol</a>
+              </p>
+            </div>
+          `,
+        }),
+      });
+      if (!res.ok) console.error('[Email] Certificate email send failed:', res.status);
+      return res.ok;
+    } catch (e) {
+      console.error('[Email] Certificate email network error:', e.message);
       return false;
     }
   }

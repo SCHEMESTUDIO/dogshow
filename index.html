@@ -1926,6 +1926,12 @@
     if (window.populateBreedSelect) window.populateBreedSelect(dogBreedInput);
 
     function startDogEntry() {
+      // Fresh slate — drop any pending photo from a previous, abandoned entry
+      // so a stale image can't be auto-submitted later as the wrong dog.
+      localStorage.removeItem('dogshow_pending_dog_image');
+      localStorage.removeItem('dogshow_pending_dog_name');
+      localStorage.removeItem('dogshow_pending_dog_breed');
+      localStorage.removeItem('dogshow_pending_dog_ts');
       uploadStep1.hidden = false;
       uploadStep2.hidden = true;
       dogNameInput.value = '';
@@ -1995,6 +2001,9 @@
       localStorage.setItem('dogshow_pending_dog_name', name);
       localStorage.setItem('dogshow_pending_dog_image', pendingDogImage);
       localStorage.setItem('dogshow_pending_dog_breed', (dogBreedInput && dogBreedInput.value) || '');
+      // Timestamp the handoff so a stale photo from an abandoned checkout is
+      // discarded on the show page instead of being auto-submitted.
+      localStorage.setItem('dogshow_pending_dog_ts', String(Date.now()));
       uploadOverlay.classList.remove('active');
       openEmailModal('premium');
     });

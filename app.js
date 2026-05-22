@@ -213,6 +213,7 @@
   var usernameModal = document.getElementById('usernameModal');
   var usernameInput = document.getElementById('usernameInput');
   var usernameSubmit = document.getElementById('usernameSubmit');
+  var pendingDogSubmission = null; // an upload waiting on a username (see submitDogImage)
 
   function showUsernameModal() {
     if (usernameModal) {
@@ -229,13 +230,25 @@
     localStorage.setItem('dogshow_username', name);
     usernameModal.classList.remove('active');
 
-    // Save to server if logged in
+    // Resume an upload that was waiting on the username (see submitDogImage).
+    function resumePendingUpload() {
+      if (pendingDogSubmission) {
+        var p = pendingDogSubmission;
+        pendingDogSubmission = null;
+        submitDogImage(p.dataUrl, p.dogName, p.breed);
+      }
+    }
+
+    // Save to server, then resume. We resume even if the save fails — the
+    // upload also carries the username, so the dog still gets the right name.
     if (sessionToken) {
       fetch(API_BASE + '/set-username', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: sessionToken, username: name }),
-      }).catch(function () {});
+      }).then(resumePendingUpload, resumePendingUpload);
+    } else {
+      resumePendingUpload();
     }
   }
 
@@ -998,32 +1011,106 @@
   var pendingUploadFile = null;
   if (window.populateBreedSelect) window.populateBreedSelect(uploadDogBreed);
 
-  // ── Paid-user row visibility (new mobile layout) ──
-  // Free + general tiers no longer see an upload button on this page —
-  // the $3.99 CTA now rotates in the house rotator below the breed fact.
-  // Only premium ($3.99) buyers see the paid-user-row, which reveals their
-  // upload prompt or (once uploaded) the link to their dog's certificate.
+  // ── Paid-user row: upload prompt, or a link to the user's dog ──
+  // Free + general tiers don't see an upload button here (the $3.99 CTA lives
+  // in the house rotator below). Premium buyers see either the upload prompt
+  // or — once they have a dog — a persistent link to that dog's certificate.
   var bottomDock = document.getElementById('bottomDock');
-  if (tier === 'premium' && sessionToken) {
-    if (bottomDock) bottomDock.hidden = false;
-    communityUpload.hidden = false;
-    uploadBtn.textContent = '📸 Upload your dog now';
-    uploadBtn.className = 'dock-enter-btn paid-user-upload-btn';
 
-    // Auto-submit a dog photo uploaded before checkout. index.html's
-    // pre-purchase flow stashes the photo in localStorage; without this it was
-    // silently dropped and the buyer had to upload again — many didn't, ending
-    // up as paid-but-no-dog users (audit finding #37).
+  // Admin-key passthrough: lets the site owner's own test uploads bypass the
+  // one-dog-per-account limit. Supplied once via ?admin=KEY, then remembered.
+  var adminKey = params.get('admin');
+  if (adminKey) localStorage.setItem('dogshow_admin_key', adminKey);
+  adminKey = adminKey || localStorage.getItem('dogshow_admin_key') || null;
+
+  // Render the "dog is in the show" state with a link to its certificate page.
+  function showDogCertificate(slug, id, pending) {
+    if (communityUpload) communityUpload.hidden = true;
+    clearUploadError();
+    if (dockStatus) dockStatus.hidden = false;
+    if (dockStatusDot) dockStatusDot.className = 'dock-status-dot' + (pending ? ' pending' : '');
+    if (dockStatusText) {
+      dockStatusText.textContent = pending ? 'Submitted — waiting to appear'
+                                           : 'Your dog is in the show';
+    }
+    if (dockDogLink && (slug || id)) {
+      dockDogLink.href = 'https://dogshow.lol/d/' + (slug || id);
+      dockDogLink.hidden = false;
+    }
+    if (dockPatience) dockPatience.hidden = !pending;
+  }
+
+  // Render the upload prompt for a premium user who has no dog yet.
+  function showUploadPrompt() {
+    if (communityUpload) communityUpload.hidden = false;
+    if (dockStatus) dockStatus.hidden = true;
+    if (uploadBtn) {
+      uploadBtn.textContent = '📸 Upload your dog now';
+      uploadBtn.className = 'dock-enter-btn paid-user-upload-btn';
+      uploadBtn.disabled = false;
+    }
+  }
+
+  // Consume a pre-purchase photo stashed in localStorage — but only if it is
+  // fresh. A stale photo (from an earlier, abandoned checkout) is discarded,
+  // never submitted, so it can't surface as the wrong dog (audit: stale
+  // localStorage handoff). The original drop-on-entry fix is audit #37.
+  function autoSubmitPendingDog() {
     var pendingImage = localStorage.getItem('dogshow_pending_dog_image');
     var pendingName = localStorage.getItem('dogshow_pending_dog_name');
     var pendingBreed = localStorage.getItem('dogshow_pending_dog_breed');
-    if (pendingImage && pendingImage.indexOf('data:image/') === 0) {
-      // Clear first so a page refresh can't double-submit the same dog.
-      localStorage.removeItem('dogshow_pending_dog_image');
-      localStorage.removeItem('dogshow_pending_dog_name');
-      localStorage.removeItem('dogshow_pending_dog_breed');
-      submitDogImage(pendingImage, pendingName || 'A Good Dog', pendingBreed || '');
-    }
+    var pendingTs = parseInt(localStorage.getItem('dogshow_pending_dog_ts') || '0', 10);
+    // Clear first so a page refresh can't double-submit the same dog.
+    localStorage.removeItem('dogshow_pending_dog_image');
+    localStorage.removeItem('dogshow_pending_dog_name');
+    localStorage.removeItem('dogshow_pending_dog_breed');
+    localStorage.removeItem('dogshow_pending_dog_ts');
+    if (!pendingImage || pendingImage.indexOf('data:image/') !== 0) return;
+    // A real checkout takes minutes; anything older than 45 min is leftover.
+    if (!pendingTs || (Date.now() - pendingTs) > 45 * 60 * 1000) return;
+    submitDogImage(pendingImage, pendingName || 'A Good Dog', pendingBreed || '');
+  }
+
+  if (tier === 'premium' && sessionToken) {
+    // Ask the server for the real tier + any existing dog before deciding what
+    // to show. The ?tier= URL param alone is not trusted (a refunded account
+    // still arrives with tier=premium in the link). Falls back to the upload
+    // prompt if the lookup fails.
+    fetch(API_BASE + '/my-dog', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: sessionToken }),
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.ok && data.tier !== 'premium') {
+          // Account isn't actually premium (e.g. refunded) — no upload UI.
+          if (bottomDock) bottomDock.hidden = true;
+          return;
+        }
+        if (bottomDock) bottomDock.hidden = false;
+        if (data && data.ok && data.dog) {
+          // Already has a dog — show the certificate link and drop any
+          // leftover pending photo so it can't be re-submitted.
+          localStorage.removeItem('dogshow_pending_dog_image');
+          localStorage.removeItem('dogshow_pending_dog_name');
+          localStorage.removeItem('dogshow_pending_dog_breed');
+          localStorage.removeItem('dogshow_pending_dog_ts');
+          showDogCertificate(data.dog.slug, data.dog.id, false);
+          return;
+        }
+        // Premium, no dog yet — show the prompt, then auto-submit a fresh
+        // pre-purchase photo if one is waiting.
+        showUploadPrompt();
+        autoSubmitPendingDog();
+      })
+      .catch(function () {
+        // Lookup failed — show the prompt and still try the pending photo. A
+        // duplicate upload is caught server-side ('already_have_dog').
+        if (bottomDock) bottomDock.hidden = false;
+        showUploadPrompt();
+        autoSubmitPendingDog();
+      });
   }
   // For free + general, leave bottomDock + communityUpload hidden.
 
@@ -1085,9 +1172,19 @@
   // POST a prepared image data URL to the server. Shared by the in-show upload
   // (after resizing a picked file) and by the pre-purchase auto-submit above.
   function submitDogImage(dataUrl, dogName, breed) {
+    // A dog must never be created as "Anonymous". If the uploader hasn't
+    // picked a display name yet, stash this submission, prompt for the name,
+    // and resume once it's set (see submitUsername).
+    if (!hasPickedUsername) {
+      pendingDogSubmission = { dataUrl: dataUrl, dogName: dogName, breed: breed };
+      showUsernameModal();
+      return;
+    }
     clearUploadError();
-    uploadBtn.textContent = 'Uploading...';
-    uploadBtn.disabled = true;
+    if (uploadBtn) {
+      uploadBtn.textContent = 'Uploading...';
+      uploadBtn.disabled = true;
+    }
 
     fetch(API_BASE + '/upload-dog', {
       method: 'POST',
@@ -1097,40 +1194,39 @@
         imageData: dataUrl,
         dogName: dogName,
         breed: breed || '',
+        username: myUsername,
+        adminKey: adminKey || undefined,
       }),
     })
       .then(function (res) { return res.json(); })
       .then(function (data) {
         if (data.ok) {
-          var slug = data.slug || data.id;
-          var dogPageUrl = 'https://dogshow.lol/d/' + slug;
-
-          // Update dock UI
-          communityUpload.hidden = true;
-          dockStatus.hidden = false;
-          dockStatusDot.className = 'dock-status-dot pending';
-          dockStatusText.textContent = 'Submitted — waiting to appear';
-          dockDogLink.href = dogPageUrl;
-          dockDogLink.hidden = false;
-          dockPatience.hidden = false;
-
-          // After a bit, switch to "live" status
+          showDogCertificate(data.slug, data.id, true);
+          // After a bit, switch from "waiting" to "live".
           setTimeout(function () {
-            dockStatusDot.className = 'dock-status-dot';
-            dockStatusText.textContent = 'Your dog is live';
-            dockPatience.hidden = true;
+            if (dockStatusDot) dockStatusDot.className = 'dock-status-dot';
+            if (dockStatusText) dockStatusText.textContent = 'Your dog is live';
+            if (dockPatience) dockPatience.hidden = true;
           }, 60000);
+        } else if (data.code === 'already_have_dog') {
+          // Not a failure — they already have a dog. Show its certificate link
+          // instead of a dead-end error (audit: returning-user upload flow).
+          showDogCertificate(data.slug, data.id, false);
         } else {
           showUploadStatus(data.error || 'Upload failed.', true, data.code || 'server_rejected');
-          uploadBtn.disabled = false;
-          uploadBtn.textContent = '📸 Upload your dog now';
-          uploadInput.value = '';  // Reset so they can try again
+          if (uploadBtn) {
+            uploadBtn.disabled = false;
+            uploadBtn.textContent = '📸 Upload your dog now';
+          }
+          if (uploadInput) uploadInput.value = '';  // Reset so they can try again
         }
       })
       .catch(function () {
         showUploadStatus('Upload failed. Try again.', true, 'network');
-        uploadBtn.disabled = false;
-        uploadBtn.textContent = '📸 Upload your dog now';
+        if (uploadBtn) {
+          uploadBtn.disabled = false;
+          uploadBtn.textContent = '📸 Upload your dog now';
+        }
       });
   }
 

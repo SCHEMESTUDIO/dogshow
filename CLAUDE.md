@@ -78,11 +78,12 @@ Base: `dogshow.schemestudio.partykit.dev/party/dogshow-live` (PartyKit single-pa
 | POST | `/login` | Login with token |
 | POST | `/verify` | Verify token / session |
 | POST | `/get-user` | Get user data by token |
+| POST | `/my-dog` | Returns the caller's real (server-side) tier + their dog `{id,slug,dogName}` if any. The show page calls this on entry so a returning premium user who already uploaded sees a "view your certificate" link, and a refunded/free account doesn't see the upload UI. |
 | POST | `/set-username` | Set username for current user |
 | POST | `/create-checkout` | Create Stripe checkout session. `success_url` now carries `{CHECKOUT_SESSION_ID}` + `metadata[tier]`. |
 | POST | `/verify-checkout` | Verify a completed Stripe Checkout Session server-side (payment_status=paid), then provision the paid user. **Only path that can grant general/premium.** tier+email read from Stripe, never the client. |
 | POST | `/stripe-webhook` | Stripe webhook. HMAC-verified via `STRIPE_WEBHOOK_SECRET`. Handles `charge.refunded` (→ downgrade to free) + `charge.dispute.created` (→ flag user). |
-| POST | `/upload-dog` | Upload community dog (premium only). Runs AI dog classification (`classifyDogImage` → Cloudflare Workers AI `@cf/microsoft/resnet-50`): rejects non-dogs, else assigns breed + confidence. **Fails open** — accepts as "Mystery Breed" if the AI errors or is unavailable. Error responses include a `code` field for client-side observability. |
+| POST | `/upload-dog` | Upload community dog (premium only). Runs AI dog classification (`classifyDogImage` → Cloudflare Workers AI `@cf/microsoft/resnet-50`): rejects non-dogs, else assigns breed + confidence. **Fails open** — accepts as "Mystery Breed" if the AI errors or is unavailable. Breed comes from the uploader's dropdown pick (#48); `username` is passed so the dog is never created "Anonymous". **One dog per account** (re-enabled 2026-05-22) — a 2nd upload returns 409 `already_have_dog` with the existing dog's slug; bypassable by passing `adminKey` (=`ADMIN_KEY`). Sends the certificate email (dog photo + `/d/{slug}` link) on success. Error responses include a `code` field for client-side observability. |
 | GET | `/community-image?id=X` | Fetch uploaded community dog image |
 | GET | `/community-count` | Count of community-uploaded dogs |
 | GET | `/dog-stats?id=X` | Individual dog stats |
