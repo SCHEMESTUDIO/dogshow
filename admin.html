@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dog Show — Admin</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    :root {
+      --bg: #0f0a22;
+      --panel: #1a1035;
+      --panel-2: #241a45;
+      --accent: #FF8C42;
+      --text: #e0d8f0;
+      --text-dim: rgba(224, 216, 240, 0.55);
+      --border: rgba(255, 255, 255, 0.08);
+      --danger: #e74c3c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      padding: 32px 20px;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; }
+    h1 { color: var(--accent); font-size: 24px; margin-bottom: 4px; }
+    .sub { color: var(--text-dim); font-size: 13px; margin-bottom: 28px; }
+
+    .login { max-width: 380px; margin: 56px auto; text-align: center; }
+    .login input {
+      width: 100%; padding: 12px 14px; margin: 16px 0 8px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text); font-size: 14px;
+    }
+    .login input:focus { outline: none; border-color: var(--accent); }
+    .btn {
+      background: var(--accent); color: #1a1035; border: none;
+      padding: 11px 22px; border-radius: 10px; font-size: 14px;
+      font-weight: 700; cursor: pointer; font-family: inherit;
+    }
+    .btn:disabled { opacity: 0.6; cursor: default; }
+    .btn-wide { width: 100%; }
+    .err { color: var(--danger); font-size: 13px; min-height: 18px; margin-top: 8px; }
+
+    .stats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+    .stat {
+      flex: 1 1 110px; background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px;
+    }
+    .stat-num { font-size: 22px; font-weight: 700; color: var(--accent); }
+    .stat-label {
+      font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+      letter-spacing: 1px; margin-top: 2px;
+    }
+    .stat.warn .stat-num { color: var(--danger); }
+
+    .section-title {
+      font-size: 13px; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--text-dim); margin: 24px 0 10px;
+    }
+    .stuck {
+      background: rgba(231, 76, 60, 0.1); border: 1px solid rgba(231, 76, 60, 0.35);
+      border-radius: 10px; padding: 12px 14px; font-size: 13px;
+    }
+    .stuck-row { padding: 4px 0; }
+
+    .dog {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 12px; margin-bottom: 8px;
+    }
+    .dog-thumb {
+      width: 52px; height: 52px; border-radius: 8px; object-fit: cover;
+      flex-shrink: 0; background: var(--panel-2);
+    }
+    .dog-info { flex: 1 1 auto; min-width: 0; }
+    .dog-name { font-weight: 600; font-size: 15px; }
+    .dog-meta { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+    .dog-del {
+      background: rgba(231, 76, 60, 0.15); border: 1px solid rgba(231, 76, 60, 0.5);
+      color: #ffb4ab; padding: 7px 14px; border-radius: 8px; font-size: 12px;
+      font-weight: 600; cursor: pointer; font-family: inherit; flex-shrink: 0;
+    }
+    .dog-del:hover { background: rgba(231, 76, 60, 0.3); }
+    .dog-del:disabled { opacity: 0.5; cursor: default; }
+    .seed-tag {
+      font-size: 10px; color: var(--text-dim); border: 1px solid var(--border);
+      border-radius: 4px; padding: 1px 5px; margin-left: 6px;
+    }
+    .muted { color: var(--text-dim); font-size: 13px; }
+    .reload {
+      background: var(--panel); border: 1px solid var(--border); color: var(--text);
+      padding: 7px 14px; border-radius: 8px; font-size: 12px; cursor: pointer;
+      font-family: inherit;
+    }
+    .row-between { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Dog Show — Admin</h1>
+    <div class="sub">dogshow.lol control panel</div>
+
+    <div class="login" id="loginView">
+      <div class="muted">Enter the admin key to continue.</div>
+      <input type="password" id="keyInput" placeholder="Admin key" autocomplete="off" spellcheck="false">
+      <button class="btn btn-wide" id="unlockBtn">Unlock</button>
+      <div class="err" id="loginErr"></div>
+    </div>
+
+    <div id="dashView" hidden>
+      <div class="stats" id="statsRow"></div>
+
+      <div id="stuckWrap" hidden>
+        <div class="section-title">Paid users with no dog — follow up</div>
+        <div class="stuck" id="stuckList"></div>
+      </div>
+
+      <div class="row-between" style="margin: 24px 0 10px;">
+        <div class="section-title" style="margin: 0;">Community dogs (<span id="dogCount">0</span>)</div>
+        <button class="reload" id="reloadBtn">Reload</button>
+      </div>
+      <div id="dogList"></div>
+    </div>
+  </div>
+
+  <script>
+    var PARTY = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live';
+    var adminKey = '';
+
+    var keyInput = document.getElementById('keyInput');
+    var unlockBtn = document.getElementById('unlockBtn');
+    var loginErr = document.getElementById('loginErr');
+    var loginView = document.getElementById('loginView');
+    var dashView = document.getElementById('dashView');
+    var statsRow = document.getElementById('statsRow');
+    var stuckWrap = document.getElementById('stuckWrap');
+    var stuckList = document.getElementById('stuckList');
+    var dogList = document.getElementById('dogList');
+    var dogCount = document.getElementById('dogCount');
+    var reloadBtn = document.getElementById('reloadBtn');
+
+    function stat(num, label, warn) {
+      var d = document.createElement('div');
+      d.className = 'stat' + (warn ? ' warn' : '');
+      var n = document.createElement('div');
+      n.className = 'stat-num';
+      n.textContent = num;
+      var l = document.createElement('div');
+      l.className = 'stat-label';
+      l.textContent = label;
+      d.appendChild(n);
+      d.appendChild(l);
+      return d;
+    }
+
+    function renderAudit(audit) {
+      var s = (audit && audit.summary) || {};
+      var tc = s.tierCounts || {};
+      statsRow.innerHTML = '';
+      statsRow.appendChild(stat(s.totalUsers != null ? s.totalUsers : '—', 'Users'));
+      statsRow.appendChild(stat(tc.premium || 0, 'Premium'));
+      statsRow.appendChild(stat(tc.general || 0, 'General'));
+      statsRow.appendChild(stat(tc.free || 0, 'Free'));
+      statsRow.appendChild(stat(s.communityDogsCount != null ? s.communityDogsCount : '—', 'Dogs'));
+      statsRow.appendChild(stat(s.stuckPremiumCount || 0, 'Stuck paid', (s.stuckPremiumCount || 0) > 0));
+      var orphans = (s.orphanedImgCount || 0) + (s.orphanedSlugCount || 0);
+      statsRow.appendChild(stat(orphans, 'Orphan keys', orphans > 0));
+
+      var stuck = (audit && audit.stuckPremium) || [];
+      if (stuck.length) {
+        stuckWrap.hidden = false;
+        stuckList.innerHTML = '';
+        stuck.forEach(function (u) {
+          var r = document.createElement('div');
+          r.className = 'stuck-row';
+          r.textContent = (u.email || '—') + '  ·  registered '
+            + (u.createdAtIso ? u.createdAtIso.slice(0, 10) : '?');
+          stuckList.appendChild(r);
+        });
+      } else {
+        stuckWrap.hidden = true;
+      }
+    }
+
+    function fmtDate(ts) {
+      if (!ts) return '?';
+      try { return new Date(ts).toISOString().slice(0, 10); } catch (e) { return '?'; }
+    }
+
+    function renderDogs(dogs) {
+      dogs.sort(function (a, b) { return (b.uploadedAt || 0) - (a.uploadedAt || 0); });
+      dogCount.textContent = dogs.length;
+      dogList.innerHTML = '';
+      if (!dogs.length) {
+        var empty = document.createElement('div');
+        empty.className = 'muted';
+        empty.textContent = 'No community dogs.';
+        dogList.appendChild(empty);
+        return;
+      }
+      dogs.forEach(function (dog) {
+        var isSeed = (dog.id || '').indexOf('cdog_seed_') === 0;
+        var row = document.createElement('div');
+        row.className = 'dog';
+
+        var img = document.createElement('img');
+        img.className = 'dog-thumb';
+        img.src = PARTY + '/community-image?id=' + encodeURIComponent(dog.id);
+        img.alt = '';
+        row.appendChild(img);
+
+        var info = document.createElement('div');
+        info.className = 'dog-info';
+        var name = document.createElement('div');
+        name.className = 'dog-name';
+        name.textContent = dog.dogName || 'Unnamed';
+        if (isSeed) {
+          var tag = document.createElement('span');
+          tag.className = 'seed-tag';
+          tag.textContent = 'SEED';
+          name.appendChild(tag);
+        }
+        var meta = document.createElement('div');
+        meta.className = 'dog-meta';
+        meta.textContent = (dog.breed || 'Mystery Breed') + '  ·  by '
+          + (dog.username || 'Anonymous') + '  ·  ' + fmtDate(dog.uploadedAt);
+        info.appendChild(name);
+        info.appendChild(meta);
+        row.appendChild(info);
+
+        var del = document.createElement('button');
+        del.className = 'dog-del';
+        del.textContent = 'Delete';
+        del.addEventListener('click', function () { deleteDog(dog, row, del); });
+        row.appendChild(del);
+
+        dogList.appendChild(row);
+      });
+    }
+
+    async function deleteDog(dog, row, btn) {
+      if (!confirm('Delete "' + (dog.dogName || 'this dog') + '" from the show? This is permanent.')) return;
+      btn.disabled = true;
+      btn.textContent = 'Deleting…';
+      try {
+        var res = await fetch(PARTY + '/admin-delete-dog?key=' + encodeURIComponent(adminKey)
+          + '&id=' + encodeURIComponent(dog.id));
+        var data = await res.json();
+        if (data.ok) {
+          row.remove();
+          dogCount.textContent = (data.remainingCommunityDogs != null)
+            ? data.remainingCommunityDogs
+            : Math.max(0, parseInt(dogCount.textContent, 10) - 1);
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Delete';
+          alert('Could not delete: ' + (data.error || res.status));
+        }
+      } catch (e) {
+        btn.disabled = false;
+        btn.textContent = 'Delete';
+        alert('Network error deleting dog.');
+      }
+    }
+
+    async function loadDogs() {
+      dogList.innerHTML = '<div class="muted">Loading…</div>';
+      try {
+        var res = await fetch(PARTY + '/all-dogs');
+        var data = await res.json();
+        renderDogs(data.dogs || []);
+      } catch (e) {
+        dogList.innerHTML = '<div class="muted">Could not load dogs.</div>';
+      }
+    }
+
+    async function refreshAudit() {
+      try {
+        var res = await fetch(PARTY + '/admin-audit?key=' + encodeURIComponent(adminKey));
+        if (res.ok) renderAudit(await res.json());
+      } catch (e) {}
+    }
+
+    async function unlock() {
+      var key = keyInput.value.trim();
+      if (!key) return;
+      loginErr.textContent = '';
+      unlockBtn.disabled = true;
+      unlockBtn.textContent = 'Checking…';
+      try {
+        var res = await fetch(PARTY + '/admin-audit?key=' + encodeURIComponent(key));
+        if (res.status === 401) { loginErr.textContent = 'Wrong key.'; return; }
+        if (!res.ok) { loginErr.textContent = 'Server error (' + res.status + ').'; return; }
+        var audit = await res.json();
+        adminKey = key;
+        loginView.hidden = true;
+        dashView.hidden = false;
+        renderAudit(audit);
+        loadDogs();
+      } catch (e) {
+        loginErr.textContent = 'Network error.';
+      } finally {
+        unlockBtn.disabled = false;
+        unlockBtn.textContent = 'Unlock';
+      }
+    }
+
+    unlockBtn.addEventListener('click', unlock);
+    keyInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') unlock(); });
+    reloadBtn.addEventListener('click', function () { refreshAudit(); loadDogs(); });
+  </script>
+</body>
+</html>
