@@ -26,8 +26,8 @@ DogShowPrototype.jsx is an OLD React prototype from early brainstorming. It is *
 |------|-------|---------|
 | `index.html` | ~2128 | Landing/sales page. Hero, pricing tiers, testimonials, FAQ, email modal, Stripe checkout flow, curtain animation. Inline `<style>` block with `.lp-*` classes. JS at bottom. |
 | `show.html` | ~262 | Live show page. Stage → header row (nameplate + bones cluster) → paid-user row (upload/status) → breed fact → house rotator (real CTA + 4 fake-door cards) → chat → share rail → leaderboard. Bottom dock dissolved 2026-05-18; bones cluster now lives next to nameplate. Desktop: two-column Twitch-style layout (stage ~60% + chat 300px side-by-side) with two-column leaderboard (2026-05-19). Includes username modal, upgrade modal, interest-capture modal. Loads `app.js`. |
-| `app.js` | ~1400 | Show page JS (IIFE). PartyKit WebSocket, dog slideshow sync, live chat, bone reactions/streaks/frenzy, community upload (canvas resize 600px JPEG 0.7), breed facts DB, leaderboard, share rail, upgrade modals for free users. **House rotator** (5 messages, 15s rotation; $3.99 entry CTA + 4 fake doors). **Interest modal** captures fake-door emails via `/register` with `tier='interest_<feature>'`. |
-| `style.css` | ~2361 | Shared stylesheet. CSS vars, font-face, all page styles, responsive breakpoints, upgrade modal CSS. New mobile layout components (.stage-header-row, .bones-cluster, .paid-user-row, .house-rotator, .interest-modal) live near the bottom. |
+| `app.js` | ~1460 | Show page JS (IIFE). PartyKit WebSocket, dog slideshow sync, live chat, bone reactions/streaks/frenzy, community upload (canvas resize 600px JPEG 0.7) via shared `submitDogImage()` — also auto-submits a pre-purchase photo stashed in `localStorage` as `dogshow_pending_dog_image` on show entry (audit #37 fix), breed facts DB, leaderboard, share rail, upgrade modals for free users. **House rotator** (5 messages, 15s rotation; $3.99 entry CTA + 4 fake doors). **Interest modal** captures fake-door emails via `/register` with `tier='interest_<feature>'`. |
+| `style.css` | ~2412 | Shared stylesheet. CSS vars, font-face, all page styles, responsive breakpoints, upgrade modal CSS. New mobile layout components (.stage-header-row, .bones-cluster, .paid-user-row, .house-rotator, .interest-modal) live near the bottom. |
 | `analytics.js` | ~117 | Sitewide Bing UET + Microsoft Clarity scaffold + helper functions `window.trackEmailCapture` / `window.trackPurchase`. Tags dormant until IDs filled in. Loaded on all 11 main pages. |
 | `success.html` | ~449 | Post-Stripe payment. Registers user via `/register`, celebration page with dog preview + share buttons (FB/X/WhatsApp/copy). No auto-redirect. |
 | `dog.html` | ~883 | Individual dog certificate. Stats, SEO content, Schema.org structured data, share buttons, "More Dogs" section. Mobile-responsive. |
@@ -57,7 +57,7 @@ DogShowPrototype.jsx is an OLD React prototype from early brainstorming. It is *
 | `Claude Project Memory - Best Practices.md` | Notes on memory file conventions |
 | `bing-campaign-prep.md` | Bing Ads prep doc — keywords, ad copy, negatives, bid strategy, kill criteria. Source-of-truth for the £200→£600 promo trial. |
 | `bing-launch-checklist.md` | Step-by-step actions for James inside the Microsoft Ads UI. Companion to `bing-campaign-prep.md`. |
-| `platform-audit.md` | Pre-paid-traffic reliability audit (generated 2026-05-19). 6 Critical / 7 High / 6 Medium / 3 Low findings — silent failure modes, 2 security gaps allowing free tier upgrades, near-zero observability. Recommends fixing the payment-verification gap (Critical 1–3) before launching paid ads. Untracked in git as of this writing. |
+| `platform-audit.md` | Pre-paid-traffic reliability audit (generated 2026-05-19). 6 Critical / 7 High / 6 Medium / 3 Low findings — silent failure modes, 2 security gaps allowing free tier upgrades, near-zero observability. Recommended fixing the payment-verification gap (Critical 1–3) before launching paid ads — the 6 Critical fixes shipped 2026-05-21 (commit `535deb6`). |
 | `CNAME` | Domain: `dogshow.lol` |
 | `_redirects` | Netlify/Vercel redirect rules (`/d/:slug`, SEO clean URLs). **Ignored by GitHub Pages (current host)** — kept in repo for any future host migration. |
 | `robots.txt` | SEO crawl rules |
@@ -65,7 +65,7 @@ DogShowPrototype.jsx is an OLD React prototype from early brainstorming. It is *
 | `YangBagus.ttf` | Custom font |
 | `og-image.png` | Open Graph / Twitter Card share image (1200x630). Generated 2026-05-18 with Python+PIL from a script — wordmark in Yang Bagus + theatre proscenium framing. Referenced by all 12 main HTML pages. Swap with a designer version anytime — no code change required. |
 | `favicon.svg` + PNG variants | Favicons |
-| `party/` | PartyKit server code — single `server.js` (~64KB, ~1570 lines, one class), has its own node_modules |
+| `party/` | PartyKit server code — single `server.js` (~93KB, ~2240 lines, one class), has its own node_modules |
 
 ## API Endpoints (PartyKit)
 
@@ -82,7 +82,7 @@ Base: `dogshow.schemestudio.partykit.dev/party/dogshow-live` (PartyKit single-pa
 | POST | `/create-checkout` | Create Stripe checkout session. `success_url` now carries `{CHECKOUT_SESSION_ID}` + `metadata[tier]`. |
 | POST | `/verify-checkout` | Verify a completed Stripe Checkout Session server-side (payment_status=paid), then provision the paid user. **Only path that can grant general/premium.** tier+email read from Stripe, never the client. |
 | POST | `/stripe-webhook` | Stripe webhook. HMAC-verified via `STRIPE_WEBHOOK_SECRET`. Handles `charge.refunded` (→ downgrade to free) + `charge.dispute.created` (→ flag user). |
-| POST | `/upload-dog` | Upload community dog (premium only). Error responses now include a `code` field for client-side observability. |
+| POST | `/upload-dog` | Upload community dog (premium only). Runs AI dog classification (`classifyDogImage` → Cloudflare Workers AI `@cf/microsoft/resnet-50`): rejects non-dogs, else assigns breed + confidence. **Fails open** — accepts as "Mystery Breed" if the AI errors or is unavailable. Error responses include a `code` field for client-side observability. |
 | GET | `/community-image?id=X` | Fetch uploaded community dog image |
 | GET | `/community-count` | Count of community-uploaded dogs |
 | GET | `/dog-stats?id=X` | Individual dog stats |
@@ -93,6 +93,7 @@ Base: `dogshow.schemestudio.partykit.dev/party/dogshow-live` (PartyKit single-pa
 | GET | `/leaderboard` | Top dogs + recent arrivals |
 | GET | `/admin-audit?key=X` | Admin audit — tier counts, stuck premium users (paid but no dog entry), orphaned `img:`/`slug:` storage keys. Requires `ADMIN_KEY` env var. Logic shared with the daily reconciliation alarm via `computeAudit()`. |
 | GET | `/admin-delete-dog?key=X&id=Y` | Admin — remove a community dog (its `communityDogs` entry + `img:`/`slug:` keys). For pulling non-dog uploads. Requires `ADMIN_KEY`. |
+| GET | `/admin-ai-test?key=X` | **Uncommitted (working tree only as of 2026-05-22)** — throwaway diagnostic probing the Workers AI binding and running resnet-50 on a known dog image. For debugging the dog classifier (audit #38). Safe to delete once the classifier is fixed. Requires `ADMIN_KEY`. |
 
 > **Daily reconciliation alarm:** `server.js` arms a PartyKit storage alarm (`onAlarm`, re-armed every 24h). It runs `computeAudit()`; if any premium users are stuck it emails James a summary and sends each stuck user a one-time upload nudge (`nudged:<userId>` guard). Audit Critical-6.
 

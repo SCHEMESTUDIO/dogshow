@@ -702,6 +702,9 @@ export default class DogShowServer {
       if (path === 'admin-delete-dog' && req.method === 'GET') {
         return await this.handleAdminDeleteDog(req, headers);
       }
+      if (path === 'admin-ai-test' && req.method === 'GET') {
+        return await this.handleAdminAiTest(req, headers);
+      }
       if (path === 'register' && req.method === 'POST') {
         return await this.handleRegister(req, headers);
       }
@@ -1555,6 +1558,82 @@ export default class DogShowServer {
       },
       remainingCommunityDogs: communityDogs.length,
     }), { headers });
+  }
+
+  // GET /admin-ai-test?key=<ADMIN_KEY>
+  // Throwaway diagnostic for the dog classifier (audit #38). Probes the AI
+  // binding and runs resnet-50 on a known dog image, reporting exactly what
+  // happens. Safe to delete once the classifier is fixed.
+  async handleAdminAiTest(req, headers) {
+    const url = new URL(req.url);
+    const key = url.searchParams.get('key');
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    if (!adminKey || !key || key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+
+    const ctx = (this.room && this.room.context) || {};
+    const diag = {};
+    diag.contextKeys = Object.keys(ctx);
+
+    const ctxAi = ctx.ai;
+    diag.contextAi = {
+      type: typeof ctxAi,
+      keys: (ctxAi && typeof ctxAi === 'object') ? Object.keys(ctxAi) : null,
+      runType: ctxAi ? typeof ctxAi.run : 'n/a',
+    };
+
+    // Inspect the value INSIDE the stub: context.ai.binding
+    const ctxAiBinding = ctxAi ? ctxAi.binding : undefined;
+    diag.contextAiBinding = {
+      type: typeof ctxAiBinding,
+      stringValue: (typeof ctxAiBinding === 'string') ? ctxAiBinding : null,
+      keys: (ctxAiBinding && typeof ctxAiBinding === 'object') ? Object.keys(ctxAiBinding) : null,
+      runType: ctxAiBinding ? typeof ctxAiBinding.run : 'n/a',
+    };
+
+    const bindings = ctx.bindings;
+    diag.bindings = {
+      type: typeof bindings,
+      keys: (bindings && typeof bindings === 'object') ? Object.keys(bindings) : null,
+    };
+    const bindingAI = bindings ? bindings.AI : undefined;
+    diag.bindingsAI = {
+      type: typeof bindingAI,
+      runType: bindingAI ? typeof bindingAI.run : 'n/a',
+    };
+
+    // Fetch a known dog image to classify.
+    let imageBytes = null;
+    try {
+      const imgRes = await fetch('https://images.dog.ceo/breeds/retriever-golden/n02099601_2688.jpg');
+      imageBytes = [...new Uint8Array(await imgRes.arrayBuffer())];
+      diag.testImageByteCount = imageBytes.length;
+    } catch (e) {
+      diag.testImageFetchError = e.message;
+    }
+
+    // Try each plausible way to call the model; report which one works.
+    const tryRun = async (runner) => {
+      try {
+        const result = await runner();
+        return { ok: true, isArray: Array.isArray(result), sample: JSON.stringify(result).slice(0, 400) };
+      } catch (e) {
+        return { ok: false, error: e && e.message };
+      }
+    };
+
+    diag.attemptContextAiRun = (ctxAi && typeof ctxAi.run === 'function')
+      ? await tryRun(() => ctxAi.run('@cf/microsoft/resnet-50', { image: imageBytes }))
+      : 'skipped — context.ai has no run()';
+    diag.attemptBindingsAiRun = (bindingAI && typeof bindingAI.run === 'function')
+      ? await tryRun(() => bindingAI.run('@cf/microsoft/resnet-50', { image: imageBytes }))
+      : 'skipped — context.bindings.AI has no run()';
+    diag.attemptContextAiBindingRun = (ctxAiBinding && typeof ctxAiBinding.run === 'function')
+      ? await tryRun(() => ctxAiBinding.run('@cf/microsoft/resnet-50', { image: imageBytes }))
+      : 'skipped — context.ai.binding has no run()';
+
+    return new Response(JSON.stringify(diag, null, 2), { headers });
   }
 
   // Shared audit computation — used by /admin-audit and the daily
