@@ -15,6 +15,17 @@
 (function () {
   'use strict';
 
+  // ─── Sentry (browser error tracking — audit High-3) ────────────────────────
+  // Injected here so it lands on every page that loads analytics.js. The
+  // loader auto-captures unhandled errors + promise rejections.
+  (function () {
+    var s = document.createElement('script');
+    s.src = 'https://js.sentry-cdn.com/0aee97f54d9301fd6c7a0c7316b7ae93.min.js';
+    s.crossOrigin = 'anonymous';
+    s.async = true;
+    (document.head || document.documentElement).appendChild(s);
+  })();
+
   // ─── PASTE YOUR IDS HERE ───────────────────────────────────────────────────
   // UET tag ID: find in Microsoft Advertising → Tools → Conversion tracking
   // → UET tag. Numeric, e.g. "123456789".

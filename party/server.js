@@ -8,6 +8,13 @@
 const SITE_URL = 'https://dogshow.lol';
 const FAN_COUNT_OFFSET = 100; // Seed number — real fans count from here
 
+// Sentry — server-side error tracking (audit High-3). A DSN is not secret.
+const SENTRY_DSN = 'https://0aee97f54d9301fd6c7a0c7316b7ae93@o4511433066348544.ingest.us.sentry.io/4511433154428928';
+const SENTRY = (function () {
+  const m = SENTRY_DSN.match(/^https:\/\/([0-9a-f]+)@([^/]+)\/(\d+)$/);
+  return m ? { key: m[1], host: m[2], projectId: m[3] } : null;
+})();
+
 // Bot pool — each has a personality and message style
 const BOTS = [
   { name: 'doglover99', msgs: ['omg look at this one', 'I LOVE THIS DOG', 'ok this might be my favorite', 'my heart', 'NO STOP TOO CUTE', 'i will die for this dog'] },
@@ -40,6 +47,48 @@ const DOG_NAMES = [
 
 function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// Report a server-side exception to Sentry (audit High-3). Must never throw —
+// error reporting failing cannot be allowed to break the app.
+async function reportToSentry(err, context) {
+  try {
+    if (!SENTRY) return;
+    const eventId = crypto.randomUUID().replace(/-/g, '');
+    const event = {
+      event_id: eventId,
+      timestamp: Date.now() / 1000,
+      platform: 'node',
+      level: 'error',
+      logger: 'dogshow-partykit',
+      environment: 'production',
+      server_name: 'dogshow-partykit',
+      exception: {
+        values: [{
+          type: (err && err.name) || 'Error',
+          value: (err && err.message) || String(err),
+        }],
+      },
+      extra: Object.assign(
+        { stack: (err && err.stack) ? String(err.stack).slice(0, 2000) : null },
+        context || {}
+      ),
+    };
+    const envelope =
+      JSON.stringify({ event_id: eventId, dsn: SENTRY_DSN }) + '\n' +
+      JSON.stringify({ type: 'event' }) + '\n' +
+      JSON.stringify(event) + '\n';
+    await fetch(`https://${SENTRY.host}/api/${SENTRY.projectId}/envelope/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-sentry-envelope',
+        'X-Sentry-Auth': `Sentry sentry_version=7, sentry_key=${SENTRY.key}, sentry_client=dogshow-partykit/1.0`,
+      },
+      body: envelope,
+    });
+  } catch (e) {
+    console.error('[Sentry] report failed:', e && e.message);
+  }
 }
 
 export default class DogShowServer {
@@ -725,6 +774,9 @@ export default class DogShowServer {
       if (path === 'admin-ai-test' && req.method === 'GET') {
         return await this.handleAdminAiTest(req, headers);
       }
+      if (path === 'admin-sentry-test' && req.method === 'GET') {
+        return await this.handleAdminSentryTest(req, headers);
+      }
       if (path === 'register' && req.method === 'POST') {
         return await this.handleRegister(req, headers);
       }
@@ -837,6 +889,7 @@ export default class DogShowServer {
       }
     } catch (e) {
       console.error(`[Server] Unhandled error on ${path}:`, e.message, e.stack?.slice(0, 300));
+      await reportToSentry(e, { path: path });
       return new Response(JSON.stringify({ error: e.message }), { status: 500, headers });
     }
 
@@ -1677,6 +1730,19 @@ export default class DogShowServer {
     return new Response(JSON.stringify(diag, null, 2), { headers });
   }
 
+  // GET /admin-sentry-test?key=<ADMIN_KEY> — throwaway: sends a test event to
+  // Sentry to confirm server-side error reporting works. Safe to delete.
+  async handleAdminSentryTest(req, headers) {
+    const url = new URL(req.url);
+    const key = url.searchParams.get('key');
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    if (!adminKey || !key || key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+    await reportToSentry(new Error('Sentry test event from /admin-sentry-test'), { test: true });
+    return new Response(JSON.stringify({ ok: true, sentryConfigured: !!SENTRY }), { headers });
+  }
+
   // Shared audit computation — used by /admin-audit and the daily
   // reconciliation alarm. Reads fresh from storage so it is correct even on
   // an alarm-triggered cold wake (where in-memory state may not be loaded).
@@ -1763,6 +1829,7 @@ export default class DogShowServer {
       console.log(`[Audit] Daily reconciliation — ${stuck.length} stuck premium user(s)`);
     } catch (e) {
       console.error('[Audit] Reconciliation alarm failed:', e.message);
+      await reportToSentry(e, { kind: 'onAlarm' });
     } finally {
       // Always re-arm for the next day.
       try {
