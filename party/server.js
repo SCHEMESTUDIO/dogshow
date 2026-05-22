@@ -695,6 +695,26 @@ export default class DogShowServer {
       return new Response(null, { status: 204, headers });
     }
 
+    // ─── Rate limiting (audit High-2) ───
+    // Per-IP caps on the abuse-prone POST endpoints — guards against account
+    // spam, Resend/Stripe quota burn, and AI/storage abuse.
+    const RATE_LIMITS = new Map([
+      ['register', 5],
+      ['login', 5],
+      ['create-checkout', 5],
+      ['verify-checkout', 10],
+      ['upload-dog', 5],
+    ]);
+    if (req.method === 'POST' && RATE_LIMITS.has(path)) {
+      const allowed = await this.checkRateLimit(req, path, RATE_LIMITS.get(path), 60000);
+      if (!allowed) {
+        return new Response(
+          JSON.stringify({ error: 'Too many requests — please wait a minute and try again.' }),
+          { status: 429, headers }
+        );
+      }
+    }
+
     try {
       if (path === 'admin-audit' && req.method === 'GET') {
         return await this.handleAdminAudit(req, headers);
@@ -880,6 +900,13 @@ export default class DogShowServer {
       console.error('[Email] Admin notification failed:', e.message)
     );
 
+    // Welcome email — real free signups only, not interest_* fake-door leads.
+    if (user.tier === 'free') {
+      this.sendWelcomeEmail(normalizedEmail).catch(e =>
+        console.error('[Email] Welcome email failed:', e.message)
+      );
+    }
+
     // Generate session token
     const token = this.generateToken(userId);
     await this.room.storage.put(`token:${token}`, { userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
@@ -902,9 +929,10 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ ok: true, message: 'If that email is registered, a login link has been sent.' }), { headers });
     }
 
-    // Generate magic link token (valid 15 minutes)
+    // Generate magic link token (valid 60 minutes — tolerates delayed email
+    // delivery; audit Medium-5).
     const magicToken = this.generateToken('magic');
-    await this.room.storage.put(`magic:${magicToken}`, { userId, expires: Date.now() + 15 * 60 * 1000 });
+    await this.room.storage.put(`magic:${magicToken}`, { userId, expires: Date.now() + 60 * 60 * 1000 });
 
     // Send email via Resend
     const loginUrl = `${SITE_URL}/login.html?token=${magicToken}`;
@@ -925,8 +953,18 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'invalid or expired link' }), { status: 401, headers });
     }
 
-    // Magic token is single-use
-    await this.room.storage.delete(`magic:${token}`);
+    // Single-use, but tolerate a double-click: a consumed link still works for
+    // a 2-minute grace window (covers email-client prefetch / clicking twice),
+    // then it is dead (audit Medium-5).
+    const now = Date.now();
+    if (magicData.consumedAt && now - magicData.consumedAt > 2 * 60 * 1000) {
+      await this.room.storage.delete(`magic:${token}`);
+      return new Response(JSON.stringify({ error: 'invalid or expired link' }), { status: 401, headers });
+    }
+    if (!magicData.consumedAt) {
+      magicData.consumedAt = now;
+      await this.room.storage.put(`magic:${token}`, magicData);
+    }
 
     // Get user and issue session token
     const user = await this.room.storage.get(`user:${magicData.userId}`);
@@ -935,7 +973,7 @@ export default class DogShowServer {
     }
 
     const sessionToken = this.generateToken(magicData.userId);
-    await this.room.storage.put(`token:${sessionToken}`, { userId: magicData.userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
+    await this.room.storage.put(`token:${sessionToken}`, { userId: magicData.userId, expires: now + 30 * 24 * 60 * 60 * 1000 });
 
     return new Response(JSON.stringify({ ok: true, token: sessionToken, user }), { headers });
   }
@@ -1996,12 +2034,40 @@ export default class DogShowServer {
   // ─── Helpers ────────────────────────────────────
 
   generateToken(prefix) {
+    // Cryptographically secure randomness — Math.random() is predictable and
+    // must not back session / magic-link tokens (audit Medium-1).
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const bytes = new Uint8Array(32);
+    crypto.getRandomValues(bytes);
     let result = prefix + '_';
-    for (let i = 0; i < 32; i++) {
-      result += chars[Math.floor(Math.random() * chars.length)];
+    for (const b of bytes) {
+      result += chars[b % chars.length];
     }
     return result;
+  }
+
+  // Per-IP sliding-window rate limiter (audit High-2). Returns true if the
+  // request is allowed, false if it should be rejected. Fails OPEN — a
+  // limiter bug must never lock every user out.
+  async checkRateLimit(req, endpoint, limit, windowMs) {
+    try {
+      const ip = req.headers.get('cf-connecting-ip')
+        || (req.headers.get('x-forwarded-for') || '').split(',')[0].trim()
+        || 'unknown';
+      const key = `rl:${endpoint}:${ip}`;
+      const now = Date.now();
+      const hits = (await this.room.storage.get(key)) || [];
+      const recent = hits.filter(t => now - t < windowMs);
+      if (recent.length >= limit) {
+        return false;
+      }
+      recent.push(now);
+      await this.room.storage.put(key, recent);
+      return true;
+    } catch (e) {
+      console.error('[RateLimit] check failed, allowing request:', e.message);
+      return true;
+    }
   }
 
   slugify(name) {
@@ -2108,6 +2174,58 @@ export default class DogShowServer {
   }
 
   // ─── BUYER + ADMIN EMAILS (audit Critical-5 / Critical-6) ────
+
+  // Sent to a new free signup — welcomes them and links back into the show.
+  // Free signups previously got no user-facing email at all (audit #39).
+  async sendWelcomeEmail(email) {
+    if (!this.room.env.RESEND_API_KEY) {
+      console.error('[Email] RESEND_API_KEY not set, skipping welcome email');
+      return false;
+    }
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Dog Show <noreply@dogshow.lol>',
+          to: [email],
+          subject: '🐕 Welcome to The Dog Show',
+          html: `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
+              <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 4px; text-align: center;">The Dog Show</h1>
+              <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">You're In</p>
+              <div style="background: #241a45; border-radius: 12px; padding: 28px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px;">
+                <h2 style="color: #e0d8f0; font-size: 21px; margin: 0 0 12px; text-align: center;">Welcome to the show</h2>
+                <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); text-align: center; margin: 0;">
+                  One dog at a time, on stage, in front of a live crowd throwing bones. Pull up a seat — the show never stops. Keep this email so you can always find your way back in.
+                </p>
+              </div>
+              <div style="text-align: center; margin-bottom: 24px;">
+                <a href="${SITE_URL}/show.html" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;">Watch the show</a>
+              </div>
+              <p style="text-align: center; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 4px;">Want your own dog up on that stage?</p>
+              <p style="text-align: center; font-size: 13px; margin-top: 0;">
+                <a href="${SITE_URL}/" style="color: #FF8C42;">Bring your dog to The Dog Show — $3.99</a>
+              </p>
+              <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 24px 0;">
+              <p style="text-align: center; font-size: 11px; color: rgba(255,255,255,0.25);">
+                Questions? Just reply to this email.<br>
+                <a href="${SITE_URL}" style="color: #FF8C42;">dogshow.lol</a>
+              </p>
+            </div>
+          `,
+        }),
+      });
+      if (!res.ok) console.error('[Email] Welcome email send failed:', res.status);
+      return res.ok;
+    } catch (e) {
+      console.error('[Email] Welcome email network error:', e.message);
+      return false;
+    }
+  }
 
   // Sent immediately after a verified purchase. Premium buyers get an upload
   // prompt; general buyers get a watch-the-show nudge.
