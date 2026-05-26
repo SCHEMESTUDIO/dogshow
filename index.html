@@ -1678,31 +1678,7 @@
 
         <div class="lp-modal-actions">
           <button class="lp-modal-btn-cancel" id="uploadCancel">Cancel</button>
-          <button class="lp-modal-btn-submit" id="uploadNext" disabled>See Preview</button>
-        </div>
-      </div>
-
-      <!-- Step 2: Checkout bridge -->
-      <div id="uploadStep2" hidden>
-        <div class="lp-modal-title" id="bridgeTitle">Ready to enter The Dog Show</div>
-
-        <div class="lp-bridge-card">
-          <img class="lp-bridge-dog-img" id="bridgeDogImg" src="" alt="Your dog">
-          <div class="lp-bridge-dog-name" id="bridgeDogName"></div>
-          <div class="lp-bridge-perks">
-            <div>&#10003; Appears in the live rotation</div>
-            <div>&#10003; Permanent show page</div>
-            <div>&#10003; Collects bones from viewers</div>
-            <div>&#10003; Shareable certificate</div>
-            <div>&#10003; Lifetime access + chat + bones</div>
-          </div>
-          <div class="lp-bridge-price">One-time payment: $3.99</div>
-          <div class="lp-bridge-trust">&#128274; Secure checkout &middot; No subscription</div>
-        </div>
-
-        <div class="lp-modal-actions">
-          <button class="lp-modal-btn-cancel" id="bridgeBack">Edit Details</button>
-          <button class="lp-modal-btn-submit" id="bridgePay">Make It Official &mdash; $3.99</button>
+          <button class="lp-modal-btn-submit" id="uploadNext" disabled>Continue</button>
         </div>
       </div>
     </div>
@@ -1915,7 +1891,6 @@
     // ─── DOG UPLOAD FLOW (Enter Your Dog) ────────────
     var uploadOverlay = document.getElementById('uploadOverlay');
     var uploadStep1 = document.getElementById('uploadStep1');
-    var uploadStep2 = document.getElementById('uploadStep2');
     var dogFileInput = document.getElementById('dogFileInput');
     var dogNameInput = document.getElementById('dogNameInput');
     var uploadPreviewImg = document.getElementById('uploadPreviewImg');
@@ -1933,7 +1908,6 @@
       localStorage.removeItem('dogshow_pending_dog_breed');
       localStorage.removeItem('dogshow_pending_dog_ts');
       uploadStep1.hidden = false;
-      uploadStep2.hidden = true;
       dogNameInput.value = '';
       if (dogBreedInput) dogBreedInput.value = '';
       uploadPreviewImg.hidden = true;
@@ -1982,21 +1956,11 @@
       uploadNext.disabled = !(pendingDogImage && dogNameInput.value.trim().length > 0);
     }
 
+    // Photo + name + breed → straight to the email modal → Stripe Checkout.
+    // The old bridge interstitial showed a confirmation card with price + perks
+    // already visible on the landing CTA and again on Stripe Checkout — pure
+    // redundancy. Dropped 2026-05-26.
     uploadNext.addEventListener('click', function() {
-      var name = dogNameInput.value.trim();
-      uploadStep1.hidden = true;
-      uploadStep2.hidden = false;
-      document.getElementById('bridgeDogImg').src = pendingDogImage;
-      document.getElementById('bridgeDogName').textContent = name;
-      document.getElementById('bridgeTitle').textContent = "You're entering " + name + " into The Dog Show";
-    });
-
-    document.getElementById('bridgeBack').addEventListener('click', function() {
-      uploadStep1.hidden = false;
-      uploadStep2.hidden = true;
-    });
-
-    document.getElementById('bridgePay').addEventListener('click', function() {
       var name = dogNameInput.value.trim();
       localStorage.setItem('dogshow_pending_dog_name', name);
       localStorage.setItem('dogshow_pending_dog_image', pendingDogImage);

@@ -140,6 +140,11 @@ module.exports = async function handler(req, res) {
   const breed = dog.breed || 'Mystery Breed';
   const owner = dog.username || 'Anonymous';
   const img = dog.imageUrl || (SITE + '/og-image.png');
+  // Dedicated 1200x630 share image (Facebook / Twitter / LinkedIn optimal
+  // ratio). api/og.tsx composites the dog photo into a branded frame so the
+  // preview doesn't get cropped weirdly. Schema.org image stays as the raw
+  // photo since structured-data consumers want the content image.
+  const shareImg = `${SITE}/api/og?slug=${encodeURIComponent(slug)}`;
   const url = `${SITE}/d/${encodeURIComponent(slug)}`;
   const bones = stats.totalBones || 0;
   const appearances = stats.totalAppearances || 0;
@@ -170,13 +175,15 @@ module.exports = async function handler(req, res) {
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(name)} — The Dog Show">
 <meta property="og:description" content="${esc(metaDesc)}">
-<meta property="og:image" content="${esc(img)}">
+<meta property="og:image" content="${esc(shareImg)}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:url" content="${esc(url)}">
 <meta property="og:site_name" content="The Dog Show">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(name)} — The Dog Show">
 <meta name="twitter:description" content="${esc(metaDesc)}">
-<meta name="twitter:image" content="${esc(img)}">
+<meta name="twitter:image" content="${esc(shareImg)}">
 <script type="application/ld+json">${JSON.stringify(schema)}</script>`;
 
   const titlesHtml = titlesFor(stats, breed)
@@ -237,7 +244,7 @@ module.exports = async function handler(req, res) {
 </div>
 </div>
 <div>
-<a class="cert-cta-btn" href="${SITE}">Watch The Dog Show Live</a>
+<a class="cert-cta-btn" href="${SITE}/show.html">Watch The Dog Show Live</a>
 <div class="cert-cta-sub">Premium members can enter their own dog</div>
 </div>
 </div>

@@ -1,0 +1,9 @@
+{
+  "name": "dogshow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Declares Vercel function dependencies. Static site + serverless functions — no build script.",
+  "dependencies": {
+    "@vercel/og": "^0.6.0"
+  }
+}
