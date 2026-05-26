@@ -284,8 +284,11 @@
       return;
     }
 
-    // Show locally immediately
-    addChatMessage('you', msg, { isMe: true });
+    // Show locally immediately. Use the user's actual display name (not the
+    // literal "you") so the chat reads consistently — myUsername is what the
+    // server broadcasts back for everyone else's view, and what shows up on
+    // any echo this client receives.
+    addChatMessage(myUsername, msg, { isMe: true });
 
     // Send to server
     wsSend({
@@ -1592,14 +1595,17 @@
       modalSubtitle: "Coming Soon! Pick a frame that matches your dog — gilded, bone-themed, beach bum, royal velvet. We'll email you when frames launch.",
     },
     {
-      eyebrow: 'New feature',
-      title: 'Bone packs — throw more love',
-      cta: 'Get notified →',
-      action: 'interest',
+      // Was a fake door; the $1.99 bones pack is real now. Click goes
+      // straight to Stripe checkout. Hidden from unregistered users because
+      // the offer doesn't make sense without an account to attach it to —
+      // they'd just hit the register modal and never see the actual $1.99
+      // purchase they clicked for.
+      eyebrow: 'Top up',
+      title: '250 more bones for $1.99',
+      cta: 'Buy bones →',
+      action: 'bones_topup',
       feature: 'bone_packs',
-      modalIcon: '🦴',
-      modalTitle: 'Bone packs',
-      modalSubtitle: "Coming Soon! Buy bones in bulk and throw them at the dogs that deserve them most. We'll email you when packs go live.",
+      requiresRegistered: true,
     },
     {
       eyebrow: 'New feature',
@@ -1623,10 +1629,14 @@
     },
   ];
 
-  // Filter out messages excluded for this tier (e.g. premium doesn't see entry CTA)
+  // Filter out messages excluded for this tier (e.g. premium doesn't see the
+  // $3.99 entry CTA) and messages that require a registered account (e.g. the
+  // $1.99 bones top-up — pointless to show before the user has an account to
+  // attach the purchase to).
   var activeRotatorMessages = rotatorMessages.filter(function (m) {
-    if (!m.excludeForTiers) return true;
-    return m.excludeForTiers.indexOf(tier) === -1;
+    if (m.excludeForTiers && m.excludeForTiers.indexOf(tier) !== -1) return false;
+    if (m.requiresRegistered && !isRegistered) return false;
+    return true;
   });
 
   var rotatorContainer = document.getElementById('houseRotator');
@@ -1710,6 +1720,18 @@
     if (msg.action === 'real_entry') {
       if (typeof showUpgradeModal === 'function') {
         showUpgradeModal('upload');
+      } else {
+        window.location.href = '/?scroll=pricing#pricing';
+      }
+    } else if (msg.action === 'bones_topup') {
+      // Real product (no longer a fake door). Registered users go straight
+      // to Stripe checkout via startBonesPackCheckout; unregistered users
+      // hit the inline register modal first — they get 250 free bones on
+      // signup, which is the more valuable first conversion anyway.
+      if (isRegistered && typeof startBonesPackCheckout === 'function') {
+        startBonesPackCheckout();
+      } else if (typeof showRegisterModal === 'function') {
+        showRegisterModal('bone');
       } else {
         window.location.href = '/?scroll=pricing#pricing';
       }
