@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "outputDirectory": ".",
   "rewrites": [
     { "source": "/d/:slug", "destination": "/api/dog?slug=:slug" },
     { "source": "/:slug", "destination": "/:slug.html" }
