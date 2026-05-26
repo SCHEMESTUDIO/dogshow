@@ -32,6 +32,12 @@
   var params = new URLSearchParams(window.location.search);
   var tier = params.get('tier') || localStorage.getItem('dogshow_tier') || 'free';
   var isFreeUser = (tier === 'free');
+  // 2026-05-26: bones-as-currency model. A registered user (any tier) can
+  // chat + send bones; an unregistered visitor sees the register prompt on
+  // first interaction. `myBones` is updated by the server via `boneBalance`
+  // messages; `null` means "unknown until server tells us".
+  var isRegistered = !!sessionToken;
+  var myBones = null;
 
   // ─── SEED DATA ──────────────────────────────────
 
@@ -235,7 +241,7 @@
       if (pendingDogSubmission) {
         var p = pendingDogSubmission;
         pendingDogSubmission = null;
-        submitDogImage(p.dataUrl, p.dogName, p.breed);
+        submitDogImage(p.dataUrl, p.dogName, p.breed, p.slotAt);
       }
     }
 
@@ -314,14 +320,18 @@
       upgradeSecondary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
       if (upgradeHint) upgradeHint.textContent = 'Includes bones, chat, and a permanent dog page.';
     } else if (context === 'chat') {
+      // Note: under the new bones-as-currency model, unregistered users hit
+      // showRegisterModal('chat') first. This path is preserved as a fallback
+      // for any code path that still calls showUpgradeModal('chat') — it now
+      // pitches the dog entry rather than a chat-only purchase.
       upgradeIcon.innerHTML = '&#128172;';
-      upgradeTitle.textContent = 'Chat is for General Admission and up.';
-      upgradeSubtitle.textContent = 'Join the conversation. One payment, lifetime access.';
-      upgradePrimary.textContent = 'Join the Crowd — $1.99';
+      upgradeTitle.textContent = 'Enter your dog and chat freely.';
+      upgradeSubtitle.textContent = 'Free registration includes chat and 250 bones. Pay $3.99 to enter your own dog.';
+      upgradePrimary.textContent = 'Enter Your Dog — $3.99';
       upgradePrimary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
-      upgradeSecondary.textContent = 'Enter Your Dog Instead — $3.99';
+      upgradeSecondary.textContent = 'Premium — 1,000 bones for $5.99';
       upgradeSecondary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
-      if (upgradeHint) upgradeHint.textContent = 'Includes chat, bones, and a permanent dog page.';
+      if (upgradeHint) upgradeHint.textContent = 'Includes a permanent dog page and 250 bones to give.';
     } else if (context === 'upload') {
       upgradeIcon.innerHTML = '&#128248;';
       upgradeTitle.textContent = 'Your dog needs a ticket to the show.';
@@ -349,17 +359,219 @@
     });
   }
 
-  if (isFreeUser) {
-    chatInput.placeholder = 'Chat is for paid members...';
+  // 2026-05-26: chat and bones are no longer paid-tier gated. They require
+  // *registration* (free + email). Unregistered visitors hit a register modal
+  // on first chat/bone interaction; after that, they're in.
+  if (!isRegistered) {
+    chatInput.placeholder = 'Sign up to chat — free';
     chatInput.style.cursor = 'pointer';
     chatSend.style.cursor = 'pointer';
-    chatInput.addEventListener('click', function () { showUpgradeModal('chat'); });
-    chatSend.addEventListener('click', function () { showUpgradeModal('chat'); });
+    chatInput.addEventListener('click', function () { showRegisterModal('chat'); });
+    chatSend.addEventListener('click', function () { showRegisterModal('chat'); });
   } else {
     chatSend.addEventListener('click', sendUserMessage);
     chatInput.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') sendUserMessage();
     });
+  }
+
+  // ─── REGISTRATION (BONES MODEL) ─────────────────
+  // Inline registration for unregistered visitors who try to chat/bone. No
+  // magic-link round-trip — name + email → instant 250 bones → unlock UI.
+
+  var PARTY_API = 'https://' + PARTY_HOST + '/party/' + PARTY_ROOM;
+  var registerOverlay = document.getElementById('registerOverlay');
+  var registerTitle = document.getElementById('registerTitle');
+  var registerSubtitle = document.getElementById('registerSubtitle');
+  var registerName = document.getElementById('registerName');
+  var registerEmail = document.getElementById('registerEmail');
+  var registerSubmit = document.getElementById('registerSubmit');
+  var registerCancel = document.getElementById('registerCancel');
+  var registerError = document.getElementById('registerError');
+  var myBonesPill = document.getElementById('myBonesPill');
+  var myBonesPillCount = document.getElementById('myBonesPillCount');
+
+  function showRegisterModal(context) {
+    if (!registerOverlay) {
+      // Fall back to the old upgrade modal if the registration modal isn't
+      // present in the DOM (e.g., during a partial deploy).
+      showUpgradeModal(context);
+      return;
+    }
+    if (context === 'bone') {
+      registerTitle.textContent = 'Sign up to send bones';
+      registerSubtitle.textContent = "It's free. You'll get 250 bones to spend right away.";
+    } else {
+      registerTitle.textContent = 'Sign up to chat';
+      registerSubtitle.textContent = "It's free. You'll get 250 bones too.";
+    }
+    if (registerError) registerError.textContent = '';
+    registerOverlay.classList.add('active');
+    setTimeout(function () { if (registerName) registerName.focus(); }, 100);
+  }
+
+  function hideRegisterModal() {
+    if (registerOverlay) registerOverlay.classList.remove('active');
+  }
+
+  function submitRegistration() {
+    var name = (registerName && registerName.value || '').trim();
+    var email = (registerEmail && registerEmail.value || '').trim();
+    if (!name) {
+      if (registerError) registerError.textContent = 'Pick a display name.';
+      return;
+    }
+    if (!email || email.indexOf('@') === -1) {
+      if (registerError) registerError.textContent = "That email doesn't look right.";
+      return;
+    }
+    if (registerSubmit) {
+      registerSubmit.disabled = true;
+      registerSubmit.textContent = 'Joining…';
+    }
+    fetch(PARTY_API + '/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, tier: 'free' }),
+    })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+      .then(function (res) {
+        if (!res.ok || !res.body || !res.body.ok) {
+          var err = (res.body && res.body.error) || 'Something went wrong. Try again.';
+          if (registerError) registerError.textContent = err;
+          if (registerSubmit) {
+            registerSubmit.disabled = false;
+            registerSubmit.textContent = 'Get 250 bones';
+          }
+          return;
+        }
+        // Persist credentials. Email is stored so in-show top-up checkout can
+        // call /create-checkout without re-prompting (the top-up modal needs
+        // it server-side; we already have it from the form).
+        sessionToken = res.body.token;
+        localStorage.setItem('dogshow_token', sessionToken);
+        localStorage.setItem('dogshow_email', email);
+        myUsername = name;
+        localStorage.setItem('dogshow_username', name);
+        hasPickedUsername = true;
+        isRegistered = true;
+        myBones = (res.body.user && typeof res.body.user.bones === 'number')
+          ? res.body.user.bones : 250;
+        // Tell the server about our chosen display name (best-effort).
+        fetch(PARTY_API + '/set-username', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: sessionToken, username: name }),
+        }).catch(function () {});
+        updateMyBonesDisplay();
+        hideRegisterModal();
+        // Reconnect the WebSocket so the server picks up our token and
+        // starts treating us as an authenticated user.
+        try { if (ws) ws.close(); } catch (e) {}
+        connectPartyKit();
+        // Rebind chat/bone handlers to the registered-user paths. The
+        // simplest reliable way is a page reload — handlers were attached
+        // at load and route to showRegisterModal. A full reload also lets
+        // any tier-conditional UI elsewhere on the page re-evaluate.
+        setTimeout(function () { window.location.reload(); }, 200);
+      })
+      .catch(function (e) {
+        if (registerError) registerError.textContent = 'Network error. Try again.';
+        if (registerSubmit) {
+          registerSubmit.disabled = false;
+          registerSubmit.textContent = 'Get 250 bones';
+        }
+      });
+  }
+
+  if (registerSubmit) registerSubmit.addEventListener('click', submitRegistration);
+  if (registerCancel) registerCancel.addEventListener('click', hideRegisterModal);
+  if (registerOverlay) {
+    registerOverlay.addEventListener('click', function (e) {
+      if (e.target === registerOverlay) hideRegisterModal();
+    });
+  }
+  if (registerName) {
+    registerName.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && registerEmail) registerEmail.focus();
+    });
+  }
+  if (registerEmail) {
+    registerEmail.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') submitRegistration();
+    });
+  }
+
+  // Top-up modal: reuse the existing upgrade overlay, pointed at the $1.99
+  // bones-pack SKU. Stripe checkout is triggered directly from here — no
+  // landing-page redirect (the landing page's pricing grid no longer shows
+  // the bones-pack tier, by design).
+  function startBonesPackCheckout() {
+    var email = localStorage.getItem('dogshow_email');
+    if (!email) {
+      // No stored email — should not happen for an authenticated user since
+      // /register persists it now, but be defensive: bounce to landing page
+      // where the user can re-enter the funnel.
+      window.location.href = '/?scroll=pricing#pricing';
+      return;
+    }
+    if (upgradePrimary) {
+      upgradePrimary.disabled = true;
+      upgradePrimary.textContent = 'Opening checkout…';
+    }
+    fetch(PARTY_API + '/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tier: 'general', email: email }),
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data && data.url) {
+          window.location.href = data.url;
+        } else {
+          if (upgradeHint) upgradeHint.textContent = (data && data.error) || 'Checkout failed. Try again.';
+          if (upgradePrimary) {
+            upgradePrimary.disabled = false;
+            upgradePrimary.textContent = 'Top up — $1.99';
+          }
+        }
+      })
+      .catch(function () {
+        if (upgradeHint) upgradeHint.textContent = 'Network error. Try again.';
+        if (upgradePrimary) {
+          upgradePrimary.disabled = false;
+          upgradePrimary.textContent = 'Top up — $1.99';
+        }
+      });
+  }
+
+  function showTopUpModal() {
+    if (!upgradeOverlay) return;
+    upgradeIcon.innerHTML = '&#129460;';
+    upgradeTitle.textContent = "You're out of bones.";
+    upgradeSubtitle.textContent = 'Grab 250 more for $1.99.';
+    upgradePrimary.textContent = 'Top up — $1.99';
+    upgradePrimary.disabled = false;
+    upgradePrimary.onclick = startBonesPackCheckout;
+    if (upgradeSecondary) {
+      upgradeSecondary.textContent = 'Premium — 1,000 bones for $5.99';
+      upgradeSecondary.onclick = function () { window.location.href = '/?scroll=pricing#pricing'; };
+      upgradeSecondary.hidden = false;
+    }
+    if (upgradeHint) upgradeHint.textContent = 'Bones support the dogs you love.';
+    upgradeOverlay.classList.add('active');
+  }
+
+  function updateMyBonesDisplay() {
+    if (!myBonesPill || !myBonesPillCount) return;
+    if (myBones === null || !isRegistered) {
+      myBonesPill.hidden = true;
+      return;
+    }
+    myBonesPill.hidden = false;
+    myBonesPillCount.textContent = myBones;
+    myBonesPill.classList.toggle('low', myBones > 0 && myBones <= 25);
+    myBonesPill.classList.toggle('empty', myBones === 0);
   }
 
   // ─── VIEWER COUNT ───────────────────────────────
@@ -488,13 +700,15 @@
 
   setInterval(updateStreak, 500);
 
-  if (isFreeUser) {
+  if (!isRegistered) {
     boneBtn.style.cursor = 'pointer';
-    boneBtn.addEventListener('click', function () { showUpgradeModal('bone'); });
+    boneBtn.addEventListener('click', function () { showRegisterModal('bone'); });
   } else {
     boneBtn.addEventListener('click', function () {
+      // Server enforces balance — it'll send `needTopUp` if we're empty and
+      // refuse to broadcast. We still animate optimistically; the server's
+      // bone broadcast is what other clients see.
       addBone(false);
-      // Send bone to server
       wsSend({ type: 'bone', user: myUsername });
     });
   }
@@ -530,8 +744,10 @@
     ws.onopen = function () {
       wsConnected = true;
       console.log('PartyKit: connected');
-      // Register as unique fan
-      wsSend({ type: 'join', fanId: myFanId });
+      // Register as unique fan. If we have a session token, send it so the
+      // server can identify us — that unlocks bone-balance enforcement
+      // (server tracks our balance and tells us when we're empty).
+      wsSend({ type: 'join', fanId: myFanId, token: sessionToken || undefined });
     };
 
     ws.onmessage = function (event) {
@@ -633,6 +849,22 @@
         // Remote bone — animate it but don't double-count our own
         if (data.from === myUsername && !data.isBot) return;
         addBone(true);
+      }
+
+      if (data.type === 'boneBalance') {
+        // Server is telling us our authoritative bone balance. Mirror it
+        // locally and update the UI pill (if rendered).
+        myBones = typeof data.bones === 'number' ? data.bones : myBones;
+        updateMyBonesDisplay();
+      }
+
+      if (data.type === 'needTopUp') {
+        // Server rejected a bone because we're out. Show the top-up modal.
+        myBones = 0;
+        updateMyBonesDisplay();
+        if (typeof showTopUpModal === 'function') {
+          showTopUpModal();
+        }
       }
 
       if (data.type === 'viewers') {
@@ -1059,16 +1291,24 @@
     var pendingImage = localStorage.getItem('dogshow_pending_dog_image');
     var pendingName = localStorage.getItem('dogshow_pending_dog_name');
     var pendingBreed = localStorage.getItem('dogshow_pending_dog_breed');
+    var pendingSlot = localStorage.getItem('dogshow_pending_dog_slot');
     var pendingTs = parseInt(localStorage.getItem('dogshow_pending_dog_ts') || '0', 10);
     // Clear first so a page refresh can't double-submit the same dog.
     localStorage.removeItem('dogshow_pending_dog_image');
     localStorage.removeItem('dogshow_pending_dog_name');
     localStorage.removeItem('dogshow_pending_dog_breed');
+    localStorage.removeItem('dogshow_pending_dog_slot');
     localStorage.removeItem('dogshow_pending_dog_ts');
     if (!pendingImage || pendingImage.indexOf('data:image/') !== 0) return;
     // A real checkout takes minutes; anything older than 45 min is leftover.
     if (!pendingTs || (Date.now() - pendingTs) > 45 * 60 * 1000) return;
-    submitDogImage(pendingImage, pendingName || 'A Good Dog', pendingBreed || '');
+    // Parse the optional slot timestamp. Server validates; we just hand it on.
+    var slotAt = null;
+    if (pendingSlot) {
+      var n = Number(pendingSlot);
+      if (Number.isFinite(n) && n > Date.now()) slotAt = n;
+    }
+    submitDogImage(pendingImage, pendingName || 'A Good Dog', pendingBreed || '', slotAt);
   }
 
   if (tier === 'premium' && sessionToken) {
@@ -1171,12 +1411,12 @@
 
   // POST a prepared image data URL to the server. Shared by the in-show upload
   // (after resizing a picked file) and by the pre-purchase auto-submit above.
-  function submitDogImage(dataUrl, dogName, breed) {
+  function submitDogImage(dataUrl, dogName, breed, slotAt) {
     // A dog must never be created as "Anonymous". If the uploader hasn't
     // picked a display name yet, stash this submission, prompt for the name,
     // and resume once it's set (see submitUsername).
     if (!hasPickedUsername) {
-      pendingDogSubmission = { dataUrl: dataUrl, dogName: dogName, breed: breed };
+      pendingDogSubmission = { dataUrl: dataUrl, dogName: dogName, breed: breed, slotAt: slotAt };
       showUsernameModal();
       return;
     }
@@ -1196,6 +1436,7 @@
         breed: breed || '',
         username: myUsername,
         adminKey: adminKey || undefined,
+        slotAt: slotAt || undefined,  // Phase 3: optional scheduled slot
       }),
     })
       .then(function (res) { return res.json(); })

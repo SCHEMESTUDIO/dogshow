@@ -26,6 +26,8 @@ export default async function handler(req: Request) {
   let dogName = 'A Good Dog';
   let breed = 'Mystery Breed';
   let imageUrl: string | null = null;
+  let slotAt: number | null = null;
+  let firstAppearedAt: number | null = null;
 
   if (slug) {
     try {
@@ -38,12 +40,36 @@ export default async function handler(req: Request) {
           dogName = (sd.dog.dogName || dogName).slice(0, 32);
           breed = (sd.dog.breed || breed).slice(0, 40);
           imageUrl = sd.dog.imageUrl || null;
+          slotAt = sd.dog.slotAt || null;
+          firstAppearedAt = sd.dog.firstAppearedAt || null;
         }
       }
     } catch (e) {
       // Fall through to defaults — still return a branded image.
     }
   }
+
+  // Phase 6: pre-show pages get an "event poster" variant — purple accent,
+  // an "ON STAGE" eyebrow with the booked time, so a fan seeing the link in
+  // their feed reads it as an invitation to a scheduled appearance, not as
+  // a passive certificate.
+  // Post-show (firstAppearedAt is set) keeps the orange certificate style.
+  const isPreShow = !firstAppearedAt;
+  const hasSlot = !!slotAt;
+  const slotLabel = (isPreShow && hasSlot)
+    ? new Date(slotAt!).toLocaleString('en-US', {
+        weekday: 'short', month: 'short', day: 'numeric',
+        hour: 'numeric', minute: '2-digit',
+        timeZone: 'America/New_York', timeZoneName: 'short',
+      })
+    : '';
+  const accent = isPreShow ? '#7B68EE' : '#FF8C42';
+  const eyebrowText = isPreShow
+    ? (hasSlot ? 'On stage ' + slotLabel : 'Just entered')
+    : 'The Dog Show';
+  const subline = isPreShow
+    ? (hasSlot ? 'Set a reminder so you don’t miss it' : 'Live in the show')
+    : breed;
 
   // Load the brand font (best-effort). Fallback to system sans if it fails.
   let fonts: any[] | undefined;
@@ -73,14 +99,15 @@ export default async function handler(req: Request) {
         }}>
           <div style={{
             display: 'flex',
-            color: '#FF8C42',
+            color: accent,
             fontSize: 24,
-            letterSpacing: 8,
+            letterSpacing: isPreShow ? 4 : 8,
             textTransform: 'uppercase',
             marginBottom: 28,
-            fontFamily: 'YangBagus',
+            fontFamily: isPreShow ? undefined : 'YangBagus',
+            fontWeight: isPreShow ? 700 : 400,
           }}>
-            The Dog Show
+            {eyebrowText}
           </div>
 
           {imageUrl ? (
@@ -88,7 +115,7 @@ export default async function handler(req: Request) {
               width: 340,
               height: 340,
               borderRadius: 24,
-              border: '6px solid #FF8C42',
+              border: `6px solid ${accent}`,
               backgroundImage: `url(${imageUrl})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
@@ -100,7 +127,7 @@ export default async function handler(req: Request) {
               width: 340,
               height: 340,
               borderRadius: 24,
-              border: '6px solid #FF8C42',
+              border: `6px solid ${accent}`,
               background: '#241a45',
               marginBottom: 28,
               display: 'flex',
@@ -120,7 +147,7 @@ export default async function handler(req: Request) {
             lineHeight: 1.1,
             // No fontFamily — uses the Edge runtime's default sans for
             // readability. Yang Bagus is reserved for the wordmark only
-            // (the "The Dog Show" eyebrow above).
+            // (the "The Dog Show" eyebrow above, in post-show mode).
             textAlign: 'center',
             maxWidth: 1080,
           }}>
@@ -134,7 +161,7 @@ export default async function handler(req: Request) {
             marginTop: 10,
             letterSpacing: 1,
           }}>
-            {breed}
+            {subline}
           </div>
 
           <div style={{
@@ -156,9 +183,15 @@ export default async function handler(req: Request) {
         height: 630,
         fonts,
         headers: {
-          // Facebook caches OG images aggressively (days). Long cache is fine;
-          // the design rarely changes and per-dog stats aren't in the image.
-          'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
+          // Cache strategy:
+          //   • Pre-show images can flip to post-show when the dog airs, so
+          //     we shorten the CDN cache to let the next share scrape get
+          //     the updated variant. Facebook will still cache by URL on
+          //     their side (out of our control).
+          //   • Post-show images are basically stable — long cache is fine.
+          'Cache-Control': isPreShow
+            ? 'public, max-age=300, s-maxage=600, stale-while-revalidate=3600'
+            : 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
         },
       },
     );

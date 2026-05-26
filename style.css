@@ -1739,6 +1739,40 @@
   font-family: var(--font-system);
 }
 
+/* Personal bones balance pill (registered users — bones-as-currency model). */
+.my-bones-pill {
+  background: rgba(123, 104, 238, 0.14);
+  border: 1px solid rgba(123, 104, 238, 0.35);
+  border-radius: 8px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.my-bones-pill.low {
+  background: rgba(255, 200, 60, 0.16);
+  border-color: rgba(255, 200, 60, 0.5);
+}
+.my-bones-pill.empty {
+  background: rgba(255, 80, 80, 0.18);
+  border-color: rgba(255, 80, 80, 0.55);
+  cursor: pointer;
+}
+.my-bones-pill-count {
+  font-size: 16px;
+  font-weight: 600;
+  color: #B7A8FF;
+  font-family: var(--font-system);
+}
+.my-bones-pill.low .my-bones-pill-count { color: #FFD060; }
+.my-bones-pill.empty .my-bones-pill-count { color: #FF8080; }
+.my-bones-pill-label {
+  font-size: 11px;
+  color: rgba(183, 168, 255, 0.55);
+  font-family: var(--font-system);
+}
+
 .dock-community {
   display: none;
 }
@@ -2403,6 +2437,113 @@
   color: #4CAF50;
   margin-top: 14px;
   font-weight: 500;
+}
+
+/* ─── Inline registration modal (bones-as-currency model) ───
+   Triggered when an unregistered visitor clicks chat or bone. Mirrors the
+   interest modal pattern but adds a display-name input and an explanatory
+   hint about the email subscription. */
+.register-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 96;
+  background: rgba(15, 10, 34, 0.88);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  padding: 20px;
+}
+.register-overlay.active { display: flex; }
+.register-modal {
+  background: var(--bg-card, #1a1035);
+  border: 1px solid rgba(123, 104, 238, 0.35);
+  border-radius: 16px;
+  padding: 28px 24px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  animation: modalIn 0.3s ease;
+  font-family: var(--font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+}
+.register-modal-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+.register-modal-title {
+  font-family: 'Yang Bagus', 'YangBagus', cursive;
+  font-size: 26px;
+  color: #B7A8FF;
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+.register-modal-subtitle {
+  font-size: 14px;
+  color: rgba(224, 216, 240, 0.7);
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+.register-modal-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #f0e8ff;
+  font-size: 14px;
+  font-family: inherit;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+.register-modal-input:focus {
+  outline: none;
+  border-color: rgba(123, 104, 238, 0.55);
+  background: rgba(255, 255, 255, 0.06);
+}
+.register-modal-error {
+  font-size: 12px;
+  color: #dc5050;
+  min-height: 16px;
+  margin-bottom: 6px;
+  text-align: left;
+}
+.register-modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.register-modal-cancel {
+  flex: 0 0 auto;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  color: rgba(224, 216, 240, 0.5);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.register-modal-cancel:hover { color: rgba(224, 216, 240, 0.85); }
+.register-modal-submit {
+  flex: 1 1 auto;
+  padding: 12px 18px;
+  background: #FF8C42;
+  border: none;
+  border-radius: 10px;
+  color: #1a1035;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease;
+}
+.register-modal-submit:hover { background: #FFA060; }
+.register-modal-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+.register-modal-hint {
+  font-size: 11px;
+  color: rgba(224, 216, 240, 0.4);
+  line-height: 1.4;
 }
 
 /* ─── ANIMATIONS ───────────────────────────────── */

@@ -112,6 +112,12 @@
             <span class="dock-bone-pill-count" id="boneCount">0</span>
             <span class="dock-bone-pill-label">bones</span>
           </div>
+          <!-- Personal bones balance (registered users only). Shown by app.js
+               after a `boneBalance` WebSocket message arrives. -->
+          <div class="my-bones-pill" id="myBonesPill" hidden>
+            <span class="my-bones-pill-count" id="myBonesPillCount">0</span>
+            <span class="my-bones-pill-label">yours</span>
+          </div>
           <span class="bone-streak" id="boneStreak"></span>
           <div class="dock-frenzy-badge" id="boneFrenzy">
             <span id="boneFrenzyText">BONE FRENZY</span>
@@ -189,6 +195,25 @@
     <div class="show-share-rail-label">Share this good dog</div>
     <div class="show-share-rail-buttons" id="showShareButtons"></div>
     <div class="show-share-rail-copied" id="showShareCopied">Link copied!</div>
+  </div>
+
+  <!-- Inline registration modal (bones-as-currency model, 2026-05-26). Shown
+       when an unregistered visitor tries to chat or send a bone. No magic
+       link — name + email → instant 250 bones → unlock UI. -->
+  <div class="register-overlay" id="registerOverlay">
+    <div class="register-modal">
+      <div class="register-modal-icon">&#129460;</div>
+      <div class="register-modal-title" id="registerTitle">Sign up to send bones</div>
+      <div class="register-modal-subtitle" id="registerSubtitle">It's free. You'll get 250 bones to spend right away.</div>
+      <input type="text" class="register-modal-input" id="registerName" placeholder="Display name" autocomplete="nickname" spellcheck="false" maxlength="20">
+      <input type="email" class="register-modal-input" id="registerEmail" placeholder="you@email.com" autocomplete="email" spellcheck="false">
+      <div class="register-modal-error" id="registerError"></div>
+      <div class="register-modal-actions">
+        <button class="register-modal-cancel" id="registerCancel">No thanks</button>
+        <button class="register-modal-submit" id="registerSubmit">Get 250 bones</button>
+      </div>
+      <div class="register-modal-hint">By signing up you'll get occasional updates about the show. Unsubscribe anytime.</div>
+    </div>
   </div>
 
   <!-- "Coming soon — get notified" modal for fake-door CTAs in the house rotator -->

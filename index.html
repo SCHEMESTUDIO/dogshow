@@ -788,6 +788,80 @@
 
     .lp-plan-feature.disabled { color: #5a4d80; }
 
+    /* Premium tier — 2× launch-bonus emphasis */
+    .lp-plan-bonus-badge {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #7B68EE;
+      color: #f0e8ff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+      box-shadow: 0 2px 12px rgba(123, 104, 238, 0.4);
+    }
+
+    .lp-plan-feature-highlight {
+      background: rgba(123, 104, 238, 0.08);
+      border-radius: 8px;
+      padding: 10px 10px;
+      border-bottom: none !important;
+      margin: 4px 0;
+      flex-wrap: wrap;
+    }
+
+    .lp-bones-strike {
+      color: rgba(155, 143, 208, 0.5);
+      text-decoration: line-through;
+      font-size: 13px;
+      margin-right: 2px;
+    }
+
+    .lp-bones-new {
+      color: #B7A8FF;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .lp-bones-callout {
+      background: #7B68EE;
+      color: #1a1035;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: auto;
+    }
+
+    .lp-plan-feature-note {
+      font-size: 11px !important;
+      color: rgba(155, 143, 208, 0.65) !important;
+      font-style: italic;
+      padding-top: 4px !important;
+      padding-bottom: 4px !important;
+      border-bottom: none !important;
+    }
+
+    .lp-topup-note {
+      max-width: 760px;
+      margin: 20px auto 0;
+      padding: 14px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(224, 216, 240, 0.7);
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+    }
+    .lp-topup-note strong { color: #FF8C42; }
+
     .lp-plan-btn {
       width: 100%;
       padding: 12px;
@@ -1049,6 +1123,58 @@
       margin-bottom: 8px;
       min-height: 18px;
     }
+
+    /* Slot picker (Phase 3) */
+    .lp-slot-section {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .lp-slot-label {
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(224, 216, 240, 0.55);
+      margin-bottom: 8px;
+    }
+    .lp-slot-radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .lp-slot-radio {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #e0d8f0;
+      cursor: pointer;
+      padding: 8px 10px;
+      border-radius: 8px;
+      transition: background 0.15s;
+    }
+    .lp-slot-radio:hover { background: rgba(255,255,255,0.03); }
+    .lp-slot-radio input { accent-color: #7B68EE; cursor: pointer; }
+    .lp-slot-pickers {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .lp-slot-select { margin: 0; }
+    .lp-slot-tz-note {
+      font-size: 11px;
+      color: rgba(224, 216, 240, 0.45);
+    }
+    .lp-slot-perk-note {
+      font-size: 12px;
+      color: rgba(123, 104, 238, 0.85);
+      background: rgba(123, 104, 238, 0.08);
+      border-radius: 8px;
+      padding: 8px 10px;
+      line-height: 1.4;
+    }
+    .lp-slot-perk-note strong { color: #B7A8FF; }
 
     .lp-modal-actions {
       display: flex;
@@ -1424,33 +1550,18 @@
 
     <div class="lp-pricing-grid">
       <div class="lp-plan">
-        <div class="lp-plan-name">Free Peek</div>
-        <div class="lp-plan-desc">Just looking</div>
+        <div class="lp-plan-name">Free</div>
+        <div class="lp-plan-desc">Watch, chat, cheer</div>
         <div class="lp-plan-price">Free</div>
         <div class="lp-plan-price-note">Forever</div>
         <div class="lp-plan-features">
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Watch the live show</div>
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> See one dog at a time</div>
-          <div class="lp-plan-feature disabled"><span class="x">&#10005;</span> No chat access</div>
-          <div class="lp-plan-feature disabled"><span class="x">&#10005;</span> No bone giving</div>
-          <div class="lp-plan-feature disabled"><span class="x">&#10005;</span> No dog uploads</div>
-        </div>
-        <button class="lp-plan-btn lp-plan-btn-outline" id="planFree">Peek Inside</button>
-      </div>
-
-      <div class="lp-plan">
-        <div class="lp-plan-name">General Admission</div>
-        <div class="lp-plan-desc">The full experience</div>
-        <div class="lp-plan-price">$1.99</div>
-        <div class="lp-plan-price-note">One-time</div>
-        <div class="lp-plan-features">
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Watch the live show</div>
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Give bones to dogs</div>
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Live chat with fans</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> 250 bones to give</div>
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Pick a display name</div>
           <div class="lp-plan-feature disabled"><span class="x">&#10005;</span> No dog uploads</div>
         </div>
-        <button class="lp-plan-btn lp-plan-btn-outline" id="planGeneral">Join the Crowd &mdash; $1.99</button>
+        <button class="lp-plan-btn lp-plan-btn-outline" id="planFree">Get my 250 bones</button>
       </div>
 
       <div class="lp-plan lp-plan-popular">
@@ -1460,14 +1571,41 @@
         <div class="lp-plan-price">$3.99</div>
         <div class="lp-plan-price-note">One-time</div>
         <div class="lp-plan-features">
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Everything in General</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Everything in Free</div>
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Upload your dog</div>
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Dog appears in live rotation</div>
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Permanent dog page</div>
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Shareable certificate</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> 250 bones to give</div>
         </div>
         <button class="lp-plan-btn lp-plan-btn-primary" id="planPremium">Enter Your Dog &mdash; $3.99</button>
       </div>
+
+      <div class="lp-plan">
+        <div class="lp-plan-bonus-badge">2&times; BONES &mdash; LAUNCH BONUS</div>
+        <div class="lp-plan-name">Premium</div>
+        <div class="lp-plan-desc">Big bag of bones</div>
+        <div class="lp-plan-price">$5.99</div>
+        <div class="lp-plan-price-note">One-time</div>
+        <div class="lp-plan-features">
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Everything in Enter Your Dog</div>
+          <div class="lp-plan-feature lp-plan-feature-highlight">
+            <span class="check">&#10003;</span>
+            <span class="lp-bones-strike">500</span>
+            <span class="lp-bones-new">1,000 bones</span>
+            <span class="lp-bones-callout">2&times; bonus</span>
+          </div>
+          <div class="lp-plan-feature lp-plan-feature-note">Same $5.99 as $3.99 + a top-up, double the bones.</div>
+        </div>
+        <button class="lp-plan-btn lp-plan-btn-outline" id="planPremiumPlus">Go Premium &mdash; $5.99</button>
+      </div>
+    </div>
+
+    <!-- Top-up disclosure: bones aren't tier-locked. Anyone, any tier, can
+         add 250 bones for $1.99. Calling this out under the grid avoids
+         confusion about "do I need to upgrade to chat more / cheer more". -->
+    <div class="lp-topup-note">
+      Need more bones later? Top up <strong>250 bones for $1.99</strong> anytime, on any tier &mdash; available right in the show.
     </div>
 
     <div class="lp-trust-strip">
@@ -1561,7 +1699,7 @@
     <div class="lp-testimonials">
       <div class="lp-testimonial">
         <div class="lp-testimonial-text">"I opened it to see what it was. That was 40 minutes ago. Send help."</div>
-        <div class="lp-testimonial-author"><strong>woofwatcher</strong> &mdash; General Admission</div>
+        <div class="lp-testimonial-author"><strong>woofwatcher</strong> &mdash; Free tier, 250 bones</div>
       </div>
       <div class="lp-testimonial">
         <div class="lp-testimonial-text">"This is the best $3.99 I've ever spent. My dog finally has the public platform he deserves."</div>
@@ -1587,7 +1725,7 @@
       </div>
       <div class="lp-faq-item">
         <button class="lp-faq-q">Why would I pay for this? <span class="lp-faq-arrow">+</span></button>
-        <div class="lp-faq-a">The free tier lets you watch. But paid members can chat, give bones, and (for $3.99) upload their own dog to appear in the live show. Your dog gets a permanent certificate with stats. It's worth it.</div>
+        <div class="lp-faq-a">Watching, chatting, and giving bones are all free — every signup gets 250 bones to spend. For $3.99 you can upload your own dog to appear in the live show with a permanent certificate. For $5.99 you get the same dog entry plus 1,000 bones to boost your favorites.</div>
       </div>
       <div class="lp-faq-item">
         <button class="lp-faq-q">Is this a subscription? <span class="lp-faq-arrow">+</span></button>
@@ -1607,7 +1745,7 @@
       </div>
       <div class="lp-faq-item">
         <button class="lp-faq-q">What do I get for $3.99? <span class="lp-faq-arrow">+</span></button>
-        <div class="lp-faq-a">Your dog enters the live rotation, gets a permanent show page with stats, bones, and appearances. You also get full access to chat, bone giving, and everything in General Admission. One payment. Forever.</div>
+        <div class="lp-faq-a">Your dog enters the live rotation, gets a permanent show page with stats, bones, and appearances. You also get 250 bones to give other dogs. One payment. Forever. (If you want 1,000 bones instead, that's the $5.99 Premium tier.)</div>
       </div>
     </div>
   </section>
@@ -1675,6 +1813,30 @@
         <select class="lp-modal-input" id="dogBreedInput" style="margin-top: 10px;">
           <option value="">Select breed…</option>
         </select>
+
+        <!-- Slot picker (Phase 3). Default = immediate rotation. Schedule mode
+             reveals date + time pickers in 15-minute increments. The actual
+             timestamp is computed at submit time and stored in localStorage
+             so app.js can pass it to /upload-dog. -->
+        <div class="lp-slot-section">
+          <div class="lp-slot-label">When should they go on stage?</div>
+          <div class="lp-slot-radio-group">
+            <label class="lp-slot-radio">
+              <input type="radio" name="slotChoice" value="now" checked>
+              <span>Show me right away</span>
+            </label>
+            <label class="lp-slot-radio">
+              <input type="radio" name="slotChoice" value="scheduled">
+              <span>Schedule it for later</span>
+            </label>
+          </div>
+          <div class="lp-slot-pickers" id="slotPickers" hidden>
+            <select class="lp-modal-input lp-slot-select" id="slotDateSelect"></select>
+            <select class="lp-modal-input lp-slot-select" id="slotTimeSelect"></select>
+            <div class="lp-slot-tz-note" id="slotTzNote"></div>
+            <div class="lp-slot-perk-note">Booked slots get <strong>3&times; the on-stage time</strong> &mdash; share your dog's link to bring fans.</div>
+          </div>
+        </div>
 
         <div class="lp-modal-actions">
           <button class="lp-modal-btn-cancel" id="uploadCancel">Cancel</button>
@@ -1781,7 +1943,7 @@
       emailSubmit.disabled = false;
       emailSubmit.innerHTML = 'Continue';
 
-      if (tier === 'premium') {
+      if (tier === 'premium' || tier === 'premium_plus') {
         emailTitle.textContent = "Where should we send your dog's show page?";
         emailSubtitle.textContent = "We'll use this email to save your entry and let you access your dog's page later.";
       } else if (tier === 'free') {
@@ -1900,6 +2062,90 @@
     var dogBreedInput = document.getElementById('dogBreedInput');
     if (window.populateBreedSelect) window.populateBreedSelect(dogBreedInput);
 
+    // ─── Slot picker (Phase 3) ──────────────────────
+    // The picker offers 15-min boundaries in the user's local timezone over
+    // the next 14 days. The chosen absolute timestamp (ms) is passed to
+    // /upload-dog where the server validates + snaps to the boundary.
+    var slotPickers = document.getElementById('slotPickers');
+    var slotDateSelect = document.getElementById('slotDateSelect');
+    var slotTimeSelect = document.getElementById('slotTimeSelect');
+    var slotTzNote = document.getElementById('slotTzNote');
+    var SLOT_INTERVAL_MS = 15 * 60 * 1000;
+
+    function tzAbbr() {
+      try {
+        var parts = new Intl.DateTimeFormat(undefined, { timeZoneName: 'short' }).formatToParts(new Date());
+        var tz = parts.find(function (p) { return p.type === 'timeZoneName'; });
+        return tz ? tz.value : '';
+      } catch (e) { return ''; }
+    }
+    if (slotTzNote) slotTzNote.textContent = 'Times shown in your timezone' + (tzAbbr() ? ' (' + tzAbbr() + ')' : '') + '.';
+
+    function populateSlotDateSelect() {
+      slotDateSelect.innerHTML = '';
+      var now = new Date();
+      var label = ['Today', 'Tomorrow'];
+      for (var i = 0; i < 14; i++) {
+        var d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+        var opt = document.createElement('option');
+        opt.value = d.getTime();  // midnight of that day, local
+        var labelText = label[i] || d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+        opt.textContent = labelText;
+        slotDateSelect.appendChild(opt);
+      }
+    }
+
+    function populateSlotTimeSelect() {
+      slotTimeSelect.innerHTML = '';
+      var dayMs = Number(slotDateSelect.value);
+      if (!dayMs) return;
+      var dayStart = new Date(dayMs);
+      var now = Date.now();
+      // First slot: next 15-min boundary >= now+15min (give the user time to
+      // promote it) for today; otherwise start of day.
+      var firstSlot;
+      if (dayStart.toDateString() === new Date().toDateString()) {
+        firstSlot = Math.ceil((now + 15 * 60 * 1000) / SLOT_INTERVAL_MS) * SLOT_INTERVAL_MS;
+      } else {
+        firstSlot = dayStart.getTime();
+      }
+      var endOfDay = new Date(dayStart.getFullYear(), dayStart.getMonth(), dayStart.getDate() + 1).getTime();
+      for (var t = firstSlot; t < endOfDay; t += SLOT_INTERVAL_MS) {
+        var opt = document.createElement('option');
+        opt.value = t;
+        opt.textContent = new Date(t).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+        slotTimeSelect.appendChild(opt);
+      }
+      if (slotTimeSelect.options.length === 0) {
+        // Today has no remaining slots — advance to tomorrow automatically.
+        var idx = slotDateSelect.selectedIndex;
+        if (idx + 1 < slotDateSelect.options.length) {
+          slotDateSelect.selectedIndex = idx + 1;
+          populateSlotTimeSelect();
+        }
+      }
+    }
+
+    populateSlotDateSelect();
+    populateSlotTimeSelect();
+    slotDateSelect.addEventListener('change', populateSlotTimeSelect);
+
+    // Radio toggle: show/hide pickers.
+    document.querySelectorAll('input[name="slotChoice"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        slotPickers.hidden = (radio.value !== 'scheduled' || !radio.checked);
+      });
+    });
+
+    // Read the picker state into a timestamp (or null for "now").
+    function getChosenSlotAt() {
+      var chosen = document.querySelector('input[name="slotChoice"]:checked');
+      if (!chosen || chosen.value !== 'scheduled') return null;
+      var t = Number(slotTimeSelect.value);
+      if (!Number.isFinite(t) || t <= Date.now()) return null;
+      return t;
+    }
+
     function startDogEntry() {
       // Fresh slate — drop any pending photo from a previous, abandoned entry
       // so a stale image can't be auto-submitted later as the wrong dog.
@@ -1907,6 +2153,7 @@
       localStorage.removeItem('dogshow_pending_dog_name');
       localStorage.removeItem('dogshow_pending_dog_breed');
       localStorage.removeItem('dogshow_pending_dog_ts');
+      localStorage.removeItem('dogshow_pending_dog_slot');
       uploadStep1.hidden = false;
       dogNameInput.value = '';
       if (dogBreedInput) dogBreedInput.value = '';
@@ -1915,6 +2162,13 @@
       uploadNext.disabled = true;
       pendingDogImage = null;
       dogFileInput.value = '';
+      // Reset slot picker to default
+      var nowRadio = document.querySelector('input[name="slotChoice"][value="now"]');
+      if (nowRadio) nowRadio.checked = true;
+      if (slotPickers) slotPickers.hidden = true;
+      // Re-populate in case the user opened this hours after page load
+      populateSlotDateSelect();
+      populateSlotTimeSelect();
       uploadOverlay.classList.add('active');
     }
 
@@ -1968,8 +2222,18 @@
       // Timestamp the handoff so a stale photo from an abandoned checkout is
       // discarded on the show page instead of being auto-submitted.
       localStorage.setItem('dogshow_pending_dog_ts', String(Date.now()));
+      // Phase 3: if the user picked a scheduled slot, persist it. app.js's
+      // submitDogImage will pass it to /upload-dog after Stripe success.
+      var slotAt = getChosenSlotAt();
+      if (slotAt) {
+        localStorage.setItem('dogshow_pending_dog_slot', String(slotAt));
+      } else {
+        localStorage.removeItem('dogshow_pending_dog_slot');
+      }
       uploadOverlay.classList.remove('active');
-      openEmailModal('premium');
+      // pendingDogTier was set by whichever CTA started this flow — defaults
+      // to 'premium' ($3.99), 'premium_plus' for the $5.99 Premium button.
+      openEmailModal(pendingDogTier || 'premium');
     });
 
     document.getElementById('uploadCancel').addEventListener('click', function() {
@@ -2034,13 +2298,19 @@
     }
 
     // ─── BUTTON LISTENERS ────────────────────────────
-    document.getElementById('heroCta').addEventListener('click', function() { startDogEntry(); });
+    // Module-level: which BYD SKU the user picked. Default $3.99; the Premium
+    // button overrides to 'premium_plus' before opening the upload modal.
+    var pendingDogTier = 'premium';
+    document.getElementById('heroCta').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
     document.getElementById('heroFree').addEventListener('click', function() { openEmailModal('free'); });
-    document.getElementById('previewCta').addEventListener('click', function() { startDogEntry(); });
-    document.getElementById('certCta').addEventListener('click', function() { startDogEntry(); });
+    document.getElementById('previewCta').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
+    document.getElementById('certCta').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
     document.getElementById('planFree').addEventListener('click', function() { openEmailModal('free'); });
-    document.getElementById('planGeneral').addEventListener('click', function() { openEmailModal('general'); });
-    document.getElementById('planPremium').addEventListener('click', function() { startDogEntry(); });
+    document.getElementById('planPremium').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
+    var planPremiumPlusBtn = document.getElementById('planPremiumPlus');
+    if (planPremiumPlusBtn) {
+      planPremiumPlusBtn.addEventListener('click', function() { pendingDogTier = 'premium_plus'; startDogEntry(); });
+    }
 
     // ─── LOGIN FLOW ──────────────────────────────────
     var loginBtn = document.getElementById('loginBtn');

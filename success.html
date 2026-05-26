@@ -301,13 +301,22 @@
     const sessionId = params.get('session_id') || '';
     const email = params.get('email') || '';
 
+    // Bones-pack ($1.99) purchases skip the BYD celebration — there's no dog
+    // entry to celebrate. Verify the payment, then bounce straight back to the
+    // show with a query flag so app.js can show a small "+250 bones" toast.
+    const isBonesPackPurchase = (tier === 'general');
+    if (isBonesPackPurchase) {
+      // Hide the celebration UI before it renders.
+      document.documentElement.style.visibility = 'hidden';
+    }
+
     // Fire Bing UET + GA4 purchase event. Only paid tiers reach this page
     // (free tier skips Stripe and goes straight to show.html from index.html).
     // Revenue values must match Stripe prices.
     // analytics.js is loaded with `defer`, so it executes AFTER inline scripts
     // during parsing. We must wait for DOMContentLoaded before calling helpers
     // — otherwise window.trackPurchase is undefined and the event silently no-ops.
-    const revenueByTier = { general: 1.99, premium: 3.99 };
+    const revenueByTier = { general: 1.99, premium: 3.99, premium_plus: 5.99 };
     function fireBingPurchaseConversion() {
       if (window.trackPurchase && revenueByTier[tier] != null) {
         window.trackPurchase(tier, revenueByTier[tier]);
@@ -390,7 +399,15 @@
       }
     }
 
-    registerUser();
+    // For bones-pack purchases: verify, then redirect to show without the
+    // BYD celebration. ?topup=1 lets app.js show a brief confirmation toast.
+    if (isBonesPackPurchase) {
+      registerUser().then(function () {
+        window.location.replace('show.html?topup=1');
+      });
+    } else {
+      registerUser();
+    }
 
     // Enter show button
     const curtainOverlay = document.getElementById('curtainOverlay');

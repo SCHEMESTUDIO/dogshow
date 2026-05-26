@@ -44,8 +44,39 @@ function titlesFor(stats, breed) {
 const STYLES = `
 @font-face{font-family:'Yang Bagus';src:url('/YangBagus.ttf') format('truetype');font-display:swap;}
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#1a1035;--bg-card:#241a45;--accent:#FF8C42;--text:#e0d8f0;--dim:rgba(255,255,255,0.4);--gold:#FFD700;}
+:root{--bg:#1a1035;--bg-card:#241a45;--accent:#FF8C42;--purple:#7B68EE;--text:#e0d8f0;--dim:rgba(255,255,255,0.4);--gold:#FFD700;}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;}
+/* Pre-show (Phase 4) — countdown + RSVP */
+.preshow{max-width:520px;margin:0 auto;padding:32px 20px 48px;text-align:center;}
+.preshow-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:8px;}
+.preshow-header{font-family:'Yang Bagus',serif;color:var(--accent);font-size:36px;margin-bottom:24px;}
+.preshow-frame{position:relative;border:3px solid var(--purple);border-radius:12px;padding:6px;background:rgba(123,104,238,0.08);margin-bottom:20px;}
+.preshow-frame img{width:100%;border-radius:8px;display:block;}
+.preshow-dog-name{font-family:'Yang Bagus',serif;font-size:30px;margin-bottom:4px;}
+.preshow-dog-meta{font-size:14px;color:var(--dim);margin-bottom:24px;}
+.preshow-when{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(123,104,238,0.85);margin-bottom:6px;}
+.preshow-time{font-family:'Yang Bagus',serif;font-size:22px;color:var(--text);margin-bottom:14px;}
+.preshow-countdown{display:flex;justify-content:center;gap:10px;margin-bottom:24px;}
+.preshow-count-cell{background:var(--bg-card);border:1px solid rgba(123,104,238,0.3);border-radius:10px;padding:14px 12px;min-width:64px;}
+.preshow-count-num{font-size:28px;font-weight:700;color:var(--purple);line-height:1;}
+.preshow-count-label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;margin-top:4px;}
+.preshow-rsvp{background:var(--bg-card);border:1px solid rgba(123,104,238,0.2);border-radius:12px;padding:22px 18px;margin-bottom:20px;}
+.preshow-rsvp-title{font-family:'Yang Bagus',serif;font-size:22px;color:var(--purple);margin-bottom:6px;}
+.preshow-rsvp-sub{font-size:13px;color:rgba(224,216,240,0.7);margin-bottom:14px;}
+.preshow-rsvp-form{display:flex;flex-direction:column;gap:8px;}
+.preshow-rsvp-input{padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#f0e8ff;font-size:14px;font-family:inherit;}
+.preshow-rsvp-input:focus{outline:none;border-color:var(--purple);}
+.preshow-rsvp-btn{padding:12px 18px;background:var(--purple);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+.preshow-rsvp-btn:hover{background:#9384f0;}
+.preshow-rsvp-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.preshow-rsvp-msg{font-size:12px;color:rgba(224,216,240,0.7);min-height:16px;}
+.preshow-rsvp-msg.ok{color:#7B68EE;}
+.preshow-rsvp-msg.err{color:#dc5050;}
+.preshow-airingnow{background:linear-gradient(135deg,rgba(255,140,66,0.18),rgba(123,104,238,0.18));border:1px solid var(--accent);border-radius:12px;padding:18px;margin-bottom:18px;}
+.preshow-airingnow-title{font-family:'Yang Bagus',serif;font-size:24px;color:var(--accent);}
+.preshow-airingnow-sub{font-size:13px;color:rgba(224,216,240,0.85);margin:4px 0 12px;}
+.preshow-watch-btn{display:inline-block;background:var(--accent);color:#1a1035;font-weight:700;font-size:15px;padding:12px 24px;border-radius:10px;text-decoration:none;}
+@media(max-width:768px){.preshow{padding:20px 14px 32px;}.preshow-header{font-size:28px;}.preshow-count-cell{padding:10px 8px;min-width:54px;}.preshow-count-num{font-size:22px;}}
 .certificate{max-width:600px;margin:0 auto;padding:24px 20px 40px;text-align:center;}
 .cert-header{font-family:'Yang Bagus',serif;color:var(--accent);font-size:36px;margin-bottom:4px;}
 .cert-subtitle{font-size:12px;color:var(--dim);letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;}
@@ -102,6 +133,206 @@ ${bodyHtml}
 </html>`;
 }
 
+function renderPreShow(res, ctx) {
+  const { dog, name, breed, owner, img, slug } = ctx;
+  const url = `${SITE}/d/${encodeURIComponent(slug)}`;
+  const shareImg = `${SITE}/api/og?slug=${encodeURIComponent(slug)}`;
+  const slotAt = dog.slotAt || null;
+  const hasSlot = !!slotAt;
+  const slotIso = hasSlot ? new Date(slotAt).toISOString() : '';
+  const knownBreed = breed && breed !== 'Mystery Breed';
+
+  const metaDesc = hasSlot
+    ? `${name} takes the stage on The Dog Show. Set a reminder so you don't miss it.`
+    : `${name} is about to appear on The Dog Show. Watch live.`;
+
+  // Server-rendered countdown placeholder values get filled by the inline
+  // script on the client. The eyebrow + headline tell the story even before
+  // JS runs (and for users with JS disabled — they still see who and when).
+  const slotLabel = hasSlot
+    ? new Date(slotAt).toLocaleString('en-US', {
+        weekday: 'short', month: 'short', day: 'numeric',
+        hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
+      })
+    : 'Coming up next';
+
+  const shareText = encodeURIComponent(
+    hasSlot
+      ? `${name} is on The Dog Show — tune in!`
+      : `${name} just entered The Dog Show!`
+  );
+  const shareUrl = encodeURIComponent(url);
+
+  const head = `<title>${esc(name)} on The Dog Show</title>
+<meta name="description" content="${esc(metaDesc)}">
+<link rel="canonical" href="${esc(url)}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="${esc(name)} — live on The Dog Show">
+<meta property="og:description" content="${esc(metaDesc)}">
+<meta property="og:image" content="${esc(shareImg)}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="${esc(url)}">
+<meta property="og:site_name" content="The Dog Show">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(name)} — live on The Dog Show">
+<meta name="twitter:description" content="${esc(metaDesc)}">
+<meta name="twitter:image" content="${esc(shareImg)}">`;
+
+  // The countdown + RSVP form. RSVP posts to /rsvp with dogId; on success the
+  // form swaps to a thank-you state. The script is intentionally vanilla and
+  // small — no external deps.
+  const body = `<div class="preshow">
+<div class="preshow-eyebrow">${hasSlot ? 'Booked appearance' : 'Just entered'}</div>
+<div class="preshow-header">The Dog Show</div>
+<div class="preshow-frame"><img src="${esc(img)}" alt="${esc(name)}" width="500" height="500"></div>
+<h1 class="preshow-dog-name">${esc(name)}</h1>
+<div class="preshow-dog-meta">${esc(knownBreed ? breed : 'A good dog')} &middot; submitted by ${esc(owner)}</div>
+
+${hasSlot ? `
+<div class="preshow-when">On stage</div>
+<div class="preshow-time" data-slot-iso="${esc(slotIso)}">${esc(slotLabel)}</div>
+<div class="preshow-countdown" id="psCountdown" aria-live="polite">
+  <div class="preshow-count-cell"><div class="preshow-count-num" id="psDays">—</div><div class="preshow-count-label">days</div></div>
+  <div class="preshow-count-cell"><div class="preshow-count-num" id="psHours">—</div><div class="preshow-count-label">hrs</div></div>
+  <div class="preshow-count-cell"><div class="preshow-count-num" id="psMins">—</div><div class="preshow-count-label">min</div></div>
+  <div class="preshow-count-cell"><div class="preshow-count-num" id="psSecs">—</div><div class="preshow-count-label">sec</div></div>
+</div>
+<div class="preshow-airingnow" id="psLiveNow" hidden>
+  <div class="preshow-airingnow-title">${esc(name)} is on stage now</div>
+  <div class="preshow-airingnow-sub">Drop in before they're done.</div>
+  <a class="preshow-watch-btn" href="${SITE}/show.html">Watch live &rarr;</a>
+</div>
+` : `
+<div class="preshow-airingnow">
+  <div class="preshow-airingnow-title">${esc(name)} is about to appear</div>
+  <div class="preshow-airingnow-sub">No booked slot &mdash; they'll show up in the rotation any moment.</div>
+  <a class="preshow-watch-btn" href="${SITE}/show.html">Watch live &rarr;</a>
+</div>
+`}
+
+<div class="preshow-rsvp" id="psRsvp">
+  <div class="preshow-rsvp-title">${hasSlot ? 'Set a reminder' : 'Get notified next time'}</div>
+  <div class="preshow-rsvp-sub">${hasSlot
+    ? "We'll email you an hour and 5 minutes before " + esc(name) + " takes the stage."
+    : "Drop your email — we'll let you know when " + esc(name) + " appears."}</div>
+  <form class="preshow-rsvp-form" id="psForm">
+    <input class="preshow-rsvp-input" type="email" name="email" id="psEmail" placeholder="you@email.com" autocomplete="email" required>
+    <button class="preshow-rsvp-btn" type="submit" id="psSubmit">Remind me</button>
+    <div class="preshow-rsvp-msg" id="psMsg"></div>
+  </form>
+</div>
+
+<div class="share">
+<div class="share-label">Bring friends</div>
+<div class="share-row">
+<a class="share-btn fb" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener">Facebook</a>
+<a class="share-btn x" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener">X</a>
+<a class="share-btn wa" href="https://api.whatsapp.com/send?text=${shareText}%20${shareUrl}" target="_blank" rel="noopener">WhatsApp</a>
+<button class="share-btn copy" type="button" onclick="navigator.clipboard&&navigator.clipboard.writeText('${url}');this.textContent='Copied!';">Copy Link</button>
+</div>
+</div>
+</div>
+
+<script>
+(function(){
+  var slotIso = ${JSON.stringify(slotIso)};
+  var dogId = ${JSON.stringify(dog.id)};
+  var partyBase = ${JSON.stringify('https://dogshow.schemestudio.partykit.dev/party/dogshow-live')};
+  var siteUrl = ${JSON.stringify(SITE)};
+
+  // ─── Countdown ─────────────────────────────────
+  function tick(){
+    if (!slotIso) return;
+    var target = new Date(slotIso).getTime();
+    var now = Date.now();
+    var diff = target - now;
+    var live = document.getElementById('psLiveNow');
+    var cd = document.getElementById('psCountdown');
+    if (diff <= 0) {
+      if (cd) cd.style.display = 'none';
+      if (live) live.hidden = false;
+      return;
+    }
+    if (live) live.hidden = true;
+    if (cd) cd.style.display = '';
+    var s = Math.floor(diff / 1000);
+    var d = Math.floor(s / 86400); s -= d * 86400;
+    var h = Math.floor(s / 3600);  s -= h * 3600;
+    var m = Math.floor(s / 60);    s -= m * 60;
+    var el;
+    if ((el = document.getElementById('psDays')))  el.textContent = d;
+    if ((el = document.getElementById('psHours'))) el.textContent = String(h).padStart(2,'0');
+    if ((el = document.getElementById('psMins')))  el.textContent = String(m).padStart(2,'0');
+    if ((el = document.getElementById('psSecs')))  el.textContent = String(s).padStart(2,'0');
+  }
+  if (slotIso) { tick(); setInterval(tick, 1000); }
+
+  // ─── RSVP form ─────────────────────────────────
+  var form = document.getElementById('psForm');
+  var msg  = document.getElementById('psMsg');
+  var btn  = document.getElementById('psSubmit');
+  var emailInput = document.getElementById('psEmail');
+  if (form) {
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var email = (emailInput.value || '').trim();
+      if (!email || email.indexOf('@') === -1) {
+        msg.className = 'preshow-rsvp-msg err';
+        msg.textContent = "That email doesn't look right.";
+        return;
+      }
+      btn.disabled = true; btn.textContent = 'Setting…';
+      msg.className = 'preshow-rsvp-msg';
+      msg.textContent = '';
+      fetch(partyBase + '/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, dogId: dogId })
+      })
+        .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, body: j }; }); })
+        .then(function(res){
+          if (!res.ok || !res.body || !res.body.ok) {
+            msg.className = 'preshow-rsvp-msg err';
+            msg.textContent = (res.body && res.body.error) || 'Something went wrong.';
+            btn.disabled = false; btn.textContent = 'Remind me';
+            return;
+          }
+          // Persist credentials so when the fan lands on the show they're
+          // already authenticated with 250 bones in hand.
+          try {
+            if (res.body.token) localStorage.setItem('dogshow_token', res.body.token);
+            localStorage.setItem('dogshow_email', email);
+          } catch (e) {}
+          msg.className = 'preshow-rsvp-msg ok';
+          if (res.body.airingNow) {
+            msg.textContent = "They're on stage right now — heading to the show…";
+            setTimeout(function(){ window.location.href = siteUrl + '/show.html'; }, 1200);
+          } else if (res.body.alreadyAired) {
+            msg.textContent = "They've already aired. You'll get a heads-up next time we run an event.";
+          } else {
+            msg.textContent = "You're on the list. We'll email you an hour and 5 minutes before.";
+          }
+          btn.textContent = "You're in!";
+        })
+        .catch(function(){
+          msg.className = 'preshow-rsvp-msg err';
+          msg.textContent = 'Network error. Try again.';
+          btn.disabled = false; btn.textContent = 'Remind me';
+        });
+    });
+  }
+})();
+</script>`;
+
+  res.status(200);
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  // Short cache: pre-show pages flip to post-show on first airing, so we
+  // don't want stale countdowns sitting in CDN cache for long.
+  res.setHeader('Cache-Control', 'public, max-age=30, s-maxage=60');
+  res.send(shell(head, body));
+}
+
 function sendNotFound(res, code, msg) {
   const head = `<title>Dog not found — The Dog Show</title><meta name="robots" content="noindex">`;
   const body = `<div class="certificate"><div class="cert-header">The Dog Show</div>
@@ -140,6 +371,17 @@ module.exports = async function handler(req, res) {
   const breed = dog.breed || 'Mystery Breed';
   const owner = dog.username || 'Anonymous';
   const img = dog.imageUrl || (SITE + '/og-image.png');
+
+  // Phase 4: state-aware rendering.
+  //   firstAppearedAt === null → pre-show (countdown + RSVP)
+  //   firstAppearedAt !== null → post-show (existing certificate)
+  // Dogs without a slot but uploaded seconds ago are technically in pre-show
+  // state for a brief window — that's fine, the page transitions on next page
+  // load once they air. We treat the no-slot pre-show as "coming up next."
+  const isPreShow = !dog.firstAppearedAt;
+  if (isPreShow) {
+    return renderPreShow(res, { dog, name, breed, owner, img, slug });
+  }
   // Dedicated 1200x630 share image (Facebook / Twitter / LinkedIn optimal
   // ratio). api/og.tsx composites the dog photo into a branded frame so the
   // preview doesn't get cropped weirdly. Schema.org image stays as the raw

@@ -8,6 +8,19 @@
 const SITE_URL = 'https://dogshow.lol';
 const FAN_COUNT_OFFSET = 100; // Seed number — real fans count from here
 
+// ─── Bones economy (new model, 2026-05-26) ──────────
+// Registered users get BONES_ON_REGISTER for free; $1.99 "general" SKU adds
+// BONES_PER_TOPUP on top. Legacy `tier === 'general'` (purchased before the
+// model switch) is treated as unlimited until Phase 6 migration grants them
+// BONES_LEGACY_GRANDFATHER and downgrades their tier to 'free'.
+const BONES_ON_REGISTER = 250;
+const BONES_PER_TOPUP = 250;
+const BONES_LEGACY_GRANDFATHER = 2500;
+
+// Slot mechanics: a booked $3.99 BYD dog gets SLOT_DURATION_MULTIPLIER × the
+// normal 10s rotation when their slot is live. Tweak as one config change.
+const SLOT_DURATION_MULTIPLIER = 3;
+
 // Sentry — server-side error tracking (audit High-3). A DSN is not secret.
 const SENTRY_DSN = 'https://0aee97f54d9301fd6c7a0c7316b7ae93@o4511433066348544.ingest.us.sentry.io/4511433154428928';
 const SENTRY = (function () {
@@ -113,6 +126,18 @@ export default class DogShowServer {
     // Community dogs
     this.communityDogs = [];      // [{ id, imageKey, username, uploadedAt }]
     this.communityIndex = 0;
+
+    // Connection → user mapping (bones-as-currency model). Populated on `join`
+    // when the client sends a token; consulted on `bone`/`chat` to enforce
+    // balance and identity. Anonymous connections (no token) keep the legacy
+    // unrestricted behavior until the client cutover ships.
+    this.userByConnection = new Map(); // connId → { userId, bones, tier, username }
+
+    // Slot precision timers (Phase 3). Keyed by dog id. Each timer fires AT
+    // the scheduled slotAt — interrupting whatever's currently airing — so
+    // booked dogs appear at the second, never early, never late. setTimeout
+    // doesn't survive a worker restart, so onStart() reconstitutes them.
+    this.slotTimers = new Map(); // dogId → setTimeout handle
   }
 
   async onStart() {
@@ -123,6 +148,11 @@ export default class DogShowServer {
 
     // Load community dogs list
     this.communityDogs = (await this.room.storage.get('communityDogs')) || [];
+
+    // Phase 3: re-arm precision timers for any slots that haven't fired yet.
+    // setTimeout doesn't survive a worker restart, so without this every
+    // redeploy would silently degrade slot precision until the next scan.
+    this.rescheduleAllSlots();
 
     // Seed fake dogs (runs once)
     await this.seedDogs();
@@ -263,6 +293,9 @@ export default class DogShowServer {
   }
 
   onClose(conn) {
+    // Drop any cached auth identity for this connection.
+    this.userByConnection.delete(conn.id);
+
     this.broadcastViewers();
 
     // Stop bot and dog slideshow if no one is connected
@@ -307,13 +340,39 @@ export default class DogShowServer {
           count: this.totalFans + FAN_COUNT_OFFSET,
         }));
       }
+      // If the client included a session token, resolve to a user and cache
+      // on the connection. Unauthenticated joins keep the legacy behavior —
+      // chat and bones flow through without balance enforcement. The client
+      // cutover (Phase 2) will start sending tokens from every connection.
+      if (data.token) {
+        const user = await this.resolveUserByToken(data.token);
+        if (user) {
+          this.userByConnection.set(sender.id, {
+            userId: user.id,
+            bones: typeof user.bones === 'number' ? user.bones : BONES_ON_REGISTER,
+            tier: user.tier,
+            username: user.username || null,
+          });
+          // Send the client its authoritative balance so the UI can sync.
+          sender.send(JSON.stringify({
+            type: 'boneBalance',
+            bones: this.userByConnection.get(sender.id).bones,
+            tier: user.tier,
+          }));
+        }
+      }
       return;
     }
 
     if (data.type === 'chat') {
+      // If the connection is authenticated, use its server-side identity.
+      // Anonymous chat is still permitted during the transition (Phase 2 will
+      // gate this — clients will prompt for registration before showing the
+      // chat input).
+      const authed = this.userByConnection.get(sender.id);
       const msg = {
         type: 'chat',
-        user: this.sanitize(data.user || 'anon').slice(0, 20),
+        user: this.sanitize((authed && authed.username) || data.user || 'anon').slice(0, 20),
         text: this.sanitize(data.text || '').slice(0, 200),
         isVip: !!data.isVip,
         skin: data.skin || null,
@@ -325,16 +384,72 @@ export default class DogShowServer {
     }
 
     if (data.type === 'bone') {
+      const authed = this.userByConnection.get(sender.id);
+
+      // Authenticated path: enforce balance. Only legacy `tier === 'general'`
+      // (purchased before the 2026-05-26 cutover, when $1.99 granted unlimited
+      // bones in perpetuity) is bypassed — that bypass disappears once Phase 6
+      // migration grants them BONES_LEGACY_GRANDFATHER and resets tier='free'.
+      // New 'premium' BYD purchasers follow the normal finite-balance rules;
+      // $3.99 buys upload + slot, not bones.
+      if (authed) {
+        const isLegacyUnlimited = authed.tier === 'general';
+        if (!isLegacyUnlimited) {
+          if ((authed.bones || 0) <= 0) {
+            // Out of bones — prompt client to top up. Do NOT broadcast the
+            // bone (it doesn't fire) but DO tell this sender why.
+            sender.send(JSON.stringify({
+              type: 'needTopUp',
+              bones: 0,
+              reason: 'no_bones',
+            }));
+            return;
+          }
+          authed.bones -= 1;
+          // Persist the new balance. Storage writes are room-local in PartyKit
+          // so this is cheap; if it ever shows up in flame graphs, debounce.
+          this.persistBonesForUser(authed.userId, authed.bones)
+            .catch(e => console.error('[Bones] persist failed:', e && e.message));
+          // Tell the sender their new balance so the UI can update.
+          sender.send(JSON.stringify({
+            type: 'boneBalance',
+            bones: authed.bones,
+            tier: authed.tier,
+          }));
+        }
+      }
+
       this.boneCount++;
       // Each bone extends current dog's screen time by 500ms (max 15s total bonus)
       this.dogBonusTime = Math.min((this.dogBonusTime || 0) + 500, 15000);
       this.room.broadcast(JSON.stringify({
         type: 'bone',
         count: this.boneCount,
-        from: this.sanitize(data.user || 'anon').slice(0, 20),
+        from: this.sanitize((authed && authed.username) || data.user || 'anon').slice(0, 20),
       }));
     }
 
+  }
+
+  // Look up a user by session token. Returns the user object or null.
+  // Used by the WebSocket join handler to establish authenticated identity.
+  async resolveUserByToken(token) {
+    if (!token || typeof token !== 'string') return null;
+    const tokenData = await this.room.storage.get(`token:${token}`);
+    if (!tokenData || !tokenData.userId) return null;
+    if (tokenData.expires && tokenData.expires < Date.now()) return null;
+    const user = await this.room.storage.get(`user:${tokenData.userId}`);
+    return user || null;
+  }
+
+  // Persist a bones balance change. Reads the current user, updates the
+  // `bones` field, writes back. Last-write-wins; bones can only be spent from
+  // one active connection at a time per user in practice.
+  async persistBonesForUser(userId, bones) {
+    const user = await this.room.storage.get(`user:${userId}`);
+    if (!user) return;
+    user.bones = bones;
+    await this.room.storage.put(`user:${userId}`, user);
   }
 
   addMessage(msg) {
@@ -371,6 +486,88 @@ export default class DogShowServer {
     return name;
   }
 
+  // Schedule a precision trigger for a slotted dog. At slotAt, the timer
+  // fires, clears the current rotation timer, and calls advanceDog() —
+  // which then picks up this dog via findDueScheduledDog(). Net effect: the
+  // dog appears at slot time, not "whenever the next 10s rotation lands."
+  //
+  // The maximum setTimeout we'll schedule is 24h — anything further out we
+  // rely on the next onStart()/scan to pick up. (Long-running setTimeouts
+  // are fragile if the worker is evicted; bounding the horizon keeps the
+  // failure mode predictable.)
+  scheduleSlotTimer(dog) {
+    if (!dog || !dog.slotAt || dog.firstAppearedAt) return;
+    if (this.slotTimers.has(dog.id)) {
+      clearTimeout(this.slotTimers.get(dog.id));
+      this.slotTimers.delete(dog.id);
+    }
+    const delta = dog.slotAt - Date.now();
+    const MAX_HORIZON_MS = 24 * 60 * 60 * 1000;
+    if (delta <= 0 || delta > MAX_HORIZON_MS) return;
+    const dogId = dog.id;
+    const handle = setTimeout(() => {
+      this.slotTimers.delete(dogId);
+      // Cut whatever is airing now. advanceDog() will find this dog via
+      // findDueScheduledDog and play it next.
+      if (this.dogInterval) {
+        clearTimeout(this.dogInterval);
+        this.dogInterval = null;
+      }
+      // Compensate for advanceDog's leading dogCount++ — the slotted pick
+      // path is unconditional once findDueScheduledDog returns a match, so
+      // the only side-effect of an extra increment is a one-step skew in
+      // the every-5th community pattern. Accepting that as the cost of
+      // precise slot timing.
+      this.advanceDog();
+    }, delta);
+    this.slotTimers.set(dog.id, handle);
+  }
+
+  // Clear a scheduled slot timer (e.g., dog deleted by admin, or after the
+  // slot has been consumed). Safe to call when no timer exists.
+  cancelSlotTimer(dogId) {
+    if (this.slotTimers.has(dogId)) {
+      clearTimeout(this.slotTimers.get(dogId));
+      this.slotTimers.delete(dogId);
+    }
+  }
+
+  // On startup / restart, walk communityDogs and reschedule any slots that
+  // haven't fired yet. Without this, a redeploy mid-day would lose precision
+  // for already-booked slots.
+  rescheduleAllSlots() {
+    for (const dog of this.communityDogs) {
+      if (dog.slotAt && !dog.firstAppearedAt) {
+        this.scheduleSlotTimer(dog);
+      }
+    }
+  }
+
+  // Find a community dog whose scheduled slot is currently due. A slot is
+  // "due" only at or after its scheduled time — never early. If a slot was
+  // missed by more than SLOT_GRACE_MS, the dog falls out of slotted handling
+  // and becomes eligible for normal rotation (so an abandoned/forgotten slot
+  // doesn't leave the dog stuck in limbo).
+  findDueScheduledDog() {
+    const SLOT_GRACE_MS = 5 * 60 * 1000;
+    const now = Date.now();
+    let bestIdx = -1;
+    let bestSlotAt = Infinity;
+    for (let i = 0; i < this.communityDogs.length; i++) {
+      const d = this.communityDogs[i];
+      if (!d.slotAt) continue;
+      if (d.firstAppearedAt) continue;  // already aired
+      const slotAt = d.slotAt;
+      if (slotAt > now) continue;                  // not yet — NEVER play early
+      if (slotAt < now - SLOT_GRACE_MS) continue;  // missed grace window
+      if (slotAt < bestSlotAt) {
+        bestSlotAt = slotAt;
+        bestIdx = i;
+      }
+    }
+    return bestIdx >= 0 ? { dog: this.communityDogs[bestIdx], idx: bestIdx } : null;
+  }
+
   advanceDog() {
     if (this.isIntermission) return;
 
@@ -389,33 +586,71 @@ export default class DogShowServer {
     //   return;
     // }
 
-    // Every 5th dog, show a community dog (if any exist)
-    if (this.communityDogs.length > 0 && this.dogCount % 5 === 0) {
-      const communityDog = this.communityDogs[this.communityIndex % this.communityDogs.length];
-      this.communityIndex++;
+    // ─── Scheduled slot pre-emption (Phase 3) ───
+    // Before normal rotation, check if any community dog has a slot that's
+    // currently due. If so, play that dog with 3× the normal duration. This
+    // takes priority over both the every-5th-dog community pick and the
+    // dog.ceo queue.
+    let isSlottedAppearance = false;
+    const due = this.findDueScheduledDog();
+    if (due) {
+      isSlottedAppearance = true;
       this.currentDog = {
-        url: `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${communityDog.id}`,
-        name: communityDog.dogName || 'A Good Dog',
-        breed: communityDog.breed || null,
+        url: `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${due.dog.id}`,
+        name: due.dog.dogName || 'A Good Dog',
+        breed: due.dog.breed || null,
         isCommunity: true,
-        submittedBy: communityDog.username,
-        _communityId: communityDog.id,
-        _communityUserId: communityDog.userId,
+        submittedBy: due.dog.username,
+        _communityId: due.dog.id,
+        _communityUserId: due.dog.userId,
         _appearedAt: Date.now(),
+        _isSlotted: true,
       };
-    } else {
-      // Pick next dog from queue
-      const url = this.dogQueue.shift();
-      if (!url) {
-        // Queue empty — fetch more and retry
-        this.fetchDogs().then(() => this.advanceDog());
-        return;
+      // Mark first appearance — this also flips the cert page from pre-show
+      // to post-show state (Phase 4). Persist so it survives restarts.
+      if (!due.dog.firstAppearedAt) {
+        due.dog.firstAppearedAt = Date.now();
+        this.room.storage.put('communityDogs', this.communityDogs)
+          .catch(e => console.error('[Slot] firstAppearedAt persist failed:', e && e.message));
       }
-      const name = this.getNextName();
-      // Extract breed from dog.ceo URL (e.g., /breeds/retriever-golden/...)
-      const breedMatch = url.match(/\/breeds\/([^/]+)\//);
-      const breed = breedMatch ? breedMatch[1].replace(/-/g, ' ') : null;
-      this.currentDog = { url, name, isCommunity: false, breed };
+    } else if (this.communityDogs.length > 0 && this.dogCount % 5 === 0) {
+      // Every 5th dog, show a community dog (if any exist). Eligibility:
+      //   • no slot booking (immediate-rotation dog), OR
+      //   • already had their slotted first appearance, OR
+      //   • slot was missed by more than the grace window (abandoned slot —
+      //     dog falls back to normal rotation instead of being stuck)
+      const SLOT_GRACE_MS = 5 * 60 * 1000;
+      const now = Date.now();
+      const eligible = this.communityDogs.filter(d =>
+        !d.slotAt || d.firstAppearedAt || (d.slotAt < now - SLOT_GRACE_MS)
+      );
+      if (eligible.length > 0) {
+        const communityDog = eligible[this.communityIndex % eligible.length];
+        this.communityIndex++;
+        // Mark first appearance for non-slot dogs the first time they air.
+        if (!communityDog.firstAppearedAt) {
+          communityDog.firstAppearedAt = Date.now();
+          this.room.storage.put('communityDogs', this.communityDogs)
+            .catch(e => console.error('[Rotation] firstAppearedAt persist failed:', e && e.message));
+        }
+        this.currentDog = {
+          url: `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${communityDog.id}`,
+          name: communityDog.dogName || 'A Good Dog',
+          breed: communityDog.breed || null,
+          isCommunity: true,
+          submittedBy: communityDog.username,
+          _communityId: communityDog.id,
+          _communityUserId: communityDog.userId,
+          _appearedAt: Date.now(),
+        };
+      } else {
+        // No eligible community dogs (all waiting for future slots) — fall
+        // through to dog.ceo queue.
+        this.dogCount--;  // undo increment so the every-5th pattern doesn't shift
+        return this.fallbackToApiDog();
+      }
+    } else {
+      return this.fallbackToApiDog();
     }
 
     // Reset bone count and bonus time
@@ -432,6 +667,7 @@ export default class DogShowServer {
         isCommunity: this.currentDog.isCommunity || false,
         submittedBy: this.currentDog.submittedBy || null,
         id: this.currentDog._communityId || null,
+        isSlotted: !!this.currentDog._isSlotted,
       },
       boneCount: 0,
     }));
@@ -441,9 +677,11 @@ export default class DogShowServer {
       this.fetchDogs();
     }
 
-    // Every dog gets 10 seconds — no special treatment for community vs API.
-    // Frenzy bonus time (dogBonusTime) is still applied on top when triggered.
-    const baseTime = 10000;
+    // Slotted dogs get SLOT_DURATION_MULTIPLIER × the normal 10s. Frenzy
+    // bonus time (dogBonusTime) is still applied on top when triggered.
+    const baseTime = isSlottedAppearance
+      ? 10000 * SLOT_DURATION_MULTIPLIER
+      : 10000;
     this.dogInterval = setTimeout(() => {
       const bonus = this.dogBonusTime || 0;
       if (bonus > 0) {
@@ -453,6 +691,51 @@ export default class DogShowServer {
         this.advanceDog();
       }
     }, baseTime);
+  }
+
+  // Pick the next dog.ceo (non-community) dog and broadcast it. Extracted so
+  // the slotted-dog and community-dog branches in advanceDog() can fall back
+  // here cleanly when no eligible community dog is available.
+  fallbackToApiDog() {
+    const url = this.dogQueue.shift();
+    if (!url) {
+      // Queue empty — fetch more and retry
+      this.fetchDogs().then(() => this.advanceDog());
+      return;
+    }
+    const name = this.getNextName();
+    const breedMatch = url.match(/\/breeds\/([^/]+)\//);
+    const breed = breedMatch ? breedMatch[1].replace(/-/g, ' ') : null;
+    this.currentDog = { url, name, isCommunity: false, breed };
+
+    this.boneCount = 0;
+    this.dogBonusTime = 0;
+
+    this.room.broadcast(JSON.stringify({
+      type: 'newdog',
+      dog: {
+        url: this.currentDog.url,
+        name: this.currentDog.name,
+        breed: this.currentDog.breed || null,
+        isCommunity: false,
+        submittedBy: null,
+        id: null,
+        isSlotted: false,
+      },
+      boneCount: 0,
+    }));
+
+    if (this.dogQueue.length < 5) this.fetchDogs();
+
+    this.dogInterval = setTimeout(() => {
+      const bonus = this.dogBonusTime || 0;
+      if (bonus > 0) {
+        this.dogBonusTime = 0;
+        this.dogInterval = setTimeout(() => this.advanceDog(), bonus);
+      } else {
+        this.advanceDog();
+      }
+    }, 10000);
   }
 
   async recordCommunityDogStats(dogId) {
@@ -711,6 +994,185 @@ export default class DogShowServer {
     }
   }
 
+  // GET /admin-migrate-general?key=<ADMIN_KEY>&commit=1
+  // Phase 6: one-shot migration. Walks the user keyspace, finds any users
+  // with the legacy `tier === 'general'` (purchased before the 2026-05-26
+  // pricing model switch, where $1.99 granted unlimited bones in perpetuity),
+  // and migrates them to:
+  //   • tier = 'free'
+  //   • bones = max(current, BONES_LEGACY_GRANDFATHER)   // 2500
+  //   • paidSku = 'general'  (preserves the fact they paid us $1.99)
+  // Dry-run by default: returns counts without changing anything. Pass
+  // `commit=1` to actually write. After this runs successfully, the WebSocket
+  // bone handler can drop the `tier === 'general'` bypass (a follow-up cleanup
+  // edit, not done here in case there are stragglers).
+  async handleAdminMigrateGeneral(req, headers) {
+    const url = new URL(req.url);
+    const key = url.searchParams.get('key');
+    const commit = url.searchParams.get('commit') === '1';
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    if (!adminKey || !key || key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+    // List all user keys. PartyKit storage.list returns a Map.
+    let userList;
+    try {
+      userList = await this.room.storage.list({ prefix: 'user:' });
+    } catch (e) {
+      return new Response(JSON.stringify({ error: 'storage list failed', detail: e && e.message }), { status: 500, headers });
+    }
+    const candidates = [];
+    for (const [k, v] of userList) {
+      if (v && v.tier === 'general') {
+        candidates.push({ key: k, user: v });
+      }
+    }
+    let migrated = 0;
+    const sample = [];
+    if (commit) {
+      for (const c of candidates) {
+        const u = c.user;
+        u.tier = 'free';
+        u.bones = Math.max(u.bones || 0, BONES_LEGACY_GRANDFATHER);
+        u.paidSku = u.paidSku || 'general';
+        await this.room.storage.put(c.key, u);
+        migrated++;
+        if (sample.length < 5) sample.push({ id: u.id, email: u.email, bones: u.bones });
+      }
+    } else {
+      for (const c of candidates.slice(0, 10)) {
+        sample.push({ id: c.user.id, email: c.user.email, bones: c.user.bones || 0 });
+      }
+    }
+    return new Response(JSON.stringify({
+      ok: true,
+      dryRun: !commit,
+      candidates: candidates.length,
+      migrated,
+      sample,
+    }), { headers });
+  }
+
+  // POST /rsvp { email, dogId, slug? }
+  // Phase 4: a fan visits a pre-show cert page (e.g., /d/rover-the-corgi
+  // before Rover has aired) and submits their email to "set a reminder."
+  // We:
+  //   1. Validate dog + slot are real and in the future
+  //   2. Auto-register the email as a free user (250 bones) so they arrive
+  //      at the show pre-authenticated
+  //   3. Record an RSVP entry on the dog so Phase 5 can fire 1hr + 5min
+  //      reminders
+  // Returns the user's session token so the client can transition into the
+  // show immediately if they choose to.
+  async handleRsvp(req, headers) {
+    let body;
+    try { body = await req.json(); } catch (e) {
+      return new Response(JSON.stringify({ error: 'invalid request', code: 'bad_request' }), { status: 400, headers });
+    }
+    const email = (body && body.email) ? String(body.email).toLowerCase().trim() : '';
+    const dogId = body && body.dogId ? String(body.dogId) : '';
+    if (!email || email.indexOf('@') === -1) {
+      return new Response(JSON.stringify({ error: 'valid email required', code: 'email_invalid' }), { status: 400, headers });
+    }
+    if (!dogId) {
+      return new Response(JSON.stringify({ error: 'dogId required', code: 'dog_missing' }), { status: 400, headers });
+    }
+    const dog = this.communityDogs.find(d => d.id === dogId);
+    if (!dog) {
+      return new Response(JSON.stringify({ error: 'dog not found', code: 'dog_not_found' }), { status: 404, headers });
+    }
+    if (dog.firstAppearedAt) {
+      // Already aired — no reminder to set. Still register the user so the
+      // email isn't wasted, but tell the client there's nothing to RSVP to.
+      const reg = await this._ensureRegisteredUser(email);
+      return new Response(JSON.stringify({
+        ok: true,
+        token: reg.token,
+        bones: reg.bones,
+        alreadyAired: true,
+      }), { headers });
+    }
+    if (dog.slotAt && dog.slotAt <= Date.now()) {
+      // Slot time has technically passed but the dog hasn't aired yet (within
+      // the grace window). Treat as imminent — register the user and let them
+      // jump into the show now.
+      const reg = await this._ensureRegisteredUser(email);
+      return new Response(JSON.stringify({
+        ok: true,
+        token: reg.token,
+        bones: reg.bones,
+        airingNow: true,
+      }), { headers });
+    }
+
+    // Register the email as a free user (idempotent — _ensureRegisteredUser
+    // returns existing accounts unchanged with their current bones balance).
+    const reg = await this._ensureRegisteredUser(email);
+
+    // Record the RSVP on the dog. De-dupe by email so a refresh + resubmit
+    // doesn't double-schedule reminders.
+    dog.rsvps = Array.isArray(dog.rsvps) ? dog.rsvps : [];
+    const alreadyRsvpd = dog.rsvps.some(r => r.email === email);
+    if (!alreadyRsvpd) {
+      dog.rsvps.push({
+        email: email,
+        userId: reg.userId,
+        rsvpAt: Date.now(),
+        sent1h: false,
+        sent5m: false,
+      });
+      await this.room.storage.put('communityDogs', this.communityDogs);
+      // Re-arm the alarm so the wakeup is set for this RSVP's reminder times.
+      this.scheduleNextWakeup()
+        .catch(e => console.error('[Reminder] Re-arm after RSVP failed:', e && e.message));
+    }
+
+    return new Response(JSON.stringify({
+      ok: true,
+      token: reg.token,
+      bones: reg.bones,
+      slotAt: dog.slotAt,  // null for no-slot dogs
+      rsvpCount: dog.rsvps.length,
+    }), { headers });
+  }
+
+  // Helper: register a user by email if not already registered, return token
+  // + bones. Used by /rsvp; same shape as the relevant parts of handleRegister.
+  async _ensureRegisteredUser(email) {
+    const normalizedEmail = email.toLowerCase().trim();
+    const userId = 'user_' + this.hashEmail(normalizedEmail);
+    let user = await this.room.storage.get(`user:${userId}`);
+    let isNew = false;
+    if (!user) {
+      isNew = true;
+      user = {
+        id: userId,
+        email: normalizedEmail,
+        tier: 'free',
+        bones: BONES_ON_REGISTER,
+        stripeCustomerId: null,
+        username: null,
+        createdAt: Date.now(),
+      };
+      await this.room.storage.put(`user:${userId}`, user);
+      await this.room.storage.put(`email:${normalizedEmail}`, userId);
+      // Welcome email — fire-and-forget. Same pattern as handleRegister.
+      this.sendWelcomeEmail(normalizedEmail).catch(e =>
+        console.error('[Email] Welcome email failed:', e && e.message));
+    } else if (typeof user.bones !== 'number') {
+      // Backfill bones for accounts created before the bones model.
+      user.bones = (user.tier === 'general' || user.tier === 'premium')
+        ? BONES_LEGACY_GRANDFATHER
+        : BONES_ON_REGISTER;
+      await this.room.storage.put(`user:${userId}`, user);
+    }
+    const token = this.generateToken(userId);
+    await this.room.storage.put(`token:${token}`, {
+      userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000,
+    });
+    return { token, userId, bones: user.bones, isNew };
+  }
+
   botJoin(bot) {
     this.activeBots.push(bot);
     this.broadcastViewers();
@@ -828,6 +1290,12 @@ export default class DogShowServer {
       if (path === 'resolve-slug' && req.method === 'GET') {
         return await this.handleResolveSlug(req, headers);
       }
+      if (path === 'rsvp' && req.method === 'POST') {
+        return await this.handleRsvp(req, headers);
+      }
+      if (path === 'admin-migrate-general' && req.method === 'GET') {
+        return await this.handleAdminMigrateGeneral(req, headers);
+      }
       if (path === 'landing-stats' && req.method === 'GET') {
         const totalBones = this.communityDogs.reduce((sum, d) => sum + ((d.stats && d.stats.totalBones) || 0), 0) + this.boneCount;
         const watching = [...this.room.getConnections()].length + this.activeBots.length;
@@ -932,6 +1400,14 @@ export default class DogShowServer {
         // Only ever move a tier upward.
         existing.tier = this.higherTier(existing.tier, tier);
       }
+      // Backfill bones for accounts created before the bones model. Free users
+      // get the standard grant; legacy paid tiers get the grandfather grant
+      // (audit Phase 6 migration — see BONES_LEGACY_GRANDFATHER comment).
+      if (typeof existing.bones !== 'number') {
+        existing.bones = (existing.tier === 'general' || existing.tier === 'premium')
+          ? BONES_LEGACY_GRANDFATHER
+          : BONES_ON_REGISTER;
+      }
       await this.room.storage.put(`user:${userId}`, existing);
       const token = this.generateToken(userId);
       await this.room.storage.put(`token:${token}`, { userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
@@ -940,10 +1416,15 @@ export default class DogShowServer {
 
     // Create new user. Interest leads keep their interest_<feature> tier so
     // they remain countable in /admin-audit; everyone else defaults to free.
+    // New free signups get BONES_ON_REGISTER bones immediately (engagement
+    // currency in the new model). Interest_* leads get 0 bones — they haven't
+    // engaged with the show yet, only fake-door interest.
+    const initialTier = tier || 'free';
     const user = {
       id: userId,
       email: normalizedEmail,
-      tier: tier || 'free',
+      tier: initialTier,
+      bones: initialTier === 'free' ? BONES_ON_REGISTER : 0,
       stripeCustomerId: null,
       username: null,
       createdAt: Date.now(),
@@ -1108,7 +1589,14 @@ export default class DogShowServer {
     const dog = mine.length
       ? { id: mine[0].id, slug: mine[0].slug || null, dogName: mine[0].dogName }
       : null;
-    return new Response(JSON.stringify({ ok: true, tier: user.tier, dog }), { headers });
+    // Surface the authoritative bones balance so the show page can render it
+    // immediately on load without waiting for the first WebSocket message.
+    const bones = typeof user.bones === 'number'
+      ? user.bones
+      : ((user.tier === 'general' || user.tier === 'premium')
+          ? BONES_LEGACY_GRANDFATHER
+          : BONES_ON_REGISTER);
+    return new Response(JSON.stringify({ ok: true, tier: user.tier, dog, bones }), { headers });
   }
 
   // Create a Stripe Checkout Session (server-side)
@@ -1124,8 +1612,13 @@ export default class DogShowServer {
     }
 
     const priceMap = {
-      general: 'price_1TTMssBOUqMOkBpQVQR3zFdr',
-      premium: 'price_1TTMtiBOUqMOkBpQvxnJMu3e',
+      general: 'price_1TTMssBOUqMOkBpQVQR3zFdr',     // $1.99 — bones top-up SKU
+      premium: 'price_1TTMtiBOUqMOkBpQvxnJMu3e',     // $3.99 — Enter Your Dog
+      // TODO(James): create the $5.99 Premium product in Stripe dashboard and
+      // paste its price ID here. Until that's done, the Premium button on the
+      // landing page will fail with "invalid tier" — that's the desired
+      // safety behavior (no fake checkout).
+      premium_plus: 'price_1TbMGEBOUqMOkBpQSgKnnKOD',  // $5.99 — Premium (2× bones launch bonus)
     };
     const priceId = priceMap[tier];
     if (!priceId) {
@@ -1235,7 +1728,7 @@ export default class DogShowServer {
 
     // Tier + email come from Stripe, not from the client.
     const tier = session.metadata && session.metadata.tier;
-    if (tier !== 'general' && tier !== 'premium') {
+    if (tier !== 'general' && tier !== 'premium' && tier !== 'premium_plus') {
       console.error('[Stripe] verify-checkout: unexpected tier on session:', tier);
       return new Response(JSON.stringify({ error: 'could not verify payment' }), { status: 400, headers });
     }
@@ -1290,11 +1783,39 @@ export default class DogShowServer {
       id: userId,
       email: normalizedEmail,
       tier: 'free',
+      bones: BONES_ON_REGISTER,
       stripeCustomerId: null,
       username: null,
       createdAt: Date.now(),
     };
-    user.tier = this.higherTier(user.tier, tier);
+    // Backfill bones for any pre-existing user without the field.
+    if (typeof user.bones !== 'number') {
+      user.bones = (user.tier === 'general' || user.tier === 'premium')
+        ? BONES_LEGACY_GRANDFATHER
+        : BONES_ON_REGISTER;
+    }
+    // SKU semantics (2026-05-26):
+    //   'general' ($1.99)      — bones top-up only, no tier change
+    //   'premium' ($3.99)      — Enter Your Dog: tier→premium, bones unchanged
+    //                            (initial 250 from registration is the included
+    //                             bone grant)
+    //   'premium_plus' ($5.99) — Premium: tier→premium, bones boosted to >=1000
+    //                            (matches landing copy "1000 bones included";
+    //                             power users with higher balances are not
+    //                             reduced)
+    // `paidSku` records which SKU was last purchased so we can distinguish
+    // $3.99 vs $5.99 buyers without losing it in tier collapsing.
+    if (tier === 'general') {
+      user.bones = (user.bones || 0) + BONES_PER_TOPUP;
+      user.paidSku = user.paidSku || 'general';
+    } else if (tier === 'premium') {
+      user.tier = this.higherTier(user.tier, 'premium');
+      user.paidSku = 'premium';
+    } else if (tier === 'premium_plus') {
+      user.tier = this.higherTier(user.tier, 'premium');
+      user.bones = Math.max(user.bones || 0, 1000);
+      user.paidSku = 'premium_plus';
+    }
     user.stripeSessionId = stripeSessionId || user.stripeSessionId || null;
     user.stripePaymentIntentId = stripePaymentIntentId || user.stripePaymentIntentId || null;
     // Keep the legacy stripeCustomerId field populated — it was always null
@@ -1489,9 +2010,26 @@ export default class DogShowServer {
 
   // Upload a community dog (premium only, AI-verified)
   async handleUploadDog(req, headers) {
-    const { token, imageData, dogName, breed, username, adminKey } = await req.json();
+    const { token, imageData, dogName, breed, username, adminKey, slotAt } = await req.json();
     if (!token || !imageData) {
       return new Response(JSON.stringify({ error: 'token and imageData required', code: 'bad_request' }), { status: 400, headers });
+    }
+
+    // Validate slotAt (optional). If absent/null/undefined, the dog enters the
+    // normal rotation right away. If present, it must be a future timestamp
+    // aligned to a 15-minute boundary and within the next 14 days.
+    let validSlotAt = null;
+    if (slotAt !== undefined && slotAt !== null) {
+      const ts = Number(slotAt);
+      const now = Date.now();
+      const maxAhead = now + 14 * 24 * 60 * 60 * 1000;
+      const fifteenMin = 15 * 60 * 1000;
+      if (!Number.isFinite(ts) || ts <= now || ts > maxAhead) {
+        return new Response(JSON.stringify({ error: 'invalid slot time', code: 'slot_invalid' }), { status: 400, headers });
+      }
+      // Snap to nearest 15-min boundary on the server (defense-in-depth — the
+      // client picker already aligns, but a tampered client could send 2:07pm).
+      validSlotAt = Math.round(ts / fifteenMin) * fifteenMin;
     }
 
     // Verify session
@@ -1579,6 +2117,15 @@ export default class DogShowServer {
       breed: cleanBreed,
       breedConfidence: classification.confidence || 0,
       uploadedAt: Date.now(),
+      // Scheduled appearance: when null, the dog enters the normal rotation
+      // right away (queue-jump below). When set, advanceDog() will surface
+      // this dog at the scheduled time with SLOT_DURATION_MULTIPLIER × the
+      // normal 10s rotation. Phase 3.
+      slotAt: validSlotAt,
+      // firstAppearedAt is null until the dog actually airs for the first
+      // time. Used by api/dog.js (Phase 4) to switch the cert page between
+      // pre-show (countdown + RSVP) and post-show (certificate) states.
+      firstAppearedAt: null,
       // Stats — populated when dog appears in slideshow
       stats: {
         totalAppearances: 0,
@@ -1590,12 +2137,20 @@ export default class DogShowServer {
         lastAppearance: null,
       },
     };
-    // Queue-jump: insert the new dog at the next-up position in the community
-    // rotation instead of pushing to the end. Guarantees first appearance
-    // within ~50s (the gap between community slots) rather than waiting through
-    // a full cycle of all existing community dogs.
-    const insertAt = this.communityIndex % (this.communityDogs.length + 1);
-    this.communityDogs.splice(insertAt, 0, entry);
+    // Queue-jump for immediate (no-slot) uploads: insert the new dog at the
+    // next-up position in the community rotation so they appear within ~50s
+    // (the gap between community slots) rather than waiting through a full
+    // cycle. Scheduled dogs go to the end of the array — they're not picked
+    // by normal rotation until their slot time, but they need to be in the
+    // list for the scheduled-dog scan in advanceDog() to find them.
+    if (validSlotAt === null) {
+      const insertAt = this.communityIndex % (this.communityDogs.length + 1);
+      this.communityDogs.splice(insertAt, 0, entry);
+    } else {
+      this.communityDogs.push(entry);
+      // Schedule the precision trigger so the dog appears at the second.
+      this.scheduleSlotTimer(entry);
+    }
     await this.room.storage.put('communityDogs', this.communityDogs);
 
     // Broadcast updated community count
@@ -1610,7 +2165,15 @@ export default class DogShowServer {
     this.sendCertificateEmail(user.email, { id, slug, dogName: cleanName, breed: cleanBreed })
       .catch(e => console.error('[Email] Certificate email failed:', e.message));
 
-    return new Response(JSON.stringify({ ok: true, id, slug, message: 'Your dog is now in the show!' }), { headers });
+    return new Response(JSON.stringify({
+      ok: true,
+      id,
+      slug,
+      slotAt: validSlotAt,  // null for immediate dogs, ms timestamp for scheduled
+      message: validSlotAt
+        ? "Your dog is booked. We'll show them at their scheduled time."
+        : 'Your dog is now in the show!',
+    }), { headers });
   }
 
   // Serve a community dog image
@@ -1695,6 +2258,10 @@ export default class DogShowServer {
     // Clean up associated storage keys.
     await this.room.storage.delete(`img:${id}`);
     if (removed.slug) await this.room.storage.delete(`slug:${removed.slug}`);
+
+    // Phase 3: if a precision slot timer was armed for this dog, kill it so
+    // it doesn't fire after the dog is gone.
+    this.cancelSlotTimer(id);
 
     // If the deleted dog is on stage right now, move the slideshow on.
     if (this.currentDog && this.currentDog._communityId === id && this.dogInterval) {
@@ -1868,42 +2435,142 @@ export default class DogShowServer {
     };
   }
 
-  // ─── DAILY RECONCILIATION ALARM (audit Critical-6) ───────
-  // Arm a daily storage alarm if one is not already set. Safe on every start.
-  async scheduleAuditAlarm() {
-    try {
-      const existing = await this.room.storage.getAlarm();
-      if (existing == null) {
-        await this.room.storage.setAlarm(Date.now() + 24 * 60 * 60 * 1000);
+  // ─── UNIFIED WAKEUP ALARM ────────────────────────────────
+  // Phase 5: the durable-object alarm now serves two jobs — the daily audit
+  // (Critical-6) AND the slot reminder dispatch. PartyKit gives us one alarm
+  // per object, so we arm it for whichever job is due next.
+  //
+  // Times worth knowing:
+  //   • Audit cadence: 24h. Tracked via storage key `lastAuditAt`.
+  //   • Reminders: each pending RSVP wants two wakeups (T-60min, T-5min).
+
+  // Compute the next moment we need to wake up to do real work. Returns ms
+  // timestamp, or null if there's literally nothing pending (in which case
+  // we still arm for the daily audit horizon as a safety net).
+  computeNextWakeupAt() {
+    const now = Date.now();
+    let next = Infinity;
+
+    // Reminder wakeups for any RSVP whose flags are still false.
+    for (const dog of this.communityDogs) {
+      if (!dog.slotAt || dog.firstAppearedAt) continue;
+      if (!Array.isArray(dog.rsvps) || dog.rsvps.length === 0) continue;
+      const slotAt = dog.slotAt;
+      const tMinus60 = slotAt - 60 * 60 * 1000;
+      const tMinus5  = slotAt -  5 * 60 * 1000;
+      for (const r of dog.rsvps) {
+        if (!r.sent1h && tMinus60 > now) next = Math.min(next, tMinus60);
+        if (!r.sent1h && tMinus60 <= now && tMinus60 > now - 60 * 60 * 1000) {
+          // Past-due but within an hour — fire ASAP (next minute).
+          next = Math.min(next, now + 60 * 1000);
+        }
+        if (!r.sent5m && tMinus5 > now) next = Math.min(next, tMinus5);
+        if (!r.sent5m && tMinus5 <= now && tMinus5 > now - 10 * 60 * 1000) {
+          next = Math.min(next, now + 60 * 1000);
+        }
       }
+    }
+
+    return next === Infinity ? null : next;
+  }
+
+  // Arm the storage alarm for the next-due wakeup. Falls back to "audit
+  // horizon" (last audit + 24h) when nothing more pressing is pending.
+  async scheduleNextWakeup() {
+    try {
+      const reminderWakeup = this.computeNextWakeupAt();
+      const lastAudit = (await this.room.storage.get('lastAuditAt')) || 0;
+      const auditWakeup = lastAudit + 24 * 60 * 60 * 1000;
+      const next = reminderWakeup
+        ? Math.min(reminderWakeup, auditWakeup)
+        : auditWakeup;
+      // Never arm for a past time — bump forward 60s if so.
+      const safe = Math.max(next, Date.now() + 60 * 1000);
+      await this.room.storage.setAlarm(safe);
     } catch (e) {
-      console.error('[Audit] Could not schedule reconciliation alarm:', e.message);
+      console.error('[Alarm] Could not schedule wakeup:', e && e.message);
     }
   }
 
-  // Fires daily via the storage alarm (wakes the room even when idle).
-  // Emails James if paid users are stuck without a dog entry, and sends each
-  // stuck premium user a one-time upload nudge.
-  async onAlarm() {
-    try {
-      const audit = await this.computeAudit();
-      const stuck = audit.stuckPremium || [];
-      if (stuck.length > 0) {
-        await this.sendStuckUserAdminAlert(stuck);
-        await this.nudgeStuckPremiumUsers(stuck);
+  // Back-compat shim — old call sites still use scheduleAuditAlarm().
+  async scheduleAuditAlarm() { return this.scheduleNextWakeup(); }
+
+  // Send any RSVP reminders that are currently due. Marks sent1h / sent5m so
+  // we don't double-send. Sends emails fire-and-forget (failures logged but
+  // don't block subsequent reminders).
+  async processSlotReminders() {
+    const now = Date.now();
+    let changed = false;
+    for (const dog of this.communityDogs) {
+      if (!dog.slotAt || dog.firstAppearedAt) continue;
+      if (!Array.isArray(dog.rsvps) || dog.rsvps.length === 0) continue;
+      const slotAt = dog.slotAt;
+      const minutesUntil = Math.round((slotAt - now) / 60000);
+      // Skip if slot has already passed by more than 10 min — we missed it.
+      if (slotAt < now - 10 * 60 * 1000) {
+        // Mark all flags so we don't keep retrying for this slot.
+        for (const r of dog.rsvps) {
+          if (!r.sent1h) { r.sent1h = true; changed = true; }
+          if (!r.sent5m) { r.sent5m = true; changed = true; }
+        }
+        continue;
       }
-      console.log(`[Audit] Daily reconciliation — ${stuck.length} stuck premium user(s)`);
-    } catch (e) {
-      console.error('[Audit] Reconciliation alarm failed:', e.message);
-      await reportToSentry(e, { kind: 'onAlarm' });
-    } finally {
-      // Always re-arm for the next day.
-      try {
-        await this.room.storage.setAlarm(Date.now() + 24 * 60 * 60 * 1000);
-      } catch (e) {
-        console.error('[Audit] Could not re-arm reconciliation alarm:', e.message);
+      for (const r of dog.rsvps) {
+        // 1hr reminder: fire when within 60min of slot.
+        if (!r.sent1h && slotAt - now <= 60 * 60 * 1000 && slotAt > now) {
+          await this.sendSlotReminderEmail(r.email, dog, Math.max(minutesUntil, 1))
+            .catch(e => console.error('[Reminder] 1hr send failed:', e && e.message));
+          r.sent1h = true;
+          changed = true;
+        }
+        // 5min reminder: fire when within 5min of slot. Skip if slot already
+        // passed — that's the "imminent" / "live now" territory, no point
+        // sending a "5 min" email after the fact.
+        if (!r.sent5m && slotAt - now <= 5 * 60 * 1000 && slotAt > now) {
+          await this.sendSlotReminderEmail(r.email, dog, Math.max(minutesUntil, 1))
+            .catch(e => console.error('[Reminder] 5min send failed:', e && e.message));
+          r.sent5m = true;
+          changed = true;
+        }
       }
     }
+    if (changed) {
+      await this.room.storage.put('communityDogs', this.communityDogs);
+    }
+  }
+
+  // Fired by the storage alarm. Processes slot reminders, runs the daily
+  // audit if 24h have elapsed, then re-arms for the next wakeup.
+  async onAlarm() {
+    // Reminders first — they're more time-sensitive than the audit.
+    try {
+      await this.processSlotReminders();
+    } catch (e) {
+      console.error('[Reminder] Dispatch failed:', e && e.message);
+      await reportToSentry(e, { kind: 'onAlarm.reminders' });
+    }
+
+    // Audit if due. Read lastAuditAt and check the 24h elapsed condition;
+    // alarm wakeups for reminders shouldn't trigger the audit every time.
+    try {
+      const lastAudit = (await this.room.storage.get('lastAuditAt')) || 0;
+      if (Date.now() - lastAudit >= 24 * 60 * 60 * 1000) {
+        const audit = await this.computeAudit();
+        const stuck = audit.stuckPremium || [];
+        if (stuck.length > 0) {
+          await this.sendStuckUserAdminAlert(stuck);
+          await this.nudgeStuckPremiumUsers(stuck);
+        }
+        await this.room.storage.put('lastAuditAt', Date.now());
+        console.log(`[Audit] Daily reconciliation — ${stuck.length} stuck premium user(s)`);
+      }
+    } catch (e) {
+      console.error('[Audit] Reconciliation failed:', e && e.message);
+      await reportToSentry(e, { kind: 'onAlarm.audit' });
+    }
+
+    // Always re-arm for whatever comes next.
+    await this.scheduleNextWakeup();
   }
 
   // One-time "you haven't uploaded yet" nudge to stuck premium users. Only
@@ -2045,6 +2712,11 @@ export default class DogShowServer {
         breedConfidence: dog.breedConfidence || 0,
         uploadedAt: dog.uploadedAt,
         imageUrl: `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${dog.id}`,
+        // Phase 4: these two together determine cert page state.
+        //   firstAppearedAt === null  → pre-show (countdown + RSVP)
+        //   firstAppearedAt !== null  → post-show (existing certificate)
+        slotAt: dog.slotAt || null,
+        firstAppearedAt: dog.firstAppearedAt || null,
         stats: dog.stats || {
           totalAppearances: 0, totalBones: 0, totalViewers: 0,
           totalScreenTime: 0, peakViewers: 0, firstAppearance: null, lastAppearance: null,
@@ -2313,9 +2985,10 @@ export default class DogShowServer {
   async sendAdminSignupNotification(email, tier) {
     if (!this.room.env.RESEND_API_KEY) return;
 
-    const tierLabel = tier === 'premium' ? 'Bring Your Dog ($3.99)'
-      : tier === 'general' ? 'General Admission ($1.99)'
-      : 'Free Peek';
+    const tierLabel = tier === 'premium_plus' ? 'Premium ($5.99)'
+      : tier === 'premium' ? 'Enter Your Dog ($3.99)'
+      : tier === 'general' ? 'Bones Pack ($1.99 top-up)'
+      : 'Free signup';
     const time = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
 
     await fetch('https://api.resend.com/emails', {
@@ -2454,6 +3127,68 @@ export default class DogShowServer {
   // email that can actually show the dog. dogName/breed are pre-sanitized by
   // handleUploadDog (this.sanitize strips < > & " '), so they are safe to
   // interpolate into the HTML and the subject line.
+  // Phase 5: slot reminder email. Sent at T-1hr and T-5min by processSlotReminders().
+  // `minutesUntil` is the marketing-friendly window ("60" or "5"), not the
+  // exact lateness — the email copy reads "in about an hour" / "in 5 minutes."
+  async sendSlotReminderEmail(email, dog, minutesUntil) {
+    if (!email) return false;
+    if (!this.room.env.RESEND_API_KEY) {
+      console.error('[Email] RESEND_API_KEY not set, skipping slot reminder');
+      return false;
+    }
+    const dogName = dog.dogName || 'A good dog';
+    const imageUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=' + dog.id;
+    const pageUrl = dog.slug ? `${SITE_URL}/d/${dog.slug}` : `${SITE_URL}/dog.html?id=${dog.id}`;
+    const showUrl = `${SITE_URL}/show.html`;
+    const isImminent = minutesUntil <= 10;
+    const subject = isImminent
+      ? `🎬 ${dogName} is on in ${minutesUntil} minutes`
+      : `⏰ ${dogName} takes the stage in about an hour`;
+    const headline = isImminent
+      ? `${dogName} is on in ${minutesUntil} minutes`
+      : `${dogName} is on in about an hour`;
+    const subhead = isImminent
+      ? `Get to the show now so you don't miss it.`
+      : `Reminder so you don't forget. We'll send one more 5 minutes before.`;
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Dog Show <noreply@dogshow.lol>',
+          to: [email],
+          subject: subject,
+          html: `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
+              <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 4px; text-align: center;">The Dog Show</h1>
+              <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">Reminder</p>
+              <div style="background: #241a45; border-radius: 12px; padding: 28px; border: 1px solid rgba(123,104,238,0.3); margin-bottom: 24px;">
+                <img src="${imageUrl}" alt="${dogName}" width="240" style="display: block; width: 240px; max-width: 100%; height: auto; border-radius: 12px; margin: 0 auto 18px;">
+                <h2 style="color: #B7A8FF; font-size: 21px; margin: 0 0 6px; text-align: center;">${headline}</h2>
+                <p style="font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.65); text-align: center; margin: 0 0 18px;">${subhead}</p>
+                <div style="text-align: center;">
+                  <a href="${showUrl}" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 12px 24px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px;">Watch the show</a>
+                </div>
+              </div>
+              <p style="font-size: 11px; color: rgba(255,255,255,0.35); text-align: center;">You're getting this because you RSVP'd to <a href="${pageUrl}" style="color: rgba(255,140,66,0.7);">${dogName}'s page</a>.</p>
+            </div>
+          `,
+        }),
+      });
+      if (!res.ok) {
+        const errBody = await res.text();
+        console.error('[Email] Slot reminder send failed:', res.status, errBody.slice(0, 200));
+      }
+      return res.ok;
+    } catch (e) {
+      console.error('[Email] Slot reminder network error:', e.message);
+      return false;
+    }
+  }
+
   async sendCertificateEmail(email, dog) {
     if (!email) return false;
     if (!this.room.env.RESEND_API_KEY) {
