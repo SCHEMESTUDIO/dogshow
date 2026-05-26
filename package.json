@@ -2,8 +2,11 @@
   "name": "dogshow",
   "version": "1.0.0",
   "private": true,
-  "description": "Declares Vercel function dependencies. Static site + serverless functions — no build script.",
+  "description": "Declares Vercel function dependencies. Static files still serve as-is; the no-op build script exists only so Vercel actually runs `npm install` (without a build script it sometimes skips install entirely, which leaves Edge functions unable to resolve @vercel/og).",
+  "scripts": {
+    "build": "echo 'No build step — static files served as-is; install runs only so Edge functions can resolve their deps.'"
+  },
   "dependencies": {
-    "@vercel/og": "^0.6.0"
+    "@vercel/og": "0.6.3"
   }
 }
