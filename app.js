@@ -103,7 +103,7 @@
   var boneCount = 0;
   var boneTimestamps = [];
   var isFrenzy = false;
-  var frenzyMulti = 0;
+  // (frenzyMulti / streak readouts removed — frenzy is now purely visual)
   var dogBonusTime = 0;
 
   // ─── DOM REFS ───────────────────────────────────
@@ -122,9 +122,7 @@
   var boneBtn = document.getElementById('boneBtn');
   var boneCountEl = document.getElementById('boneCount');
   var boneRain = document.getElementById('boneRain');
-  var boneStreakEl = document.getElementById('boneStreak');
-  var boneFrenzyEl = document.getElementById('boneFrenzy');
-  var boneFrenzyMultiEl = document.getElementById('boneFrenzyMulti');
+  // (boneStreak / boneFrenzy badge / boneFrenzyMulti removed from DOM)
   var dogFrame = document.querySelector('.dog-frame');
 
   // ─── UTILITIES ──────────────────────────────────
@@ -163,8 +161,6 @@
     boneCountEl.textContent = '0';
     boneTimestamps = [];
     if (isFrenzy) endFrenzy();
-    boneStreakEl.textContent = '';
-    boneStreakEl.className = 'bone-streak';
 
     // Briefly fade out, then show new dog
     dogImage.classList.remove('loaded');
@@ -630,48 +626,27 @@
     return boneTimestamps.length / 5;
   }
 
+  // Detect "lots of bones flying" and toggle a CSS class on the dog frame +
+  // dock so the visuals respond. No numerical readout, no multiplier — the
+  // sensory cue is the point. The threshold hysteresis (3 → on, 1.5 → off)
+  // keeps the visual from flickering at the boundary.
   function updateStreak() {
     var bps = getBonesPerSecond();
-    var rounded = Math.round(bps * 10) / 10;
-
-    if (rounded < 0.5) {
-      boneStreakEl.textContent = '';
-      boneStreakEl.className = 'bone-streak';
-    } else if (rounded < 2) {
-      boneStreakEl.textContent = rounded + '/sec';
-      boneStreakEl.className = 'bone-streak';
-    } else if (rounded < 4) {
-      boneStreakEl.textContent = rounded + '/sec';
-      boneStreakEl.className = 'bone-streak hot';
-    } else {
-      boneStreakEl.textContent = rounded + '/sec';
-      boneStreakEl.className = 'bone-streak fire';
-    }
-
     if (bps >= 3 && !isFrenzy) {
       startFrenzy();
     } else if (bps < 1.5 && isFrenzy) {
       endFrenzy();
     }
-
-    if (isFrenzy) {
-      frenzyMulti = Math.floor(bps * 2);
-      boneFrenzyMultiEl.textContent = 'x' + frenzyMulti;
-    }
   }
 
   function startFrenzy() {
     isFrenzy = true;
-    frenzyMulti = 1;
-    boneFrenzyEl.classList.add('active');
     dogFrame.classList.add('frenzy');
     if (dockBar) dockBar.classList.add('frenzy');
   }
 
   function endFrenzy() {
     isFrenzy = false;
-    frenzyMulti = 0;
-    boneFrenzyEl.classList.remove('active');
     dogFrame.classList.remove('frenzy');
     if (dockBar) dockBar.classList.remove('frenzy');
   }
