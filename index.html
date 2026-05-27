@@ -1077,6 +1077,14 @@
       width: 100%;
       text-align: center;
       animation: lp-modal-in 0.25s ease-out;
+      /* Cap modal height so on tall content (esp. after the slot picker was
+         added) the Continue/Cancel buttons stay reachable via scroll. Using
+         dvh first for iOS Safari which excludes its dynamic UI chrome; vh
+         falls back for older browsers. */
+      max-height: calc(100vh - 48px);
+      max-height: calc(100dvh - 48px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     @keyframes lp-modal-in {
@@ -1386,14 +1394,24 @@
       .lp-login-row { flex-wrap: wrap; }
       .lp-login-input { min-width: 0; }
 
-      /* Modals — less padding on mobile */
-      .lp-modal { padding: 28px 20px 24px; }
+      /* Modals — less padding on mobile so more content fits per scroll. */
+      .lp-modal { padding: 24px 18px 20px; }
       .lp-modal-title { font-size: 20px; }
+      .lp-modal-icon { font-size: 28px; margin-bottom: 8px; }
+      .lp-modal-subtitle { margin-bottom: 12px; }
       .lp-modal-actions { flex-direction: column; }
       .lp-modal-btn-cancel, .lp-modal-btn-submit { flex: none; }
+      /* Once a photo is loaded, the dropzone (now serving as a preview)
+         doesn't need to be photo-shaped — shrink it so the slot picker +
+         actions sit closer to the top of the visible area. */
+      .lp-upload-dropzone { aspect-ratio: 16/9; }
+      /* Slot section gets slimmer spacing on mobile too. */
+      .lp-slot-section { margin-top: 10px; padding-top: 10px; }
+      .lp-slot-radio { padding: 6px 8px; font-size: 13px; }
+      .lp-slot-perk-note { font-size: 11px; padding: 6px 8px; }
 
-      /* Upload dropzone — shorter aspect ratio on mobile */
-      .lp-upload-dropzone { aspect-ratio: 3/2; }
+      /* Upload dropzone — overridden above to 16/9 so the slot picker fits;
+         the old 3/2 override is gone (was making the modal too tall). */
 
       /* Hall of bones rows */
       .lp-hall-row { padding: 8px 10px; font-size: 12px; }
