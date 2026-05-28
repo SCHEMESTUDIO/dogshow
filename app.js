@@ -122,7 +122,8 @@
   var boneBtn = document.getElementById('boneBtn');
   var boneCountEl = document.getElementById('boneCount');
   var boneRain = document.getElementById('boneRain');
-  // (boneStreak / boneFrenzy badge / boneFrenzyMulti removed from DOM)
+  // BONE FRENZY text badge — toggles .active when isFrenzy is on.
+  var boneFrenzyEl = document.getElementById('boneFrenzy');
   var dogFrame = document.querySelector('.dog-frame');
 
   // ─── UTILITIES ──────────────────────────────────
@@ -643,12 +644,15 @@
     isFrenzy = true;
     dogFrame.classList.add('frenzy');
     if (dockBar) dockBar.classList.add('frenzy');
+    if (boneFrenzyEl) boneFrenzyEl.classList.add('active');
+    playFrenzyVoice();
   }
 
   function endFrenzy() {
     isFrenzy = false;
     dogFrame.classList.remove('frenzy');
     if (dockBar) dockBar.classList.remove('frenzy');
+    if (boneFrenzyEl) boneFrenzyEl.classList.remove('active');
   }
 
   function addBone(fromRemote) {
@@ -671,12 +675,93 @@
     if (!fromRemote) {
       boneBtn.style.transform = 'scale(1.1)';
       setTimeout(function () { boneBtn.style.transform = ''; }, 100);
+      playBoneClick();
     }
 
     updateStreak();
   }
 
   setInterval(updateStreak, 500);
+
+  // ─── SOUND EFFECTS ───────────────────────────────
+  // Bone click: a short, percussive "coin-grab" pop synthesized via Web Audio.
+  // No external asset needed; works offline, no preload delay. AudioContext
+  // is lazily created on first user gesture so autoplay policies are happy.
+  var _audioCtx = null;
+  function getAudioCtx() {
+    if (_audioCtx) return _audioCtx;
+    try {
+      _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch (e) { return null; }
+    return _audioCtx;
+  }
+  function playBoneClick() {
+    var ctx = getAudioCtx();
+    if (!ctx) return;
+    try {
+      var t = ctx.currentTime;
+      // Quick rising blip — like grabbing a coin in a game.
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(640, t);
+      osc.frequency.exponentialRampToValueAtTime(960, t + 0.06);
+      gain.gain.setValueAtTime(0.001, t);
+      gain.gain.exponentialRampToValueAtTime(0.18, t + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.14);
+    } catch (e) {}
+  }
+
+  // Bone frenzy voice: real recording at /sounds/bone-frenzy.m4a. Falls back
+  // to browser speech synthesis only if the file fails to load (defensive —
+  // shouldn't happen in normal operation).
+  var _frenzyAudio = null;
+  var _frenzyAudioFailed = false;
+  function playFrenzyVoice() {
+    // Prefer the asset; cache the Audio object so we don't reload on every
+    // frenzy trigger.
+    if (!_frenzyAudioFailed) {
+      if (!_frenzyAudio) {
+        _frenzyAudio = new Audio('/sounds/bone-frenzy.m4a');
+        _frenzyAudio.volume = 0.85;
+        _frenzyAudio.addEventListener('error', function () {
+          _frenzyAudioFailed = true;
+        });
+      }
+      try {
+        _frenzyAudio.currentTime = 0;
+        var p = _frenzyAudio.play();
+        // play() returns a promise on modern browsers; on failure fall
+        // through to speech synth.
+        if (p && typeof p.then === 'function') {
+          p.catch(function () {
+            _frenzyAudioFailed = true;
+            speakFrenzy();
+          });
+          return;
+        }
+        return;
+      } catch (e) {
+        _frenzyAudioFailed = true;
+      }
+    }
+    speakFrenzy();
+  }
+  function speakFrenzy() {
+    try {
+      if (!('speechSynthesis' in window)) return;
+      var u = new SpeechSynthesisUtterance('Bone Frenzy!');
+      u.rate = 1.05;
+      u.pitch = 0.85;
+      u.volume = 0.9;
+      window.speechSynthesis.cancel();  // cut any in-flight utterance
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
 
   if (!isRegistered) {
     boneBtn.style.cursor = 'pointer';
