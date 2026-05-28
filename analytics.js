@@ -29,7 +29,7 @@
   // ─── PASTE YOUR IDS HERE ───────────────────────────────────────────────────
   // UET tag ID: find in Microsoft Advertising → Tools → Conversion tracking
   // → UET tag. Numeric, e.g. "123456789".
-  var UET_TAG_ID = '';
+  var UET_TAG_ID = '97248525';
 
   // Clarity project ID: find in clarity.microsoft.com → your project →
   // Settings → Setup. Alphanumeric, e.g. "ab1cd2ef3g".
@@ -60,7 +60,7 @@
       };
       i = d.getElementsByTagName(t)[0];
       i.parentNode.insertBefore(n, i);
-    })(window, document, 'script', '//bat.bing.com/bat.js', 'uetq');
+    })(window, document, 'script', '//bat.bing.net/bat.js', 'uetq');
   }
 
   // ─── Microsoft Clarity (heatmaps + session recordings) ─────────────────────
