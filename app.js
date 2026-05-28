@@ -1678,6 +1678,16 @@
       modalSubtitle: "Coming Soon! Get your dog on stage every 4 hours, every hour, or every 15 minutes. We'll email you when boost packs launch.",
     },
     {
+      eyebrow: 'New feature',
+      title: 'A funny music video starring your dog',
+      cta: 'Get notified →',
+      action: 'interest',
+      feature: 'funny_video',
+      modalIcon: '🎬',
+      modalTitle: 'A funny video of your dog',
+      modalSubtitle: "Coming Soon! We'll turn your dog's photo into a shareable little video — dancing, singing, the works. Drop your email and we'll let you know when it launches.",
+    },
+    {
       eyebrow: 'Get involved!',
       title: 'Helping dogs in need',
       cta: 'Learn more →',
