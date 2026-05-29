@@ -1529,6 +1529,9 @@ export default class DogShowServer {
       if (path === 'all-dogs' && req.method === 'GET') {
         return await this.handleGetAllDogs(req, headers);
       }
+      if (path === 'dogs-by-breed' && req.method === 'GET') {
+        return await this.handleGetDogsByBreed(req, headers);
+      }
       if (path === 'resolve-slug' && req.method === 'GET') {
         return await this.handleResolveSlug(req, headers);
       }
@@ -2990,6 +2993,40 @@ export default class DogShowServer {
         stats: d.stats || {},
       })),
     }), { headers });
+  }
+
+  // GET /dogs-by-breed?breed=Bernedoodle[&limit=12]
+  // Used by api/breed.js to populate the optional "user dogs" section on the
+  // /breeds/{slug} page. Match is case-insensitive; only dogs that have
+  // actually aired (firstAppearedAt set) are returned, since a pre-show dog
+  // has no meaningful certificate page to link to yet. Cap at 24 to bound
+  // payload size; default 12 to match the breed-page template.
+  async handleGetDogsByBreed(req, headers) {
+    const url = new URL(req.url);
+    const breed = (url.searchParams.get('breed') || '').trim();
+    if (!breed) {
+      return new Response(JSON.stringify({ error: 'breed required' }), { status: 400, headers });
+    }
+    const requested = parseInt(url.searchParams.get('limit') || '12', 10);
+    const limit = Math.max(1, Math.min(24, isFinite(requested) ? requested : 12));
+    const target = breed.toLowerCase();
+    const imgBase = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=';
+    const matches = this.communityDogs
+      .filter(d => d && d.breed && d.breed.toLowerCase() === target)
+      .filter(d => d.firstAppearedAt)  // only aired dogs — pre-show pages don't fit the cert grid
+      .sort((a, b) => ((b.stats && b.stats.totalBones) || 0) - ((a.stats && a.stats.totalBones) || 0))
+      .slice(0, limit)
+      .map(d => ({
+        id: d.id,
+        slug: d.slug || null,
+        dogName: d.dogName,
+        username: d.username,
+        breed: d.breed,
+        imageUrl: imgBase + d.id,
+        totalBones: (d.stats && d.stats.totalBones) || 0,
+        firstAppearedAt: d.firstAppearedAt || null,
+      }));
+    return new Response(JSON.stringify({ ok: true, breed, count: matches.length, dogs: matches }), { headers });
   }
 
   // Resolve a slug to a dog ID

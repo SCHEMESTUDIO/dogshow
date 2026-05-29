@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dog Breeds — Field Guide with Stage Notes | The Dog Show</title>
+<meta name="description" content="Honest, mildly opinionated breed guides for every dog who has ever wondered if they could make it in the show. Written by people who watch dogs all day for a living.">
+<link rel="canonical" href="https://dogshow.lol/breeds">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dog Breeds — Field Guide with Stage Notes | The Dog Show">
+<meta property="og:description" content="Breed guides for the modern dog watcher. The Bernedoodle has notes. The Mini Golden Retriever has notes. They all have notes.">
+<meta property="og:image" content="https://dogshow.lol/og-image.png">
+<meta property="og:url" content="https://dogshow.lol/breeds">
+<meta property="og:site_name" content="The Dog Show">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dog Breeds — Field Guide with Stage Notes | The Dog Show">
+<meta name="twitter:description" content="Breed guides for the modern dog watcher.">
+<meta name="twitter:image" content="https://dogshow.lol/og-image.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V830P7PPHQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-V830P7PPHQ');</script>
+<script src="/analytics.js" defer></script>
+<style>
+@font-face{font-family:'Yang Bagus';src:url('/YangBagus.ttf') format('truetype');font-display:swap;}
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#0f0a22;--bg-card:#1a1035;--bg-card-2:#241a45;--accent:#FF8C42;--purple:#7B68EE;--text:#e0d8f0;--dim:rgba(255,255,255,0.45);}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;line-height:1.6;}
+a{color:var(--accent);}
+.wrap{max-width:860px;margin:0 auto;padding:24px 20px 60px;}
+.eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:8px;}
+.eyebrow a{color:var(--purple);text-decoration:none;}
+h1{font-family:'Yang Bagus',serif;color:var(--accent);font-size:48px;line-height:1.05;margin-bottom:16px;}
+.lede{font-size:17px;color:rgba(255,255,255,0.82);margin-bottom:36px;max-width:680px;}
+.group{margin:36px 0;}
+.group h2{font-family:'Yang Bagus',serif;color:var(--text);font-size:24px;margin-bottom:12px;}
+.group p.group-sub{font-size:13px;color:var(--dim);margin-bottom:18px;}
+.breed-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
+.breed-chip{display:block;background:var(--bg-card);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px 16px;font-size:14px;text-decoration:none;color:var(--text);transition:border-color 0.15s;}
+.breed-chip:hover{border-color:var(--accent);}
+.breed-chip.soon{color:var(--dim);cursor:default;border-color:rgba(255,255,255,0.04);background:rgba(26,16,53,0.4);}
+.breed-chip.soon:hover{border-color:rgba(255,255,255,0.04);}
+.breed-chip .badge{display:inline-block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-left:6px;}
+.breed-chip.soon .badge{color:var(--purple);}
+.live-widget{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(255,140,66,0.10),rgba(123,104,238,0.10));border:1px solid rgba(255,140,66,0.25);border-radius:12px;padding:14px 16px;margin:28px 0;}
+.live-pip{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(255,140,66,0.7);animation:pulse 1.6s ease-out infinite;flex:0 0 auto;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,140,66,0.7);}70%{box-shadow:0 0 0 12px rgba(255,140,66,0);}100%{box-shadow:0 0 0 0 rgba(255,140,66,0);}}
+.live-text{flex:1;font-size:14px;}
+.live-text strong{color:var(--accent);font-weight:700;letter-spacing:1px;font-size:11px;text-transform:uppercase;display:block;margin-bottom:2px;}
+.live-btn{display:inline-block;background:var(--accent);color:#1a1035;font-weight:700;font-size:13px;padding:10px 18px;border-radius:8px;text-decoration:none;white-space:nowrap;}
+@media(max-width:768px){
+  .wrap{padding:18px 14px 40px;}
+  h1{font-size:36px;}
+  .lede{font-size:16px;}
+  .live-widget{flex-direction:column;align-items:flex-start;}
+  .live-btn{align-self:stretch;text-align:center;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="eyebrow"><a href="/">The Dog Show</a> &middot; Breeds</div>
+<h1>The dog breeds, with notes</h1>
+<div class="lede">
+We have been watching dogs on a glowing screen since 2026 began, which gives us a particular perspective on breed. Other guides will tell you what a Bernedoodle is. We can tell you what a Bernedoodle <em>does</em> at the moment it realises a camera is on. Both are useful, in their way. These are our notes.
+</div>
+
+<aside class="live-widget" aria-label="The Dog Show is live now">
+<span class="live-pip" aria-hidden="true"></span>
+<div class="live-text"><strong>Live now</strong>Dogs are on stage at The Dog Show right now. Come and watch any of them in action.</div>
+<a class="live-btn" href="/show.html">Watch &rarr;</a>
+</aside>
+
+<div class="group">
+<h2>Doodles &amp; designer mixes</h2>
+<p class="group-sub">Recently invented. Mostly delightful. The Bernedoodle is the only one with a finished page so far — the rest are in the kennel waiting their turn.</p>
+<div class="breed-grid">
+<a class="breed-chip" href="/breeds/bernedoodle">Bernedoodle <span class="badge">Live</span></a>
+<span class="breed-chip soon">Goldendoodle <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Labradoodle <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Australian Labradoodle <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Saint Berdoodle <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Cockapoo <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Cavapoo <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Maltipoo <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Pomsky <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Golden Mountain Dog <span class="badge">Soon</span></span>
+</div>
+</div>
+
+<div class="group">
+<h2>Size variants</h2>
+<p class="group-sub">The same breed, smaller. Or larger. Or, in the case of the Teacup Poodle, an entire ontological event.</p>
+<div class="breed-grid">
+<span class="breed-chip soon">Mini Golden Retriever <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Mini Aussie <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Toy Aussie <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Mini Dachshund <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Mini French Bulldog <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Teacup Poodle <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Teacup Yorkie <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Chocolate Lab <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Giant Schnauzer <span class="badge">Soon</span></span>
+</div>
+</div>
+
+<div class="group">
+<h2>Working &amp; strong opinions</h2>
+<p class="group-sub">Dogs with jobs, or with very firm views about what your job ought to be.</p>
+<div class="breed-grid">
+<span class="breed-chip soon">German Shepherd <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Belgian Malinois <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Cane Corso <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Newfoundland <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Bernese Mountain Dog <span class="badge">Soon</span></span>
+<span class="breed-chip soon">American Bully <span class="badge">Soon</span></span>
+</div>
+</div>
+
+<div class="group">
+<h2>Companions &amp; ornament</h2>
+<p class="group-sub">Dogs whose primary function is to be near you, which they will perform with great dedication.</p>
+<div class="breed-grid">
+<span class="breed-chip soon">French Bulldog <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Dalmatian <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Maltese <span class="badge">Soon</span></span>
+<span class="breed-chip soon">Vizsla <span class="badge">Soon</span></span>
+</div>
+</div>
+
+<div class="group">
+<h2>Looking for your breed?</h2>
+<p class="group-sub">If your dog's breed isn't here yet, it almost certainly will be. We're working through the list. In the meantime, you can <a href="/show.html">watch the live show</a> or <a href="/dogs.html">browse every dog who has ever appeared</a>.</p>
+</div>
+
+</div>
+
+<footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(255,255,255,0.06);background:#0a0617;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
+    <a href="/" style="font-size:12px;color:#5a4d80;text-decoration:none;">Home</a>
+    <a href="/show.html" style="font-size:12px;color:#5a4d80;text-decoration:none;">Live Show</a>
+    <a href="/breeds" style="font-size:12px;color:#5a4d80;text-decoration:none;">Breeds</a>
+    <a href="/about.html" style="font-size:12px;color:#5a4d80;text-decoration:none;">About</a>
+    <a href="/privacy" style="font-size:12px;color:#5a4d80;text-decoration:none;">Privacy</a>
+    <a href="/terms" style="font-size:12px;color:#5a4d80;text-decoration:none;">Terms</a>
+  </div>
+  <div style="font-size:11px;color:#3d2d6b;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+</footer>
+</body>
+</html>
