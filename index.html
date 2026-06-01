@@ -1708,27 +1708,53 @@
     </div>
   </section>
 
-  <!-- Testimonials -->
-  <section class="lp-section" style="background: rgba(255,255,255,0.01);">
+  <!-- Testimonials (real, from fans who replied to their dog's appearance email) -->
+  <section class="lp-section" id="lpTestimonialsSection" style="background: rgba(255,255,255,0.01); display: none;">
     <div class="lp-section-label">From the Crowd</div>
     <div class="lp-section-title">Dogs don't lie. Neither do fans.</div>
     <div class="lp-section-subtitle"></div>
 
-    <div class="lp-testimonials">
-      <div class="lp-testimonial">
-        <div class="lp-testimonial-text">"I opened it to see what it was. That was 40 minutes ago. Send help."</div>
-        <div class="lp-testimonial-author"><strong>woofwatcher</strong> &mdash; Free tier, 250 bones</div>
-      </div>
-      <div class="lp-testimonial">
-        <div class="lp-testimonial-text">"This is the best $3.99 I've ever spent. My dog finally has the public platform he deserves."</div>
-        <div class="lp-testimonial-author"><strong>goodboy_greg</strong> &mdash; Enter Your Dog</div>
-      </div>
-      <div class="lp-testimonial">
-        <div class="lp-testimonial-text">"My dog got 47 bones on their first appearance. I've never been more proud of anything in my life."</div>
-        <div class="lp-testimonial-author"><strong>puppyperson</strong> &mdash; Enter Your Dog</div>
-      </div>
-    </div>
+    <div class="lp-testimonials" id="lpTestimonialsList"></div>
   </section>
+  <script>
+    // Fetch real, admin-approved testimonials and render them into the rail.
+    // Hide the whole section if there are none yet — better than showing an
+    // empty card or a "Coming soon" placeholder.
+    (function () {
+      var PARTY = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live';
+      var section = document.getElementById('lpTestimonialsSection');
+      var list = document.getElementById('lpTestimonialsList');
+      if (!section || !list) return;
+      function escapeHtml(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+      fetch(PARTY + '/testimonials')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var ts = (data && data.testimonials) || [];
+          if (!ts.length) return;  // keep section hidden
+          // Cap at 6 — three rows of two on desktop, fits the .lp-testimonials grid.
+          ts.slice(0, 6).forEach(function (t) {
+            var card = document.createElement('div');
+            card.className = 'lp-testimonial';
+            var quote = document.createElement('div');
+            quote.className = 'lp-testimonial-text';
+            quote.textContent = '"' + (t.text || '') + '"';
+            var author = document.createElement('div');
+            author.className = 'lp-testimonial-author';
+            author.innerHTML = '<strong>' + escapeHtml(t.username || 'a fan') +
+              '</strong> &mdash; ' + escapeHtml(t.dogName || 'their dog');
+            card.appendChild(quote);
+            card.appendChild(author);
+            list.appendChild(card);
+          });
+          section.style.display = '';
+        })
+        .catch(function () { /* keep hidden on error */ });
+    })();
+  </script>
 
   <!-- FAQ -->
   <section class="lp-section">

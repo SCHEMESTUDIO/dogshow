@@ -706,6 +706,11 @@ export default class DogShowServer {
         due.dog.firstAppearedAt = Date.now();
         this.room.storage.put('communityDogs', this.communityDogs)
           .catch(e => console.error('[Slot] firstAppearedAt persist failed:', e && e.message));
+        // Real testimonials replaced the fake landing-page quotes. Fire a
+        // one-shot ask to the owner now that their dog has actually aired.
+        // Fire-and-forget — must not block rotation.
+        this.maybeSendTestimonialRequest(due.dog)
+          .catch(e => console.error('[Testimonial] request failed:', e && e.message));
       }
     } else if (this.communityDogs.length > 0 && this.dogCount % 5 === 0) {
       // Every 5th dog, show a community dog (if any exist). Eligibility:
@@ -726,6 +731,9 @@ export default class DogShowServer {
           communityDog.firstAppearedAt = Date.now();
           this.room.storage.put('communityDogs', this.communityDogs)
             .catch(e => console.error('[Rotation] firstAppearedAt persist failed:', e && e.message));
+          // One-shot testimonial request — see slot path above.
+          this.maybeSendTestimonialRequest(communityDog)
+            .catch(e => console.error('[Testimonial] request failed:', e && e.message));
         }
         this.currentDog = {
           url: `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${communityDog.id}`,
@@ -1480,6 +1488,21 @@ export default class DogShowServer {
       }
       if (path === 'admin-sentry-test' && req.method === 'GET') {
         return await this.handleAdminSentryTest(req, headers);
+      }
+      if (path === 'admin-testimonials' && req.method === 'GET') {
+        return await this.handleAdminTestimonials(req, headers);
+      }
+      if (path === 'admin-testimonial-action' && req.method === 'POST') {
+        return await this.handleAdminTestimonialAction(req, headers);
+      }
+      if (path === 'admin-add-testimonial' && req.method === 'POST') {
+        return await this.handleAdminAddTestimonial(req, headers);
+      }
+      if (path === 'testimonials' && req.method === 'GET') {
+        return await this.handleGetTestimonials(req, headers);
+      }
+      if (path === 'inbound-email' && req.method === 'POST') {
+        return await this.handleInboundEmail(req, headers);
       }
       if (path === 'register' && req.method === 'POST') {
         return await this.handleRegister(req, headers);
@@ -2990,6 +3013,9 @@ export default class DogShowServer {
         username: d.username,
         breed: d.breed || 'Mystery Breed',
         uploadedAt: d.uploadedAt,
+        // Exposed so the admin manual-add testimonial picker can filter to
+        // dogs that have actually aired (the natural pool for a testimonial).
+        firstAppearedAt: d.firstAppearedAt || null,
         stats: d.stats || {},
       })),
     }), { headers });
@@ -3727,6 +3753,433 @@ export default class DogShowServer {
       console.error('[Email] Admin alert network error:', e.message);
       return false;
     }
+  }
+
+  // ═══════════════════════════════════════════════
+  // TESTIMONIALS (real, reply-by-email + admin-curated)
+  // ═══════════════════════════════════════════════
+  //
+  // The landing page used to carry 3 fabricated quotes — that violates Google
+  // policy (no fake endorsements) and is being replaced with real ones.
+  //
+  // Flow:
+  //   1. Dog airs for the first time → maybeSendTestimonialRequest fires once
+  //      (guarded by storage flag) and emails the owner asking for a short
+  //      reply with their take.
+  //   2. The owner replies. An inbound-email webhook (Resend Inbound, Postmark
+  //      Inbound, CloudMailin, etc. — anything that POSTs `{from, subject, text}`)
+  //      hits POST /inbound-email. The token embedded in the subject ties the
+  //      reply back to a specific dog; quoted text + signatures get stripped.
+  //   3. Stored as `status: 'pending'` until James approves in /admin.
+  //   4. Public GET /testimonials returns approved entries for the landing page.
+  //
+  // The token is a deterministic SHA-256 of dogId + RESEND_API_KEY — unforgeable
+  // without server access and computable on-the-fly so we don't need to store
+  // extra state per dog.
+
+  async _testimonialToken(dogId) {
+    const secret = this.room.env.RESEND_API_KEY || 'testimonial_fallback_v1';
+    const data = new TextEncoder().encode(dogId + ':' + secret + ':testimonial_v1');
+    const buf = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(buf))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('')
+      .slice(0, 12);
+  }
+
+  // Strip quoted reply text + signatures from an inbound email body so we get
+  // just what the user actually wrote. Conservative — it's better to leave a
+  // bit of junk for James to clean up in admin than to chop a real testimonial.
+  _stripQuotedReply(text) {
+    if (!text) return '';
+    let body = String(text).replace(/\r\n/g, '\n');
+
+    // Cut at standard reply-header markers (Gmail/iOS/Outlook variants).
+    const cutMarkers = [
+      /\n\s*On .{1,80}\bwrote:\s*\n/i,            // "On <date>, <name> wrote:"
+      /\n\s*-----\s*Original Message\s*-----/i,    // Outlook
+      /\n\s*From:\s.+\n\s*Sent:\s/i,               // Outlook headers
+      /\n\s*From:\s.+\n\s*Date:\s/i,
+      /\n\s*De\s*:\s.+\n\s*Envoy[ée]/i,            // French Outlook
+      /\n\s*Begin forwarded message:/i,
+      /\n\s*>+ ?/                                  // first line that starts a quote block
+    ];
+    for (const re of cutMarkers) {
+      const m = body.match(re);
+      if (m && m.index != null) body = body.slice(0, m.index);
+    }
+
+    // Drop everything after a "-- " signature delimiter (RFC 3676).
+    const sigIdx = body.search(/\n-- \n/);
+    if (sigIdx !== -1) body = body.slice(0, sigIdx);
+
+    // Drop common phone signatures even without the dash separator.
+    body = body.replace(/\n\s*Sent from my (iPhone|iPad|Android|mobile).*/i, '');
+    body = body.replace(/\n\s*Get Outlook for (iOS|Android).*/i, '');
+
+    return body.trim();
+  }
+
+  _sanitizeTestimonialText(text) {
+    if (!text) return '';
+    let s = String(text);
+    // Strip any HTML tags (defense — Resend Inbound usually sends `text` plain,
+    // but if a future provider passes html, this keeps junk out).
+    s = s.replace(/<[^>]+>/g, ' ');
+    // Decode common entities the lazy way.
+    s = s.replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+    // Collapse whitespace. Preserve a single linebreak as a space — the
+    // landing card is one line.
+    s = s.replace(/\s+/g, ' ').trim();
+    // Cap length so it fits the card. Cut on a word boundary if we can.
+    const MAX = 280;
+    if (s.length > MAX) {
+      const cut = s.slice(0, MAX);
+      const lastSpace = cut.lastIndexOf(' ');
+      s = (lastSpace > 200 ? cut.slice(0, lastSpace) : cut) + '…';
+    }
+    return s;
+  }
+
+  // Find the community dog whose testimonial token matches the one in the
+  // subject (or body, as a fallback). Returns null if no match.
+  async _resolveTestimonialDog(subject, body) {
+    const haystack = String(subject || '') + '\n' + String(body || '');
+    const m = haystack.match(/\[ref:TOK-([a-f0-9]{8,16})\]/i);
+    if (!m) return null;
+    const replyToken = m[1].toLowerCase();
+    for (const dog of this.communityDogs) {
+      const tok = await this._testimonialToken(dog.id);
+      if (tok === replyToken) return dog;
+    }
+    return null;
+  }
+
+  // Gate + dispatch the request email. Guards once-per-dog with a storage flag
+  // so a dog that re-airs many times doesn't get spammed.
+  async maybeSendTestimonialRequest(dog) {
+    if (!dog || !dog.id) return;
+    if (!this.room.env.RESEND_API_KEY) return;  // no email backend, skip silently
+    const flagKey = `testimonialRequest:${dog.id}`;
+    const already = await this.room.storage.get(flagKey);
+    if (already) return;
+    // Look up the owner's email via the user record. dog.userId is the link.
+    if (!dog.userId) return;
+    const user = await this.room.storage.get(`user:${dog.userId}`);
+    if (!user || !user.email) return;
+    // Set the flag BEFORE sending so a transient send failure doesn't
+    // un-guard us (re-sending the same ask the next time the dog airs is
+    // worse than a silently-dropped one).
+    await this.room.storage.put(flagKey, Date.now());
+    await this.sendTestimonialRequestEmail(user.email, dog);
+  }
+
+  async sendTestimonialRequestEmail(email, dog) {
+    if (!email || !this.room.env.RESEND_API_KEY) return false;
+    // Marketing-ish ask, not strictly transactional — respect unsubscribe.
+    if (await this._isUnsubscribed(email)) {
+      console.log('[Testimonial] Skipping unsubscribed recipient');
+      return false;
+    }
+    const userId = await this._userIdFromEmail(email);
+    const footer = await this.unsubscribeFooter(userId);
+    const dogName = dog.dogName || 'your good dog';
+    const token = await this._testimonialToken(dog.id);
+    const refTag = `[ref:TOK-${token}]`;
+    const pageUrl = dog.slug ? `${SITE_URL}/d/${dog.slug}` : `${SITE_URL}/dog.html?id=${dog.id}`;
+    // Reply-To routes inbound replies to the curated mailbox / inbound webhook.
+    // Falls back to noreply if the env var isn't set (replies will then go
+    // nowhere useful — fine for dev, but production needs INBOUND_REPLY_TO).
+    const replyTo = this.room.env.INBOUND_REPLY_TO || 'replies@dogshow.lol';
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Dog Show <noreply@dogshow.lol>',
+          to: [email],
+          reply_to: [replyTo],
+          subject: `How did ${dogName}'s appearance go? ${refTag}`,
+          html: `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
+              <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 4px; text-align: center;">The Dog Show</h1>
+              <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">A Small Ask</p>
+              <div style="background: #241a45; border-radius: 12px; padding: 28px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px;">
+                <h2 style="color: #e0d8f0; font-size: 20px; margin: 0 0 12px; text-align: center;">${dogName} took the stage.</h2>
+                <p style="font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.78); margin: 0 0 14px;">
+                  We'd love a sentence or two on how it felt — what made you laugh, what your friends said, anything. Just hit reply.
+                </p>
+                <p style="font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.78); margin: 0;">
+                  With your permission, we'll put your words on the landing page next to ${dogName}'s name. Real fans, real dogs, no fakery.
+                </p>
+              </div>
+              <div style="text-align: center; margin-bottom: 20px;">
+                <a href="${pageUrl}" style="display: inline-block; background: rgba(255,255,255,0.05); color: #FF8C42; padding: 10px 22px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 13px; border: 1px solid rgba(255,140,66,0.3);">View ${dogName}'s page</a>
+              </div>
+              <p style="text-align: center; font-size: 11px; color: rgba(255,255,255,0.3);">
+                Just reply to this email — keep the subject line as-is so we know which dog it's about.
+              </p>
+              ${footer}
+            </div>
+          `,
+        }),
+      });
+      if (!res.ok) console.error('[Email] Testimonial request send failed:', res.status);
+      return res.ok;
+    } catch (e) {
+      console.error('[Email] Testimonial request network error:', e.message);
+      return false;
+    }
+  }
+
+  // POST /inbound-email?secret=<INBOUND_WEBHOOK_SECRET>
+  //
+  // Inbound-email webhook. Primary target is Resend Inbound, whose webhook
+  // shape is:
+  //   { type: 'email.received', data: { email_id, from, to, subject, ... } }
+  // Critically the webhook body does NOT contain the email text — Resend's
+  // docs explicitly say so to keep the payload small (serverless body-size
+  // limits). We have to call GET /emails/receiving/<email_id> with the
+  // RESEND_API_KEY to retrieve the plain text + html.
+  //
+  // For other providers (Postmark, CloudMailin) the text is included inline,
+  // so we accept those shapes too and skip the API callback if text is
+  // already present.
+  //
+  // Auth: shared secret via `?secret=...` query param. Resend's webhook UI
+  // lets you set the full URL including query params. Belt-and-suspenders
+  // on top of the fact that email_id is a server-side UUID an attacker
+  // cannot guess, and admin still has to approve every entry before it goes
+  // live. Full Svix signature verification is a future hardening pass.
+  async handleInboundEmail(req, headers) {
+    const url = new URL(req.url);
+    const providedSecret = url.searchParams.get('secret');
+    const expectedSecret = (this.room.env && this.room.env.INBOUND_WEBHOOK_SECRET) || null;
+    if (!expectedSecret) {
+      return new Response(JSON.stringify({ error: 'inbound endpoint not configured' }), { status: 403, headers });
+    }
+    if (providedSecret !== expectedSecret) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+
+    let payload;
+    try { payload = await req.json(); }
+    catch (e) {
+      return new Response(JSON.stringify({ error: 'invalid json' }), { status: 400, headers });
+    }
+
+    // Resend wraps the actual fields in `data`. Other providers send flat.
+    const data = payload.data || payload;
+    let from = data.from || data.fromEmail || data.From || '';
+    let subject = data.subject || data.Subject || '';
+    let rawText = data.text || data.plainText || data.TextBody || data.body_plain || '';
+    let rawHtml = data.html || data.HtmlBody || data.body_html || '';
+
+    // Resend case: webhook is metadata-only — fetch the body. Detect either
+    // explicitly (event type) or implicitly (email_id present + text empty).
+    const isResendEvent = payload.type === 'email.received' || !!data.email_id;
+    if (isResendEvent && data.email_id && !rawText && !rawHtml) {
+      if (!this.room.env.RESEND_API_KEY) {
+        console.error('[Inbound] Resend event received but RESEND_API_KEY not set — cannot fetch body');
+        return new Response(JSON.stringify({ error: 'cannot retrieve body' }), { status: 500, headers });
+      }
+      try {
+        const apiRes = await fetch(`https://api.resend.com/emails/receiving/${data.email_id}`, {
+          headers: { 'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}` },
+        });
+        if (!apiRes.ok) {
+          const txt = await apiRes.text();
+          console.error('[Inbound] Resend body fetch failed:', apiRes.status, txt.slice(0, 200));
+          // Acknowledge so Resend doesn't infinitely retry, but record nothing.
+          return new Response(JSON.stringify({ ok: true, matched: false, reason: 'body fetch failed' }), { headers });
+        }
+        const email = await apiRes.json();
+        // Fields on retrieved email override the webhook stub where present.
+        from = email.from || from;
+        subject = email.subject || subject;
+        rawText = email.text || rawText;
+        rawHtml = email.html || rawHtml;
+      } catch (e) {
+        console.error('[Inbound] Resend body fetch network error:', e.message);
+        return new Response(JSON.stringify({ ok: true, matched: false, reason: 'network error' }), { headers });
+      }
+    }
+
+    const dog = await this._resolveTestimonialDog(subject, rawText || rawHtml);
+    if (!dog) {
+      console.warn('[Inbound] No matching dog for subject:', String(subject).slice(0, 120));
+      return new Response(JSON.stringify({ ok: true, matched: false }), { headers });
+    }
+
+    const stripped = this._stripQuotedReply(rawText || rawHtml.replace(/<[^>]+>/g, ' '));
+    const cleanText = this._sanitizeTestimonialText(stripped);
+    if (!cleanText) {
+      return new Response(JSON.stringify({ ok: true, matched: true, stored: false, reason: 'empty after strip' }), { headers });
+    }
+
+    // Extract bare email out of `Name <addr@host>` if present.
+    const fromMatch = String(from).match(/<([^>]+)>/);
+    const fromEmail = (fromMatch ? fromMatch[1] : from).trim();
+
+    const testimonials = (await this.room.storage.get('testimonials')) || [];
+    const entry = {
+      id: 't_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4),
+      dogId: dog.id,
+      slug: dog.slug || null,
+      dogName: dog.dogName || 'A good dog',
+      username: dog.username || 'Anonymous',
+      email: fromEmail || null,
+      text: cleanText,
+      receivedAt: Date.now(),
+      status: 'pending',
+      source: 'reply',
+      rawSubject: String(subject).slice(0, 200),
+    };
+    testimonials.push(entry);
+    await this.room.storage.put('testimonials', testimonials);
+
+    // Action-prompt notification to James. Subject prefixed so it's easy to
+    // filter; body is the quoted text + a single big CTA to the admin page.
+    this.sendAdminAlert(
+      `📝 Approve testimonial — ${entry.username} (${entry.dogName})`,
+      `<h2 style="color:#FF8C42;margin:0 0 4px;">Review needed</h2>
+       <p style="margin:0 0 14px;font-size:13px;color:#666;">A fan replied with a testimonial. It's waiting in <strong>/admin</strong> as pending — approve it to put it on the landing page.</p>
+       <p style="margin:0 0 4px;font-size:13px;"><strong>${entry.username}</strong> &mdash; ${entry.dogName}</p>
+       <blockquote style="border-left:3px solid #FF8C42;padding:10px 14px;margin:8px 0 18px;background:#fff7f0;color:#333;font-style:italic;">${entry.text.replace(/</g, '&lt;')}</blockquote>
+       <p style="margin:18px 0;text-align:center;">
+         <a href="${SITE_URL}/admin" style="display:inline-block;background:#FF8C42;color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:700;">Open /admin to approve</a>
+       </p>
+       <p style="margin:18px 0 0;font-size:11px;color:#999;">Tip: you can edit the wording in the textarea before clicking Approve.</p>`
+    ).catch(e => console.error('[Testimonial] admin alert failed:', e.message));
+
+    console.log(`[Inbound] Stored pending testimonial ${entry.id} for ${entry.dogName} (${dog.id})`);
+    return new Response(JSON.stringify({ ok: true, matched: true, stored: true, id: entry.id }), { headers });
+  }
+
+  // GET /admin-testimonials?key=<ADMIN_KEY>
+  // Returns all testimonials grouped by status, newest first.
+  async handleAdminTestimonials(req, headers) {
+    const url = new URL(req.url);
+    const key = url.searchParams.get('key');
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    if (!adminKey || !key || key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+    const all = (await this.room.storage.get('testimonials')) || [];
+    const sortDesc = (a, b) => (b.receivedAt || 0) - (a.receivedAt || 0);
+    const pending = all.filter(t => t.status === 'pending').sort(sortDesc);
+    const approved = all.filter(t => t.status === 'approved').sort(sortDesc);
+    const rejected = all.filter(t => t.status === 'rejected').sort(sortDesc);
+    return new Response(JSON.stringify({ ok: true, pending, approved, rejected }), { headers });
+  }
+
+  // POST /admin-testimonial-action  body: {key, id, action, edited?}
+  // action: 'approve' | 'reject' | 'delete'
+  // edited: optional string — if present on approve, replace the body text with
+  // the admin's cleaned-up version (we still capture the original as `original`).
+  async handleAdminTestimonialAction(req, headers) {
+    let body;
+    try { body = await req.json(); }
+    catch (e) {
+      return new Response(JSON.stringify({ error: 'invalid json' }), { status: 400, headers });
+    }
+    const { key, id, action, edited } = body || {};
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    if (!adminKey || !key || key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+    if (!id || !['approve', 'reject', 'delete'].includes(action)) {
+      return new Response(JSON.stringify({ error: 'id + valid action required' }), { status: 400, headers });
+    }
+    const all = (await this.room.storage.get('testimonials')) || [];
+    const idx = all.findIndex(t => t.id === id);
+    if (idx === -1) {
+      return new Response(JSON.stringify({ error: 'not found' }), { status: 404, headers });
+    }
+    if (action === 'delete') {
+      all.splice(idx, 1);
+    } else {
+      const t = all[idx];
+      if (action === 'approve' && typeof edited === 'string' && edited.trim()) {
+        const cleaned = this._sanitizeTestimonialText(edited);
+        if (cleaned) {
+          t.original = t.original || t.text;
+          t.text = cleaned;
+        }
+      }
+      t.status = action === 'approve' ? 'approved' : 'rejected';
+      t.moderatedAt = Date.now();
+    }
+    await this.room.storage.put('testimonials', all);
+    return new Response(JSON.stringify({ ok: true }), { headers });
+  }
+
+  // POST /admin-add-testimonial  body: {key, dogId, text, status?}
+  // Manual paste — fallback for when inbound parsing missed a reply, or when
+  // James wants to seed a testimonial for one of the first paid fans before
+  // the email infra is wired up. Default status: 'approved' (we trust admin).
+  async handleAdminAddTestimonial(req, headers) {
+    let body;
+    try { body = await req.json(); }
+    catch (e) {
+      return new Response(JSON.stringify({ error: 'invalid json' }), { status: 400, headers });
+    }
+    const { key, dogId, text, status } = body || {};
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    if (!adminKey || !key || key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+    if (!dogId || !text) {
+      return new Response(JSON.stringify({ error: 'dogId + text required' }), { status: 400, headers });
+    }
+    const dog = this.communityDogs.find(d => d.id === dogId);
+    if (!dog) {
+      return new Response(JSON.stringify({ error: 'dog not found' }), { status: 404, headers });
+    }
+    const cleanText = this._sanitizeTestimonialText(text);
+    if (!cleanText) {
+      return new Response(JSON.stringify({ error: 'text empty after sanitize' }), { status: 400, headers });
+    }
+    const testimonials = (await this.room.storage.get('testimonials')) || [];
+    const entry = {
+      id: 't_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4),
+      dogId: dog.id,
+      slug: dog.slug || null,
+      dogName: dog.dogName || 'A good dog',
+      username: dog.username || 'Anonymous',
+      email: null,
+      text: cleanText,
+      receivedAt: Date.now(),
+      status: (status === 'pending' ? 'pending' : 'approved'),
+      moderatedAt: Date.now(),
+      source: 'manual',
+    };
+    testimonials.push(entry);
+    await this.room.storage.put('testimonials', testimonials);
+    return new Response(JSON.stringify({ ok: true, id: entry.id }), { headers });
+  }
+
+  // GET /testimonials
+  // Public — returns approved testimonials for the landing-page rail.
+  // Cached short to keep load light; landing page hits this on every visit.
+  async handleGetTestimonials(req, headers) {
+    const all = (await this.room.storage.get('testimonials')) || [];
+    const approved = all
+      .filter(t => t.status === 'approved')
+      .sort((a, b) => (b.moderatedAt || b.receivedAt || 0) - (a.moderatedAt || a.receivedAt || 0))
+      .map(t => ({
+        id: t.id,
+        text: t.text,
+        username: t.username || 'a fan',
+        dogName: t.dogName || 'their dog',
+        slug: t.slug || null,
+      }));
+    return new Response(JSON.stringify({ ok: true, testimonials: approved }), {
+      headers: { ...headers, 'Cache-Control': 'public, max-age=300' },
+    });
   }
 
   // Daily reconciliation summary to James when paid users are stuck.

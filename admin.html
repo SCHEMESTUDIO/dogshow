@@ -97,6 +97,57 @@
       font-family: inherit;
     }
     .row-between { display: flex; justify-content: space-between; align-items: center; }
+
+    /* Testimonials */
+    .test-card {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 16px; margin-bottom: 10px;
+    }
+    .test-meta { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; }
+    .test-meta strong { color: var(--text); }
+    .test-text {
+      font-size: 14px; line-height: 1.5; margin-bottom: 10px;
+      background: var(--panel-2); border-radius: 8px; padding: 10px 12px;
+    }
+    .test-text-edit {
+      width: 100%; min-height: 64px; box-sizing: border-box;
+      background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-family: inherit; font-size: 14px; line-height: 1.5;
+      padding: 10px 12px; margin-bottom: 10px; resize: vertical;
+    }
+    .test-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .test-btn {
+      border: 1px solid var(--border); background: var(--panel-2); color: var(--text);
+      padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+    }
+    .test-btn:hover { border-color: var(--accent); }
+    .test-btn.approve { background: rgba(255,140,66,0.15); border-color: rgba(255,140,66,0.5); color: #ffc99b; }
+    .test-btn.reject { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.4); color: #ffb4ab; }
+    .test-btn.delete { background: rgba(231,76,60,0.2); border-color: rgba(231,76,60,0.55); color: #ffb4ab; }
+    .test-btn:disabled { opacity: 0.5; cursor: default; }
+    .test-status-tag {
+      display: inline-block; font-size: 10px; text-transform: uppercase;
+      letter-spacing: 1px; padding: 2px 6px; border-radius: 4px; margin-left: 6px;
+    }
+    .test-status-tag.approved { background: rgba(255,140,66,0.18); color: #ffc99b; }
+    .test-status-tag.rejected { background: rgba(231,76,60,0.18); color: #ffb4ab; }
+
+    .add-test-form {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 16px; margin-bottom: 16px;
+    }
+    .add-test-form label {
+      display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--text-dim); margin: 8px 0 4px;
+    }
+    .add-test-form select, .add-test-form textarea {
+      width: 100%; box-sizing: border-box;
+      background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-family: inherit; font-size: 13px; padding: 9px 11px;
+    }
+    .add-test-form textarea { min-height: 72px; resize: vertical; }
+    .add-test-form .row { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -118,6 +169,27 @@
         <div class="section-title">Paid users with no dog — follow up</div>
         <div class="stuck" id="stuckList"></div>
       </div>
+
+      <div class="row-between" style="margin: 24px 0 10px;">
+        <div class="section-title" style="margin: 0;">Testimonials — pending (<span id="pendingCount">0</span>)</div>
+        <button class="reload" id="reloadTestBtn">Reload</button>
+      </div>
+      <div id="pendingTestList"></div>
+
+      <div class="section-title" style="margin: 20px 0 10px;">Add testimonial manually</div>
+      <div class="add-test-form">
+        <label for="addTestDog">Dog</label>
+        <select id="addTestDog"><option value="">— pick a dog —</option></select>
+        <label for="addTestText">Testimonial text</label>
+        <textarea id="addTestText" maxlength="500" placeholder="Paste exactly what they wrote. Up to ~280 chars on the landing card; the rest gets truncated."></textarea>
+        <div class="row">
+          <button class="btn" id="addTestBtn">Add (approved)</button>
+          <span class="muted" id="addTestStatus"></span>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin: 20px 0 10px;">Testimonials — approved (<span id="approvedCount">0</span>) <span class="muted" style="margin-left:4px;font-size:11px;">— live on landing</span></div>
+      <div id="approvedTestList"></div>
 
       <div class="row-between" style="margin: 24px 0 10px;">
         <div class="section-title" style="margin: 0;">Community dogs (<span id="dogCount">0</span>)</div>
@@ -142,6 +214,16 @@
     var dogList = document.getElementById('dogList');
     var dogCount = document.getElementById('dogCount');
     var reloadBtn = document.getElementById('reloadBtn');
+    var pendingTestList = document.getElementById('pendingTestList');
+    var approvedTestList = document.getElementById('approvedTestList');
+    var pendingCount = document.getElementById('pendingCount');
+    var approvedCount = document.getElementById('approvedCount');
+    var addTestDog = document.getElementById('addTestDog');
+    var addTestText = document.getElementById('addTestText');
+    var addTestBtn = document.getElementById('addTestBtn');
+    var addTestStatus = document.getElementById('addTestStatus');
+    var reloadTestBtn = document.getElementById('reloadTestBtn');
+    var allDogsCache = [];
 
     function stat(num, label, warn) {
       var d = document.createElement('div');
@@ -272,9 +354,178 @@
       try {
         var res = await fetch(PARTY + '/all-dogs');
         var data = await res.json();
+        allDogsCache = (data.dogs || []).slice();
         renderDogs(data.dogs || []);
+        // Repopulate the manual-add picker — only aired dogs are eligible
+        // (the email request only fires on first appearance, so the natural
+        // flow assumes the dog has aired; this matches that mental model).
+        var aired = allDogsCache.filter(function (d) { return d.firstAppearedAt; });
+        aired.sort(function (a, b) { return (b.firstAppearedAt || 0) - (a.firstAppearedAt || 0); });
+        addTestDog.innerHTML = '<option value="">— pick a dog —</option>';
+        aired.forEach(function (d) {
+          var opt = document.createElement('option');
+          opt.value = d.id;
+          opt.textContent = (d.dogName || 'Unnamed') + ' — ' + (d.username || 'Anonymous');
+          addTestDog.appendChild(opt);
+        });
       } catch (e) {
         dogList.innerHTML = '<div class="muted">Could not load dogs.</div>';
+      }
+    }
+
+    function renderTestimonialCard(t, isPending) {
+      var card = document.createElement('div');
+      card.className = 'test-card';
+      var meta = document.createElement('div');
+      meta.className = 'test-meta';
+      var when = t.receivedAt ? new Date(t.receivedAt).toISOString().slice(0, 16).replace('T', ' ') : '?';
+      meta.innerHTML = '<strong>' + escapeHtml(t.username || 'a fan') + '</strong> &mdash; ' +
+        escapeHtml(t.dogName || 'their dog') + '  ·  ' + when +
+        (t.source ? '  ·  ' + t.source : '') +
+        (isPending ? '' : '<span class="test-status-tag ' + t.status + '">' + t.status + '</span>');
+      card.appendChild(meta);
+
+      if (isPending) {
+        var textarea = document.createElement('textarea');
+        textarea.className = 'test-text-edit';
+        textarea.value = t.text || '';
+        textarea.maxLength = 500;
+        card.appendChild(textarea);
+      } else {
+        var body = document.createElement('div');
+        body.className = 'test-text';
+        body.textContent = t.text || '';
+        card.appendChild(body);
+      }
+
+      var actions = document.createElement('div');
+      actions.className = 'test-actions';
+      if (isPending) {
+        var approveBtn = document.createElement('button');
+        approveBtn.className = 'test-btn approve';
+        approveBtn.textContent = 'Approve';
+        approveBtn.addEventListener('click', function () {
+          actBtn(approveBtn, t.id, 'approve', textarea.value, card);
+        });
+        var rejectBtn = document.createElement('button');
+        rejectBtn.className = 'test-btn reject';
+        rejectBtn.textContent = 'Reject';
+        rejectBtn.addEventListener('click', function () {
+          actBtn(rejectBtn, t.id, 'reject', null, card);
+        });
+        actions.appendChild(approveBtn);
+        actions.appendChild(rejectBtn);
+      } else {
+        var deleteBtn = document.createElement('button');
+        deleteBtn.className = 'test-btn delete';
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.addEventListener('click', function () {
+          if (!confirm('Delete this testimonial? Permanent.')) return;
+          actBtn(deleteBtn, t.id, 'delete', null, card);
+        });
+        actions.appendChild(deleteBtn);
+      }
+      card.appendChild(actions);
+      return card;
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    async function actBtn(btn, id, action, edited, card) {
+      btn.disabled = true;
+      var original = btn.textContent;
+      btn.textContent = '…';
+      try {
+        var res = await fetch(PARTY + '/admin-testimonial-action', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: adminKey, id: id, action: action, edited: edited })
+        });
+        var data = await res.json();
+        if (!data.ok) {
+          alert('Action failed: ' + (data.error || res.status));
+          btn.disabled = false;
+          btn.textContent = original;
+          return;
+        }
+        card.remove();
+        loadTestimonials();
+      } catch (e) {
+        alert('Network error.');
+        btn.disabled = false;
+        btn.textContent = original;
+      }
+    }
+
+    async function loadTestimonials() {
+      pendingTestList.innerHTML = '<div class="muted">Loading…</div>';
+      approvedTestList.innerHTML = '';
+      try {
+        var res = await fetch(PARTY + '/admin-testimonials?key=' + encodeURIComponent(adminKey));
+        var data = await res.json();
+        var pending = data.pending || [];
+        var approved = data.approved || [];
+        pendingCount.textContent = pending.length;
+        approvedCount.textContent = approved.length;
+
+        pendingTestList.innerHTML = '';
+        if (!pending.length) {
+          var empty = document.createElement('div');
+          empty.className = 'muted';
+          empty.textContent = 'No pending testimonials. They land here once owners reply to the appearance email.';
+          pendingTestList.appendChild(empty);
+        } else {
+          pending.forEach(function (t) {
+            pendingTestList.appendChild(renderTestimonialCard(t, true));
+          });
+        }
+
+        if (!approved.length) {
+          var emptyA = document.createElement('div');
+          emptyA.className = 'muted';
+          emptyA.textContent = 'No approved testimonials yet — landing rail will say "Reviews coming in".';
+          approvedTestList.appendChild(emptyA);
+        } else {
+          approved.forEach(function (t) {
+            approvedTestList.appendChild(renderTestimonialCard(t, false));
+          });
+        }
+      } catch (e) {
+        pendingTestList.innerHTML = '<div class="muted">Could not load testimonials.</div>';
+      }
+    }
+
+    async function submitManualTestimonial() {
+      var dogId = addTestDog.value;
+      var text = addTestText.value.trim();
+      if (!dogId) { addTestStatus.textContent = 'Pick a dog first.'; return; }
+      if (!text) { addTestStatus.textContent = 'Add some text.'; return; }
+      addTestBtn.disabled = true;
+      addTestStatus.textContent = 'Adding…';
+      try {
+        var res = await fetch(PARTY + '/admin-add-testimonial', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: adminKey, dogId: dogId, text: text })
+        });
+        var data = await res.json();
+        if (data.ok) {
+          addTestText.value = '';
+          addTestDog.value = '';
+          addTestStatus.textContent = 'Added.';
+          loadTestimonials();
+        } else {
+          addTestStatus.textContent = 'Failed: ' + (data.error || res.status);
+        }
+      } catch (e) {
+        addTestStatus.textContent = 'Network error.';
+      } finally {
+        addTestBtn.disabled = false;
+        setTimeout(function () { addTestStatus.textContent = ''; }, 4000);
       }
     }
 
@@ -301,6 +552,7 @@
         dashView.hidden = false;
         renderAudit(audit);
         loadDogs();
+        loadTestimonials();
       } catch (e) {
         loginErr.textContent = 'Network error.';
       } finally {
@@ -312,6 +564,8 @@
     unlockBtn.addEventListener('click', unlock);
     keyInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') unlock(); });
     reloadBtn.addEventListener('click', function () { refreshAudit(); loadDogs(); });
+    reloadTestBtn.addEventListener('click', loadTestimonials);
+    addTestBtn.addEventListener('click', submitManualTestimonial);
   </script>
 </body>
 </html>
