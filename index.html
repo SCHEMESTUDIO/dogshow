@@ -1463,8 +1463,8 @@
     </ul>
   </section>
 
-  <!-- Ticker -->
-  <div class="lp-ticker-wrap">
+  <!-- Ticker — populated from real testimonials; hidden until at least one approved -->
+  <div class="lp-ticker-wrap" id="tickerWrap" style="display: none;">
     <div class="lp-ticker" id="ticker"></div>
   </div>
 
@@ -1911,26 +1911,43 @@
     var API_BASE_LANDING = 'https://' + PARTY_HOST_LANDING + '/party/' + PARTY_ROOM_LANDING;
 
     // ─── TICKER ─────────────────────────────────────
-    var quotes = [
-      '"If you want dogs, they got \'em."',
-      '"Simply electric."',
-      '"My dog is famous now."',
-      '"Two paws way up."',
-      '"Unforgettable."',
-      '"Real dogs, real fun."',
-      '"Better than therapy."',
-      '"I can\'t leave."',
-      '"Woof. Just... woof."',
-      '"This is art."',
-    ];
-    var tickerEl = document.getElementById('ticker');
-    var tickerHtml = '';
-    for (var i = 0; i < 2; i++) {
-      quotes.forEach(function(q) {
-        tickerHtml += '<span>' + q + '</span><span class="dot">&middot;</span>';
-      });
-    }
-    tickerEl.innerHTML = tickerHtml;
+    // Populated from real, admin-approved testimonials (same /testimonials
+    // feed as the cards rail). Stays hidden until at least one approved
+    // entry exists — no fake quotes, per Google policy on endorsements.
+    (function () {
+      var tickerEl = document.getElementById('ticker');
+      var tickerWrap = document.getElementById('tickerWrap');
+      if (!tickerEl || !tickerWrap) return;
+      function shorten(s) {
+        s = String(s || '').replace(/\s+/g, ' ').trim();
+        // Prefer first sentence if short enough; else hard-cap.
+        var firstSentence = s.split(/(?<=[.!?])\s/)[0];
+        var pick = (firstSentence && firstSentence.length <= 90) ? firstSentence : s;
+        if (pick.length > 90) pick = pick.slice(0, 87).replace(/\s\S*$/, '') + '…';
+        return pick;
+      }
+      function esc(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+      fetch(API_BASE_LANDING + '/testimonials')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var ts = (data && data.testimonials) || [];
+          if (!ts.length) return;  // keep ticker hidden
+          var html = '';
+          // Duplicate the loop so the marquee CSS has enough content to scroll.
+          for (var i = 0; i < 2; i++) {
+            ts.forEach(function (t) {
+              html += '<span>&ldquo;' + esc(shorten(t.text)) + '&rdquo;</span><span class="dot">&middot;</span>';
+            });
+          }
+          tickerEl.innerHTML = html;
+          tickerWrap.style.display = '';
+        })
+        .catch(function () { /* keep hidden on error */ });
+    })();
 
     // ─── COUNTER ANIMATION ──────────────────────────
     function animateCounter(id, target) {
