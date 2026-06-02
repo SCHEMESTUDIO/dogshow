@@ -1453,20 +1453,52 @@
       <button class="lp-btn lp-btn-primary" id="heroCta">Enter Your Dog &mdash; $3.99</button>
       <button class="lp-btn lp-btn-secondary" id="heroFree">Peek Inside Free</button>
     </div>
-    <ul class="lp-hero-bullets">
-      <li>Watch real dogs take the stage</li>
-      <li>Chat with spectators</li>
-      <li>Give bones to the dogs</li>
-      <li>Enter your pup for a slot on stage</li>
-      <li>Earn a spot on the Hall of Bones</li>
-      <li>Learn real facts about dogs</li>
-    </ul>
   </section>
 
   <!-- Ticker — populated from real testimonials; hidden until at least one approved -->
   <div class="lp-ticker-wrap" id="tickerWrap" style="display: none;">
     <div class="lp-ticker" id="ticker"></div>
   </div>
+
+  <!-- How It Works -->
+  <section class="lp-section" id="how-it-works">
+    <div class="lp-section-label">How It Works</div>
+    <div class="lp-section-title">One dog. Everyone watching. Total chaos.</div>
+    <div class="lp-section-subtitle">Dogs appear one at a time in a shared live stream. You watch, you react, you move on with your life slightly happier.</div>
+
+    <div class="lp-features-grid">
+      <div class="lp-feature">
+        <div class="lp-feature-icon">&#128021;</div>
+        <div class="lp-feature-title">Live Dog Rotation</div>
+        <div class="lp-feature-desc">A new dog appears every 15 seconds. Random breeds, community uploads, and the occasional mystery mutt. You never know what's next.</div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature-icon">&#128172;</div>
+        <div class="lp-feature-title">Live Chat</div>
+        <div class="lp-feature-desc">React in real time with other viewers. Rate dogs. Argue about breeds. Make friends you'll never meet. The usual.</div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature-icon">&#129460;</div>
+        <div class="lp-feature-title">Bone Economy</div>
+        <div class="lp-feature-desc">Give bones to dogs you love. More bones = more screen time. Hit a streak and trigger a Bone Frenzy. It matters more than it should.</div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature-icon">&#128248;</div>
+        <div class="lp-feature-title">Enter Your Dog</div>
+        <div class="lp-feature-desc">Upload your dog to appear in the live rotation. AI verifies it's actually a dog. Your dog gets a permanent certificate page.</div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature-icon">&#127942;</div>
+        <div class="lp-feature-title">Dog Certificates</div>
+        <div class="lp-feature-desc">Every dog gets a shareable stats page with bones earned, peak viewers, screen time, and fun titles. Brag-worthy.</div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature-icon">&#128308;</div>
+        <div class="lp-feature-title">Always Live</div>
+        <div class="lp-feature-desc">The show runs 24/7. There's always a dog on screen. Even at 3am. Especially at 3am.</div>
+      </div>
+    </div>
+  </section>
 
   <!-- Product Preview -->
   <section class="lp-section lp-preview-section">
@@ -1560,6 +1592,88 @@
     <button class="lp-btn lp-btn-primary" style="margin: 0 auto; display: block;" id="certCta">Enter Your Dog &mdash; $3.99</button>
   </section>
 
+  <!-- Testimonials (real, from fans who replied to their dog's appearance email) -->
+  <section class="lp-section" id="lpTestimonialsSection" style="background: rgba(255,255,255,0.01); display: none;">
+    <div class="lp-section-label">From the Crowd</div>
+    <div class="lp-section-title">Dogs don't lie. Neither do fans.</div>
+    <div class="lp-section-subtitle"></div>
+
+    <div class="lp-testimonials" id="lpTestimonialsList"></div>
+  </section>
+  <script>
+    // Fetch real, admin-approved testimonials and render them into the rail.
+    // Hide the whole section if there are none yet — better than showing an
+    // empty card or a "Coming soon" placeholder.
+    (function () {
+      var PARTY = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live';
+      var section = document.getElementById('lpTestimonialsSection');
+      var list = document.getElementById('lpTestimonialsList');
+      if (!section || !list) return;
+      function escapeHtml(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+      fetch(PARTY + '/testimonials')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var ts = (data && data.testimonials) || [];
+          if (ts.length < 3) return;  // keep section hidden until 3+ approved testimonials
+          // Cap at 6 — three rows of two on desktop, fits the .lp-testimonials grid.
+          ts.slice(0, 6).forEach(function (t) {
+            var card = document.createElement('div');
+            card.className = 'lp-testimonial';
+            var quote = document.createElement('div');
+            quote.className = 'lp-testimonial-text';
+            quote.textContent = '"' + (t.text || '') + '"';
+            var author = document.createElement('div');
+            author.className = 'lp-testimonial-author';
+            author.innerHTML = '<strong>' + escapeHtml(t.username || 'a fan') +
+              '</strong> &mdash; ' + escapeHtml(t.dogName || 'their dog');
+            card.appendChild(quote);
+            card.appendChild(author);
+            list.appendChild(card);
+          });
+          section.style.display = '';
+        })
+        .catch(function () { /* keep hidden on error */ });
+    })();
+  </script>
+
+  <!-- Why Enter Your Dog -->
+  <section class="lp-section" style="background: rgba(255,255,255,0.01);">
+    <div class="lp-section-label">Why Enter?</div>
+    <div class="lp-section-title">Because your dog deserves unnecessary recognition.</div>
+    <div class="lp-section-subtitle">Here's what happens when your dog enters The Dog Show.</div>
+
+    <div class="lp-why-grid">
+      <div class="lp-why-card">
+        <div class="lp-why-icon">&#127942;</div>
+        <div class="lp-why-text">Get a permanent Dog Show page</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">&#129460;</div>
+        <div class="lp-why-text">Collect bones from friends, family, and strangers</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">&#128250;</div>
+        <div class="lp-why-text">Appear in the live dog rotation</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">&#128279;</div>
+        <div class="lp-why-text">Share your dog's certificate with anyone</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">&#128202;</div>
+        <div class="lp-why-text">Track bones, appearances, and peak viewers</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">&#128054;</div>
+        <div class="lp-why-text">Because your dog deserves to be temporarily internet famous</div>
+      </div>
+    </div>
+  </section>
+
   <!-- Pricing -->
   <section class="lp-section" id="pricing">
     <div class="lp-section-label">Pricing</div>
@@ -1633,128 +1747,6 @@
       <span>&#128231; Access saved by email</span>
     </div>
   </section>
-
-  <!-- Why Enter Your Dog -->
-  <section class="lp-section" style="background: rgba(255,255,255,0.01);">
-    <div class="lp-section-label">Why Enter?</div>
-    <div class="lp-section-title">Because your dog deserves unnecessary recognition.</div>
-    <div class="lp-section-subtitle">Here's what happens when your dog enters The Dog Show.</div>
-
-    <div class="lp-why-grid">
-      <div class="lp-why-card">
-        <div class="lp-why-icon">&#127942;</div>
-        <div class="lp-why-text">Get a permanent Dog Show page</div>
-      </div>
-      <div class="lp-why-card">
-        <div class="lp-why-icon">&#129460;</div>
-        <div class="lp-why-text">Collect bones from friends, family, and strangers</div>
-      </div>
-      <div class="lp-why-card">
-        <div class="lp-why-icon">&#128250;</div>
-        <div class="lp-why-text">Appear in the live dog rotation</div>
-      </div>
-      <div class="lp-why-card">
-        <div class="lp-why-icon">&#128279;</div>
-        <div class="lp-why-text">Share your dog's certificate with anyone</div>
-      </div>
-      <div class="lp-why-card">
-        <div class="lp-why-icon">&#128202;</div>
-        <div class="lp-why-text">Track bones, appearances, and peak viewers</div>
-      </div>
-      <div class="lp-why-card">
-        <div class="lp-why-icon">&#128054;</div>
-        <div class="lp-why-text">Because your dog deserves to be temporarily internet famous</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- How It Works -->
-  <section class="lp-section" id="how-it-works">
-    <div class="lp-section-label">How It Works</div>
-    <div class="lp-section-title">One dog. Everyone watching. Total chaos.</div>
-    <div class="lp-section-subtitle">Dogs appear one at a time in a shared live stream. You watch, you react, you move on with your life slightly happier.</div>
-
-    <div class="lp-features-grid">
-      <div class="lp-feature">
-        <div class="lp-feature-icon">&#128021;</div>
-        <div class="lp-feature-title">Live Dog Rotation</div>
-        <div class="lp-feature-desc">A new dog appears every 15 seconds. Random breeds, community uploads, and the occasional mystery mutt. You never know what's next.</div>
-      </div>
-      <div class="lp-feature">
-        <div class="lp-feature-icon">&#128172;</div>
-        <div class="lp-feature-title">Live Chat</div>
-        <div class="lp-feature-desc">React in real time with other viewers. Rate dogs. Argue about breeds. Make friends you'll never meet. The usual.</div>
-      </div>
-      <div class="lp-feature">
-        <div class="lp-feature-icon">&#129460;</div>
-        <div class="lp-feature-title">Bone Economy</div>
-        <div class="lp-feature-desc">Give bones to dogs you love. More bones = more screen time. Hit a streak and trigger a Bone Frenzy. It matters more than it should.</div>
-      </div>
-      <div class="lp-feature">
-        <div class="lp-feature-icon">&#128248;</div>
-        <div class="lp-feature-title">Enter Your Dog</div>
-        <div class="lp-feature-desc">Upload your dog to appear in the live rotation. AI verifies it's actually a dog. Your dog gets a permanent certificate page.</div>
-      </div>
-      <div class="lp-feature">
-        <div class="lp-feature-icon">&#127942;</div>
-        <div class="lp-feature-title">Dog Certificates</div>
-        <div class="lp-feature-desc">Every dog gets a shareable stats page with bones earned, peak viewers, screen time, and fun titles. Brag-worthy.</div>
-      </div>
-      <div class="lp-feature">
-        <div class="lp-feature-icon">&#128308;</div>
-        <div class="lp-feature-title">Always Live</div>
-        <div class="lp-feature-desc">The show runs 24/7. There's always a dog on screen. Even at 3am. Especially at 3am.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials (real, from fans who replied to their dog's appearance email) -->
-  <section class="lp-section" id="lpTestimonialsSection" style="background: rgba(255,255,255,0.01); display: none;">
-    <div class="lp-section-label">From the Crowd</div>
-    <div class="lp-section-title">Dogs don't lie. Neither do fans.</div>
-    <div class="lp-section-subtitle"></div>
-
-    <div class="lp-testimonials" id="lpTestimonialsList"></div>
-  </section>
-  <script>
-    // Fetch real, admin-approved testimonials and render them into the rail.
-    // Hide the whole section if there are none yet — better than showing an
-    // empty card or a "Coming soon" placeholder.
-    (function () {
-      var PARTY = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live';
-      var section = document.getElementById('lpTestimonialsSection');
-      var list = document.getElementById('lpTestimonialsList');
-      if (!section || !list) return;
-      function escapeHtml(s) {
-        return String(s == null ? '' : s)
-          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-      }
-      fetch(PARTY + '/testimonials')
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          var ts = (data && data.testimonials) || [];
-          if (!ts.length) return;  // keep section hidden
-          // Cap at 6 — three rows of two on desktop, fits the .lp-testimonials grid.
-          ts.slice(0, 6).forEach(function (t) {
-            var card = document.createElement('div');
-            card.className = 'lp-testimonial';
-            var quote = document.createElement('div');
-            quote.className = 'lp-testimonial-text';
-            quote.textContent = '"' + (t.text || '') + '"';
-            var author = document.createElement('div');
-            author.className = 'lp-testimonial-author';
-            author.innerHTML = '<strong>' + escapeHtml(t.username || 'a fan') +
-              '</strong> &mdash; ' + escapeHtml(t.dogName || 'their dog');
-            card.appendChild(quote);
-            card.appendChild(author);
-            list.appendChild(card);
-          });
-          section.style.display = '';
-        })
-        .catch(function () { /* keep hidden on error */ });
-    })();
-  </script>
 
   <!-- FAQ -->
   <section class="lp-section">
@@ -1935,7 +1927,7 @@
         .then(function (r) { return r.json(); })
         .then(function (data) {
           var ts = (data && data.testimonials) || [];
-          if (!ts.length) return;  // keep ticker hidden
+          if (ts.length < 3) return;  // keep ticker hidden until 3+ approved testimonials
           var html = '';
           // Duplicate the loop so the marquee CSS has enough content to scroll.
           for (var i = 0; i < 2; i++) {
