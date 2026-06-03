@@ -1480,6 +1480,12 @@ export default class DogShowServer {
       if (path === 'admin-audit' && req.method === 'GET') {
         return await this.handleAdminAudit(req, headers);
       }
+      if (path === 'admin-resolve-stuck' && req.method === 'POST') {
+        return await this.handleAdminResolveStuck(req, headers);
+      }
+      if (path === 'admin-unresolve-stuck' && req.method === 'POST') {
+        return await this.handleAdminUnresolveStuck(req, headers);
+      }
       if (path === 'admin-delete-dog' && req.method === 'GET') {
         return await this.handleAdminDeleteDog(req, headers);
       }
@@ -2498,6 +2504,66 @@ export default class DogShowServer {
     });
   }
 
+  // POST /admin-resolve-stuck
+  // Body: { key, userId, note? }
+  // Marks a stuck premium user as resolved so they fall off the active follow-up
+  // list (admin UI + weekly summary email). Resolution is kept forever in
+  // `stuckResolutions` storage so we have a paper trail of who was handled, by
+  // whom, and when. Lightweight Zendesk-style ticket close.
+  async handleAdminResolveStuck(req, headers) {
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    let body;
+    try { body = await req.json(); } catch (_) { body = {}; }
+    if (!adminKey || !body.key || body.key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+    const userId = String(body.userId || '').trim();
+    if (!userId) {
+      return new Response(JSON.stringify({ error: 'userId required' }), { status: 400, headers });
+    }
+    const note = String(body.note || '').slice(0, 280);
+
+    const resolutions = (await this.room.storage.get('stuckResolutions')) || {};
+    // Look up the email so the historical row still has it even if the user
+    // record is later deleted. Best-effort — empty string if not found.
+    const user = await this.room.storage.get(`user:${userId}`);
+    resolutions[userId] = {
+      userId,
+      email: (user && user.email) || (resolutions[userId] && resolutions[userId].email) || null,
+      resolvedAt: Date.now(),
+      resolvedAtIso: new Date().toISOString(),
+      note,
+    };
+    await this.room.storage.put('stuckResolutions', resolutions);
+    console.log(`[Admin] Resolved stuck user ${userId}${note ? ` — ${note}` : ''}`);
+    return new Response(JSON.stringify({ ok: true, userId, resolvedAt: resolutions[userId].resolvedAt }), { headers });
+  }
+
+  // POST /admin-unresolve-stuck
+  // Body: { key, userId }
+  // Reverses a resolution — for the case where the row was marked resolved
+  // by mistake. Drops the userId out of `stuckResolutions` entirely (no
+  // tombstone — if you want the history back, the user reappears in the
+  // active stuck list via computeAudit).
+  async handleAdminUnresolveStuck(req, headers) {
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    let body;
+    try { body = await req.json(); } catch (_) { body = {}; }
+    if (!adminKey || !body.key || body.key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+    const userId = String(body.userId || '').trim();
+    if (!userId) {
+      return new Response(JSON.stringify({ error: 'userId required' }), { status: 400, headers });
+    }
+    const resolutions = (await this.room.storage.get('stuckResolutions')) || {};
+    const existed = !!resolutions[userId];
+    delete resolutions[userId];
+    await this.room.storage.put('stuckResolutions', resolutions);
+    console.log(`[Admin] Unresolved stuck user ${userId} (existed=${existed})`);
+    return new Response(JSON.stringify({ ok: true, userId, removed: existed }), { headers });
+  }
+
   // GET /admin-delete-dog?key=<ADMIN_KEY>&id=<dogId>
   // Removes a community dog — its communityDogs entry plus its img:/slug:
   // storage keys. Built so non-dog uploads can be pulled (the AI classifier
@@ -2664,21 +2730,46 @@ export default class DogShowServer {
     const dogsByUserId = new Map();
     communityDogs.forEach(d => { if (d.userId) dogsByUserId.set(d.userId, d); });
 
-    // Premium users WITHOUT a community dog entry — the stuck ones.
-    const stuckPremium = users
+    // Resolved follow-ups — James has manually marked these handled (refunded,
+    // contacted, etc). We keep the record forever so the admin panel has a
+    // history. Lightweight Zendesk-style ticket log, keyed by userId.
+    const stuckResolutions = (await this.room.storage.get('stuckResolutions')) || {};
+
+    // Premium users WITHOUT a community dog entry. Split into two lists:
+    //   • stuckPremium  — unresolved, the active follow-up worklist
+    //   • resolvedPremium — historical record of users James has already handled
+    // Both shapes share a base row so the admin UI can render them with the
+    // same template.
+    const baseRow = (u) => ({
+      email: u.email,
+      userId: u.id,
+      stripeCustomerId: u.stripeCustomerId || null,
+      stripeSessionId: u.stripeSessionId || null,
+      stripePaymentIntentId: u.stripePaymentIntentId || null,
+      username: u.username || null,
+      createdAt: u.createdAt,
+      createdAtIso: u.createdAt ? new Date(u.createdAt).toISOString() : null,
+    });
+
+    const stuckAll = users
       .filter(u => u && u.tier === 'premium')
       .filter(u => !dogsByUserId.has(u.id))
-      .map(u => ({
-        email: u.email,
-        userId: u.id,
-        stripeCustomerId: u.stripeCustomerId || null,
-        stripeSessionId: u.stripeSessionId || null,
-        stripePaymentIntentId: u.stripePaymentIntentId || null,
-        username: u.username || null,
-        createdAt: u.createdAt,
-        createdAtIso: u.createdAt ? new Date(u.createdAt).toISOString() : null,
-      }))
+      .map(baseRow)
       .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+    const stuckPremium = stuckAll.filter(u => !stuckResolutions[u.userId]);
+
+    // Historical record. Resolutions can outlive the user record (a user that's
+    // been deleted is still part of the history), so we union live rows with
+    // any resolution that no longer matches a live user. Sort by resolvedAt desc.
+    const liveResolved = stuckAll
+      .filter(u => stuckResolutions[u.userId])
+      .map(u => ({ ...u, ...stuckResolutions[u.userId] }));
+    const liveUserIds = new Set(stuckAll.map(u => u.userId));
+    const orphanResolved = Object.values(stuckResolutions)
+      .filter(r => r && r.userId && !liveUserIds.has(r.userId));
+    const resolvedPremium = [...liveResolved, ...orphanResolved]
+      .sort((a, b) => (b.resolvedAt || 0) - (a.resolvedAt || 0));
 
     // Orphaned storage keys (image / slug stored but no communityDogs entry).
     const validDogIds = new Set(communityDogs.map(d => d.id));
@@ -2697,10 +2788,12 @@ export default class DogShowServer {
         tierCounts,
         communityDogsCount: communityDogs.length,
         stuckPremiumCount: stuckPremium.length,
+        resolvedPremiumCount: resolvedPremium.length,
         orphanedImgCount: orphanedImgKeys.length,
         orphanedSlugCount: orphanedSlugKeys.length,
       },
       stuckPremium,
+      resolvedPremium,
       orphanedImgKeys,
       orphanedSlugKeys,
     };
@@ -2823,17 +2916,29 @@ export default class DogShowServer {
 
     // Audit if due. Read lastAuditAt and check the 24h elapsed condition;
     // alarm wakeups for reminders shouldn't trigger the audit every time.
+    //
+    // Cadence split (2026-06-03): the user-facing nudge stays daily (already
+    // once-per-user gated by `nudged:<userId>`), but the admin summary email
+    // throttles to weekly via `lastStuckSummaryAt`. Resolved follow-ups
+    // (managed in admin.html) are filtered out of `stuckPremium` upstream by
+    // computeAudit(), so neither the summary nor the nudge re-pings James about
+    // a user he's already handled.
     try {
       const lastAudit = (await this.room.storage.get('lastAuditAt')) || 0;
       if (Date.now() - lastAudit >= 24 * 60 * 60 * 1000) {
         const audit = await this.computeAudit();
         const stuck = audit.stuckPremium || [];
         if (stuck.length > 0) {
-          await this.sendStuckUserAdminAlert(stuck);
+          const lastSummary = (await this.room.storage.get('lastStuckSummaryAt')) || 0;
+          const weekMs = 7 * 24 * 60 * 60 * 1000;
+          if (Date.now() - lastSummary >= weekMs) {
+            await this.sendStuckUserAdminAlert(stuck);
+            await this.room.storage.put('lastStuckSummaryAt', Date.now());
+          }
           await this.nudgeStuckPremiumUsers(stuck);
         }
         await this.room.storage.put('lastAuditAt', Date.now());
-        console.log(`[Audit] Daily reconciliation — ${stuck.length} stuck premium user(s)`);
+        console.log(`[Audit] Daily reconciliation — ${stuck.length} unresolved stuck premium user(s)`);
       }
     } catch (e) {
       console.error('[Audit] Reconciliation failed:', e && e.message);
@@ -3891,6 +3996,11 @@ export default class DogShowServer {
     // Falls back to noreply if the env var isn't set (replies will then go
     // nowhere useful — fine for dev, but production needs INBOUND_REPLY_TO).
     const replyTo = this.room.env.INBOUND_REPLY_TO || 'replies@dogshow.lol';
+    const subject = `How did ${dogName}'s appearance go? ${refTag}`;
+    // mailto: pre-fills the reply for one-click submission. Subject MUST be
+    // URL-encoded — many clients break on unencoded brackets/spaces, and we
+    // need the ref token to survive intact so _resolveTestimonialDog can match.
+    const mailtoHref = `mailto:${replyTo}?subject=${encodeURIComponent('Re: ' + subject)}`;
     try {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -3902,26 +4012,32 @@ export default class DogShowServer {
           from: 'Dog Show <noreply@dogshow.lol>',
           to: [email],
           reply_to: [replyTo],
-          subject: `How did ${dogName}'s appearance go? ${refTag}`,
+          subject,
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
               <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 4px; text-align: center;">The Dog Show</h1>
-              <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">A Small Ask</p>
-              <div style="background: #241a45; border-radius: 12px; padding: 28px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px;">
-                <h2 style="color: #e0d8f0; font-size: 20px; margin: 0 0 12px; text-align: center;">${dogName} took the stage.</h2>
-                <p style="font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.78); margin: 0 0 14px;">
-                  We'd love a sentence or two on how it felt — what made you laugh, what your friends said, anything. Just hit reply.
+              <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">A Quick Review</p>
+              <div style="background: #241a45; border-radius: 12px; padding: 28px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px; text-align: center;">
+                <h2 style="color: #e0d8f0; font-size: 22px; margin: 0 0 8px;">Spare a sentence on ${dogName}?</h2>
+                <p style="font-size: 13px; line-height: 1.55; color: rgba(255,255,255,0.65); margin: 0 0 22px;">
+                  One tap, one line — that's the whole ask.
                 </p>
-                <p style="font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.78); margin: 0;">
-                  With your permission, we'll put your words on the landing page next to ${dogName}'s name. Real fans, real dogs, no fakery.
+                <div style="margin-bottom: 18px;">
+                  <a href="${mailtoHref}" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;">Reply with a review</a>
+                </div>
+                <p style="font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.45); margin: 0;">
+                  Or just hit reply on this email — anything goes.
                 </p>
               </div>
-              <div style="text-align: center; margin-bottom: 20px;">
-                <a href="${pageUrl}" style="display: inline-block; background: rgba(255,255,255,0.05); color: #FF8C42; padding: 10px 22px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 13px; border: 1px solid rgba(255,140,66,0.3);">View ${dogName}'s page</a>
-              </div>
-              <p style="text-align: center; font-size: 11px; color: rgba(255,255,255,0.3);">
-                Just reply to this email — keep the subject line as-is so we know which dog it's about.
+              <p style="font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.72); margin: 0 0 14px;">
+                ${dogName} took the stage on The Dog Show. We'd love your reaction — what made you laugh, what your friends said, anything.
               </p>
+              <p style="font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.72); margin: 0 0 24px;">
+                With your permission, we'll put your words on the landing page next to ${dogName}'s name. Real fans, real dogs, no fakery.
+              </p>
+              <div style="text-align: center; margin-bottom: 20px;">
+                <a href="${pageUrl}" style="display: inline-block; color: #FF8C42; padding: 8px 18px; text-decoration: none; font-weight: 600; font-size: 13px;">View ${dogName}'s page →</a>
+              </div>
               ${footer}
             </div>
           `,
@@ -4182,7 +4298,11 @@ export default class DogShowServer {
     });
   }
 
-  // Daily reconciliation summary to James when paid users are stuck.
+  // Weekly reconciliation summary to James when paid users are stuck.
+  // Cadence is gated by `lastStuckSummaryAt` in onAlarm — this function only
+  // formats and sends. Resolved users are filtered out upstream, so anyone in
+  // this list still needs human follow-up. Mark them resolved in /admin to
+  // suppress them from the next week's summary.
   async sendStuckUserAdminAlert(stuck) {
     const rows = stuck.map(u => `
       <tr>
@@ -4191,9 +4311,11 @@ export default class DogShowServer {
         <td style="padding:6px 10px;border-bottom:1px solid #eee;">${u.stripeSessionId || u.stripeCustomerId || '—'}</td>
       </tr>`).join('');
     return this.sendAdminAlert(`${stuck.length} paid user(s) stuck without a dog`,
-      `<h2 style="color:#FF8C42;">Daily reconciliation</h2>
-       <p>${stuck.length} premium user(s) have paid but have no dog in the show.
-       Each was sent a one-time upload nudge. Follow up if any persist:</p>
+      `<h2 style="color:#FF8C42;">Weekly reconciliation</h2>
+       <p>${stuck.length} premium user(s) have paid but have no dog in the show
+       and have not yet been marked resolved. Each was sent a one-time upload nudge.</p>
+       <p>Open <a href="https://dogshow.lol/admin">dogshow.lol/admin</a> to mark a row resolved once you've followed up (e.g. refunded, replied).
+       Resolved rows are remembered forever and won't show up in next week's summary.</p>
        <table style="border-collapse:collapse;width:100%;font-size:13px;">
          <tr>
            <th style="text-align:left;padding:6px 10px;border-bottom:2px solid #ccc;">Email</th>

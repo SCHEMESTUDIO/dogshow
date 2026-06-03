@@ -63,9 +63,49 @@
     }
     .stuck {
       background: rgba(231, 76, 60, 0.1); border: 1px solid rgba(231, 76, 60, 0.35);
-      border-radius: 10px; padding: 12px 14px; font-size: 13px;
+      border-radius: 10px; padding: 6px 8px; font-size: 13px;
     }
-    .stuck-row { padding: 4px 0; }
+    .stuck-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 6px; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .stuck-row:last-child { border-bottom: none; }
+    .stuck-info { flex: 1 1 auto; min-width: 0; }
+    .stuck-email { font-weight: 600; }
+    .stuck-meta { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+    .stuck-btn {
+      background: rgba(255,140,66,0.15); border: 1px solid rgba(255,140,66,0.5);
+      color: #ffc99b; padding: 6px 12px; border-radius: 8px; font-size: 12px;
+      font-weight: 600; cursor: pointer; font-family: inherit; flex-shrink: 0;
+    }
+    .stuck-btn:hover { background: rgba(255,140,66,0.3); }
+    .stuck-btn:disabled { opacity: 0.5; cursor: default; }
+    .resolved {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 6px 8px; font-size: 13px;
+    }
+    .resolved-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 6px; border-bottom: 1px solid rgba(255,255,255,0.04);
+      opacity: 0.78;
+    }
+    .resolved-row:last-child { border-bottom: none; }
+    .resolved-note {
+      font-size: 11px; color: var(--text-dim); margin-top: 2px;
+      font-style: italic;
+    }
+    .resolved-btn {
+      background: var(--panel-2); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 6px 12px; border-radius: 8px; font-size: 11px;
+      cursor: pointer; font-family: inherit; flex-shrink: 0;
+    }
+    .resolved-btn:hover { color: var(--text); border-color: var(--accent); }
+    details.resolved-wrap { margin-top: 8px; }
+    details.resolved-wrap summary {
+      font-size: 12px; color: var(--text-dim); cursor: pointer;
+      padding: 6px 0; user-select: none;
+    }
+    details.resolved-wrap summary:hover { color: var(--text); }
 
     .dog {
       display: flex; align-items: center; gap: 12px;
@@ -168,6 +208,10 @@
       <div id="stuckWrap" hidden>
         <div class="section-title">Paid users with no dog — follow up</div>
         <div class="stuck" id="stuckList"></div>
+        <details class="resolved-wrap" id="resolvedWrap" hidden>
+          <summary>Resolved follow-ups (<span id="resolvedCount">0</span>) — click to expand</summary>
+          <div class="resolved" id="resolvedList" style="margin-top:8px;"></div>
+        </details>
       </div>
 
       <div class="row-between" style="margin: 24px 0 10px;">
@@ -211,6 +255,9 @@
     var statsRow = document.getElementById('statsRow');
     var stuckWrap = document.getElementById('stuckWrap');
     var stuckList = document.getElementById('stuckList');
+    var resolvedWrap = document.getElementById('resolvedWrap');
+    var resolvedList = document.getElementById('resolvedList');
+    var resolvedCountEl = document.getElementById('resolvedCount');
     var dogList = document.getElementById('dogList');
     var dogCount = document.getElementById('dogCount');
     var reloadBtn = document.getElementById('reloadBtn');
@@ -253,18 +300,143 @@
       statsRow.appendChild(stat(orphans, 'Orphan keys', orphans > 0));
 
       var stuck = (audit && audit.stuckPremium) || [];
-      if (stuck.length) {
+      var resolved = (audit && audit.resolvedPremium) || [];
+
+      // Show the section if there's anything in either list — the history
+      // remains useful even when the active worklist is empty.
+      if (stuck.length || resolved.length) {
         stuckWrap.hidden = false;
-        stuckList.innerHTML = '';
-        stuck.forEach(function (u) {
-          var r = document.createElement('div');
-          r.className = 'stuck-row';
-          r.textContent = (u.email || '—') + '  ·  registered '
-            + (u.createdAtIso ? u.createdAtIso.slice(0, 10) : '?');
-          stuckList.appendChild(r);
-        });
       } else {
         stuckWrap.hidden = true;
+        return;
+      }
+
+      stuckList.innerHTML = '';
+      if (stuck.length) {
+        stuck.forEach(function (u) { stuckList.appendChild(renderStuckRow(u)); });
+      } else {
+        var clear = document.createElement('div');
+        clear.className = 'stuck-row';
+        clear.style.opacity = '0.7';
+        clear.textContent = 'All caught up — no unresolved paid users.';
+        stuckList.appendChild(clear);
+      }
+
+      resolvedCountEl.textContent = resolved.length;
+      resolvedWrap.hidden = resolved.length === 0;
+      resolvedList.innerHTML = '';
+      resolved.forEach(function (u) { resolvedList.appendChild(renderResolvedRow(u)); });
+    }
+
+    function renderStuckRow(u) {
+      var r = document.createElement('div');
+      r.className = 'stuck-row';
+
+      var info = document.createElement('div');
+      info.className = 'stuck-info';
+      var email = document.createElement('div');
+      email.className = 'stuck-email';
+      email.textContent = u.email || '—';
+      var meta = document.createElement('div');
+      meta.className = 'stuck-meta';
+      meta.textContent = 'registered ' + (u.createdAtIso ? u.createdAtIso.slice(0, 10) : '?')
+        + (u.stripeSessionId ? '  ·  ' + u.stripeSessionId.slice(0, 18) + '…' : '');
+      info.appendChild(email);
+      info.appendChild(meta);
+      r.appendChild(info);
+
+      var btn = document.createElement('button');
+      btn.className = 'stuck-btn';
+      btn.textContent = '✓ Mark resolved';
+      btn.addEventListener('click', function () { resolveStuck(u, r, btn); });
+      r.appendChild(btn);
+
+      return r;
+    }
+
+    function renderResolvedRow(u) {
+      var r = document.createElement('div');
+      r.className = 'resolved-row';
+
+      var info = document.createElement('div');
+      info.className = 'stuck-info';
+      var email = document.createElement('div');
+      email.className = 'stuck-email';
+      email.textContent = u.email || '—';
+      var meta = document.createElement('div');
+      meta.className = 'stuck-meta';
+      meta.textContent = 'resolved ' + (u.resolvedAtIso ? u.resolvedAtIso.slice(0, 10) : '?')
+        + (u.createdAtIso ? '  ·  registered ' + u.createdAtIso.slice(0, 10) : '');
+      info.appendChild(email);
+      info.appendChild(meta);
+      if (u.note) {
+        var note = document.createElement('div');
+        note.className = 'resolved-note';
+        note.textContent = '“' + u.note + '”';
+        info.appendChild(note);
+      }
+      r.appendChild(info);
+
+      var btn = document.createElement('button');
+      btn.className = 'resolved-btn';
+      btn.textContent = 'Undo';
+      btn.addEventListener('click', function () { unresolveStuck(u, btn); });
+      r.appendChild(btn);
+
+      return r;
+    }
+
+    async function resolveStuck(u, row, btn) {
+      // Optional note — prompt is light enough for a one-person admin tool;
+      // skip entirely if the user just wants the row gone.
+      var note = prompt('Optional note (e.g. "refunded", "replied"). Leave blank to skip:', '');
+      if (note === null) return; // cancel
+      btn.disabled = true;
+      btn.textContent = '…';
+      try {
+        var res = await fetch(PARTY + '/admin-resolve-stuck', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: adminKey, userId: u.userId, note: note || '' })
+        });
+        var data = await res.json();
+        if (!data.ok) {
+          alert('Could not resolve: ' + (data.error || res.status));
+          btn.disabled = false;
+          btn.textContent = '✓ Mark resolved';
+          return;
+        }
+        // Re-pull the audit so the row moves into the history section cleanly.
+        await refreshAudit();
+      } catch (e) {
+        alert('Network error.');
+        btn.disabled = false;
+        btn.textContent = '✓ Mark resolved';
+      }
+    }
+
+    async function unresolveStuck(u, btn) {
+      if (!confirm('Move ' + (u.email || 'this row') + ' back to the active follow-up list?')) return;
+      btn.disabled = true;
+      btn.textContent = '…';
+      try {
+        var res = await fetch(PARTY + '/admin-unresolve-stuck', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: adminKey, userId: u.userId })
+        });
+        var data = await res.json();
+        if (!data.ok) {
+          alert('Could not unresolve: ' + (data.error || res.status));
+          btn.disabled = false;
+          btn.textContent = 'Undo';
+          return;
+        }
+        await refreshAudit();
+      } catch (e) {
+        alert('Network error.');
+        btn.disabled = false;
+        btn.textContent = 'Undo';
       }
     }
 
