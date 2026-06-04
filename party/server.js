@@ -2439,7 +2439,7 @@ export default class DogShowServer {
     // Certificate email — fire-and-forget. This is the first moment the server
     // has the photo + slug, so it is the only email that can actually show the
     // dog (the purchase-confirmation email fires before any photo is uploaded).
-    this.sendCertificateEmail(user.email, { id, slug, dogName: cleanName, breed: cleanBreed })
+    this.sendCertificateEmail(user.email, { id, slug, dogName: cleanName, breed: cleanBreed, slotAt: validSlotAt, firstAppearedAt: null })
       .catch(e => console.error('[Email] Certificate email failed:', e.message));
 
     return new Response(JSON.stringify({
@@ -3478,11 +3478,13 @@ export default class DogShowServer {
           to: [email],
           subject: '🐕 Your Dog Show Login Link',
           html: `
-            <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 40px 20px;">
-              <h1 style="color: #FF8C42; font-size: 28px;">The Dog Show</h1>
-              <p style="font-size: 16px; color: #333;">Click below to enter the show:</p>
-              <a href="${loginUrl}" style="display: inline-block; background: #FF8C42; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; margin: 20px 0;">Enter The Dog Show</a>
-              <p style="font-size: 13px; color: #888; margin-top: 30px;">This link expires in 15 minutes. If you didn't request this, you can ignore this email.</p>
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 480px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
+              <h1 style="color: #FF8C42; font-size: 28px; text-align: center; margin-bottom: 8px;">The Dog Show</h1>
+              <p style="font-size: 16px; color: rgba(255,255,255,0.75); text-align: center;">Click below to enter the show:</p>
+              <div style="text-align: center;">
+                <a href="${loginUrl}" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; margin: 20px 0;">Enter The Dog Show</a>
+              </div>
+              <p style="font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 30px; text-align: center;">This link expires in 60 minutes. If you didn't request this, you can ignore this email.</p>
               ${footer}
             </div>
           `,
@@ -3737,6 +3739,22 @@ export default class DogShowServer {
     const breed = dog.breed || 'Mystery Breed';
     const imageUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=' + dog.id;
     const pageUrl = dog.slug ? `${SITE_URL}/d/${dog.slug}` : `${SITE_URL}/dog.html?id=${dog.id}`;
+    // A booked (scheduled) dog hasn't aired yet, so the page is a countdown/RSVP
+    // page, not a certificate — the copy + CTA must reflect that (audit L8).
+    const isScheduled = dog.slotAt && Number(dog.slotAt) > Date.now() && !dog.firstAppearedAt;
+    const slotStr = isScheduled
+      ? new Date(Number(dog.slotAt)).toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'UTC', timeZoneName: 'short' })
+      : '';
+    const subject = isScheduled ? `🗓️ ${dogName} is booked for The Dog Show` : `🏆 ${dogName} is in The Dog Show`;
+    const eyebrow = isScheduled ? 'Booked' : 'On Stage';
+    const headline = isScheduled ? `${dogName} is booked` : `${dogName} is in the show`;
+    const blurb = isScheduled
+      ? `${breed} &middot; booked for ${slotStr}. We'll put them on the main stage then.`
+      : `${breed} &middot; now in the rotation, collecting bones from the crowd.`;
+    const ctaLabel = isScheduled ? `View ${dogName}'s page` : `View ${dogName}'s certificate`;
+    const shareLine = isScheduled
+      ? 'Share their page so friends can RSVP and cheer them on:'
+      : 'Share their page so friends can throw bones:';
     try {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -3747,20 +3765,20 @@ export default class DogShowServer {
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
           to: [email],
-          subject: `🏆 ${dogName} is in The Dog Show`,
+          subject: subject,
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
               <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 4px; text-align: center;">The Dog Show</h1>
-              <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">On Stage</p>
+              <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">${eyebrow}</p>
               <div style="background: #241a45; border-radius: 12px; padding: 28px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px;">
                 <img src="${imageUrl}" alt="${dogName}" width="240" style="display: block; width: 240px; max-width: 100%; height: auto; border-radius: 12px; margin: 0 auto 18px;">
-                <h2 style="color: #e0d8f0; font-size: 21px; margin: 0 0 6px; text-align: center;">${dogName} is in the show</h2>
-                <p style="font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.65); text-align: center; margin: 0;">${breed} &middot; now in the rotation, collecting bones from the crowd.</p>
+                <h2 style="color: #e0d8f0; font-size: 21px; margin: 0 0 6px; text-align: center;">${headline}</h2>
+                <p style="font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.65); text-align: center; margin: 0;">${blurb}</p>
               </div>
               <div style="text-align: center; margin-bottom: 24px;">
-                <a href="${pageUrl}" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;">View ${dogName}'s certificate</a>
+                <a href="${pageUrl}" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;">${ctaLabel}</a>
               </div>
-              <p style="text-align: center; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 4px;">Share their page so friends can throw bones:</p>
+              <p style="text-align: center; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 4px;">${shareLine}</p>
               <p style="text-align: center; font-size: 13px; margin-top: 0; word-break: break-all;">
                 <a href="${pageUrl}" style="color: #FF8C42;">${pageUrl}</a>
               </p>

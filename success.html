@@ -268,7 +268,7 @@
     <a class="success-btn-secondary" href="/" id="enterAnotherBtn" hidden>Enter Another Dog</a>
   </div>
 
-  <div class="success-trust">Payment confirmed. Lifetime access activated.</div>
+  <div class="success-trust">Payment confirmed. You're all set.</div>
 
   <!-- Curtain Reveal Overlay -->
   <div class="curtain-overlay" id="curtainOverlay" hidden>
@@ -363,7 +363,7 @@
     async function registerUser() {
       if (!sessionId) {
         console.error('No session_id on success page — cannot verify payment.');
-        return;
+        return false;
       }
 
       try {
@@ -382,22 +382,41 @@
           if (data.user.fan_id) {
             localStorage.setItem('dogshow_fan_id', data.user.fan_id);
           }
-        } else {
-          console.error('Checkout verification failed:', data.error || res.status);
+          return true;
         }
+        console.error('Checkout verification failed:', data.error || res.status);
+        return false;
       } catch (e) {
         console.error('Checkout verification failed:', e);
+        return false;
       }
     }
 
-    // For bones-pack purchases: verify, then redirect to show without the
-    // BYD celebration. ?topup=1 lets app.js show a brief confirmation toast.
+    // Never fail silently if verification doesn't come back ok (audit M2). The
+    // Stripe webhook still provisions server-side, so this is reassuring rather
+    // than alarming — but the user must see something and a way to get help,
+    // instead of being bounced to the show as if nothing happened.
+    function showVerifyError() {
+      document.documentElement.style.visibility = 'visible';
+      var ic = document.getElementById('successIcon');
+      var t = document.getElementById('successTitle');
+      var s = document.getElementById('successSubtitle');
+      if (ic) ic.textContent = '⏳';
+      if (t) t.textContent = "We couldn't confirm your payment just yet.";
+      if (s) s.textContent = "If you were charged, your access activates within a few minutes. Reply to your Stripe receipt and we'll sort it out right away.";
+    }
+
+    // For bones-pack purchases: verify, then redirect to the show (only on
+    // success). On failure, surface the message instead of a silent redirect.
     if (isBonesPackPurchase) {
-      registerUser().then(function () {
-        window.location.replace('show.html?topup=1');
+      registerUser().then(function (ok) {
+        if (ok) window.location.replace('show.html?topup=1');
+        else showVerifyError();
       });
     } else {
-      registerUser();
+      registerUser().then(function (ok) {
+        if (!ok) showVerifyError();
+      });
     }
 
     // Enter show button
