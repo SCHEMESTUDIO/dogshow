@@ -519,10 +519,27 @@
       upgradePrimary.disabled = true;
       upgradePrimary.textContent = 'Opening checkout…';
     }
+    // Forward Faurya cookies as Stripe metadata so Faurya can attribute this
+    // in-show top-up to the visitor's session/source (parity with the landing-
+    // page checkout in index.html). Without these, Faurya sees the revenue
+    // but cannot link it to a marketing channel.
+    function readCookie(name) {
+      var parts = document.cookie ? document.cookie.split(';') : [];
+      for (var i = 0; i < parts.length; i++) {
+        var c = parts[i].replace(/^\s+/, '');
+        if (c.indexOf(name + '=') === 0) return c.substring(name.length + 1);
+      }
+      return null;
+    }
     fetch(PARTY_API + '/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tier: 'general', email: email }),
+      body: JSON.stringify({
+        tier: 'general',
+        email: email,
+        faurya_visitor_id: readCookie('faurya_visitor_id') || undefined,
+        faurya_session_id: readCookie('faurya_session_id') || undefined,
+      }),
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
