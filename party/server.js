@@ -3407,23 +3407,22 @@ export default class DogShowServer {
   async unsubscribeFooter(userId) {
     if (!userId) return '';
     const token = await this._unsubToken(userId);
-    const unsubUrl = `${SITE_URL}/party/dogshow-live/unsubscribe?u=${encodeURIComponent(userId)}&t=${token}`;
-    // Use the PartyKit host so the link resolves to the unsubscribe handler.
-    // (SITE_URL is dogshow.lol; PartyKit lives on a different domain.)
-    const partyUnsubUrl = `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/unsubscribe?u=${encodeURIComponent(userId)}&t=${token}`;
-    // HTML-escape the ampersand for the href. A raw "&t=" inside an HTML
-    // attribute is parsed as a character reference and gets mangled by email
-    // clients (it was dropping the "=" plus a token char from the delivered
-    // link — audit H1). The generated URL string was always correct; only the
-    // rendered HTML attribute was wrong, so escaping the "&" fixes delivery.
-    const partyUnsubUrlHtml = partyUnsubUrl.replace(/&/g, '&amp;');
+    // Single opaque param: ?x=<userId>.<token>. A two-param "?u=..&t=.." link
+    // had the SECOND param's "=" silently stripped somewhere in email delivery
+    // (audit H1) — the first param's "=" always survived — so we collapse both
+    // values into one param. userIds ("user_xxx") and tokens (hex) contain no
+    // ".", so splitting on the first "." reverses it. (HTML-escaping the "&"
+    // did NOT fix it, confirming the mangling is in the mail pipeline, not the
+    // HTML.) The handler still accepts the legacy ?u=..&t=.. form.
+    const x = encodeURIComponent(`${userId}.${token}`);
+    const partyUnsubUrl = `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/unsubscribe?x=${x}`;
     // Physical mailing address — required for CAN-SPAM. Shown at the bottom
     // of every user-facing email next to the unsubscribe link.
     const ADDR_LINE = '222 Spaniel Dr, Morrisville, NC 27560, USA';
     return `
       <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center; font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.6;">
         <p style="margin: 0 0 6px;">You're getting this because you signed up for The Dog Show.</p>
-        <p style="margin: 0 0 6px;"><a href="${partyUnsubUrlHtml}" style="color: rgba(255,140,66,0.7); text-decoration: underline;">Unsubscribe</a> from these emails.</p>
+        <p style="margin: 0 0 6px;"><a href="${partyUnsubUrl}" style="color: rgba(255,140,66,0.7); text-decoration: underline;">Unsubscribe</a> from these emails.</p>
         ${ADDR_LINE ? `<p style="margin: 0;">${ADDR_LINE}</p>` : ''}
       </div>
     `;
@@ -3434,8 +3433,15 @@ export default class DogShowServer {
   // Returns a small HTML confirmation page so the user knows it worked.
   async handleUnsubscribe(req, headers) {
     const url = new URL(req.url);
-    const userId = url.searchParams.get('u') || '';
-    const token = url.searchParams.get('t') || '';
+    // Prefer the single-param form (?x=<userId>.<token>); fall back to the
+    // legacy ?u=..&t=.. for any links already sitting in inboxes (audit H1).
+    let userId = url.searchParams.get('u') || '';
+    let token = url.searchParams.get('t') || '';
+    const x = url.searchParams.get('x') || '';
+    if (x) {
+      const dot = x.indexOf('.');
+      if (dot > 0) { userId = x.slice(0, dot); token = x.slice(dot + 1); }
+    }
     const htmlHeaders = { ...headers, 'Content-Type': 'text/html; charset=utf-8' };
     delete htmlHeaders['content-type'];  // case-defensive
     const renderPage = (status, title, body) => new Response(
