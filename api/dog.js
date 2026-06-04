@@ -312,11 +312,15 @@ ${hasSlot ? `
             btn.disabled = false; btn.textContent = 'Remind me';
             return;
           }
-          // Persist credentials so when the fan lands on the show they're
-          // already authenticated with 250 bones in hand.
+          // Persist credentials so when a NEW (logged-out) fan lands on the show
+          // they're already authenticated with 250 bones. Never overwrite an
+          // existing session: a logged-in owner who RSVPs to a dog must stay on
+          // their own account (audit: RSVP session clobber).
           try {
-            if (res.body.token) localStorage.setItem('dogshow_token', res.body.token);
-            localStorage.setItem('dogshow_email', email);
+            if (res.body.token && !localStorage.getItem('dogshow_token')) {
+              localStorage.setItem('dogshow_token', res.body.token);
+              localStorage.setItem('dogshow_email', email);
+            }
           } catch (e) {}
           msg.className = 'preshow-rsvp-msg ok';
           if (res.body.airingNow) {
