@@ -33,6 +33,7 @@
     <div class="landing-presenting">welcome back</div>
     <h1 class="landing-title">DOG SHOW</h1>
     <p class="landing-tagline-static" id="statusMessage">Verifying your login...</p>
+    <a id="loginCta" href="/#loginSection" style="display:none;margin-top:18px;padding:12px 28px;background:#FF8C42;color:#1a1035;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">Request a new link &rarr;</a>
   </div>
 
   <div class="curtain-overlay" id="curtainOverlay" hidden>
@@ -54,10 +55,13 @@
     const params = new URLSearchParams(window.location.search);
     const magicToken = params.get('token');
     const statusMessage = document.getElementById('statusMessage');
+    const loginCta = document.getElementById('loginCta');
+    function showLoginCta() { if (loginCta) loginCta.style.display = 'inline-block'; }
 
     async function verifyLogin() {
       if (!magicToken) {
         statusMessage.textContent = 'Invalid login link. Please request a new one.';
+        showLoginCta();
         return;
       }
 
@@ -102,9 +106,11 @@
           }, 3500);
         } else {
           statusMessage.textContent = data.error || 'This link has expired. Please request a new one.';
+          showLoginCta();
         }
       } catch (e) {
         statusMessage.textContent = 'Something went wrong. Please try again.';
+        showLoginCta();
       }
     }
 
