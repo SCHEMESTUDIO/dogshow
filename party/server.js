@@ -3411,13 +3411,19 @@ export default class DogShowServer {
     // Use the PartyKit host so the link resolves to the unsubscribe handler.
     // (SITE_URL is dogshow.lol; PartyKit lives on a different domain.)
     const partyUnsubUrl = `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/unsubscribe?u=${encodeURIComponent(userId)}&t=${token}`;
+    // HTML-escape the ampersand for the href. A raw "&t=" inside an HTML
+    // attribute is parsed as a character reference and gets mangled by email
+    // clients (it was dropping the "=" plus a token char from the delivered
+    // link — audit H1). The generated URL string was always correct; only the
+    // rendered HTML attribute was wrong, so escaping the "&" fixes delivery.
+    const partyUnsubUrlHtml = partyUnsubUrl.replace(/&/g, '&amp;');
     // Physical mailing address — required for CAN-SPAM. Shown at the bottom
     // of every user-facing email next to the unsubscribe link.
     const ADDR_LINE = '222 Spaniel Dr, Morrisville, NC 27560, USA';
     return `
       <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center; font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.6;">
         <p style="margin: 0 0 6px;">You're getting this because you signed up for The Dog Show.</p>
-        <p style="margin: 0 0 6px;"><a href="${partyUnsubUrl}" style="color: rgba(255,140,66,0.7); text-decoration: underline;">Unsubscribe</a> from these emails.</p>
+        <p style="margin: 0 0 6px;"><a href="${partyUnsubUrlHtml}" style="color: rgba(255,140,66,0.7); text-decoration: underline;">Unsubscribe</a> from these emails.</p>
         ${ADDR_LINE ? `<p style="margin: 0;">${ADDR_LINE}</p>` : ''}
       </div>
     `;
