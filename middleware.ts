@@ -1,5 +1,5 @@
 /* ============================================================================
- * middleware.mjs — Vercel Edge Middleware: geo classification for consent
+ * middleware.ts — Vercel Edge Middleware: geo classification for consent
  * ----------------------------------------------------------------------------
  * Sets a strictly-necessary `dogshow_geo` cookie (EU | ROW) on page responses
  * so consent.js can decide whether a consent banner is legally required:
@@ -10,18 +10,21 @@
  * write "EU" so an unidentified visitor is treated as in-scope and prompted,
  * rather than silently tracked.
  *
- * ESM (.mjs) is used deliberately: package.json stays CommonJS so the existing
- * CJS serverless functions (api/dog.js, api/breed.js) keep working. Adding
- * "type":"module" would break them.
+ * WHY .ts (not .mjs): Vercel detects the middleware entrypoint only by the
+ * extensions ts/tsx/js/jsx. A `middleware.mjs` is NOT recognized — with
+ * `outputDirectory: "."` it was simply served as a static file and never ran.
+ * TypeScript is compiled by Vercel, supports the ESM import below, and avoids
+ * adding "type":"module" to package.json (which would break the CommonJS
+ * serverless functions api/dog.js + api/breed.js).
  *
- * NOTE: Vercel geolocation headers are only populated on deployed requests —
- * `geolocation()` returns undefined country in local dev, which (per the
- * fail-safe above) shows the banner locally. That's expected.
+ * NOTE: Vercel geolocation is only populated on deployed requests — locally
+ * `geolocation()` returns an undefined country, which (per the fail-safe)
+ * shows the banner. That's expected.
  * ==========================================================================*/
 import { geolocation, next } from '@vercel/functions';
 
 // EEA (EU-27 + Iceland, Liechtenstein, Norway) + UK + Switzerland.
-const GDPR_COUNTRIES = new Set([
+const GDPR_COUNTRIES = new Set<string>([
   // EU-27
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR',
   'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
@@ -33,19 +36,17 @@ const GDPR_COUNTRIES = new Set([
 ]);
 
 export const config = {
-  // Run on document routes only. Exclude:
-  //   • /api/*            — serverless functions
-  //   • anything.ext      — static assets (.js .css .png .ttf .svg .ico ...)
-  // Clean URLs (/, /show, /privacy, /d/:slug, /breeds/:slug) have no extension
-  // and so are matched; trackers/assets are not.
+  // Run on document routes only. Exclude /api/* and any extensioned path
+  // (static assets). Clean URLs (/, /show, /privacy, /d/:slug, /breeds/:slug)
+  // have no extension and so are matched.
   matcher: ['/((?!api/|.*\\.[\\w]+$).*)'],
 };
 
-export default function middleware(request) {
-  let country;
+export default function middleware(request: Request) {
+  let country: string | undefined;
   try {
     country = geolocation(request).country;
-  } catch (e) {
+  } catch {
     country = undefined;
   }
   // Unknown country -> treat as EU (fail-safe).

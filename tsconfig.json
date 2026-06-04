@@ -10,5 +10,5 @@
     "strict": false,
     "isolatedModules": true
   },
-  "include": ["api/**/*"]
+  "include": ["api/**/*", "middleware.ts"]
 }
