@@ -1367,27 +1367,41 @@
   // fresh. A stale photo (from an earlier, abandoned checkout) is discarded,
   // never submitted, so it can't surface as the wrong dog (audit: stale
   // localStorage handoff). The original drop-on-entry fix is audit #37.
+  // Clear the stashed pre-purchase dog from localStorage. Called ONLY once the
+  // server has confirmed the dog (upload ok / already_have_dog) or when the
+  // stash is junk/stale — never before a successful upload. This is what makes
+  // abandoning the username modal non-destructive: the stash survives so the
+  // dog can be re-submitted on the next visit (audit M3).
+  function clearPendingDog() {
+    localStorage.removeItem('dogshow_pending_dog_image');
+    localStorage.removeItem('dogshow_pending_dog_name');
+    localStorage.removeItem('dogshow_pending_dog_breed');
+    localStorage.removeItem('dogshow_pending_dog_slot');
+    localStorage.removeItem('dogshow_pending_dog_ts');
+  }
+
   function autoSubmitPendingDog() {
     var pendingImage = localStorage.getItem('dogshow_pending_dog_image');
     var pendingName = localStorage.getItem('dogshow_pending_dog_name');
     var pendingBreed = localStorage.getItem('dogshow_pending_dog_breed');
     var pendingSlot = localStorage.getItem('dogshow_pending_dog_slot');
     var pendingTs = parseInt(localStorage.getItem('dogshow_pending_dog_ts') || '0', 10);
-    // Clear first so a page refresh can't double-submit the same dog.
-    localStorage.removeItem('dogshow_pending_dog_image');
-    localStorage.removeItem('dogshow_pending_dog_name');
-    localStorage.removeItem('dogshow_pending_dog_breed');
-    localStorage.removeItem('dogshow_pending_dog_slot');
-    localStorage.removeItem('dogshow_pending_dog_ts');
-    if (!pendingImage || pendingImage.indexOf('data:image/') !== 0) return;
+    // Junk or stale handoff — discard it (nothing worth keeping or retrying).
+    if (!pendingImage || pendingImage.indexOf('data:image/') !== 0) { clearPendingDog(); return; }
     // A real checkout takes minutes; anything older than 45 min is leftover.
-    if (!pendingTs || (Date.now() - pendingTs) > 45 * 60 * 1000) return;
+    if (!pendingTs || (Date.now() - pendingTs) > 45 * 60 * 1000) { clearPendingDog(); return; }
     // Parse the optional slot timestamp. Server validates; we just hand it on.
     var slotAt = null;
     if (pendingSlot) {
       var n = Number(pendingSlot);
       if (Number.isFinite(n) && n > Date.now()) slotAt = n;
     }
+    // NB: we deliberately do NOT clear the stash here. submitDogImage clears it
+    // only after the server confirms the dog. If the buyer abandons the
+    // username modal, the stash remains and is retried next visit (audit M3).
+    // Double-submit-safe: PartyKit serializes the room's requests and enforces
+    // one-dog-per-account (409 already_have_dog, handled below), and the
+    // /my-dog check clears the stash when a dog already exists.
     submitDogImage(pendingImage, pendingName || 'A Good Dog', pendingBreed || '', slotAt);
   }
 
@@ -1412,10 +1426,7 @@
         if (data && data.ok && data.dog) {
           // Already has a dog — show the certificate link and drop any
           // leftover pending photo so it can't be re-submitted.
-          localStorage.removeItem('dogshow_pending_dog_image');
-          localStorage.removeItem('dogshow_pending_dog_name');
-          localStorage.removeItem('dogshow_pending_dog_breed');
-          localStorage.removeItem('dogshow_pending_dog_ts');
+          clearPendingDog();
           showDogCertificate(data.dog.slug, data.dog.id, false);
           return;
         }
@@ -1522,6 +1533,9 @@
       .then(function (res) { return res.json(); })
       .then(function (data) {
         if (data.ok) {
+          // Server confirmed the dog exists — now it's safe to drop the stash
+          // (audit M3: never clear before this point).
+          clearPendingDog();
           showDogCertificate(data.slug, data.id, true);
           // After a bit, switch from "waiting" to "live".
           setTimeout(function () {
@@ -1532,6 +1546,7 @@
         } else if (data.code === 'already_have_dog') {
           // Not a failure — they already have a dog. Show its certificate link
           // instead of a dead-end error (audit: returning-user upload flow).
+          clearPendingDog();
           showDogCertificate(data.slug, data.id, false);
         } else {
           showUploadStatus(data.error || 'Upload failed.', true, data.code || 'server_rejected');
