@@ -2880,8 +2880,11 @@ export default class DogShowServer {
         continue;
       }
       for (const r of dog.rsvps) {
-        // 1hr reminder: fire when within 60min of slot.
-        if (!r.sent1h && slotAt - now <= 60 * 60 * 1000 && slotAt > now) {
+        // 1hr reminder: fire when within 60min of slot — but only while MORE
+        // than 5min remain. Without this lower bound, a slot booked < ~6min out
+        // satisfies both this and the 5-min check in the same alarm pass and
+        // sends two identical reminder emails (audit L9).
+        if (!r.sent1h && slotAt - now <= 60 * 60 * 1000 && slotAt - now > 5 * 60 * 1000) {
           await this.sendSlotReminderEmail(r.email, dog, Math.max(minutesUntil, 1))
             .catch(e => console.error('[Reminder] 1hr send failed:', e && e.message));
           r.sent1h = true;

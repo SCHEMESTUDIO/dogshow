@@ -228,7 +228,7 @@ ${hasSlot ? `
 <div class="preshow-rsvp" id="psRsvp">
   <div class="preshow-rsvp-title">${hasSlot ? 'Set a reminder' : 'Get notified next time'}</div>
   <div class="preshow-rsvp-sub">${hasSlot
-    ? "We'll email you an hour and 5 minutes before " + esc(name) + " takes the stage."
+    ? "We'll email you a reminder before " + esc(name) + " takes the stage."
     : "Drop your email — we'll let you know when " + esc(name) + " appears."}</div>
   <form class="preshow-rsvp-form" id="psForm">
     <input class="preshow-rsvp-input" type="email" name="email" id="psEmail" placeholder="you@email.com" autocomplete="email" required>
@@ -329,7 +329,7 @@ ${hasSlot ? `
           } else if (res.body.alreadyAired) {
             msg.textContent = "They've already aired. You'll get a heads-up next time we run an event.";
           } else {
-            msg.textContent = "You're on the list. We'll email you an hour and 5 minutes before.";
+            msg.textContent = "You're on the list. We'll email you a reminder before they take the stage.";
           }
           btn.textContent = "You're in!";
         })
