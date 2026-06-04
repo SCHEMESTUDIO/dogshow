@@ -122,8 +122,7 @@ function shell(headHtml, bodyHtml) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 ${headHtml}
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-V830P7PPHQ"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-V830P7PPHQ');</script>
+<script src="/consent.js" defer></script>
 <script src="/analytics.js" defer></script>
 <style>${STYLES}</style>
 </head>
@@ -135,6 +134,7 @@ ${bodyHtml}
     <a href="/about#contact" style="font-size:12px;color:#5a4d80;text-decoration:none;">Contact</a>
     <a href="/dogs" style="font-size:12px;color:#5a4d80;text-decoration:none;">All Dogs</a>
     <a href="/privacy" style="font-size:12px;color:#5a4d80;text-decoration:none;">Privacy</a>
+    <a href="#" data-cookie-settings style="font-size:12px;color:#5a4d80;text-decoration:none;">Cookie settings</a>
     <a href="/terms" style="font-size:12px;color:#5a4d80;text-decoration:none;">Terms</a>
     <a href="/dog-photo-contest" style="font-size:12px;color:#5a4d80;text-decoration:none;">Dog Photo Contest</a>
     <a href="/cutest-dog-contest" style="font-size:12px;color:#5a4d80;text-decoration:none;">Cutest Dog Contest</a>

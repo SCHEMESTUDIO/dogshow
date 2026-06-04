@@ -7,6 +7,7 @@
     "build": "echo 'No build step — static files served as-is; install runs only so Edge functions can resolve their deps.'"
   },
   "dependencies": {
+    "@vercel/functions": "3.6.2",
     "@vercel/og": "0.6.3",
     "react": "^18.2.0"
   }

@@ -3,17 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V830P7PPHQ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-V830P7PPHQ');
-  </script>
-  <!-- Faurya Analytics -->
-  <script async defer src="https://www.faurya.com/js/script.js" data-website-id="cmosekmvz000xl204a7bhm4cm" data-domain="dogshow.lol"></script>
   <!-- Bing UET + Clarity (see analytics.js for setup) -->
+  <script src="consent.js" defer></script>
   <script src="analytics.js" defer></script>
   <title>Privacy Policy — The Dog Show</title>
   <meta name="description" content="What The Dog Show collects, who we share it with, and how to get your data deleted.">
@@ -287,7 +278,7 @@
     <p>We don't sell your personal information. We don't share it with anyone outside the processors above, and we don't use it for "cross-context behavioural advertising" with anyone except Microsoft UET for the purpose of measuring and improving our advertising on Bing.</p>
 
     <h2>4. Cookies and similar technologies</h2>
-    <p>We use a small number of cookies and similar storage. You can clear them at any time from your browser settings.</p>
+    <p>We use a small number of cookies and similar storage. <strong>If you are in the UK, the EU/EEA, or Switzerland, the analytics and advertising ones below do not load until you accept them</strong> — we show a banner on your first visit and set none of them unless you choose "Accept all". Visitors elsewhere have these set by default, in line with local law. Either way, strictly-necessary storage (keeping you signed in, remembering your cookie choice, working out which region you're in) always works, and you can change or withdraw your choice at any time using <a href="#" data-cookie-settings>Cookie settings</a> or by clearing cookies in your browser.</p>
 
     <table class="legal-table">
       <thead>
@@ -299,11 +290,15 @@
       </thead>
       <tbody>
         <tr><td><code>dogshow_token</code>, <code>dogshow_tier</code>, <code>dogshow_username</code>, <code>dogshow_fan_id</code> (localStorage)</td><td>Strictly necessary</td><td>Keeps you signed in across visits.</td></tr>
+        <tr><td><code>dogshow_consent</code>, <code>dogshow_consent_at</code> (localStorage)</td><td>Strictly necessary</td><td>Remembers your cookie choice so we don't ask again.</td></tr>
+        <tr><td><code>dogshow_geo</code></td><td>Strictly necessary</td><td>Records whether your request came from a region where we must ask for consent first (set by us from your approximate country; not shared).</td></tr>
         <tr><td><code>faurya_visitor_id</code>, <code>faurya_session_id</code></td><td>Analytics</td><td>Distinguishes one visitor from another for site analytics.</td></tr>
         <tr><td><code>_ga</code>, <code>_ga_*</code></td><td>Analytics</td><td>Google Analytics 4 — anonymised site usage.</td></tr>
         <tr><td><code>MUID</code> and related (set by bat.bing.net)</td><td>Advertising</td><td>Microsoft UET — measures the effectiveness of our Bing Ads.</td></tr>
       </tbody>
     </table>
+
+    <p>For visitors in the UK, EU/EEA, or Switzerland the analytics and advertising rows above are only set after you accept them; reject, and none of them ever load. Error tracking (<a href="https://sentry.io/privacy/" target="_blank" rel="noopener">Sentry</a>, see section 3) is the one exception we treat as strictly necessary: it monitors crashes and faults to keep the site stable and secure, sets no cookies or tracking identifiers in your browser, and runs on the legitimate-interest basis described above rather than on consent.</p>
 
     <p>We do not currently use session recording or heatmaps. If we ever turn on Microsoft Clarity (currently scaffolded but disabled), we will update this policy and add a notice to the relevant pages.</p>
 
@@ -351,6 +346,7 @@
       <a href="/about#contact" class="legal-footer-link">Contact</a>
       <a href="/dogs" class="legal-footer-link">All Dogs</a>
       <a href="/privacy" class="legal-footer-link">Privacy</a>
+      <a href="#" data-cookie-settings class="legal-footer-link">Cookie settings</a>
       <a href="/terms" class="legal-footer-link">Terms</a>
       <a href="/dog-photo-contest" class="legal-footer-link">Dog Photo Contest</a>
       <a href="/cutest-dog-contest" class="legal-footer-link">Cutest Dog Contest</a>
