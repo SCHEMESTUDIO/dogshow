@@ -632,10 +632,10 @@
     fetch('https://dogshow.schemestudio.partykit.dev/parties/main/dogshow-live/landing-stats')
       .then(function(r) { return r.json(); })
       .then(function(data) {
-        if (data.bones) document.getElementById('statBones').textContent = Number(data.bones).toLocaleString();
-        if (data.fans) document.getElementById('statFans').textContent = Number(data.fans).toLocaleString();
-        if (data.dogs) document.getElementById('statDogs').textContent = Number(data.dogs).toLocaleString();
-        if (data.watching) document.getElementById('statWatching').textContent = Number(data.watching).toLocaleString();
+        if (data.totalBones != null) document.getElementById('statBones').textContent = Number(data.totalBones).toLocaleString();
+        if (data.totalFans != null) document.getElementById('statFans').textContent = Number(data.totalFans).toLocaleString();
+        if (data.totalDogs != null) document.getElementById('statDogs').textContent = Number(data.totalDogs).toLocaleString();
+        if (data.watching != null) document.getElementById('statWatching').textContent = Number(data.watching).toLocaleString();
       })
       .catch(function() {});
 
@@ -644,17 +644,17 @@
       .then(function(r) { return r.json(); })
       .then(function(data) {
         var gallery = document.getElementById('dogGallery');
-        var dogs = (data.recent || data.top || []).slice(0, 8);
+        var dogs = (data.topDogs || data.recent || data.top || []).slice(0, 8);
         dogs.forEach(function(dog) {
           var card = document.createElement('a');
           card.className = 'cd-dog-card';
           card.href = dog.slug ? '/d/' + dog.slug : '/dog.html?id=' + dog.id;
           card.innerHTML =
-            '<img class="cd-dog-img" src="' + (dog.imageUrl || '') + '" alt="' + (dog.name || 'Dog') + '" loading="lazy">' +
+            '<img class="cd-dog-img" src="' + (dog.imageUrl || '') + '" alt="' + (dog.dogName || 'Dog') + '" loading="lazy">' +
             '<div class="cd-dog-info">' +
-              '<div class="cd-dog-name">' + (dog.name || 'Unknown') + '</div>' +
+              '<div class="cd-dog-name">' + (dog.dogName || 'Unknown') + '</div>' +
               (dog.breed ? '<div class="cd-dog-breed">' + dog.breed + '</div>' : '') +
-              '<div class="cd-dog-bones">\u{1F9B4} ' + (dog.bones || 0).toLocaleString() + ' bones</div>' +
+              '<div class="cd-dog-bones">\u{1F9B4} ' + (dog.totalBones || 0).toLocaleString() + ' bones</div>' +
             '</div>';
           gallery.appendChild(card);
         });
