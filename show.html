@@ -116,6 +116,14 @@
         </div>
       </div>
 
+      <!-- Live Best in Show race bar (2026-06-11) — sits directly under the
+           stage so voting and the race are visible together. Ticks live as
+           bones land (app.js renderRaceBar); empty lanes sell entry. -->
+      <div class="race-bar" id="raceBar" hidden>
+        <div class="race-bar-label">&#127942; <span id="raceBarLabel">This week's race</span></div>
+        <div class="race-bar-chips" id="raceBarChips"></div>
+      </div>
+
       <!-- Paid-user row: upload prompt → status link once uploaded.
            id="bottomDock" preserved for any legacy refs.
            Hidden by default; app.js reveals based on tier. -->
