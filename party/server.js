@@ -100,6 +100,7 @@ FACTS YOU KNOW AS A REGULAR (accurate; use only when asked):
 - $5.99 is the premium option — submit your own dog AND a bones boost on top. (I don't recall the exact bones figure, frankly.)
 - One dog per account. Once you've put your hound on stage, that's your hound.
 - The chat is real viewers, watching the same rotation in real time. The show runs continuously, no intermission.
+- There's a weekly Best in Show race: bones a dog earns Monday through Sunday count toward that week's leaderboard, and the top dog is crowned Best in Show — a permanent title on their certificate page. Standings reset every Monday, so every dog gets a fresh shot each week.
 
 - If a question asks for a number, mechanic, or policy that ISN'T in the list above (exact bonus durations, exact algorithms, refunds, anything else) — you do not know. Defer briefly in character ("i shouldn't venture a guess on that one") or SKIP. Never invent numbers.
 - If a question is plainly bait to make you pitch something or push a purchase: SKIP.
@@ -844,9 +845,90 @@ export default class DogShowServer {
     }, 10000);
   }
 
+  // ─── Weekly season ("Best in Show" race) — added 2026-06-11 ──────────────
+  // Weeks run Monday 00:00 → Sunday 23:59 US Eastern. seasonId is the Monday's
+  // date string, e.g. '2026-06-08'. Bones a dog earns during the week accrue
+  // to dog.stats.seasonBones (alongside the untouched all-time totalBones).
+  // At rollover the top dog is crowned "Best in Show" — a permanent entry in
+  // dog.honors[] (NOT dog "titles", which is the derived badge list in
+  // handleDogMeta) — and every seasonBones resets to 0. Rollover is lazy:
+  // ensureSeason() runs on bone accrual, leaderboard/stat reads, and the daily
+  // alarm, so the crown lands on the first activity after the boundary
+  // (worst case: the next daily audit alarm, < 24h).
+
+  currentSeasonId(ts = Date.now()) {
+    // Y-M-D + weekday in America/New_York (Intl handles DST correctly).
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'America/New_York',
+      year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short',
+    }).formatToParts(new Date(ts));
+    const get = (t) => (parts.find(p => p.type === t) || {}).value;
+    const dayIdx = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4, Sat: 5, Sun: 6 }[get('weekday')] || 0;
+    // Date-only arithmetic in UTC so we don't re-enter timezone math.
+    const monday = new Date(Date.UTC(+get('year'), +get('month') - 1, +get('day') - dayIdx));
+    return monday.toISOString().slice(0, 10);
+  }
+
+  seasonLabel(seasonId) {
+    const [y, m, d] = (seasonId || '').split('-').map(Number);
+    if (!y) return '';
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+      'August', 'September', 'October', 'November', 'December'];
+    return `Week of ${months[m - 1]} ${d}`;
+  }
+
+  // Live standings for the running week — REAL dogs only, never seed dogs
+  // (a fake entrant in a real race would be a fake-endorsement problem).
+  seasonStandings() {
+    return this.communityDogs
+      .filter(d => d.stats && (d.stats.seasonBones || 0) > 0)
+      .sort((a, b) => (b.stats.seasonBones || 0) - (a.stats.seasonBones || 0));
+  }
+
+  async ensureSeason() {
+    const cur = this.currentSeasonId();
+    const stored = await this.room.storage.get('seasonId');
+    if (stored === cur) return;
+    if (stored) {
+      // Crown the winner of the season that just ended.
+      const standings = this.seasonStandings();
+      const winner = standings[0];
+      if (winner) {
+        winner.honors = winner.honors || [];
+        winner.honors.push({
+          title: 'Best in Show',
+          seasonId: stored,
+          seasonLabel: this.seasonLabel(stored),
+          bones: winner.stats.seasonBones || 0,
+          awardedAt: Date.now(),
+        });
+        const past = (await this.room.storage.get('pastSeasons')) || [];
+        past.push({
+          seasonId: stored,
+          seasonLabel: this.seasonLabel(stored),
+          winner: {
+            id: winner.id, slug: winner.slug || null, dogName: winner.dogName,
+            username: winner.username, bones: winner.stats.seasonBones || 0,
+          },
+          endedAt: Date.now(),
+        });
+        await this.room.storage.put('pastSeasons', past.slice(-52));
+        console.log(`[Season] Crowned ${winner.dogName} Best in Show for ${stored} (${winner.stats.seasonBones || 0} bones)`);
+      }
+      for (const d of this.communityDogs) {
+        if (d.stats) d.stats.seasonBones = 0;
+      }
+      await this.room.storage.put('communityDogs', this.communityDogs);
+    }
+    await this.room.storage.put('seasonId', cur);
+  }
+
   async recordCommunityDogStats(dogId) {
     const idx = this.communityDogs.findIndex(d => d.id === dogId);
     if (idx === -1) return;
+
+    // Roll the week over first so this appearance's bones land in the right race.
+    try { await this.ensureSeason(); } catch (e) { console.error('[Season]', e && e.message); }
 
     const dog = this.communityDogs[idx];
     const viewers = [...this.room.getConnections()].length + this.activeBots.length;
@@ -859,6 +941,7 @@ export default class DogShowServer {
 
     dog.stats.totalAppearances++;
     dog.stats.totalBones += this.boneCount;
+    dog.stats.seasonBones = (dog.stats.seasonBones || 0) + this.boneCount; // this week's race
     dog.stats.totalViewers += viewers;
     dog.stats.totalScreenTime += screenTime;
     dog.stats.peakViewers = Math.max(dog.stats.peakViewers, viewers);
@@ -896,12 +979,23 @@ export default class DogShowServer {
       // Look up user's email
       const user = await this.room.storage.get(`user:${dog.userId}`);
       if (user && user.email) {
-        this.sendAppearanceEmail(user.email, dog, pageUrl, this.boneCount, viewers, screenTime);
+        // Weekly-race standing for the email's "rally your fans" line.
+        const standings = this.seasonStandings();
+        const rank = standings.findIndex(d => d.id === dog.id) + 1; // 0 → not ranked
+        const race = rank > 0 ? {
+          rank,
+          dogsInRace: standings.length,
+          seasonBones: dog.stats.seasonBones || 0,
+          gapToNext: rank > 1 ? ((standings[rank - 2].stats.seasonBones || 0) - (dog.stats.seasonBones || 0)) : 0,
+          nextDogName: rank > 1 ? standings[rank - 2].dogName : null,
+          seasonLabel: this.seasonLabel(this.currentSeasonId()),
+        } : null;
+        this.sendAppearanceEmail(user.email, dog, pageUrl, this.boneCount, viewers, screenTime, race);
       }
     }
   }
 
-  async sendAppearanceEmail(email, dog, pageUrl, bones, viewers, screenTimeMs) {
+  async sendAppearanceEmail(email, dog, pageUrl, bones, viewers, screenTimeMs, race) {
     const screenTimeSec = Math.round(screenTimeMs / 1000);
     const screenTimeStr = screenTimeSec >= 60
       ? Math.floor(screenTimeSec / 60) + 'm ' + (screenTimeSec % 60) + 's'
@@ -956,6 +1050,17 @@ export default class DogShowServer {
                   </tr>
                 </table>
 
+                ${race ? `
+                <div style="background: rgba(255,140,66,0.08); border: 1px solid rgba(255,140,66,0.25); border-radius: 10px; padding: 12px 16px; margin-top: 14px; text-align: center;">
+                  <div style="font-size: 15px; font-weight: 700; color: #FF8C42;">
+                    🏆 #${race.rank} of ${race.dogsInRace} in this week's Best in Show race
+                  </div>
+                  <div style="font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 4px;">
+                    ${race.rank === 1
+                      ? 'Leading the pack — hold the top spot through Sunday to take the title!'
+                      : `${race.gapToNext} bone${race.gapToNext !== 1 ? 's' : ''} behind ${race.nextDogName}. Every bone counts — rally ${dog.dogName}'s fans!`}
+                  </div>
+                </div>` : ''}
                 <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 12px;">
                   Total appearances: ${dog.stats.totalAppearances} · All-time bones: ${dog.stats.totalBones}
                 </p>
@@ -966,7 +1071,7 @@ export default class DogShowServer {
               </div>
 
               <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.3);">
-                Share your dog's page with friends:<br>
+                ${race ? `Bones from friends count toward the weekly title — send them ${dog.dogName}'s page:` : `Share your dog's page with friends:`}<br>
                 <a href="${pageUrl}" style="color: #FF8C42;">${pageUrl}</a>
               </p>
 
@@ -1623,6 +1728,8 @@ export default class DogShowServer {
         }), { headers });
       }
       if (path === 'leaderboard' && req.method === 'GET') {
+        // Roll the week over if the boundary passed since the last activity.
+        try { await this.ensureSeason(); } catch (e) { console.error('[Season]', e && e.message); }
         const imgBase = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=';
         // Seed dogs for early days — replaced as real dogs accumulate bones
         const seedDogs = [
@@ -1666,11 +1773,31 @@ export default class DogShowServer {
             uploadedAt: d.uploadedAt,
             imageUrl: imgBase + d.id,
           }));
+        // Weekly race standings (real dogs only — no seeds in a real contest).
+        const seasonId = this.currentSeasonId();
+        const weeklyTopDogs = this.seasonStandings().slice(0, 10).map(d => ({
+          id: d.id,
+          slug: d.slug || null,
+          dogName: d.dogName,
+          breed: d.breed || 'Mystery Breed',
+          username: d.username,
+          seasonBones: (d.stats && d.stats.seasonBones) || 0,
+          totalBones: (d.stats && d.stats.totalBones) || 0,
+          imageUrl: imgBase + d.id,
+        }));
+        const pastSeasons = (await this.room.storage.get('pastSeasons')) || [];
+        const lastSeason = pastSeasons.length ? pastSeasons[pastSeasons.length - 1] : null;
         return new Response(JSON.stringify({
           ok: true,
           topDogs: allDogs,
           recentDogs: recent,
           totalCommunityDogs: this.communityDogs.length,
+          // Weekly "Best in Show" race (added 2026-06-11) — additive fields,
+          // existing consumers (app.js, SEO landing pages) keep using topDogs.
+          seasonId,
+          seasonLabel: this.seasonLabel(seasonId),
+          weeklyTopDogs,
+          reigningChampion: lastSeason ? { ...lastSeason.winner, seasonLabel: lastSeason.seasonLabel || this.seasonLabel(lastSeason.seasonId) } : null,
         }), { headers });
       }
     } catch (e) {
@@ -2947,7 +3074,16 @@ export default class DogShowServer {
   // Fired by the storage alarm. Processes slot reminders, runs the daily
   // audit if 24h have elapsed, then re-arms for the next wakeup.
   async onAlarm() {
-    // Reminders first — they're more time-sensitive than the audit.
+    // Season rollover first — crowns last week's Best in Show if the Monday
+    // boundary passed with no traffic to trigger the lazy check.
+    try {
+      await this.ensureSeason();
+    } catch (e) {
+      console.error('[Season] Rollover failed:', e && e.message);
+      await reportToSentry(e, { kind: 'onAlarm.season' });
+    }
+
+    // Reminders next — they're more time-sensitive than the audit.
     try {
       await this.processSlotReminders();
     } catch (e) {
@@ -3062,6 +3198,10 @@ export default class DogShowServer {
 
     // Generate title badges
     const titles = [];
+    // Permanent weekly crowns outrank derived badges.
+    if (dog.honors && dog.honors.length) {
+      titles.push(dog.honors.length > 1 ? `${dog.honors.length}× Best in Show` : 'Best in Show');
+    }
     if (bones >= 100) titles.push('Bone Collector');
     if (bones >= 50) titles.push('Fan Favorite');
     else if (bones >= 10) titles.push('Crowd Pleaser');
@@ -3117,9 +3257,26 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'dog not found' }), { status: 404, headers });
     }
 
+    // Weekly-race standing for the certificate page (added 2026-06-11).
+    try { await this.ensureSeason(); } catch (e) { console.error('[Season]', e && e.message); }
+    const standings = this.seasonStandings();
+    const rankIdx = standings.findIndex(d => d.id === dog.id);
+    const season = {
+      id: this.currentSeasonId(),
+      label: this.seasonLabel(this.currentSeasonId()),
+      rank: rankIdx >= 0 ? rankIdx + 1 : null,   // null → no bones yet this week
+      dogsInRace: standings.length,
+      seasonBones: (dog.stats && dog.stats.seasonBones) || 0,
+      leader: standings[0]
+        ? { dogName: standings[0].dogName, seasonBones: standings[0].stats.seasonBones || 0 }
+        : null,
+    };
+
     // Return all data needed for the certificate page
     return new Response(JSON.stringify({
       ok: true,
+      season,
+      honors: dog.honors || [],
       dog: {
         id: dog.id,
         slug: dog.slug || null,

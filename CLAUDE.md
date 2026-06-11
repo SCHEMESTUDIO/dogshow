@@ -45,6 +45,18 @@ The landing-page testimonial rail used to carry 3 fabricated quotes. Google poli
 
 **Email redesign (2026-06-03, `9e0222b`)**: `sendTestimonialRequestEmail` was rebuilt CTA-first — a prominent orange "Reply with a review" button (`mailto:` link with URL-encoded subject preserving the `[ref:TOK-xxxxxxxx]` token) is now the visual focus, followed by the ask copy. The plain-reply path still works for anyone who ignores the button.
 
+## Weekly "Best in Show" Season (added 2026-06-11, branch `leaderboard-reframe`)
+
+Competition-forward reframe: bones a dog earns Monday 00:00 → Sunday 23:59 **US Eastern** accrue to `dog.stats.seasonBones` (all-time `totalBones` untouched); the week's top dog is crowned **Best in Show** — a permanent entry in `dog.honors[]` (NOT "titles", which is the *derived* badge list in `handleDogMeta`/`api/dog.js` `titlesFor()`). Revert point: tag `v1-pre-leaderboard` on main.
+
+- **seasonId** = the Monday's date string (`'2026-06-08'`), computed via `Intl` in `America/New_York` (DST-safe). Helpers in `party/server.js`: `currentSeasonId()`, `seasonLabel()`, `seasonStandings()`, `ensureSeason()`.
+- **Rollover is lazy**: `ensureSeason()` runs on bone accrual (`recordCommunityDogStats`), `/leaderboard` + `/dog-stats` reads, and `onAlarm` (guarantees crowning < 24h after the boundary even with zero traffic). Crowns winner → appends to `pastSeasons` storage key (capped 52) → zeroes every `seasonBones` → stores new `seasonId`.
+- **/leaderboard additive fields**: `seasonId`, `seasonLabel`, `weeklyTopDogs[]` (`seasonBones` per dog — **real dogs only, seeds excluded**: a fake dog in a real race = fake-endorsement problem), `reigningChampion` (last `pastSeasons` winner). `topDogs` unchanged for existing consumers.
+- **/dog-stats additive fields**: top-level `season` (`{id, label, rank, dogsInRace, seasonBones, leader}` — `rank: null` when the dog has 0 bones this week) and `honors[]`.
+- **Surfaces**: index.html hero (top-3 race strip `#heroRace` fed by `/leaderboard`, hidden on fetch error; competition-framed hero sub-copy), show.html leaderboard (weekly race section above all-time, reigning-champion line), `api/dog.js` cert page (race banner + 🏆 honor badges), appearance email (rank + gap-to-next "rally your fans" block), `handleDogMeta` OG badges (Best in Show prepended).
+- **Bot FACTS updated** with the weekly race (standing rule: mechanics changes MUST update `RESPONSIVE_BOT_SYSTEM_PROMPT`).
+- Not built yet (deliberate): winner-notification email, overtake email, mid-week "race ends Sunday" reminder, any prize beyond the title.
+
 ## Bones-as-Currency Model (added 2026-05-26, commit `395b1e3`)
 
 The pricing model shifted on 2026-05-26 from "tier unlocks features forever" to "registered users get a finite bones balance; paid SKUs top it up." Constants live at the top of `party/server.js`:

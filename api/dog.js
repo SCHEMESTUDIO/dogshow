@@ -367,6 +367,8 @@ module.exports = async function handler(req, res) {
 
   let dog;
   let otherDogs = [];
+  let season = null;   // weekly Best in Show race standing (added 2026-06-11)
+  let honors = [];     // permanent weekly crowns
   try {
     const rr = await fetch(`${PARTY}/resolve-slug?slug=${encodeURIComponent(slug)}`);
     const rd = await rr.json();
@@ -380,6 +382,8 @@ module.exports = async function handler(req, res) {
     }
     dog = sd.dog;
     otherDogs = sd.otherDogs || [];
+    season = sd.season || null;
+    honors = sd.honors || [];
   } catch (e) {
     return sendNotFound(res, 502, 'We could not load this dog right now. Please try again shortly.');
   }
@@ -446,8 +450,30 @@ module.exports = async function handler(req, res) {
 <meta name="twitter:image" content="${esc(shareImg)}">
 <script type="application/ld+json">${JSON.stringify(schema)}</script>`;
 
-  const titlesHtml = titlesFor(stats, breed)
+  // Permanent weekly crowns render ahead of the derived badges.
+  const honorBadges = (honors || [])
+    .map(h => `<span class="cert-title-badge" style="background:rgba(255,215,0,0.22);border-color:rgba(255,215,0,0.55);">🏆 ${esc(h.title)} — ${esc(h.seasonLabel || '')}</span>`)
+    .join('');
+  const titlesHtml = honorBadges + titlesFor(stats, breed)
     .map(t => `<span class="cert-title-badge">${esc(t)}</span>`).join('');
+
+  // This week's Best in Show race banner (server-rendered, SEO-safe).
+  let raceHtml = '';
+  if (season && season.rank) {
+    const leading = season.rank === 1;
+    const gap = !leading && season.leader ? (season.leader.seasonBones - season.seasonBones) : 0;
+    raceHtml = `<div style="background:rgba(255,140,66,0.08);border:1px solid rgba(255,140,66,0.3);border-radius:12px;padding:16px 20px;margin:0 0 24px;">
+<div style="font-size:16px;font-weight:700;color:#FF8C42;">🏆 #${season.rank} of ${season.dogsInRace} in this week's Best in Show race</div>
+<div style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:4px;">${leading
+      ? `Leading the pack with ${season.seasonBones} bone${season.seasonBones !== 1 ? 's' : ''} — the title is decided Sunday night.`
+      : `${season.seasonBones} bone${season.seasonBones !== 1 ? 's' : ''} this week — ${gap} behind ${esc(season.leader ? season.leader.dogName : 'the leader')}. Every bone counts.`}</div>
+<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:8px;">Standings reset every Monday. <a href="${SITE}/show.html" style="color:#FF8C42;">Watch live &amp; throw a bone &rarr;</a></div>
+</div>`;
+  } else if (season) {
+    raceHtml = `<div style="background:rgba(255,140,66,0.06);border:1px solid rgba(255,140,66,0.2);border-radius:12px;padding:14px 20px;margin:0 0 24px;">
+<div style="font-size:13px;color:rgba(255,255,255,0.55);">🏆 No bones yet in this week's Best in Show race${season.dogsInRace ? ` — ${season.dogsInRace} dog${season.dogsInRace !== 1 ? 's are' : ' is'} already racing` : ' — the field is wide open'}. <a href="${SITE}/show.html" style="color:#FF8C42;">Watch live &amp; throw the first bone &rarr;</a></div>
+</div>`;
+  }
 
   const statsHtml = [
     [`🦴 ${bones}`, 'Bones Received'],
@@ -492,6 +518,7 @@ module.exports = async function handler(req, res) {
 <h1 class="cert-dog-name">${esc(name)}</h1>
 <div class="cert-owner">submitted by <strong>${esc(owner)}</strong></div>
 <div class="cert-titles">${titlesHtml}</div>
+${raceHtml}
 <div class="cert-stats">${statsHtml}</div>
 <div class="cert-date">${esc(dateLine)}</div>
 <div class="share">

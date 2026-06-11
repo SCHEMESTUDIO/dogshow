@@ -225,8 +225,17 @@
   <!-- Leaderboard -->
   <div class="leaderboard" id="leaderboard" hidden>
     <div class="leaderboard-header">Hall of Bones</div>
+    <!-- Weekly Best in Show race (added 2026-06-11). Every bone thrown this
+         week counts toward the title; standings reset Monday. Real dogs only,
+         never seed dogs. -->
+    <div class="leaderboard-section" id="weeklyRaceSection" hidden>
+      <div class="leaderboard-label">&#127942; <span id="weeklyRaceLabel">This Week's Best in Show Race</span></div>
+      <div style="font-size: 11px; color: var(--text-faint); margin: -2px 0 8px;">Every bone counts &middot; standings reset Monday &middot; the winner is crowned Sunday night</div>
+      <div class="leaderboard-list" id="leaderboardWeekly"></div>
+      <div id="reigningChampion" style="font-size: 12px; color: var(--text-faint); margin-top: 8px;" hidden></div>
+    </div>
     <div class="leaderboard-section">
-      <div class="leaderboard-label">Top Dogs</div>
+      <div class="leaderboard-label">All-Time Top Dogs</div>
       <div class="leaderboard-list" id="leaderboardTop"></div>
     </div>
     <div class="leaderboard-section">

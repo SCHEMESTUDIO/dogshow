@@ -222,6 +222,36 @@
       margin-bottom: 32px;
     }
 
+    .lp-hero-race {
+      max-width: 420px;
+      margin: 0 auto;
+      background: rgba(255, 140, 66, 0.06);
+      border: 1px solid rgba(255, 140, 66, 0.22);
+      border-radius: 14px;
+      padding: 14px 18px;
+      text-align: left;
+    }
+    .lp-hero-race-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #FF8C42;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .lp-hero-race-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 0;
+      font-size: 14px;
+      color: #e0d8f0;
+    }
+    .lp-hero-race-row .rank { color: #FF8C42; font-weight: 700; width: 22px; }
+    .lp-hero-race-row .race-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .lp-hero-race-row .race-bones { color: #7B6BA0; font-size: 13px; }
+    .lp-hero-race-open { font-size: 13px; color: #9b8cc0; text-align: center; }
+
     .lp-hero-bullets {
       list-style: none;
       display: flex;
@@ -1439,10 +1469,17 @@
       Live right now
     </div>
     <h1>The Dog Show</h1>
-    <p class="lp-hero-sub">The internet's live dog show &mdash; featuring your dog.</p>
+    <p class="lp-hero-sub">The internet's live dog show. Every bone counts toward this week's <strong style="color:#FF8C42;">Best in Show</strong> &mdash; can your dog take the title?</p>
     <div class="lp-hero-actions">
       <button class="lp-btn lp-btn-primary" id="heroCta">Enter Your Dog &mdash; $3.99</button>
       <button class="lp-btn lp-btn-secondary" id="heroFree">Peek Inside Free</button>
+    </div>
+    <!-- This week's Best in Show race — populated from /leaderboard (weeklyTopDogs).
+         Hidden until the fetch succeeds; shows an open-field line when nobody
+         has bones yet. Real dogs only — never seed/sample dogs here. -->
+    <div class="lp-hero-race" id="heroRace" style="display: none;">
+      <div class="lp-hero-race-label" id="heroRaceLabel">This week's race</div>
+      <div class="lp-hero-race-rows" id="heroRaceRows"></div>
     </div>
   </section>
 
@@ -1605,6 +1642,42 @@
           .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
           .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
       }
+      // ── Hero: this week's Best in Show race (top 3) ──
+      (function () {
+        var race = document.getElementById('heroRace');
+        var rows = document.getElementById('heroRaceRows');
+        var label = document.getElementById('heroRaceLabel');
+        if (!race || !rows) return;
+        fetch(PARTY + '/leaderboard')
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (!data || !data.ok) return;
+            var weekly = data.weeklyTopDogs || [];
+            if (label && data.seasonLabel) label.textContent = 'Best in Show race — ' + data.seasonLabel;
+            if (weekly.length === 0) {
+              rows.innerHTML = '<div class="lp-hero-race-open">The field is wide open this week &mdash; the first bone takes the lead. 🦴</div>';
+            } else {
+              weekly.slice(0, 3).forEach(function (d, i) {
+                var row = document.createElement('div');
+                row.className = 'lp-hero-race-row';
+                var rank = document.createElement('span');
+                rank.className = 'rank';
+                rank.textContent = '#' + (i + 1);
+                var nm = document.createElement('span');
+                nm.className = 'race-name';
+                nm.textContent = d.dogName + (d.breed && d.breed !== 'Mystery Breed' ? ' · ' + d.breed : '');
+                var bones = document.createElement('span');
+                bones.className = 'race-bones';
+                bones.textContent = '🦴 ' + (d.seasonBones || 0);
+                row.appendChild(rank); row.appendChild(nm); row.appendChild(bones);
+                rows.appendChild(row);
+              });
+            }
+            race.style.display = '';
+          })
+          .catch(function () { /* keep hidden on error */ });
+      })();
+
       fetch(PARTY + '/testimonials')
         .then(function (r) { return r.json(); })
         .then(function (data) {

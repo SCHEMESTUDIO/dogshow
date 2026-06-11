@@ -1137,12 +1137,59 @@
   var leaderboardEl = document.getElementById('leaderboard');
   var leaderboardTopEl = document.getElementById('leaderboardTop');
   var leaderboardRecentEl = document.getElementById('leaderboardRecent');
+  var weeklyRaceSection = document.getElementById('weeklyRaceSection');
+  var weeklyRaceLabel = document.getElementById('weeklyRaceLabel');
+  var leaderboardWeeklyEl = document.getElementById('leaderboardWeekly');
+  var reigningChampionEl = document.getElementById('reigningChampion');
 
   function loadLeaderboard() {
     fetch(API_BASE + '/leaderboard')
       .then(function (r) { return r.json(); })
       .then(function (data) {
         if (!data.ok) return;
+
+        // ── Weekly Best in Show race (real dogs only — no seeds) ──
+        if (weeklyRaceSection && leaderboardWeeklyEl) {
+          var weekly = data.weeklyTopDogs || [];
+          if (weeklyRaceLabel && data.seasonLabel) {
+            weeklyRaceLabel.textContent = 'Best in Show Race — ' + data.seasonLabel;
+          }
+          leaderboardWeeklyEl.innerHTML = '';
+          if (weekly.length > 0) {
+            weekly.slice(0, 5).forEach(function (dog, i) {
+              var href = dog.slug ? '/d/' + dog.slug : (dog.id ? 'dog.html?id=' + dog.id : '#');
+              var entry = document.createElement('a');
+              entry.className = 'leaderboard-entry';
+              entry.href = href;
+              if (href !== '#') entry.target = '_blank';
+              var thumbHtml = dog.imageUrl
+                ? '<img class="leaderboard-thumb" src="' + dog.imageUrl + '" alt="' + dog.dogName + '">'
+                : '<div class="leaderboard-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🐕</div>';
+              entry.innerHTML =
+                thumbHtml +
+                '<span class="leaderboard-rank">' + (i + 1) + '</span>' +
+                '<div class="leaderboard-info">' +
+                  '<div class="leaderboard-name">' + dog.dogName + '</div>' +
+                  '<div class="leaderboard-meta">' + dog.breed + ' &middot; by ' + dog.username + '</div>' +
+                '</div>' +
+                '<span class="leaderboard-bones">🦴 ' + (dog.seasonBones || 0) + '</span>';
+              leaderboardWeeklyEl.appendChild(entry);
+            });
+          } else {
+            var open = document.createElement('div');
+            open.style.cssText = 'font-size:13px;color:var(--text-faint);padding:6px 0;';
+            open.textContent = 'The field is wide open this week — the first bone takes the lead. 🦴';
+            leaderboardWeeklyEl.appendChild(open);
+          }
+          if (reigningChampionEl && data.reigningChampion && data.reigningChampion.dogName) {
+            var ch = data.reigningChampion;
+            reigningChampionEl.innerHTML = '👑 Reigning champion: <strong style="color:var(--accent);">' +
+              ch.dogName + '</strong>' + (ch.seasonLabel ? ' — ' + ch.seasonLabel : '') +
+              ' (' + (ch.bones || 0) + ' 🦴)';
+            reigningChampionEl.hidden = false;
+          }
+          weeklyRaceSection.hidden = false;
+        }
 
         if (data.topDogs && data.topDogs.length > 0) {
           leaderboardEl.hidden = false;
