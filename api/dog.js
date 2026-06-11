@@ -130,16 +130,16 @@ ${headHtml}
 ${bodyHtml}
 <footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(255,255,255,0.06);background:#0a0617;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
   <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
-    <a href="/about" style="font-size:12px;color:#5a4d80;text-decoration:none;">About</a>
-    <a href="/about#contact" style="font-size:12px;color:#5a4d80;text-decoration:none;">Contact</a>
-    <a href="/dogs" style="font-size:12px;color:#5a4d80;text-decoration:none;">All Dogs</a>
-    <a href="/privacy" style="font-size:12px;color:#5a4d80;text-decoration:none;">Privacy</a>
-    <a href="#" data-cookie-settings style="font-size:12px;color:#5a4d80;text-decoration:none;">Cookie settings</a>
-    <a href="/terms" style="font-size:12px;color:#5a4d80;text-decoration:none;">Terms</a>
-    <a href="/dog-photo-contest" style="font-size:12px;color:#5a4d80;text-decoration:none;">Dog Photo Contest</a>
-    <a href="/cutest-dog-contest" style="font-size:12px;color:#5a4d80;text-decoration:none;">Cutest Dog Contest</a>
-    <a href="/puppy-picture-contest" style="font-size:12px;color:#5a4d80;text-decoration:none;">Puppy Picture Contest</a>
-    <a href="/dog-show-near-me" style="font-size:12px;color:#5a4d80;text-decoration:none;">Dog Show Near Me</a>
+    <a href="/about" style="font-size:12px;color:#8a7cb8;text-decoration:none;">About</a>
+    <a href="/about#contact" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Contact</a>
+    <a href="/dogs" style="font-size:12px;color:#8a7cb8;text-decoration:none;">All Dogs</a>
+    <a href="/privacy" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Privacy</a>
+    <a href="#" data-cookie-settings style="font-size:12px;color:#8a7cb8;text-decoration:none;">Cookie settings</a>
+    <a href="/terms" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Terms</a>
+    <a href="/dog-photo-contest" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Dog Photo Contest</a>
+    <a href="/cutest-dog-contest" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Cutest Dog Contest</a>
+    <a href="/puppy-picture-contest" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Puppy Picture Contest</a>
+    <a href="/dog-show-near-me" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Dog Show Near Me</a>
   </div>
   <div style="font-size:11px;color:#3d2d6b;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
 </footer>
@@ -487,7 +487,14 @@ module.exports = async function handler(req, res) {
     ? `First appeared ${fmtDate(stats.firstAppearance)}`
     : `Uploaded ${fmtDate(dog.uploadedAt)} — awaiting first appearance`;
 
-  const shareText = encodeURIComponent(`Check out ${name} on The Dog Show! 🐕`);
+  // Share copy is a vote-ask, not a look-at-this: the owner's friends and
+  // family are the voting bloc (and the share medium is overwhelmingly
+  // Facebook/WhatsApp family threads for this audience).
+  const shareText = encodeURIComponent(
+    season && season.rank
+      ? `Vote for ${name} in this week's Dog Show — every bone is a vote! 🦴`
+      : `Cheer for ${name} on The Dog Show — every bone is a vote! 🦴`
+  );
   const shareUrl = encodeURIComponent(url);
 
   const moreDogsHtml = (otherDogs || []).slice(0, 12).map(d => {
@@ -522,7 +529,7 @@ ${raceHtml}
 <div class="cert-stats">${statsHtml}</div>
 <div class="cert-date">${esc(dateLine)}</div>
 <div class="share">
-<div class="share-label">Share this good dog</div>
+<div class="share-label">Rally votes for ${esc(name)} — share with friends &amp; family</div>
 <div class="share-row">
 <a class="share-btn fb" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener">Facebook</a>
 <a class="share-btn x" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener">X</a>

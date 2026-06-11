@@ -29,9 +29,12 @@
   --accent: #7B68EE;
   --accent-dark: #6a5acd;
   --text-bright: #e0d8f0;
-  --text-mid: #9B8FD0;
-  --text-dim: #7B6BA0;
-  --text-faint: #5a4d80;
+  --text-mid: #a89cdb;
+  /* Lightened 2026-06-11 for older-eye contrast (core paid audience skews 65+).
+     Old values: --text-dim #7B6BA0 (~3.5:1 on --bg), --text-faint #5a4d80
+     (~2.3:1) — both below the WCAG 4.5:1 body-text floor. */
+  --text-dim: #9d90c8;
+  --text-faint: #8a7cb8;
   --border: #3d2d6b;
   --curtain: #4a2d8b;
   --curtain-light: #6a4dbb;
@@ -1194,7 +1197,7 @@
   }
 
   .leaderboard-meta {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .leaderboard-bones {
@@ -1489,7 +1492,7 @@
 }
 
 .leaderboard-meta {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-dim);
 }
 
@@ -2686,7 +2689,7 @@
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-bright);
   white-space: nowrap;
   text-decoration: none;
