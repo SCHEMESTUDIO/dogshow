@@ -265,6 +265,512 @@ const BREEDS = {
     ],
     breedTagName: 'Pomsky',
   },
+
+  'australian-labradoodle': {
+    name: 'Australian Labradoodle',
+    headKeyword: 'Australian Labradoodle',
+    metaDescription: "The Australian Labradoodle: not a Labrador-Poodle accident but a deliberate, multi-generational breeding program with a coat to prove it. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Designer breed (multi-gen Labrador × Poodle × Spaniel infusions)',
+      'Size': 'Mini 15–30 lb · Medium 30–45 lb · Standard 45–77 lb',
+      'Temperament': 'Intuitive, social, gentle, eager to please',
+      'Life expectancy': '13–15 years',
+      'Coat': 'Fleece or wool; consistently low-shedding',
+      'Colors': 'Chalk, cream, caramel, apricot, red, chocolate, black, parti',
+      'AKC recognized': 'No — developed by Australian breed associations, not the AKC',
+      'Origin': '1980s Australia; multi-generational lines stabilized at Tegan Park & Rutland Manor',
+    },
+    lede: `Of all the doodles, the Australian Labradoodle is the one that arrives with paperwork. Where a first-generation Labradoodle is a Labrador and a Poodle introduced last Tuesday, the Australian Labradoodle is the product of decades of deliberate multi-generational breeding — with a few discreet infusions of Spaniel along the way — toward a single goal: a genuinely consistent, allergy-friendly coat. It is the doodle that took the coin-flip out of the equation and replaced it with a spreadsheet.`,
+    spotlightHeading: 'Why we love the Australian Labradoodle on stage',
+    spotlight: `<p>On stage, the Australian Labradoodle is the doodle that behaves as advertised. Where the first-generation doodles are a genetic lottery — this one sheds, that one does not, this one is a rocket, that one is a cushion — the Australian comes pre-sorted. They tend to be calmer than a standard Labradoodle, softer in the face, and possessed of a fleece coat that catches the studio lights like something out of a shampoo commercial.</p>
+<p>The temperament is the other half of the appeal. These lines were built in part for therapy and assistance work, and it shows: the Australian Labradoodle reads a room. Put one on stage and it will frequently fix its gaze on the single quietest viewer in the chat, as though it has decided that person needs the most help and it intends to provide it.</p>
+<p>Bone counts come in steady and warm. Nobody is startled by an Australian Labradoodle. Everybody is reassured by one. That, on balance, is the better business to be in.</p>`,
+    ownerFitHeading: 'Is an Australian Labradoodle right for you?',
+    ownerFit: `<p>This is, for most allergy households, the most reliable doodle on the list. It is also the most expensive, and the reasons are connected.</p>
+<p><strong>Shedding.</strong> Genuinely low, and — unlike the F1 doodles — genuinely consistent, because the coat has been bred toward over many generations. If your allergy is the serious kind that ruled out a Goldendoodle, this is the cross to look at first. No guarantee is absolute, but the odds are far better here.</p>
+<p><strong>Energy.</strong> Moderate. A good daily walk and some play. Less drive than a Labrador, more steadiness than a Poodle. They are not couch potatoes, but they are not a sport either.</p>
+<p><strong>Trainability.</strong> High. Bred from working assistance lines, they take instruction beautifully and want a job. First-time owners do well with them.</p>
+<p><strong>Grooming.</strong> The price of that fleece coat is real upkeep. It mats without regular brushing and needs professional grooming every six to eight weeks. Budget for it before you commit.</p>
+<p><strong>Cost and waitlists.</strong> Reputable Australian Labradoodle breeders are few, health-test heavily, and have waitlists. Be suspicious of a cheap one or an instant one — the value of the breed is entirely in the breeding program, and a careless program produces an ordinary Labradoodle at a premium price.</p>
+<p><strong>Health.</strong> Hips, elbows, and eyes are the lines to ask about. A good breeder will show you the parents' clearances without being asked.</p>`,
+    famousHeading: 'Famous Australian Labradoodles',
+    famous: `<p>The Australian Labradoodle does not have a Lassie, but it has a lineage worth knowing. The whole project traces back to the same impulse that created the original Labradoodle — an allergy-friendly assistance dog — and the Australian breeders who took the idea and spent thirty years making it breed true. The breed's fame is institutional rather than cinematic: it lives in therapy wards, reading-support programs, and the laps of people whose allergies had previously closed the door on dog ownership entirely.</p>
+<p>You will not see one win an Oscar. You may very well meet one at a hospital, wearing a vest, being quietly excellent at the only job it has ever wanted. If fame is measured in lives quietly improved rather than tickets sold, the Australian Labradoodle is, by that better yardstick, one of the most accomplished dogs on this entire list.</p>`,
+    relatedBreeds: [
+      { slug: 'labradoodle', name: 'Labradoodle' },
+      { slug: 'goldendoodle', name: 'Goldendoodle' },
+      { slug: 'cockapoo', name: 'Cockapoo' },
+      { slug: 'cavapoo', name: 'Cavapoo' },
+    ],
+    breedTagName: 'Australian Labradoodle',
+  },
+
+  'teacup-poodle': {
+    name: 'Teacup Poodle',
+    headKeyword: 'Teacup Poodle',
+    metaDescription: "The Teacup Poodle isn't a breed the kennel clubs recognize — it's a very small Toy Poodle, with all the brilliance and all the fragility that size implies. An honest field guide, with stage notes.",
+    facts: {
+      'Group': 'Unofficial size variant of the Toy Poodle',
+      'Size': 'Typically under 6 lb · under 9 inches at shoulder',
+      'Temperament': 'Brilliant, affectionate, alert, sensitive',
+      'Life expectancy': '12–16 years',
+      'Coat': 'Dense, curly, low-shedding',
+      'Colors': 'White, black, apricot, red, silver, cream, parti',
+      'AKC recognized': 'No — the AKC recognizes only Standard, Miniature, and Toy Poodles',
+      'Health note': 'Very small size brings real fragility — see below',
+    },
+    lede: `A word on the word teacup before we begin: it is a marketing term, not a kennel-club category. The American Kennel Club recognizes the Poodle in three sizes — Standard, Miniature, and Toy — and the Teacup Poodle is, in plain terms, a Toy Poodle bred to the very bottom of the scale, often under six pounds. What you get is one of the most decorated brains in all of dogdom installed in a body roughly the size of a grapefruit. What you also get, and we will not pretend otherwise, is fragility.`,
+    spotlightHeading: 'Why we love the Teacup Poodle on stage',
+    spotlight: `<p>The Teacup Poodle is a small triumph of disproportion. The Poodle is, by most rankings, the second-cleverest breed on earth, and a Teacup carries that full intelligence in a frame that barely registers on the scale. The effect on stage is comic and slightly uncanny: an enormous, calculating mind peering out of a creature you could lose in a cushion.</p>
+<p>They are exquisite on camera. The curls, the dark intelligent eyes, the precise little movements of a dog that has thought about each one. Where a larger dog lumbers, a Teacup Poodle arranges itself, like a small aristocrat settling into the good chair.</p>
+<p>Viewers respond with a particular protective tenderness. The bones come in not as applause but as something closer to care. The Teacup Poodle accepts this as entirely correct.</p>`,
+    ownerFitHeading: 'Is a Teacup Poodle right for you?',
+    ownerFit: `<p>We are going to be honest about this one, because the marketing rarely is.</p>
+<p><strong>Fragility is the headline.</strong> A dog under six pounds is genuinely delicate. A fall from a sofa can break a leg. A bigger dog playing too rough can cause serious injury. They can be stepped on. If your household has young children or large boisterous pets, a Teacup Poodle is the wrong choice — not because of temperament, but because of physics.</p>
+<p><strong>Health.</strong> Breeding for extreme smallness concentrates problems: hypoglycemia (dangerous blood-sugar drops, especially in puppies), luxating patellas, dental crowding, collapsing trachea, and fragile bones. Buy only from a breeder who is candid about all of this and breeds for health rather than for the smallest possible number. Walk away from anyone selling "micro" anything.</p>
+<p><strong>Intelligence needs work.</strong> That brilliant brain gets bored. A Teacup Poodle wants training, puzzles, and attention. Neglected, it can become anxious and yappy. Engaged, it is one of the most rewarding companions going.</p>
+<p><strong>Grooming.</strong> Low-shedding, high-maintenance. The curly coat needs regular brushing and professional grooming. The upside is genuinely allergy-friendly.</p>
+<p><strong>The honest verdict:</strong> a wonderful companion for a calm adult household with the time to engage that mind and the care to protect that body. A poor and even risky fit for a busy, rough-and-tumble home.</p>`,
+    famousHeading: 'Famous Teacup Poodles',
+    famous: `<p>Poodles writ large have one of the grandest résumés in dogdom — performing in European courts and circuses, clipped into topiary by the French, and ranked at the very top of canine intelligence studies for a century. The Teacup, specifically, is a more modern and more complicated celebrity: it is the dog of the handbag, the lapdog of the social-media age, the breed that periodically goes viral for being almost impossibly small.</p>
+<p>We would gently note that the viral appeal and the welfare concern are the same fact viewed from two angles. The smaller the dog, the more striking the photograph and the more fragile the animal. Admire them. Then, if you bring one home, buy from someone who breeds for the dog's sake and not the photograph's. The dogs themselves are oblivious to the debate; they simply want a warm lap and a problem to solve, ideally in that order, and they will repay both with a devotion out of all proportion to their tiny size.</p>`,
+    relatedBreeds: [
+      { slug: 'maltipoo', name: 'Maltipoo' },
+      { slug: 'cavapoo', name: 'Cavapoo' },
+      { slug: 'poodle', name: 'Poodle' },
+      { slug: 'pomsky', name: 'Pomsky' },
+    ],
+    breedTagName: 'Teacup Poodle',
+  },
+
+  'mini-dachshund': {
+    name: 'Mini Dachshund',
+    headKeyword: 'Mini Dachshund',
+    metaDescription: "The Miniature Dachshund: a full-sized hunting dog's courage compressed into eleven pounds of low-slung determination. A field guide, with stage notes — and a serious word about backs.",
+    facts: {
+      'Group': 'Hound (miniature variety of the Dachshund)',
+      'Size': 'Under 11 lb · 5–6 inches at shoulder',
+      'Temperament': 'Clever, bold, stubborn, devoted, vocal',
+      'Life expectancy': '12–16 years',
+      'Coat': 'Three types — smooth, longhaired, wirehaired',
+      'Colors': 'Red, black & tan, cream, chocolate, dapple, piebald',
+      'AKC recognized': 'Yes — as the Miniature variety of the Dachshund',
+      'Health note': 'IVDD (back disease) is the breed-defining risk — see below',
+    },
+    lede: `Engineered in Germany to follow a badger down its own hole and argue with it, the Dachshund is a hunting dog that happens to be shaped like a draught excluder. The Miniature is the same animal at eleven pounds or under — same courage, same stubbornness, same operatic bark, all compressed into a body that is mostly length. They were bred for a job that required tremendous nerve in a very small package, and nobody has yet told them the job is over.`,
+    spotlightHeading: 'Why we love the Mini Dachshund on stage',
+    spotlight: `<p>The Mini Dachshund is a gift to a horizontal medium. That silhouette — the long body, the short legs, the earnest face arriving a full half-second before the back half catches up — is comedy that requires no setup. They come in three coats, too: the sleek smooth, the elegant longhaired, and the gruff little wirehaired, who looks permanently like a retired sea captain.</p>
+<p>What surprises new viewers is the confidence. There is no timidity in a Dachshund. They strut on with the bearing of a dog four times the size, fix the camera with a hunting hound's intensity, and bark at it if it does the wrong thing. The body is small. The opinion of itself is enormous.</p>
+<p>Viewers adore them precisely for this mismatch. A Mini Dachshund convinced it is a wolfhound is one of the most reliable sources of joy we host.</p>`,
+    ownerFitHeading: 'Is a Mini Dachshund right for you?',
+    ownerFit: `<p>Charming, characterful, and carrying one serious caveat that every prospective owner must understand before anything else.</p>
+<p><strong>The back.</strong> That long spine is the breed's defining vulnerability. Intervertebral disc disease (IVDD) is common in Dachshunds, and a single bad jump off the sofa can cause a spinal injury. The whole household has to adapt: ramps instead of jumps, no stairs where avoidable, careful lifting (support the chest and rear, never dangle), and strict weight control, because every extra ounce loads that spine. This is not optional fussing. It is the single most important thing about owning the breed.</p>
+<p><strong>Stubbornness.</strong> Dachshunds are smart and entirely self-directed. Housetraining is famously slow. They will learn a command and then visibly decide whether complying is in their interest. Patient, consistent, reward-based training works; bullying does not.</p>
+<p><strong>Energy.</strong> Higher than the shape suggests. They were bred to hunt all day, and they want to dig, sniff, and patrol. A bored Dachshund excavates.</p>
+<p><strong>Voice.</strong> They bark. They are alert little watchdogs with a bark startlingly large for the body. Apartment neighbors should be warned.</p>
+<p><strong>The verdict:</strong> a hilarious, devoted companion for an owner who will protect that back religiously and find the stubbornness endearing rather than maddening.</p>`,
+    famousHeading: 'Famous Mini Dachshunds',
+    famous: `<p>The Dachshund punches well above its weight in the art world. Pablo Picasso's dachshund Lump more or less moved into his house and appeared, recognizably, in a whole sequence of his works — there is a well-known book devoted entirely to Picasso and Lump. Andy Warhol owned dachshunds and took them everywhere. David Hockney has painted his own dachshunds with the same attention he gives California swimming pools.</p>
+<p>Add to that the entire cultural institution of the "wiener dog" — the costumes, the races, the memes — and the Dachshund may be, pound for pound, the most artistically and comedically documented dog alive. Not bad for an animal built to annoy badgers.</p>
+<p>The cultural reach runs further still. That long, low silhouette has sold cars, sausages, and software precisely because it is impossible to mistake for anything else, which makes the Dachshund one of the most caricatured dogs alive. Fame, for a Dachshund, was only ever a matter of standing sideways — and the Miniature carries the whole inheritance in a body half the size.</p>`,
+    relatedBreeds: [
+      { slug: 'french-bulldog', name: 'French Bulldog' },
+      { slug: 'teacup-poodle', name: 'Teacup Poodle' },
+      { slug: 'dachshund', name: 'Dachshund' },
+      { slug: 'corgi', name: 'Corgi' },
+    ],
+    breedTagName: 'Mini Dachshund',
+  },
+
+  'german-shepherd': {
+    name: 'German Shepherd',
+    headKeyword: 'German Shepherd',
+    metaDescription: "The German Shepherd: the dog the world reaches for when the job is serious. Brilliant, loyal, and emphatically not a beginner's breed. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Herding',
+      'Size': 'Males 65–90 lb · Females 50–70 lb · 22–26 inches',
+      'Temperament': 'Confident, courageous, loyal, highly trainable, watchful',
+      'Life expectancy': '9–13 years',
+      'Coat': 'Dense double coat; sheds heavily year-round',
+      'Colors': 'Black & tan, sable, solid black, bicolor',
+      'AKC recognized': 'Yes — recognized 1908',
+      'Origin': 'Germany, 1899; standardized by Max von Stephanitz',
+    },
+    lede: `There is a reason that when a script calls for a dog to look intelligent, the casting call goes out for a German Shepherd. No breed has done more varied work — herding, policing, soldiering, guiding the blind, finding the lost beneath rubble — and none wears competence quite so visibly. The German Shepherd is the canine equivalent of the colleague who is annoyingly good at everything and, worse, knows it. Give one a job and a person to do it for, and you have, more or less, the most capable animal in domestic life.`,
+    spotlightHeading: 'Why we love the German Shepherd on stage',
+    spotlight: `<p>The German Shepherd does not so much appear on stage as report for duty. There is a noble, slightly serious quality to the breed — the upright ears, the steady gaze, the sense that it is already assessing the situation and forming a plan. They are magnificent to look at and, unlike many of our guests, they appear to understand that they are being looked at.</p>
+<p>What you rarely catch a German Shepherd doing is fully relaxing. Even mid-charm, one ear will swivel toward an off-camera sound, the head holding its position while the radar sweeps. They are watchful by deepest instinct, and on a live broadcast full of strangers, that watchfulness reads as a kind of quiet gravity.</p>
+<p>Viewers respond with respect rather than squeals. The bones come in like a salute. The German Shepherd receives them as no more than its due, and goes back to scanning the perimeter.</p>`,
+    ownerFitHeading: 'Is a German Shepherd right for you?',
+    ownerFit: `<p>This is one of the great dogs of the world, and it is not a dog for everyone. Be honest with yourself before you fall for the photograph.</p>
+<p><strong>This is not a beginner's breed.</strong> A German Shepherd needs a confident, consistent owner who can provide structure. In capable hands they are sublime. In uncertain hands, a large, intelligent, protective dog without clear leadership becomes anxious, reactive, and a genuine problem.</p>
+<p><strong>Work, not just walks.</strong> Their needs are physical and mental. A bored German Shepherd is a destructive one — they need real exercise plus a job: training, scent work, a sport, something to think about. "A walk round the block" does not touch the sides.</p>
+<p><strong>Shedding.</strong> They are affectionately nicknamed German Shedders. The double coat sheds constantly and blows out dramatically twice a year. A lint roller becomes a lifestyle.</p>
+<p><strong>Socialization.</strong> Early, broad, ongoing. The protective instinct is a feature that must be channeled, never encouraged into suspicion.</p>
+<p><strong>Health.</strong> Hip and elbow dysplasia are the breed's notorious concerns; degenerative myelopathy and bloat also appear. Choose a breeder who health-tests, and steer away from the extreme sloped-back show lines — a level back is a sounder dog.</p>
+<p><strong>The verdict:</strong> for the committed, active, experienced owner, the finest working partner alive. For the casual owner who wanted a handsome family pet, simply too much dog.</p>`,
+    famousHeading: 'Famous German Shepherds',
+    famous: `<p>The German Shepherd is arguably the most famous breed in the history of film. Rin Tin Tin, a puppy pulled from a bombed-out kennel in France during the First World War, became one of the biggest movie stars of the silent era — credited, only half in jest, with keeping Warner Bros. solvent in its early years. His near-contemporary Strongheart was a star in his own right.</p>
+<p>Off screen the record is just as long. Buddy, a German Shepherd, was the first guide dog in America, partnered with Morris Frank in the 1920s and the reason guide-dog programs exist in the English-speaking world at all. Add a century of police and military service dogs, and search-and-rescue work at every modern disaster, and the German Shepherd's fame turns out to be the least interesting thing about it.</p>`,
+    relatedBreeds: [
+      { slug: 'cane-corso', name: 'Cane Corso' },
+      { slug: 'mini-aussie', name: 'Mini Aussie' },
+      { slug: 'dalmatian', name: 'Dalmatian' },
+      { slug: 'belgian-malinois', name: 'Belgian Malinois' },
+    ],
+    breedTagName: 'German Shepherd',
+  },
+
+  'golden-mountain-dog': {
+    name: 'Golden Mountain Dog',
+    headKeyword: 'Golden Mountain Dog',
+    metaDescription: "The Golden Mountain Dog: a Golden Retriever crossed with a Bernese Mountain Dog, which is to say a great deal of warmth in a very large coat. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Designer mix (Golden Retriever × Bernese Mountain Dog)',
+      'Size': '75–120 lb · 24–28 inches at shoulder',
+      'Temperament': 'Gentle, affectionate, calm, devoted to family',
+      'Life expectancy': '9–12 years',
+      'Coat': 'Long, dense double coat; sheds substantially',
+      'Colors': 'Golden, black, brown & white, tri-color (Bernese-influenced)',
+      'AKC recognized': 'No — designer mix',
+      'Climate': 'Cool to temperate; the coat struggles in heat',
+    },
+    lede: `Cross the two friendliest large dogs the Northern Hemisphere has to offer — the Golden Retriever and the Bernese Mountain Dog — and the result is almost suspiciously nice. The Golden Mountain Dog is a great, warm, shedding monument of an animal, built along Bernese lines but often carrying the Golden's lighter coat and lighter heart. It has no edge to it whatsoever. If you are shopping for a guard dog, look elsewhere: this one would show a burglar where the good silver is kept and then lean on him hopefully until petted.`,
+    spotlightHeading: 'Why we love the Golden Mountain Dog on stage',
+    spotlight: `<p>The Golden Mountain Dog arrives like a piece of well-upholstered furniture that has decided to join the party. They are large, they are slow, and they are entirely, beamingly content to be looked at. Many carry the Bernese tri-color markings softened by the Golden's warmth; others come through closer to a big shaggy Golden. Either way, the camera loves the size and the softness in equal measure.</p>
+<p>What sells them is the gentleness. There is not a fast or anxious bone in the breed. They settle into the frame, lean toward whoever is nearest, and radiate a calm that travels surprisingly well through a screen. After a run of high-energy herding dogs, a Golden Mountain Dog is the broadcast equivalent of a deep breath.</p>
+<p>Viewers give them the cathedral treatment — the same lavish bone counts the big gentle Saint Berdoodles draw. Large, kind dogs do very well here. The audience knows a good soul when it sees one.</p>`,
+    ownerFitHeading: 'Is a Golden Mountain Dog right for you?',
+    ownerFit: `<p>A wonderful family dog, with two honest caveats: the space it needs and the time you get to keep it.</p>
+<p><strong>Size and space.</strong> At 75 to 120 pounds, this is a genuinely large dog. It needs room, eats accordingly, and when it shakes off water the water travels. A small flat is not a fair home for one.</p>
+<p><strong>The lifespan.</strong> This is the hard part. The Bernese parent is one of the shorter-lived breeds, and large dogs in general do not get the long innings smaller ones do. Nine to twelve years is the realistic range. You are signing up for an intense, generous companionship that ends sooner than you will want. Go in clear-eyed.</p>
+<p><strong>Energy.</strong> Lower than the Golden side alone would suggest. A couple of good walks and some yard time suit them. They are companions, not athletes, and they would rather be near you than running ahead of you.</p>
+<p><strong>Coat and climate.</strong> Heavy shedding and a real grooming commitment. The thick double coat also means they suffer in heat — a Golden Mountain Dog belongs in a cool or temperate climate, not a hot one.</p>
+<p><strong>Health.</strong> Large-breed concerns dominate: hip and elbow dysplasia and bloat, and — inherited from the Bernese side — an elevated cancer risk worth discussing frankly with any breeder. Choose one who screens both parents.</p>`,
+    famousHeading: 'Famous Golden Mountain Dogs',
+    famous: `<p>The Golden Mountain Dog is too new and too rare to have produced a celebrity of its own. Its fame, for now, is borrowed: the Golden Retriever is one of the most beloved breeds in cinema and advertising, and the Bernese Mountain Dog is the gentle giant of a thousand alpine postcards. The cross inherits the goodwill of both without yet having earned its own headline.</p>
+<p>Where you do find them is in the rising wave of "gentle giant" designer dogs — the big, soft, family-first crossbreeds that have become aspirational on social media for households with the space and the heart for a great deal of dog. Give the breed a decade. A Golden Mountain Dog will eventually amble through a family film and steal it simply by being enormous and kind.</p>`,
+    relatedBreeds: [
+      { slug: 'bernedoodle', name: 'Bernedoodle' },
+      { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
+      { slug: 'goldendoodle', name: 'Goldendoodle' },
+      { slug: 'bernese-mountain-dog', name: 'Bernese Mountain Dog' },
+    ],
+    breedTagName: 'Golden Mountain Dog',
+  },
+
+  'toy-aussie': {
+    name: 'Toy Aussie',
+    headKeyword: 'Toy Aussie',
+    metaDescription: "The Toy Aussie: the Australian Shepherd's herding brain and boundless drive, downsized to twelve pounds. Adorable, exhausting, and not a lap dog. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Herding (toy-sized variant of the Australian Shepherd)',
+      'Size': '12–17 lb · 10–14 inches at shoulder',
+      'Temperament': 'Brilliant, intense, high-drive, devoted, alert',
+      'Life expectancy': '12–15 years',
+      'Coat': 'Medium double coat; sheds seasonally',
+      'Colors': 'Blue merle, red merle, black tri, red tri',
+      'AKC recognized': 'No — the Miniature is (as the Miniature American Shepherd); the Toy is not separately recognized',
+      'Also called': 'Toy Australian Shepherd',
+    },
+    lede: `Take the Mini Aussie — itself already a downsized Australian Shepherd — and shrink it once more, to twelve pounds of merle-coated intensity, and you have the Toy Aussie. The marketing whispers "lap dog." The dog disagrees, firmly. Inside this small and photogenic body lives the full, undiluted herding intelligence of a working stockdog, and it would like, very much, a task. Several tasks. Ideally a flock. In the absence of sheep it will settle for organizing your other pets, your children, and the vacuum cleaner.`,
+    spotlightHeading: 'Why we love the Toy Aussie on stage',
+    spotlight: `<p>The Toy Aussie may be the most striking small dog we host, and certainly among the least cooperative. The merle coat — silver-grey or rust marbled with darker patches — is extraordinary at any size, but compressed into a twelve-pound frame it becomes almost jewel-like. Add the pale, sometimes mismatched eyes (one blue, one brown, occasionally a single eye split between the two) and you have a face that stops the chat cold the first time it appears.</p>
+<p>The trouble, charmingly, is keeping it in frame. Working dogs do not pose for screens, and a Toy Aussie on stage tends to deliver about three perfect seconds of portrait before pivoting sharply to herd something only it can see. The result is part glamour shot, part blooper reel, and viewers love both halves.</p>
+<p>Bones spike on the first merle reveal and keep coming. It is a face that refuses to become familiar.</p>`,
+    ownerFitHeading: 'Is a Toy Aussie right for you?',
+    ownerFit: `<p>The single most important thing to understand: a Toy Aussie is a high-drive working dog that happens to be small. The body shrank. The needs did not.</p>
+<p><strong>Energy.</strong> Disproportionate to the size and relentless. This is not a "walk a day" dog — it is a "real exercise plus daily mental work" dog. A Toy Aussie understimulated in a flat will invent its own job within a fortnight, and you will not enjoy the job it picks.</p>
+<p><strong>Trainability.</strong> Genius-level. Toy and Mini Aussies dominate small-dog agility out of all proportion to their numbers. They learn tricks faster than most owners can invent them — and they learn the things you did not mean to teach, too.</p>
+<p><strong>Herding instinct.</strong> The bit nobody mentions at the puppy stage: they herd. Children running in the yard, other dogs at the park, bikes, the family cat — all get rounded up, sometimes with a nip at the heels. It is instinct, not aggression, but it is rarely what a family picturing a small fluffy lapdog had in mind.</p>
+<p><strong>Coat.</strong> A medium double coat that sheds, with a seasonal blow-out. Weekly brushing minimum.</p>
+<p><strong>Size caveat.</strong> At the very small end they are delicate; mind the joints and the jumping, as with any toy breed.</p>
+<p><strong>The verdict:</strong> brilliant for an active owner who wants a portable working dog and will give it a real outlet. A genuine mismatch as a decorative companion — for that, look hard at the doodle side of this list instead.</p>`,
+    famousHeading: 'Famous Toy Aussies',
+    famous: `<p>The Toy Aussie's natural stage is the agility ring, not the cinema. The breed and its slightly larger Mini sibling routinely clean up in small-dog jumpers competitions, and a good deal of the breed's reputation has been built handler by handler at weekend trials rather than on any screen.</p>
+<p>Culturally, the Toy Aussie has found its real home in the outdoorsy young-adult corner of social media — the trailhead photograph, the dog in the tent, the small merle face peering out of a camper van. If you have scrolled past a tiny, impossibly photogenic merle dog mid-adventure recently, the odds are good it was a Toy or Mini Aussie, and that its owner is more tired than the caption admits.</p>`,
+    relatedBreeds: [
+      { slug: 'mini-aussie', name: 'Mini Aussie' },
+      { slug: 'pomsky', name: 'Pomsky' },
+      { slug: 'german-shepherd', name: 'German Shepherd' },
+      { slug: 'australian-shepherd', name: 'Australian Shepherd' },
+    ],
+    breedTagName: 'Toy Aussie',
+  },
+
+  'french-bulldog': {
+    name: 'French Bulldog',
+    headKeyword: 'French Bulldog',
+    metaDescription: "The French Bulldog: the most popular dog in America, and a charismatic little gargoyle with serious health caveats every owner should know. An honest field guide, with stage notes.",
+    facts: {
+      'Group': 'Non-Sporting',
+      'Size': 'Under 28 lb · 11–13 inches at shoulder',
+      'Temperament': 'Playful, affectionate, alert, adaptable, comic',
+      'Life expectancy': '10–14 years',
+      'Coat': 'Short, smooth; modest shedding',
+      'Colors': 'Brindle, fawn, cream, white, pied',
+      'AKC recognized': 'Yes — recognized 1898',
+      'Health note': 'Brachycephalic (flat-faced) — breathing, heat, and swimming risks',
+    },
+    lede: `The most popular dog in America is a snoring, occasionally flatulent, profoundly charismatic little gargoyle. In the space of two decades the French Bulldog has climbed from niche curiosity to the single most-registered breed in the United States — on the strength of a face, a personality, and a body that fits a city apartment. They are clowns with bat ears and a gift for comic timing. They are also, and any honest guide must say this plainly, a breed with real health considerations built into that very face.`,
+    spotlightHeading: 'Why we love the French Bulldog on stage',
+    spotlight: `<p>The French Bulldog is a born broadcaster. Those enormous upright ears, that flat expressive face, the repertoire of head-tilts and snorts and slow blinks — it is a dog that seems to perform without being asked. And because their energy runs low, they hold a frame beautifully, where a livelier breed would have bolted off-camera in pursuit of a noise.</p>
+<p>They are also masters of the reaction shot. Say something to a Frenchie on stage and you will get a tilt, a pause, a small grumble of apparent commentary. None of it means anything, and all of it is hilarious, and the chat reliably loses its composure.</p>
+<p>Bone counts run high — French Bulldogs over-index here much as the doodles do. It is the face, and the comedy, and the sense that this small creature is having a wonderful time and would like you to as well.</p>`,
+    ownerFitHeading: 'Is a French Bulldog right for you?',
+    ownerFit: `<p>Adore them — but adopt one with both eyes open, because the things that make a Frenchie charming are tangled up with the things that make it medically complicated.</p>
+<p><strong>Breathing.</strong> French Bulldogs are brachycephalic — the flat face that sells the breed also shortens the airway. Snoring is universal; snorting is constant; and many struggle to breathe efficiently, especially when excited or exerted. Some need corrective surgery. Buy from a breeder selecting for a slightly longer muzzle and open nostrils, not the most extreme flat face.</p>
+<p><strong>Heat.</strong> This is life-or-death, not fussiness. A Frenchie cannot cool itself well and can overheat fatally. Never leave one in a warm car or in the sun, and keep exercise gentle and short in hot weather.</p>
+<p><strong>They cannot swim.</strong> The dense, front-heavy body sinks. A French Bulldog near an unfenced pool is in real danger. Treat water with caution and never assume they will manage.</p>
+<p><strong>Energy.</strong> Low, and that is part of the appeal — short walks and plenty of sofa. They tire quickly, which suits apartment life.</p>
+<p><strong>Health and cost.</strong> Beyond the airway: spinal issues, skin-fold care, eye problems, and frequent need for C-sections to whelp. The breed's popularity has unleashed a tide of careless breeding and puppy mills, so a responsible, health-testing breeder matters more here than almost anywhere.</p>
+<p><strong>The verdict:</strong> a wonderful, funny, affectionate apartment companion — for an owner who has read the health profile honestly and sourced the dog responsibly.</p>`,
+    famousHeading: 'Famous French Bulldogs',
+    famous: `<p>The French Bulldog is everywhere fame is. The breed has become the default celebrity dog of the era — Lady Gaga's Frenchies, Koji and Gustav, made global news in 2021 when they were stolen at gunpoint and later recovered, an episode that said as much about the breed's status and price as about the dogs themselves. The Rock, Reese Witherspoon, and a long roster of others have all kept them; social-media Frenchies like Manny pull followings that dwarf most human influencers.</p>
+<p>The origins are humbler and rather charming: small bulldogs kept by Nottingham lace-workers crossed the Channel during the Industrial Revolution, became fashionable in Paris among artists and society alike, and acquired the "French" name there. From lace-makers' companion to America's number-one dog in a little over a century is not a bad run.</p>`,
+    relatedBreeds: [
+      { slug: 'dalmatian', name: 'Dalmatian' },
+      { slug: 'cavapoo', name: 'Cavapoo' },
+      { slug: 'mini-dachshund', name: 'Mini Dachshund' },
+      { slug: 'bulldog', name: 'Bulldog' },
+    ],
+    breedTagName: 'French Bulldog',
+  },
+
+  cockapoo: {
+    name: 'Cockapoo',
+    headKeyword: 'Cockapoo',
+    metaDescription: "The Cockapoo: the original designer crossbreed, a Cocker Spaniel and Poodle pairing that predates the doodle craze by decades. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Designer mix (Cocker Spaniel × Poodle)',
+      'Size': 'Toy under 12 lb · Mini 13–18 lb · Maxi 19–30 lb',
+      'Temperament': 'Affectionate, sociable, clever, people-oriented',
+      'Life expectancy': '13–16 years',
+      'Coat': 'Wavy to curly; low-shedding',
+      'Colors': 'Cream, apricot, red, chocolate, black, parti, roan',
+      'AKC recognized': 'No — designer mix, one of the oldest',
+      'First bred': '1950s–60s, decades before the doodle boom',
+    },
+    lede: `Before doodle became a suffix you could attach to any breed and sell at a markup, there was the Cockapoo. Crossed deliberately as far back as the 1950s, the Cocker Spaniel and Poodle pairing is the elder statesman of designer dogs — around long enough that several generations of families have quietly owned one without ever once thinking of it as a trend. It is the doodle that got there first and never needed the hype to justify itself.`,
+    spotlightHeading: 'Why we love the Cockapoo on stage',
+    spotlight: `<p>The Cockapoo is comfort television in dog form. Smaller and softer than the headline-grabbing big doodles, it pairs the Cocker Spaniel's melting warmth with the Poodle's quick wits, and the result on camera is a round, wavy-coated, perpetually delighted little face that asks nothing of the viewer except mutual affection.</p>
+<p>They are eager performers in the gentlest sense — they lean toward the camera, they respond to a kind voice, they seem genuinely pleased that all these strangers have turned up. There is no edge, no aloofness, no working-dog agenda. A Cockapoo on stage simply wants everyone to have a nice time.</p>
+<p>The bone counts reflect it. Cockapoos do not spike or go viral; they accumulate a steady, fond appreciation from viewers who find them quietly, reliably lovely. They are the breed you would cast as the family dog, because in a great many families that is exactly what they are.</p>`,
+    ownerFitHeading: 'Is a Cockapoo right for you?',
+    ownerFit: `<p>One of the easiest and friendliest family dogs going — with a single, important emotional caveat.</p>
+<p><strong>They need company.</strong> Cockapoos are people-oriented to the core, and the flip side of that devotion is a real susceptibility to separation anxiety. A household that is out for ten hours a day is not a fair home for one. They do best where someone is around for much of the day, or where a routine and gradual training have taught them to cope.</p>
+<p><strong>Energy.</strong> Moderate. The Cocker side brings a real need for activity — a good daily walk and some play — without the relentless drive of a working breed. Manageable for most active households.</p>
+<p><strong>Coat.</strong> Low-shedding and often allergy-friendly, but it mats without regular brushing, and most need professional grooming every six to eight weeks.</p>
+<p><strong>Ears.</strong> Inherited straight from the Cocker: long, floppy, and prone to infection. Build ear-checking and cleaning into the routine; it prevents a great deal of trouble.</p>
+<p><strong>Trainability.</strong> High and eager. They want to please and they learn quickly, which makes them forgiving first dogs for committed owners.</p>
+<p><strong>Health.</strong> The hybrid mix and a long average lifespan (often 13 to 16 years) are points in their favor; watch for the Cocker's eye conditions and ear issues, and choose a breeder who tests the parents.</p>`,
+    famousHeading: 'Famous Cockapoos',
+    famous: `<p>Here is the quiet irony of the Cockapoo: it is the original designer dog and the least famous of them. It arrived decades before the Labradoodle and the marketing machine that turned later crosses into status symbols, and so it never acquired a celebrity roster or a viral moment. It simply became, especially across Britain, one of the most popular family dogs in the country — fame by ubiquity rather than by headline.</p>
+<p>There is something fitting in that. The Cockapoo was never bred to be a statement. It was bred to be good company, and it has been good company, unshowily, for the better part of seventy years. The newer doodles owe it a debt they rarely acknowledge.</p>
+<p>That quiet seniority is, if anything, a point in its favour. Decades of family ownership have stress-tested the cross in a way no marketing campaign ever could, and the verdict from all those living rooms is remarkably consistent: the Cockapoo is easy to love and easy to live with, which is the only review that has ever really mattered.</p>`,
+    relatedBreeds: [
+      { slug: 'labradoodle', name: 'Labradoodle' },
+      { slug: 'cavapoo', name: 'Cavapoo' },
+      { slug: 'maltipoo', name: 'Maltipoo' },
+      { slug: 'goldendoodle', name: 'Goldendoodle' },
+    ],
+    breedTagName: 'Cockapoo',
+  },
+
+  labradoodle: {
+    name: 'Labradoodle',
+    headKeyword: 'Labradoodle',
+    metaDescription: "The Labradoodle: the dog that launched the entire designer-dog era — and whose own creator came to regret it. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Designer mix (Labrador Retriever × Poodle)',
+      'Size': 'Mini 15–30 lb · Medium 30–45 lb · Standard 50–65 lb',
+      'Temperament': 'Friendly, energetic, sociable, eager to please',
+      'Life expectancy': '12–15 years',
+      'Coat': 'Wool, fleece, or hair; shed level varies by generation',
+      'Colors': 'Cream, gold, apricot, red, chocolate, black, parti',
+      'AKC recognized': 'No — designer mix',
+      'First bred': '1989, Wally Conron, Royal Guide Dogs Australia',
+    },
+    lede: `The Labradoodle has a creation myth, and unusually for a dog, it comes with an apology. In 1989 a breeder named Wally Conron, working for Australia's guide-dog program, crossed a Labrador and a Poodle to make an assistance dog for a blind woman whose husband was allergic. It worked. It also, quite by accident, invented an entire industry — and Conron spent his later years saying he had opened a Pandora's box, that for every good Labradoodle there were a great many bred carelessly for profit. The dog itself is innocent of all this. The dog is just delighted to be here.`,
+    spotlightHeading: 'Why we love the Labradoodle on stage',
+    spotlight: `<p>The Labradoodle brings the Labrador's bounce and the Poodle's flair to the stage, usually at the same time and usually at speed. Where the Australian Labradoodle has been bred toward calm consistency, the standard Labradoodle is a livelier, less predictable creature — and that unpredictability is half the entertainment. You never quite know which dog is going to walk out: the woolly one, the wavy one, the one built like a Lab in a curly wig.</p>
+<p>What unites them is high spirits. A Labradoodle on stage is rarely still and never sullen. They bound, they grin, they fling themselves at the moment with the Labrador's bottomless enthusiasm, and viewers feed off the energy.</p>
+<p>The bones come in fast on the good days. There is something infectious about a dog this pleased to exist, and the Labradoodle is, more often than not, the most pleased dog in the building.</p>`,
+    ownerFitHeading: 'Is a Labradoodle right for you?',
+    ownerFit: `<p>A wonderful high-energy family dog — provided you can match the energy and you do your homework on the breeder.</p>
+<p><strong>Energy.</strong> High. This is a Labrador crossed with a Poodle, two active breeds, and the result wants real daily exercise plus play. Most love water and swim well. A Labradoodle that does not get enough activity becomes an inventive problem-solver, and the inventions involve your belongings.</p>
+<p><strong>The coat lottery.</strong> First-generation Labradoodles (F1) vary — some shed, some do not, and you cannot fully predict which a given puppy will be. F1b crosses (bred back to a Poodle) shed less but cost more. If your allergy is serious, look hard at the more consistent Australian Labradoodle lines instead.</p>
+<p><strong>Adolescence.</strong> Expect the familiar doodle arc: delightful and biddable through about eight months, gleefully amnesiac through eighteen, and excellent again thereafter. Hold your nerve.</p>
+<p><strong>Trainability.</strong> Excellent — they descend, after all, from assistance-dog stock. Eager, smart, food-motivated.</p>
+<p><strong>Choosing a breeder.</strong> Given the breed's own cautionary history, this matters more than usual. Ask for the exact generation, the parents' health clearances (hips, elbows, eyes), and walk away from anyone treating the cross as a quick product rather than a considered pairing.</p>`,
+    famousHeading: 'Famous Labradoodles',
+    famous: `<p>The most famous thing about the Labradoodle is its origin story and the regret attached to it. Wally Conron, the man who made the first one, became an unlikely public figure late in life by going on record that he wished he hadn't — not because the dogs were bad, but because he had inadvertently kicked off a designer-dog gold rush full of unscrupulous breeders. It is one of the rare breeds whose creator became its most prominent critic, and the story has been told and retold in the press for years.</p>
+<p>Beyond that, Labradoodles have served widely as therapy and assistance dogs — the job they were invented for — and turned up in plenty of celebrity households along the way. But the Conron story is the one that sticks, and it carries a useful lesson baked right in: with this breed, the breeder is everything. Heed his warning and you get the friendly, capable dog he set out to make; ignore it and you get the cautionary tale he spent his retirement apologising for. The choice, as ever, is made long before the puppy comes home.</p>`,
+    relatedBreeds: [
+      { slug: 'goldendoodle', name: 'Goldendoodle' },
+      { slug: 'australian-labradoodle', name: 'Australian Labradoodle' },
+      { slug: 'bernedoodle', name: 'Bernedoodle' },
+      { slug: 'cockapoo', name: 'Cockapoo' },
+    ],
+    breedTagName: 'Labradoodle',
+  },
+
+  maltipoo: {
+    name: 'Maltipoo',
+    headKeyword: 'Maltipoo',
+    metaDescription: "The Maltipoo: a Maltese and a Toy Poodle combined into roughly nine pounds of devotion. A field guide for the lap-dog inclined, with stage notes.",
+    facts: {
+      'Group': 'Designer mix (Maltese × Toy/Miniature Poodle)',
+      'Size': '5–20 lb · 8–14 inches at shoulder',
+      'Temperament': 'Affectionate, gentle, playful, people-oriented',
+      'Life expectancy': '12–16 years',
+      'Coat': 'Soft, wavy to curly; low-shedding',
+      'Colors': 'White, cream, apricot, silver, occasionally parti',
+      'AKC recognized': 'No — designer mix',
+      'Bred for': 'Companionship, first and last',
+    },
+    lede: `The Maltipoo is built almost entirely from affection and approximately nine pounds of curly hair. A Maltese crossed with a small Poodle, it was bred for one purpose and has never aspired to another: to be near you. Not in the yard, not in the next room — on you, ideally, or within paw's reach of the spot you most recently vacated. As lap dogs go, it is among the most single-minded specimens the designer-dog world has yet produced.`,
+    spotlightHeading: 'Why we love the Maltipoo on stage',
+    spotlight: `<p>The Maltipoo is a small, soft, white (or cream, or apricot) cloud with two enormous dark eyes set into the middle of it, and it photographs like a plush toy that has been granted a wish. On stage, the appeal is immediate and uncomplicated: it is adorable, it knows it is adorable in the way all lapdogs eventually learn, and it would very much like to be picked up.</p>
+<p>They hold a frame well, mostly because being held is their preferred state and stillness is no hardship. Where a working breed fidgets toward the exit, a Maltipoo settles in, gazes up, and waits to be adored. It is not a difficult ask of the audience.</p>
+<p>The bones come in as coos. The Maltipoo inspires the soft, doting end of the chat — the heart emojis, the "I can't," the people declaring they are not okay. It accepts this devotion as the natural order of things.</p>`,
+    ownerFitHeading: 'Is a Maltipoo right for you?',
+    ownerFit: `<p>One of the most devoted companions on this list, and the devotion is the thing to plan around.</p>
+<p><strong>They cannot be left.</strong> Maltipoos bond hard and suffer real separation anxiety when left alone for long stretches. This is the central fact of ownership: a Maltipoo suits someone who is home much of the day, and is genuinely the wrong dog for a household out at work from morning to night.</p>
+<p><strong>Energy.</strong> Low to moderate. Indoor play and a short walk usually cover it. They are companions, not athletes, and they adapt beautifully to apartment life.</p>
+<p><strong>Coat.</strong> Low-shedding and often allergy-friendly — but the soft coat needs regular brushing to avoid mats, and the pale fur shows tear stains that need gentle daily wiping around the eyes.</p>
+<p><strong>Trainability.</strong> Smart and willing, but small-dog housetraining takes patience and consistency. Crate training and a strict routine help enormously.</p>
+<p><strong>Health and fragility.</strong> Small-breed concerns: luxating patellas, dental crowding, and in the tiniest individuals a risk of hypoglycemia. They are also physically delicate — a poor match for homes with very young or boisterous children who might handle them roughly.</p>
+<p><strong>The verdict:</strong> ideal for someone home a great deal who wants an utterly devoted small companion; a poor fit for a busy, empty-all-day household.</p>`,
+    famousHeading: 'Famous Maltipoos',
+    famous: `<p>The Maltese half of the family has serious pedigree: small white companion dogs of this type have been kept by the wealthy for well over two thousand years, lounging in the laps of Roman matrons and Renaissance ladies and turning up in old master paintings as a quiet symbol of comfort and status. The Maltipoo inherits that ancient role and updates it for the present.</p>
+<p>Today the breed is a fixture of the celebrity handbag and the lifestyle feed — the small white dog peeking out of a tote, the companion on the private flight. It has no single famous individual so much as a whole genre of fame: the perpetual, photogenic lap dog of people who can have any dog they like and keep choosing this one.</p>
+<p>There is a quiet endorsement in that pattern. When people with unlimited options repeatedly select a small, devoted, low-shedding companion, they are telling you precisely what the Maltipoo is for — and it is not ornament so much as company, the oldest and steadiest job a dog has ever held.</p>`,
+    relatedBreeds: [
+      { slug: 'cavapoo', name: 'Cavapoo' },
+      { slug: 'cockapoo', name: 'Cockapoo' },
+      { slug: 'teacup-poodle', name: 'Teacup Poodle' },
+      { slug: 'maltese', name: 'Maltese' },
+    ],
+    breedTagName: 'Maltipoo',
+  },
+
+  cavapoo: {
+    name: 'Cavapoo',
+    headKeyword: 'Cavapoo',
+    metaDescription: "The Cavapoo: a Cavalier King Charles Spaniel crossed with a Poodle, possibly the gentlest small dog going. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Designer mix (Cavalier King Charles Spaniel × Poodle)',
+      'Size': '9–25 lb · 9–14 inches at shoulder',
+      'Temperament': 'Gentle, affectionate, sociable, eager to please',
+      'Life expectancy': '12–15 years',
+      'Coat': 'Wavy to curly; low-shedding',
+      'Colors': 'Blenheim (chestnut & white), ruby, gold, tri-color, black',
+      'AKC recognized': 'No — designer mix (called the Cavoodle in the UK and Australia)',
+      'Popularity': 'Among the most popular family crossbreeds worldwide',
+    },
+    lede: `Somewhere in the design brief for the Cavapoo, someone wrote the word gentle and underlined it twice. A Cavalier King Charles Spaniel crossed with a Poodle, it inherits the Cavalier's famously soft, biddable nature and the Poodle's brain and low-shedding coat, and the result is a dog that visibly struggles to find a person it does not immediately adore. In Britain and Australia, where it goes by Cavoodle, it has become one of the default family dogs of the era. Spend five minutes with one and the reasons are not mysterious.`,
+    spotlightHeading: 'Why we love the Cavapoo on stage',
+    spotlight: `<p>The Cavapoo is soft in every register — soft coat, soft eyes, soft temperament — and the camera drinks it in. Many carry the Cavalier's Blenheim colouring, chestnut-and-white in gentle patches, framed by those long spaniel ears that turn every head-tilt into a small event. It is a face built for sympathy, and it deploys it constantly.</p>
+<p>On stage they are calm and sweet, neither fizzing with working-dog drive nor demanding to be the centre of attention. They settle, they gaze, they radiate a kind of unhurried contentment. After a stretch of livelier guests, a Cavapoo is the broadcast equivalent of a warm bath.</p>
+<p>Viewers respond with quiet, steady affection — the soothing end of the chat. Nobody is whipped into a frenzy by a Cavapoo. Everybody feels a little better for having watched one. The bones come in gentle and constant.</p>`,
+    ownerFitHeading: 'Is a Cavapoo right for you?',
+    ownerFit: `<p>One of the best companion dogs available — with one health responsibility that you must take seriously before you buy.</p>
+<p><strong>Temperament.</strong> Superb. Gentle with children, easy with other pets, eager to please. They are about as soft-natured as small dogs come, and they respond poorly to harsh handling — kindness and consistency get everything out of them.</p>
+<p><strong>They are velcro dogs.</strong> Like several breeds on this list, the affection comes with attachment, and Cavapoos can develop separation anxiety if routinely left alone for long days. Best suited to a home with regular company.</p>
+<p><strong>Energy.</strong> Moderate. A couple of walks and some play. Adaptable to flats and houses alike.</p>
+<p><strong>Coat.</strong> Low-shedding and often allergy-friendly, with regular brushing required; the spaniel ears, like the Cocker's, need routine cleaning to ward off infection.</p>
+<p><strong>Health — read this part.</strong> The Cavalier parent carries two serious inherited conditions: mitral valve heart disease and syringomyelia (a painful neurological condition). Crossing with a Poodle can dilute the risk but does not erase it. Buy only from a breeder who heart-tests the Cavalier parent and is open about the lineage. This single question separates a sound Cavapoo from a heartbreaking one.</p>
+<p><strong>The verdict:</strong> an exceptional family and companion dog, on the firm condition that you treat the parent health-testing as non-negotiable.</p>`,
+    famousHeading: 'Famous Cavapoos',
+    famous: `<p>The Cavapoo borrows its glamour from the spaniel side, and the spaniel side is positively regal. The Cavalier King Charles Spaniel is named for King Charles II of England, who was so devoted to his little spaniels that, by long-repeated tradition, he could barely be parted from them and let them roam the palace at will — there is even a persistent legend that he decreed the breed should be allowed into any public building, a claim often repeated and rarely sourced, but too charming to leave out with a caveat attached.</p>
+<p>The Cavapoo itself is too modern for individual celebrity, but it has conquered the contemporary equivalent of the royal court: it is one of the most-posted small dogs on social media, especially across the UK and Australia, where the Cavoodle has become shorthand for the gentle, photogenic family dog. From the lap of a Stuart king to the corner of ten thousand modern sofas is a long journey, but the job description has not changed in three and a half centuries: be near your people, and make them feel better for it.</p>`,
+    relatedBreeds: [
+      { slug: 'maltipoo', name: 'Maltipoo' },
+      { slug: 'cockapoo', name: 'Cockapoo' },
+      { slug: 'goldendoodle', name: 'Goldendoodle' },
+      { slug: 'cavalier-king-charles-spaniel', name: 'Cavalier King Charles Spaniel' },
+    ],
+    breedTagName: 'Cavapoo',
+  },
+
+  'cane-corso': {
+    name: 'Cane Corso',
+    headKeyword: 'Cane Corso',
+    metaDescription: "The Cane Corso: a Roman-descended Italian mastiff — powerful, intelligent, and emphatically not a first dog. An honest field guide, with stage notes.",
+    facts: {
+      'Group': 'Working',
+      'Size': 'Males 99–110 lb · Females 88–99 lb · 23.5–27.5 inches',
+      'Temperament': 'Confident, intelligent, protective, aloof with strangers',
+      'Life expectancy': '9–12 years',
+      'Coat': 'Short, stiff double coat; sheds',
+      'Colors': 'Black, gray, fawn, red, brindle',
+      'AKC recognized': 'Yes — recognized 2010',
+      'Origin': 'Italy; descended from Roman war and guardian dogs',
+    },
+    lede: `The Cane Corso descends from the war dogs of Rome, and on some level it has never quite filed the paperwork to retire. A powerful Italian mastiff built for guarding property and hunting large game, it carries immense physical presence and a watchful, discerning intelligence — devoted utterly to its own family and reserved to the point of suspicion with everyone else. It is magnificent. It is also, let us be entirely clear before anyone falls in love with a photograph, not a beginner's dog.`,
+    spotlightHeading: 'Why we love the Cane Corso on stage',
+    spotlight: `<p>The Cane Corso changes the temperature of the room. After the doodles and the lapdogs, a Corso strides on with the slow, deliberate confidence of a dog that has never needed to hurry, and the chat goes briefly quiet. The build is extraordinary — deep chest, heavy muscle, that broad serious head — and the dog wears it without a trace of clowning.</p>
+<p>They do not perform, and that is precisely the appeal. Where a spaniel tilts its head for approval, a Corso simply regards the camera, steady and unimpressed, and lets its sheer presence do the work. There is a stillness to a confident guardian breed that reads as gravity on screen.</p>
+<p>Viewers respond with awe rather than coos — the bones arrive like a respectful nod. A well-raised Cane Corso is one of the most quietly commanding sights we host.</p>`,
+    ownerFitHeading: 'Is a Cane Corso right for you?',
+    ownerFit: `<p>This section matters more than most on this site. A Cane Corso in the right hands is a superb companion and guardian. In the wrong hands it is a genuine liability. Be ruthlessly honest with yourself.</p>
+<p><strong>Experience is required.</strong> This is a large, powerful, protective breed that needs a calm, confident, experienced owner who can provide consistent leadership and structure. If this would be your first dog, or your first large dog, the Cane Corso is the wrong place to start.</p>
+<p><strong>Socialization and training are not optional.</strong> Early, broad, lifelong socialization and steady obedience training are the difference between a stable guardian and a dangerous one. An under-socialized hundred-pound protective dog is a serious problem for everyone around it. Plan for professional training from puppyhood.</p>
+<p><strong>The protective instinct must be managed.</strong> A Corso is naturally aloof with strangers and watchful over its family. That instinct is to be channeled and controlled — never encouraged into suspicion or aggression.</p>
+<p><strong>Energy and space.</strong> Moderate to high. They need real daily exercise, a job to occupy the mind, and room to live. A bored, cooped-up Corso is a recipe for trouble.</p>
+<p><strong>Health.</strong> Large-breed concerns: hip dysplasia, bloat (gastric torsion), and eyelid conditions, alongside the shorter lifespan large dogs tend to get. Choose a breeder who health-tests and breeds for sound temperament above all.</p>
+<p><strong>Practicalities.</strong> Check local regulations and insurance — some areas and providers treat large guardian breeds differently. Go in informed.</p>`,
+    famousHeading: 'Famous Cane Corsos',
+    famous: `<p>The Cane Corso's fame is ancient rather than cinematic. Its ancestors marched with the Roman legions — the broad-built war and guardian dogs the Romans prized — and the breed spent the centuries after Rome's fall as a working farm and estate guardian across southern Italy, hunting boar and minding livestock. The very name is usually traced to Latin roots meaning, roughly, guardian dog.</p>
+<p>By the mid-twentieth century the breed had dwindled almost to extinction as rural Italian life changed, and it survived only because a handful of Italian enthusiasts deliberately revived it in the 1970s. It reached American recognition in 2010 and has climbed in popularity since — a rise that brings real responsibility, because a powerful guardian breed becoming fashionable is exactly the situation that demands careful, ethical ownership. The Cane Corso survived the twentieth century on the strength of a handful of people who took it seriously. It deserves owners who will do the same in this one.</p>`,
+    relatedBreeds: [
+      { slug: 'german-shepherd', name: 'German Shepherd' },
+      { slug: 'dalmatian', name: 'Dalmatian' },
+      { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
+      { slug: 'mastiff', name: 'Mastiff' },
+    ],
+    breedTagName: 'Cane Corso',
+  },
+
+  dalmatian: {
+    name: 'Dalmatian',
+    headKeyword: 'Dalmatian',
+    metaDescription: "The Dalmatian: the spotted firehouse icon of 101 fame, and a high-energy athlete the movie never warned anyone about. An honest field guide, with stage notes.",
+    facts: {
+      'Group': 'Non-Sporting',
+      'Size': '45–70 lb · 19–24 inches at shoulder',
+      'Temperament': 'Energetic, dignified, outgoing, loyal, intelligent',
+      'Life expectancy': '11–13 years',
+      'Coat': 'Short, dense; sheds heavily and constantly',
+      'Colors': 'White with black or liver spots (born pure white)',
+      'AKC recognized': 'Yes',
+      'Health note': 'Congenital deafness affects a notable share of the breed',
+    },
+    lede: `No dog has been more thoroughly defined by a single film, and few films have been more misleading about their star. The Dalmatian is, in the popular imagination, a gentle spotted family pet who arrives in litters of ninety-nine. The actual Dalmatian is a tireless athletic dog originally bred to run for miles beside horse-drawn carriages — a coaching dog with stamina to burn and a powerful need to use it. The spots are real. The placid-family-pet part was largely invented by Disney.`,
+    spotlightHeading: 'Why we love the Dalmatian on stage',
+    spotlight: `<p>The Dalmatian is the most instantly recognizable dog we host. Those spots — and every dog's pattern is unique, like a fingerprint, developing over the first weeks of life on a coat that starts pure white — make for an unmistakable silhouette under the studio lights. The build beneath them is elegant and athletic, all clean lines and barely-contained motion.</p>
+<p>The "barely contained" is the operative phrase. Dalmatians run high, and keeping one fully still for the camera is an optimistic ambition. What you get is a few seconds of poised, aristocratic portrait — the breed has a genuinely dignified bearing — punctuated by sudden bursts of "what was that, where are we going, can we go there now."</p>
+<p>Viewers recognize them on sight and the chat lights up with film references. The bones come in on the strength of pure star power: there are few breeds the audience knows by name as instantly as this one.</p>`,
+    ownerFitHeading: 'Is a Dalmatian right for you?',
+    ownerFit: `<p>A brilliant dog for the right owner, and one of the most commonly regretted impulse buys for the wrong one — usually someone who fell for the film. Know what you are taking on.</p>
+<p><strong>Energy, energy, energy.</strong> This is the headline. Dalmatians were built to run all day beside a carriage, and that engine is still inside the modern dog. They need serious daily exercise — running, not just strolling. An under-exercised Dalmatian becomes destructive and frustrated, and a great many end up in rescue for exactly this reason. Match the energy or choose another breed.</p>
+<p><strong>Deafness.</strong> Congenital hearing loss affects a meaningful share of the breed — some dogs are deaf in one ear, some in both. Responsible breeders BAER-test their puppies and will tell you each one's status. A deaf Dalmatian can live a full, happy life with hand-signal training, but it changes the household, and you should know before you commit.</p>
+<p><strong>Urinary health.</strong> Dalmatians have a unique quirk of metabolism that predisposes them to urinary stones. It is managed with the right diet and constant access to water, but it is a lifelong consideration, not a one-off.</p>
+<p><strong>Shedding.</strong> Relentless. The short, stiff white hairs shed year-round and embed themselves in everything. The saying among owners is that Dalmatians shed 365 days a year. Believe it.</p>
+<p><strong>Trainability.</strong> Smart but independent. They respond to consistent, positive training and need it from the start — particularly given the energy.</p>
+<p><strong>The verdict:</strong> a magnificent companion for a very active, experienced owner who wants a running partner; a poor and often unhappy match for a sedentary household expecting the movie.</p>`,
+    famousHeading: 'Famous Dalmatians',
+    famous: `<p>The Dalmatian's fame is almost entirely the story of one book and the films it spawned. Dodie Smith's 1956 novel The Hundred and One Dalmatians, and the Disney animated classic that followed in 1961 (plus the 1996 live-action remake), embedded the breed in popular culture so completely that for most people "Dalmatian" and "101" are nearly the same word. The films were wonderful for the breed's profile and, arguably, terrible for the breed's welfare — each release was followed by a surge of impulse purchases and, soon after, a surge of surrenders by families who had not bargained for the energy.</p>
+<p>The other great Dalmatian role is older and truer to the breed: the firehouse dog. Their natural affinity with horses made them the coaching dogs of the horse-drawn fire-engine era — running ahead to clear the way, calming the team, and guarding the equipment. The horses are long gone, but the Dalmatian remains the mascot of fire stations across America, and of more than one famous brewery's hitch team. That role, unlike the spotted-puppy fantasy, the breed actually earned.</p>`,
+    relatedBreeds: [
+      { slug: 'german-shepherd', name: 'German Shepherd' },
+      { slug: 'french-bulldog', name: 'French Bulldog' },
+      { slug: 'cane-corso', name: 'Cane Corso' },
+      { slug: 'pointer', name: 'Pointer' },
+    ],
+    breedTagName: 'Dalmatian',
+  },
 };
 
 const STYLES = `

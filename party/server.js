@@ -5,6 +5,10 @@
 // user auth (magic link via Resend).
 // ═══════════════════════════════════════════════
 
+// Build stamp (commit + deploy time), baked in by stamp-version.cjs at deploy.
+// Exposed at GET /version so `npm run check-deploy` can detect prod↔repo drift.
+import { BUILD_INFO } from './build-info.js';
+
 const SITE_URL = 'https://dogshow.lol';
 const FAN_COUNT_OFFSET = 100; // Seed number — real fans count from here
 
@@ -1303,6 +1307,32 @@ export default class DogShowServer {
     }), { headers });
   }
 
+  // GET /admin-backfill-slugs?key=<ADMIN_KEY>[&commit=1]
+  // One-shot cleanup: assign a slug to any community dog missing one (very early
+  // uploads predate guaranteed slugs), so its /d/{slug} SSR certificate + per-dog
+  // OG share image work. Dry-run by default; pass commit=1 to write. Audit L4.
+  async handleAdminBackfillSlugs(req, headers) {
+    const url = new URL(req.url);
+    const key = url.searchParams.get('key');
+    const commit = url.searchParams.get('commit') === '1';
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    if (!adminKey || !key || key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+    const fixed = [];
+    for (const dog of this.communityDogs) {
+      if (dog.slug) continue;
+      const slug = await this.getUniqueSlug(dog.dogName || 'a-good-dog');
+      fixed.push({ id: dog.id, dogName: dog.dogName, slug });
+      if (commit) {
+        dog.slug = slug;
+        await this.room.storage.put(`slug:${slug}`, dog.id);
+      }
+    }
+    if (commit && fixed.length) await this.room.storage.put('communityDogs', this.communityDogs);
+    return new Response(JSON.stringify({ ok: true, dryRun: !commit, fixedCount: fixed.length, fixed }), { headers });
+  }
+
   // POST /rsvp { email, dogId, slug? }
   // Phase 4: a fan visits a pre-show cert page (e.g., /d/rover-the-corgi
   // before Rover has aired) and submits their email to "set a reminder."
@@ -1456,6 +1486,11 @@ export default class DogShowServer {
       return new Response(null, { status: 204, headers });
     }
 
+    // Deploy stamp — what commit/version is actually live (drift check).
+    if (path === 'version' && req.method === 'GET') {
+      return new Response(JSON.stringify(BUILD_INFO), { headers });
+    }
+
     // ─── Rate limiting (audit High-2) ───
     // Per-IP caps on the abuse-prone POST endpoints — guards against account
     // spam, Resend/Stripe quota burn, and AI/storage abuse.
@@ -1572,6 +1607,9 @@ export default class DogShowServer {
       }
       if (path === 'admin-migrate-general' && req.method === 'GET') {
         return await this.handleAdminMigrateGeneral(req, headers);
+      }
+      if (path === 'admin-backfill-slugs' && req.method === 'GET') {
+        return await this.handleAdminBackfillSlugs(req, headers);
       }
       if (path === 'landing-stats' && req.method === 'GET') {
         const totalBones = this.communityDogs.reduce((sum, d) => sum + ((d.stats && d.stats.totalBones) || 0), 0) + this.boneCount;

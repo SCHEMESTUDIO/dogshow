@@ -175,7 +175,7 @@
 
   // Show a loading state until server sends the first dog
   var dogNameInit = document.getElementById('dogName');
-  if (dogNameInit) dogNameInit.textContent = 'Waiting for the show to start...';
+  if (dogNameInit) dogNameInit.textContent = 'The curtain is about to rise…';
 
   // ─── CHAT DISPLAY ─────────────────────────────
 

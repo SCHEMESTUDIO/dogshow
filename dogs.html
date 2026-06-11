@@ -363,7 +363,10 @@
       dogs.forEach(function(dog) {
         var card = document.createElement('a');
         card.className = 'dog-card';
-        card.href = 'dog.html?id=' + dog.id;
+        // Prefer the canonical SSR certificate (/d/{slug}) for share previews +
+        // SEO; fall back to the client-rendered ?id= page for any slug-less dog
+        // (e.g. early uploads). Audit L5.
+        card.href = dog.slug ? '/d/' + dog.slug : 'dog.html?id=' + dog.id;
 
         var imgUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=' + dog.id;
         var bones = (dog.stats && dog.stats.totalBones) || 0;

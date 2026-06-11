@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "npx partykit dev",
-    "deploy": "npx partykit deploy"
+    "deploy": "node stamp-version.cjs && npx partykit deploy && git checkout -- build-info.js",
+    "check-deploy": "node check-deploy.cjs"
   },
   "dependencies": {
     "partykit": "^0.0.108"
