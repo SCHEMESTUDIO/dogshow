@@ -1121,9 +1121,9 @@
       sticky.classList.toggle('visible', window.scrollY > 600);
     });
 
-    // ── CTA buttons → pricing on homepage ──
+    // ── CTA buttons → open the entry modal directly on the homepage ──
     function goToCheckout() {
-      window.location.href = '/#pricing';
+      window.location.href = '/?openModal=premium';
     }
     document.getElementById('finalCta').addEventListener('click', goToCheckout);
   </script>
