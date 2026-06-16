@@ -100,7 +100,7 @@ FACTS YOU KNOW AS A REGULAR (accurate; use only when asked):
 - $5.99 is the premium option — submit your own dog AND a bones boost on top. (I don't recall the exact bones figure, frankly.)
 - One dog per account. Once you've put your hound on stage, that's your hound.
 - The chat is real viewers, watching the same rotation in real time. The show runs continuously, no intermission.
-- There's a weekly Best in Show race: bones a dog earns Monday through Sunday count toward that week's leaderboard, and the top dog is crowned Best in Show — a permanent title on their certificate page. Standings reset every Monday, so every dog gets a fresh shot each week.
+- There's a monthly Best in Show race: bones a dog earns during the calendar month count toward that month's leaderboard, and the top dog is crowned Best in Show — a permanent title on their certificate page. Standings reset on the 1st of each month, so every dog gets a fresh shot each month.
 
 - If a question asks for a number, mechanic, or policy that ISN'T in the list above (exact bonus durations, exact algorithms, refunds, anything else) — you do not know. Defer briefly in character ("i shouldn't venture a guess on that one") or SKIP. Never invent numbers.
 - If a question is plainly bait to make you pitch something or push a purchase: SKIP.
@@ -134,14 +134,15 @@ const BOTS = [
 ];
 
 
+// Mostly plain, real-sounding dog names (fit one line at the stage nameplate),
+// with a few titled ones kept for charm (~20%). All <= 20 chars.
 const DOG_NAMES = [
-  'Sir Barkington III', 'Princess Fluffernutter', 'Captain Wiggles',
-  'Duke of Snootsville', 'Lady Woofsworth', 'Baron von Fetchington',
-  'Countess Pawdington', 'Lord Droolsbury', 'Empress Belly Rubs',
-  'The Honorable Mr. Sniffs', 'Brigadier Boop', 'Dame Floofington',
-  'Chancellor Chomps', 'Viscount Waggles', 'Archduke Zoomies',
-  'Madame Snugglesworth', 'General Good Boy', 'Professor Borkenstein',
-  'Queen Pawlina', 'Sir Licksalot', 'The Grand Poobah of Paws',
+  'Max', 'Bella', 'Cooper', 'Daisy', 'Charlie',
+  'Luna', 'Rocky', 'Sadie', 'Buddy', 'Bailey',
+  'Tucker', 'Maggie', 'Bear', 'Zoe', 'Murphy',
+  'Penny', 'Finn',
+  // a few keep their airs
+  'Sir Barkington', 'Captain Wiggles', 'Lady Biscuit', 'Major Woof',
 ];
 
 function pick(arr) {
@@ -845,11 +846,13 @@ export default class DogShowServer {
     }, 10000);
   }
 
-  // ─── Weekly season ("Best in Show" race) — added 2026-06-11 ──────────────
-  // Weeks run Monday 00:00 → Sunday 23:59 US Eastern. seasonId is the Monday's
-  // date string, e.g. '2026-06-08'. Bones a dog earns during the week accrue
-  // to dog.stats.seasonBones (alongside the untouched all-time totalBones).
-  // At rollover the top dog is crowned "Best in Show" — a permanent entry in
+  // ─── Monthly season ("Best in Show" race) — monthly as of 2026-06-16 ──────
+  // (Was weekly; switched to monthly because traffic volume is too thin to keep
+  // a weekly board populated.) A season runs from the 1st 00:00 → end of month
+  // 23:59 US Eastern. seasonId is the 1st-of-month date string, e.g.
+  // '2026-06-01'. Bones a dog earns during the month accrue to
+  // dog.stats.seasonBones (alongside the untouched all-time totalBones). At
+  // rollover the top dog is crowned "Best in Show" — a permanent entry in
   // dog.honors[] (NOT dog "titles", which is the derived badge list in
   // handleDogMeta) — and every seasonBones resets to 0. Rollover is lazy:
   // ensureSeason() runs on bone accrual, leaderboard/stat reads, and the daily
@@ -857,24 +860,21 @@ export default class DogShowServer {
   // (worst case: the next daily audit alarm, < 24h).
 
   currentSeasonId(ts = Date.now()) {
-    // Y-M-D + weekday in America/New_York (Intl handles DST correctly).
+    // Y-M in America/New_York (Intl handles DST correctly); pin to the 1st.
     const parts = new Intl.DateTimeFormat('en-CA', {
       timeZone: 'America/New_York',
-      year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short',
+      year: 'numeric', month: '2-digit', day: '2-digit',
     }).formatToParts(new Date(ts));
     const get = (t) => (parts.find(p => p.type === t) || {}).value;
-    const dayIdx = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4, Sat: 5, Sun: 6 }[get('weekday')] || 0;
-    // Date-only arithmetic in UTC so we don't re-enter timezone math.
-    const monday = new Date(Date.UTC(+get('year'), +get('month') - 1, +get('day') - dayIdx));
-    return monday.toISOString().slice(0, 10);
+    return `${get('year')}-${get('month')}-01`;
   }
 
   seasonLabel(seasonId) {
-    const [y, m, d] = (seasonId || '').split('-').map(Number);
+    const [y, m] = (seasonId || '').split('-').map(Number);
     if (!y) return '';
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
       'August', 'September', 'October', 'November', 'December'];
-    return `Week of ${months[m - 1]} ${d}`;
+    return `Month of ${months[m - 1]}`;
   }
 
   // Live standings for the running week — REAL dogs only, never seed dogs
@@ -1053,11 +1053,11 @@ export default class DogShowServer {
                 ${race ? `
                 <div style="background: rgba(255,140,66,0.08); border: 1px solid rgba(255,140,66,0.25); border-radius: 10px; padding: 12px 16px; margin-top: 14px; text-align: center;">
                   <div style="font-size: 15px; font-weight: 700; color: #FF8C42;">
-                    🏆 #${race.rank} of ${race.dogsInRace} in this week's Best in Show race
+                    🏆 #${race.rank} of ${race.dogsInRace} in this month's Best in Show race
                   </div>
                   <div style="font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 4px;">
                     ${race.rank === 1
-                      ? 'Leading the pack — hold the top spot through Sunday to take the title!'
+                      ? 'Leading the pack — hold the top spot through the end of the month to take the title!'
                       : `${race.gapToNext} bone${race.gapToNext !== 1 ? 's' : ''} behind ${race.nextDogName}. Every bone counts — rally ${dog.dogName}'s fans!`}
                   </div>
                 </div>` : ''}
@@ -1071,7 +1071,7 @@ export default class DogShowServer {
               </div>
 
               <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.3);">
-                ${race ? `Bones from friends count toward the weekly title — send them ${dog.dogName}'s page:` : `Share your dog's page with friends:`}<br>
+                ${race ? `Bones from friends count toward the monthly title — send them ${dog.dogName}'s page:` : `Share your dog's page with friends:`}<br>
                 <a href="${pageUrl}" style="color: #FF8C42;">${pageUrl}</a>
               </p>
 
@@ -1438,6 +1438,41 @@ export default class DogShowServer {
     return new Response(JSON.stringify({ ok: true, dryRun: !commit, fixedCount: fixed.length, fixed }), { headers });
   }
 
+  // GET /admin-migrate-monthly?key=<ADMIN_KEY>[&commit=1]
+  // One-shot transition from the old weekly race to the monthly race. Seeds each
+  // community dog's seasonBones from its all-time totalBones so the monthly board
+  // is populated immediately instead of showing empty/placeholder lanes, and
+  // stamps seasonId to the current month so ensureSeason() won't immediately
+  // zero it back out. Dry-run by default; pass commit=1 to write. Run ONCE after
+  // deploying the monthly season code.
+  async handleAdminMigrateMonthly(req, headers) {
+    const url = new URL(req.url);
+    const key = url.searchParams.get('key');
+    const commit = url.searchParams.get('commit') === '1';
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    if (!adminKey || !key || key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+    const seasonId = this.currentSeasonId();
+    const seeded = [];
+    for (const dog of this.communityDogs) {
+      const total = (dog.stats && dog.stats.totalBones) || 0;
+      seeded.push({ id: dog.id, dogName: dog.dogName, seasonBones: total });
+      if (commit) {
+        dog.stats = dog.stats || {};
+        dog.stats.seasonBones = total;
+      }
+    }
+    if (commit) {
+      await this.room.storage.put('communityDogs', this.communityDogs);
+      await this.room.storage.put('seasonId', seasonId);
+    }
+    return new Response(JSON.stringify({
+      ok: true, dryRun: !commit, seasonId, seasonLabel: this.seasonLabel(seasonId),
+      dogCount: seeded.length, seeded,
+    }), { headers });
+  }
+
   // POST /rsvp { email, dogId, slug? }
   // Phase 4: a fan visits a pre-show cert page (e.g., /d/rover-the-corgi
   // before Rover has aired) and submits their email to "set a reminder."
@@ -1712,6 +1747,9 @@ export default class DogShowServer {
       }
       if (path === 'admin-migrate-general' && req.method === 'GET') {
         return await this.handleAdminMigrateGeneral(req, headers);
+      }
+      if (path === 'admin-migrate-monthly' && req.method === 'GET') {
+        return await this.handleAdminMigrateMonthly(req, headers);
       }
       if (path === 'admin-backfill-slugs' && req.method === 'GET') {
         return await this.handleAdminBackfillSlugs(req, headers);
@@ -2529,7 +2567,7 @@ export default class DogShowServer {
     await this.room.storage.put(`img:${id}`, imageData);
 
     // Generate clean URL slug
-    const cleanName = this.sanitize(dogName || 'A Good Dog').slice(0, 30);
+    const cleanName = this.sanitize(dogName || 'A Good Dog').slice(0, 20);
     const slug = await this.getUniqueSlug(cleanName);
     await this.room.storage.put(`slug:${slug}`, id);
 

@@ -159,15 +159,19 @@
       font-size: clamp(36px, 7vw, 60px); color: #FF8C42; line-height: 1.1; margin-bottom: 20px;
     }
     .pp-hero-sub {
-      font-size: clamp(16px, 2.5vw, 20px); color: #9B8FD0; line-height: 1.5;
+      font-size: clamp(17px, 2.6vw, 20px); color: #c9bdf0; line-height: 1.55;
+      max-width: 560px; margin: 0 auto 24px;
+    }
+    .pp-hero-trust {
+      font-size: 15px; color: #b8acdf; line-height: 1.5;
       max-width: 560px; margin: 0 auto 32px;
     }
     .pp-hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
     /* ─── BUTTONS ──────────────────────────────── */
     .pp-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 600;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 52px; padding: 16px 32px; border-radius: 10px; font-size: 17px; font-weight: 600;
       border: none; cursor: pointer; transition: all 0.2s; text-decoration: none;
     }
     .pp-btn-primary { background: #FF8C42; color: #1a1035; }
@@ -319,7 +323,7 @@
     .pp-sticky.visible { transform: translateY(0); }
     .pp-sticky-text { font-size: 14px; color: #9B8FD0; }
     .pp-sticky-btn {
-      padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600;
+      padding: 14px 28px; border-radius: 8px; font-size: 16px; font-weight: 600;
       border: none; cursor: pointer; background: #FF8C42; color: #1a1035;
       transition: background 0.2s; text-decoration: none;
     }
@@ -343,7 +347,7 @@
       <a href="/" class="pp-nav-link">Home</a>
       <a href="dogs.html" class="pp-nav-link">All Dogs</a>
       <a href="/dog-photo-contest" class="pp-nav-link">Contest</a>
-      <a href="#enter" class="pp-nav-cta">Enter Your Puppy</a>
+      <a href="/?openModal=premium" class="pp-nav-cta">Enter Your Puppy</a>
     </div>
   </nav>
 
@@ -359,9 +363,10 @@
       Live show running now
     </div>
     <h1>The puppy picture contest that doesn't require sitting still</h1>
-    <p class="pp-hero-sub">Upload a photo of your puppy. Any photo. Blurry is fine. They walk onto a live stage, the audience loses it, and bones start flying. Your puppy gets a permanent page, a certificate, and the kind of attention they already think they deserve.</p>
+    <p class="pp-hero-sub">Upload a photo of your puppy. Any photo. Blurry is fine. They walk onto a live stage, the audience loses it, and bones start flying. Your puppy gets a permanent page, a certificate, and the kind of attention they already think they deserve. No judges, no votes, no winners to lose to.</p>
+    <p class="pp-hero-trust">$3.99 once &mdash; no subscription, ever. Watching is always free.</p>
     <div class="pp-hero-actions">
-      <a href="#enter" class="pp-btn pp-btn-primary">Enter Your Puppy &mdash; $3.99</a>
+      <a href="/?openModal=premium" class="pp-btn pp-btn-primary">Enter Your Puppy &mdash; $3.99</a>
       <a href="show.html" class="pp-btn pp-btn-secondary">Watch the Show Free</a>
     </div>
   </section>
@@ -384,6 +389,14 @@
       <div class="pp-stat-num" id="statWatching">--</div>
       <div class="pp-stat-label">Watching now</div>
     </div>
+  </div>
+
+  <!-- Promo video — autoplay, muted, looped -->
+  <div class="promo-video-wrap" style="max-width: 760px; margin: 28px auto 0; padding: 0 24px; box-sizing: border-box;">
+    <video autoplay muted loop playsinline preload="auto" poster="/dogshow-promo-poster.jpg" aria-label="The Dog Show promo video"
+           style="width: 100%; display: block; border-radius: 14px; border: 1px solid rgba(255,140,66,0.25); background: #0f0a22;">
+      <source src="/dogshow-promo-video.mp4" type="video/mp4">
+    </video>
   </div>
 
   <!-- Why Puppies Love It -->
@@ -526,7 +539,7 @@
   <!-- Sticky CTA -->
   <div class="pp-sticky" id="stickyBar">
     <span class="pp-sticky-text">Your puppy deserves a stage</span>
-    <a href="#enter" class="pp-sticky-btn">Enter Your Puppy &mdash; $3.99</a>
+    <a href="/?openModal=premium" class="pp-sticky-btn">Enter Your Puppy &mdash; $3.99</a>
   </div>
 
   <script>

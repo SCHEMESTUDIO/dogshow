@@ -1214,6 +1214,7 @@
       rk.className = 'race-rank';
       rk.textContent = '#' + rank;
       var nm = document.createElement('span');
+      nm.className = 'race-name';
       nm.textContent = d.dogName;
       var bn = document.createElement('span');
       bn.className = 'race-bones';
@@ -1235,7 +1236,8 @@
       prk.className = 'race-rank';
       prk.textContent = '#' + (p + 1);
       var ptx = document.createElement('span');
-      ptx.textContent = 'this could be your dog →';
+      ptx.className = 'race-name';
+      ptx.textContent = 'Your dog here →';
       ph.appendChild(prk); ph.appendChild(ptx);
       raceBarChipsEl.appendChild(ph);
     }
@@ -1306,7 +1308,7 @@
                 '<span class="leaderboard-rank">' + (fill + 1) + '</span>' +
                 '<div class="leaderboard-info">' +
                   '<div class="leaderboard-name" style="color:var(--accent);">This could be your dog</div>' +
-                  '<div class="leaderboard-meta">Enter now — the race resets Monday</div>' +
+                  '<div class="leaderboard-meta">Enter now — the race resets on the 1st</div>' +
                 '</div>' +
                 '<span class="leaderboard-bones">🦴 ?</span>';
               leaderboardWeeklyEl.appendChild(fillSlot);
@@ -1315,7 +1317,7 @@
             // No dogs racing yet — sell the empty lanes instead of dead space.
             var openLine = document.createElement('div');
             openLine.style.cssText = 'font-size:13px;color:var(--text-faint);padding:2px 0 8px;';
-            openLine.textContent = 'The field is wide open this week — the first bone takes the lead. 🦴';
+            openLine.textContent = 'The field is wide open this month — the first bone takes the lead. 🦴';
             leaderboardWeeklyEl.appendChild(openLine);
             for (var ph = 0; ph < 3; ph++) {
               var slot = document.createElement('a');
@@ -1327,7 +1329,7 @@
                 '<span class="leaderboard-rank">' + (ph + 1) + '</span>' +
                 '<div class="leaderboard-info">' +
                   '<div class="leaderboard-name" style="color:var(--accent);">This could be your dog</div>' +
-                  '<div class="leaderboard-meta">Enter now — win Best in Show this week</div>' +
+                  '<div class="leaderboard-meta">Enter now — win Best in Show this month</div>' +
                 '</div>' +
                 '<span class="leaderboard-bones">🦴 ?</span>';
               leaderboardWeeklyEl.appendChild(slot);

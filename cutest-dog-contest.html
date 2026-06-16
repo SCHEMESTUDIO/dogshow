@@ -175,15 +175,19 @@
       font-size: clamp(36px, 7vw, 60px); color: #FF8C42; line-height: 1.1; margin-bottom: 20px;
     }
     .cd-hero-sub {
-      font-size: clamp(16px, 2.5vw, 20px); color: #9B8FD0; line-height: 1.5;
+      font-size: clamp(17px, 2.6vw, 20px); color: #c9bdf0; line-height: 1.55;
+      max-width: 560px; margin: 0 auto 24px;
+    }
+    .cd-hero-trust {
+      font-size: 15px; color: #b8acdf; line-height: 1.5;
       max-width: 560px; margin: 0 auto 32px;
     }
     .cd-hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
     /* ─── BUTTONS ──────────────────────────────── */
     .cd-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 600;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 52px; padding: 16px 32px; border-radius: 10px; font-size: 17px; font-weight: 600;
       border: none; cursor: pointer; transition: all 0.2s; text-decoration: none;
     }
     .cd-btn-primary { background: #FF8C42; color: #1a1035; }
@@ -369,7 +373,7 @@
     .cd-sticky.visible { transform: translateY(0); }
     .cd-sticky-text { font-size: 14px; color: #9B8FD0; }
     .cd-sticky-btn {
-      padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600;
+      padding: 14px 28px; border-radius: 8px; font-size: 16px; font-weight: 600;
       border: none; cursor: pointer; background: #FF8C42; color: #1a1035;
       transition: background 0.2s; text-decoration: none;
     }
@@ -393,7 +397,7 @@
       <a href="/" class="cd-nav-link">Home</a>
       <a href="dogs.html" class="cd-nav-link">All Dogs</a>
       <a href="/dog-photo-contest" class="cd-nav-link">Contest</a>
-      <a href="#enter" class="cd-nav-cta">Enter Your Dog</a>
+      <a href="/?openModal=premium" class="cd-nav-cta">Enter Your Dog</a>
     </div>
   </nav>
 
@@ -409,9 +413,10 @@
       Live show running now
     </div>
     <h1>The cutest dog contest where every dog is the cutest</h1>
-    <p class="cd-hero-sub">No judges. No vote packages. No paying $80 in &ldquo;votes&rdquo; so a stranger can win a $100 prize. Every dog enters the same live show. Every dog gets a permanent page. Every dog is the cutest. $3.99 once.</p>
+    <p class="cd-hero-sub">Your dog walks onto a live stage with a real audience watching, gets a permanent page and a certificate, and joins a show where every dog is the cutest. No judges, no vote packages, no prize to lose &mdash; just your dog, celebrated.</p>
+    <p class="cd-hero-trust">$3.99 once &mdash; no subscription, ever. Watching is always free.</p>
     <div class="cd-hero-actions">
-      <a href="#enter" class="cd-btn cd-btn-primary">Enter Your Dog &mdash; $3.99</a>
+      <a href="/?openModal=premium" class="cd-btn cd-btn-primary">Enter Your Dog &mdash; $3.99</a>
       <a href="show.html" class="cd-btn cd-btn-secondary">Watch the Show Free</a>
     </div>
   </section>
@@ -434,6 +439,14 @@
       <div class="cd-stat-num" id="statWatching">--</div>
       <div class="cd-stat-label">Watching now</div>
     </div>
+  </div>
+
+  <!-- Promo video — autoplay, muted, looped -->
+  <div class="promo-video-wrap" style="max-width: 760px; margin: 28px auto 0; padding: 0 24px; box-sizing: border-box;">
+    <video autoplay muted loop playsinline preload="auto" poster="/dogshow-promo-poster.jpg" aria-label="The Dog Show promo video"
+           style="width: 100%; display: block; border-radius: 14px; border: 1px solid rgba(255,140,66,0.25); background: #0f0a22;">
+      <source src="/dogshow-promo-video.mp4" type="video/mp4">
+    </video>
   </div>
 
   <!-- VS Comparison: Pay-to-vote vs The Dog Show -->
@@ -624,7 +637,7 @@
   <!-- Sticky CTA -->
   <div class="cd-sticky" id="stickyBar">
     <span class="cd-sticky-text">Every dog is the cutest</span>
-    <a href="#enter" class="cd-sticky-btn">Enter Your Dog &mdash; $3.99</a>
+    <a href="/?openModal=premium" class="cd-sticky-btn">Enter Your Dog &mdash; $3.99</a>
   </div>
 
   <script>

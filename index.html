@@ -252,6 +252,28 @@
     .lp-hero-race-row .race-bones { color: #9d90c8; font-size: 13px; }
     .lp-hero-race-open { font-size: 13px; color: #9b8cc0; text-align: center; }
 
+    /* Live stats card (mirrors the SEO landing pages) + promo video */
+    .lp-stats {
+      display: flex; justify-content: center; gap: 48px; padding: 36px 24px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .lp-stat { text-align: center; }
+    .lp-stat-num { font-size: 28px; font-weight: 700; color: #FF8C42; }
+    .lp-stat-label {
+      font-size: 12px; color: #8a7cb8; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;
+    }
+    .lp-promo-video-wrap {
+      max-width: 760px; margin: 28px auto 8px; padding: 0 24px; box-sizing: border-box;
+    }
+    .lp-promo-video-wrap video {
+      width: 100%; display: block; border-radius: 14px;
+      border: 1px solid rgba(255,140,66,0.25); background: #0f0a22;
+    }
+    @media (max-width: 600px) {
+      .lp-stats { gap: 24px; flex-wrap: wrap; }
+    }
+
     .lp-hero-bullets {
       list-style: none;
       display: flex;
@@ -1469,20 +1491,47 @@
       Live right now
     </div>
     <h1>The Dog Show</h1>
-    <p class="lp-hero-sub">The internet's live dog show. Every bone is a vote toward this week's <strong style="color:#FF8C42;">Best in Show</strong> &mdash; can your dog take the title?</p>
+    <p class="lp-hero-sub">The internet's live dog show. Every bone is a vote toward this month's <strong style="color:#FF8C42;">Best in Show</strong> &mdash; can your dog take the title?</p>
     <div class="lp-hero-actions">
       <button class="lp-btn lp-btn-primary" id="heroCta">Enter Your Dog &mdash; $3.99</button>
       <button class="lp-btn lp-btn-secondary" id="heroFree">Watch the Show Free</button>
     </div>
     <div class="lp-hero-trust" style="margin-bottom: 20px;">One-time $3.99 &middot; No subscription &middot; Nothing to download &mdash; plays right in your browser</div>
-    <!-- This week's Best in Show race — populated from /leaderboard (weeklyTopDogs).
+    <!-- This month's Best in Show race — populated from /leaderboard (weeklyTopDogs).
          Hidden until the fetch succeeds; shows an open-field line when nobody
          has bones yet. Real dogs only — never seed/sample dogs here. -->
     <div class="lp-hero-race" id="heroRace" style="display: none;">
-      <div class="lp-hero-race-label" id="heroRaceLabel">This week's race</div>
+      <div class="lp-hero-race-label" id="heroRaceLabel">This month's race</div>
       <div class="lp-hero-race-rows" id="heroRaceRows"></div>
     </div>
   </section>
+
+  <!-- Live stats card -->
+  <div class="lp-stats" id="liveStats">
+    <div class="lp-stat">
+      <div class="lp-stat-num" id="statDogs">--</div>
+      <div class="lp-stat-label">Dogs entered</div>
+    </div>
+    <div class="lp-stat">
+      <div class="lp-stat-num" id="statBones">--</div>
+      <div class="lp-stat-label">Bones thrown</div>
+    </div>
+    <div class="lp-stat">
+      <div class="lp-stat-num" id="statFans">--</div>
+      <div class="lp-stat-label">Fans</div>
+    </div>
+    <div class="lp-stat">
+      <div class="lp-stat-num" id="statWatching">--</div>
+      <div class="lp-stat-label">Watching now</div>
+    </div>
+  </div>
+
+  <!-- Promo video — autoplay, muted, looped -->
+  <div class="lp-promo-video-wrap">
+    <video autoplay muted loop playsinline preload="auto" poster="/dogshow-promo-poster.jpg" aria-label="The Dog Show promo video">
+      <source src="/dogshow-promo-video.mp4" type="video/mp4">
+    </video>
+  </div>
 
   <!-- Ticker — populated from real testimonials; hidden until at least one approved -->
   <div class="lp-ticker-wrap" id="tickerWrap" style="display: none;">
@@ -1509,7 +1558,7 @@
       <div class="lp-feature">
         <div class="lp-feature-icon">&#129460;</div>
         <div class="lp-feature-title">Bone Economy</div>
-        <div class="lp-feature-desc">Throw bones at the dogs you love &mdash; every bone is a vote. More bones means more time on stage and a higher spot in this week's Best in Show race.</div>
+        <div class="lp-feature-desc">Throw bones at the dogs you love &mdash; every bone is a vote. More bones means more time on stage and a higher spot in this month's Best in Show race.</div>
       </div>
       <div class="lp-feature">
         <div class="lp-feature-icon">&#128248;</div>
@@ -1643,7 +1692,7 @@
           .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
           .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
       }
-      // ── Hero: this week's Best in Show race (top 3) ──
+      // ── Hero: this month's Best in Show race (top 3) ──
       (function () {
         var race = document.getElementById('heroRace');
         var rows = document.getElementById('heroRaceRows');
@@ -1656,7 +1705,7 @@
             var weekly = data.weeklyTopDogs || [];
             if (label && data.seasonLabel) label.textContent = 'Best in Show race — ' + data.seasonLabel;
             if (weekly.length === 0) {
-              rows.innerHTML = '<div class="lp-hero-race-open">The field is wide open this week &mdash; the first bone takes the lead. 🦴</div>';
+              rows.innerHTML = '<div class="lp-hero-race-open">The field is wide open this month &mdash; the first bone takes the lead. 🦴</div>';
             } else {
               weekly.slice(0, 3).forEach(function (d, i) {
                 var row = document.createElement('div');
@@ -1912,7 +1961,7 @@
           <input type="file" id="dogFileInput" accept="image/jpeg,image/png,image/webp" hidden>
         </div>
 
-        <input type="text" class="lp-modal-input" id="dogNameInput" placeholder="Dog's name (e.g., Bella)" maxlength="30">
+        <input type="text" class="lp-modal-input" id="dogNameInput" placeholder="Dog's name (e.g., Bella)" maxlength="20">
 
         <select class="lp-modal-input" id="dogBreedInput" style="margin-top: 10px;">
           <option value="">Select breed…</option>
@@ -2024,6 +2073,19 @@
       if (target > 0) requestAnimationFrame(step);
       else el.textContent = '0';
     }
+
+    // ─── LIVE STATS CARD (homepage) ──────────────────
+    // Same source + field names as the SEO landing pages' card.
+    fetch(API_BASE_LANDING + '/landing-stats')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data) return;
+        if (data.totalDogs != null) animateCounter('statDogs', Number(data.totalDogs));
+        if (data.totalBones != null) animateCounter('statBones', Number(data.totalBones));
+        if (data.totalFans != null) animateCounter('statFans', Number(data.totalFans));
+        if (data.watching != null) animateCounter('statWatching', Number(data.watching));
+      })
+      .catch(function() {});
 
     // ─── FAQ TOGGLES ─────────────────────────────────
     document.querySelectorAll('.lp-faq-q').forEach(function(btn) {
@@ -2423,10 +2485,10 @@
     // button overrides to 'premium_plus' before opening the upload modal.
     var pendingDogTier = 'premium';
     document.getElementById('heroCta').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
-    document.getElementById('heroFree').addEventListener('click', function() { openEmailModal('free'); });
+    document.getElementById('heroFree').addEventListener('click', function() { playCurtainAndGo('free'); });
     document.getElementById('previewCta').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
     document.getElementById('certCta').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
-    document.getElementById('planFree').addEventListener('click', function() { openEmailModal('free'); });
+    document.getElementById('planFree').addEventListener('click', function() { playCurtainAndGo('free'); });
     document.getElementById('planPremium').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
     var planPremiumPlusBtn = document.getElementById('planPremiumPlus');
     if (planPremiumPlusBtn) {
@@ -2451,7 +2513,7 @@
         pendingDogTier = want;
         startDogEntry();
       } else if (want === 'free') {
-        openEmailModal('free');
+        playCurtainAndGo('free');
       }
     })();
 

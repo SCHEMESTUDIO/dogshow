@@ -457,21 +457,21 @@ module.exports = async function handler(req, res) {
   const titlesHtml = honorBadges + titlesFor(stats, breed)
     .map(t => `<span class="cert-title-badge">${esc(t)}</span>`).join('');
 
-  // This week's Best in Show race banner (server-rendered, SEO-safe).
+  // This month's Best in Show race banner (server-rendered, SEO-safe).
   let raceHtml = '';
   if (season && season.rank) {
     const leading = season.rank === 1;
     const gap = !leading && season.leader ? (season.leader.seasonBones - season.seasonBones) : 0;
     raceHtml = `<div style="background:rgba(255,140,66,0.08);border:1px solid rgba(255,140,66,0.3);border-radius:12px;padding:16px 20px;margin:0 0 24px;">
-<div style="font-size:16px;font-weight:700;color:#FF8C42;">🏆 #${season.rank} of ${season.dogsInRace} in this week's Best in Show race</div>
+<div style="font-size:16px;font-weight:700;color:#FF8C42;">🏆 #${season.rank} of ${season.dogsInRace} in this month's Best in Show race</div>
 <div style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:4px;">${leading
-      ? `Leading the pack with ${season.seasonBones} bone${season.seasonBones !== 1 ? 's' : ''} — the title is decided Sunday night.`
-      : `${season.seasonBones} bone${season.seasonBones !== 1 ? 's' : ''} this week — ${gap} behind ${esc(season.leader ? season.leader.dogName : 'the leader')}. Every bone counts.`}</div>
-<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:8px;">Standings reset every Monday. <a href="${SITE}/show.html" style="color:#FF8C42;">Watch live &amp; throw a bone &rarr;</a></div>
+      ? `Leading the pack with ${season.seasonBones} bone${season.seasonBones !== 1 ? 's' : ''} — the title is decided at the end of the month.`
+      : `${season.seasonBones} bone${season.seasonBones !== 1 ? 's' : ''} this month — ${gap} behind ${esc(season.leader ? season.leader.dogName : 'the leader')}. Every bone counts.`}</div>
+<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:8px;">Standings reset on the 1st of each month. <a href="${SITE}/show.html" style="color:#FF8C42;">Watch live &amp; throw a bone &rarr;</a></div>
 </div>`;
   } else if (season) {
     raceHtml = `<div style="background:rgba(255,140,66,0.06);border:1px solid rgba(255,140,66,0.2);border-radius:12px;padding:14px 20px;margin:0 0 24px;">
-<div style="font-size:13px;color:rgba(255,255,255,0.55);">🏆 No bones yet in this week's Best in Show race${season.dogsInRace ? ` — ${season.dogsInRace} dog${season.dogsInRace !== 1 ? 's are' : ' is'} already racing` : ' — the field is wide open'}. <a href="${SITE}/show.html" style="color:#FF8C42;">Watch live &amp; throw the first bone &rarr;</a></div>
+<div style="font-size:13px;color:rgba(255,255,255,0.55);">🏆 No bones yet in this month's Best in Show race${season.dogsInRace ? ` — ${season.dogsInRace} dog${season.dogsInRace !== 1 ? 's are' : ' is'} already racing` : ' — the field is wide open'}. <a href="${SITE}/show.html" style="color:#FF8C42;">Watch live &amp; throw the first bone &rarr;</a></div>
 </div>`;
   }
 
@@ -492,7 +492,7 @@ module.exports = async function handler(req, res) {
   // Facebook/WhatsApp family threads for this audience).
   const shareText = encodeURIComponent(
     season && season.rank
-      ? `Vote for ${name} in this week's Dog Show — every bone is a vote! 🦴`
+      ? `Vote for ${name} in this month's Dog Show — every bone is a vote! 🦴`
       : `Cheer for ${name} on The Dog Show — every bone is a vote! 🦴`
   );
   const shareUrl = encodeURIComponent(url);

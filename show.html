@@ -120,7 +120,7 @@
            stage so voting and the race are visible together. Ticks live as
            bones land (app.js renderRaceBar); empty lanes sell entry. -->
       <div class="race-bar" id="raceBar" hidden>
-        <div class="race-bar-label">&#127942; <span id="raceBarLabel">This week's race</span></div>
+        <div class="race-bar-label">&#127942; <span id="raceBarLabel">This month's race</span></div>
         <div class="race-bar-chips" id="raceBarChips"></div>
       </div>
 
@@ -233,12 +233,12 @@
   <!-- Leaderboard -->
   <div class="leaderboard" id="leaderboard" hidden>
     <div class="leaderboard-header">Hall of Bones</div>
-    <!-- Weekly Best in Show race (added 2026-06-11). Every bone thrown this
-         week counts toward the title; standings reset Monday. Real dogs only,
-         never seed dogs. -->
+    <!-- Monthly Best in Show race (monthly as of 2026-06-16). Every bone thrown
+         this month counts toward the title; standings reset on the 1st. Real
+         dogs only, never seed dogs. -->
     <div class="leaderboard-section" id="weeklyRaceSection" hidden>
-      <div class="leaderboard-label">&#127942; <span id="weeklyRaceLabel">This Week's Best in Show Race</span></div>
-      <div style="font-size: 11px; color: var(--text-faint); margin: -2px 0 8px;">Every bone is a vote &middot; standings reset Monday &middot; the winner is crowned Sunday night</div>
+      <div class="leaderboard-label">&#127942; <span id="weeklyRaceLabel">This Month's Best in Show Race</span></div>
+      <div style="font-size: 11px; color: var(--text-faint); margin: -2px 0 8px;">Every bone is a vote &middot; standings reset on the 1st &middot; the winner is crowned at month's end</div>
       <div class="leaderboard-list" id="leaderboardWeekly"></div>
       <div id="reigningChampion" style="font-size: 12px; color: var(--text-faint); margin-top: 8px;" hidden></div>
     </div>
@@ -300,7 +300,7 @@
       <div class="upload-modal-title">Tell us about your dog</div>
       <div class="upload-modal-subtitle">This is how they'll appear in the show.</div>
       <label class="upload-modal-label" for="uploadDogName">Dog's name</label>
-      <input type="text" class="upload-modal-input" id="uploadDogName" placeholder="e.g. Biscuit" maxlength="30" autocomplete="off" spellcheck="false">
+      <input type="text" class="upload-modal-input" id="uploadDogName" placeholder="e.g. Biscuit" maxlength="20" autocomplete="off" spellcheck="false">
       <label class="upload-modal-label" for="uploadDogBreed">Breed</label>
       <select class="upload-modal-select" id="uploadDogBreed">
         <option value="">Select breed…</option>

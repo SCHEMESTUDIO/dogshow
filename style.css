@@ -548,36 +548,43 @@
 }
 
 .dog-frame-drape {
-  height: 28px;
+  height: 34px;
   background: linear-gradient(180deg, var(--curtain), var(--curtain-dark));
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  box-shadow: inset 0 -7px 12px rgba(0, 0, 0, 0.28);
 }
 
+/* Ambient stage-light sheen across the valance — full width so it reads as
+   soft lighting rather than a blob competing with the plaque. */
 .dog-frame-drape-inner {
-  width: 50%;
-  height: 14px;
-  border-radius: 0 0 50% 50%;
-  background: radial-gradient(ellipse at center, var(--curtain-light), var(--curtain));
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 140% at 50% -30%, rgba(255, 255, 255, 0.12), transparent 70%);
+  pointer-events: none;
 }
 
+/* The plaque sits as a crisp pill straddling the seam between the valance and
+   the stage, with a drop shadow so it reads as a mounted theatre placard. */
 .dog-frame-plaque {
   position: absolute;
-  bottom: -1px;
+  bottom: -11px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(180deg, #2a1a4a, #1a1035);
-  border: 1px solid rgba(255, 140, 66, 0.25);
-  border-bottom: none;
-  border-radius: 6px 6px 0 0;
-  padding: 3px 14px;
-  font-size: 9px;
-  letter-spacing: 2.5px;
+  background: linear-gradient(180deg, #2a1a4a, #160d2c);
+  border: 1px solid rgba(255, 140, 66, 0.38);
+  border-radius: 7px;
+  padding: 4px 18px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(255, 140, 66, 0.7);
+  color: rgba(255, 178, 120, 0.95);
   white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+  z-index: 3;
 }
 
 .dog-viewport {
@@ -1892,21 +1899,33 @@
   background: rgba(255, 140, 66, 0.06);
 }
 
+/* Frenzy badge is a floating ribbon pinned to the top-right of the header row,
+   taken OUT of the flex flow so it can never push the bones cluster onto a
+   second line (issue: BONE FRENZY used to wrap the modal). */
 .dock-frenzy-badge {
   display: none;
-  font-size: 11px;
+  position: absolute;
+  top: -11px;
+  right: 14px;
+  font-size: 10px;
   font-weight: 700;
   font-family: var(--font-system);
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #FF5722;
+  color: #1a1035;
+  background: #FF5722;
+  padding: 3px 11px;
+  border-radius: 999px;
+  box-shadow: 0 3px 10px rgba(255, 87, 34, 0.45);
+  white-space: nowrap;
+  z-index: 5;
   animation: frenzyPulse 0.6s ease-in-out infinite;
 }
 
-.dock-bar.frenzy .dock-frenzy-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.dock-bar.frenzy .dock-frenzy-badge,
+.stage-header-row.frenzy .dock-frenzy-badge,
+.dock-frenzy-badge.active {
+  display: block;
 }
 
 /* ─── UPGRADE PROMPT MODAL ─────────────────────── */
@@ -2034,6 +2053,7 @@
    so on desktop it stacks cleanly under the stage rather than stretching
    the full dog-stage column width. */
 .stage-header-row {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2082,6 +2102,14 @@
   text-align: left;
   font-size: clamp(20px, 4.5vw, 28px);
   padding: 0;
+  /* Names must never wrap to a second line — truncate with an ellipsis as a
+     safety net (overrides the mobile word-break rule via higher specificity). */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: normal;
+  overflow-wrap: normal;
+  max-width: 100%;
 }
 
 .bones-cluster {
@@ -2092,11 +2120,8 @@
   justify-content: flex-end;
 }
 
-.stage-header-row.frenzy .dock-frenzy-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
+/* (frenzy badge visibility handled by the consolidated rule near
+   .dock-frenzy-badge — kept here only as a no-op anchor for clarity) */
 
 /* Paid-user row: holds the upload prompt OR the dog-in-show status link.
    Hidden by default; app.js reveals based on tier. Constrained to 480px so
@@ -2654,38 +2679,37 @@
    Sits directly under the stage header so the race is visible while voting.
    Chips tick + bump live as bones land (app.js renderRaceBar). */
 .race-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: block;
   margin-top: 10px;
-  padding: 8px 12px;
+  padding: 10px 12px;
   background: rgba(255, 140, 66, 0.05);
   border: 1px solid rgba(255, 140, 66, 0.18);
   border-radius: 12px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
 }
-.race-bar::-webkit-scrollbar { display: none; }
 .race-bar-label {
+  display: block;
+  margin-bottom: 8px;
   font-size: 11px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--accent);
-  white-space: nowrap;
-  flex-shrink: 0;
 }
+/* Three equal lanes that fill the width — no horizontal scroll, no clipped
+   label. Wraps to fewer columns on narrow phones. */
 .race-bar-chips {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
-  align-items: center;
-  min-width: 0;
+  align-items: stretch;
+}
+@media (max-width: 520px) {
+  .race-bar-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .race-chip {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 11px;
+  padding: 6px 11px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 999px;
@@ -2693,10 +2717,12 @@
   color: var(--text-bright);
   white-space: nowrap;
   text-decoration: none;
+  min-width: 0;
   transition: border-color 0.25s ease, background 0.25s ease;
 }
-.race-chip .race-rank { color: var(--accent); font-weight: 700; }
-.race-chip .race-bones { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+.race-chip .race-rank { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+.race-chip .race-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.race-chip .race-bones { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; flex-shrink: 0; margin-left: auto; }
 .race-chip.current {
   border-color: rgba(255, 140, 66, 0.65);
   background: rgba(255, 140, 66, 0.13);

@@ -156,15 +156,19 @@
       font-size: clamp(36px, 7vw, 58px); color: #FF8C42; line-height: 1.1; margin-bottom: 20px;
     }
     .nm-hero-sub {
-      font-size: clamp(16px, 2.5vw, 20px); color: #9B8FD0; line-height: 1.5;
+      font-size: clamp(17px, 2.6vw, 20px); color: #c9bdf0; line-height: 1.55;
+      max-width: 580px; margin: 0 auto 24px;
+    }
+    .nm-hero-trust {
+      font-size: 15px; color: #b8acdf; line-height: 1.5;
       max-width: 580px; margin: 0 auto 32px;
     }
     .nm-hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
     /* ─── BUTTONS ──────────────────────────────── */
     .nm-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 600;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 52px; padding: 16px 32px; border-radius: 10px; font-size: 17px; font-weight: 600;
       border: none; cursor: pointer; transition: all 0.2s; text-decoration: none;
     }
     .nm-btn-primary { background: #FF8C42; color: #1a1035; }
@@ -340,7 +344,7 @@
     .nm-sticky.visible { transform: translateY(0); }
     .nm-sticky-text { font-size: 14px; color: #9B8FD0; }
     .nm-sticky-btn {
-      padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600;
+      padding: 14px 28px; border-radius: 8px; font-size: 16px; font-weight: 600;
       border: none; cursor: pointer; background: #FF8C42; color: #1a1035;
       transition: background 0.2s; text-decoration: none;
     }
@@ -365,7 +369,7 @@
       <a href="/" class="nm-nav-link">Home</a>
       <a href="/dog-photo-contest" class="nm-nav-link">Contest</a>
       <a href="dogs.html" class="nm-nav-link">All Dogs</a>
-      <a href="#enter" class="nm-nav-cta">Enter Your Dog</a>
+      <a href="/?openModal=premium" class="nm-nav-cta">Enter Your Dog</a>
     </div>
   </nav>
 
@@ -382,9 +386,10 @@
     </div>
     <h1>The nearest dog show is the one on your screen</h1>
     <p class="nm-hero-sub">Looking for a dog show near you? Good news: there's one running right now, right here. No driving, no entry forms, no standing in a field while someone evaluates your dog's gait. Just dogs on a stage, an audience throwing bones, and zero parking fees.</p>
+    <p class="nm-hero-trust">Watching is always free. Want your own dog on stage? $3.99 once &mdash; no subscription, ever.</p>
     <div class="nm-hero-actions">
       <a href="show.html" class="nm-btn nm-btn-primary">Watch the Live Show</a>
-      <a href="#enter" class="nm-btn nm-btn-secondary">Enter Your Dog &mdash; $3.99</a>
+      <a href="/?openModal=premium" class="nm-btn nm-btn-secondary">Enter Your Dog &mdash; $3.99</a>
     </div>
   </section>
 
@@ -406,6 +411,14 @@
       <div class="nm-stat-num" id="statWatching">--</div>
       <div class="nm-stat-label">Watching now</div>
     </div>
+  </div>
+
+  <!-- Promo video — autoplay, muted, looped -->
+  <div class="promo-video-wrap" style="max-width: 760px; margin: 28px auto 0; padding: 0 24px; box-sizing: border-box;">
+    <video autoplay muted loop playsinline preload="auto" poster="/dogshow-promo-poster.jpg" aria-label="The Dog Show promo video"
+           style="width: 100%; display: block; border-radius: 14px; border: 1px solid rgba(255,140,66,0.25); background: #0f0a22;">
+      <source src="/dogshow-promo-video.mp4" type="video/mp4">
+    </video>
   </div>
 
   <!-- Local vs Online -->
