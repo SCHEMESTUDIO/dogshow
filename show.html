@@ -37,6 +37,8 @@
 </head>
 <body class="show-body">
 
+  <a href="#showMain" class="skip-link">Skip to the show</a>
+
   <!-- Header -->
   <div class="show-header">
     <div class="show-header-left">
@@ -57,7 +59,7 @@
   </div>
 
   <!-- Main content — two columns on desktop (stage 60% + chat 300px), stacked on mobile -->
-  <div class="show-main">
+  <div class="show-main" id="showMain">
 
     <!-- Dog display area -->
     <div class="dog-stage">
@@ -176,9 +178,10 @@
         <span class="chat-header-intermission" id="chatIntermissionLabel">&#9835; intermission &#9835;</span>
       </div>
 
-      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-messages" id="chatMessages" role="log" aria-live="polite" aria-label="Live chat messages"></div>
 
       <div class="chat-input-area">
+        <label for="chatInput" class="sr-only">Type a chat message</label>
         <input type="text" class="chat-input" id="chatInput" placeholder="Say something..." maxlength="200">
         <button class="chat-send" id="chatSend">Send</button>
       </div>
@@ -198,12 +201,14 @@
   <!-- Inline registration modal (bones-as-currency model, 2026-05-26). Shown
        when an unregistered visitor tries to chat or send a bone. No magic
        link — name + email → instant 250 bones → unlock UI. -->
-  <div class="register-overlay" id="registerOverlay">
+  <div class="register-overlay" id="registerOverlay" role="dialog" aria-modal="true" aria-labelledby="registerTitle">
     <div class="register-modal">
-      <div class="register-modal-icon">&#129460;</div>
+      <div class="register-modal-icon" aria-hidden="true">&#129460;</div>
       <div class="register-modal-title" id="registerTitle">Sign up to send bones</div>
       <div class="register-modal-subtitle" id="registerSubtitle">It's free. You'll get 250 bones to spend right away.</div>
+      <label for="registerName" class="sr-only">Display name</label>
       <input type="text" class="register-modal-input" id="registerName" placeholder="Display name" autocomplete="nickname" spellcheck="false" maxlength="20">
+      <label for="registerEmail" class="sr-only">Email address</label>
       <input type="email" class="register-modal-input" id="registerEmail" placeholder="you@email.com" autocomplete="email" spellcheck="false">
       <div class="register-modal-error" id="registerError"></div>
       <div class="register-modal-actions">
@@ -215,11 +220,12 @@
   </div>
 
   <!-- "Coming soon — get notified" modal for fake-door CTAs in the house rotator -->
-  <div class="interest-overlay" id="interestOverlay">
+  <div class="interest-overlay" id="interestOverlay" role="dialog" aria-modal="true" aria-labelledby="interestTitle">
     <div class="interest-modal">
-      <div class="interest-modal-icon" id="interestIcon">&#127775;</div>
+      <div class="interest-modal-icon" id="interestIcon" aria-hidden="true">&#127775;</div>
       <div class="interest-modal-title" id="interestTitle">Coming soon</div>
       <div class="interest-modal-subtitle" id="interestSubtitle">Drop your email and we'll let you know when this lands.</div>
+      <label for="interestInput" class="sr-only">Email address</label>
       <input type="email" class="interest-modal-input" id="interestInput" placeholder="you@email.com" autocomplete="email" spellcheck="false">
       <div class="interest-modal-error" id="interestError"></div>
       <div class="interest-modal-actions">
@@ -267,11 +273,12 @@
 
 
   <!-- Username Modal -->
-  <div class="username-modal-overlay" id="usernameModal">
+  <div class="username-modal-overlay" id="usernameModal" role="dialog" aria-modal="true" aria-labelledby="usernameModalTitle">
     <div class="username-modal">
-      <div class="username-modal-icon">🐾</div>
-      <div class="username-modal-title">Pick a name</div>
+      <div class="username-modal-icon" aria-hidden="true">🐾</div>
+      <div class="username-modal-title" id="usernameModalTitle">Pick a name</div>
       <div class="username-modal-subtitle">This is how you'll appear in chat</div>
+      <label for="usernameInput" class="sr-only">Display name</label>
       <input type="text" class="username-modal-input" id="usernameInput" placeholder="e.g. barkfan42" maxlength="20" autocomplete="off" spellcheck="false">
       <button class="username-modal-btn" id="usernameSubmit">Enter the show</button>
       <div class="username-modal-hint">You can't change this later — choose wisely</div>
@@ -279,9 +286,9 @@
   </div>
 
   <!-- Upgrade Prompt Modal -->
-  <div class="upgrade-overlay" id="upgradeOverlay">
+  <div class="upgrade-overlay" id="upgradeOverlay" role="dialog" aria-modal="true" aria-labelledby="upgradeTitle">
     <div class="upgrade-modal">
-      <div class="upgrade-icon" id="upgradeIcon">&#129460;</div>
+      <div class="upgrade-icon" id="upgradeIcon" aria-hidden="true">&#129460;</div>
       <div class="upgrade-title" id="upgradeTitle">Bones are for ticket holders.</div>
       <div class="upgrade-subtitle" id="upgradeSubtitle">Upgrade once and give bones forever.</div>
       <div class="upgrade-actions">
@@ -294,10 +301,10 @@
   </div>
 
   <!-- Dog details modal — name + breed, shown after a photo is picked (#48) -->
-  <div class="upload-modal-overlay" id="uploadModalOverlay">
+  <div class="upload-modal-overlay" id="uploadModalOverlay" role="dialog" aria-modal="true" aria-labelledby="uploadModalTitle">
     <div class="upload-modal">
-      <div class="upload-modal-icon">🐶</div>
-      <div class="upload-modal-title">Tell us about your dog</div>
+      <div class="upload-modal-icon" aria-hidden="true">🐶</div>
+      <div class="upload-modal-title" id="uploadModalTitle">Tell us about your dog</div>
       <div class="upload-modal-subtitle">This is how they'll appear in the show.</div>
       <label class="upload-modal-label" for="uploadDogName">Dog's name</label>
       <input type="text" class="upload-modal-input" id="uploadDogName" placeholder="e.g. Biscuit" maxlength="20" autocomplete="off" spellcheck="false">

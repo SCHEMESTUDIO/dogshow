@@ -1473,6 +1473,8 @@
 </head>
 <body class="lp">
 
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
+
   <!-- Nav -->
   <nav class="lp-nav">
     <a href="/" class="lp-nav-brand">The Dog Show</a>
@@ -1485,7 +1487,7 @@
   </nav>
 
   <!-- Hero -->
-  <section class="lp-hero">
+  <section class="lp-hero" id="mainContent" tabindex="-1">
     <div class="lp-hero-badge">
       <span class="lp-hero-dot"></span>
       Live right now
@@ -1870,31 +1872,31 @@
 
     <div class="lp-faq-list">
       <div class="lp-faq-item">
-        <button class="lp-faq-q">Wait, is this literally just... dogs? <span class="lp-faq-arrow">+</span></button>
+        <button class="lp-faq-q" aria-expanded="false">Wait, is this literally just... dogs? <span class="lp-faq-arrow" aria-hidden="true">+</span></button>
         <div class="lp-faq-a">Yes. One dog at a time, appearing live, while everyone watches together and reacts in real-time chat. It's simple. It's beautiful. It's dogs.</div>
       </div>
       <div class="lp-faq-item">
-        <button class="lp-faq-q">Why would I pay for this? <span class="lp-faq-arrow">+</span></button>
+        <button class="lp-faq-q" aria-expanded="false">Why would I pay for this? <span class="lp-faq-arrow" aria-hidden="true">+</span></button>
         <div class="lp-faq-a">Watching, chatting, and giving bones are all free — every signup gets 250 bones to spend. For $3.99 you can upload your own dog to appear in the live show with a permanent certificate. For $5.99 you get the same dog entry plus 1,000 bones to boost your favorites.</div>
       </div>
       <div class="lp-faq-item">
-        <button class="lp-faq-q">Is this a subscription? <span class="lp-faq-arrow">+</span></button>
+        <button class="lp-faq-q" aria-expanded="false">Is this a subscription? <span class="lp-faq-arrow" aria-hidden="true">+</span></button>
         <div class="lp-faq-a">No. One payment, lifetime access. We don't believe in charging you monthly to look at dogs.</div>
       </div>
       <div class="lp-faq-item">
-        <button class="lp-faq-q">Can I submit a cat? <span class="lp-faq-arrow">+</span></button>
+        <button class="lp-faq-q" aria-expanded="false">Can I submit a cat? <span class="lp-faq-arrow" aria-hidden="true">+</span></button>
         <div class="lp-faq-a">No. Our AI checks every upload. Cats, hamsters, lizards, and "my cat but wearing a dog costume" have all been rejected. Dogs only. The name is right there.</div>
       </div>
       <div class="lp-faq-item">
-        <button class="lp-faq-q">What happens when I give a bone? <span class="lp-faq-arrow">+</span></button>
+        <button class="lp-faq-q" aria-expanded="false">What happens when I give a bone? <span class="lp-faq-arrow" aria-hidden="true">+</span></button>
         <div class="lp-faq-a">Each bone extends the current dog's screen time by half a second. If enough people give bones quickly, it triggers a Bone Frenzy — double bones, screen shake, pure excitement.</div>
       </div>
       <div class="lp-faq-item">
-        <button class="lp-faq-q">Is the show actually live 24/7? <span class="lp-faq-arrow">+</span></button>
+        <button class="lp-faq-q" aria-expanded="false">Is the show actually live 24/7? <span class="lp-faq-arrow" aria-hidden="true">+</span></button>
         <div class="lp-faq-a">Yes. The dogs never stop. The show rotates through random breeds and community-uploaded dogs around the clock. There are always people watching. Perhaps also some dogs.</div>
       </div>
       <div class="lp-faq-item">
-        <button class="lp-faq-q">What do I get for $3.99? <span class="lp-faq-arrow">+</span></button>
+        <button class="lp-faq-q" aria-expanded="false">What do I get for $3.99? <span class="lp-faq-arrow" aria-hidden="true">+</span></button>
         <div class="lp-faq-a">Your dog enters the live rotation, gets a permanent show page with stats, bones, and appearances. You also get 250 bones to give other dogs. One payment. Forever. (If you want 1,000 bones instead, that's the $5.99 Premium tier.)</div>
       </div>
     </div>
@@ -1904,7 +1906,8 @@
   <div class="lp-login-section" id="loginSection">
     <div class="lp-login-title">Already paid? Sign in with your email.</div>
     <div class="lp-login-row" id="loginForm">
-      <input type="email" class="lp-login-input" id="loginEmail" placeholder="you@email.com">
+      <label for="loginEmail" class="sr-only">Email address to sign in</label>
+      <input type="email" class="lp-login-input" id="loginEmail" placeholder="you@email.com" autocomplete="email">
       <button class="lp-login-btn" id="loginBtn">Send Link</button>
     </div>
     <div class="lp-login-msg" id="loginMessage" hidden></div>
@@ -1928,11 +1931,12 @@
   </footer>
 
   <!-- Email Modal -->
-  <div class="lp-modal-overlay" id="emailOverlay">
+  <div class="lp-modal-overlay" id="emailOverlay" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
     <div class="lp-modal">
-      <div class="lp-modal-icon">&#128062;</div>
+      <div class="lp-modal-icon" aria-hidden="true">&#128062;</div>
       <div class="lp-modal-title" id="emailModalTitle">Where should we send your lifetime pass?</div>
       <div class="lp-modal-subtitle" id="emailModalSubtitle">No password. No spam. This email unlocks your Dog Show access forever.</div>
+      <label for="emailModalInput" class="sr-only">Email address</label>
       <input type="email" class="lp-modal-input" id="emailModalInput" placeholder="you@email.com" autocomplete="email" spellcheck="false">
       <div class="lp-modal-error" id="emailModalError"></div>
       <div class="lp-modal-actions">
@@ -1944,12 +1948,12 @@
   </div>
 
   <!-- Upload Modal (Enter Your Dog flow) -->
-  <div class="lp-modal-overlay" id="uploadOverlay">
+  <div class="lp-modal-overlay" id="uploadOverlay" role="dialog" aria-modal="true" aria-labelledby="uploadStep1Title">
     <div class="lp-modal" style="max-width: 440px;">
       <!-- Step 1: Upload dog -->
       <div id="uploadStep1">
-        <div class="lp-modal-icon">&#128248;</div>
-        <div class="lp-modal-title">Enter your dog</div>
+        <div class="lp-modal-icon" aria-hidden="true">&#128248;</div>
+        <div class="lp-modal-title" id="uploadStep1Title">Enter your dog</div>
         <div class="lp-modal-subtitle">Upload a photo and tell us their name.</div>
 
         <div class="lp-upload-dropzone" id="uploadDropzone">
@@ -1961,8 +1965,10 @@
           <input type="file" id="dogFileInput" accept="image/jpeg,image/png,image/webp" hidden>
         </div>
 
+        <label for="dogNameInput" class="sr-only">Dog's name</label>
         <input type="text" class="lp-modal-input" id="dogNameInput" placeholder="Dog's name (e.g., Bella)" maxlength="20">
 
+        <label for="dogBreedInput" class="sr-only">Dog's breed</label>
         <select class="lp-modal-input" id="dogBreedInput" style="margin-top: 10px;">
           <option value="">Select breed…</option>
         </select>
@@ -2093,7 +2099,8 @@
         var item = this.parentElement;
         var isOpen = item.classList.contains('open');
         document.querySelectorAll('.lp-faq-item').forEach(function(i) { i.classList.remove('open'); });
-        if (!isOpen) item.classList.add('open');
+        document.querySelectorAll('.lp-faq-q').forEach(function(b) { b.setAttribute('aria-expanded', 'false'); });
+        if (!isOpen) { item.classList.add('open'); this.setAttribute('aria-expanded', 'true'); }
       });
     });
 
@@ -2146,6 +2153,20 @@
       pendingTier = null;
     }
 
+    // When the entry modal was opened by the ?openModal deep-link, the visitor
+    // arrived here from another page (a landing/show page CTA). Closing the
+    // modal should return them there instead of stranding them on the homepage.
+    // Set only when we can confirm a same-origin referrer, so a direct/ad hit
+    // that has no prior page just closes normally.
+    var entryCameFromSite = false;
+    function leaveEntryFlow() {
+      if (entryCameFromSite && window.history.length > 1) {
+        window.history.back();
+        return true;
+      }
+      return false;
+    }
+
     function submitEmail() {
       var email = emailInput.value.trim().toLowerCase();
       if (!email || email.indexOf('@') === -1 || email.indexOf('.') === -1) {
@@ -2163,14 +2184,14 @@
       enterShow(pendingTier, email);
     }
 
-    emailCancel.addEventListener('click', closeEmailModal);
+    emailCancel.addEventListener('click', function() { if (leaveEntryFlow()) return; closeEmailModal(); });
     emailSubmit.addEventListener('click', submitEmail);
     emailInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') submitEmail();
-      if (e.key === 'Escape') closeEmailModal();
+      if (e.key === 'Escape') { if (leaveEntryFlow()) return; closeEmailModal(); }
     });
     emailOverlay.addEventListener('click', function(e) {
-      if (e.target === emailOverlay) closeEmailModal();
+      if (e.target === emailOverlay) { if (leaveEntryFlow()) return; closeEmailModal(); }
     });
 
     // ─── CHECKOUT FLOW ───────────────────────────────
@@ -2420,11 +2441,15 @@
     });
 
     document.getElementById('uploadCancel').addEventListener('click', function() {
+      if (leaveEntryFlow()) return;
       uploadOverlay.classList.remove('active');
     });
 
     uploadOverlay.addEventListener('click', function(e) {
-      if (e.target === uploadOverlay) uploadOverlay.classList.remove('active');
+      if (e.target === uploadOverlay) {
+        if (leaveEntryFlow()) return;
+        uploadOverlay.classList.remove('active');
+      }
     });
 
     // ─── BARK SOUND (Web Audio synthesis) ──────────
@@ -2510,6 +2535,12 @@
         history.replaceState(null, '', clean);
       } catch (e) {}
       if (want === 'premium' || want === 'premium_plus') {
+        // If they came from one of our own pages (a landing/show CTA), remember
+        // it so closing the modal returns them there rather than the homepage.
+        try {
+          entryCameFromSite = !!document.referrer &&
+            new URL(document.referrer).origin === window.location.origin;
+        } catch (e) { entryCameFromSite = false; }
         pendingDogTier = want;
         startDogEntry();
       } else if (want === 'free') {
