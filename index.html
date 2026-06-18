@@ -6,7 +6,6 @@
   <!-- Bing UET + Clarity (see analytics.js for setup) -->
   <script src="consent.js" defer></script>
   <script src="analytics.js" defer></script>
-  <script src="breeds.js"></script>
   <title>The Dog Show — Put Your Dog in the Internet's Live Dog Show</title>
   <meta name="description" content="The internet's live dog show. Watch one dog at a time, give bones, and enter your own dog for a permanent show page. One-time payment. All dogs welcome.">
   <link rel="canonical" href="https://dogshow.lol/">
@@ -1926,6 +1925,7 @@
       <a href="/cutest-dog-contest" class="lp-footer-link">Cutest Dog Contest</a>
       <a href="/puppy-picture-contest" class="lp-footer-link">Puppy Picture Contest</a>
       <a href="/dog-show-near-me" class="lp-footer-link">Dog Show Near Me</a>
+      <a href="/how-to-enter-a-dog-show" class="lp-footer-link">How to Enter a Dog Show</a>
     </div>
     <div class="lp-footer-copy">The Dog Show &copy; 2026. All dogs are good dogs.</div>
   </footer>
@@ -1961,7 +1961,7 @@
             <span style="font-size: 36px;">&#128021;</span><br>
             Click to upload or drag a photo
           </div>
-          <img class="lp-upload-preview-img" id="uploadPreviewImg" hidden>
+          <img class="lp-upload-preview-img" id="uploadPreviewImg" alt="Preview of your uploaded dog photo" hidden>
           <input type="file" id="dogFileInput" accept="image/jpeg,image/png,image/webp" hidden>
         </div>
 
@@ -2017,6 +2017,8 @@
     </div>
   </div>
 
+  <!-- breeds.js moved out of <head> (was render-blocking); loaded here, before its only consumer (populateBreedSelect) runs. -->
+  <script src="breeds.js"></script>
   <script>
     // ─── CONFIG ─────────────────────────────────────
     var PARTY_HOST_LANDING = 'dogshow.schemestudio.partykit.dev';

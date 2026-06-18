@@ -150,6 +150,8 @@
       if (el) el.textContent = name + ' (shy dog, hiding!)';
     };
     dogImage.src = url;
+    // Descriptive, per-dog alt text (a11y R4 + AI image context) instead of the static "A good dog".
+    dogImage.alt = name ? name + ' on stage at The Dog Show' : 'A dog on stage at The Dog Show';
     var el = document.getElementById('dogName');
     if (el) el.textContent = name;
   }

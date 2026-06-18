@@ -25,3 +25,6 @@ User-agent: TelegramBot
 Allow: /
 
 Sitemap: https://dogshow.lol/sitemap.xml
+
+# AI / LLM guidance file (non-standard directive; ignored by crawlers that don't support it)
+LLM: https://dogshow.lol/llms.txt

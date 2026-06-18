@@ -1,0 +1,51 @@
+# The Dog Show (dogshow.lol)
+
+> The Dog Show is "the internet's least serious dog show" — a free, live online stream where a rotation of real dogs, uploaded by their owners, takes the stage while viewers watch together and throw "bones" (votes). Each calendar month the most-voted dog is crowned Best in Show. Owners can enter their own dog, and the site publishes plain-spoken, genuinely useful guides to popular and designer-mix dog breeds.
+
+Key facts:
+- Watching the live show is free. Registering grants 250 bones (votes) to throw.
+- Entering your own dog is a one-time $3.99 — no subscription. A $5.99 tier adds a bones bonus, and a $1.99 top-up adds more bones.
+- A monthly "Best in Show" race crowns the dog with the most votes that month.
+- One dog per account. Dogs are real, owner-submitted photos; testimonials are real and owner-submitted.
+- Made by Scheme Studio. Contact: james@wearescheme.studio.
+
+## Main pages
+- [Home](https://dogshow.lol/): What The Dog Show is, how it works, pricing, and how to enter your dog.
+- [Watch the live show](https://dogshow.lol/show): The live rotating stage of dogs, with viewer chat, voting, and the monthly Best in Show race.
+- [All Dogs gallery](https://dogshow.lol/dogs): Every dog that has appeared on stage — searchable and sortable.
+- [About](https://dogshow.lol/about): The story behind The Dog Show and how to get in touch.
+
+## Breed guides
+> Long-form, plainly written guides to popular and designer-mix breeds — temperament, owner-fit, care, history, and famous examples. The site's most informative, citable content.
+- [Breed guide index](https://dogshow.lol/breeds): Directory of all published breed guides.
+- [Bernedoodle](https://dogshow.lol/breeds/bernedoodle): Temperament, care, and owner-fit for the Bernese Mountain Dog × Poodle cross.
+- [Goldendoodle](https://dogshow.lol/breeds/goldendoodle): Guide to the Golden Retriever × Poodle cross.
+- [Labradoodle](https://dogshow.lol/breeds/labradoodle): Guide to the Labrador × Poodle cross.
+- [Australian Labradoodle](https://dogshow.lol/breeds/australian-labradoodle): The multi-generational Australian Labradoodle, distinct from the first-cross Labradoodle.
+- [Cockapoo](https://dogshow.lol/breeds/cockapoo): Guide to the Cocker Spaniel × Poodle cross.
+- [Cavapoo](https://dogshow.lol/breeds/cavapoo): Guide to the Cavalier King Charles Spaniel × Poodle cross.
+- [Maltipoo](https://dogshow.lol/breeds/maltipoo): Guide to the Maltese × Poodle cross.
+- [Pomsky](https://dogshow.lol/breeds/pomsky): Guide to the Pomeranian × Siberian Husky cross.
+- [Saint Berdoodle](https://dogshow.lol/breeds/saint-berdoodle): Guide to the Saint Bernard × Poodle cross.
+- [Golden Mountain Dog](https://dogshow.lol/breeds/golden-mountain-dog): Guide to the Golden Retriever × Bernese Mountain Dog cross.
+- [Teacup Poodle](https://dogshow.lol/breeds/teacup-poodle): Guide to the smallest Poodle size variant.
+- [Mini Golden Retriever](https://dogshow.lol/breeds/mini-golden-retriever): Guide to the smaller Golden Retriever mix.
+- [Mini Aussie](https://dogshow.lol/breeds/mini-aussie): Guide to the Miniature American/Australian Shepherd.
+- [Toy Aussie](https://dogshow.lol/breeds/toy-aussie): Guide to the Toy-size Australian Shepherd.
+- [Mini Dachshund](https://dogshow.lol/breeds/mini-dachshund): Guide to the Miniature Dachshund.
+- [French Bulldog](https://dogshow.lol/breeds/french-bulldog): Temperament, care, and owner-fit for the French Bulldog.
+- [German Shepherd](https://dogshow.lol/breeds/german-shepherd): Temperament, care, and owner-fit for the German Shepherd.
+- [Cane Corso](https://dogshow.lol/breeds/cane-corso): Temperament, care, and owner-fit for the Cane Corso.
+- [Dalmatian](https://dogshow.lol/breeds/dalmatian): Temperament, care, and owner-fit for the Dalmatian.
+
+## Enter your dog & contests
+- [How to enter a dog show](https://dogshow.lol/how-to-enter-a-dog-show): Step-by-step guide to entering a dog show — the traditional in-person route and the online route via The Dog Show. Q&A format.
+- [Enter your dog](https://dogshow.lol/?openModal=premium): Upload your dog and pick when it takes the stage.
+- [Dog photo contest](https://dogshow.lol/dog-photo-contest): How The Dog Show works as an online dog photo contest.
+- [Cutest dog contest](https://dogshow.lol/cutest-dog-contest): A judge-free cutest-dog contest where every dog is the cutest.
+- [Puppy picture contest](https://dogshow.lol/puppy-picture-contest): How to enter a puppy in the show.
+- [Dog show near me](https://dogshow.lol/dog-show-near-me): The live online dog show you can join from anywhere.
+
+## Optional
+- [Privacy Policy](https://dogshow.lol/privacy): What data is collected and how to request deletion.
+- [Terms of Service](https://dogshow.lol/terms): Rules of use, pricing, refunds, and upload rights.
