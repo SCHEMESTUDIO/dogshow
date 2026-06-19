@@ -21,13 +21,51 @@ function esc(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
+// Naive English pluralizer, sufficient for our breed names: consonant+y → -ies
+// (Pomsky → Pomskies), everything else → +s (Bernedoodle → Bernedoodles,
+// Mini Aussie → Mini Aussies). Used to build the reader-first spotlight heading.
+function pluralize(name) {
+  if (/[^aeiou]y$/i.test(name)) return name.slice(0, -1) + 'ies';
+  return name + 's';
+}
+
 // ─── Content store ─────────────────────────────────────────────────────
 // Pilot — Bernedoodle. Voice + structure are the template; clone for the
-// next 19 P1 breeds (see plan §6). Each section is hand-written; do NOT
+// next P1 breeds (see plan §6). Each section is hand-written; do NOT
 // build a parameterized "[Breed] is a [size] dog known for [trait]" filler.
 // Google's helpful-content classifier eats those. (Plan §9 risk #1.)
+//
+// ── Page funnel design (rev 2026-06-19) ──────────────────────────────────
+// These pages are TOP OF FUNNEL: visitors arrive from Google with
+// informational intent (breed research), NOT show-buying intent. So the
+// rendered section order satisfies the search first, then bridges to the
+// show, then offers the FREE watch as the primary CTA and the $3.99 paid
+// entry only as a secondary, owner-only step.
+//   Render order (see renderBreedPage): lede → live widget → facts →
+//   owner-fit → famous → "see them live" show bridge (+ free watch) →
+//   user-dog social proof → dual CTA (watch free / put yours on stage).
+// Per-breed content shape required by the template: name, headKeyword,
+// metaDescription, facts{}, lede, spotlight, ownerFitHeading, ownerFit,
+// famousHeading, famous, relatedBreeds[], breedTagName.
+//   NOTE: `spotlightHeading` is DEPRECATED — the spotlight heading is now
+//   auto-generated reader-first ("See {plural} on the live show"). The old
+//   per-breed spotlightHeading fields below are vestigial and ignored; new
+//   breeds do not need one.
+//   OPTIONAL hero fields (the top-of-page image):
+//     heroImage  — path to a representative breed photo, e.g.
+//                  '/breeds-img/bernedoodle.jpg' (static file at repo root,
+//                  served by Vercel). Shown ONLY when no submitted dog of this
+//                  breed exists yet — a real submitted dog's photo always wins
+//                  and links to its certificate page.
+//     heroAlt    — alt text for that photo (defaults to "{Breed} — breed photo").
+//     heroCredit — raw HTML attribution shown under the photo (required for
+//                  CC-licensed images), e.g. 'Photo: <a href="…">Name</a> / CC BY-SA 4.0'.
+//   With no heroImage and no submitted dog, the hero is a branded
+//   "Be the first {Breed} on our stage" prompt (no broken image).
 const BREEDS = {
   bernedoodle: {
+    heroImage: '/breeds-img/bernedoodle.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Bernedoodle',
     headKeyword: 'Bernedoodle',
     metaDescription: "The Bernedoodle: a Bernese Mountain Dog and a Poodle conspired, and the result is gentler than the sum of its parts. A field guide to the breed, with stage notes.",
@@ -70,6 +108,8 @@ const BREEDS = {
   },
 
   goldendoodle: {
+    heroImage: '/breeds-img/goldendoodle.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Goldendoodle',
     headKeyword: 'Goldendoodle',
     metaDescription: "The Goldendoodle: a Golden Retriever crossed with a Poodle, gifted with the Golden's unconditional yes and the Poodle's deep suspicion of your decision-making. A field guide, with stage notes.",
@@ -109,6 +149,8 @@ const BREEDS = {
   },
 
   'mini-golden-retriever': {
+    heroImage: '/breeds-img/mini-golden-retriever.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Mini Golden Retriever',
     headKeyword: 'Mini Golden Retriever',
     metaDescription: "The Mini Golden Retriever isn't quite a breed — it's a three-way mix designed to put a Golden's temperament in a lap-sized body. Mostly successful. A field guide, with stage notes.",
@@ -147,6 +189,8 @@ const BREEDS = {
   },
 
   'saint-berdoodle': {
+    heroImage: '/breeds-img/saint-berdoodle.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Saint Berdoodle',
     headKeyword: 'Saint Berdoodle',
     metaDescription: "The Saint Berdoodle: a Saint Bernard crossed with a Standard Poodle. Monumental in body, surprisingly clever in mind. A field guide for the brave of dining-room.",
@@ -187,6 +231,8 @@ const BREEDS = {
   },
 
   'mini-aussie': {
+    heroImage: '/breeds-img/mini-aussie.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Mini Aussie',
     headKeyword: 'Mini Aussie',
     metaDescription: "The Mini Aussie: an Australian Shepherd at three-quarters scale. Same brain, same drive, smaller body. A field guide — and a warning — for prospective owners.",
@@ -228,6 +274,8 @@ const BREEDS = {
   },
 
   pomsky: {
+    heroImage: '/breeds-img/pomsky.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Pomsky',
     headKeyword: 'Pomsky',
     metaDescription: "The Pomsky: a Pomeranian crossed with a Siberian Husky. Visually startling, behaviourally exactly what you would expect. A field guide and a warning, with stage notes.",
@@ -267,6 +315,8 @@ const BREEDS = {
   },
 
   'australian-labradoodle': {
+    heroImage: '/breeds-img/australian-labradoodle.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Australian Labradoodle',
     headKeyword: 'Australian Labradoodle',
     metaDescription: "The Australian Labradoodle: not a Labrador-Poodle accident but a deliberate, multi-generational breeding program with a coat to prove it. A field guide, with stage notes.",
@@ -306,6 +356,8 @@ const BREEDS = {
   },
 
   'teacup-poodle': {
+    heroImage: '/breeds-img/teacup-poodle.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Teacup Poodle',
     headKeyword: 'Teacup Poodle',
     metaDescription: "The Teacup Poodle isn't a breed the kennel clubs recognize — it's a very small Toy Poodle, with all the brilliance and all the fragility that size implies. An honest field guide, with stage notes.",
@@ -344,6 +396,8 @@ const BREEDS = {
   },
 
   'mini-dachshund': {
+    heroImage: '/breeds-img/mini-dachshund.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Mini Dachshund',
     headKeyword: 'Mini Dachshund',
     metaDescription: "The Miniature Dachshund: a full-sized hunting dog's courage compressed into eleven pounds of low-slung determination. A field guide, with stage notes — and a serious word about backs.",
@@ -383,6 +437,8 @@ const BREEDS = {
   },
 
   'german-shepherd': {
+    heroImage: '/breeds-img/german-shepherd.jpg',
+    heroCredit: 'AI-generated image',
     name: 'German Shepherd',
     headKeyword: 'German Shepherd',
     metaDescription: "The German Shepherd: the dog the world reaches for when the job is serious. Brilliant, loyal, and emphatically not a beginner's breed. A field guide, with stage notes.",
@@ -422,6 +478,8 @@ const BREEDS = {
   },
 
   'golden-mountain-dog': {
+    heroImage: '/breeds-img/golden-mountain-dog.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Golden Mountain Dog',
     headKeyword: 'Golden Mountain Dog',
     metaDescription: "The Golden Mountain Dog: a Golden Retriever crossed with a Bernese Mountain Dog, which is to say a great deal of warmth in a very large coat. A field guide, with stage notes.",
@@ -460,6 +518,8 @@ const BREEDS = {
   },
 
   'toy-aussie': {
+    heroImage: '/breeds-img/toy-aussie.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Toy Aussie',
     headKeyword: 'Toy Aussie',
     metaDescription: "The Toy Aussie: the Australian Shepherd's herding brain and boundless drive, downsized to twelve pounds. Adorable, exhausting, and not a lap dog. A field guide, with stage notes.",
@@ -499,6 +559,8 @@ const BREEDS = {
   },
 
   'french-bulldog': {
+    heroImage: '/breeds-img/french-bulldog.jpg',
+    heroCredit: 'AI-generated image',
     name: 'French Bulldog',
     headKeyword: 'French Bulldog',
     metaDescription: "The French Bulldog: the most popular dog in America, and a charismatic little gargoyle with serious health caveats every owner should know. An honest field guide, with stage notes.",
@@ -538,6 +600,8 @@ const BREEDS = {
   },
 
   cockapoo: {
+    heroImage: '/breeds-img/cockapoo.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Cockapoo',
     headKeyword: 'Cockapoo',
     metaDescription: "The Cockapoo: the original designer crossbreed, a Cocker Spaniel and Poodle pairing that predates the doodle craze by decades. A field guide, with stage notes.",
@@ -578,6 +642,8 @@ const BREEDS = {
   },
 
   labradoodle: {
+    heroImage: '/breeds-img/labradoodle.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Labradoodle',
     headKeyword: 'Labradoodle',
     metaDescription: "The Labradoodle: the dog that launched the entire designer-dog era — and whose own creator came to regret it. A field guide, with stage notes.",
@@ -616,6 +682,8 @@ const BREEDS = {
   },
 
   maltipoo: {
+    heroImage: '/breeds-img/maltipoo.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Maltipoo',
     headKeyword: 'Maltipoo',
     metaDescription: "The Maltipoo: a Maltese and a Toy Poodle combined into roughly nine pounds of devotion. A field guide for the lap-dog inclined, with stage notes.",
@@ -656,6 +724,8 @@ const BREEDS = {
   },
 
   cavapoo: {
+    heroImage: '/breeds-img/cavapoo.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Cavapoo',
     headKeyword: 'Cavapoo',
     metaDescription: "The Cavapoo: a Cavalier King Charles Spaniel crossed with a Poodle, possibly the gentlest small dog going. A field guide, with stage notes.",
@@ -695,6 +765,8 @@ const BREEDS = {
   },
 
   'cane-corso': {
+    heroImage: '/breeds-img/cane-corso.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Cane Corso',
     headKeyword: 'Cane Corso',
     metaDescription: "The Cane Corso: a Roman-descended Italian mastiff — powerful, intelligent, and emphatically not a first dog. An honest field guide, with stage notes.",
@@ -734,6 +806,8 @@ const BREEDS = {
   },
 
   dalmatian: {
+    heroImage: '/breeds-img/dalmatian.jpg',
+    heroCredit: 'AI-generated image',
     name: 'Dalmatian',
     headKeyword: 'Dalmatian',
     metaDescription: "The Dalmatian: the spotted firehouse icon of 101 fame, and a high-energy athlete the movie never warned anyone about. An honest field guide, with stage notes.",
@@ -785,6 +859,17 @@ a{color:var(--accent);}
 h1.breed-h1{font-family:'Yang Bagus',serif;color:var(--accent);font-size:44px;line-height:1.05;margin-bottom:16px;}
 .lede{font-size:17px;color:rgba(255,255,255,0.82);margin-bottom:36px;}
 .lede em{color:var(--text);font-style:italic;}
+/* Breed hero image (top of page). Aspect-ratio reserves space → no layout shift. */
+.breed-hero-fig{margin:0 0 28px;}
+.breed-hero{display:block;position:relative;margin:0 0 28px;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);background:var(--bg-card);text-decoration:none;}
+.breed-hero-fig .breed-hero{margin:0;}
+.breed-hero img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;}
+.breed-hero-cap{position:absolute;left:0;right:0;bottom:0;padding:24px 16px 12px;font-size:13px;color:#fff;background:linear-gradient(to top,rgba(10,6,23,0.88),rgba(10,6,23,0));}
+.breed-hero-cap .nm{font-weight:700;color:var(--accent);}
+.breed-hero-credit{font-size:11px;color:var(--dim);padding:6px 2px 0;}
+.breed-hero-credit a{color:var(--purple);}
+.breed-hero-empty{display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;background:linear-gradient(135deg,rgba(123,104,238,0.18),rgba(255,140,66,0.12));}
+.breed-hero-empty-inner{font-family:'Yang Bagus',serif;color:var(--accent);font-size:24px;line-height:1.15;text-align:center;padding:24px;}
 .section{margin:36px 0;}
 .section h2{font-family:'Yang Bagus',serif;color:var(--accent);font-size:26px;margin-bottom:14px;}
 .section h3{font-size:16px;color:var(--text);margin:20px 0 8px;font-weight:600;}
@@ -808,6 +893,10 @@ h1.breed-h1{font-family:'Yang Bagus',serif;color:var(--accent);font-size:44px;li
 .cta-block p{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:16px;}
 .cta-btn{display:inline-block;background:var(--accent);color:#1a1035;font-weight:700;font-size:15px;padding:14px 28px;border-radius:10px;text-decoration:none;}
 .cta-btn-sub{font-size:12px;color:var(--dim);margin-top:10px;}
+.cta-secondary{font-size:13px;color:var(--dim);margin:16px 0 0;}
+.cta-secondary a{color:var(--accent);text-decoration:none;font-weight:600;}
+/* Free "watch" button at the foot of the show-bridge section */
+.spotlight-watch{margin-top:6px;}
 /* User dogs grid (bonus, hidden when N=0) */
 .user-dogs{margin:36px 0;}
 .user-dogs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:14px;}
@@ -854,11 +943,8 @@ ${bodyHtml}
     <a href="/privacy" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Privacy</a>
     <a href="#" data-cookie-settings style="font-size:12px;color:#8a7cb8;text-decoration:none;">Cookie settings</a>
     <a href="/terms" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Terms</a>
-    <a href="/dog-photo-contest" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Dog Photo Contest</a>
-    <a href="/cutest-dog-contest" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Cutest Dog Contest</a>
-    <a href="/puppy-picture-contest" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Puppy Picture Contest</a>
-    <a href="/dog-show-near-me" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Dog Show Near Me</a>
-      <a href="/how-to-enter-a-dog-show" style="font-size:12px;color:#8a7cb8;text-decoration:none;">How to Enter a Dog Show</a>
+    <a href="/resources" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Guides</a>
+    <a href="/breeds" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Breeds</a>
   </div>
   <div style="font-size:11px;color:#3d2d6b;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
 </footer>
@@ -941,6 +1027,53 @@ function renderUserDogsSection(dogs, breedName) {
 </div>`;
 }
 
+// Pick the dog to feature in the hero: highest-bones dog of this breed that
+// has both a photo and a cert slug (so the hero can link to /d/{slug}); fall
+// back to the highest with just a photo; null if none. userDogs is already
+// sorted by totalBones desc by /dogs-by-breed.
+function pickHeroDog(dogs) {
+  if (!dogs || !dogs.length) return null;
+  return dogs.find(d => d && d.imageUrl && d.slug)
+      || dogs.find(d => d && d.imageUrl)
+      || null;
+}
+
+// Hero image at the top of the page. Three states, in priority order:
+//   1) A real submitted dog of this breed exists → use its photo and link to
+//      its certificate page (introduces the cert feature + an internal link).
+//   2) A sourced representative breed photo (breed.heroImage) → show it, with
+//      optional attribution in breed.heroCredit (raw HTML, e.g. a CC byline).
+//   3) Neither → a branded "be the first {breed}" prompt (no broken image),
+//      which doubles as a soft conversion CTA until a photo or dog exists.
+function renderHero(breed, heroDog) {
+  if (heroDog && heroDog.imageUrl) {
+    const name = esc(heroDog.dogName || 'This dog');
+    const img = `<img src="${esc(heroDog.imageUrl)}" alt="${name}, a ${esc(breed.name)} on The Dog Show" loading="eager">`;
+    if (heroDog.slug) {
+      return `<a class="breed-hero" href="/d/${esc(heroDog.slug)}">
+${img}
+<div class="breed-hero-cap"><span class="nm">${name}</span> &mdash; a real ${esc(breed.name)} on our stage. See the certificate &rarr;</div>
+</a>`;
+    }
+    return `<div class="breed-hero">
+${img}
+<div class="breed-hero-cap"><span class="nm">${name}</span> &mdash; a real ${esc(breed.name)} on our stage.</div>
+</div>`;
+  }
+  if (breed.heroImage) {
+    const alt = esc(breed.heroAlt || `${breed.name} — breed photo`);
+    const credit = breed.heroCredit
+      ? `<figcaption class="breed-hero-credit">${breed.heroCredit}</figcaption>` : '';
+    return `<figure class="breed-hero-fig">
+<div class="breed-hero"><img src="${esc(breed.heroImage)}" alt="${alt}" loading="eager"></div>
+${credit}
+</figure>`;
+  }
+  return `<a class="breed-hero breed-hero-empty" href="/?openModal=premium">
+<span class="breed-hero-empty-inner">Be the first ${esc(breed.name)} on our stage &rarr;</span>
+</a>`;
+}
+
 function renderBreedPage(breed, userDogs) {
   const url = `${SITE}/breeds/${esc(breed.slug)}`;
   // Until the per-breed OG generator is parameterized, fall back to the
@@ -993,21 +1126,25 @@ function renderBreedPage(breed, userDogs) {
 <script type="application/ld+json">${JSON.stringify(schema)}</script>
 <script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>`;
 
+  // Reader-first show-bridge heading, auto-generated (replaces the old
+  // company-voice "Why we love the {Breed} on stage"). See funnel note above.
+  const spotlightHeading = `See ${pluralize(breed.name)} on the live show`;
+
+  // Hero: a real submitted dog's photo (linked to its cert) when one exists,
+  // else a sourced breed photo, else a branded "be the first" prompt.
+  const heroDog = pickHeroDog(userDogs);
+
   const body = `<div class="wrap">
 <div class="eyebrow"><a href="/breeds">Breeds</a> &middot; ${esc(breed.name)}</div>
 <h1 class="breed-h1">${esc(breed.name)}</h1>
+${renderHero(breed, heroDog)}
 <div class="lede">${breed.lede}</div>
 
 <aside class="live-widget" aria-label="The Dog Show is live now">
 <span class="live-pip" aria-hidden="true"></span>
-<div class="live-text"><strong>Live now</strong>Dogs are on stage at The Dog Show right now. Come and watch.</div>
+<div class="live-text"><strong>Live now</strong>Real dogs are on stage at The Dog Show right now &mdash; free to watch.</div>
 <a class="live-btn" href="/show.html">Watch &rarr;</a>
 </aside>
-
-<div class="section spotlight">
-<h2>${esc(breed.spotlightHeading)}</h2>
-${breed.spotlight}
-</div>
 
 <div class="section facts">
 <dl>${renderFactsHtml(breed.facts)}</dl>
@@ -1023,13 +1160,19 @@ ${breed.ownerFit}
 ${breed.famous}
 </div>
 
+<div class="section spotlight">
+<h2>${esc(spotlightHeading)}</h2>
+${breed.spotlight}
+<p class="spotlight-watch"><a class="live-btn" href="/show.html">Watch the show free &rarr;</a></p>
+</div>
+
 ${renderUserDogsSection(userDogs, breed.name)}
 
 <div class="cta-block">
-<h2>Put your ${esc(breed.name)} in the show</h2>
-<p>Upload a photo. Your dog appears on the live stage. Viewers around the world send bones. Pick "${esc(breed.name)}" in the breed picker.</p>
-<a class="cta-btn" href="/#tiers">Enter Your Dog &rarr;</a>
-<div class="cta-btn-sub">From $3.99 &middot; one-time</div>
+<h2>See it live &mdash; free</h2>
+<p>The Dog Show runs around the clock: real dogs, a real stage, viewers cheering them on with bones. No signup needed to watch.</p>
+<a class="cta-btn" href="/show.html">Watch the show free &rarr;</a>
+<p class="cta-secondary">Have a ${esc(breed.name)} of your own? <a href="/?openModal=premium">Put them on stage &rarr;</a> &middot; from $3.99, one-time</p>
 </div>
 
 <div class="section related">

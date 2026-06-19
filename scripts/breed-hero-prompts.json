@@ -1,0 +1,24 @@
+{
+  "_README": "Per-breed subject descriptions for hero-image generation. The script (generate-breed-heroes.mjs) wraps each 'subject' in a shared photoreal/framing template, so edit only the breed-specific details here. Accuracy notes baked in for the high-risk breeds (designer mixes, merle, spots, brindle). Add new slugs here as breed pages are written.",
+  "prompts": {
+    "bernedoodle": "a Bernedoodle (Bernese Mountain Dog and Poodle cross) with a wavy-to-curly medium-length coat in classic tri-color markings: a black body, a white chest blaze, and rust/copper points above the eyes and on the cheeks; a fluffy teddy-bear face and floppy ears",
+    "goldendoodle": "a Goldendoodle (Golden Retriever and Poodle cross) with a soft wavy-curly coat in warm apricot-gold, a rounded teddy-bear face, dark eyes and a dark nose, and floppy ears",
+    "mini-golden-retriever": "a Mini Golden Retriever: a small dog closely resembling a compact Golden Retriever, with a wavy medium-length golden coat, feathered floppy ears, and a gentle warm expression",
+    "saint-berdoodle": "a Saint Berdoodle (Saint Bernard and Poodle cross): a large dog with a wavy shaggy coat in mahogany-brown-and-white markings, a broad head, dark soulful eyes, and floppy ears",
+    "mini-aussie": "a Miniature Australian Shepherd (Mini Aussie) with a medium-length blue-merle coat (mottled grey-and-black patches) with copper/tan points and white markings on the face and chest, semi-erect ears, and heterochromia (one blue eye, one brown eye)",
+    "pomsky": "a Pomsky (Pomeranian and Siberian Husky cross): a small fluffy dog with Husky-style grey-and-white facial markings and mask, a thick double coat, bright blue eyes, and small pricked pointed ears",
+    "australian-labradoodle": "an Australian Labradoodle with a uniform soft fleece coat in caramel-cream, a teddy-bear face, dark eyes and a dark nose, and floppy ears",
+    "teacup-poodle": "a Teacup Poodle: a very tiny toy poodle with a dense curly apricot coat, dark round eyes, a small refined muzzle, and soft fluffy rounded grooming",
+    "mini-dachshund": "a Miniature Dachshund: a very small short-legged, long-bodied dog with a smooth shiny coat in rich red, long floppy ears, and an alert friendly face, its low long silhouette clearly visible",
+    "german-shepherd": "a German Shepherd Dog with the classic black-and-tan saddle coat pattern, large erect pointed ears, a black muzzle, an athletic build, and a confident noble expression",
+    "golden-mountain-dog": "a Golden Mountain Dog (a Golden Retriever crossed with a Bernese Mountain Dog): a large fluffy dog whose coat is PREDOMINANTLY warm GOLDEN and light-brown like a Golden Retriever, with only SOFT, muted Bernese-style accents — a white chest blaze and faint rust markings; NOT a black-coated Bernese. The overall impression is a big golden, cream-and-brown fluffy dog, broad friendly face, dark eyes, floppy ears",
+    "toy-aussie": "a Toy Australian Shepherd: a very small Aussie with a blue-merle coat (mottled grey-and-black) with copper points and white markings, a medium fluffy coat, and pale blue eyes",
+    "french-bulldog": "a French Bulldog: a small muscular compact dog with a smooth fawn coat, large erect bat ears, a flat wrinkled face, a short muzzle, and dark wide-set eyes",
+    "cockapoo": "a Cockapoo (Cocker Spaniel and Poodle cross): a small dog with a soft wavy coat in buff-apricot, long floppy ears, round dark eyes, and a cheerful teddy-bear face",
+    "labradoodle": "a Labradoodle (Labrador Retriever and Poodle cross): a medium-large dog with a wavy shaggy coat in cream-yellow, floppy ears, a dark nose, and a friendly expression",
+    "maltipoo": "a Maltipoo (Maltese and Poodle cross): a small fluffy dog with a soft white-to-cream coat, large round dark eyes, a black nose, and a sweet teddy-bear face",
+    "cavapoo": "a Cavapoo (Cavalier King Charles Spaniel and Poodle cross): a small dog with a soft wavy coat in Blenheim chestnut-and-white markings, long feathered floppy ears, and large soft dark eyes",
+    "cane-corso": "a Cane Corso: a large powerful Italian mastiff with a short sleek black coat, a broad muscular head, natural uncropped folded ears, a strong jaw, and an alert confident expression",
+    "dalmatian": "a Dalmatian: an athletic short-coated pure-white dog densely covered in distinct, well-defined black spots (including spots on the face and ears), with dark eyes and an alert friendly expression"
+  }
+}
