@@ -11,6 +11,7 @@ Key facts:
 
 ## Main pages
 - [Home](https://dogshow.lol/): What The Dog Show is, how it works, pricing, and how to enter your dog.
+- [Guides & resources](https://dogshow.lol/resources): Hub indexing the guides (how to enter, how online dog shows work), the contest pages, and the breed field guides.
 - [Watch the live show](https://dogshow.lol/show): The live rotating stage of dogs, with viewer chat, voting, and the monthly Best in Show race.
 - [All Dogs gallery](https://dogshow.lol/dogs): Every dog that has appeared on stage — searchable and sortable.
 - [About](https://dogshow.lol/about): The story behind The Dog Show and how to get in touch.
