@@ -40,6 +40,7 @@ Key facts:
 
 ## Enter your dog & contests
 - [How to enter a dog show](https://dogshow.lol/how-to-enter-a-dog-show): Step-by-step guide to entering a dog show — the traditional in-person route and the online route via The Dog Show. Q&A format.
+- [How dog shows work online](https://dogshow.lol/how-online-dog-shows-work): Explainer on how online dog shows work in 2026 — traditional vs. online, static photo contests vs. live rotating shows, and how voting and Best in Show work. Q&A format.
 - [Enter your dog](https://dogshow.lol/?openModal=premium): Upload your dog and pick when it takes the stage.
 - [Dog photo contest](https://dogshow.lol/dog-photo-contest): How The Dog Show works as an online dog photo contest.
 - [Cutest dog contest](https://dogshow.lol/cutest-dog-contest): A judge-free cutest-dog contest where every dog is the cutest.
