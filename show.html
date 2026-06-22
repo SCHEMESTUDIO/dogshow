@@ -101,6 +101,8 @@
         </div>
         <div class="bones-cluster">
           <button class="dock-bone-btn" id="boneBtn">🦴 Give a bone</button>
+          <!-- First-visit coachmark (shown once via localStorage in app.js). -->
+          <div class="bone-coach" id="boneCoach" hidden>👆 A bone is a vote — tap to back this dog!</div>
           <div class="dock-bone-pill">
             <span class="dock-bone-pill-count" id="boneCount">0</span>
             <span class="dock-bone-pill-label">bones</span>
@@ -118,13 +120,41 @@
         </div>
       </div>
 
-      <!-- Live Best in Show race bar (2026-06-11) — sits directly under the
-           stage so voting and the race are visible together. Ticks live as
-           bones land (app.js renderRaceBar); empty lanes sell entry. -->
-      <div class="race-bar" id="raceBar" hidden>
-        <div class="race-bar-label">&#127942; <span id="raceBarLabel">This month's race</span></div>
-        <div class="race-bar-chips" id="raceBarChips"></div>
+      <!-- Vote education (2026-06-22) — paying owners weren't voting, so spell
+           out that a bone IS a vote, right under the stage where they act. -->
+      <div class="vote-howto" id="voteHowto">
+        <span class="vote-howto-key">🦴 = 1 vote</span>
+        <span class="vote-howto-text">Tap <strong>Give a bone</strong> to vote for the dog on stage. Most votes this month wins Best in Show.</span>
       </div>
+      <!-- Owner cue — revealed by app.js only when the logged-in owner's own dog
+           is the one currently on stage. Closes the submit→vote gap. -->
+      <div class="owner-vote-cue" id="ownerVoteCue" hidden>
+        ⭐ <strong>That's your dog on stage!</strong> Throw bones now to vote them up the Best in Show board.
+      </div>
+      <!-- Persistent owner vote bar (2026-06-22) — lets an owner vote for their
+           own dog ANY time, not only during its ~10s slot. Revealed by app.js
+           once /my-dog confirms ownership. -->
+      <div class="owner-vote-bar" id="ownerVoteBar" hidden>
+        <button class="owner-vote-btn" id="ownerVoteBtn">🦴 Vote for <span id="ownerVoteDogName">your dog</span></button>
+        <span class="owner-vote-meta">
+          <span class="owner-vote-flash" id="ownerVoteFlash" hidden>+1 vote!</span>
+          <span id="ownerVoteBalance" class="owner-vote-balance"></span>
+        </span>
+      </div>
+
+      <!-- Dog of the Month marquee (2026-06-22 redesign) — sits directly under
+           the stage. Steadily scrolls through the real dogs competing this month
+           (app.js renderRaceBar). The ENTIRE bar is one link to the entry flow;
+           a single "Your dog here" button is the call to action. -->
+      <a class="race-bar" id="raceBar" href="/?openModal=premium" hidden>
+        <div class="race-bar-top">
+          <div class="race-bar-label">&#127942; <span id="raceBarLabel">Dog of the Month &mdash; June</span></div>
+          <span class="race-bar-cta">Your dog here &rarr;</span>
+        </div>
+        <div class="race-bar-viewport">
+          <div class="race-bar-chips" id="raceBarChips"></div>
+        </div>
+      </a>
 
       <!-- Paid-user row: upload prompt → status link once uploaded.
            id="bottomDock" preserved for any legacy refs.
@@ -239,22 +269,29 @@
   <!-- Leaderboard -->
   <div class="leaderboard" id="leaderboard" hidden>
     <div class="leaderboard-header">Hall of Bones</div>
-    <!-- Monthly Best in Show race (monthly as of 2026-06-16). Every bone thrown
-         this month counts toward the title; standings reset on the 1st. Real
-         dogs only, never seed dogs. -->
-    <div class="leaderboard-section" id="weeklyRaceSection" hidden>
-      <div class="leaderboard-label">&#127942; <span id="weeklyRaceLabel">This Month's Best in Show Race</span></div>
-      <div style="font-size: 11px; color: var(--text-faint); margin: -2px 0 8px;">Every bone is a vote &middot; standings reset on the 1st &middot; the winner is crowned at month's end</div>
-      <div class="leaderboard-list" id="leaderboardWeekly"></div>
-      <div id="reigningChampion" style="font-size: 12px; color: var(--text-faint); margin-top: 8px;" hidden></div>
-    </div>
-    <div class="leaderboard-section">
-      <div class="leaderboard-label">All-Time Top Dogs</div>
-      <div class="leaderboard-list" id="leaderboardTop"></div>
-    </div>
-    <div class="leaderboard-section">
-      <div class="leaderboard-label">New Arrivals</div>
-      <div class="leaderboard-list" id="leaderboardRecent"></div>
+    <div class="leaderboard-columns">
+      <!-- LEFT: Dog of the Month race (monthly). Every bone thrown this month is a
+           vote toward Best in Show; standings reset to zero on the 1st. Shows the
+           whole field competing this month, including dogs at zero votes. -->
+      <div class="leaderboard-col">
+        <div class="leaderboard-section leaderboard-section--month" id="weeklyRaceSection" hidden>
+          <div class="leaderboard-label">&#127942; <span id="weeklyRaceLabel">Dog of the Month &mdash; June</span></div>
+          <div class="leaderboard-month-sub" id="weeklyRaceCountdown">Every bone is a vote &middot; standings reset on the 1st &middot; the winner is crowned Best in Show</div>
+          <div class="leaderboard-list" id="leaderboardWeekly"></div>
+          <div id="reigningChampion" style="font-size: 12px; color: var(--text-faint); margin-top: 8px;" hidden></div>
+        </div>
+      </div>
+      <!-- RIGHT: New Arrivals (top 5) above All-Time (top 5). -->
+      <div class="leaderboard-col">
+        <div class="leaderboard-section">
+          <div class="leaderboard-label">New Arrivals</div>
+          <div class="leaderboard-list" id="leaderboardRecent"></div>
+        </div>
+        <div class="leaderboard-section">
+          <div class="leaderboard-label">All-Time Top Dogs</div>
+          <div class="leaderboard-list" id="leaderboardTop"></div>
+        </div>
+      </div>
     </div>
   </div>
 

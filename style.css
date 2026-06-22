@@ -1511,23 +1511,64 @@
   padding-right: 14px;
 }
 
-/* Desktop leaderboard layout — Top Dogs + New Arrivals side-by-side
-   instead of the mobile vertical stack. Mobile rules above stay default. */
+/* Two-column Hall of Bones wrapper. Mobile: single column, stacking in DOM
+   order — Dog of the Month, then New Arrivals, then All-Time. */
+.leaderboard-columns {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.leaderboard-col {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* The monthly board is the hero — give it an accented frame. */
+.leaderboard-section--month {
+  background: rgba(255, 140, 66, 0.05);
+  border: 1px solid rgba(255, 140, 66, 0.22);
+  border-radius: 14px;
+  padding: 16px 16px 14px;
+}
+
+.leaderboard-section--month .leaderboard-label {
+  color: #FF8C42;
+  font-size: 12px;
+}
+
+.leaderboard-month-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin: -4px 0 10px;
+}
+
+.leaderboard-entry--cta {
+  border-style: dashed;
+  border-color: rgba(255, 140, 66, 0.4);
+  background: rgba(255, 140, 66, 0.04);
+}
+
+/* Desktop leaderboard layout — Dog of the Month on the left, New Arrivals over
+   All-Time on the right. Mobile rules above stay default. */
 @media (min-width: 701px) {
   .leaderboard {
     max-width: 1100px;
     margin: 0 auto;
     padding: 36px 24px 24px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 32px;
-    row-gap: 16px;
   }
 
   .leaderboard-header {
-    grid-column: 1 / -1;
-    margin-bottom: 4px;
+    margin-bottom: 18px;
     font-size: 28px;
+  }
+
+  .leaderboard-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 32px;
+    align-items: start;
   }
 
   .leaderboard-section {
@@ -2678,69 +2719,206 @@
 /* ── Live Best in Show race bar (added 2026-06-11) ───────────────────────────
    Sits directly under the stage header so the race is visible while voting.
    Chips tick + bump live as bones land (app.js renderRaceBar). */
+/* Dog of the Month marquee (2026-06-22 redesign). The whole bar is one entry
+   link; real dogs scroll steadily through a clipped viewport. */
 .race-bar {
   display: block;
   margin-top: 10px;
-  padding: 10px 12px;
-  background: rgba(255, 140, 66, 0.05);
-  border: 1px solid rgba(255, 140, 66, 0.18);
+  padding: 10px 12px 11px;
+  background: rgba(255, 140, 66, 0.06);
+  border: 1px solid rgba(255, 140, 66, 0.22);
   border-radius: 12px;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.race-bar:hover {
+  border-color: rgba(255, 140, 66, 0.5);
+  background: rgba(255, 140, 66, 0.1);
+}
+.race-bar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
 }
 .race-bar-label {
-  display: block;
-  margin-bottom: 8px;
   font-size: 11px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--accent);
 }
-/* Three equal lanes that fill the width — no horizontal scroll, no clipped
-   label. Wraps to fewer columns on narrow phones. */
-.race-bar-chips {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  align-items: stretch;
+.race-bar-cta {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1a1035;
+  background: var(--accent);
+  padding: 5px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
 }
-@media (max-width: 520px) {
-  .race-bar-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* Clipped viewport; the track scrolls left and is duplicated in JS so the loop
+   is seamless. mask fades the edges so chips slide in/out softly. */
+.race-bar-viewport {
+  overflow: hidden;
+  position: relative;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.race-bar-chips {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+  animation: raceMarquee 32s linear infinite;
+}
+.race-bar:hover .race-bar-chips { animation-play-state: paused; }
+@keyframes raceMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 .race-chip {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 11px;
+  gap: 7px;
+  padding: 5px 12px 5px 5px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 999px;
   font-size: 14px;
   color: var(--text-bright);
   white-space: nowrap;
-  text-decoration: none;
-  min-width: 0;
-  transition: border-color 0.25s ease, background 0.25s ease;
+  flex-shrink: 0;
 }
+.race-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.06);
+}
+.race-thumb--empty { display: inline-flex; align-items: center; justify-content: center; font-size: 13px; }
 .race-chip .race-rank { color: var(--accent); font-weight: 700; flex-shrink: 0; }
-.race-chip .race-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
-.race-chip .race-bones { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; flex-shrink: 0; margin-left: auto; }
+.race-chip .race-name { max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.race-chip .race-bones { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; flex-shrink: 0; }
 .race-chip.current {
   border-color: rgba(255, 140, 66, 0.65);
   background: rgba(255, 140, 66, 0.13);
 }
-.race-chip.bump { animation: raceBump 0.4s ease; }
-@keyframes raceBump {
-  0% { transform: scale(1); }
-  35% { transform: scale(1.14); }
-  100% { transform: scale(1); }
+
+/* ─── Vote education (2026-06-22) ─────────────── */
+.vote-howto {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  font-size: 12.5px;
+  color: var(--text-dim);
+  line-height: 1.5;
 }
-.race-chip.placeholder {
-  color: var(--text-faint, rgba(224, 216, 240, 0.4));
-  border-style: dashed;
+.vote-howto-key {
+  flex-shrink: 0;
+  font-weight: 700;
+  color: #1a1035;
+  background: var(--accent);
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+.vote-howto-text strong { color: var(--text-bright); }
+
+.owner-vote-cue {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 140, 66, 0.14);
+  border: 1px solid rgba(255, 140, 66, 0.5);
+  border-radius: 10px;
+  font-size: 13.5px;
+  color: var(--text-bright);
+  text-align: center;
+  animation: ownerCuePulse 2s ease-in-out infinite;
+}
+.owner-vote-cue strong { color: #FF8C42; }
+@keyframes ownerCuePulse {
+  0%, 100% { border-color: rgba(255, 140, 66, 0.4); }
+  50% { border-color: rgba(255, 140, 66, 0.85); }
+}
+
+/* Persistent owner vote bar — vote for your own dog any time. */
+.owner-vote-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: rgba(123, 104, 238, 0.1);
+  border: 1px solid rgba(123, 104, 238, 0.32);
+  border-radius: 10px;
+}
+.owner-vote-btn {
+  flex: 1;
+  min-width: 180px;
+  padding: 11px 18px;
+  background: var(--accent);
+  color: #1a1035;
+  border: none;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
+  transition: transform 0.08s ease, filter 0.15s ease;
 }
-.race-chip.placeholder:hover {
-  color: var(--accent);
-  border-color: rgba(255, 140, 66, 0.5);
+.owner-vote-btn:hover { filter: brightness(1.07); }
+.owner-vote-btn:active { transform: scale(0.97); }
+.owner-vote-meta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.owner-vote-balance { font-size: 12px; color: var(--text-dim); }
+.owner-vote-flash {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6ee7a8;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.owner-vote-flash.show { opacity: 1; }
+
+/* First-visit bone coachmark — a small callout under the Give-a-bone button. */
+.bones-cluster { position: relative; }
+.bone-coach {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  max-width: 240px;
+  padding: 8px 12px;
+  background: #FF8C42;
+  color: #1a1035;
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  animation: boneCoachIn 0.3s ease;
+}
+.bone-coach::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 24px;
+  width: 12px;
+  height: 12px;
+  background: #FF8C42;
+  transform: rotate(45deg);
+}
+@keyframes boneCoachIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ═══════════════════════════════════════════════

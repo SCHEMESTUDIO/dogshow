@@ -529,6 +529,28 @@ export default class DogShowServer {
       }));
     }
 
+    // Vote for your own dog anytime — independent of who's on stage. Closes the
+    // submit→vote gap: an owner can back their own entry directly.
+    if (data.type === 'voteOwnDog') {
+      const authed = this.userByConnection.get(sender.id);
+      if (!authed) { sender.send(JSON.stringify({ type: 'needRegister' })); return; }
+      const myDog = this.communityDogs.find(d => d.userId === authed.userId);
+      if (!myDog) { sender.send(JSON.stringify({ type: 'voteResult', ok: false, reason: 'no_dog' })); return; }
+      const res = await this.spendVote(authed.userId, myDog.id, 1);
+      if (!res.ok) {
+        if (res.reason === 'no_bones') sender.send(JSON.stringify({ type: 'needTopUp', bones: 0, reason: 'no_bones' }));
+        else sender.send(JSON.stringify({ type: 'voteResult', ok: false, reason: res.reason }));
+        return;
+      }
+      // Keep the cached connection balance in sync with storage.
+      authed.bones = res.bones;
+      sender.send(JSON.stringify({ type: 'boneBalance', bones: res.bones, tier: authed.tier }));
+      sender.send(JSON.stringify({
+        type: 'voteResult', ok: true, dogId: myDog.id,
+        dogName: myDog.dogName, seasonBones: res.seasonBones, bones: res.bones,
+      }));
+    }
+
   }
 
   // Look up a user by session token. Returns the user object or null.
@@ -549,7 +571,82 @@ export default class DogShowServer {
     const user = await this.room.storage.get(`user:${userId}`);
     if (!user) return;
     user.bones = bones;
+    user.hasVoted = true;  // spending a bone counts as voting (no-vote nudge gate)
     await this.room.storage.put(`user:${userId}`, user);
+  }
+
+  // Apply `count` votes directly to a specific dog, independent of who's on
+  // stage. Used by the "vote for your own dog anytime" button and fan voting on
+  // shared /d/{slug} pages. Increments both this month's votes (seasonBones) and
+  // all-time bones, exactly like an on-stage bone. Returns the dog's new
+  // seasonBones, or null if the dog isn't found.
+  async applyVote(dogId, count = 1) {
+    const idx = this.communityDogs.findIndex(d => d.id === dogId);
+    if (idx === -1) return null;
+    // Roll the month over first so the votes land in the correct season.
+    try { await this.ensureSeason(); } catch (e) { console.error('[Season]', e && e.message); }
+    const dog = this.communityDogs[idx];
+    dog.stats = dog.stats || {
+      totalAppearances: 0, totalBones: 0, totalViewers: 0,
+      totalScreenTime: 0, peakViewers: 0, firstAppearance: null, lastAppearance: null,
+    };
+    dog.stats.totalBones = (dog.stats.totalBones || 0) + count;
+    dog.stats.seasonBones = (dog.stats.seasonBones || 0) + count;
+    this.communityDogs[idx] = dog;
+    await this.room.storage.put('communityDogs', this.communityDogs);
+    return dog.stats.seasonBones;
+  }
+
+  // Spend `count` bones from a user's balance and cast them as votes for a dog.
+  // Shared by the WS voteOwnDog path and the HTTP /vote endpoint. Enforces the
+  // balance server-side (legacy unlimited 'general' users bypass the decrement).
+  // Returns { ok, bones, seasonBones } or { ok:false, reason }.
+  async spendVote(userId, dogId, count = 1) {
+    const user = await this.room.storage.get(`user:${userId}`);
+    if (!user) return { ok: false, reason: 'no_user' };
+    const isLegacyUnlimited = user.tier === 'general';
+    if (!isLegacyUnlimited && (user.bones || 0) < count) {
+      return { ok: false, reason: 'no_bones', bones: user.bones || 0 };
+    }
+    const seasonBones = await this.applyVote(dogId, count);
+    if (seasonBones === null) return { ok: false, reason: 'no_dog' };
+    if (!isLegacyUnlimited) user.bones = (user.bones || 0) - count;
+    user.hasVoted = true;
+    await this.room.storage.put(`user:${userId}`, user);
+    return { ok: true, bones: isLegacyUnlimited ? (user.bones || 0) : user.bones, seasonBones };
+  }
+
+  // HTTP fan-voting endpoint for shared /d/{slug} pages. Body:
+  // { token, dogId?|slug?, count? }. Auth'd by session token; balance enforced
+  // server-side. A logged-out friend registers inline first (separate /register
+  // call) to get a token + 250 bones, then calls this.
+  async handleVote(req, headers) {
+    let body;
+    try { body = await req.json(); } catch (e) {
+      return new Response(JSON.stringify({ ok: false, reason: 'bad_request' }), { status: 400, headers });
+    }
+    const token = body && body.token;
+    const user = token ? await this.resolveUserByToken(token) : null;
+    if (!user) {
+      return new Response(JSON.stringify({ ok: false, reason: 'not_registered' }), { status: 401, headers });
+    }
+    // Resolve the target dog by id or slug.
+    let dog = null;
+    if (body.dogId) dog = this.communityDogs.find(d => d.id === body.dogId);
+    if (!dog && body.slug) dog = this.communityDogs.find(d => d.slug === body.slug);
+    if (!dog) {
+      return new Response(JSON.stringify({ ok: false, reason: 'no_dog' }), { status: 404, headers });
+    }
+    const count = Math.max(1, Math.min(20, parseInt(body.count, 10) || 1));
+    const res = await this.spendVote(user.id, dog.id, count);
+    if (!res.ok) {
+      const status = res.reason === 'no_bones' ? 402 : 400;
+      return new Response(JSON.stringify(res), { status, headers });
+    }
+    return new Response(JSON.stringify({
+      ok: true, dogId: dog.id, dogName: dog.dogName,
+      seasonBones: res.seasonBones, bones: res.bones,
+    }), { headers });
   }
 
   addMessage(msg) {
@@ -877,12 +974,30 @@ export default class DogShowServer {
     return `Month of ${months[m - 1]}`;
   }
 
-  // Live standings for the running week — REAL dogs only, never seed dogs
-  // (a fake entrant in a real race would be a fake-endorsement problem).
+  // Live standings used for CROWNING — only dogs that actually earned votes
+  // this month are eligible to win Best in Show (a 0-vote dog can't be champion).
   seasonStandings() {
     return this.communityDogs
       .filter(d => d.stats && (d.stats.seasonBones || 0) > 0)
       .sort((a, b) => (b.stats.seasonBones || 0) - (a.stats.seasonBones || 0));
+  }
+
+  // Public DISPLAY board for the "Dog of the Month" race. Every dog currently in
+  // the show appears here — including those with 0 votes this month — so the
+  // board is never empty and visitors can see the whole field competing. Counts
+  // are the TRUE month-to-date votes (seasonBones), which reset to 0 on the 1st.
+  // Sorted by this month's votes, then lifetime bones as a stable tiebreak so the
+  // ordering is sensible even before anyone has voted this month.
+  // (2026-06-22: seed/fixture dogs are intentionally included — product decision.)
+  seasonBoard(limit = 10) {
+    return this.communityDogs
+      .slice()
+      .sort((a, b) => {
+        const sb = ((b.stats && b.stats.seasonBones) || 0) - ((a.stats && a.stats.seasonBones) || 0);
+        if (sb !== 0) return sb;
+        return ((b.stats && b.stats.totalBones) || 0) - ((a.stats && a.stats.totalBones) || 0);
+      })
+      .slice(0, limit);
   }
 
   async ensureSeason() {
@@ -902,6 +1017,12 @@ export default class DogShowServer {
           bones: winner.stats.seasonBones || 0,
           awardedAt: Date.now(),
         });
+        // Snapshot the final top-5 BEFORE seasonBones are zeroed, so the
+        // monthly-results email can render the closing standings.
+        const finalStandings = standings.slice(0, 5).map(d => ({
+          id: d.id, slug: d.slug || null, dogName: d.dogName,
+          username: d.username, bones: (d.stats && d.stats.seasonBones) || 0,
+        }));
         const past = (await this.room.storage.get('pastSeasons')) || [];
         past.push({
           seasonId: stored,
@@ -910,6 +1031,8 @@ export default class DogShowServer {
             id: winner.id, slug: winner.slug || null, dogName: winner.dogName,
             username: winner.username, bones: winner.stats.seasonBones || 0,
           },
+          standings: finalStandings,
+          dogsInRace: standings.length,
           endedAt: Date.now(),
         });
         await this.room.storage.put('pastSeasons', past.slice(-52));
@@ -969,30 +1092,11 @@ export default class DogShowServer {
       this.room.broadcast(JSON.stringify(notifyMsg));
     }
 
-    // Email the owner (max once per day per dog)
-    const lastEmailKey = `lastEmail:${dogId}`;
-    const lastEmail = await this.room.storage.get(lastEmailKey);
-    const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
-
-    if (!lastEmail || lastEmail < oneDayAgo) {
-      await this.room.storage.put(lastEmailKey, Date.now());
-      // Look up user's email
-      const user = await this.room.storage.get(`user:${dog.userId}`);
-      if (user && user.email) {
-        // Weekly-race standing for the email's "rally your fans" line.
-        const standings = this.seasonStandings();
-        const rank = standings.findIndex(d => d.id === dog.id) + 1; // 0 → not ranked
-        const race = rank > 0 ? {
-          rank,
-          dogsInRace: standings.length,
-          seasonBones: dog.stats.seasonBones || 0,
-          gapToNext: rank > 1 ? ((standings[rank - 2].stats.seasonBones || 0) - (dog.stats.seasonBones || 0)) : 0,
-          nextDogName: rank > 1 ? standings[rank - 2].dogName : null,
-          seasonLabel: this.seasonLabel(this.currentSeasonId()),
-        } : null;
-        this.sendAppearanceEmail(user.email, dog, pageUrl, this.boneCount, viewers, screenTime, race);
-      }
-    }
+    // NOTE (2026-06-22): the per-appearance "your dog is on stage" email was
+    // removed here — it fired up to once/day/dog and felt spammy. Owner comms
+    // now run on a fixed cadence (1 weekly digest + 2 month-end urgency emails)
+    // via processEmailCampaigns() on the storage alarm. sendAppearanceEmail() is
+    // retained but no longer called.
   }
 
   async sendAppearanceEmail(email, dog, pageUrl, bones, viewers, screenTimeMs, race) {
@@ -1640,6 +1744,7 @@ export default class DogShowServer {
       ['create-checkout', 5],
       ['verify-checkout', 10],
       ['upload-dog', 5],
+      ['vote', 40],
     ]);
     if (req.method === 'POST' && RATE_LIMITS.has(path)) {
       const allowed = await this.checkRateLimit(req, path, RATE_LIMITS.get(path), 60000);
@@ -1684,6 +1789,9 @@ export default class DogShowServer {
       }
       if (path === 'inbound-email' && req.method === 'POST') {
         return await this.handleInboundEmail(req, headers);
+      }
+      if (path === 'vote' && req.method === 'POST') {
+        return await this.handleVote(req, headers);
       }
       if (path === 'register' && req.method === 'POST') {
         return await this.handleRegister(req, headers);
@@ -1811,9 +1919,10 @@ export default class DogShowServer {
             uploadedAt: d.uploadedAt,
             imageUrl: imgBase + d.id,
           }));
-        // Weekly race standings (real dogs only — no seeds in a real contest).
+        // Monthly "Dog of the Month" display board — every dog in the show,
+        // true month-to-date votes, 0-vote dogs included so it's never empty.
         const seasonId = this.currentSeasonId();
-        const weeklyTopDogs = this.seasonStandings().slice(0, 10).map(d => ({
+        const weeklyTopDogs = this.seasonBoard(10).map(d => ({
           id: d.id,
           slug: d.slug || null,
           dogName: d.dogName,
@@ -3038,6 +3147,15 @@ export default class DogShowServer {
       }
     }
 
+    // Month-end urgency-email boundaries (T-3 days and T-24h). Waking here makes
+    // the 3-day / 24-hour emails land close to on-time instead of up to a day
+    // late on the next audit horizon.
+    const monthEnd = this.currentMonthEndTs();
+    for (const off of [3 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000]) {
+      const t = monthEnd - off;
+      if (t > now) next = Math.min(next, t);
+    }
+
     return next === Infinity ? null : next;
   }
 
@@ -3127,6 +3245,16 @@ export default class DogShowServer {
     } catch (e) {
       console.error('[Reminder] Dispatch failed:', e && e.message);
       await reportToSentry(e, { kind: 'onAlarm.reminders' });
+    }
+
+    // Cadence emails (weekly digest, month-end urgency, no-vote nudge). Each
+    // recipient is gated by its own storage timestamp, so running this on every
+    // alarm is safe — it only sends what's actually due.
+    try {
+      await this.processEmailCampaigns();
+    } catch (e) {
+      console.error('[Campaign] Dispatch failed:', e && e.message);
+      await reportToSentry(e, { kind: 'onAlarm.campaigns' });
     }
 
     // Audit if due. Read lastAuditAt and check the 24h elapsed condition;
@@ -3809,19 +3937,24 @@ export default class DogShowServer {
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
               <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 4px; text-align: center;">The Dog Show</h1>
               <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">You're In</p>
-              <div style="background: #241a45; border-radius: 12px; padding: 28px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px;">
-                <h2 style="color: #e0d8f0; font-size: 21px; margin: 0 0 12px; text-align: center;">Welcome to the show</h2>
-                <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); text-align: center; margin: 0;">
-                  One dog at a time, on stage, in front of a live crowd throwing bones. Pull up a seat — the show never stops. Keep this email so you can always find your way back in.
+              <div style="background: #241a45; border-radius: 12px; padding: 28px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 20px;">
+                <h2 style="color: #e0d8f0; font-size: 21px; margin: 0 0 14px; text-align: center;">Welcome to the show</h2>
+                <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); text-align: center; margin: 0 0 18px;">
+                  One dog at a time, on stage, in front of a live crowd. Here's how it works:
                 </p>
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr><td style="padding: 6px 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.8);"><strong style="color:#FF8C42;">1.</strong> Dogs take the stage one at a time, live.</td></tr>
+                  <tr><td style="padding: 6px 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.8);"><strong style="color:#FF8C42;">2.</strong> <strong style="color:#e0d8f0;">Every bone is a vote.</strong> Throw bones at the dogs you love — you start with 250.</td></tr>
+                  <tr><td style="padding: 6px 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.8);"><strong style="color:#FF8C42;">3.</strong> The most-voted dog each month is crowned <strong style="color:#e0d8f0;">Best in Show</strong>. Standings reset on the 1st.</td></tr>
+                </table>
               </div>
-              <div style="text-align: center; margin-bottom: 24px;">
-                <a href="${SITE_URL}/show.html" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;">Watch the show</a>
+              <div style="text-align: center; margin-bottom: 22px;">
+                <a href="${SITE_URL}/show.html" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;">Watch the show &amp; throw your first bone</a>
               </div>
-              <p style="text-align: center; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 4px;">Want your own dog up on that stage?</p>
-              <p style="text-align: center; font-size: 13px; margin-top: 0;">
-                <a href="${SITE_URL}/" style="color: #FF8C42;">Bring your dog to The Dog Show — $3.99</a>
-              </p>
+              <div style="background: rgba(255,140,66,0.08); border: 1px solid rgba(255,140,66,0.25); border-radius: 12px; padding: 18px 20px; margin-bottom: 24px; text-align: center;">
+                <p style="font-size: 14px; line-height: 1.55; color: rgba(255,255,255,0.8); margin: 0 0 6px;"><strong style="color:#FF8C42;">Want to compete?</strong> Enter your own dog and rally your friends to vote.</p>
+                <p style="font-size: 13px; margin: 0;"><a href="${SITE_URL}/?openModal=premium" style="color: #FF8C42; font-weight: 600;">Bring your dog to The Dog Show — $3.99 →</a></p>
+              </div>
               <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 24px 0;">
               <p style="text-align: center; font-size: 11px; color: rgba(255,255,255,0.25);">
                 Questions? Just reply to this email.<br>
@@ -3837,6 +3970,352 @@ export default class DogShowServer {
     } catch (e) {
       console.error('[Email] Welcome email network error:', e.message);
       return false;
+    }
+  }
+
+  // ─── Email cadence engine (2026-06-22) ───────────────────────────────────
+  // Replaces the old per-appearance "your dog is on stage" email. Owners now get
+  // a fixed cadence: 1 weekly digest + 2 month-end urgency pushes. All registered
+  // users get the urgency pushes; anyone who never spent a bone gets a one-time
+  // no-vote nudge 3 days in. Driven by processEmailCampaigns() on the storage
+  // alarm, gated per-user by storage timestamps so nothing double-sends.
+
+  // End of the current month at ~00:00 America/New_York, as a UTC ms timestamp.
+  // Fixed 5h (EST) offset — within ~1h during EDT, which is fine for urgency.
+  currentMonthEndTs() {
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'America/New_York', year: 'numeric', month: '2-digit',
+    }).formatToParts(new Date());
+    const y = +(parts.find(p => p.type === 'year') || {}).value;
+    const m = +(parts.find(p => p.type === 'month') || {}).value; // 1-based
+    const ny = m === 12 ? y + 1 : y;
+    const nm = m === 12 ? 1 : m + 1;
+    return Date.UTC(ny, nm - 1, 1, 5, 0, 0);
+  }
+
+  // A dog's standing in the live race, for email copy. rank 0 = no votes yet.
+  _raceCtx(dog, standings, dogsInRace, seasonLabel) {
+    const rank = standings.findIndex(d => d.id === dog.id) + 1;
+    const seasonBones = (dog.stats && dog.stats.seasonBones) || 0;
+    const gapToNext = rank > 1 ? (((standings[rank - 2].stats.seasonBones) || 0) - seasonBones) : 0;
+    const nextDogName = rank > 1 ? standings[rank - 2].dogName : null;
+    const leaderName = standings[0] ? standings[0].dogName : null;
+    return { rank, dogsInRace, seasonBones, gapToNext, nextDogName, leaderName, seasonLabel };
+  }
+
+  // Format a seasonId ('2026-06-01') as 'June 2026' — used on permanent badges
+  // and in winner/results copy so wins are distinguishable across years.
+  _seasonMonthYear(seasonId) {
+    const [y, m] = (seasonId || '').split('-').map(Number);
+    if (!y || !m) return '';
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+      'August', 'September', 'October', 'November', 'December'];
+    return `${months[m - 1]} ${y}`;
+  }
+
+  // Low-level branded sender — standard chrome/footer, NO unsubscribe check.
+  // Use for transactional sends (welcome, certificate, contest win).
+  async _sendBrandedEmail(email, subject, innerHtml) {
+    if (!this.room.env.RESEND_API_KEY || !email) return false;
+    const userId = await this._userIdFromEmail(email);
+    const footer = await this.unsubscribeFooter(userId);
+    const html = `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
+        <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 18px; text-align: center;">The Dog Show</h1>
+        ${innerHtml}
+        <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 24px 0;">
+        <p style="text-align: center; font-size: 11px; color: rgba(255,255,255,0.25);">Questions? Just reply to this email.<br><a href="${SITE_URL}" style="color: #FF8C42;">dogshow.lol</a></p>
+        ${footer}
+      </div>`;
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}` },
+        body: JSON.stringify({ from: 'Dog Show <noreply@dogshow.lol>', to: [email], subject, html }),
+      });
+      if (!res.ok) console.error('[Email] branded send failed:', subject, res.status);
+      return res.ok;
+    } catch (e) {
+      console.error('[Email] branded network error:', subject, e.message);
+      return false;
+    }
+  }
+
+  // Marketing wrapper — enforces unsubscribe, then delegates to the branded sender.
+  async _sendMarketingEmail(email, subject, innerHtml) {
+    if (await this._isUnsubscribed(email)) return false;
+    return this._sendBrandedEmail(email, subject, innerHtml);
+  }
+
+  _shareButtonsHtml(pageUrl, dogName) {
+    const u = encodeURIComponent(pageUrl);
+    const t = encodeURIComponent(`Vote for ${dogName} in this month's Dog Show — every bone is a vote! 🦴`);
+    return `
+      <div style="text-align:center;margin:14px 0 4px;">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=${u}" style="display:inline-block;background:#1877F2;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;margin:3px;">Share on Facebook</a>
+        <a href="https://api.whatsapp.com/send?text=${t}%20${u}" style="display:inline-block;background:#25D366;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;margin:3px;">WhatsApp</a>
+      </div>
+      <p style="text-align:center;font-size:12px;color:rgba(255,255,255,0.5);margin:8px 0 0;">For Instagram, post this link to your story: <a href="${pageUrl}" style="color:#FF8C42;">${pageUrl}</a></p>`;
+  }
+
+  _dogImg(dog) {
+    return 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=' + dog.id;
+  }
+
+  _dogPageUrl(dog) {
+    return dog.slug ? `${SITE_URL}/d/${dog.slug}` : `${SITE_URL}/dog.html?id=${dog.id}`;
+  }
+
+  // 1× / week digest to a dog's owner: votes this month, rank, vote + share CTAs.
+  async sendWeeklyDigestEmail(email, dog, ctx, daysLeft) {
+    const dogName = dog.dogName || 'Your dog';
+    const pageUrl = this._dogPageUrl(dog);
+    const votes = ctx.seasonBones;
+    const rankLine = ctx.rank === 0
+      ? `<strong style="color:#e0d8f0;">No votes yet this month.</strong> The race is wide open — be the first to put ${dogName} on the board.`
+      : ctx.rank === 1
+        ? `${dogName} is <strong style="color:#FF8C42;">#1 of ${ctx.dogsInRace}</strong> this month. Keep the lead — it's decided when the month ends.`
+        : `${dogName} is <strong style="color:#FF8C42;">#${ctx.rank} of ${ctx.dogsInRace}</strong> — just <strong>${ctx.gapToNext}</strong> vote${ctx.gapToNext === 1 ? '' : 's'} behind ${ctx.nextDogName}.`;
+    const inner = `
+      <p style="text-align:center;font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin:0 0 18px;">This week in the race · ${daysLeft} day${daysLeft === 1 ? '' : 's'} left</p>
+      <div style="background:#241a45;border-radius:12px;padding:24px;border:1px solid rgba(255,255,255,0.06);margin-bottom:20px;text-align:center;">
+        <img src="${this._dogImg(dog)}" alt="${dogName}" width="200" style="display:block;width:200px;max-width:100%;height:auto;border-radius:12px;margin:0 auto 16px;">
+        <div style="font-size:34px;font-weight:700;color:#FF8C42;line-height:1;">${votes}</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">votes this month</div>
+        <p style="font-size:14px;line-height:1.55;color:rgba(255,255,255,0.75);margin:16px 0 0;">${rankLine}</p>
+      </div>
+      <div style="text-align:center;margin-bottom:18px;">
+        <a href="${SITE_URL}/show" style="display:inline-block;background:#FF8C42;color:#1a1035;padding:14px 30px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">Vote for ${dogName} now →</a>
+      </div>
+      <p style="text-align:center;font-size:13px;color:rgba(255,255,255,0.6);margin:0 0 2px;">You can't win on your own votes alone — get friends &amp; family to vote too:</p>
+      ${this._shareButtonsHtml(pageUrl, dogName)}`;
+    return this._sendMarketingEmail(email, `🦴 ${dogName} has ${votes} vote${votes === 1 ? '' : 's'} this month`, inner);
+  }
+
+  // Month-end urgency. kind '3d' | '24h'. dog may be null (free fan).
+  async sendUrgencyEmail(email, dog, kind, info) {
+    const is24 = kind === '24h';
+    const timeLabel = is24 ? `${info.hoursLeft} hour${info.hoursLeft === 1 ? '' : 's'}` : `${info.daysLeft} day${info.daysLeft === 1 ? '' : 's'}`;
+    const eyebrow = is24 ? 'Final hours' : 'Closing soon';
+    if (dog) {
+      const dogName = dog.dogName || 'Your dog';
+      const pageUrl = this._dogPageUrl(dog);
+      const ctx = info.ctx || { rank: 0, seasonBones: 0 };
+      const standingLine = ctx.rank === 0
+        ? `${dogName} has no votes yet this month — but there's still time to make a run.`
+        : ctx.rank === 1
+          ? `${dogName} is leading at <strong style="color:#FF8C42;">#${ctx.rank}</strong>. Don't get caught at the wire — lock it in.`
+          : `${dogName} is <strong style="color:#FF8C42;">#${ctx.rank}</strong>, ${ctx.gapToNext} vote${ctx.gapToNext === 1 ? '' : 's'} off the next spot. A few shares could close it.`;
+      const inner = `
+        <p style="text-align:center;font-size:12px;color:#FF8C42;letter-spacing:2px;text-transform:uppercase;margin:0 0 14px;">${eyebrow} · ${timeLabel} left</p>
+        <div style="background:#241a45;border-radius:12px;padding:24px;border:1px solid rgba(255,140,66,0.3);margin-bottom:20px;text-align:center;">
+          <img src="${this._dogImg(dog)}" alt="${dogName}" width="180" style="display:block;width:180px;max-width:100%;height:auto;border-radius:12px;margin:0 auto 14px;">
+          <h2 style="font-size:20px;color:#e0d8f0;margin:0 0 8px;">${is24 ? 'Last call' : 'The clock is ticking'} for ${dogName}</h2>
+          <p style="font-size:14px;line-height:1.55;color:rgba(255,255,255,0.75);margin:0;">${standingLine} <strong style="color:#e0d8f0;">${info.seasonLabel}'s Best in Show is decided in ${timeLabel}</strong>, then votes reset to zero.</p>
+        </div>
+        <div style="text-align:center;margin-bottom:18px;">
+          <a href="${SITE_URL}/show" style="display:inline-block;background:#FF8C42;color:#1a1035;padding:14px 30px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">Vote for ${dogName} →</a>
+        </div>
+        <p style="text-align:center;font-size:13px;color:rgba(255,255,255,0.6);margin:0 0 2px;">The fastest way to climb: post ${dogName} to Facebook &amp; Instagram and ask for votes.</p>
+        ${this._shareButtonsHtml(pageUrl, dogName)}`;
+      return this._sendMarketingEmail(email, `${is24 ? '🚨 Final ' + info.hoursLeft + ' hours' : '⏳ ' + info.daysLeft + ' days left'} — vote for ${dogName}`, inner);
+    }
+    // Free fan (no dog): drive an entry or a vote before the reset.
+    const inner = `
+      <p style="text-align:center;font-size:12px;color:#FF8C42;letter-spacing:2px;text-transform:uppercase;margin:0 0 14px;">${eyebrow} · ${timeLabel} left</p>
+      <div style="background:#241a45;border-radius:12px;padding:24px;border:1px solid rgba(255,140,66,0.3);margin-bottom:20px;text-align:center;">
+        <h2 style="font-size:20px;color:#e0d8f0;margin:0 0 8px;">${info.seasonLabel}'s Best in Show ends in ${timeLabel}</h2>
+        <p style="font-size:14px;line-height:1.55;color:rgba(255,255,255,0.75);margin:0;">Standings reset to zero on the 1st. Enter your dog now and you've got ${is24 ? 'a final shot' : 'a few days'} to rally votes — or jump in and vote for your favorites.</p>
+      </div>
+      <div style="text-align:center;margin-bottom:14px;">
+        <a href="${SITE_URL}/?openModal=premium" style="display:inline-block;background:#FF8C42;color:#1a1035;padding:14px 30px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">Enter your dog — $3.99 →</a>
+      </div>
+      <p style="text-align:center;font-size:13px;margin:0;"><a href="${SITE_URL}/show" style="color:#FF8C42;">Just here to watch? Come vote →</a></p>`;
+    return this._sendMarketingEmail(email, `${is24 ? '🚨 Final ' + info.hoursLeft + ' hours' : '⏳ ' + info.daysLeft + ' days left'} in this month's Best in Show`, inner);
+  }
+
+  // One-time nudge to anyone who registered but never spent a bone.
+  async sendNoVoteNudgeEmail(email, dog) {
+    const inner = `
+      <p style="text-align:center;font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin:0 0 18px;">Your bones are waiting</p>
+      <div style="background:#241a45;border-radius:12px;padding:26px;border:1px solid rgba(255,255,255,0.06);margin-bottom:22px;">
+        <h2 style="font-size:21px;color:#e0d8f0;margin:0 0 12px;text-align:center;">You haven't voted yet 🦴</h2>
+        <p style="font-size:14px;line-height:1.6;color:rgba(255,255,255,0.75);margin:0 0 14px;text-align:center;">You've got <strong style="color:#FF8C42;">bones to spend</strong> — and every bone is a vote toward this month's Best in Show. Here's how to use them:</p>
+        <table style="width:100%;border-collapse:collapse;">
+          <tr><td style="padding:5px 0;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.8);"><strong style="color:#FF8C42;">1.</strong> Open the show (you're already signed in on this device).</td></tr>
+          <tr><td style="padding:5px 0;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.8);"><strong style="color:#FF8C42;">2.</strong> Tap <strong style="color:#e0d8f0;">Give a bone</strong> under any dog you love${dog ? ` — or vote for <strong style="color:#e0d8f0;">${dog.dogName}</strong> with one tap` : ''}.</td></tr>
+          <tr><td style="padding:5px 0;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.8);"><strong style="color:#FF8C42;">3.</strong> That's a vote. Most votes this month wins.</td></tr>
+        </table>
+      </div>
+      <div style="text-align:center;">
+        <a href="${SITE_URL}/show" style="display:inline-block;background:#FF8C42;color:#1a1035;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">${dog ? 'Vote for ' + dog.dogName : 'Go vote now'} →</a>
+      </div>`;
+    return this._sendMarketingEmail(email, dog ? `🦴 ${dog.dogName} is waiting for your vote` : `🦴 You haven't voted yet — your bones are waiting`, inner);
+  }
+
+  // Celebratory winner email to the champion's owner. Warm + special. Sent as
+  // transactional (bypasses the marketing unsubscribe) — you won a contest.
+  async sendWinnerEmail(email, dog, result) {
+    const dogName = dog.dogName || 'Your dog';
+    const monthYear = this._seasonMonthYear(result.seasonId);
+    const pageUrl = this._dogPageUrl(dog);
+    const votes = (result.winner && result.winner.bones) || 0;
+    const dogsInRace = result.dogsInRace || (result.standings ? result.standings.length : 0);
+    const inner = `
+      <div style="text-align:center;font-size:40px;margin:0 0 6px;">🏆</div>
+      <p style="text-align:center;font-size:12px;color:#FFD700;letter-spacing:3px;text-transform:uppercase;margin:0 0 20px;">Best in Show · ${monthYear}</p>
+      <div style="background:linear-gradient(180deg, rgba(255,215,0,0.12), rgba(255,140,66,0.06));border-radius:14px;padding:28px 24px;border:1px solid rgba(255,215,0,0.4);margin-bottom:22px;text-align:center;">
+        <img src="${this._dogImg(dog)}" alt="${dogName}" width="220" style="display:block;width:220px;max-width:100%;height:auto;border-radius:12px;margin:0 auto 18px;border:3px solid rgba(255,215,0,0.55);">
+        <h2 style="font-size:24px;color:#FFD700;margin:0 0 10px;">${dogName} is your Best in Show</h2>
+        <p style="font-size:15px;line-height:1.6;color:rgba(255,255,255,0.82);margin:0;">It's official. Out of ${dogsInRace} dog${dogsInRace === 1 ? '' : 's'} in the ring this month, the crowd chose <strong style="color:#e0d8f0;">${dogName}</strong> — with <strong style="color:#FFD700;">${votes} vote${votes === 1 ? '' : 's'}</strong>. What a hound.</p>
+      </div>
+      <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,0.75);text-align:center;margin:0 0 22px;">We've pinned a permanent <strong style="color:#FFD700;">🏆 Best in Show — ${monthYear}</strong> trophy to ${dogName}'s certificate page. It stays there for good — and if ${dogName} takes another month down the line, the trophies stack up into a proper cabinet.</p>
+      <div style="text-align:center;margin-bottom:22px;">
+        <a href="${pageUrl}" style="display:inline-block;background:#FFD700;color:#1a1035;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">See ${dogName}'s trophy →</a>
+      </div>
+      <p style="text-align:center;font-size:13px;color:rgba(255,255,255,0.6);margin:0 0 2px;">Take a victory lap — let everyone know ${dogName} won:</p>
+      ${this._shareButtonsHtml(pageUrl, dogName)}`;
+    return this._sendBrandedEmail(email, `🏆 ${dogName} won Best in Show — ${monthYear}!`, inner);
+  }
+
+  // End-of-month recap to all registered users: who won, the final top dogs, and
+  // a clean-slate hook into the new month. Marketing — respects unsubscribe.
+  async sendMonthlyResultsEmail(email, result, newSeasonLabel) {
+    const monthYear = this._seasonMonthYear(result.seasonId);
+    const winner = result.winner || {};
+    const winnerUrl = winner.slug ? `${SITE_URL}/d/${winner.slug}` : `${SITE_URL}/show`;
+    const standings = result.standings || [];
+    const rowsHtml = standings.map((d, i) => {
+      const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`;
+      const href = d.slug ? `${SITE_URL}/d/${d.slug}` : `${SITE_URL}/show`;
+      return `<tr>
+        <td style="padding:8px 6px;font-size:14px;color:rgba(255,255,255,0.85);width:34px;">${medal}</td>
+        <td style="padding:8px 6px;font-size:14px;color:#e0d8f0;"><a href="${href}" style="color:#e0d8f0;text-decoration:none;">${d.dogName}</a></td>
+        <td style="padding:8px 6px;font-size:14px;color:#FF8C42;text-align:right;font-weight:700;">${d.bones} 🦴</td>
+      </tr>`;
+    }).join('');
+    const inner = `
+      <p style="text-align:center;font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin:0 0 16px;">The results are in · ${monthYear}</p>
+      <div style="background:#241a45;border-radius:12px;padding:24px;border:1px solid rgba(255,215,0,0.35);margin-bottom:20px;text-align:center;">
+        <div style="font-size:34px;margin:0 0 4px;">🏆</div>
+        <h2 style="font-size:21px;color:#FFD700;margin:0 0 6px;">${winner.dogName || 'A very good dog'} wins Best in Show</h2>
+        <p style="font-size:14px;color:rgba(255,255,255,0.7);margin:0;">${monthYear}'s champion, with ${winner.bones || 0} vote${(winner.bones || 0) === 1 ? '' : 's'}.</p>
+        ${standings.length ? `<table style="width:100%;border-collapse:collapse;margin-top:18px;text-align:left;">${rowsHtml}</table>` : ''}
+      </div>
+      <div style="background:rgba(255,140,66,0.08);border:1px solid rgba(255,140,66,0.25);border-radius:12px;padding:18px 20px;margin-bottom:22px;text-align:center;">
+        <p style="font-size:15px;color:#e0d8f0;margin:0 0 6px;font-weight:700;">A new month. A clean slate.</p>
+        <p style="font-size:14px;line-height:1.55;color:rgba(255,255,255,0.72);margin:0;">Every dog is back to zero votes. ${newSeasonLabel ? newSeasonLabel.replace(/^Month of /, '') + "'s" : "This month's"} Best in Show is wide open — your dog could be next.</p>
+      </div>
+      <div style="text-align:center;margin-bottom:10px;">
+        <a href="${SITE_URL}/?openModal=premium" style="display:inline-block;background:#FF8C42;color:#1a1035;padding:14px 30px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">Enter your dog →</a>
+      </div>
+      <p style="text-align:center;font-size:13px;margin:0;"><a href="${SITE_URL}/show" style="color:#FF8C42;">Or jump in and vote →</a></p>`;
+    return this._sendMarketingEmail(email, `🏆 ${monthYear}'s Best in Show: ${winner.dogName || 'the results are in'}`, inner);
+  }
+
+  // Walk all users and send any due cadence emails. Runs on the storage alarm
+  // (at least daily via the audit horizon; sooner near month-end boundaries).
+  async processEmailCampaigns() {
+    if (!this.room.env.RESEND_API_KEY) return;
+    const now = Date.now();
+    const DAY = 24 * 60 * 60 * 1000;
+    const seasonId = this.currentSeasonId();
+    const seasonLabel = this.seasonLabel(seasonId);
+    const monthEnd = this.currentMonthEndTs();
+    const msLeft = monthEnd - now;
+    const within3d = msLeft > 0 && msLeft <= 3 * DAY;
+    const within24h = msLeft > 0 && msLeft <= DAY;
+    const hoursLeft = Math.max(1, Math.round(msLeft / 3600000));
+    const daysLeft = Math.max(1, Math.ceil(msLeft / DAY));
+
+    const standings = this.seasonStandings();
+    const dogsInRace = standings.length;
+
+    const userEntries = await this.room.storage.list({ prefix: 'user:' });
+    const users = [...userEntries.values()];
+    const dogsByUserId = new Map();
+    this.communityDogs.forEach(d => { if (d.userId) dogsByUserId.set(d.userId, d); });
+
+    // ── Month-end rollover: winner email + results recap ──
+    // A crowning just happened if the newest pastSeasons entry is recent and we
+    // haven't announced it yet. Winner email goes to the champion's owner (once);
+    // the recap goes to every registered user (once each). Kept on the alarm —
+    // never in a request path — so a big user base can't slow a page load.
+    const pastSeasons = (await this.room.storage.get('pastSeasons')) || [];
+    const lastResult = pastSeasons.length ? pastSeasons[pastSeasons.length - 1] : null;
+    const resultFresh = lastResult && (now - (lastResult.endedAt || 0) <= 3 * DAY);
+    let winnerOwnerId = null;
+    if (resultFresh) {
+      try {
+        const winnerDog = this.communityDogs.find(d => d.id === lastResult.winner.id);
+        winnerOwnerId = winnerDog ? winnerDog.userId : null;
+        const wKey = `winnerEmailSent:${lastResult.seasonId}`;
+        if (winnerDog && winnerOwnerId && !(await this.room.storage.get(wKey))) {
+          const owner = await this.room.storage.get(`user:${winnerOwnerId}`);
+          if (owner && owner.email) {
+            const sent = await this.sendWinnerEmail(owner.email, winnerDog, lastResult);
+            if (sent) await this.room.storage.put(wKey, now);
+          }
+        }
+      } catch (e) {
+        console.error('[Campaign] winner email failed:', e && e.message);
+      }
+    }
+
+    for (const u of users) {
+      if (!u || !u.email || u.unsubscribed) continue;
+      // Skip fake-door interest leads — they never engaged with the show.
+      if (typeof u.tier === 'string' && u.tier.startsWith('interest_')) continue;
+      const dog = dogsByUserId.get(u.id) || null;
+      try {
+        // 0) Monthly results recap — every registered user, once per ended season.
+        // The winner's own owner is skipped here; they get the special winner
+        // email instead.
+        if (resultFresh && u.id !== winnerOwnerId) {
+          const key = `monthlyResults:${lastResult.seasonId}:${u.id}`;
+          if (!(await this.room.storage.get(key))) {
+            const sent = await this.sendMonthlyResultsEmail(u.email, lastResult, seasonLabel);
+            if (sent) await this.room.storage.put(key, now);
+          }
+        }
+        // 1) No-vote nudge — registered ≥3d ago, never spent a bone, once ever.
+        if (!u.hasVoted && (now - (u.createdAt || now)) >= 3 * DAY) {
+          const key = `noVoteNudged:${u.id}`;
+          if (!(await this.room.storage.get(key))) {
+            const sent = await this.sendNoVoteNudgeEmail(u.email, dog);
+            if (sent) await this.room.storage.put(key, now);
+          }
+        }
+        // 3a/3b) Month-end urgency — all registered users, once per season.
+        if (within24h) {
+          const key = `urgency24h:${u.id}:${seasonId}`;
+          if (!(await this.room.storage.get(key))) {
+            const ctx = dog ? this._raceCtx(dog, standings, dogsInRace, seasonLabel) : null;
+            const sent = await this.sendUrgencyEmail(u.email, dog, '24h', { hoursLeft, daysLeft, seasonLabel, ctx });
+            if (sent) await this.room.storage.put(key, now);
+          }
+        } else if (within3d) {
+          const key = `urgency3d:${u.id}:${seasonId}`;
+          if (!(await this.room.storage.get(key))) {
+            const ctx = dog ? this._raceCtx(dog, standings, dogsInRace, seasonLabel) : null;
+            const sent = await this.sendUrgencyEmail(u.email, dog, '3d', { hoursLeft, daysLeft, seasonLabel, ctx });
+            if (sent) await this.room.storage.put(key, now);
+          }
+        }
+        // 2) Weekly digest — owners only, ≥7d since last. Suppressed in the final
+        //    3 days so it never stacks with an urgency email the same day.
+        if (dog && !within3d) {
+          const key = `weeklyDigest:${u.id}`;
+          const last = (await this.room.storage.get(key)) || 0;
+          if (now - last >= 7 * DAY) {
+            const ctx = this._raceCtx(dog, standings, dogsInRace, seasonLabel);
+            const sent = await this.sendWeeklyDigestEmail(u.email, dog, ctx, daysLeft);
+            if (sent) await this.room.storage.put(key, now);
+          }
+        }
+      } catch (e) {
+        console.error('[Campaign] failed for', u.email, '-', e && e.message);
+      }
     }
   }
 
@@ -4003,6 +4482,19 @@ export default class DogShowServer {
     const shareLine = isScheduled
       ? 'Share their page so friends can RSVP and cheer them on:'
       : 'Share their page so friends can throw bones:';
+    const showUrl = `${SITE_URL}/show`;
+    // Vote-education block (2026-06-22): paid owners often enter and never come
+    // back to vote, so spell out exactly how the monthly race works and give a
+    // direct "watch & vote" CTA. Every bone is a vote toward Best in Show.
+    const voteHelp = `
+              <div style="background: #241a45; border-radius: 12px; padding: 22px 24px; border: 1px solid rgba(255,140,66,0.25); margin-bottom: 24px;">
+                <p style="font-size: 13px; color: #FF8C42; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin: 0 0 10px;">🏆 How ${dogName} wins Best in Show</p>
+                <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); margin: 0 0 8px;"><strong style="color:#e0d8f0;">Every bone is a vote.</strong> The dog with the most bones this month is crowned Best in Show. Standings reset on the 1st, so this month is wide open.</p>
+                <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); margin: 0 0 16px;">Two ways to rack up votes: <strong style="color:#e0d8f0;">tap ${dogName} on the live stage to throw your own bones</strong>, and <strong style="color:#e0d8f0;">share their page</strong> so friends and family can vote too.</p>
+                <div style="text-align: center;">
+                  <a href="${showUrl}" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px;">Watch live &amp; vote →</a>
+                </div>
+              </div>`;
     try {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -4026,6 +4518,7 @@ export default class DogShowServer {
               <div style="text-align: center; margin-bottom: 24px;">
                 <a href="${pageUrl}" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;">${ctaLabel}</a>
               </div>
+              ${voteHelp}
               <p style="text-align: center; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 4px;">${shareLine}</p>
               <p style="text-align: center; font-size: 13px; margin-top: 0; word-break: break-all;">
                 <a href="${pageUrl}" style="color: #FF8C42;">${pageUrl}</a>

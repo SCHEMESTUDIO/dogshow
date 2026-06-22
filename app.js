@@ -591,6 +591,28 @@
     myBonesPillCount.textContent = myBones;
     myBonesPill.classList.toggle('low', myBones > 0 && myBones <= 25);
     myBonesPill.classList.toggle('empty', myBones === 0);
+    var ovb = document.getElementById('ownerVoteBalance');
+    if (ovb && myBones !== null) ovb.textContent = myBones + ' bones left';
+  }
+
+  // Owner "vote for my dog anytime" bar. Revealed once /my-dog confirms the
+  // logged-in user owns a dog. Each click spends one bone as a direct vote.
+  var ownerVoteWired = false;
+  function revealOwnerVoteBar(dogName) {
+    var bar = document.getElementById('ownerVoteBar');
+    var nameEl = document.getElementById('ownerVoteDogName');
+    var btn = document.getElementById('ownerVoteBtn');
+    if (!bar || !btn) return;
+    if (nameEl && dogName) nameEl.textContent = dogName;
+    bar.hidden = false;
+    updateMyBonesDisplay();
+    if (!ownerVoteWired) {
+      ownerVoteWired = true;
+      btn.addEventListener('click', function () {
+        if (myBones === 0) { if (typeof showTopUpModal === 'function') showTopUpModal(); return; }
+        wsSend({ type: 'voteOwnDog' });
+      });
+    }
   }
 
   // ─── VIEWER COUNT ───────────────────────────────
@@ -798,6 +820,24 @@
     });
   }
 
+  // First-visit coachmark: show once that a bone is a vote. Dismiss on first
+  // bone click or after a few seconds; remember via localStorage.
+  (function () {
+    var coach = document.getElementById('boneCoach');
+    if (!coach) return;
+    var KEY = 'dogshow_vote_coached';
+    var seen = false;
+    try { seen = localStorage.getItem(KEY) === '1'; } catch (e) {}
+    if (seen) return;
+    function dismiss() {
+      coach.hidden = true;
+      try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    }
+    setTimeout(function () { coach.hidden = false; }, 1200);
+    boneBtn.addEventListener('click', dismiss);
+    setTimeout(dismiss, 11000);
+  })();
+
   // Fallback bot bones (only when offline)
   var fakeBoneInterval = setInterval(function () {
     if (wsConnected) return;
@@ -960,6 +1000,20 @@
         if (typeof showTopUpModal === 'function') {
           showTopUpModal();
         }
+      }
+
+      if (data.type === 'voteResult' && data.ok) {
+        // Owner self-vote confirmed — flash feedback, sync balance, refresh board.
+        if (typeof data.bones === 'number') { myBones = data.bones; updateMyBonesDisplay(); }
+        var flash = document.getElementById('ownerVoteFlash');
+        if (flash) {
+          flash.hidden = false;
+          flash.classList.add('show');
+          clearTimeout(window._voteFlashT);
+          window._voteFlashT = setTimeout(function () { flash.classList.remove('show'); flash.hidden = true; }, 1400);
+        }
+        addBone(true); // reuse the bone toss animation for instant feedback
+        if (typeof loadLeaderboard === 'function') loadLeaderboard();
       }
 
       if (data.type === 'viewers') {
@@ -1147,103 +1201,72 @@
     breedFactEl.style.animation = '';
   }
 
-  // ─── LIVE RACE BAR (under the stage, 2026-06-11) ───────────────
-  // Arcade-style scoreboard: server weekly standings + a live local delta for
-  // the dog currently on stage, so every bone visibly moves the race without
-  // waiting for the server to commit stats at rotation end.
+  // ─── DOG OF THE MONTH MARQUEE (under the stage, 2026-06-22 redesign) ──────
+  // A steady horizontal marquee of the REAL dogs competing this month. It is
+  // rebuilt only when leaderboard data refreshes (every 2 min) so it never
+  // flickers / "loses" a dog mid-rotation. The whole bar is one entry link;
+  // chips themselves are not links so the click target stays unambiguous.
 
   var raceBarEl = document.getElementById('raceBar');
   var raceBarChipsEl = document.getElementById('raceBarChips');
   var raceBarLabelEl = document.getElementById('raceBarLabel');
-  var raceStandings = [];     // [{id, dogName, seasonBones}] — server truth (refreshed every 2 min)
-  var racePendingId = null;   // community dog currently on stage
-  var racePendingName = '';
-  var racePendingBones = 0;   // bones landed during this appearance (all viewers)
+  var raceStandings = [];     // [{id, dogName, seasonBones, imageUrl}] from /leaderboard
+  var raceCurrentId = null;   // dog currently on stage (for a subtle highlight only)
 
+  var ownerVoteCueEl = document.getElementById('ownerVoteCue');
+
+  // Kept for back-compat with existing callers; no longer drives a live ticker.
   function raceSetDog(id, name) {
-    // Fold the finished appearance's bones into the local cache so the bar
-    // doesn't jump backwards before the next server refresh.
-    if (racePendingId && racePendingBones > 0) {
-      var prev = null;
-      for (var i = 0; i < raceStandings.length; i++) {
-        if (raceStandings[i].id === racePendingId) prev = raceStandings[i];
-      }
-      if (prev) prev.seasonBones += racePendingBones;
-      else raceStandings.push({ id: racePendingId, dogName: racePendingName, seasonBones: racePendingBones });
+    raceCurrentId = id || null;
+    highlightRaceChip();
+    // Owner-on-stage cue: when the logged-in owner's own dog is up, prompt them
+    // to vote — this is the moment that closes the submit→vote gap.
+    if (ownerVoteCueEl) {
+      ownerVoteCueEl.hidden = !(window.myDogId && id && id === window.myDogId);
     }
-    racePendingId = id || null;
-    racePendingName = name || 'A Good Dog';
-    racePendingBones = 0;
-    renderRaceBar(false);
+  }
+  function raceNoteBone() { /* marquee is stable; live bumps no longer redraw it */ }
+
+  function highlightRaceChip() {
+    if (!raceBarChipsEl) return;
+    var chips = raceBarChipsEl.querySelectorAll('.race-chip');
+    for (var i = 0; i < chips.length; i++) {
+      chips[i].classList.toggle('current', chips[i].getAttribute('data-id') === raceCurrentId);
+    }
   }
 
-  function raceNoteBone() {
-    if (!racePendingId) return;
-    racePendingBones++;
-    renderRaceBar(true);
+  function buildRaceChip(d, rank) {
+    var chip = document.createElement('span');
+    chip.className = 'race-chip';
+    if (d.id) chip.setAttribute('data-id', d.id);
+    var thumb = d.imageUrl
+      ? '<img class="race-thumb" src="' + d.imageUrl + '" alt="">'
+      : '<span class="race-thumb race-thumb--empty">🐾</span>';
+    chip.innerHTML =
+      thumb +
+      '<span class="race-rank">#' + rank + '</span>' +
+      '<span class="race-name">' + (d.dogName || 'A Good Dog') + '</span>' +
+      '<span class="race-bones">🦴 ' + (d.seasonBones || 0) + '</span>';
+    return chip;
   }
 
-  function renderRaceBar(bump) {
+  function renderRaceBar() {
     if (!raceBarEl || !raceBarChipsEl) return;
-    var merged = raceStandings.map(function (d) {
-      return { id: d.id, dogName: d.dogName, seasonBones: d.seasonBones };
-    });
-    if (racePendingId) {
-      var cur = null;
-      for (var i = 0; i < merged.length; i++) {
-        if (merged[i].id === racePendingId) cur = merged[i];
-      }
-      if (cur) cur.seasonBones += racePendingBones;
-      else merged.push({ id: racePendingId, dogName: racePendingName, seasonBones: racePendingBones });
-    }
-    merged.sort(function (a, b) { return b.seasonBones - a.seasonBones; });
-    merged = merged.filter(function (d) { return d.seasonBones > 0 || d.id === racePendingId; });
-
-    var curIdx = -1;
-    for (var j = 0; j < merged.length; j++) {
-      if (merged[j].id === racePendingId) curIdx = j;
-    }
-    var shown = merged.slice(0, 3);
-    if (curIdx >= 3) shown.push(merged[curIdx]);
+    var field = raceStandings.slice(0, 12);
+    if (field.length === 0) { raceBarEl.hidden = true; return; }
 
     raceBarChipsEl.innerHTML = '';
-    shown.forEach(function (d) {
-      var rank = merged.indexOf(d) + 1;
-      var isCur = d.id === racePendingId;
-      var chip = document.createElement('span');
-      chip.className = 'race-chip' + (isCur ? ' current' : '');
-      var rk = document.createElement('span');
-      rk.className = 'race-rank';
-      rk.textContent = '#' + rank;
-      var nm = document.createElement('span');
-      nm.className = 'race-name';
-      nm.textContent = d.dogName;
-      var bn = document.createElement('span');
-      bn.className = 'race-bones';
-      bn.textContent = '🦴 ' + d.seasonBones;
-      chip.appendChild(rk); chip.appendChild(nm); chip.appendChild(bn);
-      raceBarChipsEl.appendChild(chip);
-      if (bump && isCur) {
-        chip.classList.add('bump');
-        setTimeout(function () { chip.classList.remove('bump'); }, 450);
-      }
-    });
-
-    // Empty lanes sell entry — never leave dead space in the race.
-    for (var p = shown.length; p < 3; p++) {
-      var ph = document.createElement('a');
-      ph.className = 'race-chip placeholder';
-      ph.href = '/?openModal=premium';
-      var prk = document.createElement('span');
-      prk.className = 'race-rank';
-      prk.textContent = '#' + (p + 1);
-      var ptx = document.createElement('span');
-      ptx.className = 'race-name';
-      ptx.textContent = 'Your dog here →';
-      ph.appendChild(prk); ph.appendChild(ptx);
-      raceBarChipsEl.appendChild(ph);
+    // Exactly two identical copies → the CSS translateX(-50%) loop is seamless
+    // regardless of field width.
+    for (var c = 0; c < 2; c++) {
+      field.forEach(function (d, i) {
+        raceBarChipsEl.appendChild(buildRaceChip(d, i + 1));
+      });
     }
+    // Pause the scroll when too few dogs to bother animating.
+    raceBarChipsEl.style.animationPlayState = field.length < 3 ? 'paused' : 'running';
     raceBarEl.hidden = false;
+    highlightRaceChip();
   }
 
   // ─── LEADERBOARD ───────────────────────────────
@@ -1253,8 +1276,19 @@
   var leaderboardRecentEl = document.getElementById('leaderboardRecent');
   var weeklyRaceSection = document.getElementById('weeklyRaceSection');
   var weeklyRaceLabel = document.getElementById('weeklyRaceLabel');
+  var weeklyRaceCountdownEl = document.getElementById('weeklyRaceCountdown');
   var leaderboardWeeklyEl = document.getElementById('leaderboardWeekly');
   var reigningChampionEl = document.getElementById('reigningChampion');
+
+  // Days left in the current month (US Eastern is close enough for a copy cue).
+  function monthCountdownText() {
+    var now = new Date();
+    var end = new Date(now.getFullYear(), now.getMonth() + 1, 0); // last day of month
+    var days = Math.max(0, Math.ceil((end - now) / 86400000));
+    if (days <= 0) return 'Final hours of the month';
+    if (days === 1) return '1 day left this month';
+    return days + ' days left this month';
+  }
 
   function loadLeaderboard() {
     fetch(API_BASE + '/leaderboard')
@@ -1262,81 +1296,78 @@
       .then(function (data) {
         if (!data.ok) return;
 
-        // ── Live race bar: refresh server truth (current dog's in-flight
-        // bones keep being layered on top via racePending*) ──
-        raceStandings = (data.weeklyTopDogs || []).map(function (d) {
-          return { id: d.id, dogName: d.dogName, seasonBones: d.seasonBones || 0 };
+        // ── Dog of the Month marquee: real dogs competing this month. Falls
+        // back to the all-time / newest field so it always shows real dogs even
+        // before the populated monthly board ships from the server. ──
+        var raceField = data.weeklyTopDogs || [];
+        if (raceField.length === 0) {
+          var seen = {};
+          raceField = [].concat(data.topDogs || [], data.recentDogs || [])
+            .filter(function (d) { if (!d || seen[d.id]) return false; seen[d.id] = 1; return true; })
+            .slice(0, 12)
+            .map(function (d) { return { id: d.id, dogName: d.dogName, imageUrl: d.imageUrl, seasonBones: 0 }; });
+        }
+        raceStandings = raceField.map(function (d) {
+          return { id: d.id, dogName: d.dogName, seasonBones: d.seasonBones || 0, imageUrl: d.imageUrl };
         });
         if (raceBarLabelEl && data.seasonLabel) {
-          raceBarLabelEl.textContent = 'Best in Show race — ' + data.seasonLabel;
+          raceBarLabelEl.textContent = 'Dog of the Month — ' + data.seasonLabel.replace(/^Month of /, '');
         }
-        renderRaceBar(false);
+        renderRaceBar();
 
-        // ── Weekly Best in Show race (real dogs only — no seeds) ──
+        // ── Dog of the Month race ──
+        // Every dog in the show competes; counts are true month-to-date votes
+        // (0 until someone votes), resetting on the 1st. If the server hasn't
+        // shipped the populated board yet (weeklyTopDogs empty), fall back to the
+        // all-time field shown honestly at 0 votes this month so it's never blank.
         if (weeklyRaceSection && leaderboardWeeklyEl) {
+          var monthLabel = data.seasonLabel || "This Month";
+          if (weeklyRaceLabel) {
+            weeklyRaceLabel.textContent = 'Dog of the Month — ' + monthLabel.replace(/^Month of /, '');
+          }
+          if (weeklyRaceCountdownEl) {
+            weeklyRaceCountdownEl.textContent = monthCountdownText() + ' · every bone is a vote · resets on the 1st';
+          }
           var weekly = data.weeklyTopDogs || [];
-          if (weeklyRaceLabel && data.seasonLabel) {
-            weeklyRaceLabel.textContent = 'Best in Show Race — ' + data.seasonLabel;
+          if (weekly.length === 0) {
+            // Bridge: assemble the field from the all-time list at honest 0 votes.
+            weekly = (data.topDogs || []).slice(0, 10).map(function (d) {
+              return { id: d.id, slug: d.slug, dogName: d.dogName, breed: d.breed,
+                       username: d.username, imageUrl: d.imageUrl, seasonBones: 0 };
+            });
           }
           leaderboardWeeklyEl.innerHTML = '';
-          if (weekly.length > 0) {
-            weekly.slice(0, 5).forEach(function (dog, i) {
-              var href = dog.slug ? '/d/' + dog.slug : (dog.id ? 'dog.html?id=' + dog.id : '#');
-              var entry = document.createElement('a');
-              entry.className = 'leaderboard-entry';
-              entry.href = href;
-              if (href !== '#') entry.target = '_blank';
-              var thumbHtml = dog.imageUrl
-                ? '<img class="leaderboard-thumb" src="' + dog.imageUrl + '" alt="' + dog.dogName + '">'
-                : '<div class="leaderboard-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🐕</div>';
-              entry.innerHTML =
-                thumbHtml +
-                '<span class="leaderboard-rank">' + (i + 1) + '</span>' +
-                '<div class="leaderboard-info">' +
-                  '<div class="leaderboard-name">' + dog.dogName + '</div>' +
-                  '<div class="leaderboard-meta">' + dog.breed + ' &middot; by ' + dog.username + '</div>' +
-                '</div>' +
-                '<span class="leaderboard-bones">🦴 ' + (dog.seasonBones || 0) + '</span>';
-              leaderboardWeeklyEl.appendChild(entry);
-            });
-            // Thin field? Fill to 3 lanes with an entry nudge.
-            for (var fill = weekly.length; fill < 3; fill++) {
-              var fillSlot = document.createElement('a');
-              fillSlot.className = 'leaderboard-entry';
-              fillSlot.href = '/?openModal=premium';
-              fillSlot.style.cssText = 'border:1px dashed rgba(255,140,66,0.35);opacity:0.85;';
-              fillSlot.innerHTML =
-                '<div class="leaderboard-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;border:1px dashed rgba(255,255,255,0.15);">🐾</div>' +
-                '<span class="leaderboard-rank">' + (fill + 1) + '</span>' +
-                '<div class="leaderboard-info">' +
-                  '<div class="leaderboard-name" style="color:var(--accent);">This could be your dog</div>' +
-                  '<div class="leaderboard-meta">Enter now — the race resets on the 1st</div>' +
-                '</div>' +
-                '<span class="leaderboard-bones">🦴 ?</span>';
-              leaderboardWeeklyEl.appendChild(fillSlot);
-            }
-          } else {
-            // No dogs racing yet — sell the empty lanes instead of dead space.
-            var openLine = document.createElement('div');
-            openLine.style.cssText = 'font-size:13px;color:var(--text-faint);padding:2px 0 8px;';
-            openLine.textContent = 'The field is wide open this month — the first bone takes the lead. 🦴';
-            leaderboardWeeklyEl.appendChild(openLine);
-            for (var ph = 0; ph < 3; ph++) {
-              var slot = document.createElement('a');
-              slot.className = 'leaderboard-entry';
-              slot.href = '/?openModal=premium';
-              slot.style.cssText = 'border:1px dashed rgba(255,140,66,0.35);opacity:0.85;';
-              slot.innerHTML =
-                '<div class="leaderboard-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;border:1px dashed rgba(255,255,255,0.15);">🐾</div>' +
-                '<span class="leaderboard-rank">' + (ph + 1) + '</span>' +
-                '<div class="leaderboard-info">' +
-                  '<div class="leaderboard-name" style="color:var(--accent);">This could be your dog</div>' +
-                  '<div class="leaderboard-meta">Enter now — win Best in Show this month</div>' +
-                '</div>' +
-                '<span class="leaderboard-bones">🦴 ?</span>';
-              leaderboardWeeklyEl.appendChild(slot);
-            }
-          }
+          weekly.slice(0, 10).forEach(function (dog, i) {
+            var href = dog.slug ? '/d/' + dog.slug : (dog.id ? 'dog.html?id=' + dog.id : '#');
+            var entry = document.createElement('a');
+            entry.className = 'leaderboard-entry';
+            entry.href = href;
+            if (href !== '#') entry.target = '_blank';
+            var thumbHtml = dog.imageUrl
+              ? '<img class="leaderboard-thumb" src="' + dog.imageUrl + '" alt="' + dog.dogName + '">'
+              : '<div class="leaderboard-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🐕</div>';
+            entry.innerHTML =
+              thumbHtml +
+              '<span class="leaderboard-rank">' + (i + 1) + '</span>' +
+              '<div class="leaderboard-info">' +
+                '<div class="leaderboard-name">' + dog.dogName + '</div>' +
+                '<div class="leaderboard-meta">' + dog.breed + ' &middot; by ' + dog.username + '</div>' +
+              '</div>' +
+              '<span class="leaderboard-bones">🦴 ' + (dog.seasonBones || 0) + '</span>';
+            leaderboardWeeklyEl.appendChild(entry);
+          });
+          // One entry CTA at the foot of the board — drive the submit action.
+          var enterSlot = document.createElement('a');
+          enterSlot.className = 'leaderboard-entry leaderboard-entry--cta';
+          enterSlot.href = '/?openModal=premium';
+          enterSlot.innerHTML =
+            '<div class="leaderboard-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;border:1px dashed rgba(255,140,66,0.35);">🐾</div>' +
+            '<span class="leaderboard-rank" style="color:var(--accent);">＋</span>' +
+            '<div class="leaderboard-info">' +
+              '<div class="leaderboard-name" style="color:var(--accent);">Enter your dog →</div>' +
+              '<div class="leaderboard-meta">Climb the board before the month ends</div>' +
+            '</div>';
+          leaderboardWeeklyEl.appendChild(enterSlot);
           if (reigningChampionEl && data.reigningChampion && data.reigningChampion.dogName) {
             var ch = data.reigningChampion;
             reigningChampionEl.innerHTML = '👑 Reigning champion: <strong style="color:var(--accent);">' +
@@ -1350,7 +1381,7 @@
         if (data.topDogs && data.topDogs.length > 0) {
           leaderboardEl.hidden = false;
           leaderboardTopEl.innerHTML = '';
-          data.topDogs.forEach(function (dog, i) {
+          data.topDogs.slice(0, 5).forEach(function (dog, i) {
             var href = dog.slug ? '/d/' + dog.slug : (dog.id ? 'dog.html?id=' + dog.id : '#');
             var entry = document.createElement('a');
             entry.className = 'leaderboard-entry';
@@ -1373,7 +1404,7 @@
 
         if (data.recentDogs && data.recentDogs.length > 0) {
           leaderboardRecentEl.innerHTML = '';
-          data.recentDogs.forEach(function (dog) {
+          data.recentDogs.slice(0, 5).forEach(function (dog) {
             var href = dog.slug ? '/d/' + dog.slug : (dog.id ? 'dog.html?id=' + dog.id : '#');
             var entry = document.createElement('a');
             entry.className = 'leaderboard-entry';
@@ -1629,6 +1660,8 @@
         if (data && data.ok && data.dog) {
           // Already has a dog — show the certificate link and drop any
           // leftover pending photo so it can't be re-submitted.
+          window.myDogId = data.dog.id;  // power the owner-on-stage vote cue
+          revealOwnerVoteBar(data.dog.dogName);
           clearPendingDog();
           showDogCertificate(data.dog.slug, data.dog.id, false);
           return;

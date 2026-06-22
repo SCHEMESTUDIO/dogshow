@@ -88,6 +88,10 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .cert-owner strong{color:var(--accent);}
 .cert-titles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:24px;}
 .cert-title-badge{background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);color:var(--gold);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;}
+.cert-trophies{background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.32);border-radius:12px;padding:16px 18px;margin:0 0 24px;text-align:center;}
+.cert-trophies-label{font-size:13px;font-weight:700;color:var(--gold);letter-spacing:0.5px;margin-bottom:12px;}
+.cert-trophies-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.cert-trophy{background:rgba(255,215,0,0.16);border:1px solid rgba(255,215,0,0.5);color:var(--gold);padding:7px 14px;border-radius:20px;font-size:13px;font-weight:700;white-space:nowrap;}
 .cert-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
 .cert-stat{background:var(--bg-card);border-radius:10px;padding:16px 12px;border:1px solid rgba(255,255,255,0.06);}
 .cert-stat-value{font-size:26px;font-weight:700;color:var(--accent);line-height:1;margin-bottom:4px;}
@@ -449,11 +453,26 @@ module.exports = async function handler(req, res) {
 <script type="application/ld+json">${JSON.stringify(schema)}</script>`;
 
   // Permanent weekly crowns render ahead of the derived badges.
-  const honorBadges = (honors || [])
-    .map(h => `<span class="cert-title-badge" style="background:rgba(255,215,0,0.22);border-color:rgba(255,215,0,0.55);">🏆 ${esc(h.title)} — ${esc(h.seasonLabel || '')}</span>`)
-    .join('');
-  const titlesHtml = honorBadges + titlesFor(stats, breed)
+  // Derived (earned-by-stats) badges only. Permanent Best in Show wins render in
+  // their own trophy case below (see winsHtml).
+  const titlesHtml = titlesFor(stats, breed)
     .map(t => `<span class="cert-title-badge">${esc(t)}</span>`).join('');
+
+  // Trophy case — one gold badge per Best in Show win, stamped Month YYYY so a
+  // dog that wins across multiple months/years builds up a visible cabinet.
+  const monthYearFromSeason = (sid) => {
+    const [y, m] = String(sid || '').split('-').map(Number);
+    if (!y || !m) return '';
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+      'August', 'September', 'October', 'November', 'December'];
+    return `${months[m - 1]} ${y}`;
+  };
+  const winsHtml = (honors && honors.length)
+    ? `<div class="cert-trophies">
+<div class="cert-trophies-label">🏆 Best in Show ${honors.length > 1 ? '· ' + honors.length + '× champion' : 'champion'}</div>
+<div class="cert-trophies-row">${[...honors].reverse().map(h => `<span class="cert-trophy">🏆 ${esc(monthYearFromSeason(h.seasonId) || h.seasonLabel || '')}</span>`).join('')}</div>
+</div>`
+    : '';
 
   // This month's Best in Show race banner (server-rendered, SEO-safe).
   let raceHtml = '';
@@ -472,6 +491,21 @@ module.exports = async function handler(req, res) {
 <div style="font-size:13px;color:rgba(255,255,255,0.55);">🏆 No bones yet in this month's Best in Show race${season.dogsInRace ? ` — ${season.dogsInRace} dog${season.dogsInRace !== 1 ? 's are' : ' is'} already racing` : ' — the field is wide open'}. <a href="${SITE}/show.html" style="color:#FF8C42;">Watch live &amp; throw the first bone &rarr;</a></div>
 </div>`;
   }
+
+  // Direct fan-voting panel (2026-06-22) — a friend who opens this shared page
+  // can vote for this dog without hunting for it in the live rotation. Logged-out
+  // visitors register inline (free, 250 bones) and the vote fires immediately.
+  const seasonVotes = season && typeof season.seasonBones === 'number' ? season.seasonBones : 0;
+  const votePanelHtml = `<div style="background:rgba(123,104,238,0.1);border:1px solid rgba(123,104,238,0.34);border-radius:12px;padding:18px 20px;margin:0 0 24px;text-align:center;">
+<div style="font-size:13px;color:rgba(255,255,255,0.62);margin-bottom:8px;">🦴 <span id="voteCount">${seasonVotes}</span> vote${seasonVotes === 1 ? '' : 's'} this month</div>
+<button id="voteBtn" type="button" class="cert-cta-btn" style="margin:0;">🦴 Vote for ${esc(name)}</button>
+<div id="voteMsg" style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:8px;">Every bone is a vote toward Best in Show. Standings reset on the 1st.</div>
+<div id="voteRegister" hidden style="margin-top:12px;display:flex;flex-direction:column;gap:8px;max-width:300px;margin-left:auto;margin-right:auto;">
+<input id="voteEmail" type="email" placeholder="Your email" style="padding:11px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.06);color:#fff;font-size:14px;">
+<button id="voteRegisterBtn" type="button" class="cert-cta-btn" style="margin:0;">Cast your vote</button>
+<div style="font-size:11px;color:rgba(255,255,255,0.38);">Free — gives you 250 bones to vote with.</div>
+</div>
+</div>`;
 
   const statsHtml = [
     [`🦴 ${bones}`, 'Bones Received'],
@@ -523,7 +557,9 @@ module.exports = async function handler(req, res) {
 <h1 class="cert-dog-name">${esc(name)}</h1>
 <div class="cert-owner">submitted by <strong>${esc(owner)}</strong></div>
 <div class="cert-titles">${titlesHtml}</div>
+${winsHtml}
 ${raceHtml}
+${votePanelHtml}
 <div class="cert-stats">${statsHtml}</div>
 <div class="cert-date">${esc(dateLine)}</div>
 <div class="share">
@@ -554,7 +590,63 @@ ${breedBlock}
 <p style="text-align:center;"><a href="/dog-photo-contest">Enter your dog in the Dog Photo Contest &rarr;</a></p>
 <h3>About The Dog Show</h3>
 <p>The Dog Show is a live, online dog-viewing experience where viewers watch dogs appear one at a time in a shared, real-time slideshow. Premium members upload their own dogs to appear in the show, earning bones from the community. Each dog gets a permanent certificate page documenting their moment in the spotlight.</p>
-</div>`;
+</div>
+<script>
+(function(){
+  var partyBase = ${JSON.stringify('https://dogshow.schemestudio.partykit.dev/party/dogshow-live')};
+  var dogId = ${JSON.stringify(dog.id)};
+  var btn = document.getElementById('voteBtn');
+  var countEl = document.getElementById('voteCount');
+  var msg = document.getElementById('voteMsg');
+  var reg = document.getElementById('voteRegister');
+  var regBtn = document.getElementById('voteRegisterBtn');
+  var emailInput = document.getElementById('voteEmail');
+  function token(){ try { return localStorage.getItem('dogshow_token'); } catch(e){ return null; } }
+  function castVote(){
+    var t = token();
+    if (!t) { if (reg) reg.hidden = false; if (msg) msg.textContent = 'Add your email to cast a vote — it\\u2019s free.'; return; }
+    if (btn) btn.disabled = true;
+    fetch(partyBase + '/vote', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ token:t, dogId:dogId }) })
+      .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, body:j}; }); })
+      .then(function(res){
+        if (btn) btn.disabled = false;
+        var b = res.body || {};
+        if (res.ok && b.ok) {
+          if (countEl && typeof b.seasonBones === 'number') countEl.textContent = b.seasonBones;
+          if (msg) msg.textContent = '\\u2713 Vote counted!' + (typeof b.bones === 'number' ? ' ' + b.bones + ' bones left.' : '');
+        } else if (b.reason === 'no_bones') {
+          if (msg) msg.textContent = "You're out of bones — top up on the show page to keep voting.";
+        } else if (b.reason === 'not_registered') {
+          if (reg) reg.hidden = false; if (msg) msg.textContent = 'Add your email to cast a vote — it\\u2019s free.';
+        } else {
+          if (msg) msg.textContent = 'Could not record your vote. Please try again.';
+        }
+      })
+      .catch(function(){ if (btn) btn.disabled = false; if (msg) msg.textContent = 'Network error. Try again.'; });
+  }
+  function register(){
+    var email = (emailInput && emailInput.value || '').trim();
+    if (!email || email.indexOf('@') === -1) { if (msg) msg.textContent = 'That email doesn\\u2019t look right.'; return; }
+    if (regBtn) { regBtn.disabled = true; regBtn.textContent = 'Voting\\u2026'; }
+    fetch(partyBase + '/register', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email:email }) })
+      .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, body:j}; }); })
+      .then(function(res){
+        if (regBtn) { regBtn.disabled = false; regBtn.textContent = 'Cast your vote'; }
+        var b = res.body || {};
+        if (res.ok && b.token) {
+          try { if (!localStorage.getItem('dogshow_token')) { localStorage.setItem('dogshow_token', b.token); localStorage.setItem('dogshow_email', email); } } catch(e){}
+          if (reg) reg.hidden = true;
+          castVote();
+        } else {
+          if (msg) msg.textContent = (b.error) || 'Could not register. Please try again.';
+        }
+      })
+      .catch(function(){ if (regBtn) { regBtn.disabled = false; regBtn.textContent = 'Cast your vote'; } if (msg) msg.textContent = 'Network error. Try again.'; });
+  }
+  if (btn) btn.addEventListener('click', castVote);
+  if (regBtn) regBtn.addEventListener('click', register);
+})();
+</script>`;
 
   res.status(200);
   res.setHeader('Content-Type', 'text/html; charset=utf-8');

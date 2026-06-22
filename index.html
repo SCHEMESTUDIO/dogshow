@@ -251,6 +251,28 @@
     .lp-hero-race-row .race-bones { color: #9d90c8; font-size: 13px; }
     .lp-hero-race-open { font-size: 13px; color: #9b8cc0; text-align: center; }
 
+    /* Dog of the Month urgency band — high-signal reason to enter. */
+    .lp-month-banner {
+      display: flex; align-items: center; justify-content: center; gap: 20px;
+      flex-wrap: wrap;
+      max-width: 880px; margin: 0 auto; padding: 18px 24px;
+      background: linear-gradient(90deg, rgba(255,140,66,0.14), rgba(123,104,238,0.14));
+      border-top: 1px solid rgba(255,140,66,0.25);
+      border-bottom: 1px solid rgba(255,140,66,0.25);
+    }
+    .lp-month-banner-main { display: flex; align-items: center; gap: 14px; text-align: left; }
+    .lp-month-banner-icon { font-size: 32px; flex-shrink: 0; }
+    .lp-month-banner-text { display: flex; flex-direction: column; gap: 3px; }
+    .lp-month-banner-text strong { font-size: 18px; color: #FF8C42; }
+    .lp-month-banner-text span { font-size: 13px; color: #c8bce8; max-width: 460px; }
+    .lp-month-banner-cta { flex-shrink: 0; white-space: nowrap; }
+    @media (max-width: 600px) {
+      .lp-month-banner { flex-direction: column; gap: 14px; padding: 18px 20px; text-align: center; }
+      .lp-month-banner-main { flex-direction: column; text-align: center; gap: 8px; }
+      .lp-month-banner-text strong { font-size: 17px; }
+      .lp-month-banner-cta { width: 100%; max-width: 320px; }
+    }
+
     /* Live stats card (mirrors the SEO landing pages) + promo video */
     .lp-stats {
       display: flex; justify-content: center; gap: 48px; padding: 36px 24px;
@@ -1502,10 +1524,23 @@
          Hidden until the fetch succeeds; shows an open-field line when nobody
          has bones yet. Real dogs only — never seed/sample dogs here. -->
     <div class="lp-hero-race" id="heroRace" style="display: none;">
-      <div class="lp-hero-race-label" id="heroRaceLabel">This month's race</div>
+      <div class="lp-hero-race-label" id="heroRaceLabel">🏆 Dog of the Month</div>
       <div class="lp-hero-race-rows" id="heroRaceRows"></div>
     </div>
   </section>
+
+  <!-- Dog of the Month urgency band — the headline reason to enter. Countdown +
+       reset framing populated by JS (monthBanner*). -->
+  <div class="lp-month-banner" id="monthBanner">
+    <div class="lp-month-banner-main">
+      <span class="lp-month-banner-icon">🏆</span>
+      <div class="lp-month-banner-text">
+        <strong id="monthBannerTitle">June's Best in Show is up for grabs</strong>
+        <span id="monthBannerSub">Every bone fans throw is a vote. The most-voted dog this month wins — then it all resets on the 1st.</span>
+      </div>
+    </div>
+    <button class="lp-btn lp-btn-primary lp-month-banner-cta" id="monthBannerCta">Enter Your Dog &rarr;</button>
+  </div>
 
   <!-- Live stats card -->
   <div class="lp-stats" id="liveStats">
@@ -1704,7 +1739,14 @@
           .then(function (data) {
             if (!data || !data.ok) return;
             var weekly = data.weeklyTopDogs || [];
-            if (label && data.seasonLabel) label.textContent = 'Best in Show race — ' + data.seasonLabel;
+            if (weekly.length === 0) {
+              // Bridge: show the real field at honest 0 votes this month.
+              weekly = (data.topDogs || []).slice(0, 3).map(function (d) {
+                return { dogName: d.dogName, breed: d.breed, seasonBones: 0 };
+              });
+            }
+            var monthName = (data.seasonLabel || 'This Month').replace(/^Month of /, '');
+            if (label) label.textContent = '🏆 Dog of the Month — ' + monthName;
             if (weekly.length === 0) {
               rows.innerHTML = '<div class="lp-hero-race-open">The field is wide open this month &mdash; the first bone takes the lead. 🦴</div>';
             } else {
@@ -2510,6 +2552,20 @@
     var pendingDogTier = 'premium';
     document.getElementById('heroCta').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
     document.getElementById('heroFree').addEventListener('click', function() { playCurtainAndGo('free'); });
+    // Dog of the Month band — CTA + live countdown to month end.
+    (function () {
+      var cta = document.getElementById('monthBannerCta');
+      if (cta) cta.addEventListener('click', function () { pendingDogTier = 'premium'; startDogEntry(); });
+      var titleEl = document.getElementById('monthBannerTitle');
+      var now = new Date();
+      var monthName = now.toLocaleString('en-US', { month: 'long' });
+      var end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+      var days = Math.max(0, Math.ceil((end - now) / 86400000));
+      if (titleEl) {
+        var left = days <= 0 ? 'Final hours' : (days === 1 ? '1 day left' : days + ' days left');
+        titleEl.textContent = left + ' to win ' + monthName + "'s Best in Show";
+      }
+    })();
     document.getElementById('previewCta').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
     document.getElementById('certCta').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
     document.getElementById('planFree').addEventListener('click', function() { playCurtainAndGo('free'); });
