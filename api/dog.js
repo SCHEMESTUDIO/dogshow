@@ -500,7 +500,7 @@ module.exports = async function handler(req, res) {
 <div style="font-size:13px;color:rgba(255,255,255,0.62);margin-bottom:8px;">🦴 <span id="voteCount">${seasonVotes}</span> vote${seasonVotes === 1 ? '' : 's'} this month</div>
 <button id="voteBtn" type="button" class="cert-cta-btn" style="margin:0;">🦴 Vote for ${esc(name)}</button>
 <div id="voteMsg" style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:8px;">Every bone is a vote toward Best in Show. Standings reset on the 1st.</div>
-<div id="voteRegister" hidden style="margin-top:12px;display:flex;flex-direction:column;gap:8px;max-width:300px;margin-left:auto;margin-right:auto;">
+<div id="voteRegister" style="display:none;margin-top:12px;flex-direction:column;gap:8px;max-width:300px;margin-left:auto;margin-right:auto;">
 <input id="voteEmail" type="email" placeholder="Your email" style="padding:11px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.06);color:#fff;font-size:14px;">
 <button id="voteRegisterBtn" type="button" class="cert-cta-btn" style="margin:0;">Cast your vote</button>
 <div style="font-size:11px;color:rgba(255,255,255,0.38);">Free — gives you 250 bones to vote with.</div>
@@ -604,7 +604,7 @@ ${breedBlock}
   function token(){ try { return localStorage.getItem('dogshow_token'); } catch(e){ return null; } }
   function castVote(){
     var t = token();
-    if (!t) { if (reg) reg.hidden = false; if (msg) msg.textContent = 'Add your email to cast a vote — it\\u2019s free.'; return; }
+    if (!t) { if (reg) reg.style.display = 'flex'; if (msg) msg.textContent = 'Add your email to cast a vote — it\\u2019s free.'; return; }
     if (btn) btn.disabled = true;
     fetch(partyBase + '/vote', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ token:t, dogId:dogId }) })
       .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, body:j}; }); })
@@ -617,7 +617,7 @@ ${breedBlock}
         } else if (b.reason === 'no_bones') {
           if (msg) msg.textContent = "You're out of bones — top up on the show page to keep voting.";
         } else if (b.reason === 'not_registered') {
-          if (reg) reg.hidden = false; if (msg) msg.textContent = 'Add your email to cast a vote — it\\u2019s free.';
+          if (reg) reg.style.display = 'flex'; if (msg) msg.textContent = 'Add your email to cast a vote — it\\u2019s free.';
         } else {
           if (msg) msg.textContent = 'Could not record your vote. Please try again.';
         }
@@ -635,7 +635,7 @@ ${breedBlock}
         var b = res.body || {};
         if (res.ok && b.token) {
           try { if (!localStorage.getItem('dogshow_token')) { localStorage.setItem('dogshow_token', b.token); localStorage.setItem('dogshow_email', email); } } catch(e){}
-          if (reg) reg.hidden = true;
+          if (reg) reg.style.display = 'none';
           castVote();
         } else {
           if (msg) msg.textContent = (b.error) || 'Could not register. Please try again.';

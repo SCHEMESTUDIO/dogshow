@@ -1047,15 +1047,25 @@ export default class DogShowServer {
   }
 
   async recordCommunityDogStats(dogId) {
+    // ⚠️ CRITICAL: capture all volatile rotation state BEFORE the first await.
+    // advanceDog() calls this WITHOUT awaiting it, then synchronously resets
+    // this.boneCount = 0 and reassigns this.currentDog to the NEXT dog. The
+    // `await this.ensureSeason()` below yields the event loop, so anything read
+    // after it would see boneCount = 0 and the next dog's _appearedAt. Reading
+    // boneCount after the await is exactly why on-stage votes stopped registering
+    // when the monthly season system landed (2026-06-11). Fixed 2026-06-22.
+    const bones = this.boneCount;
+    const appearedAt = (this.currentDog && this.currentDog._appearedAt) || Date.now();
+    const viewers = [...this.room.getConnections()].length + this.activeBots.length;
+
     const idx = this.communityDogs.findIndex(d => d.id === dogId);
     if (idx === -1) return;
 
-    // Roll the week over first so this appearance's bones land in the right race.
+    // Roll the month over first so this appearance's bones land in the right race.
     try { await this.ensureSeason(); } catch (e) { console.error('[Season]', e && e.message); }
 
     const dog = this.communityDogs[idx];
-    const viewers = [...this.room.getConnections()].length + this.activeBots.length;
-    const screenTime = Date.now() - (this.currentDog._appearedAt || Date.now());
+    const screenTime = Date.now() - appearedAt;
 
     dog.stats = dog.stats || {
       totalAppearances: 0, totalBones: 0, totalViewers: 0,
@@ -1063,14 +1073,14 @@ export default class DogShowServer {
     };
 
     dog.stats.totalAppearances++;
-    dog.stats.totalBones += this.boneCount;
-    dog.stats.seasonBones = (dog.stats.seasonBones || 0) + this.boneCount; // this week's race
+    dog.stats.totalBones += bones;
+    dog.stats.seasonBones = (dog.stats.seasonBones || 0) + bones; // this month's race
     dog.stats.totalViewers += viewers;
     dog.stats.totalScreenTime += screenTime;
     dog.stats.peakViewers = Math.max(dog.stats.peakViewers, viewers);
     dog.stats.lastAppearance = Date.now();
     if (!dog.stats.firstAppearance) {
-      dog.stats.firstAppearance = this.currentDog._appearedAt || Date.now();
+      dog.stats.firstAppearance = appearedAt;
     }
 
     this.communityDogs[idx] = dog;
