@@ -510,10 +510,11 @@
   // the bones-pack tier, by design).
   function startBonesPackCheckout() {
     var email = localStorage.getItem('dogshow_email');
-    if (!email) {
-      // No stored email — should not happen for an authenticated user since
-      // /register persists it now, but be defensive: bounce to landing page
-      // where the user can re-enter the funnel.
+    var token = localStorage.getItem('dogshow_token');
+    if (!email && !token) {
+      // Truly no identity to attach the purchase to — bounce to the landing
+      // funnel. (An authenticated user normally has at least a token, which the
+      // server uses to resolve the email for the $1.99 checkout.)
       window.location.href = '/?scroll=pricing#pricing';
       return;
     }
@@ -538,7 +539,8 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         tier: 'general',
-        email: email,
+        email: email || undefined,
+        token: token || undefined,
         faurya_visitor_id: readCookie('faurya_visitor_id') || undefined,
         faurya_session_id: readCookie('faurya_session_id') || undefined,
       }),

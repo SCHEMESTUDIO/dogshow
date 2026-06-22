@@ -2200,8 +2200,17 @@ export default class DogShowServer {
 
   // Create a Stripe Checkout Session (server-side)
   async handleCreateCheckout(req, headers) {
-    const { tier, email, faurya_visitor_id, faurya_session_id } = await req.json();
-    if (!tier || !email) {
+    const { tier, email, token, faurya_visitor_id, faurya_session_id } = await req.json();
+    // Resolve the buyer's email. Prefer an explicit email, but fall back to the
+    // session token — an authenticated user (e.g. an out-of-bones voter doing a
+    // $1.99 top-up) always has a token even if dogshow_email isn't cached
+    // locally. Without this fallback the top-up dead-ended on the pricing page.
+    let buyerEmail = email;
+    if (!buyerEmail && token) {
+      const u = await this.resolveUserByToken(token);
+      if (u && u.email) buyerEmail = u.email;
+    }
+    if (!tier || !buyerEmail) {
       return new Response(JSON.stringify({ error: 'tier and email required' }), { status: 400, headers });
     }
 
@@ -2229,13 +2238,13 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'payment system misconfigured' }), { status: 500, headers });
     }
 
-    const encodedEmail = encodeURIComponent(email.toLowerCase().trim());
+    const encodedEmail = encodeURIComponent(buyerEmail.toLowerCase().trim());
     const params = new URLSearchParams();
     params.append('payment_method_types[]', 'card');
     params.append('line_items[0][price]', priceId);
     params.append('line_items[0][quantity]', '1');
     params.append('mode', 'payment');
-    params.append('customer_email', email.toLowerCase().trim());
+    params.append('customer_email', buyerEmail.toLowerCase().trim());
     // session_id is substituted by Stripe at redirect time — success.html
     // forwards it to /verify-checkout so the server confirms the payment
     // before granting any paid tier (audit Critical-1 / Critical-2).
