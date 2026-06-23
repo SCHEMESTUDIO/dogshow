@@ -370,3 +370,204 @@ Legend — ✉️ verified on-page email · 📝 contact form · 📱 phone/DM �
 - **French Bulldog Owner** appears under both French Bulldog and Mini French Bulldog — one email only.
 - Emails are on-page-verified; ❓ items need a contact check before sending. "Dormant/stale" flags noted inline.
 - Thin breeds (Teacup Poodle, Golden Mtn Dog, Toy Aussie, Maltipoo, Dalmatian, Maltese, Agouti Husky) returned 3 honest prospects rather than padded filler.
+
+---
+
+## WAVE 1 — personalized messages (added 2026-06-23)
+
+Paste-ready, each with its real hook. Contact method in the lead line (✉️ email / 📝 form / 📱 phone-or-DM). ❓ = verify contact before sending. For the ✉️ ones I can also make Gmail drafts on request.
+
+### Goldendoodle
+**GoldenLife Doodles** — ✉️ support@goldenlifedoodles.com
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your blog's clearly active — fresh posts right through this spring. We're building a Goldendoodle page and would love a short tip from you — anything you wish new Goldendoodle owners knew — credited with a link back to goldenlifedoodles.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Matthews Legacy Farm** — ✉️ Matthewslegacyfarm@gmail.com
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. The story-driven way you write about your farm (and Dixie) really stood out. We're building a Goldendoodle page and would love a short tip from you — anything you wish new Goldendoodle owners knew — credited with a link back to matthewslegacyfarm.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Happy-Go-Doodle (Jenise)** — 📝 form
+> Hi Jenise — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Chloe's blog is award-winning for good reason — it's the gold standard for Goldendoodle content. We're building a Goldendoodle page and would love a short tip from you — anything you wish new owners knew — credited with a link back to happygodoodle.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Goldendoodles.com (Blue)** — ✉️ blue@goldendoodles.com
+> Hi Blue — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your monthly photo contest is right up our alley — we're basically a live version of that. We're building a Goldendoodle page and would love a short tip from you — anything you wish new owners knew — credited with a link back to goldendoodles.com. Happy to write an original piece for your site in return, no cost. Worth a chat? — James
+
+### Pomsky
+**Pomsky Dog Blog** — 📝 form
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. A dedicated Pomsky content blog is exactly the kind of resource I hoped to find. We're building a Pomsky page and would love a short tip from you — anything you wish new Pomsky owners knew — credited with a link back to pomskydogblog.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**KP Pomskies (Kimberly)** — 📝 form
+> Hi Kimberly — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your role as Director of Education at the American Pomsky Kennel Club makes you exactly the voice I'd want. We're building a Pomsky page and would love a short tip from you — anything you wish new owners knew — credited with a link back to kppomskies.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Pomsky Owners Association** — 📝 form
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. As the leading authority for the breed, your perspective would carry real weight. We're building a Pomsky page and would love a short tip from the association — anything you wish new owners knew — credited with a link back to pomskyownersassociation.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**My Crazy Pomskys** — 📝 form
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your "Everyday Life" section is a lovely, real window into Pomsky ownership. We're building a Pomsky page and would love a short tip from you — anything you wish new owners knew — credited with a link back to mycrazypomskys.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Teacup Poodle
+**Galavanting Poodles (Melissa)** — ❓ form
+> Hi Melissa — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. An Alaska poodle blog with your owner voice is a rare find in a niche full of sales pages. We're building a Teacup Poodle page and would love a short tip from you — anything you wish new owners knew — credited with a link back to galavantingpoodles.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**KC Poodles of PA** — ❓ verify contact
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. I appreciate that you publish real educational content for teacup-poodle owners, not just litters. We're building a Teacup Poodle page and would love a short tip from you — anything you wish new owners knew — credited with a link back to kcpoodlesofpa.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+### Mini Dachshund
+**You Did What With Your Wiener (Jessica)** — ✉️ Jessica@pettalkmedia.com
+> Hi Jessica — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. "The dachshund life coach" is a brilliant brand, and I know you work with the right partners. We're building a Mini Dachshund page and would love a short tip from you — anything you wish new owners knew — credited with a link back to youdidwhatwithyourweiner.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**I Love Dachshunds (Alison)** — ✉️ woof@ilovedachshunds.com
+> Hi Alison — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Ten-plus years building a dachshund resource that owners actually trust is no small feat. We're building a Mini Dachshund page and would love a short tip from you — anything you wish new owners knew — credited with a link back to ilovedachshunds.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Patti's Dachshund Farm (Patti)** — ✉️ pg9365@juno.com
+> Hi Patti — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. A long-running, full-service mini dachshund program like yours has stories worth sharing. We're building a Mini Dachshund page and would love a short tip from you — anything you wish new owners knew — credited with a link back to pattisdachshundfarm.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+### Golden Mountain Dog
+**Golden Mountain Farm (Sarah)** — ✉️ goldenmountainfarm@outlook.com
+> Hi Sarah — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. You're one of the few who actually breeds and writes about Golden Mountain Dogs specifically. We're building a Golden Mountain Dog page and would love a short tip from you — anything you wish new owners knew — credited with a link back to goldenmountainfarm.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Golden Mountain Dogs (Ali)** — ✉️ pups@goldenmtndogs.com
+> Hi Ali — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your whole site is Golden Mountain Dogs — that kind of focus is exactly what I'm after. We're building a Golden Mountain Dog page and would love a short tip from you — anything you wish new owners knew — credited with a link back to goldenmtndogs.com. Happy to write an original piece for your site in return, no cost. Worth a chat? — James
+
+**Oak Creek Berners (Michael)** — ✉️ bernerpuppy.com@gmail.com
+> Hi Michael — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Twenty-plus years breeding the Golden Mountain cross gives you a genetics perspective most sites lack. We're building a Golden Mountain Dog page and would love a short tip from you — anything you wish new owners knew — credited with a link back to bernerpuppy.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+### Toy Aussie
+**Flying Walker Toy Aussies (Kary)** — ✉️ kary@flyingwalkerranch.com
+> Hi Kary — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. A vet-tech owner with your health-testing focus is exactly the credible voice I want. We're building a Toy Aussie page and would love a short tip from you — anything you wish new owners knew — credited with a link back to flyingwalkertoyaussies.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+**Keldrew Ranch (Kelli & Andrew)** — 📝 form
+> Hi Kelli & Andrew — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your breed-info pages are a genuinely useful resource, not just a sales page. We're building a Toy Aussie page and would love a short tip from you — anything you wish new owners knew — credited with a link back to keldrewranch.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+**Magical Toy Aussies (Shawna)** — ✉️ magicaltoyaussies@gmail.com
+> Hi Shawna — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your Aussie Education pages show you like teaching owners, not just placing pups. We're building a Toy Aussie page and would love a short tip from you — anything you wish new owners knew — credited with a link back to magicaltoyaussies.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+### French Bulldog
+**French Bulldog Owner (Marc & Jemma)** — 📱 via YouTube/socials
+> Hi Marc & Jemma — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Claude's blog is real-life Frenchie ownership done right — no fluff. We're building a French Bulldog page and would love a short tip from you — anything you wish new owners knew — credited with a link back to frenchbulldogowner.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**My Pawesome Frenchie** — 📝 form
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. I like that you run an owner-story blog alongside the breeding — a real community angle. We're building a French Bulldog page and would love a short tip from you — anything you wish new owners knew — credited with a link back to mypawesomefrenchie.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+### Cockapoo
+**Reggie the Cockapoo (Suzanne)** — ✉️ reggiethecockapoo@gmail.com
+> Hi Suzanne — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Reggie's reach and adventure content are fantastic — a live dog show feels like his kind of stage. We're building a Cockapoo page and would love a short tip from you — anything you wish new owners knew — credited with a link back to reggiethecockapoo.co.uk. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Felindre Cockapoos** — ✉️ info@felindrecockapoos.co.uk
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your coat-care and F1 explainers are genuinely useful owner content. We're building a Cockapoo page and would love a short tip from you — anything you wish new owners knew — credited with a link back to felindrecockapoos.co.uk. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Freya the Cockapoo** — 📱 IG @freya.and.frankie
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. I respect that Freya & Frankie's reviews are genuinely independent — no paid alliances. We're building a Cockapoo page and would love a short tip from you — anything you wish new owners knew — credited with a link back to freyathecockapoo.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+### Maltipoo
+**PetMaltipoo** — ✉️ Contact@PetMaltipoo.com
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. PetMaltipoo is the most complete Maltipoo-only resource I've found, full stop. We're building a Maltipoo page and would love a short tip from you — anything you wish new owners knew — credited with a link back to petmaltipoo.com. Happy to return the favor with an original piece for your site, no cost. Worth a chat? — James
+
+> ⚠️ **My Doodle Puppy** has a contributor program but **charges $100/article** — that's paid placement, not a free link. Only pursue if you decide paid placements are worth it; I'd skip for now.
+
+### Cavapoo
+**Cavapoo Crew (Colin)** — 📝 form *(openly accepts guest posts)*
+> Hi Colin — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. I saw you accept high-quality guest posts (and no AI content — agreed) — Arlo's blog is exactly the right home. We're building a Cavapoo page and would love a short tip from you — anything you wish new owners knew — credited with a link back to cavapoocrew.com. And I'd happily write you an original, human-written piece in return. Worth a chat? — James
+
+**CavapooLove (Irma)** — ✉️ info@cavapoolove.com
+> Hi Irma — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Forty-plus years breeding and showing dogs — and Tucker — gives you a perspective worth quoting. We're building a Cavapoo page and would love a short tip from you — anything you wish new owners knew — credited with a link back to cavapoolove.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Cavapoo Journal (Howell)** — 📝 form
+> Hi Howell — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your writing about Opie has a warmth that's rare in breed content. We're building a Cavapoo page and would love a short tip from you — anything you wish new owners knew — credited with a link back to cavapoojournal.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Cane Corso
+**Cane Corso Dog Owner (Robert & Lucinda)** — 📝 form
+> Hi Robert — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Thirteen years with Maud & Hermie and a "tell it like it is" voice is exactly the honesty owners need on this breed. We're building a Cane Corso page and would love a short tip from you — anything you wish new owners knew — credited with a link back to canecorsodogowner.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+### Dalmatian
+**Dalamanti (Lisa)** — ✉️ lisa@dalamanti.co.uk
+> Hi Lisa — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Congratulations on Yogi's Post Graduate win at Crufts 2025 — that's some pedigree. We're building a Dalmatian page and would love a short tip from you — anything you wish new owners knew — credited with a link back to dalamanti.co.uk. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+**Dalmatian Friends (Brandon)** — 📱 IG @dalmatianfriends
+> Hi Brandon — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your pack — Penny and the crew — makes for a genuinely fun Dalmatian feed. We're building a Dalmatian page and would love a short tip from you — anything you wish new owners knew — credited with a link back to dalmatianfriends.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+### Belgian Malinois
+**Blackwood Canine (David Wright)** — ✉️ info@blackwoodcanine.com
+> Hi David — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your "Malinois, True Talk" candor is exactly the unvarnished voice this breed needs. We're building a Belgian Malinois page and would love a short tip from you — anything you wish new owners knew — credited with a link back to blackwoodcanine.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Dark Malinois (Martha)** — ✉️ darkmalinois18@gmail.com
+> Hi Martha — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. I like that you publish real breed facts, not just litters. We're building a Belgian Malinois page and would love a short tip from you — anything you wish new owners knew — credited with a link back to darkmalinois.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**KSDK Malinois (Tongtong)** — ✉️ tongtong_zhou@yahoo.com
+> Hi Tong — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your program is clearly thriving and you're proud of your dogs — that comes through. We're building a Belgian Malinois page and would love a short tip from you — anything you wish new owners knew — credited with a link back to ksdkmalinois.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+### Bernese Mountain Dog
+**Kevin The Berner** — ✉️ kevintheberner@gmail.com
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Kevin's whole brand is built for fun and collabs — your "Let's Work Together" page basically invited this email. We're building a Bernese Mountain Dog page and would love a short tip from you — anything you wish new owners knew — credited with a link back to kevintheberner.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**TheBernese.org** — 📝 form
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your care and health library is one of the deepest Berner resources online. We're building a Bernese Mountain Dog page and would love a short tip from you — anything you wish new owners knew — credited with a link back to thebernese.org. Happy to write an original piece for your site in return, no cost. Worth a chat? — James
+
+### Maltese
+**Maltese Maniac** — 📝 form
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your whole site is built around owners showing off their Maltese — which is basically what we do, live. We're building a Maltese page and would love a short tip from you — anything you wish new owners knew — credited with a link back to maltesemaniac.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+### Vizsla
+**The Dog Walks Me (Adele)** — 📝 form
+> Hi Adele — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. The adventure-Vizsla life with Whiskey & Bourbon is a great read. We're building a Vizsla page and would love a short tip from you — anything you wish new owners knew — credited with a link back to thedogwalksme.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**HRQ Vizslas (Susan)** — 📝 form
+> Hi Susan — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your running news blog and show updates show a real, active program. We're building a Vizsla page and would love a short tip from you — anything you wish new owners knew — credited with a link back to hrqvizslas.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Belatarr** — 📝 form *(wirehaired Vizsla)*
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. As one of the UK's top wirehaired Vizsla show kennels, your perspective would be a real draw. We're building a Vizsla page and would love a short tip from you — anything you wish new owners knew — credited with a link back to belatarr.co.uk. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Newfoundland
+**Love Newfoundlands (Niki)** — ✉️ lovenewfoundlands@gmail.com
+> Hi Niki — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Founding National Newfoundland Dog Day (and Niya's blog) tells me you love celebrating this breed — so do we. We're building a Newfoundland page and would love a short tip from you — anything you wish new owners knew — credited with a link back to lovenewfoundlands.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**My Brown Newfies (Jen)** — 📝 form
+> Hi Jen — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. A retired vet tech running one of the best-known Newfie blogs is exactly the voice I'd want. We're building a Newfoundland page and would love a short tip from you — anything you wish new owners knew — credited with a link back to mybrownnewfies.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Giant Schnauzer
+**Schnauzer Ranch (Josh)** — 📝 form
+> Hi Josh — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your how-to breed articles are real content, not filler — the kind of blog I'd love to contribute to. We're building a Giant Schnauzer page and would love a short tip from you — anything you wish new owners knew — credited with a link back to schnauzerranch.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Jordan Giant Schnauzers (Tina)** — ✉️ jordangiants@yahoo.com
+> Hi Tina — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Twenty-plus years with champion lines gives you a depth few can match. We're building a Giant Schnauzer page and would love a short tip from you — anything you wish new owners knew — credited with a link back to akcgiantschnauzers.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+### Chocolate Lab
+**Hidden Pond Labradors (David)** — ✉️ David@HiddenPondLabradors.com
+> Hi David — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. I like that you have dedicated chocolate-Lab pages and a real training/tips blog. We're building a Chocolate Lab page and would love a short tip from you — anything you wish new owners knew — credited with a link back to hiddenpondlabradors.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Overlook Labradors (Gina & Mark)** — 📝 form
+> Hi Gina & Mark — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Fifty-plus posts with one as recent as this spring — that's a serious publishing habit. We're building a Chocolate Lab page and would love a short tip from you — anything you wish new owners knew — credited with a link back to overlookmtlabradors.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Three Bears Labradors (Charles)** — 📝 form
+> Hi Charles — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your "Essential Guide to Chocolate Lab Puppies" is exactly the kind of useful piece owners search for. We're building a Chocolate Lab page and would love a short tip from you — anything you wish new owners knew — credited with a link back to threebearslabradors.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Mini French Bulldog
+**FrenchieChat** — 📝 form *(solicits guest content)*
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. I saw you openly welcome guest content and photo features — this feels like a natural fit. We're building a Mini French Bulldog page and would love a short tip from you — anything you wish new owners knew — credited with a link back to frenchiechat.com. And I'd happily write you an original piece in return. Worth a chat? — James
+
+**OnlyFrenchBulldog (Ana)** — 📝 form
+> Hi Ana — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. A lifelong Frenchie owner running an actively-updated guide is exactly the voice I want. We're building a Mini French Bulldog page and would love a short tip from you — anything you wish new owners knew — credited with a link back to onlyfrenchbulldog.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**You Winnie Some Frenchies (Rachelle)** — 📝 form
+> Hi Rachelle — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your "French Bull-Blog" has a real owner-and-breeder voice I enjoyed. We're building a Mini French Bulldog page and would love a short tip from you — anything you wish new owners knew — credited with a link back to youwinniesomefrenchies.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Mini Australian Shepherd
+**Karen Shanley (Karen)** — 📝 form *(net-new; other prospects overlap Mini Aussie)*
+> Hi Karen — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your first-person Mini vs Standard Aussie piece was a genuinely helpful read. We're building a Mini Aussie page and would love a short tip from you — anything you wish new owners knew — credited with a link back to karenshanley.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+### American Bully
+**Capcity Bullys (John)** — ✉️ johnwcolumbus@gmail.com
+> Hi John — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Monthly long-form care and training posts — you clearly take the content seriously. We're building an American Bully page and would love a short tip from you — anything you wish new owners knew — credited with a link back to capcitybullys.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Venomline** — 📝 form
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your blog hub is one of the most serious content efforts in the breed — and you already link out generously. We're building an American Bully page and would love a short tip from you — anything you wish new owners knew — credited with a link back to venomlinebullies.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+**American Bully Lover (Evelin)** — 📝 form
+> Hi Evelin — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. A pure content site (no puppy sales) is exactly the kind of independent voice I'd love to feature. We're building an American Bully page and would love a short tip from you — anything you wish new owners knew — credited with a link back to americanbullylover.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Agouti Husky
+**Bama Huskies (Jim)** — 📱 phone/form
+> Hi Jim — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your "What Is an Agouti Husky?" article is one of the clearest explainers on the color out there. We're building an Agouti Husky page and would love a short tip from you — anything you wish new owners knew — credited with a link back to bamahuskies.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Husky Advisor (Alexa)** — 📱 socials
+> Hi Alexa — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Yours is the most actively-publishing Husky owner blog I came across. We're building an Agouti Husky page and would love a short tip from you — anything you wish new owners knew (agouti especially) — credited with a link back to huskyadvisor.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+> Skipped writing messages for the lowest-confidence/unverified entries (Frenchie Journey, Crème of the Crop, Sikania, PRIDENJOYZ, PetMaltese, Belle Harbour, Skyline, BernerWise, redbirddog, Misty's, Southern Siberian Life, Halo Huskies, American Bully Daily, Moose & Mary, Timberidge) — verify their contact/activity first, then reuse the nearest template above.
