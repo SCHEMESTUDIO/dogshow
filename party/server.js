@@ -12,17 +12,21 @@ import { BUILD_INFO } from './build-info.js';
 const SITE_URL = 'https://dogshow.lol';
 const FAN_COUNT_OFFSET = 100; // Seed number — real fans count from here
 
-// ─── Bones economy (new model, 2026-05-26) ──────────
-// Registered users get BONES_ON_REGISTER for free; $1.99 "general" SKU adds
-// BONES_PER_TOPUP on top. Legacy `tier === 'general'` (purchased before the
-// model switch) is treated as unlimited until Phase 6 migration grants them
-// BONES_LEGACY_GRANDFATHER and downgrades their tier to 'free'.
-const BONES_ON_REGISTER = 250;
+// ─── Bones economy (free-to-enter model, 2026-06-23) ──────────
+// Entering a dog is FREE for everyone. Money only buys bones. New registered
+// users get BONES_ON_REGISTER free. Paid SKUs add bones on top:
+//   Dog Entry Pro ($1.99 "general")   → +BONES_PER_TOPUP
+//   Top Dog ($5.99 "premium_plus")    → +BONES_TOPDOG  (+ slot booking / 3× stage)
+// The $3.99 "premium" Enter-Your-Dog SKU is RETIRED (entry is now free).
+// BONES_LEGACY_GRANDFATHER is the one-shot grant for pre-2026-05-26 'general'
+// (unlimited-bones) buyers, applied by /admin-migrate-general.
+const BONES_ON_REGISTER = 50;
 const BONES_PER_TOPUP = 250;
+const BONES_TOPDOG = 1000;
 const BONES_LEGACY_GRANDFATHER = 2500;
 
-// Slot mechanics: a booked $3.99 BYD dog gets SLOT_DURATION_MULTIPLIER × the
-// normal 10s rotation when their slot is live. Tweak as one config change.
+// Slot mechanics: a Top Dog ($5.99) booked dog gets SLOT_DURATION_MULTIPLIER ×
+// the normal 10s rotation when their slot is live. Tweak as one config change.
 const SLOT_DURATION_MULTIPLIER = 3;
 
 // ─── Responsive bot (sir_barks_alot via Claude Haiku) ───────────────
@@ -92,12 +96,12 @@ PRODUCT TALK (narrow exception — read carefully):
 - If a viewer ASKS a direct factual question about how the show works, you MAY answer briefly in character — like a regular who's been here a while, not a staffer reading from a script. ONE fragment or short sentence. No enthusiasm, no list of benefits, no calls to action, no "you should try it."
 
 FACTS YOU KNOW AS A REGULAR (accurate; use only when asked):
-- Watching is free. Anyone who registers gets 250 bones to throw.
+- Watching is free. Registering is also free, gets you 50 bones to throw, and lets you put your own dog on stage.
 - Bones are reactions you toss at dogs you fancy. Each bone keeps the current dog on stage a bit longer (about half a second per bone, capped around fifteen seconds of bonus per dog).
 - Each dog rotates after roughly ten seconds in the normal flow.
+- Entering your own dog costs nothing now — upload a photo, pick a breed, and it joins the rotation.
 - $1.99 tops you up another 250 bones when you run dry.
-- $3.99 lets you submit your own dog: upload a photo, choose a breed, then either show it now or schedule a specific time for later. Scheduled appearances stay on stage roughly three times as long (about thirty seconds).
-- $5.99 is the premium option — submit your own dog AND a bones boost on top. (I don't recall the exact bones figure, frankly.)
+- $5.99 is the "Top Dog" option — a thousand bones, plus you can book your dog's exact time on stage, which keeps it up roughly three times as long (about thirty seconds).
 - One dog per account. Once you've put your hound on stage, that's your hound.
 - The chat is real viewers, watching the same rotation in real time. The show runs continuously, no intermission.
 - There's a monthly Best in Show race: bones a dog earns during the calendar month count toward that month's leaderboard, and the top dog is crowned Best in Show — a permanent title on their certificate page. Standings reset on the 1st of each month, so every dog gets a fresh shot each month.
@@ -486,37 +490,31 @@ export default class DogShowServer {
     if (data.type === 'bone') {
       const authed = this.userByConnection.get(sender.id);
 
-      // Authenticated path: enforce balance. Only legacy `tier === 'general'`
-      // (purchased before the 2026-05-26 cutover, when $1.99 granted unlimited
-      // bones in perpetuity) is bypassed — that bypass disappears once Phase 6
-      // migration grants them BONES_LEGACY_GRANDFATHER and resets tier='free'.
-      // New 'premium' BYD purchasers follow the normal finite-balance rules;
-      // $3.99 buys upload + slot, not bones.
+      // Authenticated path: enforce a finite balance for everyone. (The legacy
+      // `tier === 'general'` unlimited-bones bypass was removed 2026-06-23 once
+      // those accounts were migrated to free + BONES_LEGACY_GRANDFATHER.)
       if (authed) {
-        const isLegacyUnlimited = authed.tier === 'general';
-        if (!isLegacyUnlimited) {
-          if ((authed.bones || 0) <= 0) {
-            // Out of bones — prompt client to top up. Do NOT broadcast the
-            // bone (it doesn't fire) but DO tell this sender why.
-            sender.send(JSON.stringify({
-              type: 'needTopUp',
-              bones: 0,
-              reason: 'no_bones',
-            }));
-            return;
-          }
-          authed.bones -= 1;
-          // Persist the new balance. Storage writes are room-local in PartyKit
-          // so this is cheap; if it ever shows up in flame graphs, debounce.
-          this.persistBonesForUser(authed.userId, authed.bones)
-            .catch(e => console.error('[Bones] persist failed:', e && e.message));
-          // Tell the sender their new balance so the UI can update.
+        if ((authed.bones || 0) <= 0) {
+          // Out of bones — prompt client to top up. Do NOT broadcast the
+          // bone (it doesn't fire) but DO tell this sender why.
           sender.send(JSON.stringify({
-            type: 'boneBalance',
-            bones: authed.bones,
-            tier: authed.tier,
+            type: 'needTopUp',
+            bones: 0,
+            reason: 'no_bones',
           }));
+          return;
         }
+        authed.bones -= 1;
+        // Persist the new balance. Storage writes are room-local in PartyKit
+        // so this is cheap; if it ever shows up in flame graphs, debounce.
+        this.persistBonesForUser(authed.userId, authed.bones)
+          .catch(e => console.error('[Bones] persist failed:', e && e.message));
+        // Tell the sender their new balance so the UI can update.
+        sender.send(JSON.stringify({
+          type: 'boneBalance',
+          bones: authed.bones,
+          tier: authed.tier,
+        }));
       }
 
       this.boneCount++;
@@ -604,16 +602,15 @@ export default class DogShowServer {
   async spendVote(userId, dogId, count = 1) {
     const user = await this.room.storage.get(`user:${userId}`);
     if (!user) return { ok: false, reason: 'no_user' };
-    const isLegacyUnlimited = user.tier === 'general';
-    if (!isLegacyUnlimited && (user.bones || 0) < count) {
+    if ((user.bones || 0) < count) {
       return { ok: false, reason: 'no_bones', bones: user.bones || 0 };
     }
     const seasonBones = await this.applyVote(dogId, count);
     if (seasonBones === null) return { ok: false, reason: 'no_dog' };
-    if (!isLegacyUnlimited) user.bones = (user.bones || 0) - count;
+    user.bones = (user.bones || 0) - count;
     user.hasVoted = true;
     await this.room.storage.put(`user:${userId}`, user);
-    return { ok: true, bones: isLegacyUnlimited ? (user.bones || 0) : user.bones, seasonBones };
+    return { ok: true, bones: user.bones, seasonBones };
   }
 
   // HTTP fan-voting endpoint for shared /d/{slug} pages. Body:
@@ -1526,6 +1523,60 @@ export default class DogShowServer {
     }), { headers });
   }
 
+  // GET /admin-grant-goodwill?key=<ADMIN_KEY>[&bones=1000][&days=0][&commit=1]
+  // One-shot goodwill grant for legacy $3.99 "Enter Your Dog" buyers
+  // (paidSku === 'premium'), who paid for what is now free. Adds `bones` bones
+  // (default 1000), once per user (guarded by goodwill:<userId>), and emails them
+  // about the benefits change. `days` optionally limits to buyers whose paidAt is
+  // within the last N days (0 = all legacy premium buyers). Dry-run by default;
+  // pass commit=1 to write + send. Requires ADMIN_KEY.
+  async handleAdminGrantGoodwill(req, headers) {
+    const url = new URL(req.url);
+    const key = url.searchParams.get('key');
+    const commit = url.searchParams.get('commit') === '1';
+    const grant = Math.max(0, parseInt(url.searchParams.get('bones') || '1000', 10) || 0);
+    const days = Math.max(0, parseInt(url.searchParams.get('days') || '0', 10) || 0);
+    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    if (!adminKey || !key || key !== adminKey) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+    }
+    let userList;
+    try {
+      userList = await this.room.storage.list({ prefix: 'user:' });
+    } catch (e) {
+      return new Response(JSON.stringify({ error: 'storage list failed', detail: e && e.message }), { status: 500, headers });
+    }
+    const cutoff = days > 0 ? Date.now() - days * 24 * 60 * 60 * 1000 : 0;
+    const candidates = [];
+    for (const [k, v] of userList) {
+      if (!v || v.paidSku !== 'premium') continue;          // legacy $3.99 buyers only
+      if (cutoff && !(v.paidAt && v.paidAt >= cutoff)) continue;
+      candidates.push({ key: k, user: v });
+    }
+    let granted = 0, emailed = 0, alreadyGranted = 0;
+    const sample = [];
+    for (const c of candidates) {
+      const u = c.user;
+      const already = await this.room.storage.get(`goodwill:${u.id}`);
+      if (already) { alreadyGranted++; continue; }
+      if (sample.length < 5) sample.push({ id: u.id, email: u.email, bonesBefore: (u.bones || 0) });
+      if (commit) {
+        u.bones = (u.bones || 0) + grant;
+        await this.room.storage.put(c.key, u);
+        await this.room.storage.put(`goodwill:${u.id}`, { at: Date.now(), bones: grant });
+        granted++;
+        if (u.email) {
+          const ok = await this.sendBenefitsChangeEmail(u.email, grant).catch(() => false);
+          if (ok) emailed++;
+        }
+      }
+    }
+    return new Response(JSON.stringify({
+      ok: true, dryRun: !commit, grant, days,
+      candidates: candidates.length, granted, emailed, alreadyGranted, sample,
+    }), { headers });
+  }
+
   // GET /admin-backfill-slugs?key=<ADMIN_KEY>[&commit=1]
   // One-shot cleanup: assign a slug to any community dog missing one (very early
   // uploads predate guaranteed slugs), so its /d/{slug} SSR certificate + per-dog
@@ -1865,6 +1916,9 @@ export default class DogShowServer {
       }
       if (path === 'admin-migrate-general' && req.method === 'GET') {
         return await this.handleAdminMigrateGeneral(req, headers);
+      }
+      if (path === 'admin-grant-goodwill' && req.method === 'GET') {
+        return await this.handleAdminGrantGoodwill(req, headers);
       }
       if (path === 'admin-migrate-monthly' && req.method === 'GET') {
         return await this.handleAdminMigrateMonthly(req, headers);
@@ -2220,13 +2274,10 @@ export default class DogShowServer {
     }
 
     const priceMap = {
-      general: 'price_1TTMssBOUqMOkBpQVQR3zFdr',     // $1.99 — bones top-up SKU
-      premium: 'price_1TTMtiBOUqMOkBpQvxnJMu3e',     // $3.99 — Enter Your Dog
-      // TODO(James): create the $5.99 Premium product in Stripe dashboard and
-      // paste its price ID here. Until that's done, the Premium button on the
-      // landing page will fail with "invalid tier" — that's the desired
-      // safety behavior (no fake checkout).
-      premium_plus: 'price_1TbMGEBOUqMOkBpQSgKnnKOD',  // $5.99 — Premium (2× bones launch bonus)
+      general: 'price_1TTMssBOUqMOkBpQVQR3zFdr',       // $1.99 — Dog Entry Pro (+250 bones)
+      premium_plus: 'price_1TbMGEBOUqMOkBpQSgKnnKOD',  // $5.99 — Top Dog (+1000 bones, slot + 3×)
+      // The $3.99 'premium' Enter-Your-Dog SKU is RETIRED (entry is now free).
+      // James: archive that price in the Stripe dashboard so it can't be hit.
     };
     const priceId = priceMap[tier];
     if (!priceId) {
@@ -2336,7 +2387,7 @@ export default class DogShowServer {
 
     // Tier + email come from Stripe, not from the client.
     const tier = session.metadata && session.metadata.tier;
-    if (tier !== 'general' && tier !== 'premium' && tier !== 'premium_plus') {
+    if (tier !== 'general' && tier !== 'premium_plus') {
       console.error('[Stripe] verify-checkout: unexpected tier on session:', tier);
       return new Response(JSON.stringify({ error: 'could not verify payment' }), { status: 400, headers });
     }
@@ -2402,26 +2453,19 @@ export default class DogShowServer {
         ? BONES_LEGACY_GRANDFATHER
         : BONES_ON_REGISTER;
     }
-    // SKU semantics (2026-05-26):
-    //   'general' ($1.99)      — bones top-up only, no tier change
-    //   'premium' ($3.99)      — Enter Your Dog: tier→premium, bones unchanged
-    //                            (initial 250 from registration is the included
-    //                             bone grant)
-    //   'premium_plus' ($5.99) — Premium: tier→premium, bones boosted to >=1000
-    //                            (matches landing copy "1000 bones included";
-    //                             power users with higher balances are not
-    //                             reduced)
-    // `paidSku` records which SKU was last purchased so we can distinguish
-    // $3.99 vs $5.99 buyers without losing it in tier collapsing.
+    // SKU semantics (free-to-enter model, 2026-06-23):
+    //   'general' ($1.99)      — Dog Entry Pro: +BONES_PER_TOPUP bones, no tier change
+    //   'premium_plus' ($5.99) — Top Dog: +BONES_TOPDOG bones, tier→premium
+    //                            (unlocks slot booking + 3× stage time)
+    // The $3.99 'premium' SKU is retired (entry is free) — only legacy accounts
+    // still carry tier/paidSku 'premium'. `paidSku` records the last SKU bought
+    // so Top Dog ($5.99) perks survive tier collapsing.
     if (tier === 'general') {
       user.bones = (user.bones || 0) + BONES_PER_TOPUP;
       user.paidSku = user.paidSku || 'general';
-    } else if (tier === 'premium') {
-      user.tier = this.higherTier(user.tier, 'premium');
-      user.paidSku = 'premium';
     } else if (tier === 'premium_plus') {
       user.tier = this.higherTier(user.tier, 'premium');
-      user.bones = Math.max(user.bones || 0, 1000);
+      user.bones = (user.bones || 0) + BONES_TOPDOG;
       user.paidSku = 'premium_plus';
     }
     user.stripeSessionId = stripeSessionId || user.stripeSessionId || null;
@@ -2646,16 +2690,20 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'invalid session', code: 'session_invalid' }), { status: 401, headers });
     }
 
-    // Get user and verify premium tier
+    // Get user. Entry is free (2026-06-23) — any registered user may upload one
+    // dog. Slot booking, however, is a Top Dog ($5.99) perk only (checked below).
     const user = await this.room.storage.get(`user:${session.userId}`);
     if (!user) {
       return new Response(JSON.stringify({ error: 'user not found', code: 'user_not_found' }), { status: 404, headers });
     }
-    if (user.tier !== 'premium') {
-      return new Response(JSON.stringify({ error: 'premium tier required', code: 'not_premium' }), { status: 403, headers });
+    // Slot booking is reserved for Top Dog buyers. A non-Top-Dog request that
+    // carries a slotAt (tampered client — the picker is gated in the UI) is
+    // rejected rather than silently downgraded, so the user isn't surprised.
+    if (validSlotAt && user.paidSku !== 'premium_plus' && user.paidSku !== 'premium') {
+      return new Response(JSON.stringify({ error: 'Slot booking is a Top Dog perk.', code: 'slot_requires_topdog' }), { status: 403, headers });
     }
 
-    // One dog per account — a second dog is a second $3.99. Re-enabled
+    // One dog per account — entry is free, so this caps one entry per account. Re-enabled
     // 2026-05-22 alongside the returning-user "view your certificate" UI.
     // Bypassable with the admin key (added manually via ?admin= on the show
     // page; it never reaches a normal client) so test uploads aren't blocked.
@@ -3899,9 +3947,9 @@ export default class DogShowServer {
   async sendAdminSignupNotification(email, tier) {
     if (!this.room.env.RESEND_API_KEY) return;
 
-    const tierLabel = tier === 'premium_plus' ? 'Premium ($5.99)'
-      : tier === 'premium' ? 'Enter Your Dog ($3.99)'
-      : tier === 'general' ? 'Bones Pack ($1.99 top-up)'
+    const tierLabel = tier === 'premium_plus' ? 'Top Dog ($5.99)'
+      : tier === 'premium' ? 'Enter Your Dog (legacy $3.99)'
+      : tier === 'general' ? 'Dog Entry Pro ($1.99)'
       : 'Free signup';
     const time = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
 
@@ -3972,7 +4020,7 @@ export default class DogShowServer {
               </div>
               <div style="background: rgba(255,140,66,0.08); border: 1px solid rgba(255,140,66,0.25); border-radius: 12px; padding: 18px 20px; margin-bottom: 24px; text-align: center;">
                 <p style="font-size: 14px; line-height: 1.55; color: rgba(255,255,255,0.8); margin: 0 0 6px;"><strong style="color:#FF8C42;">Want to compete?</strong> Enter your own dog and rally your friends to vote.</p>
-                <p style="font-size: 13px; margin: 0;"><a href="${SITE_URL}/?openModal=premium" style="color: #FF8C42; font-weight: 600;">Bring your dog to The Dog Show — $3.99 →</a></p>
+                <p style="font-size: 13px; margin: 0;"><a href="${SITE_URL}/?openModal=premium" style="color: #FF8C42; font-weight: 600;">Bring your dog to The Dog Show — free →</a></p>
               </div>
               <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 24px 0;">
               <p style="text-align: center; font-size: 11px; color: rgba(255,255,255,0.25);">
@@ -4147,7 +4195,7 @@ export default class DogShowServer {
         <p style="font-size:14px;line-height:1.55;color:rgba(255,255,255,0.75);margin:0;">Standings reset to zero on the 1st. Enter your dog now and you've got ${is24 ? 'a final shot' : 'a few days'} to rally votes — or jump in and vote for your favorites.</p>
       </div>
       <div style="text-align:center;margin-bottom:14px;">
-        <a href="${SITE_URL}/?openModal=premium" style="display:inline-block;background:#FF8C42;color:#1a1035;padding:14px 30px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">Enter your dog — $3.99 →</a>
+        <a href="${SITE_URL}/?openModal=premium" style="display:inline-block;background:#FF8C42;color:#1a1035;padding:14px 30px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">Enter your dog — free →</a>
       </div>
       <p style="text-align:center;font-size:13px;margin:0;"><a href="${SITE_URL}/show" style="color:#FF8C42;">Just here to watch? Come vote →</a></p>`;
     return this._sendMarketingEmail(email, `${is24 ? '🚨 Final ' + info.hoursLeft + ' hours' : '⏳ ' + info.daysLeft + ' days left'} in this month's Best in Show`, inner);
@@ -4348,14 +4396,12 @@ export default class DogShowServer {
     // Transactional — receipt for a purchase. Must send regardless of unsub.
     const userId = await this._userIdFromEmail(email);
     const footer = await this.unsubscribeFooter(userId);
-    const isPremium = tier === 'premium';
-    const heading = isPremium ? 'You\'re in — now bring your dog on stage'
-                              : 'You\'re in — the show is live';
-    const ctaLabel = isPremium ? 'Upload your dog' : 'Watch the show';
+    // Both paid SKUs are now bones purchases (entry itself is free), so the
+    // confirmation is bones-centric for everyone.
+    const heading = 'You\'re in — your bones are loaded';
+    const ctaLabel = 'Throw some bones';
     const ctaUrl = `${SITE_URL}/show.html?tier=${tier}`;
-    const blurb = isPremium
-      ? "Your spot in The Dog Show is confirmed. If you haven't already, upload a photo of your dog so they can take the main stage. It only takes a moment — and your dog gets a permanent page of their own."
-      : 'Your ticket to The Dog Show is confirmed. Head in to give bones, chat with the crowd, and cheer on every dog that takes the stage.';
+    const blurb = "Your bones are topped up and ready to throw. Head into the show to cheer on the dogs taking the stage — and rally support for your favorite in this month's Best in Show race.";
     try {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -4366,8 +4412,7 @@ export default class DogShowServer {
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
           to: [email],
-          subject: isPremium ? '🐕 You\'re in — upload your dog'
-                             : '🎟️ You\'re in — The Dog Show is live',
+          subject: '🦴 Your bones are loaded — The Dog Show',
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
               <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 4px; text-align: center;">The Dog Show</h1>
@@ -4393,6 +4438,56 @@ export default class DogShowServer {
       return res.ok;
     } catch (e) {
       console.error('[Email] Purchase confirmation network error:', e.message);
+      return false;
+    }
+  }
+
+  // Goodwill email to legacy $3.99 buyers: their tier's benefits changed (entry
+  // is now free), so we've added bones to their account as a thank-you. Sent by
+  // /admin-grant-goodwill. Relationship/transactional — sent regardless of unsub,
+  // but carries the standard footer.
+  async sendBenefitsChangeEmail(email, bonesGranted) {
+    if (!this.room.env.RESEND_API_KEY || !email) return false;
+    const userId = await this._userIdFromEmail(email);
+    const footer = await this.unsubscribeFooter(userId);
+    const showUrl = `${SITE_URL}/show.html`;
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Dog Show <noreply@dogshow.lol>',
+          to: [email],
+          subject: `🦴 We added ${bonesGranted} bones to your account`,
+          html: `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 500px; margin: 0 auto; padding: 40px 20px; background: #1a1035; color: #e0d8f0;">
+              <h1 style="color: #FF8C42; font-size: 28px; margin-bottom: 4px; text-align: center;">The Dog Show</h1>
+              <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">A little thank-you</p>
+              <div style="background: #241a45; border-radius: 12px; padding: 28px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px;">
+                <h2 style="color: #e0d8f0; font-size: 21px; margin: 0 0 12px; text-align: center;">We changed what each tier includes — and you came out ahead</h2>
+                <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); margin: 0 0 14px;">Entering your dog in The Dog Show is now free for everyone. Since you were one of the first to pay to bring your dog on stage, we've added <strong style="color:#FF8C42;">${bonesGranted} bones</strong> to your account as a thank-you — yours to throw at every good dog that takes the stage.</p>
+                <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); margin: 0;">Your dog keeps its spot in the show, its certificate page, and its ability to book a stage time. Nothing you had goes away.</p>
+              </div>
+              <div style="text-align: center; margin-bottom: 24px;">
+                <a href="${showUrl}" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;">Throw your bones</a>
+              </div>
+              <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 24px 0;">
+              <p style="text-align: center; font-size: 11px; color: rgba(255,255,255,0.25);">
+                Questions? Just reply to this email.<br>
+                <a href="${SITE_URL}" style="color: #FF8C42;">dogshow.lol</a>
+              </p>
+              ${footer}
+            </div>
+          `,
+        }),
+      });
+      if (!res.ok) console.error('[Email] Benefits-change send failed:', res.status);
+      return res.ok;
+    } catch (e) {
+      console.error('[Email] Benefits-change network error:', e.message);
       return false;
     }
   }

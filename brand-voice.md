@@ -112,8 +112,8 @@ paying, confused, or anxious.**
 Keep these in sync with `RESPONSIVE_BOT_SYSTEM_PROMPT` and `CLAUDE.md` — if a number here is
 stale, the bot and the copy will confidently tell users the wrong thing.
 
-- Watching is **free**; registering grants **250 bones** (a.k.a. **votes**) to throw.
-- **$1.99** bones top-up (+250) · **$3.99** Bring Your Dog · **$5.99** Premium (2× launch bonus).
+- Watching is **free**; registering (a free **Dog Entry** account) grants **50 bones** (a.k.a. **votes**) to throw, plus chat, dog upload, and a certificate page.
+- **Entering your dog is FREE.** Money only buys bones: **Dog Entry Pro $1.99** (everything + 250 bones) · **Top Dog $5.99** (everything + 1000 bones + book your dog's stage slot for 3× stage time). A **$1.99** bone pack adds 250 bones to any account.
 - **Bones are glossed as "votes"** on first contact.
 - One dog per account.
 - Monthly **"Best in Show"** race — the month's top dog by votes earns a permanent honor.

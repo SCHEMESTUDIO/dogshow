@@ -120,6 +120,7 @@
   var intermissionTitle = document.getElementById('intermissionTitle');
   var chatIntermissionLabel = document.getElementById('chatIntermissionLabel');
   var boneBtn = document.getElementById('boneBtn');
+  var getBonesBtn = document.getElementById('getBonesBtn');
   var boneCountEl = document.getElementById('boneCount');
   var boneRain = document.getElementById('boneRain');
   // BONE FRENZY text badge — toggles .active when isFrenzy is on.
@@ -318,9 +319,9 @@
       upgradeSubtitle.textContent = 'Upgrade once and give bones forever.';
       upgradePrimary.textContent = 'Unlock Bones — $1.99';
       upgradePrimary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
-      upgradeSecondary.textContent = 'Enter Your Dog Instead — $3.99';
+      upgradeSecondary.textContent = 'Enter Your Dog Instead — Free';
       upgradeSecondary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
-      if (upgradeHint) upgradeHint.textContent = 'Includes bones, chat, and a permanent dog page.';
+      if (upgradeHint) upgradeHint.textContent = 'Free registration includes chat, 50 bones, and entering your own dog.';
     } else if (context === 'chat') {
       // Note: under the new bones-as-currency model, unregistered users hit
       // showRegisterModal('chat') first. This path is preserved as a fallback
@@ -328,20 +329,20 @@
       // pitches the dog entry rather than a chat-only purchase.
       upgradeIcon.innerHTML = '&#128172;';
       upgradeTitle.textContent = 'Enter your dog and chat freely.';
-      upgradeSubtitle.textContent = 'Free registration includes chat and 250 bones. Pay $3.99 to enter your own dog.';
-      upgradePrimary.textContent = 'Enter Your Dog — $3.99';
+      upgradeSubtitle.textContent = 'Free registration includes chat, 50 bones, and entering your own dog.';
+      upgradePrimary.textContent = 'Enter Your Dog — Free';
       upgradePrimary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
-      upgradeSecondary.textContent = 'Premium — 1,000 bones for $5.99';
+      upgradeSecondary.textContent = 'Top Dog — 1,000 bones for $5.99';
       upgradeSecondary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
-      if (upgradeHint) upgradeHint.textContent = 'Includes a permanent dog page and 250 bones to give.';
+      if (upgradeHint) upgradeHint.textContent = 'Includes a permanent dog page and 50 bones to give.';
     } else if (context === 'upload') {
       upgradeIcon.innerHTML = '&#128248;';
-      upgradeTitle.textContent = 'Your dog needs a ticket to the show.';
-      upgradeSubtitle.textContent = 'Enter your dog, get a permanent page, and start collecting bones.';
-      upgradePrimary.textContent = 'Enter Your Dog — $3.99';
+      upgradeTitle.textContent = 'Enter your dog — it’s free.';
+      upgradeSubtitle.textContent = 'Register free to enter your dog, get a permanent page, and start collecting bones.';
+      upgradePrimary.textContent = 'Enter Your Dog — Free';
       upgradePrimary.onclick = function() { window.location.href = '/?scroll=pricing#pricing'; };
       upgradeSecondary.hidden = true;
-      if (upgradeHint) upgradeHint.textContent = 'Includes chat, unlimited bones, and a permanent certificate page for your dog.';
+      if (upgradeHint) upgradeHint.textContent = 'Free registration includes chat, 50 bones, and a permanent certificate page for your dog.';
     }
     upgradeOverlay.classList.add('active');
   }
@@ -379,7 +380,7 @@
 
   // ─── REGISTRATION (BONES MODEL) ─────────────────
   // Inline registration for unregistered visitors who try to chat/bone. No
-  // magic-link round-trip — name + email → instant 250 bones → unlock UI.
+  // magic-link round-trip — name + email → instant 50 bones → unlock UI.
 
   var PARTY_API = 'https://' + PARTY_HOST + '/party/' + PARTY_ROOM;
   var registerOverlay = document.getElementById('registerOverlay');
@@ -402,10 +403,10 @@
     }
     if (context === 'bone') {
       registerTitle.textContent = 'Sign up to send bones';
-      registerSubtitle.textContent = "It's free. You'll get 250 bones to spend right away.";
+      registerSubtitle.textContent = "It's free. You'll get 50 bones to spend right away, plus you can enter your own dog.";
     } else {
       registerTitle.textContent = 'Sign up to chat';
-      registerSubtitle.textContent = "It's free. You'll get 250 bones too.";
+      registerSubtitle.textContent = "It's free. You'll get 50 bones too, and you can enter your own dog.";
     }
     if (registerError) registerError.textContent = '';
     registerOverlay.classList.add('active');
@@ -443,7 +444,7 @@
           if (registerError) registerError.textContent = err;
           if (registerSubmit) {
             registerSubmit.disabled = false;
-            registerSubmit.textContent = 'Get 250 bones';
+            registerSubmit.textContent = 'Get 50 bones';
           }
           return;
         }
@@ -458,7 +459,7 @@
         hasPickedUsername = true;
         isRegistered = true;
         myBones = (res.body.user && typeof res.body.user.bones === 'number')
-          ? res.body.user.bones : 250;
+          ? res.body.user.bones : 50;
         // Tell the server about our chosen display name (best-effort).
         fetch(PARTY_API + '/set-username', {
           method: 'POST',
@@ -481,7 +482,7 @@
         if (registerError) registerError.textContent = 'Network error. Try again.';
         if (registerSubmit) {
           registerSubmit.disabled = false;
-          registerSubmit.textContent = 'Get 250 bones';
+          registerSubmit.textContent = 'Get 50 bones';
         }
       });
   }
@@ -575,7 +576,7 @@
     upgradePrimary.disabled = false;
     upgradePrimary.onclick = startBonesPackCheckout;
     if (upgradeSecondary) {
-      upgradeSecondary.textContent = 'Premium — 1,000 bones for $5.99';
+      upgradeSecondary.textContent = 'Top Dog — 1,000 bones for $5.99';
       upgradeSecondary.onclick = function () { window.location.href = '/?scroll=pricing#pricing'; };
       upgradeSecondary.hidden = false;
     }
@@ -591,7 +592,9 @@
     }
     myBonesPill.hidden = false;
     myBonesPillCount.textContent = myBones;
-    myBonesPill.classList.toggle('low', myBones > 0 && myBones <= 25);
+    // Low-balance warning. Free grant is only 50 now, so flag at <= 10 to nudge
+    // a top-up before they run dry.
+    myBonesPill.classList.toggle('low', myBones > 0 && myBones <= 10);
     myBonesPill.classList.toggle('empty', myBones === 0);
     var ovb = document.getElementById('ownerVoteBalance');
     if (ovb && myBones !== null) ovb.textContent = myBones + ' bones left';
@@ -820,6 +823,14 @@
       addBone(false);
       wsSend({ type: 'bone', user: myUsername });
     });
+    // Registered users always get a quick "top up your bones" button next to
+    // Give-a-bone — same checkout the out-of-bones nudge uses.
+    if (getBonesBtn) {
+      getBonesBtn.hidden = false;
+      getBonesBtn.addEventListener('click', function () {
+        if (typeof showTopUpModal === 'function') showTopUpModal();
+      });
+    }
   }
 
   // First-visit coachmark: show once that a bone is a vote. Dismiss on first
@@ -1559,10 +1570,11 @@
   var pendingUploadFile = null;
   if (window.populateBreedSelect) window.populateBreedSelect(uploadDogBreed);
 
-  // ── Paid-user row: upload prompt, or a link to the user's dog ──
-  // Free + general tiers don't see an upload button here (the $3.99 CTA lives
-  // in the house rotator below). Premium buyers see either the upload prompt
-  // or — once they have a dog — a persistent link to that dog's certificate.
+  // ── Owner row: upload prompt, or a link to the user's dog ──
+  // Entry is FREE now: any registered (logged-in) user who doesn't already have
+  // a dog sees the upload prompt. Once they have a dog, they see a persistent
+  // link to that dog's certificate instead. Logged-out visitors see nothing
+  // here — they register first via the inline register modal.
   var bottomDock = document.getElementById('bottomDock');
 
   // Admin-key passthrough: lets the site owner's own test uploads bypass the
@@ -1588,7 +1600,7 @@
     if (dockPatience) dockPatience.hidden = !pending;
   }
 
-  // Render the upload prompt for a premium user who has no dog yet.
+  // Render the upload prompt for a registered user who has no dog yet.
   function showUploadPrompt() {
     if (communityUpload) communityUpload.hidden = false;
     if (dockStatus) dockStatus.hidden = true;
@@ -1641,11 +1653,11 @@
     submitDogImage(pendingImage, pendingName || 'A Good Dog', pendingBreed || '', slotAt);
   }
 
-  if (tier === 'premium' && sessionToken) {
-    // Ask the server for the real tier + any existing dog before deciding what
-    // to show. The ?tier= URL param alone is not trusted (a refunded account
-    // still arrives with tier=premium in the link). Falls back to the upload
-    // prompt if the lookup fails.
+  if (sessionToken) {
+    // Entry is free for any registered user. Ask the server for the
+    // authoritative record of whether they already have a dog. If they do,
+    // show the certificate link; otherwise show the (free) upload prompt.
+    // Record the user's paid SKU so the slot picker can be gated to Top Dog.
     fetch(API_BASE + '/my-dog', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1653,10 +1665,9 @@
     })
       .then(function (res) { return res.json(); })
       .then(function (data) {
-        if (data && data.ok && data.tier !== 'premium') {
-          // Account isn't actually premium (e.g. refunded) — no upload UI.
-          if (bottomDock) bottomDock.hidden = true;
-          return;
+        if (data && data.ok) {
+          // Slot booking is a Top Dog ($5.99 premium_plus, or legacy premium) perk.
+          window.canBookSlot = (data.paidSku === 'premium_plus' || data.paidSku === 'premium');
         }
         if (bottomDock) bottomDock.hidden = false;
         if (data && data.ok && data.dog) {
@@ -1666,10 +1677,12 @@
           revealOwnerVoteBar(data.dog.dogName);
           clearPendingDog();
           showDogCertificate(data.dog.slug, data.dog.id, false);
+          // They have a dog now — drop the free-entry card from the rotator.
+          if (typeof window.refreshRotator === 'function') window.refreshRotator();
           return;
         }
-        // Premium, no dog yet — show the prompt, then auto-submit a fresh
-        // pre-purchase photo if one is waiting.
+        // Registered, no dog yet — show the free upload prompt, then auto-submit
+        // a fresh pre-purchase photo if one is waiting.
         showUploadPrompt();
         autoSubmitPendingDog();
       })
@@ -1681,7 +1694,7 @@
         autoSubmitPendingDog();
       });
   }
-  // For free + general, leave bottomDock + communityUpload hidden.
+  // Logged-out visitors: leave bottomDock + communityUpload hidden.
 
   if (uploadBtn) {
     uploadBtn.addEventListener('click', function () {
@@ -1755,6 +1768,11 @@
       uploadBtn.disabled = true;
     }
 
+    // Slot booking is a Top Dog ($5.99) perk. Only forward slotAt for Top Dog
+    // buyers — the server rejects it from everyone else (code
+    // 'slot_requires_topdog'), so we strip it here to keep free entries clean.
+    var effectiveSlotAt = (window.canBookSlot && slotAt) ? slotAt : undefined;
+
     fetch(API_BASE + '/upload-dog', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1765,7 +1783,7 @@
         breed: breed || '',
         username: myUsername,
         adminKey: adminKey || undefined,
-        slotAt: slotAt || undefined,  // Phase 3: optional scheduled slot
+        slotAt: effectiveSlotAt,  // Top Dog only; stripped otherwise
       }),
     })
       .then(function (res) { return res.json(); })
@@ -1898,10 +1916,11 @@
   }
 
   // ─── HOUSE ROTATOR (mobile layout — real CTA + fake-door cards) ───
-  // Replaces the old fixed "Enter Your Dog" dock button. Rotates 5 messages
-  // every 15 seconds. The $3.99 entry message is a real CTA → upgrade modal.
-  // Premium tier users have it filtered out (they already paid). The other 4
-  // messages are fake doors that open an interest-capture modal.
+  // Replaces the old fixed "Enter Your Dog" dock button. Rotates messages
+  // every 15 seconds. Entry is FREE now, so the entry message is a real CTA →
+  // free entry flow. It's hidden from users who already have a dog. The other
+  // messages are fake doors that open an interest-capture modal (plus the real
+  // $1.99 bones top-up card).
 
   var ROTATOR_INTERVAL_MS = 15000;
   var ROTATOR_FADE_MS = 200;
@@ -1909,10 +1928,10 @@
   var rotatorMessages = [
     {
       eyebrow: 'Tonight',
-      title: 'Put your dog in the show — $3.99',
+      title: 'Put your dog in the show — Free',
       cta: 'Enter →',
       action: 'real_entry',
-      excludeForTiers: ['premium'],
+      hideIfHasDog: true,  // entry is free; only hide it once they have a dog
     },
     {
       eyebrow: 'New feature',
@@ -1969,15 +1988,18 @@
     },
   ];
 
-  // Filter out messages excluded for this tier (e.g. premium doesn't see the
-  // $3.99 entry CTA) and messages that require a registered account (e.g. the
-  // $1.99 bones top-up — pointless to show before the user has an account to
-  // attach the purchase to).
-  var activeRotatorMessages = rotatorMessages.filter(function (m) {
-    if (m.excludeForTiers && m.excludeForTiers.indexOf(tier) !== -1) return false;
-    if (m.requiresRegistered && !isRegistered) return false;
-    return true;
-  });
+  // Filter out the entry CTA once the user already has a dog (entry is free, so
+  // tier no longer matters — one-dog-per-account does), plus messages that
+  // require a registered account (e.g. the $1.99 bones top-up — pointless to
+  // show before the user has an account to attach the purchase to).
+  function computeActiveRotatorMessages() {
+    return rotatorMessages.filter(function (m) {
+      if (m.hideIfHasDog && window.myDogId) return false;
+      if (m.requiresRegistered && !isRegistered) return false;
+      return true;
+    });
+  }
+  var activeRotatorMessages = computeActiveRotatorMessages();
 
   var rotatorContainer = document.getElementById('houseRotator');
   var rotatorCard = document.getElementById('houseRotatorCard');
@@ -2066,7 +2088,7 @@
     } else if (msg.action === 'bones_topup') {
       // Real product (no longer a fake door). Registered users go straight
       // to Stripe checkout via startBonesPackCheckout; unregistered users
-      // hit the inline register modal first — they get 250 free bones on
+      // hit the inline register modal first — they get 50 free bones on
       // signup, which is the more valuable first conversion anyway.
       if (isRegistered && typeof startBonesPackCheckout === 'function') {
         startBonesPackCheckout();
@@ -2084,11 +2106,22 @@
     rotatorCard.addEventListener('click', handleRotatorClick);
   }
 
-  if (activeRotatorMessages.length > 0 && rotatorTitle) {
-    buildRotatorDots();
-    renderRotatorMessage(0);
-    restartRotatorTimer();
+  function initRotator() {
+    if (activeRotatorMessages.length > 0 && rotatorTitle) {
+      buildRotatorDots();
+      renderRotatorMessage(0);
+      restartRotatorTimer();
+    }
   }
+  initRotator();
+
+  // Called once /my-dog resolves: if the user now has a dog, recompute the
+  // rotator so the (now-redundant) free-entry card drops out.
+  window.refreshRotator = function () {
+    activeRotatorMessages = computeActiveRotatorMessages();
+    rotatorIndex = 0;
+    initRotator();
+  };
 
   // ─── INTEREST (FAKE-DOOR) MODAL ───
   // Opens when a fake-door card is clicked. Captures email and posts to

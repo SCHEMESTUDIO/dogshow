@@ -13,7 +13,7 @@
   <!-- Open Graph (Facebook, LinkedIn, iMessage, Slack, Discord, WhatsApp, Telegram, Reddit) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="The Dog Show — A Live Dog-Viewing Experience">
-  <meta property="og:description" content="Watch one dog at a time, give bones, and chat with the crowd. Enter your own dog for $3.99 and get a permanent page.">
+  <meta property="og:description" content="Watch one dog at a time, give bones, and chat with the crowd. Enter your own dog free and get a permanent page.">
   <meta property="og:url" content="https://dogshow.lol/show.html">
   <meta property="og:site_name" content="The Dog Show">
   <meta property="og:image" content="https://dogshow.lol/og-image.png">
@@ -26,7 +26,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The Dog Show — A Live Dog-Viewing Experience">
-  <meta name="twitter:description" content="Watch one dog at a time, give bones, chat with the crowd. Enter yours for $3.99.">
+  <meta name="twitter:description" content="Watch one dog at a time, give bones, chat with the crowd. Enter yours free.">
   <meta name="twitter:image" content="https://dogshow.lol/og-image.png">
   <meta name="twitter:image:alt" content="The Dog Show — A Live Dog-Viewing Experience">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -34,6 +34,28 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Secondary "top up your bones" button next to Give-a-bone. Visually a
+       button, but quieter than the primary orange CTA. */
+    .dock-getbones-btn {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(255, 140, 66, 0.10);
+      border: 1px solid rgba(255, 140, 66, 0.45);
+      border-radius: 8px;
+      padding: 7px 11px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    }
+    .dock-getbones-btn:hover {
+      background: rgba(255, 140, 66, 0.18);
+      border-color: rgba(255, 140, 66, 0.7);
+    }
+    .dock-getbones-btn:active { transform: scale(0.97); }
+  </style>
 </head>
 <body class="show-body">
 
@@ -101,6 +123,9 @@
         </div>
         <div class="bones-cluster">
           <button class="dock-bone-btn" id="boneBtn">🦴 Give a bone</button>
+          <!-- Top up your bone supply — opens the same checkout the empty-balance
+               nudge uses. Shown by app.js to registered users at all times. -->
+          <button class="dock-getbones-btn" id="getBonesBtn" hidden>➕ Get bones</button>
           <!-- First-visit coachmark (shown once via localStorage in app.js). -->
           <div class="bone-coach" id="boneCoach" hidden>👆 A bone is a vote — tap to back this dog!</div>
           <div class="dock-bone-pill">
@@ -230,12 +255,12 @@
 
   <!-- Inline registration modal (bones-as-currency model, 2026-05-26). Shown
        when an unregistered visitor tries to chat or send a bone. No magic
-       link — name + email → instant 250 bones → unlock UI. -->
+       link — name + email → instant 50 bones → unlock UI. -->
   <div class="register-overlay" id="registerOverlay" role="dialog" aria-modal="true" aria-labelledby="registerTitle">
     <div class="register-modal">
       <div class="register-modal-icon" aria-hidden="true">&#129460;</div>
       <div class="register-modal-title" id="registerTitle">Sign up to send bones</div>
-      <div class="register-modal-subtitle" id="registerSubtitle">It's free. You'll get 250 bones to spend right away.</div>
+      <div class="register-modal-subtitle" id="registerSubtitle">It's free. You'll get 50 bones to spend right away.</div>
       <label for="registerName" class="sr-only">Display name</label>
       <input type="text" class="register-modal-input" id="registerName" placeholder="Display name" autocomplete="nickname" spellcheck="false" maxlength="20">
       <label for="registerEmail" class="sr-only">Email address</label>
@@ -243,7 +268,7 @@
       <div class="register-modal-error" id="registerError"></div>
       <div class="register-modal-actions">
         <button class="register-modal-cancel" id="registerCancel">No thanks</button>
-        <button class="register-modal-submit" id="registerSubmit">Get 250 bones</button>
+        <button class="register-modal-submit" id="registerSubmit">Get 50 bones</button>
       </div>
       <div class="register-modal-hint">By signing up you'll get occasional updates about the show. Unsubscribe anytime.</div>
     </div>
@@ -330,7 +355,7 @@
       <div class="upgrade-subtitle" id="upgradeSubtitle">Upgrade once and give bones forever.</div>
       <div class="upgrade-actions">
         <button class="upgrade-btn-primary" id="upgradePrimary">Unlock Bones &mdash; $1.99</button>
-        <button class="upgrade-btn-secondary" id="upgradeSecondary">Enter Your Dog Instead &mdash; $3.99</button>
+        <button class="upgrade-btn-secondary" id="upgradeSecondary">Enter Your Dog Instead &mdash; Free</button>
         <div class="upgrade-hint" id="upgradeHint"></div>
         <button class="upgrade-dismiss" id="upgradeDismiss">Maybe later</button>
       </div>

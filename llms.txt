@@ -3,8 +3,8 @@
 > The Dog Show is "the internet's least serious dog show" — a free, live online stream where a rotation of real dogs, uploaded by their owners, takes the stage while viewers watch together and throw "bones" (votes). Each calendar month the most-voted dog is crowned Best in Show. Owners can enter their own dog, and the site publishes plain-spoken, genuinely useful guides to popular and designer-mix dog breeds.
 
 Key facts:
-- Watching the live show is free. Registering grants 250 bones (votes) to throw.
-- Entering your own dog is a one-time $3.99 — no subscription. A $5.99 tier adds a bones bonus, and a $1.99 top-up adds more bones.
+- Watching the live show is free. Registering (a free Dog Entry account) grants 50 bones (votes) to throw, and lets you chat, upload your own dog, and get a certificate page.
+- Entering your own dog is FREE — no subscription. Money only buys bones: a Dog Entry Pro account is $1.99 (everything free, plus 250 bones) and a Top Dog account is $5.99 (everything, plus 1000 bones and the ability to book your dog's stage slot for 3× stage time). A $1.99 bone pack adds 250 bones to any account.
 - A monthly "Best in Show" race crowns the dog with the most votes that month.
 - One dog per account. Dogs are real, owner-submitted photos; testimonials are real and owner-submitted.
 - Made by Scheme Studio. Contact: james@wearescheme.studio.
@@ -42,7 +42,7 @@ Key facts:
 ## Enter your dog & contests
 - [How to enter a dog show](https://dogshow.lol/how-to-enter-a-dog-show): Step-by-step guide to entering a dog show — the traditional in-person route and the online route via The Dog Show. Q&A format.
 - [How dog shows work online](https://dogshow.lol/how-online-dog-shows-work): Explainer on how online dog shows work in 2026 — traditional vs. online, static photo contests vs. live rotating shows, and how voting and Best in Show work. Q&A format.
-- [Enter your dog](https://dogshow.lol/?openModal=premium): Upload your dog and pick when it takes the stage.
+- [Enter your dog](https://dogshow.lol/?openModal=premium): Upload your dog for free and watch it take the stage in the rotation.
 - [Dog photo contest](https://dogshow.lol/dog-photo-contest): How The Dog Show works as an online dog photo contest.
 - [Cutest dog contest](https://dogshow.lol/cutest-dog-contest): A judge-free cutest-dog contest where every dog is the cutest.
 - [Puppy picture contest](https://dogshow.lol/puppy-picture-contest): How to enter a puppy in the show.

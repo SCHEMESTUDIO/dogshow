@@ -1172,7 +1172,7 @@ ${renderUserDogsSection(userDogs, breed.name)}
 <h2>See it live &mdash; free</h2>
 <p>The Dog Show runs around the clock: real dogs, a real stage, viewers cheering them on with bones. No signup needed to watch.</p>
 <a class="cta-btn" href="/show.html">Watch the show free &rarr;</a>
-<p class="cta-secondary">Have a ${esc(breed.name)} of your own? <a href="/?openModal=premium">Put them on stage &rarr;</a> &middot; from $3.99, one-time</p>
+<p class="cta-secondary">Have a ${esc(breed.name)} of your own? <a href="/?openModal=premium">Put them on stage &rarr;</a> &middot; free to enter</p>
 </div>
 
 <div class="section related">

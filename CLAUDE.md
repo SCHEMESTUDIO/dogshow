@@ -285,9 +285,13 @@ Base: `dogshow.schemestudio.partykit.dev/party/dogshow-live` (PartyKit single-pa
 - `getChosenSlotAt()` — Returns the picker's chosen `slotAt` timestamp, or `null` for "show me now"
 - `populateSlotDateSelect()` / `populateSlotTimeSelect()` — Build the date + time pickers from "now" forward
 
-## Pricing Tiers (post-2026-05-26 bones model)
+## Pricing Tiers (FREE-TO-ENTER model, 2026-06-23)
 
-1. **Free Peek** — Watch only. Register grants 250 bones.
-2. **Bones Top-Up ($1.99, SKU `general`)** — +250 bones. Was previously "unlimited bones forever" (pre-2026-05-26); legacy purchasers are grandfathered via `/admin-migrate-general` to free tier + 2500 bones.
-3. **Bring Your Dog ($3.99, SKU `premium`)** — Upload your dog + pick a slot time (or "show me now"). Booked slots get 3× on-stage duration. Bones balance behaves like everyone else's. Primary conversion target.
-4. **Premium ($5.99, SKU `premium_plus`)** — BYD + 2× bones launch bonus. Same upload + slot booking flow as `premium`.
+**Entry is now FREE for everyone. Money only buys bones.** The $3.99 `premium` "Enter Your Dog" SKU is RETIRED. See `free-to-enter-migration-2026-06-23.md` for the full change set + deploy/prod-action checklist. `BONES_ON_REGISTER` dropped 250→**50**; `BONES_TOPDOG = 1000` added.
+
+1. **Dog Fan** — Free, no account. Watch only.
+2. **Dog Entry** — Free (SKU `free`). Register → chat, **upload one dog** (cert page), **50 bones**. `/upload-dog` is no longer premium-gated; any registered user may upload one dog.
+3. **Dog Entry Pro ($1.99, SKU `general`)** — Everything in Dog Entry **+ 250 bones**. (Same SKU as the repeatable $1.99 bones pack.)
+4. **Top Dog ($5.99, SKU `premium_plus`)** — Everything **+ 1000 bones + slot booking + 3× on-stage duration**. Slot booking is gated to `paidSku === 'premium_plus'` (legacy `'premium'` $3.99 buyers keep slot rights). Sets `tier='premium'`.
+
+Legacy notes: the `tier === 'general'` unlimited-bones bypass was **removed** (run `/admin-migrate-general?...&commit=1` on prod BEFORE deploying so grandfathered users get 2500 bones first). Legacy $3.99 `premium` buyers: goodwill bones via new `GET /admin-grant-goodwill?key=X[&bones=1000][&days=N][&commit=1]` (grants once per user + emails `sendBenefitsChangeEmail`). **Hardcoded-facts sync set still applies** — prices/bones live in `RESPONSIVE_BOT_SYSTEM_PROMPT` (server.js), `llms.txt`, and `brand-voice.md`; update together.

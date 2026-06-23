@@ -12,7 +12,7 @@
   <!-- Open Graph (Facebook, LinkedIn, iMessage, Slack, Discord, WhatsApp, Telegram, Reddit) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="The Dog Show — Enter Your Dog">
-  <meta property="og:description" content="Put your dog in the internet's live dog show. One dog at a time. Everyone watching. Enter yours for $3.99.">
+  <meta property="og:description" content="Put your dog in the internet's live dog show. One dog at a time. Everyone watching. Enter yours free.">
   <meta property="og:url" content="https://dogshow.lol/">
   <meta property="og:site_name" content="The Dog Show">
   <meta property="og:image" content="https://dogshow.lol/og-image.png">
@@ -25,7 +25,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The Dog Show — Enter Your Dog">
-  <meta name="twitter:description" content="Put your dog in the internet's live dog show. A permanent show page, votes from fans, and a shot at Best in Show. $3.99 once.">
+  <meta name="twitter:description" content="Put your dog in the internet's live dog show. A permanent show page, votes from fans, and a shot at Best in Show. Free to enter.">
   <meta name="twitter:image" content="https://dogshow.lol/og-image.png">
   <meta name="twitter:image:alt" content="The Dog Show — A Live Dog-Viewing Experience">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -1516,10 +1516,10 @@
     <h1>The Dog Show</h1>
     <p class="lp-hero-sub">The internet's live dog show. Every bone is a vote toward this month's <strong style="color:#FF8C42;">Best in Show</strong> &mdash; can your dog take the title?</p>
     <div class="lp-hero-actions">
-      <button class="lp-btn lp-btn-primary" id="heroCta">Enter Your Dog &mdash; $3.99</button>
+      <button class="lp-btn lp-btn-primary" id="heroCta">Enter Your Dog &mdash; Free</button>
       <button class="lp-btn lp-btn-secondary" id="heroFree">Watch the Show Free</button>
     </div>
-    <div class="lp-hero-trust" style="margin-bottom: 20px;">One-time $3.99 &middot; No subscription &middot; Nothing to download &mdash; plays right in your browser</div>
+    <div class="lp-hero-trust" style="margin-bottom: 20px;">Free to enter &middot; No subscription &middot; Nothing to download &mdash; plays right in your browser</div>
     <!-- This month's Best in Show race — populated from /leaderboard (weeklyTopDogs).
          Hidden until the fetch succeeds; shows an open-field line when nobody
          has bones yet. Real dogs only — never seed/sample dogs here. -->
@@ -1631,7 +1631,7 @@
       </div>
     </div>
     <p class="lp-preview-hook">Your dog could be next.</p>
-    <button class="lp-btn lp-btn-primary" id="previewCta">Enter Your Dog &mdash; $3.99</button>
+    <button class="lp-btn lp-btn-primary" id="previewCta">Enter Your Dog &mdash; Free</button>
   </section>
 
   <!-- Certificate + Hall of Bones -->
@@ -1703,7 +1703,7 @@
       </div>
     </div>
 
-    <button class="lp-btn lp-btn-primary" style="margin: 0 auto; display: block;" id="certCta">Enter Your Dog &mdash; $3.99</button>
+    <button class="lp-btn lp-btn-primary" style="margin: 0 auto; display: block;" id="certCta">Enter Your Dog &mdash; Free</button>
   </section>
 
   <!-- Testimonials (real, from fans who replied to their dog's appearance email) -->
@@ -1835,58 +1835,63 @@
   <section class="lp-section" id="pricing">
     <div class="lp-section-label">Pricing</div>
     <div class="lp-section-title">Choose your level of dog involvement.</div>
-    <div class="lp-section-subtitle">One-time payment. Lifetime access. No subscriptions. No tricks. Just dogs.</div>
+    <div class="lp-section-subtitle">Entering your dog is free. Bones are the only thing you can buy &mdash; and only if you want more to cheer with.</div>
+
+    <div class="lp-dogfan-strip" style="max-width:760px;margin:0 auto 22px;padding:14px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;text-align:center;font-size:15px;color:var(--text-bright);">
+      Just here to watch? The whole show is free &mdash; no signup needed.
+      <a href="show.html" style="color:var(--accent);font-weight:700;text-decoration:none;white-space:nowrap;">Watch the Show &rarr;</a>
+    </div>
 
     <div class="lp-pricing-grid">
-      <div class="lp-plan">
-        <div class="lp-plan-name">Free</div>
-        <div class="lp-plan-desc">Watch, chat, cheer</div>
-        <div class="lp-plan-price">Free</div>
-        <div class="lp-plan-price-note">Forever</div>
+      <div class="lp-plan lp-plan-popular">
+        <div class="lp-plan-badge">FREE FOR A LIMITED TIME</div>
+        <div class="lp-plan-name">Dog Entry</div>
+        <div class="lp-plan-desc">Put your dog on stage</div>
+        <div class="lp-plan-price"><span style="text-decoration:line-through;opacity:0.45;font-size:0.5em;margin-right:10px;vertical-align:middle;">$3.99</span>Free</div>
+        <div class="lp-plan-price-note">Limited time &mdash; no payment</div>
         <div class="lp-plan-features">
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Watch the live show</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Upload your dog</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Dog appears in the live rotation</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Permanent dog page + certificate</div>
           <div class="lp-plan-feature"><span class="check">&#10003;</span> Live chat with fans</div>
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> 250 bones to give</div>
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Pick a display name</div>
-          <div class="lp-plan-feature disabled"><span class="x">&#10005;</span> No dog uploads</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> 50 bones to give</div>
         </div>
-        <button class="lp-plan-btn lp-plan-btn-outline" id="planFree">Get my 250 bones</button>
+        <button class="lp-plan-btn lp-plan-btn-primary" id="planEntry">Enter Your Dog &mdash; Free</button>
       </div>
 
-      <div class="lp-plan lp-plan-popular">
-        <div class="lp-plan-badge">BEST FOR PROUD DOG PEOPLE</div>
-        <div class="lp-plan-name">Enter Your Dog</div>
-        <div class="lp-plan-desc">The star treatment</div>
-        <div class="lp-plan-price">$3.99</div>
+      <div class="lp-plan">
+        <div class="lp-plan-name">Dog Entry Pro</div>
+        <div class="lp-plan-desc">Enter + a bag of bones</div>
+        <div class="lp-plan-price">$1.99</div>
         <div class="lp-plan-price-note">One-time</div>
         <div class="lp-plan-features">
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Everything in Free</div>
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Upload your dog</div>
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Dog appears in live rotation</div>
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Permanent dog page</div>
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Shareable certificate</div>
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> 250 bones to give</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Everything in Dog Entry</div>
+          <div class="lp-plan-feature lp-plan-feature-highlight">
+            <span class="check">&#10003;</span>
+            <span class="lp-bones-new">250 bones</span>
+          </div>
+          <div class="lp-plan-feature lp-plan-feature-note">Five times the bones to cheer with.</div>
         </div>
-        <button class="lp-plan-btn lp-plan-btn-primary" id="planPremium">Enter Your Dog &mdash; $3.99</button>
+        <button class="lp-plan-btn lp-plan-btn-outline" id="planEntryPro">Get 250 Bones &mdash; $1.99</button>
       </div>
 
       <div class="lp-plan">
-        <div class="lp-plan-bonus-badge">2&times; BONES &mdash; LAUNCH BONUS</div>
-        <div class="lp-plan-name">Premium</div>
-        <div class="lp-plan-desc">Big bag of bones</div>
+        <div class="lp-plan-bonus-badge">BEST VALUE</div>
+        <div class="lp-plan-name">Top Dog</div>
+        <div class="lp-plan-desc">The big bag of bones</div>
         <div class="lp-plan-price">$5.99</div>
         <div class="lp-plan-price-note">One-time</div>
         <div class="lp-plan-features">
-          <div class="lp-plan-feature"><span class="check">&#10003;</span> Everything in Enter Your Dog</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Everything in Dog Entry</div>
           <div class="lp-plan-feature lp-plan-feature-highlight">
             <span class="check">&#10003;</span>
-            <span class="lp-bones-strike">500</span>
             <span class="lp-bones-new">1,000 bones</span>
-            <span class="lp-bones-callout">2&times; bonus</span>
+            <span class="lp-bones-callout">~33% more per bone</span>
           </div>
-          <div class="lp-plan-feature lp-plan-feature-note">Same $5.99 as $3.99 + a top-up, double the bones.</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> Book your dog's stage time</div>
+          <div class="lp-plan-feature"><span class="check">&#10003;</span> 3&times; longer on stage</div>
         </div>
-        <button class="lp-plan-btn lp-plan-btn-outline" id="planPremiumPlus">Go Premium &mdash; $5.99</button>
+        <button class="lp-plan-btn lp-plan-btn-outline" id="planTopDog">Go Top Dog &mdash; $5.99</button>
       </div>
     </div>
 
@@ -1918,7 +1923,7 @@
       </div>
       <div class="lp-faq-item">
         <button class="lp-faq-q" aria-expanded="false">Why would I pay for this? <span class="lp-faq-arrow" aria-hidden="true">+</span></button>
-        <div class="lp-faq-a">Watching, chatting, and giving bones are all free — every signup gets 250 bones to spend. For $3.99 you can upload your own dog to appear in the live show with a permanent certificate. For $5.99 you get the same dog entry plus 1,000 bones to boost your favorites.</div>
+        <div class="lp-faq-a">Watching, chatting, and entering your own dog are all free — every signup gets 50 bones to spend. You only pay if you want more bones to cheer with: $1.99 adds 250 bones, and $5.99 (Top Dog) adds 1,000 bones plus the ability to book your dog's stage time for 3× longer on stage.</div>
       </div>
       <div class="lp-faq-item">
         <button class="lp-faq-q" aria-expanded="false">Is this a subscription? <span class="lp-faq-arrow" aria-hidden="true">+</span></button>
@@ -1937,8 +1942,8 @@
         <div class="lp-faq-a">Yes. The dogs never stop. The show rotates through random breeds and community-uploaded dogs around the clock. There are always people watching. Perhaps also some dogs.</div>
       </div>
       <div class="lp-faq-item">
-        <button class="lp-faq-q" aria-expanded="false">What do I get for $3.99? <span class="lp-faq-arrow" aria-hidden="true">+</span></button>
-        <div class="lp-faq-a">Your dog enters the live rotation, gets a permanent show page with stats, bones, and appearances. You also get 250 bones to give other dogs. One payment. Forever. (If you want 1,000 bones instead, that's the $5.99 Premium tier.)</div>
+        <button class="lp-faq-q" aria-expanded="false">Do I have to pay anything? <span class="lp-faq-arrow" aria-hidden="true">+</span></button>
+        <div class="lp-faq-a">No. Entering your dog, watching, chatting, and your first 50 bones are all free. The only thing money buys is more bones — $1.99 for 250, or $5.99 for 1,000 plus the Top Dog perk of booking your dog's stage time. Buy them only if you want to.</div>
       </div>
     </div>
   </section>
@@ -2174,15 +2179,18 @@
       emailSubmit.disabled = false;
       emailSubmit.innerHTML = 'Continue';
 
-      if (tier === 'premium' || tier === 'premium_plus') {
+      if (tier === 'premium_plus') {
         emailTitle.textContent = "Where should we send your dog's show page?";
-        emailSubtitle.textContent = "We'll use this email to save your entry and let you access your dog's page later.";
+        emailSubtitle.textContent = "We'll use this email to save your entry, your bones, and your dog's page.";
+      } else if (tier === 'general') {
+        emailTitle.textContent = 'Where should we send your bones?';
+        emailSubtitle.textContent = "We'll use this email to save your account and bones balance.";
       } else if (tier === 'free') {
-        emailTitle.textContent = 'Almost in!';
-        emailSubtitle.textContent = "Enter your email and you're in. No password. No spam.";
+        emailTitle.textContent = "Where should we send your dog's show page?";
+        emailSubtitle.textContent = "We'll use this email to save your entry and your dog's page — no password, no spam.";
       } else {
-        emailTitle.textContent = 'Where should we send your lifetime pass?';
-        emailSubtitle.textContent = 'No password. No spam. This email unlocks your Dog Show access forever.';
+        emailTitle.textContent = 'Where should we send your access?';
+        emailSubtitle.textContent = 'No password. No spam. This email unlocks your Dog Show access.';
       }
 
       emailOverlay.classList.add('active');
@@ -2411,6 +2419,10 @@
       var nowRadio = document.querySelector('input[name="slotChoice"][value="now"]');
       if (nowRadio) nowRadio.checked = true;
       if (slotPickers) slotPickers.hidden = true;
+      // Slot booking is a Top Dog ($5.99) perk only — hide the whole picker for
+      // free / Dog Entry Pro entries so they can't pick a slot the server rejects.
+      var slotSectionEl = document.querySelector('.lp-slot-section');
+      if (slotSectionEl) slotSectionEl.style.display = (pendingDogTier === 'premium_plus') ? '' : 'none';
       // Re-populate in case the user opened this hours after page load
       populateSlotDateSelect();
       populateSlotTimeSelect();
@@ -2469,16 +2481,17 @@
       localStorage.setItem('dogshow_pending_dog_ts', String(Date.now()));
       // Phase 3: if the user picked a scheduled slot, persist it. app.js's
       // submitDogImage will pass it to /upload-dog after Stripe success.
-      var slotAt = getChosenSlotAt();
+      // Slot booking is a Top Dog perk — only stash a slot for premium_plus.
+      var slotAt = (pendingDogTier === 'premium_plus') ? getChosenSlotAt() : null;
       if (slotAt) {
         localStorage.setItem('dogshow_pending_dog_slot', String(slotAt));
       } else {
         localStorage.removeItem('dogshow_pending_dog_slot');
       }
       uploadOverlay.classList.remove('active');
-      // pendingDogTier was set by whichever CTA started this flow — defaults
-      // to 'premium' ($3.99), 'premium_plus' for the $5.99 Premium button.
-      openEmailModal(pendingDogTier || 'premium');
+      // pendingDogTier was set by whichever CTA started this flow — defaults to
+      // 'free' (entry is free); 'premium_plus' for the Top Dog button.
+      openEmailModal(pendingDogTier || 'free');
     });
 
     document.getElementById('uploadCancel').addEventListener('click', function() {
@@ -2547,15 +2560,15 @@
     }
 
     // ─── BUTTON LISTENERS ────────────────────────────
-    // Module-level: which BYD SKU the user picked. Default $3.99; the Premium
-    // button overrides to 'premium_plus' before opening the upload modal.
-    var pendingDogTier = 'premium';
-    document.getElementById('heroCta').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
+    // Module-level: which entry SKU the user picked. Entry is free by default;
+    // the Top Dog button overrides to 'premium_plus' before opening the modal.
+    var pendingDogTier = 'free';
+    document.getElementById('heroCta').addEventListener('click', function() { pendingDogTier = 'free'; startDogEntry(); });
     document.getElementById('heroFree').addEventListener('click', function() { playCurtainAndGo('free'); });
     // Dog of the Month band — CTA + live countdown to month end.
     (function () {
       var cta = document.getElementById('monthBannerCta');
-      if (cta) cta.addEventListener('click', function () { pendingDogTier = 'premium'; startDogEntry(); });
+      if (cta) cta.addEventListener('click', function () { pendingDogTier = 'free'; startDogEntry(); });
       var titleEl = document.getElementById('monthBannerTitle');
       var now = new Date();
       var monthName = now.toLocaleString('en-US', { month: 'long' });
@@ -2566,14 +2579,19 @@
         titleEl.textContent = left + ' to win ' + monthName + "'s Best in Show";
       }
     })();
-    document.getElementById('previewCta').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
-    document.getElementById('certCta').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
-    document.getElementById('planFree').addEventListener('click', function() { playCurtainAndGo('free'); });
-    document.getElementById('planPremium').addEventListener('click', function() { pendingDogTier = 'premium'; startDogEntry(); });
-    var planPremiumPlusBtn = document.getElementById('planPremiumPlus');
-    if (planPremiumPlusBtn) {
-      planPremiumPlusBtn.addEventListener('click', function() { pendingDogTier = 'premium_plus'; startDogEntry(); });
-    }
+    document.getElementById('previewCta').addEventListener('click', function() { pendingDogTier = 'free'; startDogEntry(); });
+    document.getElementById('certCta').addEventListener('click', function() { pendingDogTier = 'free'; startDogEntry(); });
+    // Dog Entry (free) — collect the dog, then register free (no checkout).
+    var planEntryBtn = document.getElementById('planEntry');
+    if (planEntryBtn) planEntryBtn.addEventListener('click', function() { pendingDogTier = 'free'; startDogEntry(); });
+    // Dog Entry Pro ($1.99) — a bones top-up; entry itself is free, so skip the
+    // upload modal and go straight to checkout. Users upload their dog free.
+    var planEntryProBtn = document.getElementById('planEntryPro');
+    if (planEntryProBtn) planEntryProBtn.addEventListener('click', function() { openEmailModal('general'); });
+    // Top Dog ($5.99) — entry + 1000 bones + slot booking. Collect the dog
+    // (with slot picker) then checkout.
+    var planTopDogBtn = document.getElementById('planTopDog');
+    if (planTopDogBtn) planTopDogBtn.addEventListener('click', function() { pendingDogTier = 'premium_plus'; startDogEntry(); });
 
     // ─── DEEP-LINK: ?openModal=premium|premium_plus|free ─────────────────
     // Lets the SEO/ad landing pages open the entry flow directly instead of
@@ -2589,14 +2607,16 @@
         var clean = window.location.pathname + window.location.hash;
         history.replaceState(null, '', clean);
       } catch (e) {}
-      if (want === 'premium' || want === 'premium_plus') {
+      if (want === 'premium' || want === 'premium_plus' || want === 'enter') {
         // If they came from one of our own pages (a landing/show CTA), remember
         // it so closing the modal returns them there rather than the homepage.
         try {
           entryCameFromSite = !!document.referrer &&
             new URL(document.referrer).origin === window.location.origin;
         } catch (e) { entryCameFromSite = false; }
-        pendingDogTier = want;
+        // Entry is free now: legacy ?openModal=premium maps to the free entry
+        // flow; only ?openModal=premium_plus opens the paid Top Dog flow.
+        pendingDogTier = (want === 'premium_plus') ? 'premium_plus' : 'free';
         startDogEntry();
       } else if (want === 'free') {
         playCurtainAndGo('free');

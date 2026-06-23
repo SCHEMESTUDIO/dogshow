@@ -503,7 +503,7 @@ module.exports = async function handler(req, res) {
 <div id="voteRegister" style="display:none;margin-top:12px;flex-direction:column;gap:8px;max-width:300px;margin-left:auto;margin-right:auto;">
 <input id="voteEmail" type="email" placeholder="Your email" style="padding:11px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.06);color:#fff;font-size:14px;">
 <button id="voteRegisterBtn" type="button" class="cert-cta-btn" style="margin:0;">Cast your vote</button>
-<div style="font-size:11px;color:rgba(255,255,255,0.38);">Free — gives you 250 bones to vote with.</div>
+<div style="font-size:11px;color:rgba(255,255,255,0.38);">Free — gives you 50 bones to vote with.</div>
 </div>
 </div>`;
 
