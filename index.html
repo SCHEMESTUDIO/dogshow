@@ -2440,17 +2440,28 @@
       reader.onload = function(ev) {
         var img = new Image();
         img.onload = function() {
-          var canvas = document.createElement('canvas');
+          // Compress under the server's 128 KiB storage ceiling: cap the largest
+          // dimension, then step quality (and, if needed, dimensions) down until
+          // the data URL fits. Target 120000 chars to clear the server's
+          // 125000-byte guard (which clears the 131072 DO limit).
+          var TARGET = 120000;
           var maxDim = 600;
-          var w = img.width, h = img.height;
-          if (w > maxDim || h > maxDim) {
-            if (w > h) { h = h * maxDim / w; w = maxDim; }
-            else { w = w * maxDim / h; h = maxDim; }
+          for (var attempt = 0; attempt < 5; attempt++) {
+            var w = img.width, h = img.height;
+            var scale = Math.min(1, maxDim / Math.max(w, h));
+            var canvas = document.createElement('canvas');
+            canvas.width = Math.max(1, Math.round(w * scale));
+            canvas.height = Math.max(1, Math.round(h * scale));
+            canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+            var quality = 0.7;
+            pendingDogImage = canvas.toDataURL('image/jpeg', quality);
+            while (pendingDogImage.length > TARGET && quality > 0.4) {
+              quality -= 0.1;
+              pendingDogImage = canvas.toDataURL('image/jpeg', quality);
+            }
+            if (pendingDogImage.length <= TARGET) break;
+            maxDim = Math.round(maxDim * 0.8);
           }
-          canvas.width = w;
-          canvas.height = h;
-          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-          pendingDogImage = canvas.toDataURL('image/jpeg', 0.7);
           uploadPreviewImg.src = pendingDogImage;
           uploadPreviewImg.hidden = false;
           dropzoneText.hidden = true;

@@ -1727,23 +1727,45 @@
     });
   }
 
+  // Resize + compress a loaded <img> to a JPEG data URL that stays under the
+  // server's storage ceiling. Caps the LARGEST dimension (not just width, which
+  // left tall portraits oversized) then steps quality, and finally dimensions,
+  // down until the encoded size fits. Target 120000 chars to sit safely under
+  // the server's 125000-byte guard (which itself clears the 131072 DO limit).
+  function compressDogImage(img) {
+    var TARGET = 120000;
+    var maxDim = 600;
+    var dataUrl = '';
+    for (var attempt = 0; attempt < 5; attempt++) {
+      var w = img.width, h = img.height;
+      var scale = Math.min(1, maxDim / Math.max(w, h));
+      var canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(w * scale));
+      canvas.height = Math.max(1, Math.round(h * scale));
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      var quality = 0.7;
+      dataUrl = canvas.toDataURL('image/jpeg', quality);
+      while (dataUrl.length > TARGET && quality > 0.4) {
+        quality -= 0.1;
+        dataUrl = canvas.toDataURL('image/jpeg', quality);
+      }
+      if (dataUrl.length <= TARGET) break;
+      // Still too big even at min quality — shrink dimensions and retry.
+      maxDim = Math.round(maxDim * 0.8);
+    }
+    return dataUrl;
+  }
+
   function resizeAndUpload(file, dogName, breed) {
     var reader = new FileReader();
     reader.onload = function (e) {
       var img = new Image();
       img.onload = function () {
-        // Resize to max 600px wide, maintain aspect ratio
-        var canvas = document.createElement('canvas');
-        var maxWidth = 600;
-        var scale = Math.min(1, maxWidth / img.width);
-        canvas.width = img.width * scale;
-        canvas.height = img.height * scale;
-
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-        // Convert to JPEG at 0.7 quality, then hand off to the shared submitter.
-        var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        // Compress under the server's 128 KiB storage ceiling. compressDogImage
+        // caps BOTH dimensions (a width-only cap left tall portraits huge) and
+        // steps quality/size down until the data URL fits.
+        var dataUrl = compressDogImage(img);
         submitDogImage(dataUrl, dogName, breed);
       };
       img.src = e.target.result;

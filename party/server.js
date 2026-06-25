@@ -2728,6 +2728,16 @@ export default class DogShowServer {
     if (!imageData.startsWith('data:image/') || imageData.length > 700000) {
       return new Response(JSON.stringify({ error: 'invalid image (max 500KB, JPEG/PNG only)', code: 'image_invalid' }), { status: 400, headers });
     }
+    // Hard storage ceiling: PartyKit/Durable-Objects caps any single stored
+    // value at 128 KiB (131072 bytes). The data URL is stored verbatim at
+    // `img:${id}`, so anything above that throws a RangeError on put() and
+    // 500s the upload. Reject with a clean error here (125000-byte margin
+    // leaves room for serialization overhead). The client resizer should keep
+    // photos well under this — this is the backstop for heavy photos and
+    // tampered clients.
+    if (imageData.length > 125000) {
+      return new Response(JSON.stringify({ error: 'That photo is too large after processing — please try a different one.', code: 'image_too_large' }), { status: 400, headers });
+    }
 
     // ─── AI Dog Detection ───────────────────────────
     const classification = await this.classifyDogImage(imageData);
