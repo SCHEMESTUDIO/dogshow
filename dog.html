@@ -47,11 +47,11 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #1a1035;
-      --bg-card: #241a45;
+      --bg: #f3eefb;
+      --bg-card: #ffffff;
       --accent: #FF8C42;
-      --text-bright: #e0d8f0;
-      --text-dim: rgba(255,255,255,0.4);
+      --text-bright: #2a2150;
+      --text-dim: rgba(42,33,80,0.7);
       --gold: #FFD700;
     }
 
@@ -73,7 +73,7 @@
 
     .cert-header {
       font-family: 'Yang Bagus', serif;
-      color: var(--accent);
+      color: #2a2150;
       font-size: 36px;
       margin-bottom: 4px;
     }
@@ -113,7 +113,7 @@
       padding: 6px 14px;
       border-radius: 20px;
       font-size: 12px;
-      color: var(--accent);
+      color: var(--accent-text, #c25a0e);
       border: 1px solid rgba(255, 140, 66, 0.3);
     }
 
@@ -130,7 +130,7 @@
       margin-bottom: 24px;
     }
     .cert-owner strong {
-      color: var(--accent);
+      color: var(--accent-text, #c25a0e);
     }
 
     /* Stats grid */
@@ -145,13 +145,13 @@
       background: var(--bg-card);
       border-radius: 10px;
       padding: 16px 12px;
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid rgba(42,33,80,0.11);
     }
 
     .cert-stat-value {
       font-size: 28px;
       font-weight: 700;
-      color: var(--accent);
+      color: var(--accent-text, #c25a0e);
       line-height: 1;
       margin-bottom: 4px;
     }
@@ -232,15 +232,15 @@
     .share-btn.facebook { background: #1877F2; }
     .share-btn.twitter { background: #000; }
     .share-btn.whatsapp { background: #25D366; }
-    .share-btn.sms { background: #4CAF50; }
+    .share-btn.sms { background: #2e7d32; }
     .share-btn.snapchat { background: #FFFC00; color: #000; }
     .share-btn.native-share { background: var(--accent); color: #1a1035; }
-    .share-btn.copy { background: rgba(255,255,255,0.12); color: var(--text-bright); }
+    .share-btn.copy { background: rgba(42,33,80,0.2); color: var(--text-bright); }
     .share-btn.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
 
     .share-copied {
       font-size: 12px;
-      color: #4CAF50;
+      color: #2e7d32;
       margin-top: 8px;
       opacity: 0;
       transition: opacity 0.3s;
@@ -277,12 +277,12 @@
       max-width: 700px;
       margin: 0 auto;
       padding: 40px 20px 60px;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      border-top: 1px solid rgba(42,33,80,0.11);
     }
 
     .seo-section h2 {
       font-family: 'Yang Bagus', serif;
-      color: var(--accent);
+      color: var(--accent-text, #c25a0e);
       font-size: 22px;
       margin-bottom: 12px;
     }
@@ -295,13 +295,13 @@
 
     .seo-section p {
       font-size: 14px;
-      color: rgba(255,255,255,0.6);
+      color: rgba(42,33,80,0.8999999999999999);
       line-height: 1.7;
       margin-bottom: 12px;
     }
 
     .seo-section a {
-      color: var(--accent);
+      color: var(--accent-text, #c25a0e);
       text-decoration: none;
     }
     .seo-section a:hover { text-decoration: underline; }
@@ -311,7 +311,7 @@
       border-radius: 12px;
       padding: 24px;
       margin: 20px 0;
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid rgba(42,33,80,0.11);
     }
 
     /* More dogs grid */
@@ -328,10 +328,10 @@
       padding: 14px;
       text-align: center;
       text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid rgba(42,33,80,0.11);
       transition: border-color 0.2s;
     }
-    .more-dog-card:hover { border-color: var(--accent); }
+    .more-dog-card:hover { border-color: var(--accent-text, #c25a0e); }
     .more-dog-card-name {
       font-size: 13px;
       color: var(--text-bright);
@@ -353,7 +353,7 @@
     .error-state {
       text-align: center;
       padding: 80px 20px;
-      color: #FF5722;
+      color: #c33c11;
       font-size: 16px;
     }
 
@@ -439,7 +439,7 @@
     <div class="more-dogs" id="moreDogs"></div>
     <p style="text-align: center; margin: 8px 0 12px;"><a href="dogs.html">Browse all dogs in The Dog Show →</a></p>
     <p style="text-align: center; margin: 12px 0 24px; font-size: 14px;">
-      <a href="/dog-photo-contest" style="color: #FF8C42; text-decoration: none;">Enter your dog in the Dog Photo Contest →</a>
+      <a href="/dog-photo-contest" style="color: #c25a0e; text-decoration: none;">Enter your dog in the Dog Photo Contest →</a>
     </p>
 
     <div class="seo-breed-info" id="seoBreedInfo" hidden>
@@ -864,24 +864,24 @@
     function showError(msg) {
       document.getElementById('loading').hidden = true;
       document.getElementById('error').hidden = false;
-      document.getElementById('error').innerHTML = msg + '<br><br><a href="https://dogshow.lol" style="color:#FF8C42;">Visit The Dog Show →</a>';
+      document.getElementById('error').innerHTML = msg + '<br><br><a href="https://dogshow.lol" style="color:#c25a0e;">Visit The Dog Show →</a>';
     }
 
     // Load!
     loadDogPage();
   </script>
-  <footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(255,255,255,0.06);background:#0a0617;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(42,33,80,0.11);background:#e9e2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
     <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
-      <a href="/about" style="font-size:12px;color:#8a7cb8;text-decoration:none;">About</a>
-      <a href="/about#contact" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Contact</a>
-      <a href="/dogs" style="font-size:12px;color:#8a7cb8;text-decoration:none;">All Dogs</a>
-      <a href="/privacy" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Privacy</a>
-      <a href="#" data-cookie-settings style="font-size:12px;color:#8a7cb8;text-decoration:none;">Cookie settings</a>
-      <a href="/terms" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Terms</a>
-      <a href="/resources" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Guides</a>
-      <a href="/breeds" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Breeds</a>
+      <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
+      <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
+      <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
+      <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
+      <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
+      <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
+      <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
+      <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
     </div>
-    <div style="font-size:11px;color:#3d2d6b;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+    <div style="font-size:11px;color:#d9cfee;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
   </footer>
 </body>
 </html>

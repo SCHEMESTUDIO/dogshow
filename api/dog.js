@@ -44,12 +44,12 @@ function titlesFor(stats, breed) {
 const STYLES = `
 @font-face{font-family:'Yang Bagus';src:url('/YangBagus.ttf') format('truetype');font-display:swap;}
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#1a1035;--bg-card:#241a45;--accent:#FF8C42;--purple:#7B68EE;--text:#e0d8f0;--dim:rgba(255,255,255,0.4);--gold:#FFD700;}
+:root{--bg:#f3eefb;--bg-card:#ffffff;--accent:#FF8C42;--purple:#7B68EE;--text:#2a2150;--dim:rgba(42,33,80,0.7);--gold:#FFD700;}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;}
 /* Pre-show (Phase 4) — countdown + RSVP */
 .preshow{max-width:520px;margin:0 auto;padding:32px 20px 48px;text-align:center;}
 .preshow-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:8px;}
-.preshow-header{font-family:'Yang Bagus',serif;color:var(--accent);font-size:36px;margin-bottom:24px;}
+.preshow-header{font-family:'Yang Bagus',serif;color: #2a2150;font-size:36px;margin-bottom:24px;}
 .preshow-frame{position:relative;border:3px solid var(--purple);border-radius:12px;padding:6px;background:rgba(123,104,238,0.08);margin-bottom:20px;}
 .preshow-frame img{width:100%;border-radius:8px;display:block;}
 .preshow-dog-name{font-family:'Yang Bagus',serif;font-size:30px;margin-bottom:4px;}
@@ -62,30 +62,30 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .preshow-count-label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;margin-top:4px;}
 .preshow-rsvp{background:var(--bg-card);border:1px solid rgba(123,104,238,0.2);border-radius:12px;padding:22px 18px;margin-bottom:20px;}
 .preshow-rsvp-title{font-family:'Yang Bagus',serif;font-size:22px;color:var(--purple);margin-bottom:6px;}
-.preshow-rsvp-sub{font-size:13px;color:rgba(224,216,240,0.7);margin-bottom:14px;}
+.preshow-rsvp-sub{font-size:13px;color:rgba(42,33,80,0.92);margin-bottom:14px;}
 .preshow-rsvp-form{display:flex;flex-direction:column;gap:8px;}
-.preshow-rsvp-input{padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#f0e8ff;font-size:14px;font-family:inherit;}
+.preshow-rsvp-input{padding:12px 14px;background:rgba(42,33,80,0.07);border:1px solid rgba(42,33,80,0.17);border-radius:10px;color:#2a2150;font-size:14px;font-family:inherit;}
 .preshow-rsvp-input:focus{outline:none;border-color:var(--purple);}
 .preshow-rsvp-btn{padding:12px 18px;background:var(--purple);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
 .preshow-rsvp-btn:hover{background:#9384f0;}
 .preshow-rsvp-btn:disabled{opacity:0.5;cursor:not-allowed;}
-.preshow-rsvp-msg{font-size:12px;color:rgba(224,216,240,0.7);min-height:16px;}
-.preshow-rsvp-msg.ok{color:#7B68EE;}
-.preshow-rsvp-msg.err{color:#dc5050;}
+.preshow-rsvp-msg{font-size:12px;color:rgba(42,33,80,0.92);min-height:16px;}
+.preshow-rsvp-msg.ok{color:#5b46d6;}
+.preshow-rsvp-msg.err{color:#c62828;}
 .preshow-airingnow{background:linear-gradient(135deg,rgba(255,140,66,0.18),rgba(123,104,238,0.18));border:1px solid var(--accent);border-radius:12px;padding:18px;margin-bottom:18px;}
-.preshow-airingnow-title{font-family:'Yang Bagus',serif;font-size:24px;color:var(--accent);}
-.preshow-airingnow-sub{font-size:13px;color:rgba(224,216,240,0.85);margin:4px 0 12px;}
+.preshow-airingnow-title{font-family:'Yang Bagus',serif;font-size:24px;color: var(--accent-text, #c25a0e);}
+.preshow-airingnow-sub{font-size:13px;color:rgba(42,33,80,0.92);margin:4px 0 12px;}
 .preshow-watch-btn{display:inline-block;background:var(--accent);color:#1a1035;font-weight:700;font-size:15px;padding:12px 24px;border-radius:10px;text-decoration:none;}
 @media(max-width:768px){.preshow{padding:20px 14px 32px;}.preshow-header{font-size:28px;}.preshow-count-cell{padding:10px 8px;min-width:54px;}.preshow-count-num{font-size:22px;}}
 .certificate{max-width:600px;margin:0 auto;padding:24px 20px 40px;text-align:center;}
-.cert-header{font-family:'Yang Bagus',serif;color:var(--accent);font-size:36px;margin-bottom:4px;}
+.cert-header{font-family:'Yang Bagus',serif;color: #2a2150;font-size:36px;margin-bottom:4px;}
 .cert-subtitle{font-size:12px;color:var(--dim);letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;}
 .cert-frame{position:relative;border:3px solid var(--accent);border-radius:12px;padding:6px;background:rgba(255,140,66,0.05);margin-bottom:24px;}
 .cert-frame img{width:100%;border-radius:8px;display:block;object-fit:cover;background:var(--bg-card);}
-.cert-breed-badge{position:absolute;bottom:14px;left:14px;background:rgba(0,0,0,0.75);padding:6px 14px;border-radius:20px;font-size:12px;color:var(--accent);border:1px solid rgba(255,140,66,0.3);}
+.cert-breed-badge{position:absolute;bottom:14px;left:14px;background:rgba(0,0,0,0.75);padding:6px 14px;border-radius:20px;font-size:12px;color: var(--accent-text, #c25a0e);border:1px solid rgba(255,140,66,0.3);}
 .cert-dog-name{font-family:'Yang Bagus',serif;font-size:28px;color:var(--text);margin-bottom:4px;}
 .cert-owner{font-size:14px;color:var(--dim);margin-bottom:24px;}
-.cert-owner strong{color:var(--accent);}
+.cert-owner strong{color: var(--accent-text, #c25a0e);}
 .cert-titles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:24px;}
 .cert-title-badge{background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);color:var(--gold);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;}
 .cert-trophies{background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.32);border-radius:12px;padding:16px 18px;margin:0 0 24px;text-align:center;}
@@ -93,8 +93,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .cert-trophies-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
 .cert-trophy{background:rgba(255,215,0,0.16);border:1px solid rgba(255,215,0,0.5);color:var(--gold);padding:7px 14px;border-radius:20px;font-size:13px;font-weight:700;white-space:nowrap;}
 .cert-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
-.cert-stat{background:var(--bg-card);border-radius:10px;padding:16px 12px;border:1px solid rgba(255,255,255,0.06);}
-.cert-stat-value{font-size:26px;font-weight:700;color:var(--accent);line-height:1;margin-bottom:4px;}
+.cert-stat{background:var(--bg-card);border-radius:10px;padding:16px 12px;border:1px solid rgba(42,33,80,0.11);}
+.cert-stat-value{font-size:26px;font-weight:700;color: var(--accent-text, #c25a0e);line-height:1;margin-bottom:4px;}
 .cert-stat-label{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;}
 .cert-stat.full{grid-column:1/-1;}
 .cert-date{font-size:13px;color:var(--dim);margin-bottom:28px;font-style:italic;}
@@ -103,16 +103,16 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .share-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 .share-btn{display:inline-block;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;color:#fff;border:none;cursor:pointer;font-family:inherit;}
 .share-btn.fb{background:#1877F2;}.share-btn.x{background:#000;}.share-btn.wa{background:#25D366;}
-.share-btn.copy{background:rgba(255,255,255,0.12);color:var(--text);}
+.share-btn.copy{background:rgba(42,33,80,0.2);color:var(--text);}
 .cert-cta-btn{display:inline-block;background:var(--accent);color:#1a1035;font-weight:700;font-size:15px;padding:14px 32px;border-radius:10px;text-decoration:none;}
 .cert-cta-sub{font-size:12px;color:var(--dim);margin-top:8px;}
-.seo{max-width:700px;margin:0 auto;padding:40px 20px 60px;border-top:1px solid rgba(255,255,255,0.06);}
-.seo h2{font-family:'Yang Bagus',serif;color:var(--accent);font-size:22px;margin-bottom:12px;}
+.seo{max-width:700px;margin:0 auto;padding:40px 20px 60px;border-top:1px solid rgba(42,33,80,0.11);}
+.seo h2{font-family:'Yang Bagus',serif;color: var(--accent-text, #c25a0e);font-size:22px;margin-bottom:12px;}
 .seo h3{font-size:16px;color:var(--text);margin:20px 0 8px;}
-.seo p{font-size:14px;color:rgba(255,255,255,0.62);line-height:1.7;margin-bottom:12px;}
-.seo a{color:var(--accent);text-decoration:none;}
+.seo p{font-size:14px;color:rgba(42,33,80,0.9199999999999999);line-height:1.7;margin-bottom:12px;}
+.seo a{color: var(--accent-text, #c25a0e);text-decoration:none;}
 .more-dogs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin:16px 0 24px;}
-.more-dog{background:var(--bg-card);border-radius:8px;padding:14px;text-align:center;text-decoration:none;border:1px solid rgba(255,255,255,0.06);}
+.more-dog{background:var(--bg-card);border-radius:8px;padding:14px;text-align:center;text-decoration:none;border:1px solid rgba(42,33,80,0.11);}
 .more-dog-name{font-size:13px;color:var(--text);font-weight:600;margin-bottom:4px;}
 .more-dog-breed{font-size:11px;color:var(--dim);}
 @media(max-width:768px){.certificate{padding:16px 14px 32px;}.cert-header{font-size:28px;}.cert-dog-name{font-size:24px;}.cert-stat-value{font-size:22px;}}
@@ -132,18 +132,18 @@ ${headHtml}
 </head>
 <body>
 ${bodyHtml}
-<footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(255,255,255,0.06);background:#0a0617;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+<footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(42,33,80,0.11);background:#e9e2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
   <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
-    <a href="/about" style="font-size:12px;color:#8a7cb8;text-decoration:none;">About</a>
-    <a href="/about#contact" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Contact</a>
-    <a href="/dogs" style="font-size:12px;color:#8a7cb8;text-decoration:none;">All Dogs</a>
-    <a href="/privacy" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Privacy</a>
-    <a href="#" data-cookie-settings style="font-size:12px;color:#8a7cb8;text-decoration:none;">Cookie settings</a>
-    <a href="/terms" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Terms</a>
-    <a href="/resources" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Guides</a>
-    <a href="/breeds" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Breeds</a>
+    <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
+    <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
+    <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
+    <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
+    <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
+    <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
+    <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
+    <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
   </div>
-  <div style="font-size:11px;color:#3d2d6b;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+  <div style="font-size:11px;color:#d9cfee;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
 </footer>
 </body>
 </html>`;
@@ -356,7 +356,7 @@ ${hasSlot ? `
 function sendNotFound(res, code, msg) {
   const head = `<title>Dog not found — The Dog Show</title><meta name="robots" content="noindex">`;
   const body = `<div class="certificate"><div class="cert-header">The Dog Show</div>
-<p style="color:rgba(255,255,255,0.45);margin:48px 0;">${esc(msg)}</p>
+<p style="color:rgba(42,33,80,0.75);margin:48px 0;">${esc(msg)}</p>
 <a class="cert-cta-btn" href="${SITE}">Visit The Dog Show &rarr;</a></div>`;
   res.status(code);
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -480,15 +480,15 @@ module.exports = async function handler(req, res) {
     const leading = season.rank === 1;
     const gap = !leading && season.leader ? (season.leader.seasonBones - season.seasonBones) : 0;
     raceHtml = `<div style="background:rgba(255,140,66,0.08);border:1px solid rgba(255,140,66,0.3);border-radius:12px;padding:16px 20px;margin:0 0 24px;">
-<div style="font-size:16px;font-weight:700;color:#FF8C42;">🏆 #${season.rank} of ${season.dogsInRace} in this month's Best in Show race</div>
-<div style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:4px;">${leading
+<div style="font-size:16px;font-weight:700;color:#c25a0e;">🏆 #${season.rank} of ${season.dogsInRace} in this month's Best in Show race</div>
+<div style="font-size:13px;color:rgba(42,33,80,0.8500000000000001);margin-top:4px;">${leading
       ? `Leading the pack with ${season.seasonBones} bone${season.seasonBones !== 1 ? 's' : ''} — the title is decided at the end of the month.`
       : `${season.seasonBones} bone${season.seasonBones !== 1 ? 's' : ''} this month — ${gap} behind ${esc(season.leader ? season.leader.dogName : 'the leader')}. Every bone counts.`}</div>
-<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:8px;">Standings reset on the 1st of each month. <a href="${SITE}/show.html" style="color:#FF8C42;">Watch live &amp; throw a bone &rarr;</a></div>
+<div style="font-size:12px;color:rgba(42,33,80,0.7);margin-top:8px;">Standings reset on the 1st of each month. <a href="${SITE}/show.html" style="color:#c25a0e;">Watch live &amp; throw a bone &rarr;</a></div>
 </div>`;
   } else if (season) {
     raceHtml = `<div style="background:rgba(255,140,66,0.06);border:1px solid rgba(255,140,66,0.2);border-radius:12px;padding:14px 20px;margin:0 0 24px;">
-<div style="font-size:13px;color:rgba(255,255,255,0.55);">🏆 No bones yet in this month's Best in Show race${season.dogsInRace ? ` — ${season.dogsInRace} dog${season.dogsInRace !== 1 ? 's are' : ' is'} already racing` : ' — the field is wide open'}. <a href="${SITE}/show.html" style="color:#FF8C42;">Watch live &amp; throw the first bone &rarr;</a></div>
+<div style="font-size:13px;color:rgba(42,33,80,0.8500000000000001);">🏆 No bones yet in this month's Best in Show race${season.dogsInRace ? ` — ${season.dogsInRace} dog${season.dogsInRace !== 1 ? 's are' : ' is'} already racing` : ' — the field is wide open'}. <a href="${SITE}/show.html" style="color:#c25a0e;">Watch live &amp; throw the first bone &rarr;</a></div>
 </div>`;
   }
 
@@ -497,13 +497,13 @@ module.exports = async function handler(req, res) {
   // visitors register inline (free, 250 bones) and the vote fires immediately.
   const seasonVotes = season && typeof season.seasonBones === 'number' ? season.seasonBones : 0;
   const votePanelHtml = `<div style="background:rgba(123,104,238,0.1);border:1px solid rgba(123,104,238,0.34);border-radius:12px;padding:18px 20px;margin:0 0 24px;text-align:center;">
-<div style="font-size:13px;color:rgba(255,255,255,0.62);margin-bottom:8px;">🦴 <span id="voteCount">${seasonVotes}</span> vote${seasonVotes === 1 ? '' : 's'} this month</div>
+<div style="font-size:13px;color:rgba(42,33,80,0.9199999999999999);margin-bottom:8px;">🦴 <span id="voteCount">${seasonVotes}</span> vote${seasonVotes === 1 ? '' : 's'} this month</div>
 <button id="voteBtn" type="button" class="cert-cta-btn" style="margin:0;">🦴 Vote for ${esc(name)}</button>
-<div id="voteMsg" style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:8px;">Every bone is a vote toward Best in Show. Standings reset on the 1st.</div>
+<div id="voteMsg" style="font-size:12px;color:rgba(42,33,80,0.8);margin-top:8px;">Every bone is a vote toward Best in Show. Standings reset on the 1st.</div>
 <div id="voteRegister" style="display:none;margin-top:12px;flex-direction:column;gap:8px;max-width:300px;margin-left:auto;margin-right:auto;">
-<input id="voteEmail" type="email" placeholder="Your email" style="padding:11px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.06);color:#fff;font-size:14px;">
+<input id="voteEmail" type="email" placeholder="Your email" style="padding:11px 12px;border-radius:8px;border:1px solid rgba(42,33,80,0.45999999999999996);background:rgba(42,33,80,0.11);color:#fff;font-size:14px;">
 <button id="voteRegisterBtn" type="button" class="cert-cta-btn" style="margin:0;">Cast your vote</button>
-<div style="font-size:11px;color:rgba(255,255,255,0.38);">Free — gives you 50 bones to vote with.</div>
+<div style="font-size:11px;color:rgba(42,33,80,0.6799999999999999);">Free — gives you 50 bones to vote with.</div>
 </div>
 </div>`;
 

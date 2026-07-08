@@ -33,12 +33,12 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Fraunces:opsz,wght@9..144,900&family=JetBrains+Mono:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
     .about-page {
-      background: #0f0a22;
-      color: #e0d8f0;
+      background: #f3eefb;
+      color: #2a2150;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       min-height: 100vh;
     }
@@ -55,7 +55,7 @@
     .about-nav-brand {
       font-family: 'Yang Bagus', 'YangBagus', cursive;
       font-size: 22px;
-      color: #FF8C42;
+      color: #2a2150;
       text-decoration: none;
     }
 
@@ -66,12 +66,12 @@
 
     .about-nav-link {
       font-size: 13px;
-      color: #9d90c8;
+      color: #52447e;
       text-decoration: none;
       transition: color 0.2s;
     }
 
-    .about-nav-link:hover { color: #e0d8f0; }
+    .about-nav-link:hover { color: #2a2150; }
 
     .about-content {
       max-width: 600px;
@@ -82,13 +82,13 @@
     .about-title {
       font-family: 'Yang Bagus', 'YangBagus', cursive;
       font-size: 36px;
-      color: #FF8C42;
+      color: #c25a0e;
       margin-bottom: 32px;
     }
 
     .about-content h2 {
       font-size: 20px;
-      color: #e0d8f0;
+      color: #2a2150;
       margin: 40px 0 12px;
       font-weight: 600;
     }
@@ -99,13 +99,13 @@
 
     .about-content p {
       font-size: 15px;
-      color: #9B8FD0;
+      color: #43366e;
       line-height: 1.8;
       margin-bottom: 16px;
     }
 
     .about-content a {
-      color: #FF8C42;
+      color: #c25a0e;
       text-decoration: none;
     }
 
@@ -115,7 +115,7 @@
 
     .about-divider {
       border: none;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      border-top: 1px solid rgba(42,33,80,0.11);
       margin: 48px 0;
     }
 
@@ -131,8 +131,8 @@
     }
 
     .about-contact-card {
-      background: #1a1035;
-      border: 1px solid rgba(255,255,255,0.06);
+      background: #ffffff;
+      border: 1px solid rgba(42,33,80,0.11);
       border-radius: 12px;
       padding: 20px;
       /* Defensive: prevent long unbroken strings (emails, URLs) from
@@ -147,7 +147,7 @@
 
     .about-contact-card-label {
       font-size: 11px;
-      color: #8a7cb8;
+      color: #5d5088;
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 8px;
@@ -155,22 +155,22 @@
 
     .about-contact-card-value {
       font-size: 14px;
-      color: #e0d8f0;
+      color: #2a2150;
     }
 
     .about-contact-card-value a {
-      color: #FF8C42;
+      color: #c25a0e;
     }
 
     .about-footer {
       text-align: center;
       padding: 40px 24px;
-      border-top: 1px solid rgba(255,255,255,0.04);
+      border-top: 1px solid rgba(42,33,80,0.07);
     }
 
     .about-footer-copy {
       font-size: 11px;
-      color: #3d2d6b;
+      color: #d9cfee;
     }
 
     /* No mobile media query needed — auto-fit minmax handles all widths. */
@@ -178,25 +178,27 @@
     /* SCHEME Studio calling card — shared cross-site stamp (on-dark variant) */
     .ss-cc-wrap { display: flex; justify-content: center; margin: 8px 0 4px; }
     .ss-cc {
-      display: inline-block; text-align: center; text-decoration: none; border-radius: 14px;
-      padding: 20px 36px 18px; background: #1a1035; border: 2.5px solid #FF8C42;
-      box-shadow: 6px 6px 0 #6B3FE4; transform: rotate(-1.4deg);
+      display: inline-block; text-align: center; text-decoration: none; border-radius: 16px;
+      padding: 18px 34px 16px; background: #15100E; border: 2.5px solid #2a211c;
+      box-shadow: 6px 6px 0 #FF4A2D; transform: rotate(-1.4deg);
       transition: transform .15s ease, box-shadow .15s ease;
     }
-    .ss-cc:hover { transform: rotate(0deg) scale(1.02); box-shadow: 9px 9px 0 #6B3FE4; }
+    .ss-cc:hover { transform: rotate(0deg) scale(1.02); box-shadow: 9px 9px 0 #FF4A2D; }
     .ss-cc-label {
-      font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10.5px; font-weight: 500;
-      letter-spacing: .3em; text-transform: uppercase; color: #9d90c8; margin-bottom: 7px;
+      font-family: 'Space Mono', ui-monospace, monospace; font-size: 10px; font-weight: 400;
+      letter-spacing: .3em; text-transform: uppercase; color: #7F7468; margin-bottom: 9px;
     }
     .ss-cc-name {
-      font-family: 'Dela Gothic One', sans-serif; font-size: 30px; line-height: 1.04;
-      letter-spacing: .005em; color: #f3eeff;
+      font-family: 'Fraunces', Georgia, serif; font-weight: 900; font-size: 33px; line-height: 1;
+      letter-spacing: -.02em; color: #FFF4DF;
     }
+    .ss-cc-name .dot { color: #FF4A2D; }
+    .ss-cc-name .st { color: #B6ABA0; }
     .ss-cc-tag {
-      font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11.5px; font-weight: 500;
-      letter-spacing: .02em; color: #FF8C42; margin-top: 11px;
+      font-family: 'Space Mono', ui-monospace, monospace; font-size: 11px; font-weight: 400;
+      letter-spacing: .02em; color: #FF7A5C; margin-top: 10px;
     }
-    @media (max-width: 560px) { .ss-cc { padding: 16px 26px 14px; } .ss-cc-name { font-size: 24px; } }
+    @media (max-width: 560px) { .ss-cc { padding: 14px 26px 12px; } .ss-cc-name { font-size: 26px; } }
   </style>
 </head>
 <body class="about-page">
@@ -247,9 +249,9 @@
     </div>
 
     <div class="ss-cc-wrap">
-      <a class="ss-cc" href="https://www.schemestudio.lol" target="_blank" rel="noopener" aria-label="A production of SCHEME STUDIO — visit schemestudio.lol">
+      <a class="ss-cc" href="https://www.schemestudio.lol" target="_blank" rel="noopener" aria-label="A production of scheme.studio — visit schemestudio.lol">
         <div class="ss-cc-label">A production of</div>
-        <div class="ss-cc-name">SCHEME<br>STUDIO</div>
+        <div class="ss-cc-name">scheme<span class="dot">.</span><span class="st">studio</span></div>
         <div class="ss-cc-tag">schemestudio.lol &#8599;</div>
       </a>
     </div>
@@ -257,14 +259,14 @@
 
   <footer class="about-footer">
     <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:10px;">
-      <a href="/about" style="font-size:12px;color:#8a7cb8;text-decoration:none;">About</a>
-      <a href="/about#contact" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Contact</a>
-      <a href="/dogs" style="font-size:12px;color:#8a7cb8;text-decoration:none;">All Dogs</a>
-      <a href="/privacy" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Privacy</a>
-      <a href="#" data-cookie-settings style="font-size:12px;color:#8a7cb8;text-decoration:none;">Cookie settings</a>
-      <a href="/terms" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Terms</a>
-      <a href="/resources" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Guides</a>
-      <a href="/breeds" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Breeds</a>
+      <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
+      <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
+      <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
+      <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
+      <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
+      <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
+      <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
+      <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
     </div>
     <div class="about-footer-copy">The Dog Show &copy; 2026. All dogs are good dogs.</div>
   </footer>

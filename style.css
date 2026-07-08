@@ -23,19 +23,19 @@
 [hidden] { display: none !important; }
 
 :root {
-  --bg: #1a1035;
-  --bg-card: #241a45;
-  --bg-warm: #2d1b4e;
-  --accent: #7B68EE;
+  --bg: #f3eefb;
+  --bg-card: #ffffff;
+  --bg-warm: #ece3f8;
+  --accent: #5b46d6;
   --accent-dark: #6a5acd;
-  --text-bright: #e0d8f0;
+  --text-bright: #2a2150;
   --text-mid: #a89cdb;
   /* Lightened 2026-06-11 for older-eye contrast (core paid audience skews 65+).
-     Old values: --text-dim #7B6BA0 (~3.5:1 on --bg), --text-faint #5a4d80
+     Old values: --text-dim #52447e (~3.5:1 on --bg), --text-faint #5a4d80
      (~2.3:1) — both below the WCAG 4.5:1 body-text floor. */
-  --text-dim: #9d90c8;
-  --text-faint: #8a7cb8;
-  --border: #3d2d6b;
+  --text-dim: #52447e;
+  --text-faint: #5d5088;
+  --border: #d9cfee;
   --curtain: #4a2d8b;
   --curtain-light: #6a4dbb;
   --curtain-dark: #2d1560;
@@ -48,7 +48,7 @@
 /* ─── LANDING PAGE ─────────────────────────────── */
 
 .landing-body {
-  background: #0f0a22;
+  background: #f3eefb;
   color: #fff;
   font-family: var(--font-system);
   min-height: 100vh;
@@ -75,7 +75,7 @@
   font-family: 'Yang Bagus', 'YangBagus', cursive;
   font-size: clamp(56px, 12vw, 90px);
   margin: 0 0 16px 0;
-  color: #FF8C42;
+  color: #c25a0e;
   line-height: 1;
 }
 
@@ -90,7 +90,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.15), 0 1px 0 rgba(255,255,255,0.06);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.15), 0 1px 0 rgba(42,33,80,0.11);
   border-top: 3px solid #e8dfc8;
   border-bottom: 3px solid #d4c9a8;
 }
@@ -252,7 +252,7 @@
 }
 .landing-login-divider {
   font-size: 13px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(42,33,80,0.8);
   margin-bottom: 14px;
   letter-spacing: 0.5px;
 }
@@ -266,22 +266,22 @@
 .landing-login-input {
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.15);
-  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(42,33,80,0.25);
+  background: rgba(42,33,80,0.11);
   color: #fff;
   font-size: 14px;
   width: 220px;
   outline: none;
 }
 .landing-login-input:focus {
-  border-color: #FF8C42;
+  border-color: #c25a0e;
 }
 .landing-login-btn {
   padding: 10px 18px;
   border-radius: 8px;
   border: none;
-  background: rgba(255,255,255,0.1);
-  color: #FF8C42;
+  background: rgba(42,33,80,0.17);
+  color: #c25a0e;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -296,17 +296,17 @@
 }
 .landing-login-message {
   font-size: 14px;
-  color: #4CAF50;
+  color: #2e7d32;
   margin-top: 10px;
 }
 .landing-login-welcome {
   font-size: 14px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(42,33,80,0.92);
   margin-bottom: 10px;
 }
 .landing-tagline-static {
   font-size: 16px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(42,33,80,0.92);
   margin-top: 16px;
 }
 
@@ -316,7 +316,7 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: #0f0a22;
+  background: #f3eefb;
   display: none;
   align-items: center;
   justify-content: center;
@@ -410,7 +410,7 @@
 .show-header-title {
   font-family: 'Yang Bagus', 'YangBagus', cursive;
   font-size: 24px;
-  color: #FF8C42;
+  color: #2a2150;
 }
 
 .show-header-est {
@@ -489,12 +489,12 @@
   text-align: center;
   padding: 10px 0;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(42,33,80,0.92);
   letter-spacing: 0.5px;
 }
 .total-fans-count {
   font-weight: bold;
-  color: #FF8C42;
+  color: #c25a0e;
   font-size: 16px;
 }
 
@@ -522,7 +522,7 @@
   font-size: 10px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(42,33,80,0.6);
   margin-bottom: 12px;
 }
 
@@ -533,7 +533,7 @@
   position: relative;
   border: 2px solid rgba(255, 140, 66, 0.2);
   border-radius: 4px;
-  background: #0f0a22;
+  background: #f3eefb;
   max-width: 800px;
   width: 100%;
   overflow: hidden;
@@ -563,7 +563,7 @@
 .dog-frame-drape-inner {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 70% 140% at 50% -30%, rgba(255, 255, 255, 0.12), transparent 70%);
+  background: radial-gradient(ellipse 70% 140% at 50% -30%, rgba(42,33,80,0.2), transparent 70%);
   pointer-events: none;
 }
 
@@ -637,14 +637,14 @@
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(42,33,80,0.6);
   margin-bottom: 4px;
 }
 
 .dog-nameplate-name {
   font-size: 24px;
   font-weight: 700;
-  color: #FF8C42;
+  color: #c25a0e;
   letter-spacing: -0.3px;
 }
 
@@ -670,7 +670,7 @@
 .community-upload-btn {
   background: rgba(255, 140, 66, 0.1);
   border: 1px solid rgba(255, 140, 66, 0.4);
-  color: #FF8C42;
+  color: #c25a0e;
   padding: 8px 18px;
   border-radius: 8px;
   font-size: 13px;
@@ -679,7 +679,7 @@
 }
 .community-upload-btn:hover:not(:disabled) {
   background: rgba(255, 140, 66, 0.2);
-  border-color: #FF8C42;
+  border-color: #c25a0e;
 }
 .community-upload-btn:disabled {
   opacity: 0.5;
@@ -687,17 +687,17 @@
 }
 .community-upload-btn.submitted {
   border-color: rgba(76, 175, 80, 0.5);
-  color: #4CAF50;
+  color: #2e7d32;
   background: rgba(76, 175, 80, 0.1);
 }
 
 .community-upload-status {
   font-size: 12px;
-  color: #FF8C42;
+  color: #c25a0e;
   margin-top: 4px;
 }
 .community-upload-status.error {
-  color: #FF5722;
+  color: #c33c11;
 }
 
 /* Community dog nameplate */
@@ -710,7 +710,7 @@
 .dog-nameplate.community .community-badge {
   display: inline-block;
   font-size: 11px;
-  color: #FF8C42;
+  color: #c25a0e;
   font-style: normal;
   margin-left: 8px;
   opacity: 0.9;
@@ -746,7 +746,7 @@
   align-items: center;
   gap: 8px;
   user-select: none;
-  color: #FF8C42;
+  color: #c25a0e;
 }
 
 .bone-btn:hover {
@@ -760,7 +760,7 @@
 .bone-count {
   font-size: 18px;
   font-weight: bold;
-  color: #FF8C42;
+  color: #c25a0e;
   font-family: var(--font-serif);
   min-width: 30px;
 }
@@ -768,7 +768,7 @@
 .bone-hint {
   text-align: center;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(42,33,80,0.6499999999999999);
   letter-spacing: 0.3px;
 }
 
@@ -808,11 +808,11 @@
 }
 
 .bone-streak.hot {
-  color: #FF8C42;
+  color: #c25a0e;
 }
 
 .bone-streak.fire {
-  color: #FF5722;
+  color: #c33c11;
 }
 
 /* Bone Frenzy */
@@ -835,14 +835,14 @@
   font-family: var(--font-system);
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #FF8C42;
+  color: #c25a0e;
 }
 
 .bone-frenzy-multi {
   font-size: 17px;
   font-weight: bold;
   font-family: var(--font-system);
-  color: #FF5722;
+  color: #c33c11;
 }
 
 @keyframes frenzyPulse {
@@ -1345,7 +1345,7 @@
 }
 
 .username-modal-input:focus {
-  border-color: #FF8C42;
+  border-color: #c25a0e;
 }
 
 .username-modal-btn {
@@ -1388,8 +1388,8 @@
   margin: 12px auto 0;
   padding: 10px 16px;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(42,33,80,0.06);
+  border: 1px solid rgba(42,33,80,0.11);
   border-radius: 8px;
   font-size: 12px;
   color: var(--text-dim);
@@ -1422,7 +1422,7 @@
 .leaderboard-header {
   font-family: 'Yang Bagus', 'YangBagus', cursive;
   font-size: 22px;
-  color: #FF8C42;
+  color: #c25a0e;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -1450,8 +1450,8 @@
   align-items: center;
   gap: 12px;
   padding: 0;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(42,33,80,0.06);
+  border: 1px solid rgba(42,33,80,0.09);
   border-radius: 10px;
   text-decoration: none;
   transition: border-color 0.2s;
@@ -1468,7 +1468,7 @@
   height: 64px;
   object-fit: cover;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(42,33,80,0.09);
 }
 
 .leaderboard-rank {
@@ -1480,8 +1480,8 @@
   padding-left: 8px;
 }
 
-.leaderboard-entry:nth-child(1) .leaderboard-rank { color: #FFD700; }
-.leaderboard-entry:nth-child(2) .leaderboard-rank { color: #C0C0C0; }
+.leaderboard-entry:nth-child(1) .leaderboard-rank { color: #b8860b; }
+.leaderboard-entry:nth-child(2) .leaderboard-rank { color: #757575; }
 .leaderboard-entry:nth-child(3) .leaderboard-rank { color: #CD7F32; }
 
 .leaderboard-info {
@@ -1506,7 +1506,7 @@
 
 .leaderboard-bones {
   font-size: 12px;
-  color: #FF8C42;
+  color: #c25a0e;
   font-weight: 600;
   white-space: nowrap;
   padding-right: 14px;
@@ -1535,7 +1535,7 @@
 }
 
 .leaderboard-section--month .leaderboard-label {
-  color: #FF8C42;
+  color: #c25a0e;
   font-size: 12px;
 }
 
@@ -1626,7 +1626,7 @@
 
 .show-share-rail-sub {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(42,33,80,0.5);
   font-style: italic;
   margin-bottom: 14px;
 }
@@ -1662,13 +1662,13 @@
 .show-share-rail-buttons .s-twitter { background: #000; }
 .show-share-rail-buttons .s-whatsapp { background: #25D366; }
 .show-share-rail-buttons .s-instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-.show-share-rail-buttons .s-sms { background: #4CAF50; }
-.show-share-rail-buttons .s-copy { background: rgba(255,255,255,0.12); color: var(--text-bright); }
+.show-share-rail-buttons .s-sms { background: #2e7d32; }
+.show-share-rail-buttons .s-copy { background: rgba(42,33,80,0.2); color: var(--text-bright); }
 .show-share-rail-buttons .s-native { background: var(--accent); color: var(--bg); }
 
 .show-share-rail-copied {
   font-size: 12px;
-  color: #4CAF50;
+  color: #2e7d32;
   margin-top: 8px;
   opacity: 0;
   transition: opacity 0.3s;
@@ -1692,7 +1692,7 @@
 }
 
 .show-footer a:hover {
-  color: #FF8C42;
+  color: #c25a0e;
 }
 
 .show-footer-dot {
@@ -1712,8 +1712,8 @@
 }
 
 .dock-bar {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(42,33,80,0.07);
+  border: 1px solid rgba(42,33,80,0.14);
   border-radius: 14px;
   padding: 10px 16px;
   display: flex;
@@ -1730,12 +1730,12 @@
 .dock-divider {
   width: 1px;
   height: 24px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(42,33,80,0.14);
 }
 
 .dock-divider-h {
   height: 1px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(42,33,80,0.11);
 }
 
 .dock-bone-btn {
@@ -1781,7 +1781,7 @@
 .dock-bone-pill-count {
   font-size: 16px;
   font-weight: 600;
-  color: #FF8C42;
+  color: #c25a0e;
   font-family: var(--font-system);
 }
 
@@ -1814,7 +1814,7 @@
 .my-bones-pill-count {
   font-size: 16px;
   font-weight: 600;
-  color: #B7A8FF;
+  color: #5b46d6;
   font-family: var(--font-system);
 }
 .my-bones-pill.low .my-bones-pill-count { color: #FFD060; }
@@ -1839,7 +1839,7 @@
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(42,33,80,0.75);
   font-family: var(--font-system);
 }
 
@@ -1847,7 +1847,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #4CAF50;
+  background: #2e7d32;
 }
 
 .dock-status-dot.pending {
@@ -1863,7 +1863,7 @@
 .dock-link {
   margin-left: auto;
   font-size: 12px;
-  color: #FF8C42;
+  color: #c25a0e;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -1879,7 +1879,7 @@
 .dock-upload-btn {
   background: rgba(255, 140, 66, 0.08);
   border: 1px solid rgba(255, 140, 66, 0.3);
-  color: #FF8C42;
+  color: #c25a0e;
   font-size: 12px;
   font-family: var(--font-system);
   padding: 6px 14px;
@@ -1906,7 +1906,7 @@
 .dock-enter-btn {
   background: rgba(255, 140, 66, 0.1);
   border: 1px solid rgba(255, 140, 66, 0.4);
-  color: #FF8C42;
+  color: #c25a0e;
   font-size: 13px;
   font-weight: 600;
   font-family: var(--font-system);
@@ -1919,7 +1919,7 @@
 
 .dock-enter-btn:hover {
   background: rgba(255, 140, 66, 0.2);
-  border-color: #FF8C42;
+  border-color: #c25a0e;
 }
 
 .dock-enter-btn:disabled {
@@ -1930,7 +1930,7 @@
 .dock-patience {
   text-align: center;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.22);
+  color: rgba(42,33,80,0.52);
   font-family: var(--font-system);
   padding: 0 0 2px;
 }
@@ -1988,7 +1988,7 @@
 .upgrade-overlay.active { display: flex; }
 
 .upgrade-modal {
-  background: #1a1035;
+  background: #ffffff;
   border: 1px solid rgba(255, 140, 66, 0.2);
   border-radius: 16px;
   padding: 36px 28px 28px;
@@ -2008,13 +2008,13 @@
 .upgrade-title {
   font-family: 'Yang Bagus', 'YangBagus', cursive;
   font-size: 22px;
-  color: #FF8C42;
+  color: #c25a0e;
   margin-bottom: 8px;
 }
 
 .upgrade-subtitle {
   font-size: 14px;
-  color: #7B6BA0;
+  color: #52447e;
   margin-bottom: 24px;
   line-height: 1.5;
 }
@@ -2048,7 +2048,7 @@
   border-radius: 10px;
   border: none;
   background: rgba(255, 140, 66, 0.15);
-  color: #FF8C42;
+  color: #c25a0e;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -2058,7 +2058,7 @@
 
 .upgrade-btn-secondary:hover {
   background: rgba(255, 140, 66, 0.25);
-  color: #FF8C42;
+  color: #c25a0e;
 }
 
 .upgrade-hint {
@@ -2079,7 +2079,7 @@
   margin-top: 4px;
 }
 
-.upgrade-dismiss:hover { color: #7B6BA0; }
+.upgrade-dismiss:hover { color: #52447e; }
 
 /* ─── NEW MOBILE LAYOUT ─────────────────────────────
  * Components introduced when applying James's mobile UX wireframe.
@@ -2105,8 +2105,8 @@
   width: 100%;
   max-width: 800px;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(42,33,80,0.06);
+  border: 1px solid rgba(42,33,80,0.11);
   border-radius: 12px;
   flex-wrap: wrap;
   transition: border-color 0.3s ease, background 0.3s ease;
@@ -2195,7 +2195,7 @@
   background: rgba(255, 140, 66, 0.12);
   border: 1px solid rgba(255, 140, 66, 0.5);
   border-radius: 10px;
-  color: #FF8C42;
+  color: #c25a0e;
   font-size: 14px;
   font-weight: 600;
   font-family: var(--font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
@@ -2205,7 +2205,7 @@
 
 .paid-user-upload-btn:hover {
   background: rgba(255, 140, 66, 0.22);
-  border-color: #FF8C42;
+  border-color: #c25a0e;
 }
 
 .paid-user-status {
@@ -2214,7 +2214,7 @@
   gap: 10px;
   font-family: var(--font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(42,33,80,0.92);
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -2238,7 +2238,7 @@
   font-family: var(--font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
   font-size: 13px;
   line-height: 1.4;
-  color: #ffb4ab;
+  color: #b3261e;
 }
 
 .paid-user-error[hidden] { display: none; }
@@ -2269,7 +2269,7 @@
 
 .paid-user-error-retry:hover {
   background: rgba(231, 76, 60, 0.32);
-  border-color: #e74c3c;
+  border-color: #c62828;
 }
 
 /* House rotator: rotating real CTAs + fake-door interest captures.
@@ -2329,13 +2329,13 @@
 .house-rotator-title {
   font-size: 15px;
   font-weight: 600;
-  color: #f0e8ff;
+  color: #2a2150;
   line-height: 1.35;
 }
 
 .house-rotator-cta {
   font-size: 12px;
-  color: #FF8C42;
+  color: #c25a0e;
   font-weight: 500;
   margin-top: 4px;
 }
@@ -2351,7 +2351,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(42,33,80,0.48);
   transition: background 0.25s ease, transform 0.2s ease;
   cursor: pointer;
   border: none;
@@ -2368,7 +2368,7 @@
   margin: 20px auto 12px;
   padding: 16px 16px 12px;
   text-align: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(42,33,80,0.11);
   background: transparent;
   max-width: 600px;
 }
@@ -2377,7 +2377,7 @@
   font-size: 12px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(42,33,80,0.75);
   margin-bottom: 10px;
 }
 
@@ -2399,7 +2399,7 @@
 }
 
 .interest-modal {
-  background: var(--bg-card, #1a1035);
+  background: var(--bg-card, #ffffff);
   border: 1px solid rgba(255, 140, 66, 0.25);
   border-radius: 16px;
   padding: 28px 24px;
@@ -2418,14 +2418,14 @@
 .interest-modal-title {
   font-family: 'Yang Bagus', 'YangBagus', cursive;
   font-size: 26px;
-  color: #FF8C42;
+  color: #c25a0e;
   margin-bottom: 6px;
   line-height: 1.1;
 }
 
 .interest-modal-subtitle {
   font-size: 14px;
-  color: rgba(224, 216, 240, 0.7);
+  color: rgba(42,33,80,0.92);
   margin-bottom: 18px;
   line-height: 1.4;
 }
@@ -2433,10 +2433,10 @@
 .interest-modal-input {
   width: 100%;
   padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(42,33,80,0.07);
+  border: 1px solid rgba(42,33,80,0.17);
   border-radius: 10px;
-  color: #f0e8ff;
+  color: #2a2150;
   font-size: 14px;
   font-family: inherit;
   margin-bottom: 6px;
@@ -2446,7 +2446,7 @@
 .interest-modal-input:focus {
   outline: none;
   border-color: rgba(255, 140, 66, 0.5);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(42,33,80,0.11);
 }
 
 .interest-modal-input.error {
@@ -2455,7 +2455,7 @@
 
 .interest-modal-error {
   font-size: 12px;
-  color: #dc5050;
+  color: #c62828;
   min-height: 16px;
   margin-bottom: 8px;
   text-align: left;
@@ -2473,13 +2473,13 @@
   padding: 10px 14px;
   background: transparent;
   border: none;
-  color: rgba(224, 216, 240, 0.5);
+  color: rgba(42,33,80,0.8);
   font-size: 13px;
   cursor: pointer;
   font-family: inherit;
 }
 
-.interest-modal-cancel:hover { color: rgba(224, 216, 240, 0.85); }
+.interest-modal-cancel:hover { color: rgba(42,33,80,0.92); }
 
 .interest-modal-submit {
   flex: 1 1 auto;
@@ -2504,7 +2504,7 @@
 
 .interest-modal-thanks {
   font-size: 14px;
-  color: #4CAF50;
+  color: #2e7d32;
   margin-top: 14px;
   font-weight: 500;
 }
@@ -2526,7 +2526,7 @@
 }
 .register-overlay.active { display: flex; }
 .register-modal {
-  background: var(--bg-card, #1a1035);
+  background: var(--bg-card, #ffffff);
   border: 1px solid rgba(123, 104, 238, 0.35);
   border-radius: 16px;
   padding: 28px 24px;
@@ -2543,23 +2543,23 @@
 .register-modal-title {
   font-family: 'Yang Bagus', 'YangBagus', cursive;
   font-size: 26px;
-  color: #B7A8FF;
+  color: #5b46d6;
   margin-bottom: 6px;
   line-height: 1.1;
 }
 .register-modal-subtitle {
   font-size: 14px;
-  color: rgba(224, 216, 240, 0.7);
+  color: rgba(42,33,80,0.92);
   margin-bottom: 16px;
   line-height: 1.4;
 }
 .register-modal-input {
   width: 100%;
   padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(42,33,80,0.07);
+  border: 1px solid rgba(42,33,80,0.17);
   border-radius: 10px;
-  color: #f0e8ff;
+  color: #2a2150;
   font-size: 14px;
   font-family: inherit;
   margin-bottom: 8px;
@@ -2568,11 +2568,11 @@
 .register-modal-input:focus {
   outline: none;
   border-color: rgba(123, 104, 238, 0.55);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(42,33,80,0.11);
 }
 .register-modal-error {
   font-size: 12px;
-  color: #dc5050;
+  color: #c62828;
   min-height: 16px;
   margin-bottom: 6px;
   text-align: left;
@@ -2589,12 +2589,12 @@
   padding: 10px 14px;
   background: transparent;
   border: none;
-  color: rgba(224, 216, 240, 0.5);
+  color: rgba(42,33,80,0.8);
   font-size: 13px;
   cursor: pointer;
   font-family: inherit;
 }
-.register-modal-cancel:hover { color: rgba(224, 216, 240, 0.85); }
+.register-modal-cancel:hover { color: rgba(42,33,80,0.92); }
 .register-modal-submit {
   flex: 1 1 auto;
   padding: 12px 18px;
@@ -2612,7 +2612,7 @@
 .register-modal-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 .register-modal-hint {
   font-size: 11px;
-  color: rgba(224, 216, 240, 0.4);
+  color: rgba(42,33,80,0.7);
   line-height: 1.4;
 }
 
@@ -2636,8 +2636,8 @@
 .upload-modal-overlay.active { display: flex; }
 
 .upload-modal {
-  background: #1a1035;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border: 1px solid rgba(42,33,80,0.17);
   border-radius: 16px;
   padding: 28px 24px;
   max-width: 380px;
@@ -2649,12 +2649,12 @@
 .upload-modal-title {
   font-family: 'Yang Bagus', 'YangBagus', cursive;
   font-size: 24px;
-  color: #FF8C42;
+  color: #c25a0e;
   margin-bottom: 4px;
 }
 .upload-modal-subtitle {
   font-size: 13px;
-  color: rgba(224, 216, 240, 0.6);
+  color: rgba(42,33,80,0.8999999999999999);
   margin-bottom: 16px;
 }
 .upload-modal-label {
@@ -2663,23 +2663,23 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: rgba(224, 216, 240, 0.5);
+  color: rgba(42,33,80,0.8);
   margin: 12px 0 5px;
 }
 .upload-modal-input,
 .upload-modal-select {
   width: 100%;
   padding: 11px 12px;
-  background: #0f0a22;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #f3eefb;
+  border: 1px solid rgba(42,33,80,0.2);
   border-radius: 9px;
-  color: #e0d8f0;
+  color: #2a2150;
   font-size: 14px;
   font-family: inherit;
   box-sizing: border-box;
 }
 .upload-modal-input:focus,
-.upload-modal-select:focus { outline: none; border-color: #FF8C42; }
+.upload-modal-select:focus { outline: none; border-color: #c25a0e; }
 .upload-modal-error {
   color: #ff6b6b;
   font-size: 12px;
@@ -2705,13 +2705,13 @@
 }
 .upload-modal-cancel {
   background: transparent;
-  border-color: rgba(255, 255, 255, 0.18);
-  color: rgba(224, 216, 240, 0.7);
+  border-color: rgba(42,33,80,0.48);
+  color: rgba(42,33,80,0.92);
 }
-.upload-modal-cancel:hover { border-color: rgba(255, 255, 255, 0.35); }
+.upload-modal-cancel:hover { border-color: rgba(42,33,80,0.6499999999999999); }
 .upload-modal-submit {
   background: #FF8C42;
-  border-color: #FF8C42;
+  border-color: #c25a0e;
   color: #1a1035;
 }
 .upload-modal-submit:hover { background: #ff9d5c; }
@@ -2787,8 +2787,8 @@
   align-items: center;
   gap: 7px;
   padding: 5px 12px 5px 5px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(42,33,80,0.07);
+  border: 1px solid rgba(42,33,80,0.14);
   border-radius: 999px;
   font-size: 14px;
   color: var(--text-bright);
@@ -2801,7 +2801,7 @@
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(42,33,80,0.11);
 }
 .race-thumb--empty { display: inline-flex; align-items: center; justify-content: center; font-size: 13px; }
 .race-chip .race-rank { color: var(--accent); font-weight: 700; flex-shrink: 0; }
@@ -2823,8 +2823,8 @@
   box-sizing: border-box;
   margin: 10px auto 0;
   padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(42,33,80,0.06);
+  border: 1px solid rgba(42,33,80,0.12);
   border-radius: 10px;
   font-size: 12.5px;
   color: var(--text-dim);
@@ -2855,7 +2855,7 @@
   text-align: center;
   animation: ownerCuePulse 2s ease-in-out infinite;
 }
-.owner-vote-cue strong { color: #FF8C42; }
+.owner-vote-cue strong { color: #c25a0e; }
 @keyframes ownerCuePulse {
   0%, 100% { border-color: rgba(255, 140, 66, 0.4); }
   50% { border-color: rgba(255, 140, 66, 0.85); }

@@ -192,7 +192,7 @@
     var userSpan = document.createElement('span');
     userSpan.className = 'chat-msg-user';
     if (isMe) userSpan.classList.add('me');
-    userSpan.style.color = isMe ? '#BB86FC' : '#9B8FD0';
+    userSpan.style.color = isMe ? '#5b46d6' : '#43366e';
     userSpan.textContent = user;
 
     var textSpan = document.createElement('span');
@@ -200,7 +200,7 @@
     // Make URLs clickable in chat messages
     var msgWithLinks = (': ' + msg).replace(
       /(https?:\/\/[^\s]+)/g,
-      '<a href="$1" target="_blank" style="color:#FF8C42;">$1</a>'
+      '<a href="$1" target="_blank" style="color:#c25a0e;">$1</a>'
     );
     textSpan.innerHTML = msgWithLinks;
 

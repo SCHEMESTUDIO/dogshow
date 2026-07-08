@@ -41,11 +41,11 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #1a1035;
-      --bg-card: #241a45;
+      --bg: #f3eefb;
+      --bg-card: #ffffff;
       --accent: #FF8C42;
-      --text-bright: #e0d8f0;
-      --text-dim: rgba(255,255,255,0.4);
+      --text-bright: #2a2150;
+      --text-dim: rgba(42,33,80,0.7);
     }
 
     body {
@@ -62,7 +62,7 @@
 
     .dir-title {
       font-family: 'Yang Bagus', serif;
-      color: var(--accent);
+      color: #2a2150;
       font-size: 36px;
     }
 
@@ -82,7 +82,7 @@
     }
 
     .dir-stats-bar strong {
-      color: var(--accent);
+      color: var(--accent-text, #c25a0e);
     }
 
     /* Filter / Sort */
@@ -97,7 +97,7 @@
 
     .dir-controls select, .dir-controls input {
       background: var(--bg-card);
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(42,33,80,0.17);
       color: var(--text-bright);
       padding: 8px 14px;
       border-radius: 8px;
@@ -109,7 +109,7 @@
       min-width: 180px;
     }
     .dir-controls select:focus, .dir-controls input:focus {
-      border-color: var(--accent);
+      border-color: var(--accent-text, #c25a0e);
     }
 
     /* Dog grid */
@@ -126,14 +126,14 @@
       background: var(--bg-card);
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid rgba(42,33,80,0.11);
       transition: border-color 0.2s, transform 0.2s;
       text-decoration: none;
       color: inherit;
       display: block;
     }
     .dog-card:hover {
-      border-color: var(--accent);
+      border-color: var(--accent-text, #c25a0e);
       transform: translateY(-2px);
     }
 
@@ -158,7 +158,7 @@
 
     .dog-card-breed {
       font-size: 12px;
-      color: var(--accent);
+      color: var(--accent-text, #c25a0e);
       margin-bottom: 8px;
     }
 
@@ -196,7 +196,7 @@
     .dir-cta {
       text-align: center;
       padding: 40px 20px 20px;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      border-top: 1px solid rgba(42,33,80,0.11);
       max-width: 800px;
       margin: 0 auto;
     }
@@ -225,12 +225,12 @@
       max-width: 700px;
       margin: 0 auto;
       padding: 40px 20px 60px;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      border-top: 1px solid rgba(42,33,80,0.11);
     }
 
     .seo-footer h2 {
       font-family: 'Yang Bagus', serif;
-      color: var(--accent);
+      color: var(--accent-text, #c25a0e);
       font-size: 22px;
       margin-bottom: 12px;
     }
@@ -243,13 +243,13 @@
 
     .seo-footer p {
       font-size: 14px;
-      color: rgba(255,255,255,0.6);
+      color: rgba(42,33,80,0.8999999999999999);
       line-height: 1.7;
       margin-bottom: 12px;
     }
 
     .seo-footer a {
-      color: var(--accent);
+      color: var(--accent-text, #c25a0e);
       text-decoration: none;
     }
     .seo-footer a:hover { text-decoration: underline; }
@@ -286,7 +286,7 @@
   <div class="dir-cta" id="dirCta" hidden>
     <a href="https://dogshow.lol/show.html" class="dir-cta-btn">Watch The Dog Show Live</a>
     <div class="dir-cta-sub">Anyone can enter their dog in the show &mdash; free</div>
-    <div style="margin-top: 16px;"><a href="/dog-photo-contest" style="color: #FF8C42; font-size: 14px; text-decoration: none; border-bottom: 1px solid rgba(255,140,66,0.3);">Learn more about the Dog Photo Contest &rarr;</a></div>
+    <div style="margin-top: 16px;"><a href="/dog-photo-contest" style="color: #c25a0e; font-size: 14px; text-decoration: none; border-bottom: 1px solid rgba(255,140,66,0.3);">Learn more about the Dog Photo Contest &rarr;</a></div>
   </div>
 
   <div class="seo-footer">
@@ -322,8 +322,8 @@
           document.getElementById('loading').innerHTML =
             '<div style="text-align:center;padding:40px 20px;">' +
             '<div style="font-size:48px;margin-bottom:16px;">🐕</div>' +
-            '<div style="font-family:\'Yang Bagus\',cursive;font-size:24px;color:#FF8C42;margin-bottom:8px;">The show is just getting started.</div>' +
-            '<div style="color:#9d90c8;margin-bottom:24px;">Be one of the founding dogs. Enter yours free.</div>' +
+            '<div style="font-family:\'Yang Bagus\',cursive;font-size:24px;color:#c25a0e;margin-bottom:8px;">The show is just getting started.</div>' +
+            '<div style="color:#52447e;margin-bottom:24px;">Be one of the founding dogs. Enter yours free.</div>' +
             '<a href="/" style="display:inline-block;padding:12px 24px;background:#FF8C42;color:#1a1035;border-radius:10px;font-weight:600;text-decoration:none;">Enter Your Dog</a>' +
             '</div>';
           return;
@@ -453,18 +453,18 @@
 
     loadDogs();
   </script>
-  <footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(255,255,255,0.06);background:#0a0617;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(42,33,80,0.11);background:#e9e2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
     <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
-      <a href="/about" style="font-size:12px;color:#8a7cb8;text-decoration:none;">About</a>
-      <a href="/about#contact" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Contact</a>
-      <a href="/dogs" style="font-size:12px;color:#8a7cb8;text-decoration:none;">All Dogs</a>
-      <a href="/privacy" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Privacy</a>
-      <a href="#" data-cookie-settings style="font-size:12px;color:#8a7cb8;text-decoration:none;">Cookie settings</a>
-      <a href="/terms" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Terms</a>
-      <a href="/resources" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Guides</a>
-      <a href="/breeds" style="font-size:12px;color:#8a7cb8;text-decoration:none;">Breeds</a>
+      <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
+      <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
+      <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
+      <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
+      <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
+      <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
+      <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
+      <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
     </div>
-    <div style="font-size:11px;color:#3d2d6b;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+    <div style="font-size:11px;color:#d9cfee;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
   </footer>
 </body>
 </html>

@@ -72,14 +72,14 @@
     if (document.getElementById(STYLE_ID)) return;
     var css = [
       '#' + BANNER_ID + '{position:fixed;left:0;right:0;bottom:0;z-index:2147483600;',
-      'background:#1a1035;color:#f3efff;border-top:2px solid #FF8C42;',
+      'background:#ffffff;color:#f3efff;border-top:2px solid #FF8C42;',
       'box-shadow:0 -8px 30px rgba(0,0,0,0.45);',
       "font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;",
       'padding:18px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;',
       'justify-content:center;line-height:1.45;}',
       '#' + BANNER_ID + ' .dc-text{flex:1 1 420px;min-width:260px;font-size:14px;color:#d9d2f0;}',
       '#' + BANNER_ID + ' .dc-text strong{color:#fff;}',
-      '#' + BANNER_ID + ' .dc-text a{color:#FF8C42;text-decoration:underline;}',
+      '#' + BANNER_ID + ' .dc-text a{color:#c25a0e;text-decoration:underline;}',
       '#' + BANNER_ID + ' .dc-actions{display:flex;gap:12px;flex:0 0 auto;flex-wrap:wrap;}',
       '#' + BANNER_ID + ' .dc-btn{appearance:none;border:2px solid #FF8C42;border-radius:10px;',
       'padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;line-height:1;',
@@ -87,7 +87,7 @@
       '#' + BANNER_ID + ' .dc-btn:hover{filter:brightness(1.08);}',
       '#' + BANNER_ID + ' .dc-btn:active{transform:translateY(1px);}',
       '#' + BANNER_ID + ' .dc-accept{background:#FF8C42;color:#1a1035;}',
-      '#' + BANNER_ID + ' .dc-reject{background:transparent;color:#FF8C42;}',
+      '#' + BANNER_ID + ' .dc-reject{background:transparent;color:#c25a0e;}',
       '@media (max-width:560px){#' + BANNER_ID + '{padding:16px;gap:12px;}',
       '#' + BANNER_ID + ' .dc-actions{width:100%;}',
       '#' + BANNER_ID + ' .dc-btn{flex:1 1 auto;text-align:center;}}'
