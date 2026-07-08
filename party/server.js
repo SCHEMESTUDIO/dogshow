@@ -25,6 +25,19 @@ const BONES_PER_TOPUP = 250;
 const BONES_TOPDOG = 1000;
 const BONES_LEGACY_GRANDFATHER = 2500;
 
+// Onboarding email cadence (2026-07-08). A new user gets exactly ONE onboarding
+// email — the certificate email for owners (fired at /upload-dog), or a single
+// welcome for fans who never enter a dog (fired once from the campaign loop
+// after WELCOME_GRACE_MS, giving an owner's upload time to preempt it). After
+// that email, EMAIL_QUIET_MS suppresses ALL campaign/testimonial email so a
+// fresh signup isn't hit again for at least a week. Requested/transactional mail
+// (magic link, purchase confirmation, slot reminders) is exempt. WELCOME_MAX_AGE
+// bounds the deferred welcome so pre-existing accounts (created before the
+// onboardedAt field) are backfilled silently instead of getting a late welcome.
+const EMAIL_QUIET_MS = 7 * 24 * 60 * 60 * 1000;   // 1 week of silence post-onboarding
+const WELCOME_GRACE_MS = 20 * 60 * 1000;          // let an owner's upload preempt the fan welcome
+const WELCOME_MAX_AGE = 3 * 24 * 60 * 60 * 1000;  // older + no dog = pre-existing account, backfill only
+
 // Slot mechanics: a Top Dog ($5.99) booked dog gets SLOT_DURATION_MULTIPLIER ×
 // the normal 10s rotation when their slot is live. Tweak as one config change.
 const SLOT_DURATION_MULTIPLIER = 3;
@@ -1741,9 +1754,9 @@ export default class DogShowServer {
       };
       await this.room.storage.put(`user:${userId}`, user);
       await this.room.storage.put(`email:${normalizedEmail}`, userId);
-      // Welcome email — fire-and-forget. Same pattern as handleRegister.
-      this.sendWelcomeEmail(normalizedEmail).catch(e =>
-        console.error('[Email] Welcome email failed:', e && e.message));
+      // Welcome email is NOT sent inline anymore (2026-07-08). RSVP'd fans have
+      // no dog of their own, so they receive the single deferred welcome from
+      // processEmailCampaigns() after WELCOME_GRACE_MS. See the onboarding gate.
     } else if (typeof user.bones !== 'number') {
       // Backfill bones for accounts created before the bones model.
       user.bones = (user.tier === 'general' || user.tier === 'premium')
@@ -2090,12 +2103,10 @@ export default class DogShowServer {
       console.error('[Email] Admin notification failed:', e.message)
     );
 
-    // Welcome email — real free signups only, not interest_* fake-door leads.
-    if (user.tier === 'free') {
-      this.sendWelcomeEmail(normalizedEmail).catch(e =>
-        console.error('[Email] Welcome email failed:', e.message)
-      );
-    }
+    // Welcome email is NOT sent here anymore (2026-07-08). To keep new users to
+    // a single onboarding email: owners get the certificate email at /upload-dog;
+    // fans who never enter a dog get one welcome from processEmailCampaigns after
+    // WELCOME_GRACE_MS. See the onboarding gate in processEmailCampaigns().
 
     // Generate session token
     const token = this.generateToken(userId);
@@ -2828,8 +2839,17 @@ export default class DogShowServer {
     // Certificate email — fire-and-forget. This is the first moment the server
     // has the photo + slug, so it is the only email that can actually show the
     // dog (the purchase-confirmation email fires before any photo is uploaded).
+    // For an owner this IS their single onboarding email (the welcome no longer
+    // fires at register), so mark them onboarded and open the 1-week quiet
+    // window here. Set it on upload success regardless of whether the email send
+    // itself succeeds — the upload is what onboards them, not the email.
     this.sendCertificateEmail(user.email, { id, slug, dogName: cleanName, breed: cleanBreed, slotAt: validSlotAt, firstAppearedAt: null })
       .catch(e => console.error('[Email] Certificate email failed:', e.message));
+    if (!user.onboardedAt) {
+      user.onboardedAt = Date.now();
+      user.emailQuietUntil = user.onboardedAt + EMAIL_QUIET_MS;
+      await this.room.storage.put(`user:${session.userId}`, user);
+    }
 
     return new Response(JSON.stringify({
       ok: true,
@@ -4021,7 +4041,7 @@ export default class DogShowServer {
                 </p>
                 <table style="width: 100%; border-collapse: collapse;">
                   <tr><td style="padding: 6px 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.8);"><strong style="color:#FF8C42;">1.</strong> Dogs take the stage one at a time, live.</td></tr>
-                  <tr><td style="padding: 6px 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.8);"><strong style="color:#FF8C42;">2.</strong> <strong style="color:#e0d8f0;">Every bone is a vote.</strong> Throw bones at the dogs you love — you start with 250.</td></tr>
+                  <tr><td style="padding: 6px 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.8);"><strong style="color:#FF8C42;">2.</strong> <strong style="color:#e0d8f0;">Every bone is a vote.</strong> Throw bones at the dogs you love — you start with 50.</td></tr>
                   <tr><td style="padding: 6px 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.8);"><strong style="color:#FF8C42;">3.</strong> The most-voted dog each month is crowned <strong style="color:#e0d8f0;">Best in Show</strong>. Standings reset on the 1st.</td></tr>
                 </table>
               </div>
@@ -4345,6 +4365,36 @@ export default class DogShowServer {
       if (typeof u.tier === 'string' && u.tier.startsWith('interest_')) continue;
       const dog = dogsByUserId.get(u.id) || null;
       try {
+        // −1) Onboarding gate (2026-07-08). A user must receive exactly one
+        // onboarding email, then get a quiet week. Owners are marked onboarded at
+        // /upload-dog (certificate email). Fans who never entered a dog get one
+        // welcome here, once WELCOME_GRACE_MS has passed (so a slow upload can
+        // still preempt it). Pre-existing accounts (no onboardedAt field, older
+        // than WELCOME_MAX_AGE) are backfilled silently — no late welcome.
+        if (!u.onboardedAt) {
+          const age = now - (u.createdAt || now);
+          if (!dog && age >= WELCOME_GRACE_MS && age <= WELCOME_MAX_AGE) {
+            await this.sendWelcomeEmail(u.email).catch(e =>
+              console.error('[Campaign] welcome email failed:', e && e.message));
+            u.onboardedAt = now;
+            u.emailQuietUntil = now + EMAIL_QUIET_MS;
+            await this.room.storage.put(`user:${u.id}`, u);
+            continue; // now inside their quiet window
+          }
+          if (dog || age > WELCOME_MAX_AGE) {
+            // Owner already onboarded via the certificate email, or an account
+            // that predates this field — backfill and process normally (no email,
+            // no fresh quiet window for these established users).
+            u.onboardedAt = u.createdAt || now;
+            await this.room.storage.put(`user:${u.id}`, u);
+          } else {
+            continue; // brand-new owner mid-entry, or still within grace — wait
+          }
+        }
+        // 0b) Quiet window — no campaign email for the first week after the one
+        // onboarding email. Testimonial requests are gated separately (see
+        // maybeSendTestimonialRequest).
+        if (u.emailQuietUntil && now < u.emailQuietUntil) continue;
         // 0) Monthly results recap — every registered user, once per ended season.
         // The winner's own owner is skipped here; they get the special winner
         // email instead.
@@ -4614,9 +4664,14 @@ export default class DogShowServer {
               <div style="background: #241a45; border-radius: 12px; padding: 22px 24px; border: 1px solid rgba(255,140,66,0.25); margin-bottom: 24px;">
                 <p style="font-size: 13px; color: #FF8C42; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin: 0 0 10px;">🏆 How ${dogName} wins Best in Show</p>
                 <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); margin: 0 0 8px;"><strong style="color:#e0d8f0;">Every bone is a vote.</strong> The dog with the most bones this month is crowned Best in Show. Standings reset on the 1st, so this month is wide open.</p>
-                <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); margin: 0 0 16px;">Two ways to rack up votes: <strong style="color:#e0d8f0;">tap ${dogName} on the live stage to throw your own bones</strong>, and <strong style="color:#e0d8f0;">share their page</strong> so friends and family can vote too.</p>
+                <p style="font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); margin: 0 0 16px;">Three ways to rack up votes: <strong style="color:#e0d8f0;">tap ${dogName} on the live stage to throw your own bones</strong>, <strong style="color:#e0d8f0;">share their page</strong> so friends and family can vote too, or <strong style="color:#e0d8f0;">add a batch of votes yourself</strong>.</p>
                 <div style="text-align: center;">
                   <a href="${showUrl}" style="display: inline-block; background: #FF8C42; color: #1a1035; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px;">Watch live &amp; vote →</a>
+                </div>
+                <div style="text-align: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08);">
+                  <p style="font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.7); margin: 0 0 10px;">Want to give ${dogName} a running start? Add a batch of votes:</p>
+                  <a href="${SITE_URL}/?scroll=pricing#pricing" style="display: inline-block; background: rgba(255,140,66,0.12); color: #FF8C42; padding: 11px 24px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px; border: 1px solid rgba(255,140,66,0.5);">Add 250 votes — $1.99 →</a>
+                  <p style="font-size: 12px; color: rgba(255,255,255,0.4); margin: 8px 0 0;">or 1,000 votes with Top Dog — $5.99</p>
                 </div>
               </div>`;
     try {
@@ -4855,6 +4910,11 @@ export default class DogShowServer {
     if (!dog.userId) return;
     const user = await this.room.storage.get(`user:${dog.userId}`);
     if (!user || !user.email) return;
+    // Respect the onboarding quiet window (2026-07-08): a brand-new owner should
+    // not get the "how did it go?" ask on top of their certificate email within
+    // the first week. Skip WITHOUT setting the flag so it fires on a later airing
+    // (dogs re-air on rotation) once the quiet week has elapsed.
+    if (user.emailQuietUntil && Date.now() < user.emailQuietUntil) return;
     // Set the flag BEFORE sending so a transient send failure doesn't
     // un-guard us (re-sending the same ask the next time the dog airs is
     // worse than a silently-dropped one).
