@@ -856,14 +856,14 @@ a{color: var(--accent-text, #c25a0e);}
 .wrap{max-width:760px;margin:0 auto;padding:24px 20px 60px;}
 .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:8px;}
 .eyebrow a{color:var(--purple);text-decoration:none;}
-h1.breed-h1{font-family:'Yang Bagus',serif;color: var(--accent-text, #c25a0e);font-size:44px;line-height:1.05;margin-bottom:16px;}
+h1.breed-h1{font-family:'Yang Bagus',serif;color:#2a2150;font-size:44px;line-height:1.05;margin-bottom:16px;}
 .lede{font-size:17px;color:rgba(42,33,80,0.92);margin-bottom:36px;}
 .lede em{color:var(--text);font-style:italic;}
 /* Breed hero image (top of page). Aspect-ratio reserves space → no layout shift. */
 .breed-hero-fig{margin:0 0 28px;}
 .breed-hero{display:block;position:relative;margin:0 0 28px;border-radius:14px;overflow:hidden;border:1px solid rgba(42,33,80,0.14);background:var(--bg-card);text-decoration:none;}
 .breed-hero-fig .breed-hero{margin:0;}
-.breed-hero img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;}
+.breed-hero img{width:100%;aspect-ratio:1/1;max-height:560px;object-fit:contain;background:#e9e2f5;display:block;}
 .breed-hero-cap{position:absolute;left:0;right:0;bottom:0;padding:24px 16px 12px;font-size:13px;color:#fff;background:linear-gradient(to top,rgba(10,6,23,0.88),rgba(10,6,23,0));}
 .breed-hero-cap .nm{font-weight:700;color: var(--accent-text, #c25a0e);}
 .breed-hero-credit{font-size:11px;color:var(--dim);padding:6px 2px 0;}
@@ -901,7 +901,7 @@ h1.breed-h1{font-family:'Yang Bagus',serif;color: var(--accent-text, #c25a0e);fo
 .user-dogs{margin:36px 0;}
 .user-dogs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:14px;}
 .user-dog-card{background:var(--bg-card);border:1px solid rgba(42,33,80,0.11);border-radius:10px;padding:0;text-decoration:none;color:var(--text);overflow:hidden;display:block;}
-.user-dog-card img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:var(--bg-card-2);}
+.user-dog-card img{width:100%;aspect-ratio:1/1;object-fit:contain;display:block;background:var(--bg-card-2);}
 .user-dog-card-name{font-size:13px;font-weight:600;padding:8px 10px 4px;}
 .user-dog-card-owner{font-size:11px;color:var(--dim);padding:0 10px 10px;}
 /* Related breeds */
