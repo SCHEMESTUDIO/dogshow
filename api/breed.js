@@ -871,7 +871,7 @@ h1.breed-h1{font-family:'Yang Bagus',serif;color:#2a2150;font-size:44px;line-hei
 .breed-hero-empty{display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;background:linear-gradient(135deg,rgba(123,104,238,0.18),rgba(255,140,66,0.12));}
 .breed-hero-empty-inner{font-family:'Yang Bagus',serif;color: var(--accent-text, #c25a0e);font-size:24px;line-height:1.15;text-align:center;padding:24px;}
 .section{margin:36px 0;}
-.section h2{font-family:'Yang Bagus',serif;color: var(--accent-text, #c25a0e);font-size:26px;margin-bottom:14px;}
+.section h2{font-family:'Yang Bagus',serif;color: #2a2150;font-size:26px;margin-bottom:14px;}
 .section h3{font-size:16px;color:var(--text);margin:20px 0 8px;font-weight:600;}
 .section p{font-size:15px;color:rgba(42,33,80,0.92);margin-bottom:12px;}
 .section p strong{color:var(--text);}

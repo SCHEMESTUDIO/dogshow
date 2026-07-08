@@ -73,7 +73,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .preshow-rsvp-msg.ok{color:#5b46d6;}
 .preshow-rsvp-msg.err{color:#c62828;}
 .preshow-airingnow{background:linear-gradient(135deg,rgba(255,140,66,0.18),rgba(123,104,238,0.18));border:1px solid var(--accent);border-radius:12px;padding:18px;margin-bottom:18px;}
-.preshow-airingnow-title{font-family:'Yang Bagus',serif;font-size:24px;color: var(--accent-text, #c25a0e);}
+.preshow-airingnow-title{font-family:'Yang Bagus',serif;font-size:24px;color: #2a2150;}
 .preshow-airingnow-sub{font-size:13px;color:rgba(42,33,80,0.92);margin:4px 0 12px;}
 .preshow-watch-btn{display:inline-block;background:var(--accent);color:#1a1035;font-weight:700;font-size:15px;padding:12px 24px;border-radius:10px;text-decoration:none;}
 @media(max-width:768px){.preshow{padding:20px 14px 32px;}.preshow-header{font-size:28px;}.preshow-count-cell{padding:10px 8px;min-width:54px;}.preshow-count-num{font-size:22px;}}
@@ -107,10 +107,10 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .cert-cta-btn{display:inline-block;background:var(--accent);color:#1a1035;font-weight:700;font-size:15px;padding:14px 32px;border-radius:10px;text-decoration:none;}
 .cert-cta-sub{font-size:12px;color:var(--dim);margin-top:8px;}
 .seo{max-width:700px;margin:0 auto;padding:40px 20px 60px;border-top:1px solid rgba(42,33,80,0.11);}
-.seo h2{font-family:'Yang Bagus',serif;color: var(--accent-text, #c25a0e);font-size:22px;margin-bottom:12px;}
+.seo h2{font-family:'Yang Bagus',serif;color: #2a2150;font-size:22px;margin-bottom:12px;}
 .seo h3{font-size:16px;color:var(--text);margin:20px 0 8px;}
 .seo p{font-size:14px;color:rgba(42,33,80,0.9199999999999999);line-height:1.7;margin-bottom:12px;}
-.seo a{color: var(--accent-text, #c25a0e);text-decoration:none;}
+.seo a{color: #5b46d6;text-decoration:none;}
 .more-dogs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin:16px 0 24px;}
 .more-dog{background:var(--bg-card);border-radius:8px;padding:14px;text-align:center;text-decoration:none;border:1px solid rgba(42,33,80,0.11);}
 .more-dog-name{font-size:13px;color:var(--text);font-weight:600;margin-bottom:4px;}

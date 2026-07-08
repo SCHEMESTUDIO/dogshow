@@ -75,7 +75,7 @@
   font-family: 'Yang Bagus', 'YangBagus', cursive;
   font-size: clamp(56px, 12vw, 90px);
   margin: 0 0 16px 0;
-  color: #c25a0e;
+  color: #2a2150;
   line-height: 1;
 }
 
@@ -494,7 +494,7 @@
 }
 .total-fans-count {
   font-weight: bold;
-  color: #c25a0e;
+  color: #2a2150;
   font-size: 16px;
 }
 
@@ -1422,7 +1422,7 @@
 .leaderboard-header {
   font-family: 'Yang Bagus', 'YangBagus', cursive;
   font-size: 22px;
-  color: #c25a0e;
+  color: #2a2150;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -1692,7 +1692,7 @@
 }
 
 .show-footer a:hover {
-  color: #c25a0e;
+  color: #5b46d6;
 }
 
 .show-footer-dot {
