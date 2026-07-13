@@ -1,4 +1,19 @@
 date,time_utc,totalFans,totalDogs,totalBones,watching,note
 2026-06-23,baseline,200,30,3106,5,baseline at free-to-enter launch + ad swap
+2026-06-25,08:28,218,28,3606,0,totalDogs down 2 vs baseline (likely admin removals)
+2026-06-26,12:22,222,29,3617,0,
+2026-06-29,08:12,238,40,4022,0,
+2026-06-30,13:01,239,35,4079,0,totalDogs down 5 vs 06-29 (40->35), likely admin removals
+2026-07-01,16:05,242,37,4135,0,
+2026-07-03,07:07,253,42,4335,0,
+2026-07-04,08:02,260,48,4538,0,possible duplicate: GH Actions tracker also runs 08:00 UTC (this local task was retired 2026-07-03)
+2026-07-05,08:14,261,48,4539,0,local task retired 2026-07-03 (GH Actions tracker is source of truth); no GH row seen locally for today
+2026-07-06,08:02,261,48,4539,0,no change vs 07-05; local task still firing though marked retired (GH Actions migration not deployed)
+2026-07-07,09:19,267,48,4560,0,
+2026-07-08,08:28,267,48,4560,0,
+2026-07-09,09:03,271,53,4685,0,
+2026-07-10,08:11,271,53,4685,0,
+2026-07-11,08:50,273,53,4691,0,
+2026-07-13,13:48,276,53,4693,0,
 2026-07-14,09:57,277,53,4693,0,
 2026-07-15,10:02,278,53,4693,0,

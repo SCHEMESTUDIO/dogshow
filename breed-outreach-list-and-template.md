@@ -574,7 +574,541 @@ Paste-ready, each with its real hook. Contact method in the lead line (✉️ em
 
 ---
 
-# WAVE 2 — 6 top-of-tail breeds (added 2026-07-14)
+# WAVE 2 — 6 most-popular breeds (added 2026-06-24)
+
+Breeds: **Golden Retriever, Labrador Retriever, Poodle, Dachshund (standard), Pembroke Welsh Corgi, Siberian Husky.** All URLs fetched/verified by the research pass; emails listed only where literally seen on-page. **13 Gmail drafts staged** for the ✉️ verified-email prospects (see staging log). Form/DM-only prospects recorded here for manual outreach. Legend — ✉️ verified on-page email · 📝 contact form · 📱 phone/DM · ❓ verify before sending.
+
+### Golden Retriever
+- **Golden Woofs (Sugar the Golden Retriever)** — sugarthegoldenretriever.com — long-running owner blog (est. 2008), very active (posts through June 2026) — ✉️ **goldenwoofs@gmail.com** — High — *hook: monthly "Check Your Dog Day" cancer-awareness campaign + dog Kenzo earned AKC titles in 2025.* ⚠️ *Their contact page explicitly rejects generic-salutation outreach — must personalize hard.* **[DRAFT STAGED]**
+- **Overlook Goldens** — overlookgoldens.com — CT breeder w/ blog (Robert Swanson), light cadence (latest Jan 2026) — ✉️ **OverlookGoldens@gmail.com** — High — *hook: heartfelt named memorial posts for his dogs September, Diego, Stormy.* **[DRAFT STAGED]**
+- **More Waggin' Less Barkin'** — morewagginlessbarkin.com — owner blog + dog-merch shop (founder Scott Tyler, Virginia Beach VA), active to Aug 2025 — 📝 no on-page email (contact form / Facebook) — High site / Med reach — *hook: his "Life with a Golden Retriever: What I Wish I Knew Sooner" post + a Golden-themed merch collection.* (manual)
+- **whitegoldenretriever.com (English Cream)** — whitegoldenretriever.com — English Cream breeder/info site — ❓ behind a bot-wall; could not load to confirm contact/activity/hook — Low/Med — *verify in a browser before contacting.* (verify-first)
+
+### Labrador Retriever
+- **Gallivant Labradors** — gallivantlabradors.com — PA breeder (English Labs) w/ active blog (latest Aug 2025) — ✉️ **gallivantlabradors@gmail.com** — High — *hook (tailor-made): their post "The Elephant Outside the Ring" is literally about dog shows moving onto Facebook/Instagram/livestreams — exactly our premise.* **[DRAFT STAGED]**
+- **Baxter Lake Labradors** — baxterlakelabradors.com — MN breeder (ivory/yellow) w/ very active blog (latest May 2026) — ✉️ **melindakbaxter@gmail.com** (owner Melinda Baxter) — High — *hook: blog is a community photo showcase of grown-up pups — "Wally is a bat dog for the local baseball team."* **[DRAFT STAGED]**
+- **Smoky Mountain Labradors** — smokymtnlabrador.com — TN breeder (English Labs) w/ content-heavy blog (latest Dec 2025) — ✉️ **gigi@smokymtn.com** (owner Gene Wolfenbarger) — High — *hook: Gene's own breed-education posts, e.g. "When Should I Bring My Labrador Puppy Home?"* ⚠️ *Footer links to mooseandmarylabs.com (an already-listed site) — possibly the same operator network; James should skip if he recognizes overlap.* **[DRAFT STAGED]**
+- **The Labrador Site (Pippa Mattinson)** — thelabradorsite.com — large authority/training site, active — ❓ email Cloudflare-obfuscated (not literally seen) — High real / Low engagement — *borderline "too big" + no visible email; high-authority long shot via comments/social only.* (verify-first)
+
+### Poodle *(purebred Standard/Mini/Toy — not doodles)*
+- **Aglow Standard Poodles** — aglowstandards.com — MI home breeder (Standards), content-rich — ✉️ **aglowstandards@gmail.com** (owner Shawn) — High — *hook: 25 yrs with Standards on the St. Clair River, started in diabetic-alert service work; "no other breed holds my heart the same way."* **[DRAFT STAGED]**
+- **Piccolo's AKC Standard Poodles** — piccolospoodles.com — MD breeder (AKC Breeder of Merit), active litters scheduled 2026/27 — ✉️ **comer978@comcast.net** (owner Evelyn; written out on-page as "comer978@comcast dot net" to dodge scrapers) — High — *hook: showing Standard Poodles since 1979, specializes in harder-to-find solid browns.* **[DRAFT STAGED]**
+- **Simply Poodles** — simplypoodles.com — owner blog (Patrick + Standard Poodle Annie, St. Louis MO) — 📝/❓ no on-page email seen — High real / Med active — *hook: got first Poodle spring 2018, made the site "to share everything I learn about Poodles."* (manual)
+- **Poodle Tips** — poodletips.com — breed-info/affiliate blog (all 3 sizes), very active (latest Oct 2025) — 📝 email Cloudflare-obfuscated (likely info@poodletips.com, not literally seen) — High — *hook: recent "Can Mini Poodles Hike?" post; anonymous/affiliate so weaker as a quote authority.* (manual)
+- **Heart Song Standard Poodles** — heartsongstandardpoodles.com — AL breeder (owner Johnna Roberts) w/ "Poodle Antics" blog — 📝/📱 no confirmed email (blog dated ~2018, may be dormant) — Med-High — *hook: charming "dog show from the poodle's point of view" post; AKC Trick Dog / UKC titles.* (manual / verify-first)
+
+### Dachshund (standard)
+- **Dachshunds Planet** — dachshundsplanet.com — breed-info/care site (owners "Ana and Roxie"), very active (posts June 2026) — ✉️ **info@dachshundsplanet.com** (displayed on page) — High — *hook: June 2026 post on summer heatstroke / keeping dachshunds safe in the heat.* ⚠️ *The displayed `.com` email's mailto actually points to a Polish address (info@planetajamnikow.pl) — English arm of a Polish site; deliverability of the .com unverified, may bounce.* **[DRAFT STAGED — flagged]**
+- **Dachshund Friends ("The Sausage Dog Blog")** — dachshundfriends.com — UK owner blog, refreshed 2025 — 📝 form only — Med-High — *hook: fun "What Does Owning a Dachshund Say About You?" post; no owner name published.* (manual)
+- **Dachshund Station** — dachshundstation.com — owner blog (Ava Jaine, since 2019) — 📝 form only (anti-scrape) — High — *hook: names her dogs — current silver-dapple piebald male Eko ("loud, feisty") + Gretta.* (manual)
+- **For My Dachshund** — formydachshund.com — owner blog ("The Dachshund Lady"), older (newest ~2022) — 📝 form only — Med — ⚠️ *profile (founded Adventureweiner Club, walker/sitter) closely resembles Jessica of the banned youdidwhatwithyourweiner.com — confirm it's genuinely separate before contacting.* (verify-first)
+
+### Pembroke Welsh Corgi
+- **Southeast Corgi Rescue** — southeastcorgirescue.com — breed-specific rescue (NC/SC/GA nonprofit) w/ active blog (through Sept 2025) — ✉️ **info@southeastcorgirescue.com** — High — *hook: Aug 2025 announcement pausing intake with 30+ fosters in care, many needing medical treatment; ran a 2025 Medical Fund Auction.* **[DRAFT STAGED]**
+- **Willo the Corgi** — willothecorgi.com — owner blog + shop (Devon Noehring) w/ a Collaborate page — ✉️ **willothecorgi@gmail.com** — High real / Low-Med active (blog quiet since 2022) — *hook: Willo's "food awoo" howling + the "Q&Awoo" post; has a dedicated Collaborate page so receptive to partnerships.* **[DRAFT STAGED]**
+- **Quivira Corgis** — quiviracorgis.com — KS breeder (AKC Pembroke, 15+ yrs) — ✉️ **quiviracorgis@gmail.com** — Med (site likely stale, footer "updated Aug 2022") — *hook: breeder/birthplace of "Gatsby the Corgi" (famous IG) + placed corgis into service work.* **[DRAFT STAGED]**
+- **That Corgi Blog** — thatcorgiblog.com — owner blog (Sean Deaton), upkept but newest post May 2024 — 📝 no email (subscribe portal / IG only) — High real / Med active — *hook: corgi Monty tore his ACL in 2023 (what spurred the blog); Sean is a computer-security researcher ("WhatTheFuzz").* (manual)
+- **Stumps and Rumps** — stumpsandrumps.com — owner-resource blog (Megan Mullins, corgis Moose & Koda, Kansas City) — 📱 IG only — Med — *real site but recency unconfirmed (a post references a 2020 promo code).* (manual / verify-first)
+
+### Siberian Husky
+- **Supernova Siberian Huskies** — supernovasiberianhuskies.com — TX breeder w/ active blog (latest June 2025; owner "Missy") — ✉️ **supernovasiberians@gmail.com** — High — *hook: her "Socialization must be done right" post; she's a Karen Pryor Academy / Puppy Start Right certified instructor.* **[DRAFT STAGED]**
+- **Naketi's Siberians** — naketissiberians.com — WA breeder/exhibitor (owner Rebecca Loren) — ✉️ **rebecca@naketissiberians.com** — High — *hook: kennel name "Na-Ke-Ti's" honors her first three Siberians — Nanuk, Keanu, Tika.* ⚠️ *No blog — pitched quote-first, softened the guest-post offer.* **[DRAFT STAGED]**
+- **Songbird Siberians** — songbirdsiberians.com — CT AKC breeder w/ News blog + Breed FAQ, current (Jan 2026 banner) — 📝 form only — High — *hook: owners Rebecca & Dan finish AKC championships AND mush recreationally; explicitly "hope to educate others about dog showing and mushing."* (manual)
+- **Running with Huskies** — runningwithhuskies.com — owner/breeder blog (Maine; owner Anika, ~14 yrs), active 2025 — 📝/📱 no on-page email (comment forms / IG) — High — *hook: writer/photographer who trains for sledding & cani-cross; original content like a "Biscuits to Share" trail-treat recipe.* (manual)
+
+#### Wave 2 personalized messages — form/DM prospects (for manual send)
+
+**More Waggin' Less Barkin' (Scott Tyler)** — 📝 form: morewagginlessbarkin.com/contact-us · FB /MoreWaggin
+> Hi Scott — I run The Dog Show (dogshow.lol), a live online dog show where people enter their dogs and the crowd cheers them on. Your "Life with a Golden Retriever: What I Wish I Knew Sooner" post (the twice-a-year fur tornado!) is exactly the real-owner voice I'm after. We're building a Golden Retriever page and would love a short quote or tip from you — anything you wish new owners knew — credited with a link back to your site. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Simply Poodles (Patrick)** — 📝 site contact
+> Hi Patrick — I run The Dog Show (dogshow.lol), a live online dog show where people enter their dogs and the crowd cheers them on. A genuine owner blog built around Annie and "everything I learn about Poodles" is a rare find in a niche full of sales pages. We're building a Poodle page and would love a short quote or tip from you — anything you wish new Poodle owners knew — credited with a link back to simplypoodles.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Poodle Tips** — 📝 form: poodletips.com/contact-us/
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where people enter their dogs and the crowd cheers them on. Your "Can Mini Poodles Hike?" piece made me smile — you publish more useful Poodle content than almost anyone. We're building a Poodle page and would love a short quote or tip from you — anything you wish new owners knew — credited with a link back to poodletips.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Heart Song Standard Poodles (Johnna Roberts)** — 📝 form: heartsongstandardpoodles.com/contact-us/
+> Hi Johnna — I run The Dog Show (dogshow.lol), a live online dog show where people enter their dogs and the crowd cheers them on. Your "dog show from the poodle's point of view" post is charming, and right up our alley. We're building a Poodle page and would love a short quote or tip from you — anything you wish new owners knew — credited with a link back to your site. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Dachshund Friends** — 📝 form: dachshundfriends.com/contact-us/
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where people enter their dogs and the crowd cheers them on. Your "What Does Owning a Dachshund Say About You?" post is exactly the fun, personality-forward writing I love. We're building a Dachshund page and would love a short quote or tip from you — anything you wish new owners knew — credited with a link back to dachshundfriends.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Dachshund Station (Ava Jaine)** — 📝 form on site · IG @dachshundstation
+> Hi Ava — I run The Dog Show (dogshow.lol), a live online dog show where people enter their dogs and the crowd cheers them on. Eko sounds like a proper character — the loud, feisty silver-dapple piebald — and your 20+ years with the breed shows. We're building a Dachshund page and would love a short quote or tip from you — anything you wish new owners knew — credited with a link back to dachshundstation.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**That Corgi Blog (Sean Deaton)** — 📝 subscribe portal · IG @thatcorgiblog
+> Hi Sean — I run The Dog Show (dogshow.lol), a live online dog show where people enter their dogs and the crowd cheers them on. Starting the blog after Monty tore his ACL is a lovely origin story — and a security researcher writing about corgis is a combination I had to reach out about. We're building a Corgi page and would love a short quote or tip from you — anything you wish new owners knew — credited with a link back to thatcorgiblog.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Songbird Siberians (Rebecca & Dan)** — 📝 form on site
+> Hi Rebecca & Dan — I run The Dog Show (dogshow.lol), a live online dog show where people enter their dogs and the crowd cheers them on. Finishing AKC championships and mushing recreationally to test structure on the trail is a wonderful dual lens — and your wish to welcome new people into the breed mirrors mine. We're building a Siberian Husky page and would love a short quote or tip from you — anything you wish new owners knew — credited with a link back to songbirdsiberians.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Running with Huskies (Anika)** — 📝 site forms · IG @runningwithhuskies
+> Hi Anika — I run The Dog Show (dogshow.lol), a live online dog show where people enter their dogs and the crowd cheers them on. Fourteen years of huskies, cani-cross, and a "Biscuits to Share" trail-treat recipe — yours is exactly the owner-photographer voice I'd love to feature. We're building a Siberian Husky page and would love a short quote or tip from you — anything you wish new owners knew — credited with a link back to runningwithhuskies.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+> Verify-first before contacting (low confidence / possible overlap): whitegoldenretriever.com (bot-walled), The Labrador Site (too big, obfuscated email), For My Dachshund (possible tie to banned youdidwhatwithyourweiner.com), Stumps and Rumps (recency unconfirmed). Smoky Mountain Labradors drafted but flagged for possible Moose & Mary network overlap; Dachshunds Planet drafted but its displayed .com email may route to a Polish address — confirm deliverability.
+
+---
+
+# WAVE 3 — 6 high-volume breeds (added 2026-06-25)
+
+Queue items #7–12: Australian Shepherd (standard), Beagle, Rottweiler, Boxer, Border Collie, Great Dane. URLs all fetched/verified by the research pass; emails listed only where literally seen on-page. **12 Gmail drafts staged this run** (the ✉️ rows). Form/phone/DM-only prospects are recorded below for manual outreach. Each carries a real hook per the always-personalize rule.
+
+Legend — ✉️ verified on-page email (drafted) · 📝 contact form · 📱 phone/social/DM · ❓ verify before sending.
+
+## Roadmap read — community depth (Wave 3)
+
+| Depth | Breeds |
+|---|---|
+| **Moderate (breeder-heavy, blog-light)** | Australian Shepherd, Rottweiler, Boxer, Border Collie, Great Dane |
+| **Moderate (content-mill / affiliate-leaning)** | Beagle |
+
+Consistent pattern across all six: plenty of active *breeder* sites with on-page Gmail addresses, but genuine independent owner blogs are thin and several "best-of" listicle picks were dead (hijacked domains: aussiebase.com, backseatbordercollie.com) or dormant (Long Haul Trekkers, lifewithbeagle, DKV Rottweilers, Field Stone, NorthView Boxers). For the dog-show backlink angle this skews fine — breeders care about conformation/show titles, which maps to "Best in Show."
+
+### Australian Shepherd (standard) *(not built · Moderate — breeder-heavy)*
+- **Great Oaks Aussies** — greatoaksaussies.com — breeder, content-rich (Homer, GA) — ✉️ GreatOaksAussies@gmail.com — High — *hook: owner Corinne Lee, family farm NE GA; Int'l CH stud "Diesel"; "100 mile hike with Charles" caption* — **DRAFTED**
+- **Ramblin Ridge Aussies** — ramblinridgeaussies.com — breeder (Ruffin, NC) — ✉️ ramblinridge@aol.com — High — *hook: "Standard Size Aussies Only…No Mini or Toy," in business since 2005* — **DRAFTED**
+- **Australian Shepherd Lovers** — australian-shepherd-lovers.com — large content/community site w/ articles + photo-of-the-month + "Link to us" page — 📝 form (no on-page email) — High — *hook: editor Anton Hout, site inspired by his Aussie Levi; actively solicits reader submissions* — best editorial target; manual
+- **Iron Side Ranch** — ironsideranch.com — working cattle ranch, standard working-line Aussies — 📝 form — Med — *hook: owners Jennifer & Mason (Mason 33-yr military retired); "work with a Harvard Research Team" on canine behavior* — manual
+- **Green Valley Australian Shepherds** — greenvalleyaussies.com — breeder (South Jordan, UT) — 📝 form + social — Med — *hook: Jeff & Emily Mabey, 4-generation Mabey Farm* — manual
+- *Dead/excluded: aussiebase.com (hijacked → gambling site); Long Haul Trekkers (Aussie passed 2018, brand pivoted away).*
+
+### Beagle *(not built · Moderate — content-mill leaning)*
+- **My Beagle Buddy** — mybeaglebuddy.com — owner blog (UK, US audience) — ✉️ info@mybeaglebuddy.com — High — *hook: Simon Wilson + beagles Baylee (born Christmas Day) & Bonnie (lemon beagle, 2019 Crufts finalist); note he's an SEO pro — judge on merit* — **DRAFTED**
+- **The Beagle Barn** — thebeaglebarn.com — breeder, no blog (Earlville, IL) — ✉️ BeagleBarn@aol.com — Med — *hook: Linda Tordai, 48 yrs raising only beagles; relationship ask (no blog)* — **DRAFTED**
+- **Rosehaven Homestead** — rosehavenhomestead.com — family breeder blog, genuinely active (Colville, WA) — 📝 form — High — *hook: "History of the Beagle" post opens "From whence cometh our merry little hound?"; LOTR-themed dog names* — manual
+- **The Barmy Beagle** — thebarmybeagle.com — humor-forward beagle blog (UK) w/ "Work With Us" page — 📝 form + phone — High/Med — *hook: posts like "18 Hilarious Reasons Why Beagles Are the Funniest Dogs"; lead with their Work With Us invite* — manual
+- **The Regal Beagle** — theregalbeagle.net — dog boarding/grooming business (Dallas, GA), blog dormant since Dec 2023 — 📱 phone + social — Med, weak fit — manual/skip
+- *Excluded: beaglemom.space + dogbeagle.com (empty fetches); lifewithbeagle.com (abandoned ~2018).*
+
+### Rottweiler *(not built · Moderate — breeder-rich, blog-thin)*
+- **Lonepeak Rottweilers** — lonepeakrottweilers.com — breeder w/ active 2025 blog (Highland, UT) — ✉️ lonepeakrottweilers@gmail.com — High — *hook: Jared & Tiffany Jambor, family of 5, 15+ yrs rotties, pups raised "in a house full of kids"* — **DRAFTED**
+- **84GotRotts (Scotty's California Rottweiler Ranch)** — 84gotrotts.com — breeder w/ most-active blog, newest Nov 2025 (Oroville, CA) — ✉️ admin@84GotRotts.com — High — *hook: newest post "The Spark" about the first eye-lock with a puppy* — **DRAFTED**
+- **Von Haus Wilkerson Rottweilers** — vhwrotties.com — breeder, no blog (Camden County, NC) — ✉️ VHWROTTIES@GMAIL.COM — High — *hook: Mike Wilkerson, relocated May 2025, Spring 2026 litters planned, CH Ava Von Haus Wilkerson; relationship ask (no blog)* — **DRAFTED**
+- **Von Evman Rottweilers** — vonevmans.com — breeder w/ "Rottweiler Articles" section (FL), active (modified Feb 2026) — 📝 form (no on-page email) — High — *hook: "1 of 5 AKC Gold Breeder of Merit in the USA," 100% German lines; their main business is bonsai/lucky bamboo for Disney World* — manual
+- *Excluded: DKV Rottweilers (blog dormant since 2019); Kianao (baby-products store, not a breed site).*
+
+### Boxer *(not built · Moderate — one strong owner blog, rest breeders)*
+- **Rumors of Luv Boxers** — rumorsofluvboxers.com — private breeder (Staatsburg, NY) — ✉️ rumorsboxers@yahoo.com — Med — *hook: owner Corie, part-time school bus driver; kennel named for late Morgan horse "Rumors of Luv"; pup Abby was first Boxer her tester certified as a therapy dog* — **DRAFTED** (note: static/older site)
+- **Nordom – German Boxers Kennel** — nordomboxer.com — breeder + content blog (Port Norris, NJ) — ✉️ info@nordomboxer.com — Med-High — *hook: owner Tetyana Bilorus, FCI judge/handler, runs the site herself* — **DRAFTED**
+- **The Daily Boxer** — dailyboxer.com — active owner/enthusiast blog (family w/ Daisy & Rosco), newest post Feb 2026 — 📱 social (email Cloudflare-obfuscated) — High — *hook: new post welcoming rescue pup Zya, "pure energy in a brindle package"; family shifted buying→rescue* — manual (FB/IG @mydailyboxer)
+- **Gentry Boxers** — gentryboxers.com — established breeder (Houston, TX) — 📝 form — High — *hook: owner Paula Vandervoort, 52+ yrs (since 1973), all-natural rearing, "raised underfoot, not in a kennel"* — manual
+- *Excluded as primary: NorthView Boxers (blog stale 2019, only on-page email is a WP placeholder). Rescues (TBRO, NC Boxer Rescue) out of target scope.*
+
+### Border Collie *(not built · Moderate — breeder-side rich, owner blogs decaying)*
+- **Edge of Time Border Collies** — eotbordercollies.com — breeder w/ blog section (Camden, SC) — ✉️ EOTBorderCollies@gmail.com — High — *hook: 2025 handover to Pastor Lanny Gunter's family; "20+ years of experience"* — **DRAFTED**
+- **Riverside Collies & Critters** — riversidecolliesncritters.com — family breeder + homestead (Calvert County, MD), maintained (modified Mar 2026) — ✉️ riverside.colliesncritters@gmail.com — High — *hook: pups socialized alongside goats & chickens on the homestead* — **DRAFTED**
+- **2 Cool Border Collies** — 2coolbcs.com — owner/dog-sport training blog (AZ), posting through 2024 — 📝 email Cloudflare-obfuscated / form + socials — High — *hook: owner Cynde Leshin (RN background); her dog Beckett just finished his OTCH — her 2nd OTCH dog* — manual
+- **Contact Point Border Collies** — contactpointbordercollies.com — AKC Breeder of Merit Platinum (Fillmore, CA) — 📝 form, looks stale (© 2023) — Med — *hook: owner Karen Moureaux* — secondary/manual
+- *Excluded: Field Stone (stale, posts mostly 2018–2021, no email rendered); Backseat Border Collie (dead → gambling redirect); The Adventure Dog Blog (couldn't confirm active/contact).*
+
+### Great Dane *(not built · Moderate — blog-thin, on-page emails scarce)*
+- **Haley And The Dane** — haleyandthedane.com — active owner blog, newest May 2026 — ✉️ haleyandthedane@gmail.com — High — *hook: heartfelt, honest blog that writes through the hard chapters too; runs apparel brand Dymond's Co. (Dane Dior's cancer journey is on the blog — keep personalization warm/tactful, don't lead with it)* — **DRAFTED**
+- **Have Dane Will Travel** — havedanewilltravel.com — established owner blog (14 pages), recent Aug 2025 — 📝 form (email Cloudflare-obfuscated) — High — *hook: owner Jenny (Jennifer Wolf); current Dane Martok; took in Feyre, a merle Dane abandoned at a dog park* — manual
+- **Dane Good Blog** — danegoodblog.com — owner blog (Minneapolis), © 2026 — 📱 social/about only (no email/form found) — High — *hook: owner Karla & Dane Cash; she's VP/Co-Director of Great Dane Rescue of MN & WI* — manual
+- **Daynakin Great Danes** — daynakingreatdanes.com — AKC preservation breeder w/ "Daynakin News" + resources (Lynden, WA), est. 1974 — 📝 form — High — *hook: Georgia & Jack; bred 50+ AKC Champions; Georgia judged the GDCA Futurity (2008, 2015) — most show-relevant prospect* — manual
+- *Excluded: Love Margot (apparel shop, not a blog).*
+
+## Dedup / honesty notes for Wave 3
+- All emails are on-page-verified; where the report saw only a form, Cloudflare-obfuscated address, or social, NO email was drafted (recorded as manual instead).
+- "Standard" Australian Shepherd kept distinct from the Mini/Toy Aussie pool already worked in Wave 0 — no avoid-list overlap.
+- Two breeder drafts (The Beagle Barn, VHWR) have no blog → guest-post line softened to "your site"; treat as relationship/quote asks.
+- Haley And The Dane: hook handled tactfully given the dog's cancer content on the blog — referenced her honest writing, not the diagnosis.
+
+---
+
+# WAVE 4 — 6 toy/companion + Doberman breeds (added 2026-06-26)
+
+Queue items #13–18: Doberman Pinscher, Cavalier King Charles Spaniel, Yorkshire Terrier, Chihuahua, Shih Tzu, Pomeranian. All URLs fetched/verified by the research pass; emails listed **only where literally seen on-page** (Cloudflare-obfuscated `[email protected]` placeholders and reversed/anti-scrape addresses are NOT recoverable → recorded as form/manual, never drafted). 13 Gmail drafts staged. Legend — ✉️ verified on-page email · 📝 form · 📱 phone/DM · ❓ verify before sending.
+
+### Doberman Pinscher *(breeder/IG-heavy; verified-email blogs scarce)*
+- **Doberman Nation** — dobermannation.com — owner-run community blog (dogs Sara, Lacy, Dragon, Zora) — ✉️ Admin@DobermanNation.com — High — *hook: runs a "Doberman Diaries" owner-submission feature + openly invites brand collabs* — **DRAFTED**
+- **The Doberman Network** — thedobermannetwork.com — Doberman magazine, current Summer 2026 issue — ✉️ info@thedobermannetwork.com (Amy Tourond, Publisher) / elizabeth@thedobermannetwork.com (Elizabeth Barrett) — High — *hook: Summer 2026 grand-finale issue tied to DPCA's 100th anniversary; show-world publication. Note: paid-ad/editorial outfit — free backlink less likely but contacts are real* — **DRAFTED** (info@)
+- **Nightmare Dobermann** — nightmare-dobermann.com — breeder, no blog (Andrew & Diana, Madera CA) — ✉️ Nightmaredoberman@yahoo.com — High — *hook: active ear-posting guides; engaged breeder showcasing dogs publicly. No blog → guest-post line softened to "your site"* — **DRAFTED**
+- **Ravensown-KO Dobermans** — ravensownkodobermans.com — resource pages, no blog (Kim Owen, LVT 30+ yrs, AKC Breeder of Merit, WA) — 📝 form + FB (owner notes she rarely checks email) — High — *hook: licensed vet tech / preservation breeder, dog "Sebastian" just earned his Championship* — manual
+- **Doberman Pinschers of EvRMoore** — dobermans.dog — small breeder site (Evie, Crouse NC) — ❓ no verified email (homepage only checked) — Med — *hook: her love of the breed started at a Michigan dog show; hand-raises every pup* — manual/verify
+
+### Cavalier King Charles Spaniel *(breeder + big-brand-blog heavy; open plain-text emails scarce)*
+- **Brookside Cavalier** — brooksidecavalier.com — breeder, no blog (Rowley, MA; 37-yr healthcare/EMT background) — ✉️ Brooksidecavalier@gmail.com — High — *hook: "kennel-free" breeding program, microchips every pup, daughter shows in junior/adult rings. No blog → guest-post line softened* — **DRAFTED**
+- **Just A Little Cavalier** — justalittlecavalier.com — genuine breed blog (Charleston-area SC; "TIED LLC") — 📝 form + Cloudflare-obfuscated email — High — *hook: best editorial-link target of the set; full Embark DNA panels, donates to Dorchester Paws shelter* — manual
+- **Royal Flush Cavaliers** — royalflushcavaliers.com — very active breeder blog/podcast (MA, est. 1990; Christine Vitolo) — 📱 phone 401.213.6333 + obfuscated email — High — *hook: owner is an Amazon #1 best-selling Cavalier author; dogs appeared in Puppy Bowl XXII* — manual
+- **The Barking Bugle** — thebarkingbugle.co.uk — UK "newspaper for dogs" blog, Cavalier-heavy (Norfolk; fronted by a Cavalier named Frodo) — ❓ search snippet showed newsdesk@thebarkingbugle.co.uk but site is JS-rendered, NOT seen literally on-page — Med-High — *hook: royal/Cavalier editorial angle (Sandringham, Bliss Cavalier Rescue). Verify email in a browser before sending* — manual/verify
+- ❌ **Cedar Creek Cavaliers** — REJECTED: footer stuffed with injected gambling/casino spam links (site appears compromised). Do not pursue.
+
+### Yorkshire Terrier *(ecommerce/content-shop heavy; genuine owner blogs scarce)*
+- **Yorkie Passion** — yorkiepassion.com — content site (run by media shop "Cloudstrike Ventures") — ✉️ startupguys.net@gmail.com (literally on /contact-us/) — High — *hook: runs a "Show Off Your Yorkie" reader-photo feature — maps to a live dog show* — **DRAFTED**
+- **About Yorkies** — aboutyorkies.com — extensive, very active blog (newest post 25 Jun 2026) — 📝 form only + FB/Twitter — High — *hook: runs a reader-submitted "Yorkie Gallery" (their dog Harry); most clearly active, best editorial fit* — manual
+- **Yorkie Universe** — yorkieuniverse.com — care/health/training blog (Cathy Bendzunas) — ❓ contact page empty/JS; snippet suggested cathy@yorkieuniverse.com but NOT verified on-page — Med-High — *hook: bought a Yorkie painting at a dime store age 11; dogs Ziggy, Lucas (Yorkie-Chi rescue), Bear* — manual/verify
+- **The Yorkie Times** — theyorkietimes.com — light shareable Yorkie content, 40K+ FB (Markham, ON) — ❓ reversed/anti-scrape email, not cleanly seen — Med — *hook: "Two Legendary Yorkies" history piece* — manual
+- *Excluded: yorkieowner.com (parked lorem-ipsum template); yorkies-gram.com (ecommerce store, obfuscated email).*
+
+### Chihuahua *(richest of this wave — 4 clean on-page emails)*
+- **ChiChis And Me** — chichisandme.com — breed blog w/ public **Guest Post Policy** (Linda Hempler, Canine Nutrition Specialist) — ✉️ admin@chichisandme.com — High — *hook: her Chihuahua Pebbles lived to 15 on a nutrition regimen Linda formulated after a cardiomyopathy diagnosis. Strongest prospect — explicit guest-post pathway* — **DRAFTED**
+- **All Things Chihuahua** — allthingschihuahua.com — very active blog, newest post 20 Jun 2026 (Andrea Kuska / A.M. Kuska) — ✉️ admin@allthingschihuahua.com — High — *hook: weekly grooming-desensitization training series (dryers, water, foot handling)* — **DRAFTED**
+- **Tenderheart Chihuahuas** — tenderheartchihuahuas.com — in-home breeder w/ /blog/ (Chris & Kristen, Manchester NH; updated 22 Jun 2026) — ✉️ tenderheartchihuahuas@gmail.com — High — *hook: Puppy Culture method, early neural stimulation, classical-music therapy* — **DRAFTED**
+- **I Love My Chi** — ilovemychi.com — large established community blog (Cathy Bendzunas, Virginia Beach VA) — ❓ email anti-scrape masked (`ca***@il********.com`), form — High site / Med contact — *hook: former groomer; first Chi Kilo passed Jun 2017; now Lucas (Chi-Yorkie) + rescue Lucy. ⚠️ same owner as Yorkie Universe — pitch once across the two* — manual
+- **Teresa's AKC Chihuahuas** — teresaschihuahuas.com — long-standing breeder w/ "Chihuahua Articles" + Show News (Riverside CA) — ❓ Cloudflare-obfuscated on-page; teresaschihuahuas@msn.com only in meta/search — Med — *hook: puppies filmed by Animal Planet ("Tiny Puppies, Big Paws"). Verify msn address before sending* — manual/verify
+
+### Shih Tzu *(moderate field; 2 clean emails)*
+- **The Shih Tzu Expert** — shihtzuexpert.com — multi-category blog (Adam Conrad, Seattle WA) — ✉️ adam@shihtzuexpert.com (also Elma@ / Amber@) — High real / Med active — *hook: started the site after a cycling accident left him housebound; first Shih Tzu "Scout" arrived then, now five. Blog content runs a few yrs old despite auto-updating ©* — **DRAFTED**
+- **Oh My Shih Tzu** — ohmyshihtzu.com — dog-sports owner blog (Christine Paul, AKC CGC Evaluator, CA) — ✉️ Christine@OhMyShihTzu.com — Med-High — *hook: "small athletes breaking stereotypes" — her Shih Tzus compete in agility, lure coursing, barn hunt. Best topical fit for a dog-show pitch* — **DRAFTED**
+- **Shih Tzu Buzz** — shihtzubuzz.com — most clearly active blog (posts to Mar 2026), 81K+ FB (agency-built "EFOUR") — 📝 form only, no on-page email — High active / Low personalization — *hook: breed-comparison "5 Paw Ratings." SEO content property, no named owner* — manual
+- *Noted: everythingshihtzu.com (real owner, dogs Rocky & Max) — no on-page email found, verify before counting; shihtzutime.com — obfuscated, unfetchable, excluded.*
+
+### Pomeranian *(strong — 3 clean emails)*
+- **PetPom** — petpom.com — deep "Pomeranian Information Center" content library + own book — ✉️ Contact@PetPom.com (footer) — High — *hook: grooming guidance specific down to a paw-wax schedule; warns against shaving the double coat* — **DRAFTED**
+- **Pommy Mommy** — pommymommy.com — personally-branded owner blog + shop (Tara) — ✉️ tara@pommymommy.com (header + footer) — High — *hook: rescue-story focus; authored two Pom books on Amazon* — **DRAFTED**
+- **Pomeranian Headquarters** — pomeranian.org — "#1 Pomeranian blog," very active (post 11 Nov 2025; Denise Leo, AU) — ✉️ poms@poms.cc (stated on-page anti-spam as "poms at poms dot cc" — note .cc not .com) — High — *hook: champion breeder, author of The Pomeranian Handbook, 12,000+ member FB group* — **DRAFTED**
+- **Pretty Pomeranian Guide** — prettypomeranian.com — active owner blog (Wendy Woodhouse + her Pom "Sash," New Canaan CT) — 📱 phone (203) 594-3000 + form (Cloudflare-obfuscated email) — High — *hook: emphasizes "a real person, not AI content"; personal training photos with Sash* — manual
+- **OC Pom Rescue** — ocpomrescue.com/blog — Pom-specific rescue w/ blog that solicits topic ideas — ❓ snippet showed marketing@ocpomrescue.com, NOT verified on-page — Med — *hook: openly invites blog topic ideas → fits a "vote for rescue Poms" angle* — manual/verify
+
+## Dedup / honesty notes for Wave 4
+- 13 verified-email drafts staged. Every drafted address was literally seen in fetched page text; Cloudflare `[email protected]` placeholders, reversed/anti-scrape masks, and meta-only/search-snippet addresses were NOT drafted (recorded manual/verify).
+- No-blog drafts (Nightmare Dobermann, Brookside Cavalier) → guest-post line softened to "your site"; treat as relationship/quote asks.
+- **Cathy Bendzunas owns BOTH Yorkie Universe and I Love My Chi** (different breeds, both manual/unverified email) — if pitching, send once, not twice.
+- Cedar Creek Cavaliers excluded as compromised (spam-injected) — do not link from it.
+- Doberman, Cavalier, and Yorkie all skew to breeder/IG/ecommerce/big-brand-blog with obfuscated emails → fewer clean drafts; Chihuahua and Pomeranian were the rich veins this wave.
+
+---
+
+# WAVE 5 — Shiba Inu, Pug, Cocker Spaniel, Boston Terrier, Havanese, Bichon Frise (added 2026-06-30)
+
+Prospects researched + verified via web search + page fetch. Emails listed only where literally seen on-page. Each carries a real hook. **8 Gmail drafts staged** this run (✉️ verified-email + not already staged); form/DM/verify-first prospects recorded below for manual outreach.
+
+Legend — ✉️ verified on-page email · 📝 contact form · 📱 phone/DM · ❓ verify before sending.
+
+### Shiba Inu *(thin on active pet-owner blogs — mostly content farms or dormant Blogspots)*
+- **NorCal Shiba** — norcalshiba.com — breed-info hub + rescue/rehoming (NorCal) — ✉️ **norcalshiba@gmail.com** — High — *hook: honest owner-voiced 125-article blog, active 2026; "why generic dog training fails on Shibas" guide* — **DRAFT STAGED**
+- **Dragon Shiba** — dragonshiba.com — Shiba breeder (Toronto) w/ blog — ✉️ **info@dragonshiba.com** — Med (blog dormant ~2023, site maintained ©2025) — *hook: pride in extraordinary photography of each dog; framed as fresh content* — **DRAFT STAGED (guest-post = fresh post angle)**
+- **Orienta Shiba Inu** — orientashibainu.com — ethical breeder (Australia) w/ active blog — 📝 Wix form (no on-page email) — High — *hook: owner Vanessa Marie, "Why Home-Raised Shiba Inu Puppies Matter" Jun 19 2026* — MANUAL
+- *Excluded: lokitheshiba.blogspot.com (dormant since 2011); Sniffspot/Rubyloo/Vetnique/Farmer's Dog (corporate content farms).*
+
+### Pug
+- **Milkshake the Pug** — milkshakethepug.com — owner-run influencer blog + shop (UK, "the Internet's favourite Pink Pug") — ✉️ **business@milkshakethepug.com** — High — *hook: dog-friendly recipes + adventures; "Pink Pug Puppies" Oct 2025 litter post* — **DRAFT STAGED**
+- **Tiny Paws Pug Rescue** — tinypawspugrescue.org — pug rescue (SF Bay, 501c3) w/ active care blog — ✉️ **info@tinypawspugrescue.org** — High — *hook: "Fourth of July Safety Tips for Pug Owners" Jun 2026; owner-education focus* — **DRAFT STAGED (added adopter-pug angle)**
+- **Pangpang the London Pug** — pangpangthepug.co.uk — owner "dogfluencer" (London, Dan Hampton, 800k+ followers) — 📝 form (email obfuscated) — High — *hook: openly takes brand/campaign collabs; frame as a featured-pug opportunity* — MANUAL
+- **Compassionate Pug Rescue** — compassionatepugrescue.com — pug rescue (S. Florida) — ❓ cpr@compassionatepugrescue.com (from search snippet, NOT page-verified) — Med — VERIFY-FIRST, then manual/draft
+
+### Cocker Spaniel
+- **Joe the Cocker's Hikes** — joethecockershikes.com — owner blog (working cocker "Joe," Manchester UK, active 2026) — ✉️ **maldav2@aol.com** — High — *hook: trail adventures "with my human dad," UK national parks + Kilimanjaro; "neither I nor my human make any money from this blog"* — **DRAFT STAGED (matched the no-money self-deprecation in the return-favor line)**
+- **About Cocker Spaniels** — about-cocker-spaniels.com — owner-run breed-info hub (golden cocker "Max") — 📝 form (email obfuscated) — High — *hook: warm first-person voice around her cocker Max, "those long floppy ears"* — MANUAL
+- **Cocker Crazy** — cockercrazy.com — owner-run hub/blog (family in Norfolk UK, blue roan "Rosie") — 📝/❓ likely form/FB group (JS-rendered, contact unconfirmed) — Med-High — *hook: invites readers to send funny cocker stories + photos* — VERIFY-FIRST, then manual
+
+### Boston Terrier
+- **Boston Terrier Blog** — bostonterrierblog.com — owner blog (Dzmitry + Boston "Dumpling") — 📝 form (no on-page email); IG @dumplingtheboston — High — *hook: active 2026 ("Are Boston Terriers Hypoallergenic?" Apr 2026), named dog mascot* — MANUAL (best Boston target, but form-only)
+- **Boston Terrier World** — bostonterrier.world — breed-themed Shopify store w/ very active blog — 📝 form — High site / Med fit (commercial) — *hook: "10 Best Small Companion Dogs" Jun 14 2026; "Boston Terrier Owners Be Like…" humor posts; frame as content cross-promo* — MANUAL
+- **Margie's Pets** — margiespets.com — small AKC Boston breeder (NE Oklahoma, owner Tom) — ✉️ **Tom@margiespets.com** — High real / Low link-value (no blog, static) — *hook: healthy, well-socialized Bostons, small kennel* — **DRAFT STAGED (no blog → guest-post line softened)**
+- *Excluded: bostonterriersecrets.com (dead since 2015).*
+
+### Havanese
+- **Carneys Havanese Haven** — carneyshaven.com — breeder (MI+FL) w/ very active owner-voice blog (102 pages of archives) — 📝 form (no on-page email) — High — *hook: owner Jacqueline Carney, "Havanese moms Happy Hour" Mar 2026, names show dogs* — MANUAL (most active Havanese blog)
+- **Havaneseowner.com** — havaneseowner.com — owner-run breed-info blog (Dan & Rosie) — 📝 contact page (rendered empty, no email confirmed) — Med-High — *hook: first-hand owner experience + breed guides* — MANUAL
+- **Brylee's Angels Havanese** — bryleesangels.com — hobby/show breeder (Chicago, GOLD AKC Breeder of Merit) — ✉️ **michelle@bryleesangels.com** — High real / Med fit (no blog) — *hook: "Brylee" blends family names; daughter Samantha in AKC Junior Spotlight* — **DRAFT STAGED (no blog → guest-post line softened)**
+- *Excluded: havaneseforum.com (forum, not a linkable owner site).*
+
+### Bichon Frise
+- **California Bichons** — californiabichons.com — breeder (Sierra Nevada foothills) w/ blog — ✉️ **adrienne@californiabichons.com** — High — *hook: owner Adrienne, twelve wooded acres, nutrition degree shapes her program* — **DRAFT STAGED (strongest Bichon target — email + blog)**
+- **Hollyhock Bichons** — hollyhockbichons.com — breeder (San Diego, AKC Breeder of Merit) — ❓ info@hollyhockbichons.com (search-reported, page wouldn't render — NOT verified) — Med — VERIFY-FIRST — *hook: breeders Linda Rowe & Deb Gibb*
+- **Lake Ridge Farm** — lakeridgegypsy.com/bichon-frise-puppies — long-time breeder (Paul & Laura, 47 yrs) — 📝 form (no on-page email) — Med-High real / Low link-value (no blog) — *hook: 47 years breeding Bichons, Spring 2026 litter* — MANUAL
+
+## Wave 5 honesty notes
+- Shiba is genuinely thin for *active pet-owner* blogs — NorCal/Dragon/Orienta skew breeder/rescue/hub rather than hobby-owner. Reported 3 honest prospects, not padded.
+- Boston Terrier & Havanese have the best *owner blogs* (bostonterrierblog.com, carneyshaven.com) but both are form-only → manual, not drafts.
+- 8 drafts staged; 2 no-blog breeder drafts (Margie's, Brylee's) had the guest-post line softened to a light "send original writing if useful," consistent with prior waves.
+- Verify-first before any send: Compassionate Pug Rescue email (snippet only), Hollyhock Bichons email (page wouldn't render), Cocker Crazy contact method (JS-rendered).
+
+---
+
+# WAVE 6 — 6 giant/working breeds (added 2026-07-01)
+
+Breeds: Great Pyrenees, Akita, Samoyed, Mastiff, Saint Bernard, Weimaraner (queue items #25–30). All URLs fetched/verified; emails listed only where literally seen on-page. **10 Gmail drafts staged.** Pattern: the giant/guardian breeds (Pyr, Mastiff, Saint Bernard) are breeder/farm-heavy and skew to contact-form/phone — clean on-page emails were scarce. Samoyed and Weimaraner were the rich veins (active show + hunting owner-communities with real emails). Mastiff came back **thin on emails** (strong prospects, all form/phone) — reported honestly, not padded.
+
+Legend — ✉️ verified on-page email · 📝 contact form · 📱 phone/DM · ❓ verify before sending.
+
+### Great Pyrenees *(Thin on emails — LGD/breeder/farm-heavy)*
+- **Birch Hollow Farm** — birchhollowfarm.com — Pyr breeder + pygmy-goat farm (Maine) — ✉️ **flewcrew7@gmail.com** — High active (Nov 2025 litter, screenshots 2026) — *hook: Pyrs as true LGDs alongside pygmy goats; raises litters on Puppy Culture; badger-marked pups fade to white; IG greatpyreneesofmaine* — **DRAFT STAGED (no blog → guest-post line softened)**
+- **Hannah Elise Schultz** — hannaheliseschultz.com — personal blog, Pyr owner since 2013 (dogs Winnie/Argos) — ✉️ **hannahelise.schultz@gmail.com** — Med fit — *hook: her evergreen "7 Things to Know Before Getting a Great Pyrenees" post* — **DRAFT STAGED ⚠️ SENSITIVE: blog has pivoted to travel/parenting and she lost her Pyrs to cancer; hook kept strictly on the enduring "7 Things" post with no mention of the losses. James — use judgment before sending.**
+- **It's Dog or Nothing (Kelsie McKenzie)** — itsdogornothing.com — the major Great Pyrenees authority blog — 📝 form / LinkedIn (no on-page email found) — High — MANUAL (highest-authority Pyr prospect; worth a personal note)
+- *Also credible but not drafted: National Great Pyrenees Rescue (nationalpyr.org), Great Pyrenees Club of America. Owner-blog pool is genuinely shallow for this breed.*
+
+### Akita *(Moderate — breeder + a couple owner blogs)*
+- **Koti Kids / Koti Bear Akitas** — akitabreeder.org — AKC Breeder of Merit, 35+ yrs (Mendham/Morris Co., NJ) — ✉️ **koti55@verizon.net** — High active (new post 6/17/2026, Dee Dee litter) — *hook: massive show record — AJ took Award of Merit at Westminster + finished #1 Akita; Carley multiple Best in Show* — **DRAFT STAGED (no blog → guest-post line softened)**
+- **The Akita Inu (Aris)** — theakitainu.com — owner blog + short films, two Japanese Akitas Aimi & Bakudai — ✉️ **aris@theakitainu.com** — Med-High (has a Cooperations page; stories ~2021, site edited 2024) — *hook: "Snow Escapade" short films; wolf-spirit-of-Japan storytelling* — **DRAFT STAGED**
+- **Apexx Akitas (Ron Durant)** — apexxakitas.com — American Akita breeder (Sussex Co., NJ) w/ real breed-knowledge blog — 📱 phone/form (no on-page email) — High — *hook: "The Truth About American Akita Temperament — What the Internet Gets Wrong"* — MANUAL
+- **Japanese Akita USA / Yakumo Sou (Kevin Carroll)** — japaneseakitausa.com — breeder + the only Akitainu-licensed conformation judge in the USA — 📝 form (no on-page email) — High — *hook: judged shows in 8 countries; owned the first BIS-winning Akitainu at an FCI show in Ireland — superb dog-show hook* — MANUAL
+- *AKITA THE REAL LIFE — social/IG creator, blog "soon" — 📱 DM only.*
+
+### Samoyed *(Rich — active show + care-blog owners)*
+- **Imperial Samoyeds (Christopher Tibbetts)** — imperialsamoyeds.com — breeder + real blog (Springfield, MA); dogs Dabao, Coco, Sparky, Hanni — ✉️ **imperialsamoyeds@gmail.com** — High — *hook: his blog post "Samoyeds: First Time In The Ring" — maps straight to a dog show* — **DRAFT STAGED**
+- **White Magic Samoyeds (Carrie Parma-Collier)** — whitemagicsamoyed.com — 40+ yr show breeder + "Samoyed Care" blog + "Hollywood Bark of Fame" — ✉️ **whitemagicsamoyedinfo@gmail.com** — High — *hook: four decades of champions + a care blog* — **DRAFT STAGED**
+- **Snowbright Samoyeds (Terri & Rachel)** — snowbrightsamoyeds.com — three-generation mother-daughter show program (Columbus OH / Ann Arbor MI) — ✉️ **snowbrightsamoyeds@gmail.com** — High active (2026 applications open) — *hook: Rachel showed her first Samoyed at age 7; they mentor people new to conformation* — **DRAFT STAGED (no dedicated blog, but a "Helpful Info" page → guest-post line softened)**
+- *Delightful Samoyed (delightfulsamoyed.com) — EXCLUDED: marketplace-style SEO blog ("teacup/black Samoyed" gimmick content, author slug "shibainu"); not a genuine owner voice.*
+- *Also credible, not drafted (verify contact): Scotland with Fluffy Wolf (Claire & Sally, adventure blog), Hawkwind Samoyeds (email reported by Feedspot, not on-page-verified), Jayne Bradd (jaynebradd.co.uk, first-dog Samoyed piece).*
+
+### Mastiff *(THIN on emails — breeder-heavy, all form/phone)*
+- **Knighterrant Mastiffs** — knighterrantmastiffs.com — owning/showing/breeding English Mastiffs since 1988 (Osgoode, ON) — 📝 form / 📱 (613) 821-6279 (no on-page email) — High — *hook: 34 yrs / 32 litters, first Mastiff "Tiny" shown to championship; active Show News page, attends Ottawa-area shows* — MANUAL (strongest Mastiff dog-show hook)
+- **Dowdy Farms English Mastiffs** — dowdyfarmsenglishmastiffs.com — breeder (Albia, IA) — 📝 form / 📱 text 641-777-8731 (no on-page email) — High — *hook: contact-page photos of Best of Breed / Best of Opposite Sex show wins* — MANUAL
+- **MLJ Mastiffs (Brian)** — mljmastiffs.com — breeder (Sneads, FL) w/ care content — 📱 (850) 718-6475 / customer portal (no on-page email) — Med-High — *hook: started from his first Mastiff "Conan"; champion/grand-champion bloodlines* — MANUAL
+- **Mastiff Guide (Ken Alden)** — mastiffguide.com — 230-page breed content resource — 📝 (no on-page email) — Med — MANUAL/verify (big content site, could host a guest piece)
+- *Gryphon Mastiffs (gryphonmastiffs.blogspot.com, Amanda Griffin) — genuine owner/show blog (champions Patsy & Clover) but **dormant since 2020** and no on-page email → skip/verify. Hillary Muelleck's blog is a Dogue de Bordeaux (French Mastiff), different breed.*
+- **Honest note:** zero verified on-page emails found for Mastiff this pass. The good prospects are all contact-form/phone. Like Shiba in Wave 5, this is a genuinely thin breed for clean email outreach — recorded for manual, not padded.
+
+### Saint Bernard *(Thin on emails — breeder-heavy)*
+- **Slaton Saints (Shirley & Joe Wolf)** — slatonsaints.com — show breeder (Greenwich, OH), breeders of 100+ champions — ✉️ **SlatonSts@aol.com** — High active (site updated Apr 2026, pups June 2026) — *hook: home of Am/Can Ch Trusts Gentle Ben V Slaton, "the top winning St. Bernard in the history of the breed"* — **DRAFT STAGED (info-page site, no blog → guest-post line softened)**
+- **Carmen Kennels (Janice Holmes Myers)** — carmenkennels.net — **oldest AKC-registered kennel in the US (1903)**, three generations, Bridgewater MA — 📱 508-697-7790 (no on-page email) — High — *hook: 100+ years; "Polar wins Best in Show at Turkey Trot Classic"; a News/single-post feed — magnificent dog-show hook* — MANUAL (worth a personal call/note)
+- **West Wind Saint Bernards (Diana)** — westwindsaints.com — breeder (Michigan), 30+ yrs, shows + therapy dogs — 📝 contact.php / 📱 989-871-4241 (email behind form, not shown on-page) — Med-High — *hook: her whole "dogs are not disposable" ethos* — MANUAL/verify
+- *Valley Ranch Kennel also surfaced (summer 2026 litter) — not fetched. Saint Bernard owner-blog pool is shallow; search returned only breed-info sites, no personal owner blogs.*
+
+### Weimaraner *(Rich — hunting + adventure owner-communities)*
+- **Timberdoodle Weimaraners (Camille Rice & Mindy Brown)** — timberdoodleweims.net — hunting/NAVHDA breeder, many titled dogs — ✉️ **timberdoodleweimaraners@gmail.com** — High active (© 2026) — *hook: NAVHDA record + whiskey-themed kennel names (Johnny Walker Red, Crown Royal, Jameson); foundation dam CH Grayangel Kodiak II. NB: they place hunting homes only — draft framed as a page-quote ask, not a puppy inquiry* — **DRAFT STAGED (no blog → guest-post line softened)**
+- **Trusted Oak Kennels** — trustedoakkennels.com — family Weim breeder (Duncan, OK), mentored by Full Circle Weimaraners — ✉️ **trustedoakkennels@gmail.com** — High active (March 2026 litter, © 2026) — *hook: leans into Weim versatility — dock diving, fast cat, scent work, a dog training to detect water leaks* — **DRAFT STAGED (no blog → guest-post line softened)**
+- **Barrett Weimaraners (Kim Burnell)** — barrettweimaraners.com — Southern CA breeder + puppy micro-journal / adventure blog — 📝 form ("shoot me an email," address not shown) — Med (homepage last updated 2016, though 2026 litters reportedly planned) — *hook: "crazy-dog-people" adventures — hiking, beach, desert, bars, restaurants* — MANUAL/verify
+- *Owner blogs Weimaraner Place (weimaranerplace.com, Vlada Kutlesic) and The Weimaraner Blog (weimaraner-puppies.com/weim-blog, OT-background author) surfaced in search with reported emails but pages were **not directly fetchable this pass** — VERIFY-FIRST before any send. Both are strong "rich-breed" owner-blog candidates worth a follow-up.*
+
+## Wave 6 honesty notes
+- **Giant/guardian breeds skew breeder-and-farm, contact-form/phone.** Great Pyrenees, Mastiff, and Saint Bernard yielded few clean on-page emails; the best prospects (It's Dog or Nothing, Knighterrant, Carmen Kennels 1903, Japanese Akita USA's judge) are form/phone → recorded for MANUAL, several with excellent dog-show hooks worth a personal touch.
+- **Mastiff = 0 verified emails** this pass (honest thin result). Samoyed (3) and Weimaraner (2) were the rich veins.
+- 10 drafts staged. Every no-blog breeder draft (Birch Hollow, Koti Kids, Snowbright, Slaton, Timberdoodle, Trusted Oak) had the guest-post line softened to "write an original piece for your site." Timberdoodle's draft explicitly says "this isn't a puppy inquiry" since they place hunting homes only.
+- ⚠️ Hannah Elise Schultz drafted but flagged sensitive (blog moved on from dogs; lost her Pyrs) — hook kept on her evergreen "7 Things" post only. James to use judgment before sending.
+- Verify-first before any send: Weimaraner Place + The Weimaraner Blog emails (not on-page-verified), West Wind Saints email (behind form), Hawkwind Samoyeds email (Feedspot-reported).
+
+---
+
+# WAVE 7 — 6 herding/sporting/hound breeds (added 2026-07-03)
+
+Queue items #31–36: Rhodesian Ridgeback, German Shorthaired Pointer, Australian Cattle Dog, Shetland Sheepdog, Collie (Rough/Smooth), Whippet. All URLs fetched/verified by the research pass; emails listed **only where literally seen in fetched page text** (Cloudflare placeholders, search-snippet and meta-only addresses recorded as verify/manual, never drafted). **16 Gmail drafts staged.** Richest wave yet for clean on-page emails — the show-breeder tier in these breeds skews old-school (plain-text emails on contact pages).
+
+Legend — ✉️ verified on-page email · 📝 contact form · 📱 phone/DM · ❓ verify before sending.
+
+## Roadmap read — community depth (Wave 7)
+
+| Depth | Breeds |
+|---|---|
+| **Moderate (breeder-tier rich, owner-blogs thin)** | Rhodesian Ridgeback, GSP, Australian Cattle Dog, Sheltie, Collie, Whippet |
+
+Common pattern across all six: pure owner-blogs are mostly dormant (classic GSP/Whippet/ACD hobby blogs died 2016–2023), but active breeder/show/club sites with real on-page emails are unusually plentiful. Show/performance breeders (Apex, Belmark, Collielife) are strong fits for the Best in Show framing.
+
+### Rhodesian Ridgeback *(Moderate — almost no pure owner blogs; breeder tier rich + personal)*
+- **Chicora Rhodesian Ridgebacks** — chicoraridgebacks.com — one-woman hobby breeder, western NC farm, active (Nov 2025 update; 2026 litter planned) — ✉️ **ChicoraRidgebacks@gmail.com** (page: "you must email me… to start the dialogue"; email is her ONLY reliable channel post-Helene) — High — *hook: shows in conformation, nosework, lure coursing (dogs Piper, Kimber, Harper); anti-puppy-mill stance. ⚠️ SENSITIVE: her 12-y-o dog Cora passed very recently — draft deliberately does NOT mention Cora* — **DRAFTED (news-style site, no blog → guest-post line softened)**
+- **BWK Rhodesian Ridgebacks** — bwkridgebacks.com — family breeder, Cameron TX, blog of named-dog profiles (newest Nov 2025, © 2026) — ✉️ **bluewindscall@yahoo.com** (contact page + footer) — High — *hook: blog as family album — "Lora" at 116 lbs, "Millie is our miracle," Hungarian-bred 123-lb sire Maverick* — **DRAFTED**
+- **Najahari Rhodesian Ridgebacks (Sharon Yost)** — najahari.com — show breeder, Brockport NY; Sept 2026 litter announced but show content dated 2011–14 — ✉️ **sharonyost@najahari.com** (contact page) — Med — *hook: CH Kinga BOB at RRCUS-supported show 2014; also breeds Pharaoh Hounds* — **DRAFTED (no blog → guest-post line softened)**
+- **Zanata Rhodesian Ridgebacks (Andrea Stone)** — zanatarhodesianridgebacks.com — show/performance breeder, DFW TX; AKC Champions pages incl. 2026 — ✉️ **Zanatarhodesianridgebacks@hotmail.com** ("Reach me at…") — Med-High — *hook: 25+ yrs, 26+ champions, AKC Bronze Breeder of Merit; carries on late mentor's Vyrtuous line; notes she works full time → draft kept short* — **DRAFTED**
+- **The Accidental Bird Dog (Terry Ann Fernando)** — accidentalbirddog.com — personal dog-sports blog + podcast, active (Oct 2025 post; About modified May 2026) — 📝 form only — High — *hook: her Ridgeback Colombo completed the 12-mile Endurance Trial at the RR National Specialty; wrote "Living With a Rhodesian Ridgeback." NB: site's main focus is her vizslas — Colombo is the RR angle* — MANUAL
+
+### German Shorthaired Pointer *(Moderate — classic owner blogs dead since ~2016; hunting-breeder + adventure-blog veins strong)*
+- **Big Cedar Pointers (Jenn)** — bigcedarpointers.com — family breeder + real health/training editorial, N of Charlotte NC; Oct update on May 2025 litter — ✉️ **jenn@BigCedarPointers.com** ("For more information email us:") — High — *hook: "Italian Desserts" litter (Tiramisu, Pizzelle, Gelato); About page opens with a Jack London quote about sharing a bone with your dog — mapped to bones-as-votes in the draft* — **DRAFTED (no dated blog → guest-post line softened)**
+- **High Desert Shorthairs (Peter F. Von Ohlen)** — highdesertshorthairs.com — veteran hunting-line breeder, OR; 2026 breedings announced, © 2026 — ✉️ **highdesertshorthairs@wvi.com** (mailto on contact page) — High — *hook: past president Oregon Shorthair Club, judged ~250 field trials, wrote his own Judges Book; 50 yrs with Greif-line GSPs; "Days Afield" content section* — **DRAFTED**
+- **An Ordinary Existence (Laura Friesen)** — anordinaryexistence.com — personal outdoor-adventure/dog blog (Canada), active ("Life With Dogs" category; GSP post Feb 2025) — ✉️ **info@anordinaryexistence.com** ("Drop me a line at…") — High — *hook: her GSP Izzie is "rather well known… at our local vet clinic but also at our university's emergency department, for her shenanigans" — best pure owner-blog of the wave* — **DRAFTED**
+- **Windheim GSPs (Denise & Jim Avery)** — windheimgsp.com — hobby breeder/enthusiast, Catskills NY; conformation + rally + dock diving + FastCAT — ✉️ **denise@windheimgsp.com** (contact page) — Med-High (NEWS page is a JS shell, recency unverified) — *hook: Denise sells her own beginner booklet "Choosing, Living With and Loving the German Shorthaired Pointer"* — **DRAFTED**
+- **Von Meistern GSPs** — vonmeisterngsps.com — breeder w/ big DIY training library but blog dormant since Jan 2016 — 📝 form (no on-page email) — Low-Med — MANUAL/verify only if needed
+
+### Australian Cattle Dog *(Moderate — owner-blogs thin; working/breeder ecosystem rich)*
+- **Tin Roof Australian Cattle Dogs (Jen Paterson)** — tinroofacd.com — code-of-ethics preservation breeder, San Diego; RVT, ACDs since 1989; blog semi-active (Jun 2025) — ✉️ **tinroofacd@gmail.com** (homepage contact block) — High — *hook: "Are you ready for an ACD to own you? That is what will happen"; Jan 2025 post taking Gavin (GCHS CH) to the Cascade ACD Regional Specialty in Portland* — **DRAFTED**
+- **Buzzards Australian Cattle Dogs (Theresa Buzzard-Couch)** — buzzardsaustraliancattledogs.com — multi-generation working ranch, Vinita OK; 55+ continuous years working cattle with ACDs — ✉️ **theresa@junct.com** (site footer) — Med (footer © 2021, recency unverified) — *hook: testimonial about Gus (Buzzards Top Notch Drover) saving his owner from a 1,700-lb bull; Jim Buzzard judged herding trials in Australia (2004)* — **DRAFTED (no blog → guest-post line softened)**
+- **Clarjo Farms** — clarjofarms.com — owner/hobby-breeder blog near DC, AKC Breeder of Merit, VERY active (Apr 2026 posts: "Snow Weekend!", "Herding at Isle of Calais", Larry Painter clinic) — ❓ no email/contact page found (blog comments or facebook.com/clarjofarms) — High — *hook: foundation dog Clark "picked up out of somebodies back yard"; pack Fiddle, Mazikeen, Ukulele; a "2026 Goals" page. Best content match of the breed — worth the FB message* — MANUAL
+- **Spader ACDs (K9 Cowboys, Brett Spader)** — k9cowboys.com — working breeder; bred 2020/2021/2022 ACDCA National Herding Champions — 📝 form only (⚠️ the kuawarri@fairpoint.net on his homepage belongs to a THIRD PARTY — do not use) — Med — *hook: Spader Good Onya Koora Blue, youngest-ever ACDCA National Herding Champion (2022)* — MANUAL
+- **Every Bit The Journey** — everybitthejourney.com — active SC hiking blog (May 2026) whose Blue Heeler posts are from 2018 — 📝 form — Low, peripheral — *hook: rescue heeler Radar — "Rejected, abandoned, and unwanted, he waited…"; pitch as "your Radar story"* — MANUAL/skip
+- *Excluded: heelerinfo.com (affiliate content farm — its heeler article literally references "a senior Ridgeback," cloned template); turnaboutaustraliancattledogs.com (real breeders but templated site + Cloudflare-masked email).*
+
+### Shetland Sheepdog *(Moderate — owner voice lives on Facebook; show/agility-breeder sites rich + current)*
+- **Sheltie Planet (Becky Casale)** — sheltieplanet.com — dedicated breed site est. 2010, © 2026; contact page invites "Offer Feedback & Collaborate" — ✉️ **becky@sheltieplanet.com** (published on-page as "becky[at]sheltieplanet[dot]com" — human-readable anti-spam, same as poms@poms.cc precedent) — High — *hook: her Shelties Howard (barked at the smell of bleach) & Piper (howled at the answering machine); already runs breeder-interview features* — **DRAFTED**
+- **Apex Shetland Sheepdogs (Susan Crank, Teri Kocher, Jennifer Crank)** — apexshelties.com — agility/performance breeder, Pickerington OH; news current to June 2026 — ✉️ **apexshetlandsheepdogs@gmail.com** (footer) — High — *hook: Bee = 1st Sheltie in history to win Westminster Masters Agility Champion; Ares = 2026 ASSA All-Around Sheltie; 3 Apex dogs on 2026 Team USA (Finland this fall)* — **DRAFTED**
+- **Belmark Shelties** — belmarkshelties.com — show kennel est. 1986, NW Ohio; "Site updated on: June 27th 2026" — ✉️ **home@belmark.us** (footer) — High — *hook: 18 champions so far in 2026, 184 homebred champions to date; ASSA Breeder of Most Champions 2024 AND 2025; keeps a "fan letters" page* — **DRAFTED (show-news site, no blog → guest-post line softened)**
+- **Jopavist Shetland Sheepdogs (Jody Quinlan Abrahamson)** — jopavistsheltieshop.com — 40+ yr hobby kennel, NH; links her "Life With Shetland Sheepdogs" blogspot (June 21 2026 per homepage; blog itself unfetchable) — ❓ the only on-page email (Emile.Castonguay24@gmail.com) is a REHOMING contact for dog Margot, NOT the owner — verify via FB — Med — *hook: co-founded Granite State Sheltie Club (1982) + Granite State Sheltie Rescue. ⚠️ personalize gently — About page says her dogs were her "life savers" after losing her husband in 2017* — MANUAL/verify
+- **Mari's Sweet Shelties** — marisweetshelties.com — small hobby breeder, Catskills; updated 6/9/2026 — 📱 phone only (site explicitly rejects email) — Low fit — skip
+
+### Collie (Rough/Smooth) *(Moderate — show scene very alive in 2026; hobby owner-blogs dormant)*
+- **Whitehall Collies (Kristy)** — whitehallcollies.com — preservationist show breeder (Rough & Smooth), Dacula GA; modified Apr 2026, advertising in Collies Online June 2026 — ✉️ **kristy@whitehallcollies.com** (footer contact block) — High — *hook: began with a single white Collie named McKenzie; CH Bruce (champion + titled herder); their "best dog we ever had… you just don't see them around anymore. We're fixing that, one family at a time."* — **DRAFTED**
+- **Collielife.com (UK)** — collielife.com — one-person UK Rough/Smooth community hub, 15+ yrs; "Last site update 3 July, 2026" (same-day) — ✉️ **collielife1@gmail.com** ("CONTACT - EMAIL -" footer; "please email me no phone calls") — High — *hook: most-alive Collie resource found; 2026 show critiques. ⚠️ site owner had 15 yrs of work scraped in 2025 → draft explicitly promises clear attribution + "your words stay yours"* — **DRAFTED**
+- **Collies Online** — colliesonline.com — weekly online Collie magazine since 1999 (Dunedin FL); June 27 2026 issue — ❓ contact email Cloudflare-masked; colliesonline@fastmail.us appeared only inside a raw PayPal URL, NOT as a listed contact — Med-High — *hook: June 2026 issue features the Collie Health Foundation's 30th Gathering at Sunnybank (Terhune's home) — perfect Lassie/history tie-in* — MANUAL/verify
+- **Kings Valley Collies (Leslie Rappaport)** — kingsvalleycollies.com — breeder + Collie service-dog trainer, OR, est. 1972 — 📝 form (leslie@ email seen only in a search snippet, NOT on-page) — Med — *hook: 100+ champions since 1972; Ramsey the Shining Star award-winning service dog "who gave his life to protect his partner"* — MANUAL
+- **Collie Chatter (Emily Sowulewski)** — colliechatter.com — genuine owner blog (Jacksonville; dogs Gus, Yoshi, Freckles) but dormant since ~Jun 2023 — 📝 form + active socials — Med — *hook: sold chocolate bars at age 9 to buy her first Rough Collie; wrote "Bobbie The Collie: The Real Lassie Come-Home"* — MANUAL
+- **Crown Thistle Collies (Quaker Farm)** — crownthistlecollies.com — MI farm breeder, featured on Animal Planet DOGS 101 — ✉️ quakerfarm@gmail.com IS on-page, but site stale (still "Spring 2023" banner + COVID notice) — Low — *hook: Willow the tricolor who saved an orphaned lamb* — NOT drafted (Low confidence/stale); verify liveness first
+
+### Whippet *(Moderate — UK club/trainer scene active; classic owner blogs all dormant 2022–23)*
+- **Ashsinhalt Whippets (Georgie & Douglas)** — ashsinhalt.com — ANKC show/sport/field breeder, South Australia; "The Whippet Life" blog (post dates not visible — recency unconfirmed, © 2025) — ✉️ **home@ashsinhalt.com** ("Use the form or email us directly… Email — home@ashsinhalt.com") — High — *hook: tagline "They all hunt, but you don't have to"; breeding back to original form; Puppy Culture/ENS protocols* — **DRAFTED**
+- **Whippet Wonders (Zara Lipsett)** — whippetwonders.co.uk — UK whippet-specialist trainer/behaviourist; blog ACTIVE (May 30 2026 "What Should I Feed My Fussy Whippet") — 📝 form; on-page email is Cloudflare-masked → ❓ verify in browser — High — *hook: demo dog Arkle ("Arkle — The Assistant"), trick-titled despite chronic pain; "Tips For Training Your Reactive Whippet" (Dec 2025); 14 yrs with whippets since Marley (2012)* — MANUAL/verify (best active Whippet blog — worth de-obfuscating the email)
+- **The Whippet Club (UK)** — thewhippetclub.com — oldest whippet breed club in the world; WCRA news very active (June 2026 Championships write-up, 87 dogs) — 📝 form only — High but institutional — *hook: 2nd WCRA Championships 2026 results + Superstars League. Pitch as complementary fun, not a rival to KC showing* — MANUAL
+- **Snootiful Hound** — snootifulhound.co.uk — UK sighthound-gear small business (real Ltd company, Milton Keynes) w/ sighthound blog — ✉️ info@snootifulhound.co.uk (footer) — Med fit (commercial, blog dates not visible) — NOT drafted (over cap + product-adjacent blog); hold for a future run
+- **My Dear Whippet (Paul)** — mydearwhippet.com — real personal site (whippet Misty since 2013, 27 pages of posts) but dormant since Sep 2023 — 📝 form — Med — fallback MANUAL
+- *Excluded: Whippet Wisdom (memorial blog, last post Nov 2023, explicit anti-AI/permission-required policy — owner Xenia Tran active on non-dog sister blog tranature.com); Whippet Mama (dormant 2022); WSWRC (shell site, activity on FB); The Trendy Whippet (shop, unfetched).*
+
+## Dedup / honesty notes for Wave 7
+- 16 drafts staged (one over the ~15 cap, to keep all six breeds covered). Every drafted address was literally seen in fetched page text; Cloudflare masks, search-snippet and PayPal-URL addresses were NOT drafted.
+- **becky@sheltieplanet.com** was published on-page in human-readable `[at]/[dot]` anti-spam form — treated as verified per the poms@poms.cc precedent (Wave 4). Flag if you'd rather hold it.
+- ⚠️ **Chicora**: recent loss of her dog Cora (IG memorial) — draft avoids any mention; be gentle if she replies.
+- ⚠️ **Collielife**: owner had years of content scraped in 2025 — draft leads with explicit attribution/ownership assurance.
+- No-blog / news-page-only drafts (Chicora, Najahari, Big Cedar, Buzzards, Belmark, Apex) → guest-post line softened to "your site."
+- Med-confidence drafts to watch: Najahari (show content dated 2011–14, but Sept 2026 litter announced), Buzzards (footer © 2021), Windheim (NEWS page unverifiable JS shell).
+- K9 Cowboys trap: the only email on his homepage belongs to a third party (Kuawarri Kennels) — never use it for Spader.
+- Not drafted despite on-page emails: Crown Thistle (stale ~2023, Low), Snootiful Hound (cap + commercial fit).
+
+---
+
+# WAVE 8 — 6 breeds (staged 2026-07-06)
+
+Miniature Schnauzer, Pit Bull, Staffordshire Bull Terrier, American Bulldog, English Bulldog, Alaskan Malamute (Wave 2 queue #37–40 + first two long-tail picks). All URLs fetched/verified this run; emails listed only where literally seen on-page. 13 Gmail drafts staged. Hooks are the real personalized details to use per the always-personalize rule.
+
+### Miniature Schnauzer *(Moderate-thin — big commercial pages dominate; few small owner sites with live blog + public email)*
+- **Fernweh Schnauzers** — fernwehschnauzers.com — small IN breeder w/ genuinely active blog — ✉️ **fernwehschnauzers@gmail.com** (/contact-us "Email Us:") — High — *hook: owner Erica; recent "Separation Anxiety" post (Jul 2026); "teach calmness, not just commands" philosophy* — **DRAFTED**
+- **Come Wag Along (Kia)** — comewagalong.com — owner/lifestyle blog — ✉️ **kia@comewagalong.com** (/advertising-pr "Let's Work Together!") — Med-High (email verified; recent-post cadence unconfirmed) — *hook: white Mini Schnauzer Simba "king of the family"; runs "Everything Schnauzer" FB community; does sponsored collabs* — **DRAFTED**
+- **Schnauzers Rule (Athena)** — schnauzers-rule.com — long-running breed hub (est. 2008) — 📝 form only (no on-page email) — High real / Med activity (freshest story ~Apr 2024) — *hook: trainer Athena, dog Samson; "less time on-line and more time on-leash! Aroo!"* — MANUAL
+- *Rejected: Happy Little Schnauzer (dead 2012); Schnauzers GA (blog stale 2020, no email).*
+
+### Pit Bull *(Advocacy/rescue-heavy — sensitive space; keep hooks celebratory, avoid dark posts)*
+- **Out of the Pits** — outofthepits.org — NY breed-advocacy + rescue nonprofit (est. 1994) — ✉️ **Info@outofthepits.org** (homepage footer) — High — *hook: mission to showcase the pit bull as therapy/sport/working dog, restore its esteem* — **DRAFTED**
+- **I Pitty the Bull (Briana)** — ipittythebull.com — owner-founded advocacy blog → 501(c)(3) — ✉️ **briana@ipittythebull.com** + 562-688-7390 (blog header) — Med (blog stale since 2017 — possible dormant inbox) — *hook: "One Man's Journey with a Bullied Breed"; feel-good one-dog-at-a-time storytelling* — **DRAFTED**
+- **My Pit Bull is Family** — mypitbullisfamily.org — national nonprofit vs housing/insurance discrimination — ✉️ **Info@mypitbullisfamily.org** (blog footer) — Med (org active; blog stale ~2019) — *hook: the "My Pit Bull is FAMILY" message; a positive free show reinforces the reframe* — **DRAFTED**
+- **Crops and Flops Rescue** — cropsandflopsrescue.org — small MA rescue, very fresh (Jul 2026), running a 2027 photo-contest calendar fundraiser — 📝 form only — Med — *hook: already sold on photo-contest-as-fundraiser ("no catwalk required!") — directly adjacent to our free vote-based show* — MANUAL (strong topical fit)
+- **PitbullHero** — pitbullhero.org — "Facts Over Fear" breed-info library (CC BY 4.0) — 📝 form only, states low-response policy — Low-Med — *hook: mission restoring the pit bull as "America's Dog"; pitch a resource/positive-spaces link, not a promo* — MANUAL
+
+### Staffordshire Bull Terrier *(UK club/rescue scene active; independent owner blogs thin/form-first)*
+- **Southern Counties SBT Society** — scsbts.com — regional UK club (est. 1937) — ✉️ **scsbts1937@gmail.com** (homepage/contact) — High — *hook: Spring Open Show 22 Mar 2026, 58 entries, judge Georgia Kirk* — **DRAFTED** (admin address — framed as complementary fun, not a rival)
+- **The Staffordshire Bull Terrier Club (SBTC)** — sbtclub.co.uk — KC parent club (est. 1935) — ✉️ **sbtcsecretary1935@gmail.com** (secretary Karon Jackson, GDPR notice) — High — *hook: 90-year anniversary (1935–2025); the breed's oldest/most authoritative club* — **DRAFTED** (secretary/admin email — honor their authority)
+- **Guildford & District SBT Rescue** — guildfordstaffords.com — Surrey rescue charity — ✉️ **guildfordstaffords@gmail.com** (/contact-us) + 01483 578230 — Med (blog cadence thinned to ~1/yr) — *hook: 200+ staffies rehomed; still run fun dog shows of their own* — **DRAFTED**
+- **The Mainland SBT Society (NZ)** — mainlandstafford.com — South Island NZ club — 📝 email Cloudflare-masked (undecoded) — Low (content stale) — *hook: "only South Island Stafford club," breeder/stud directory* — MANUAL/verify
+- *Dropped: Save The Staffy (savethestaffy.co.uk) — real "George's Diary" owner blog but stale Sep 2021, form-only.*
+
+### American Bulldog *(Moderate — breeder-heavy)*
+- **Jemm's American Bulldogs (Jemm's Kennels)** — jemmskennels.com — MI family breeder (since 1987), show/working — ✉️ **jemmskennels@gmail.com** (homepage) — High — *hook: "Last Updated 7/1/2026" news feed w/ 2025-26 show results; blunt "make sure your breeder has taken all the steps" advice* — **DRAFTED**
+- **Birt's American Bulldogs** — birtsamericanbulldogs.com — small CA cattle-ranch kennel — ✉️ **accattle98@aol.com** (/contact) + (530) 295-0374 — High — *hook: foundation dog Titan, the "Disney dog" who played the American Bulldog in Beverly Hills Chihuahua, trained by Hollywood trainers* — **DRAFTED**
+- **American Bulldog Rescue (ABR)** — americanbulldogrescue.org — East-coast breed rescue — ✉️ jodi2@americanbulldogrescue.org (mailto on /contact-us, displayed as "Jodi@...") — Med — *hook: refreshingly blunt volunteer-run intake page* — NOT DRAFTED: it's a surrender-intake address, wrong inbox for a link ask + blog stale → MANUAL only
+- **Bailey's American Bulldogs** — baileysamericanbulldogs.com — SC farm breeder, Embark-tested — 📱 phone only (843-908-1228), no on-page email — Low — MANUAL
+- *Skipped: Morrison's American Bulldogs (form/phone only); Grateful Paw (ebook funnel, no editorial value).*
+
+### English Bulldog *(Reasonably rich — active breeder-bloggers + a big forum)*
+- **Bruiser Bulldogs (Mitch & Erica Wysong)** — bruiserbulldogs.com — small AKC breeder, owner-written blog — ✉️ **bruiserbulldogs@gmail.com** (site header on /blog-2) — High (fresh; newest post Jun 12 2026) — *hook: June 2026 "omega-3 as a food topper (not in their food)" post; "15 years breeding healthier English Bulldogs"* — **DRAFTED**
+- **Cazares Royal Lineage Bulldogs (Anahy Cazares)** — cazaresbulldogs.com — TX family breeder, "Diary of a Bulldoguer" — ✉️ **cazaresbulldogs@gmail.com** (footer social bar) — High (email verified; blog dormant ~2023, site active) — *hook: Embark+OFA testing, 24-mo health guarantee, "loves sharing knowledge with puppy families"* — **DRAFTED** (guest-post line softened — offer a fresh post)
+- **Castlewood Bulldogs (Dawn Castillo)** — castlewoodbulldogs.com — MO breeder w/ breed-info blog — ✉️ **castlewoodbulldogs@gmail.com** (blog sidebar/footer) — Med-Low (site freshness questionable, blog meta ~2018) — *hook: fun editorial posts "Handsome Dan – Yale's Hero" + "Westminster Bulldogs" (show-ring/mascot interest)* — **DRAFTED** (framed as a fresh outing)
+- **English Bulldog News** — englishbulldognews.com — huge active owner forum (~20k members), runs its own "Bulldog of the Month" contest — 📝 form only — Med — *hook: BOTM contest + "EBN Contests/Events/News" — closest format match to our monthly Dog-of-the-Month* — MANUAL (strongest topical fit; worth a personal note via form)
+- *Rejected: Bulldogology.net (commercial pet-supply brand); jonathonhawes.com (general lifestyle, off-topic).*
+
+### Alaskan Malamute *(THIN — 0 verified on-page emails; all form-only or Cloudflare-masked)*
+- **Amook Alaskan Malamutes (Cheryll McFarland)** — amookalaskanmalamutes.com — NY show/hobby breeder — ✉️ email present but **Cloudflare-obfuscated (undecoded)**; contact = form — Med (freshest site, updated May 2024) — *hook: "small show/hobby kennel in beautiful upstate NY, breeding to the AKC standard," full OFA + polyneuropathy testing* — MANUAL/verify (de-obfuscate email in a browser)
+- **Granite Kennels (Laura)** — granitemalamutes.com — Western NY working-dog kennel — 📝 no reachable contact found — Med (blog stale Jun 2022) — *hook: AMCA Performance Awards chair; site framed around Malamute versatility (show + sled + pack + weight pull)* — MANUAL
+- **Slushpuppy / MyAlaskanMalamute** — myalaskanmalamute.com — ex-journalist owner blog, Ontario CA — 📝 form only — Med (blog stale Jan 2015) — *hook: calls the site her "electronic playground" — unusually receptive to web/tech collab angles* — MANUAL
+- **Iceclimb Alaskan Malamutes (UK)** — iceclimb.co.uk — British working/sledding kennel — 📝 form; ⚠️ listed phone "+44 1632…" is Ofcom's reserved FICTIONAL range (placeholder, not real) — Low-Med — *hook: "True British working sled dogs," camping/sledding/hiking across Europe* — MANUAL
+- *Honest thin result (like Mastiff/Shiba prior waves): next step for reachable emails is de-obfuscating Amook or mining AMCA/sledding-club member listings.*
+
+---
+
+# WAVE 9 — 6 long-tail breeds (staged 2026-07-07)
+
+Processed: Affenpinscher, Afghan Hound, Airedale Terrier, American Eskimo Dog, Basenji, Basset Hound (first six of the long-tail list). All URLs fetched/verified by the research pass; emails listed only where literally seen on-page. **15 Gmail drafts staged** (marked **DRAFTED**). Hooks are the real personalization details. Personalized draft copy follows the standard template (warm/Wodehouse-genial, quote-ask carrot + guest-post return favor).
+
+Legend — ✉️ verified on-page email · 📝 contact form · 📱 phone/DM · ❓ verify before sending.
+
+### Affenpinscher *(THIN — rare breed, mostly FB/IG-only; ~2 reachable)*
+- **Affenpinscher Club of America** — affenpinscher.org — national parent club / breed-info — ✉️ **corresponding-secretary@affenpinscher.org** (footer mailto; Corresponding Secretary Jessica Fournell-Ferrall) — High (updated 2026, events into 2027) — *hook: breeder-referral page candidly notes the breed is so uncommon "a litter of one puppy is not uncommon"* — **DRAFTED** (institutional; offered club/newsletter piece)
+- **Affenpinscher Rescue of America** — affenpinscherrescue.org — rescue 501c3 — ✉️ **info@affenpinscherrescue.org** (footer mailto) — Med (site content dates ~2020, semi-dormant) — *hook: "LOVE the second time around" + their Assist Program keeps Affens with owners rather than surrendering* — **DRAFTED** (rescue/adopter angle)
+- **Tamarin Affenpinschers** — tamarinaffenpinschers.com — top show kennel (Jackie & Terry Stacy, NC) — 📝 form only (email absent/obfuscated) — High (WP site, © 2026) — *hook: their "Ch Tamarin Tug (TASER)" set a breed record with 75 All-Breed BIS wins* — MANUAL
+- **Crisanda Papillons & Affenpinschers** — crisanda.com — AKC Breeder of Merit (Vickie, MT) — ❓ old .php site wouldn't render; search-cited `CrisandaAffens@gmail.com` **UNVERIFIED** — Low — MANUAL/verify before use
+- *Excluded: Mandrill Affenpinschers (FB-only, non-linkable). Honest thin breed — pair with a broader "rare toy breeds" batch.*
+
+### Afghan Hound *(Moderate-thin but real — 2 strong, rest gated by unverified/comment-only contact)*
+- **Chandhara Afghan Hounds** — chandhara.com — owner/show breeder (Stephanie Hunt-Crowley, US) — ✉️ **shuntcrowley@yahoo.com** (header mailto) — High (litter July 2024, owner-authored content) — *hook: her essay on why Afghan litters grew scarce since the 1970s + warning about photo-lifting puppy scammers* — **DRAFTED**
+- **Aristo Afghan Hounds** — aristoafghanhounds.com — owner/breeder w/ active blog "Sit. Stay. Read." — 📱 phone/form only ("Text or call 269-202-8665"), no on-page email — High (newest post Dec 2025) — *hook: latest post opens on the Afghan-coat "slicker brush controversy"* — MANUAL (phone/form)
+- **Gilari Afghans** — gilariafghans.com — UK show breeder (Jill, 50+ yrs) — ❓ search-cited `jill@gilariafghans.com` **UNVERIFIED** (not seen on fetched pages) — High site / Low contact — *hook: "Tia" won Reserve Bitch CC at Crufts 2024* — MANUAL/verify
+- **Haiku Hound** — haikuhound.wordpress.com — personal owner blog (Melbourne, AU), Afghan Hounds page — 📝 WP comment form / follow-by-email only, no on-page email — High (active through Jul 2025) — *hook: shared home with "5 Afghan Hounds over 38 years"* — MANUAL (comment/DM)
+- **Drishaun Afghan Hounds** — drishaun.co.uk — UK show kennel (Avril & Mike Lancashire) — ❓ pages blocked non-browser fetch; search-cited `avril@drishaun.co.uk` UNVERIFIED — Med — MANUAL/verify
+- *Excluded: Couches For Afghans (couchesforafghans.com, verified `couchesforafghans@yahoo.com`) — rescue but content dormant ~2011–2016; usable rescue angle if desired, NOT drafted (very low reply odds).*
+
+### Airedale Terrier *(Moderate — skews small-breeder over pure owner-blogs; 3 active)*
+- **Seneca Airedales ("smartairedales")** — smartairedales.wordpress.com — breeder + very active blog (Nancy Secrist, Bath OH) — ✉️ **aireseneca@gmail.com** (on page w/ cell 330-808-1285) — High (litter born Jan 30 2026) — *hook: 45+ yrs, 20+ generations; Nov 2025 post "It's Not a Gamble If It's a Sure Thing"; Ponzi's litter of four* — **DRAFTED**
+- **Anne's Pups** — annespups.com — family terrier breeder w/ blog — ✉️ **info@annespups.com** (footer) — High (blog modified Dec 2024) — *hook: post "Are Airedales Just Mini Bears?"* — **DRAFTED**
+- **Meadowaire Terriers** — meadowaireterriers.com — Airedale + Russell breeder (VA) — ✉️ **meadowaire.terriers@gmail.com** (+ phone 571-485-0416) — High — *hook: family tradition since 1955; pups raised on Mozart, light jazz & 80s rock* — **DRAFTED** (no blog; guest-post line softened)
+- **To Aire Is Divine (Bogart)** — toaireisdivine.blogspot.com — personal owner blog ("mama Lulu") — ✉️ **bogarthandsomedevildog@yahoo.com** ("Email Me!") — Med (dormant since Dec 2016) — *hook: 11-yr photo diary of Bogart sharing his world with crazy cats* — **DRAFTED** (framed as a fresh outing)
+- **Blue Barn Airedales** — bluebarnairedales.com — breeder (Justin & Jessie Brent, Ashland OH) — ✉️ **bluebarnairedales@yahoo.com** (+ phone) — Med — *hook: 10-acre mini-farm, Woodriver line since 1989* — ⚠️ MANUAL — homepage says "Due to family crisis we will no longer be breeding"; NOT drafted out of sensitivity (James: use judgment, gentle if contacting)
+
+### American Eskimo Dog *(Moderate — small owner-breeder sites, mixed freshness; 4 drafted)*
+- **Wright's American Eskimos ("The Dog Beautiful")** — wrighteski.com — owner/breed-info (Theresa Wright Ph.D., MO) — ✉️ **wrighteski@aol.com** — High site / Med freshness (content ~2019) — *hook: genetics Ph.D., wrote "The Dog Beautiful," coined the "Teddy Bear Type" Eskie* — **DRAFTED**
+- **Sunstruck American Eskimos** — sunstruckamericaneskimos.com — small breeder + rescue/foster (CT) — ✉️ **info@sunstruckamericaneskimos.com** — High (active into late 2024) — *hook: started with rescue Eskie Becky in 2005, fostered 25+; Blue earned BCAT with a 7.92s FastCAT run* — **DRAFTED**
+- **Snow Buddies American Eskimos** — snowbuddiesamericaneskimos.com — AKC/UKC show breeder (MA) — ✉️ **SnoBuddies@comcast.net** — High (2026 litters listed) — *hook: uses ENS + Puppy Culture, runs 24/7 puppy cams* — **DRAFTED** (no blog; softened)
+- **Wintersun Eskies** — wintersuneskies.com — mini-Eskie breeder (Lenise Redding, Boise ID) — ✉️ **LeniseRedding@yahoo.com** — High site / Low freshness (© 1999–2018, dormant) — *hook: AKC Breeder of Merit, one litter/yr, keeps an "Eskie Links" page that links out to peer sites (already links out)* — **DRAFTED**
+- **Ruckus the Eskie** — ruckustheeskie.com — single-dog owner/lifestyle blog (SF Bay Area, Blogger) — ❓ contact page blocked fetch; likely form/email behind it — High active (posts through Oct 2024) — *hook: Oct 2024 "Looking After Your Pets In the Winter"; runs BarkBox code "RUCKUSESKIE"* — MANUAL/verify
+
+### Basenji *(Decent pool — 5 real sites, 3 with plaintext email; freshness mixed)*
+- **Basenji Adventures** — basenjiadventures.com — owner blog (Zulu & Zinga) — ✉️ **info@basenjiadventures.com** ("Send Us Email") — High (active, edited Oct 2025) — *hook: adopted Zulu in 2018 after her show-ring career ended, Zinga joined 2019; runs a Discord for Basenji owners* — **DRAFTED**
+- **dLucks Basenjis** — dlucksbasenjis.com — small breeder w/ educational blog (Natalie) — ✉️ **natalie.scher@hotmail.com** ("Get in touch") — High reachable / blog dormant (2019) — *hook: her post "Are Basenjis Hypoallergenic?" — invited allergy sufferers home to test, argues firsthand they aren't* — **DRAFTED** (offered fresh post)
+- **Mwimbaji / Utah Basenji** — utahbasenji.com — small breeder (Heather Demille, UT) — ✉️ **UtahBasenji@gmail.com** ("Contact Us") — High (litters Jan/Mar 2026) — *hook: all dogs Embark-tested clear of 220+ conditions; public stance against removing front dewclaws w/ injury studies* — **DRAFTED** (no blog; softened)
+- **Triforce Basenjis** — triforcebasenjis.com — show breeder (Carla Ghilardi, San Diego) — 📝 contact-info page (Google Sites), no plaintext email seen — High (news updated Jan 3 2026) — *hook: puppy "Samantha" won Best in Show Bred-By Puppy twice at IABCA Southland Sieger 2025* — MANUAL
+- **Basenji Basics** — basenjibasics.com — owner breed-info site (dog "Thor") — 📱 YouTube/IG only, no email/form confirmed — Med (thin/dormant, latest Feb 2025) — *hook: signature post "About Basenjis — The not-so-bark-less dog"* — MANUAL (social/DM)
+
+### Basset Hound *(THIN & skews dormant/memorial — only 1 active owner blog)*
+- **Hounds And Other Adventures** — bhoundsandadog.blogspot.com — personal owner blog (running since 2011) — ✉️ on-page obfuscated **"bhounds3 at gmail dot com"** → **bhounds3@gmail.com** (Contact page) — High (active, posts through Oct 2025) — *hook: life "in the tropics of Southern Indiana" with the hounds after moving back from the high desert southwest* — **DRAFTED** (obfuscated-email precedent: poms@poms.cc, sheltieplanet)
+- **Woebgon Bassets** — woebgonbassets.com — breeder/show kennel w/ opinion blog "From the Brambles" (Don Bullock) — ❓ contact page blocked fetch; no verified email — Med (evergreen essays, recency unconfirmed) — *hook: his post "Why Are Dog Shows Only for Pure Bred Dogs?" — directly adjacent to our "every dog" framing* — MANUAL/verify
+- **Lookout View Kennels** — lookoutviewkennels.com — breeder (Jeremy & Lacy Bowman, NW GA) — 📝 form + phones (706-859-8715 / 762-299-8958), no on-page email — High (© 2026, maintained) — *hook: pups get "free roam of several hundred wooded acres"; FAQ debunks the American-vs-European basset upsell* — MANUAL
+- **Basset Hound Enthusiast** — bassethoundenthusiast.com — breed-info/content site (bylines Magdalena I., Igor I.) — ❓ no email visible; reads monetized/impersonal — Med active (Nov 2024) / Low as a genuine link target — MANUAL/verify
+- *Excluded dormant/memorial: The Wilbur Basset Blog (2017), BassetHoundTown (2021), The Basset Hound Lowdown (2016), BaldHiker & Kristen Ghodsee (memorial posts). Thinnest breed of the wave.*
+
+---
+
+# WAVE 10 — long-tail batch 2 (added 2026-07-13)
+
+Breeds: Black German Shepherd, Bloodhound, Border Terrier, Brittany, Bull Terrier, Bullmastiff. All URLs fetched + verified 2026-07-13; emails reported only where literally seen on-page. 18 verified emails found — 15 drafted (cap), 2 recorded ready-to-send overflow, 1 held for sensitivity.
+
+### Black German Shepherd *(breeder-only niche — no independent black-GSD blogs beyond the already-contacted general-GSD set)*
+- **Ritterhund K9s** — ritterhundk9s.com — breeder (AKC solid black/black sable, Central Coast CA) w/ "News" essay blog — ✉️ **info@ritterhundk9s.com** (on page: "PH: 805-219-9916 | EMAIL: Info@RitterhundK9s.com") — High (solid-black litter born 6/21/26, July 2026 litter upcoming) — *hook: June 21 2026 solid-black litter; 28 years; Bomber vom Wolfsheim DNA in pedigrees* — **DRAFTED**
+- **Black German Shepherds haus von Wiese** — blackgermanshepherdshvw.com — breeder (Debbie, Huntersville NC) — ✉️ **BlackGermanShepherdsHVW@gmail.com** (contact section + scam-alert notice) — High (I5 litter arrived July 4 2026; most active of the batch) — *hook: I5 litter arrived July 4, 2026; preserves the V Paska vom Salztalblick bloodline* — **DRAFTED** (no blog; softened) — ⚠️ site carries a puppy-scam impersonation alert, so they're wary of cold email: draft is transparently legit, nothing payment-ish
+- **Vom Hallynn Haus** — vomhallynnhaus.com — breeder (Shannon Wilber, Shipman VA; 49 yrs) — ✉️ verified on-page: **vomhallynnhausk9s@gmail.com** (Tina Adkins, manager) + rhodawilber@gmail.com — Med-High real / freshness ~2024 — *hook: 49 years breeding; their dogs work as police K9s (Ace, NJ) and a diabetic-alert dog (Genesis)* — ⚠️ **NOT DRAFTED (sensitivity)** — homepage carries two prominent dog memorials (Phantom, Panzeer) + a Facebook-impersonation scam warning; Blue Barn precedent — James: use judgment, gentle if contacting
+- **Serious Black German Shepherds** — seriousblackgermanshepherds.net — breeder (working-line, Naples ME) — 📱 phone only (207) 899-7489 + puppy application, no email — High (puppies available now, © 2026) — *hook: Rio Fierce Serious IGP3 took Vice Champion at the 2024 National Working Dog FH Championship; second-generation black-GSD breeders since 1969* — MANUAL
+- *Rejected: total-german-shepherd.com (dead since ~2018). shepherdkingdom.com + mittelwest.com surfaced in search, NOT fetched — verify-first extras.*
+
+### Bloodhound *(3 clean emails; owner-blog scene thin — one candidate unverifiable)*
+- **Buffalo Groves Bloodhound Ranch** — bloodhoundranch.com — breeder/educator (David & Marlene Groves, Kiowa CO, 400-acre bison ranch) — ✉️ **hound@bloodhoundranch.com** (footer + 303.621.1111) — Med-High real / Med freshness (newest visible date Dec 2024) — *hook: owner is an AKC judge (#108243) + Rocky Mtn Bloodhound Club President; their K9 Radar has worked 100+ cases* — **DRAFTED**
+- **Crooked Creek Bloodhounds (HH Bloodhounds LLC)** — crookedcreekbloodhounds.com — family breeder (The Sewells, Big Sandy TX; faith-forward) — ✉️ **HHBloodhounds@gmail.com** (contact section + (903) 347-2474) — High (fresh Dec 2025; current-litter page) — *hook: tagline "Where the scent trail leads to faith, family, and floppy ears"; blog page exists but is empty → offered to write their first post* — **DRAFTED**
+- **American Bloodhound Club** — americanbloodhoundclub.org — AKC parent club (est. 1952) — ✉️ **secretary@americanbloodhoundclub.org** (header; also info@ for webmaster) — High org / blog stale ~2023, but 2026 National Specialty shop live — *hook: homepage bumper sticker "Support your Local Bloodhound, get LOST!"* — **NOT DRAFTED this run (cap overflow)** — ready to send; ⚠️ do NOT use their rescue inbox, secretary@ only; parent clubs rarely link out, treat as relationship play
+- **Mason Dixon Bloodhounds** — masondixonbloodhounds.com — small in-home breeder (Mount Airy MD) — 📝 reCAPTCHA form only, no email — High (next litter spring 2026 banner) — *hook: Clementine's first litter coming fall 2026; stud Jiggy holds CGC + Trick Dog Novice titles* — MANUAL — ⚠️ homepage carries "Our Heavenly Hounds" memorials (Junior, Lucy Lou); gentle tone, don't reference
+- **Sean of the South** — seandietrich.com — columnist who writes about his bloodhounds — ❓ /bloodhound page returned a JS shell, contact unverified — MANUAL/verify (could be a delightful high-audience get if reachable)
+
+### Border Terrier *(no active independent BT owner-blogger found — scene moved to FB/IG; club + breeders carry the wave)*
+- **The Border Terrier Club (UK)** — theborderterrierclub.co.uk — oldest UK BT club (founded 1920) — ✉️ **Otterkin@aol.com** (Secretary Kathy Wilkinson, officer table mailto; webmaster euancastel@talktalk.net also listed) — High (2026 renewals; Breed Appreciation Day 4 Oct 2026) — *hook: joint Breed Appreciation Day with the Scottish BT Club on 4 Oct 2026; Working Certificates issued since 1920* — **DRAFTED** (complementary-to-the-ring framing, Staffy-club precedent)
+- **Rushwind Labradors & Border Terriers** — rushwindlabs.com — hobby breeder (Dan & Becky Olson, Beldenville WI) w/ active "What's New?" blog — ✉️ **rushwind@svtel.net** (footer) — High (latest post Dec 2025) — *hook: BT "Gaby" finished her AKC Championship May 25 2025 — "New SHOW CHAMPION in the house!" post; Halloween litter names (Frankenstein, Lil' Spook, Bones)* — **DRAFTED**
+- **Achouffe Gundogs & Border Terriers** — achouffegundogs.co.uk — KC Assured Breeder (Julie, Lincolnshire) — ✉️ **julie@achouffegundogs.co.uk** (contact page + +44 1526 861431) — Med-High (real/established; site freshness ~Apr 2024) — *hook: bred the #1 Top Border Terrier in Canada 2011; 30+ yrs; runs gundog events for Lincs & Notts Air Ambulance* — **DRAFTED** (no blog; softened) — ⚠️ homepage memorial for puppy Nilah (killed Feb 2024) — not referenced; reply gently
+- **Border Terrier Club of America ("Border Blog")** — btcoa.org — US national club — 📝 form only, no public inbox seen — High real / blog stale (Jul 2024) — *hook: their post on BTs at the 2024 Houston World Series of Dog Shows* — MANUAL
+- **Brentwood Border Terriers** — brentwoodborders.com — ❓ blog fetch returned empty JS shell twice; search snippet mentions agility BT "Keeper" — UNVERIFIED — MANUAL/verify. *(Also rejected: Little Brown Dog Blog 2018, Baz the Border 2015, Big Sky Borders JS shell.)*
+
+### Brittany *(richest breed of the wave — 4 verified emails; skews hunting/breeder over pet blogs)*
+- **Spiegel Bird Dogs** — spiegelbirddogs.com — owner blog/small breeder (Ada MI, Brittany gun dogs) — ✉️ **SpiegelBirdDogs@gmail.com** (footer) — High (posting weekly; latest July 2026, 4 days before research) — *hook: "The Rooster, the River, and My Lack of a Plan"; three generations Kaila → Piper → Tika; live Puppy Cam* — **DRAFTED** — best prospect of the wave
+- **The American Brittany Club** — theamericanbrittanyclub.org — AKC parent club (est. 1942) — ✉️ **Webmaster@TheAmericanBrittanyClub.org** (top of page) — High (2026 Summer Specialty entries close July 29 2026) — *hook: "700+ Dual Champions"; 2025 National Champion Chica on the homepage* — **DRAFTED** (complementary framing)
+- **Home and Field Dogs** — homeandfielddogs.com — French Brittany breeder (UT; 30+ yrs, B.S. Animal Science) — ✉️ **info@homeandfielddogs.com** (header + footer, 801-615-0249) — Med-High (blog ~Jul 2024; YouTube more current) — *hook: back in the field training his Epagneul Bretons after double knee replacement + rotator cuff repair (referenced positively, not dwelt on)* — **DRAFTED**
+- **Plum Creek Kennels** — french-brittany.com — French Brittany breeder (Art & Mary Heitzler, Fredericksburg TX; in the breed since 1998) — ✉️ **plumcreekkennels@gmail.com** (multiple mailtos) — Med (real + detailed; Wix freshness hard to date) — *hook: took over "the premier French Brittany kennel in the US" from founders Bill & Kathy Dillon in 2020; kennel founders started the US breed club in 1997* — **NOT DRAFTED this run (cap overflow)** — ready to send
+- **A Man and His Bird Dog** — amanandhisbirddog.com — owner blog (Robb Moore, Brittany "Lincoln") — 📱 FB/IG only, no email — dormant since Jun 2020 — SKIP/long shot. *(Brittany rescues — NBRAN, American Brittany Rescue, BRIT — active but excluded per rescue-inbox sensitivity; James to decide separately.)*
+
+### Bull Terrier *(2 clean emails, both strong; one form-only owner blog worth manual)*
+- **Nuance Bull Terriers** — nuancebullterriers.com — breeder/show blog (Cleo Parker, Livonia MI; AKC-licensed BT judge, retired marketing analyst who also runs a Dog Marketing Blog) — ✉️ **nuance@cleoparker.com** (About-page mailto "Contact Cleo") — High (latest post Jan 2025, © 2026) — *hook: 2023 Bar Sinister Award (BTCA lifetime contribution); won the 2008 Silverwood Trophy; unusually receptive to a marketing-savvy pitch* — **DRAFTED**
+- **Working Bull Terriers Kennel** — workingbullterrierskennel.com — kennel/trainer blog (Poros Island, Greece; trains worldwide, 22 pages of articles) — ✉️ **trainyrdog@gmail.com** (footer) — High (posts into July 2026 — most active BT site found) — *hook: post "How to De-Escalate the Bull Terrier Hucklebutt Before Someone Gets Hurt" + their "Bully Wisdom" section* — **DRAFTED** — note: they sell training/ebooks and SEO their own hub, may want reciprocity
+- **Bullterrierfun.com** — bullterrierfun.com — owner blog (Dorothea Cornelius, FL; German expat graphic designer who draws BT cartoons) — 📝 WPForms only (has an "I have an idea about a blog post" category!) — High real / last post Mar 2024 — *hook: her BT Mila "our Joker-Face"; original BT cartoons, once donated art to NSW BT Rescue* — MANUAL (form; use the blog-post-idea category)
+- **Jackal's Old Country Blood** — jackalsoldcountryblood.com — UK owner blog + YouTube (working bull-and-terrier culture) — ❓ homepage fetch blocked, no email seen, comment form only — Med — *hook: his KC Bull Terrier given 18 months to live at 4 (epilepsy) is "now almost 9" after diet/routine overhaul* — MANUAL/deprioritize (working-dog culture is tonally distant from our family-show brand). *(Rejected: Gibson's DogBlog dead since 2006; btcompass/bullterrier.world look content-farm.)*
+
+### Bullmastiff *(3 clean emails; breeder-heavy, no active owner blogs; club stale)*
+- **Pure Heart Bullmastiffs** — pureheartbullmastiffs.com — small hobby breeder (Karen Feldbauer, NSW Riverina, AU; Dogs NSW 2100096158) w/ separate blog at pureheartbullmastiffs.blog (fetch blocked, recency unverified) — ✉️ **karen@pureheartbullmastiffs.com** (site header + 0414-680-157) — High (© 2026, current breeding plans) — *hook: first Bullmastiff Rastus lived to 14, "well above the life expectancy"; she writes about her experiences on her blog* — **DRAFTED** — ⚠️ homepage has an In Loving Memory section (Locki 2024 GDV, Bella 2020) — not referenced; reply gently
+- **NSA Bullmastiffs** — nsabullmastiffs.com — small breeder (Central IL, started 2019) — ✉️ **nsabullmastiffs@outlook.com** (contact section + 217-737-3385) — High (© 2026) — *hook: all dogs have R-names — Rayla, Rhanos, Rheylan, Roanna, Ruxin; "Bullmastiff fest" photo* — **DRAFTED** (no blog; softened)
+- **Desert Sky Bullmastiffs** — desertskybullmastiffs.com — breeder (Chino Valley AZ, 2.5 acres, dogs live as pets) — ✉️ **info@desertskybullmastiffs.com** (on page: "SEND TO: INFO@DESERTSKYBULLMASTIFFS.COM" + (602) 810-0487) — High (4 litters planned late 2026) — *hook: boys named after country songs — Conway, Chapo, George ("Ocean Front Property"), Merle ("Mama Tried"); military/first-responder discounts* — **DRAFTED** (no blog; softened)
+- **Dawstins Bullmastiffs** — dawstinsbullmastiffs.com — breeder (Myron, N. Indiana) — 📱 call/text 574-536-2481 + form, no email — High (Blayke & Lux litter b. 8/10/2025, © 2026) — *hook: "Blayke & Lux Litter Has Arrived!... getting scooped up fast!"* — MANUAL
+- **American Bullmastiff Association** — bullmastiff.us — AKC parent club w/ ABARS rescue arm — 📝 form; blog stale (Apr 2021) — Med — *hook: their Rescue of the Month / ABARS rescue calendar* — MANUAL — ⚠️ route via general form only, never the rescue-surrender channel. *(Rejected: bullmastiffinfo.org — FrontPage-era, © 1994–2001, broken localhost links.)*
+
+## Wave 10 draft messages (15 staged 2026-07-13)
+
+All follow the standard template with these per-prospect personalizations (full text lives in the Gmail drafts):
+1. **Ritterhund K9s** (info@ritterhundk9s.com) — congrats on the June 21 solid-black litter; 28 years + Bomber vom Wolfsheim pedigree; guest-post offer aimed at their News page.
+2. **haus von Wiese** (blackgermanshepherdshvw@gmail.com, "Hi Debbie") — I5 litter arriving July 4; Paska vom Salztalblick line; softened guest-post line.
+3. **Bloodhound Ranch** (hound@bloodhoundranch.com, "Hi David and Marlene") — AKC judge + K9 Radar's 100+ cases + quarter century on a 400-acre ranch.
+4. **Crooked Creek** (hhbloodhounds@gmail.com, "Hi Sewell family") — "faith, family, and floppy ears" tagline; offered to write the FIRST post for their empty blog.
+5. **Border Terrier Club UK** (Otterkin@aol.com, "Hi Kathy") — complementary-to-the-ring framing; Working Certificates since 1920; joint Breed Appreciation Day this October.
+6. **Rushwind** (rushwind@svtel.net, "Hi Dan and Becky") — congrats on Gaby's championship ("New SHOW CHAMPION in the house!"); Halloween litter names.
+7. **Achouffe** (julie@achouffegundogs.co.uk, "Hi Julie") — 30+ yrs, #1 BT in Canada 2011, air-ambulance gundog days; memorial avoided.
+8. **Spiegel Bird Dogs** (spiegelbirddogs@gmail.com) — "The Rooster, the River, and My Lack of a Plan"; Kaila → Piper → Tika three generations.
+9. **American Brittany Club** (Webmaster@TheAmericanBrittanyClub.org) — 700+ Dual Champions; Chica's National Championship; complementary framing.
+10. **Home and Field Dogs** (info@homeandfielddogs.com) — back in the field with the Bretons after knee surgeries (positive, brief); 30 yrs + animal-science degree.
+11. **Nuance** (nuance@cleoparker.com, "Hi Cleo") — Bar Sinister Award + dog-marketing background; Jan skin-care post.
+12. **Working Bull Terriers Kennel** (trainyrdog@gmail.com) — "the finest post title I've read this year" (Hucklebutt de-escalation); Bully Wisdom library.
+13. **Pure Heart** (karen@pureheartbullmastiffs.com, "Hi Karen") — Rastus living to 14; praises that she blogs the journey; memorials avoided.
+14. **NSA Bullmastiffs** (nsabullmastiffs@outlook.com) — the R-names roll call; falling for the breed via Rayla in 2019.
+15. **Desert Sky** (info@desertskybullmastiffs.com) — country-song dog names (George/"Ocean Front Property", Merle/"Mama Tried").
+
+**Overflow — verified emails, NOT yet drafted (cap):** American Bloodhound Club (secretary@americanbloodhoundclub.org) + Plum Creek Kennels (plumcreekkennels@gmail.com). **Held for sensitivity:** Vom Hallynn Haus (vomhallynnhausk9s@gmail.com — homepage memorials).
+
+# CLOUD RE-RUN WAVES (added 2026-07-14/15 by GH Actions) — duplicate coverage of queue breeds 1–18 with fresh prospect research; cross-check outreach-staging-log.md DUPLICATE WARNING before sending
 
 Wave-2 queue heads: Golden Retriever, Labrador Retriever, Poodle, Dachshund (standard), Corgi, Siberian Husky. All URLs fetched/verified this run; emails listed ONLY where literally seen on-page. Each entry carries a real **hook**. ✉️ = on-page-verified email (Gmail draft staged this run) · 📝 form · 📱 phone/DM · ❓ verify before sending.
 
