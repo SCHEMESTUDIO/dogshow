@@ -1,0 +1,92 @@
+name: Daily Breed Outreach Stager
+
+# Cloud successor to the local daily-breed-outreach-stager Cowork task.
+# Claude researches prospects (web search) and writes a drafts JSON; a separate
+# step creates Gmail DRAFTS via the API (no send path exists anywhere here);
+# state files are committed; report goes to Telegram.
+#
+# Weekdays 07:00 UTC.
+#
+# Secrets required: ANTHROPIC_API_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_OPS_CHAT_ID,
+# GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_REFRESH_TOKEN (scope: gmail.compose).
+
+on:
+  schedule:
+    - cron: '0 7 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  stage-outreach:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Research prospects + stage drafts (Claude)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          mkdir -p .ci
+          claude -p "$(cat prompts/breed-outreach.md)" --dangerously-skip-permissions
+
+      - name: Create Gmail drafts
+        id: gmail
+        env:
+          GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+        run: |
+          set +e
+          python3 scripts/gmail_create_drafts.py
+          RC=$?
+          set -e
+          # On partial failure, append FAILED lines to the staging log so the
+          # research prompt treats those addresses as not-staged next run.
+          if [ "$RC" -ne 0 ] && [ -f .ci/gmail-results.txt ]; then
+            {
+              echo ""
+              echo "- $(date -u +%Y-%m-%d) GMAIL DRAFT FAILURES (auto-appended by CI; these are NOT staged):"
+              grep '^FAIL' .ci/gmail-results.txt | sed 's/^/  - /'
+            } >> outreach-staging-log.md
+          fi
+          echo "rc=$RC" >> "$GITHUB_OUTPUT"
+
+      - name: Commit state files
+        run: |
+          git config user.name "Dog Show Bot"
+          git config user.email "bot@dogshow.lol"
+          git add breed-outreach-list-and-template.md outreach-staging-log.md
+          if git diff --staged --quiet; then
+            echo "No state changes"
+          else
+            git commit -m "outreach: staged batch $(date -u +%Y-%m-%d)"
+            git pull --rebase origin main && git push
+          fi
+
+      - name: Telegram report
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_OPS_CHAT_ID: ${{ secrets.TELEGRAM_OPS_CHAT_ID }}
+        run: |
+          {
+            cat .ci/telegram-report.txt 2>/dev/null || echo "breed-outreach ran but produced no report"
+            echo ""
+            echo "Gmail results:"
+            cat .ci/gmail-results.txt 2>/dev/null || echo "(no gmail results file)"
+          } > /tmp/full-report.txt
+          bash scripts/notify_telegram.sh --file /tmp/full-report.txt
+
+      - name: Telegram failure alert
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_OPS_CHAT_ID: ${{ secrets.TELEGRAM_OPS_CHAT_ID }}
+        run: bash scripts/notify_telegram.sh "FAILED - breed-outreach (dogshow). ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

@@ -1,0 +1,96 @@
+name: Ads Search-1 Weekly Report
+
+# Cloud successor to the local dogshow-search1-weekly-report Cowork task
+# (which scraped the Ads UI via Chrome — unmigratable). Data now arrives via
+# repository_dispatch from a Google Ads Script running on Google's infra
+# (see scripts/ads-search1-google-ads-script.js for the one-time setup).
+#
+# Also has a Monday safety cron: if no dispatch arrived in the last 8 days,
+# it alerts that the Ads Script has gone quiet (silent-drift guard).
+#
+# Secrets required: ANTHROPIC_API_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_OPS_CHAT_ID.
+
+on:
+  repository_dispatch:
+    types: [ads-search1-weekly]
+  schedule:
+    - cron: '0 12 * * 1'   # watchdog only
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  report:
+    if: github.event_name == 'repository_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Save payload + stamp receipt
+        run: |
+          mkdir -p .ci data
+          cat > .ci/ads-payload.json <<'PAYLOAD_EOF'
+          ${{ toJSON(github.event.client_payload) }}
+          PAYLOAD_EOF
+          date -u +%Y-%m-%dT%H:%MZ > data/ads-search1-last-dispatch.txt
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Write insight report (Claude)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: claude -p "$(cat prompts/ads-search1-report.md)" --dangerously-skip-permissions
+
+      - name: Commit receipt stamp
+        run: |
+          git config user.name "Dog Show Bot"
+          git config user.email "bot@dogshow.lol"
+          git add data/ads-search1-last-dispatch.txt
+          git diff --staged --quiet || { git commit -m "ads: dispatch receipt $(date -u +%Y-%m-%d)"; git pull --rebase origin main && git push; }
+
+      - name: Telegram report
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_OPS_CHAT_ID: ${{ secrets.TELEGRAM_OPS_CHAT_ID }}
+        run: |
+          if [ -f .ci/telegram-report.txt ]; then
+            bash scripts/notify_telegram.sh --file .ci/telegram-report.txt
+          else
+            bash scripts/notify_telegram.sh "ads-search1-report received data but produced no report — check Actions run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          fi
+
+      - name: Telegram failure alert
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_OPS_CHAT_ID: ${{ secrets.TELEGRAM_OPS_CHAT_ID }}
+        run: bash scripts/notify_telegram.sh "FAILED - ads-search1-report (dogshow). ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+  watchdog:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check dispatch freshness
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_OPS_CHAT_ID: ${{ secrets.TELEGRAM_OPS_CHAT_ID }}
+        run: |
+          STAMP_FILE=data/ads-search1-last-dispatch.txt
+          if [ ! -f "$STAMP_FILE" ]; then
+            bash scripts/notify_telegram.sh "WATCHDOG - ads-search1: no dispatch has EVER been received. Is the Google Ads Script installed and scheduled? (scripts/ads-search1-google-ads-script.js)"
+            exit 0
+          fi
+          LAST=$(cat "$STAMP_FILE")
+          LAST_EPOCH=$(date -d "$LAST" +%s 2>/dev/null || echo 0)
+          AGE_DAYS=$(( ( $(date +%s) - LAST_EPOCH ) / 86400 ))
+          if [ "$AGE_DAYS" -gt 8 ]; then
+            bash scripts/notify_telegram.sh "WATCHDOG - ads-search1: last Ads Script dispatch was ${AGE_DAYS} days ago (${LAST}). The Google Ads Script has gone quiet — check Tools > Scripts in the Ads UI."
+          else
+            echo "Dispatch fresh (${AGE_DAYS}d old) — all good"
+          fi

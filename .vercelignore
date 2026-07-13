@@ -8,3 +8,8 @@ party
 DogShowPrototype.jsx
 preview-redesign.html
 scripts
+*.csv
+prompts
+.github
+data
+preview-pale.html

@@ -1,0 +1,54 @@
+name: Free-to-Enter Daily Tracker
+
+# Cloud successor to the local dogshow-free-to-enter-tracker Cowork task.
+# No LLM — pure fetch + CSV append + Telegram summary.
+# 08:00 UTC daily (~09:00 London BST).
+#
+# Secrets required: TELEGRAM_BOT_TOKEN, TELEGRAM_OPS_CHAT_ID.
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Snapshot stats + append CSV
+        id: track
+        run: |
+          python3 scripts/track_free_to_enter.py | tee /tmp/summary.txt
+
+      - name: Commit + push
+        run: |
+          git config user.name "Dog Show Bot"
+          git config user.email "bot@dogshow.lol"
+          git add free-to-enter-tracking.csv
+          if git diff --staged --quiet; then
+            echo "No new row"
+          else
+            git commit -m "tracker: free-to-enter snapshot $(date -u +%Y-%m-%d)"
+            git pull --rebase origin main && git push
+          fi
+
+      - name: Telegram summary
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_OPS_CHAT_ID: ${{ secrets.TELEGRAM_OPS_CHAT_ID }}
+        run: bash scripts/notify_telegram.sh --file /tmp/summary.txt
+
+      - name: Telegram failure alert
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_OPS_CHAT_ID: ${{ secrets.TELEGRAM_OPS_CHAT_ID }}
+        run: bash scripts/notify_telegram.sh "FAILED - free-to-enter-tracker (dogshow). ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
