@@ -4670,7 +4670,7 @@ export default class DogShowServer {
                 </div>
                 <div style="text-align: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08);">
                   <p style="font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.7); margin: 0 0 10px;">Want to give ${dogName} a running start? Add a batch of votes:</p>
-                  <a href="${SITE_URL}/?scroll=pricing#pricing" style="display: inline-block; background: rgba(255,140,66,0.12); color: #FF8C42; padding: 11px 24px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px; border: 1px solid rgba(255,140,66,0.5);">Add 250 votes — $1.99 →</a>
+                  <a href="${SITE_URL}/show?topup=1" style="display: inline-block; background: rgba(255,140,66,0.12); color: #FF8C42; padding: 11px 24px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px; border: 1px solid rgba(255,140,66,0.5);">Add 250 votes — $1.99 →</a>
                   <p style="font-size: 12px; color: rgba(255,255,255,0.4); margin: 8px 0 0;">or 1,000 votes with Top Dog — $5.99</p>
                 </div>
               </div>`;

@@ -567,11 +567,14 @@
       });
   }
 
-  function showTopUpModal() {
+  // mode 'boost' = user still has bones and chose to add more (Get-bones button
+  // or the certificate-email "Add votes" deep link); default = out of bones.
+  function showTopUpModal(mode) {
     if (!upgradeOverlay) return;
+    var boost = (mode === 'boost');
     upgradeIcon.innerHTML = '&#129460;';
-    upgradeTitle.textContent = "You're out of bones.";
-    upgradeSubtitle.textContent = 'Grab 250 more for $1.99.';
+    upgradeTitle.textContent = boost ? 'Add votes for your dog' : "You're out of bones.";
+    upgradeSubtitle.textContent = boost ? 'Grab 250 votes for $1.99.' : 'Grab 250 more for $1.99.';
     upgradePrimary.textContent = 'Top up — $1.99';
     upgradePrimary.disabled = false;
     upgradePrimary.onclick = startBonesPackCheckout;
@@ -828,8 +831,13 @@
     if (getBonesBtn) {
       getBonesBtn.hidden = false;
       getBonesBtn.addEventListener('click', function () {
-        if (typeof showTopUpModal === 'function') showTopUpModal();
+        if (typeof showTopUpModal === 'function') showTopUpModal('boost');
       });
+    }
+    // Deep link from the certificate-email "Add votes" CTA (/show?topup=1):
+    // open the top-up modal straight away for this (registered) owner.
+    if (params.get('topup') === '1' && typeof showTopUpModal === 'function') {
+      setTimeout(function () { showTopUpModal('boost'); }, 500);
     }
   }
 
