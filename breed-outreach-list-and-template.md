@@ -683,3 +683,96 @@ The 10 ✉️ verified-email prospects had **Gmail drafts staged this run** (ful
 
 **Naughty Husky (Louisa Gee)** — 📱 FB/Twitter *(❓ no email confirmed on live page)*
 > Hi Louisa — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your honest "we're just husky lovers, not experts" framing is refreshing in a niche full of know-it-alls. We're building a Siberian Husky page and would love a short tip from you — anything you wish new husky owners knew — credited with a link back to naughtyhusky.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+---
+
+# WAVE 2 (cont.) — 6 more tail breeds (added 2026-07-14, run 2)
+
+Wave-2 queue #7–12: Australian Shepherd (standard, NOT Mini/Toy), Beagle, Rottweiler, Boxer, Border Collie, Great Dane. All URLs fetched/verified this run by a research pass; emails listed ONLY where literally seen on-page (fetched, not from snippets). Each entry carries a real **hook**. ✉️ = on-page-verified email (Gmail draft staged this run) · 📝 form · 📱 phone/DM · ❓ verify before sending.
+
+### Australian Shepherd *(standard — Moderate; strongest single owner blog is The Happy Aussie)*
+- **The Happy Aussie** — happyaussie.com — owner blog by certified trainer Andrea Bogle (CCPDT, MSc, animal-science professor) — blog: yes, active (weekly through Mar 2025) — ✉️ Wiggles@HappyAussie.com — High — *hook: reactivity-focused training; post "Are you making one of these 3 recall mistakes?" (Mar 2025); runs a free FB community for Aussie owners* — **DRAFT STAGED**
+- **So Fetch!** — thesofetch.com — personal owner/lifestyle blog (Maggie, "Maggie With The Dogs") — blog: yes but *dormant* (newest post Feb 2022) — ✉️ maggie@thesofetch.com — Med — *hook: owns two Aussies, Finley & Sadie; wrote "Pros & Cons of Owning an Australian Shepherd"* — **DRAFT STAGED**
+- **Australian-Shepherd-Lovers.com** — australian-shepherd-lovers.com — owner-run info + reader-Q&A community site (editor Anton Hout) — blog: yes, appears active — 📝 /contact.html (no email on-page) — Med — *hook: reader "What's New?" blog, recent entry "Blue & Coco – A True Love Story Revisited"*
+- **My Aussie Pups** — myaussiepups.com — Ohio Aussie breeder with an active content blog — blog: yes, active (posts Apr 2026) — 📝 /contact/ · 📱 330-275-2945 (no email on-page) — Med — *hook: post "How Much Exercise Does an Australian Shepherd Puppy Need?" (Apr 2026)*
+- *Could not verify: AussieBase (aussiebase.com — HTTP 403, owner "Jack" lifelong Aussie owner); Long Haul Trekkers (longhaultrekkers.com — HTTP 500, adventure blog around Aussie "Sora"). Both look genuine; verify manually.*
+
+### Beagle *(Thin for verified emails — 1 email, rest form)*
+- **OMG Beagle** — omgbeagle.com — owner-run beagle resource blog (merch + care/training) — blog: yes, active (post "Why Do Beagles Whine/Cry So Much?" Mar 2025) — ✉️ omgbeagle@gmail.com — High — *hook: site inspired by founder's two beagle sisters, Berkeley & Lilly (Phoenix, AZ)* — **DRAFT STAGED**
+- **The Barmy Beagle** — thebarmybeagle.com — owner-run beagle content site (UK), heavy tips/health library — blog: yes, active — 📝 /contact-us/ + live chat · 📱 0333 050 9021 (no email on-page) — High — *hook: their firsthand "37 Crazy-Important Tips for New Beagle Owners"*
+- **Beagles & Books** — beaglesandbooks.com — owner blog (Laura Mossa; children's-book reviews with a beagle theme) — blog: yes, active 2026 (post Jun 8 2026) — 📝 /contact/ (no email; IG @lauramossa) — Med-High — *hook: added a rescue pup named Gia as a book "reviewer" July 2025, joining beagles Etta & Bella*
+- *Could not verify: Life With Beagle (lifewithbeagle.com — HTTP-only blogspot, all fetches failed; owner Christie Zizo, Orlando; snippet suggested lifewithbeagle@gmail.com but NOT on-page-verified); Dear Goddamned Dog (deargddog.com — socket closed). Dead/dormant: BoredBeagle (2022), Woof goes the Beagle (2017), beaglemom.space (DNS gone).*
+
+### Rottweiler *(Moderate — 2 emails; strongest owner angles are Adventures of Ace + A Love of Rottweilers)*
+- **The Rottweiler World** — therottweilerworld.com — breed-info/owner-care content blog (SEO-flavored; openly invites submissions/collabs) — blog: yes, active (post "…Loyal Pitweiler 2026" Dec 7 2025) — ✉️ muhammadaliseo419@gmail.com (also therottweilerw@gmail.com + form) — Med — *hook: Dec 2025 Pitweiler mix guide; explicitly accepts guest submissions/collaborations* — **DRAFT STAGED**
+- **Adventures of Ace** — adventuresoface.com — personal owner/travel blog (Cassandra Tresl; Rottweiler named Kaiser) — blog: yes, but Rottie-specific post is Dec 2020 (travel blog still running) — ✉️ hello@adventuresoface.com — Med — *hook: "10 Reasons to Own a Rottweiler," travels everywhere with Kaiser since puppyhood* — **DRAFT STAGED**
+- **A Love of Rottweilers** — a-love-of-rottweilers.com — enthusiast breed-info site by a vet ("Dr. Winnie," vet degree Univ. of Pretoria) — blog: yes (freshness unconfirmed) — 📝 /contact.html (no email on-page) — Med — *hook: built the site out of love for her late Rottweiler Duke; "Rottweiler Behavior: Your Complete Guide"*
+- **King Rottweilers (King Canine LLC)** — kingrottweilers.com — PNW breeder w/ active kennel news blog — blog: yes, active ("King Rottweilers is Moving!", "Unica Confirmed Pregnant") — 📝 form (no email; note: puppy-info emails go unanswered without an application — pitch as a feature) — Med-High — *hook: active kennel documenting its dogs by name; recent move + new litter news*
+- *Could not verify: DN Rottweilers (dnrottweilers.com — HTTP 403). Dormant/excluded: DKV owner blog (myrottweilerblog.wordpress.com — ~2021-22, no contact); Del's Adventures (2014).*
+
+### Boxer *(Moderate — 2 emails; best genuine-owner fit is The Daily Boxer, but its email is Cloudflare-obfuscated)*
+- **AllBoxerInfo.com** — allboxerinfo.com — niche Boxer-only info/advice site — blog: yes, active (articles marked "Updated" 2026) — ✉️ Contact@AllBoxerInfo.com — High — *hook: recently-updated "Boxer Dog Feeding Guidelines"; featured contributor Tamás Majoros, a bite-protection trainer* — **DRAFT STAGED**
+- **NorDom Boxer Kennel** — nordomboxer.com — German-Boxer breeder (Port Norris NJ) w/ a blog — blog: yes (generic; site live) — ✉️ info@nordomboxer.com (📱 +1 516 817-74-01) — Med-High — *hook: run by Tetyana, an FCI judge, handler and trainer* — **DRAFT STAGED**
+- **Bombproof Boxer** — bombproofboxer.com — Boxer-specific training-advice blog (UK) — blog: yes, active (© 2026) — 📝 /contact-us/ (no email; FB/IG/TikTok) — High — *hook: post "10 Common Recall Training Mistakes to Avoid with Your Boxer"*
+- **The Daily Boxer** — dailyboxer.com — genuine personal owner/family blog — blog: yes, active (latest Feb 2026) — 📱/📝 email Cloudflare-obfuscated (NOT ✉️) + FB/IG @mydailyboxer — High — *hook: Feb 2026 post "Meet Zya – Our Latest Little Tornado!" introducing a new brindle rescue; also boxers Rosco & Daisy*
+- *Dormant/rejected: Boxer Banter (© 2018, social only); The Boxer Blog / boxerbaby.blogspot.com (2017); NorthViewBoxers (blog 2019, only a wordpress@example.com placeholder email); Boxer Blvd (last real post 2023).*
+
+### Border Collie *(Moderate — 2 emails; strong owner-blog depth)*
+- **Dentbros Dogs** — dentbros.co.uk — owner + hobby-breeder blog (Penny Dent, Milton Keynes UK) — blog: yes, active ("My Breeding Journey Ends", "10,000 Hours…") — ✉️ penny@dentbros.co.uk (also form + 📱 07528 574207) — High — *hook: "Border Collie: Interview with an Owner" — seven Border Collies in, jokes they train you* — **DRAFT STAGED**
+- **Buddy The White Border Collie** — buddythewhitebordercollie.com — personal owner blog (Sam Milburn, qualified Pro Dog Trainer) — blog: yes but *dormant since Oct 2022* (membership/social active) — ✉️ sam@sammilburncreative.com (About page) — Med — *hook: started the blog Feb 2020 for honest writing about owning a reactive Border Collie, Buddy* — **DRAFT STAGED**
+- **Callum Border Collie and his Autistic Human** — callumbordercollie.com — personal owner blog written in the dog's voice — blog: yes, actively posting into 2026 ("Bark to the Future" 5/9/2026) — 📝 /contact.html (no email; may consider remote interviews) — High — *hook: written from 2-yr-old Border Collie Callum's perspective to support his human*
+- **2 Cool BCs** — 2coolbcs.com — owner blog (Cynde Leshin; competitive obedience with Beckett & Dylan) — blog: yes, fresh to Aug 2024 — 📝 email Cloudflare-obfuscated (NOT ✉️) — High — *hook: Aug 2024 post on chasing an OTCH title with her Border Collie Beckett*
+- *Could not verify: Border Collie Blog (bordercollieblog.com — HTTP 525). Dormant/excluded: Field Stone Border Collies (breeder, stale since Jan 2024).*
+
+### Great Dane *(Moderate for emails — 2 blog+email, 2 breeder no-blog; best editorial-fit owner blogs publish no contact)*
+- **7Sisters Great Danes** — 7sistersgreatdanes.com — small breeder w/ a genuine long-form blog — blog: yes, active (post 2025-07-03) — ✉️ dustin@mayfieldjones.com (+ form) — High — *hook: "The First Year: A Month-by-Month Guide to Early Great Dane Development"* — **DRAFT STAGED**
+- **Southern Pines Family Danes** — southernpinesdanes.com — breeder (Bon Aqua TN) w/ actively-updated blog — blog: yes, active 2026 (post 6/1/26) — ✉️ info@southernpinesfamilydanes.com (📱 615-934-9158) — High — *hook: owner Rachel Wenick's 6/1/26 post on raising puppies as part of the family from day one* — **DRAFT STAGED**
+- **Wheaton Prairie Danes** — wpdanes.com — small AKC hobby breeder (Chippewa Falls WI) — blog: **no** — ✉️ sarahliedl@gmail.com (📱 715-559-9755) — Med — *hook: owner Sarah Liedl offers lifetime breeder support by phone/text/email; Danes kept indoors as family* (no blog = fewer link spots) — **DRAFT STAGED**
+- **Brickhouse Danes** — brickhousedanesllc.com — breeder since 2017 (Payson UT) — blog: **no** — ✉️ justforaminute@gmail.com (📱 801-787-3740) — Med — *hook: owner Allison Jensen's "we'll never ask for a deposit until we've met via video" policy* (no blog) — **DRAFT STAGED**
+- *Best editorial fits but NO on-site contact (📱, manual only): mygreatdane.org (Tim Breen, active 2026, "What I Tell Every Giant Breed Owner Now" — no email/form/social on-site); Dane Good Blog (danegoodblog.com — Karla + Dane "Cash," GDROMN rescue director — reachable via the rescue); Have Dane will Travel (havedanewilltravel.com — HTTP 403, dog "Martok"). Verify contact manually before outreach.*
+
+## WAVE 2 (cont.) — personalized messages for the form/DM/no-contact prospects (added 2026-07-14, run 2)
+
+The 13 ✉️ verified-email prospects above had **Gmail drafts staged this run** (full-template, personalized) — see `.ci/outreach-drafts.json`; not repeated here. Below are paste-ready short/form-variant messages for the **form/DM/❓ prospects** to work manually.
+
+### Australian Shepherd
+**Australian-Shepherd-Lovers.com (Anton Hout)** — 📝 /contact.html
+> Hi Anton — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your reader "What's New?" blog — stories like "Blue & Coco – A True Love Story Revisited" — is exactly the real-owner community I love. We're building an Australian Shepherd page and would love a short tip from you (or your readers) — anything you wish new Aussie owners knew — credited with a link back to australian-shepherd-lovers.com. Happy to return the favor with an original piece for your site, no cost. Worth a chat? — James
+
+**My Aussie Pups** — 📝 /contact/ · 📱 330-275-2945
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your "How Much Exercise Does an Australian Shepherd Puppy Need?" post is genuinely useful, practical writing. We're building an Australian Shepherd page and would love a short tip from you — anything you wish new Aussie owners knew — credited with a link back to myaussiepups.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Beagle
+**The Barmy Beagle** — 📝 /contact-us/ · 📱 0333 050 9021
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your "37 Crazy-Important Tips for New Beagle Owners" is exactly the firsthand, real-owner writing I'm after. We're building a Beagle page and would love a short tip from you — anything you wish new Beagle owners knew — credited with a link back to thebarmybeagle.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Beagles & Books (Laura Mossa)** — 📝 /contact/ · IG @lauramossa
+> Hi Laura — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Adding Gia as a book "reviewer" alongside Etta & Bella is such a charming touch. We're building a Beagle page and would love a short tip from you — anything you wish new Beagle owners knew — credited with a link back to beaglesandbooks.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Rottweiler
+**A Love of Rottweilers (Dr. Winnie)** — 📝 /contact.html
+> Hi Dr. Winnie — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Building the whole site out of love for your late Rottweiler Duke gives your writing real heart — "Rottweiler Behavior: Your Complete Guide" especially. We're building a Rottweiler page and would love a short tip from you — anything you wish new Rottie owners knew — credited with a link back to a-love-of-rottweilers.com. Happy to write an original piece for your site in return, no cost. Worth a chat? — James
+
+**King Rottweilers** — 📝 form *(pitch as a feature, not a puppy inquiry)*
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Following your kennel by name — the move announcement, Unica's litter news — I love how you document your dogs' lives. We're building a Rottweiler page and would love a short tip from you — anything you wish new Rottie owners knew — credited with a link back to kingrottweilers.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Boxer
+**Bombproof Boxer** — 📝 /contact-us/
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your "10 Common Recall Training Mistakes to Avoid with Your Boxer" is exactly the practical, Boxer-specific advice I'm after. We're building a Boxer page and would love a short tip from you — anything you wish new Boxer owners knew — credited with a link back to bombproofboxer.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**The Daily Boxer** — 📝 site email obfuscated · FB/IG @mydailyboxer
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. "Meet Zya – Our Latest Little Tornado!" made me grin — exactly the warm, real-family Boxer voice I love (Rosco and Daisy too). We're building a Boxer page and would love a short tip from you — anything you wish new Boxer owners knew — credited with a link back to dailyboxer.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Border Collie
+**Callum Border Collie and his Autistic Human** — 📝 /contact.html
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. A blog written in Callum's own voice to support his human is one of the loveliest ideas I've come across. We're building a Border Collie page and would love a short tip from you — anything you wish new Border Collie owners knew — credited with a link back to callumbordercollie.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**2 Cool BCs (Cynde Leshin)** — 📝 email obfuscated
+> Hi Cynde — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Chasing an OTCH title with Beckett is serious dedication — that competitive-obedience lens is exactly what I'd love to feature. We're building a Border Collie page and would love a short tip from you — anything you wish new Border Collie owners knew — credited with a link back to 2coolbcs.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Great Dane *(no-contact owner blogs — verify a contact method first)*
+**mygreatdane.org (Tim Breen)** — 📱 no on-site contact found — verify first
+> Hi Tim — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. "What I Tell Every Giant Breed Owner Now" is exactly the hard-won, real-owner wisdom I'm after. We're building a Great Dane page and would love a short tip from you — anything you wish new Great Dane owners knew — credited with a link back to mygreatdane.org. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Dane Good Blog (Karla)** — 📱 reachable via GDROMN rescue
+> Hi Karla — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Between Cash and your rescue work with GDROMN, you know these gentle giants inside out. We're building a Great Dane page and would love a short tip from you — anything you wish new Great Dane owners knew — credited with a link back to danegoodblog.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
