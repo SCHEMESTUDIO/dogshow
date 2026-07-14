@@ -6,13 +6,15 @@ Tracks what's been drafted so the daily auto-stager never duplicates. **Companio
 - A scheduled task (`daily-breed-outreach-stager`) runs each weekday morning, stages the next batch of Gmail **drafts** (never sends), and updates this log.
 - James reviews + sends from his Gmail. Deliverability: keep ~15-25 sends/day max from one mailbox.
 
-## Breeds already processed (research + messages done) — 30
-Bernedoodle, German Shepherd, Mini Golden Retriever, Australian Labradoodle, Labradoodle, Saint Berdoodle, Mini Aussie (Wave 0) · Goldendoodle, Pomsky, Teacup Poodle, Mini Dachshund, Golden Mountain Dog, Toy Aussie, French Bulldog, Cockapoo, Maltipoo, Cavapoo, Cane Corso, Dalmatian, Belgian Malinois, Bernese Mountain Dog, Maltese, Vizsla, Newfoundland, Giant Schnauzer, Chocolate Lab, Mini French Bulldog, Mini Australian Shepherd, American Bully, Agouti Husky (Wave 1)
+## Breeds already processed (research + messages done) — 36
+Bernedoodle, German Shepherd, Mini Golden Retriever, Australian Labradoodle, Labradoodle, Saint Berdoodle, Mini Aussie (Wave 0) · Goldendoodle, Pomsky, Teacup Poodle, Mini Dachshund, Golden Mountain Dog, Toy Aussie, French Bulldog, Cockapoo, Maltipoo, Cavapoo, Cane Corso, Dalmatian, Belgian Malinois, Bernese Mountain Dog, Maltese, Vizsla, Newfoundland, Giant Schnauzer, Chocolate Lab, Mini French Bulldog, Mini Australian Shepherd, American Bully, Agouti Husky (Wave 1) · Golden Retriever, Labrador Retriever, Poodle, Dachshund (standard), Corgi, Siberian Husky (Wave 2)
 
-## Emails already staged as drafts (do NOT re-draft) — 36
+## Emails already staged as drafts (do NOT re-draft) — 46
 **Wave 0 (sent by James):** info@lostcreekdoodles.com, info@anythinggermanshepherd.com, jamie@minigoldenpaws.com, info@bigheartedbreeders.com, heritagemanorlabradoodles@gmail.com, northboundlabradoodles@gmail.com, hello@creampufflabradoodles.com, amdoodles@gmail.com, Tom@PrizePnD.com, mydarlingdoodles@gmail.com, team@crockettdoodles.com, PaintedBlueAussies@gmail.com
 
 **Wave 1 (staged 2026-06-23, James sending 2026-06-24):** support@goldenlifedoodles.com, Matthewslegacyfarm@gmail.com, blue@goldendoodles.com, Jessica@pettalkmedia.com, woof@ilovedachshunds.com, pg9365@juno.com, goldenmountainfarm@outlook.com, pups@goldenmtndogs.com, bernerpuppy.com@gmail.com, kary@flyingwalkerranch.com, magicaltoyaussies@gmail.com, reggiethecockapoo@gmail.com, info@felindrecockapoos.co.uk, Contact@PetMaltipoo.com, info@cavapoolove.com, lisa@dalamanti.co.uk, info@blackwoodcanine.com, darkmalinois18@gmail.com, tongtong_zhou@yahoo.com, kevintheberner@gmail.com, lovenewfoundlands@gmail.com, jordangiants@yahoo.com, David@HiddenPondLabradors.com, johnwcolumbus@gmail.com
+
+**Wave 2 (staged 2026-07-14):** info@goldenretrieverlife.com, puppies@snowypineswhitelabs.com, gallivantlabradors@gmail.com, gigi@smokymtn.com, PetersonPoodlesofTexas@gmail.com, info@poodlesofpiedmont.com, hello@doxieplanet.com, info@dachshundsplanet.com, navycorgi@gmail.com, willothecorgi@gmail.com
 
 ## Breed queue — process top-down, skip any already in "processed" above
 **Wave 2 (next-value tail):**
@@ -61,3 +63,4 @@ Bernedoodle, German Shepherd, Mini Golden Retriever, Australian Labradoodle, Lab
 
 ## Run log
 - 2026-06-23 — Wave 0 (12) + Wave 1 (24) drafted manually. 36 emails staged. Queue seeded.
+- 2026-07-14 — Wave 2, breeds 1-6 (Golden Retriever, Labrador Retriever, Poodle, Dachshund std, Corgi, Siberian Husky). 10 drafts staged (Golden Retriever Life, Snowy Pines, Gallivant, Smoky Mountain, Peterson Poodles, Poodles of Piedmont, DoxiePlanet, Dachshunds Planet, Navy Corgi, Willo the Corgi). Siberian Husky = 0 verified emails (all form/social/blocked) — recorded for manual outreach only. Corgi's 2 drafts (Navy/Willo) are dormant sites but real verified emails. Next queue head: Australian Shepherd (#7).

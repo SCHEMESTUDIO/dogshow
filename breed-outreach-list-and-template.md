@@ -571,3 +571,115 @@ Paste-ready, each with its real hook. Contact method in the lead line (✉️ em
 > Hi Alexa — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Yours is the most actively-publishing Husky owner blog I came across. We're building an Agouti Husky page and would love a short tip from you — anything you wish new owners knew (agouti especially) — credited with a link back to huskyadvisor.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
 
 > Skipped writing messages for the lowest-confidence/unverified entries (Frenchie Journey, Crème of the Crop, Sikania, PRIDENJOYZ, PetMaltese, Belle Harbour, Skyline, BernerWise, redbirddog, Misty's, Southern Siberian Life, Halo Huskies, American Bully Daily, Moose & Mary, Timberidge) — verify their contact/activity first, then reuse the nearest template above.
+
+---
+
+# WAVE 2 — 6 top-of-tail breeds (added 2026-07-14)
+
+Wave-2 queue heads: Golden Retriever, Labrador Retriever, Poodle, Dachshund (standard), Corgi, Siberian Husky. All URLs fetched/verified this run; emails listed ONLY where literally seen on-page. Each entry carries a real **hook**. ✉️ = on-page-verified email (Gmail draft staged this run) · 📝 form · 📱 phone/DM · ❓ verify before sending.
+
+Legend for freshness/value flags: *(dormant)* = site up but blog not recently updated — pitch angle is "fresh content to revive the blog," reply odds lower.
+
+### Golden Retriever *(Rich — abundant owner + breeder blogs)*
+- **Golden Retriever Life** — goldenretrieverlife.com — owner/influencer brand (Kevin Bubolz, dog Ellie) — ✉️ info@goldenretrieverlife.com — Med — *hook: "Mission to Spread Smiles," @elliegoldenlife across IG/TikTok/YT; email verified, blog cadence stale (routes training Qs to their Hapco app)* — **DRAFT STAGED**
+- **Majestic Manor Goldens** — majesticmanorgoldens.com — family English-Cream breeder w/ active blog — 📝 form: /contact/ · IG @majesticmanorgoldens — High — *hook: fresh post "Why Some Goldens Become 'Velcro Dogs' (and How to Build Independence)" (May 2026)*
+- **Golden Meadows Retrievers** — goldenmeadowsretrievers.com — CA AKC breeder, steady how-to blog — 📱 (805) 532-2216 + 📝 /puppy-information-request/ — High — *hook: just published "How to Groom a Golden Retriever at Home" (June 30, 2026)*
+- **Golden Retriever News** — goldenretrievernews.com — owner-founded info site (Jerry Albers, dog Cooper) w/ vet advisors — 📝 /contact/ — High — *hook: founder is "a former welder who quit his job to spend every day with his Golden, Cooper"*
+- *Could not verify: Golden Woofs / sugarthegoldenretriever.com — search shows active through mid-2026 but pages returned empty to the fetcher (bot protection); worth a manual look.*
+
+### Labrador Retriever *(Rich)*
+- **Snowy Pines White Labs** — snowypineswhitelabs.com — breeder blog (posts by Tom Massey; AR) — ✉️ puppies@snowypineswhitelabs.com — High — *hook: recent "Service Dogs for Anxiety" (Mar 2026); GM is Service Dog Certified* — **DRAFT STAGED**
+- **Gallivant Labradors** — gallivantlabradors.com — breeder-owner blog (Meghan, Mia, Fabian) — ✉️ gallivantlabradors@gmail.com — High — *hook: opinionated non-sales post "The Elephant Outside the Ring" (Aug 2025)* — **DRAFT STAGED**
+- **Smoky Mountain Labradors** — smokymtnlabrador.com — English-Lab breeder (Gene Wolfenbarger; Knoxville TN) — ✉️ gigi@smokymtn.com — Med — *hook: structured puppy-training program near Knoxville; blog skews marketing* — **DRAFT STAGED**
+- **The Labrador Site** — thelabradorsite.com — major authority blog (Pippa Mattinson, author of "The Labrador Handbook") — ❓ email Cloudflare-obfuscated, 📝 form/FB (280k) — High — *hook: Pippa authored "The Labrador Handbook" & "Total Recall"; inquiries via Lucy Easton*
+- **Kindred Pup** — kindredpup.com — small English-Lab breeder — 📝 form — Med *(dormant — last post May 2024)* — *hook: technical post on low inbreeding coefficients in English Lab breeding (Jan 2024)*
+
+### Poodle *(Moderate — real owner-run breeder blogs, Standard/Mini)*
+- **Peterson Poodles** — petersonpoodles.com — breeder blog (Desiree, a Pediatric Nurse Practitioner; TX) — ✉️ PetersonPoodlesofTexas@gmail.com — High — *hook: post "Why We Leave Poodles' Tails and Dewclaws Intact" (Aug 2025), natural-rearing stance* — **DRAFT STAGED**
+- **Poodles of Piedmont** — poodlesofpiedmont.com — family breeder blog (Morganton NC, 30+ yrs) — ✉️ info@poodlesofpiedmont.com — High — *hook: puppies born inside the family home before moving to a building with a doggie door; honest "Are Standard Poodles Hypoallergenic?" post (June 2026)* — **DRAFT STAGED**
+- **LoEll's Standard Poodles** — loellsstandardpoodles.com — mother-daughter breeder, active blog "Tails of LoElls" (Branson MO) — 📝 form — Med — *hook: contrarian post "We DON'T Temperament Test... Here's Why!" (Feb 2026); /contact + /about-us 404, email not on page*
+- **Wool 'n Wind Standard Poodles** — woolnwind.com — AKC "Bred with H.E.A.R.T." breeders (Donna Grant & Bill Anderson, CT) — 📝 /contact-us/ · IG — Med — *hook: annual "Poodle Palooza" owner reunion; stud service via their dog "Buoy"*
+- *Also-rans excluded (real + active but no blog): Boodle's Standard Poodles, Aglow Standard Poodles.*
+
+### Dachshund (standard) *(Rich — deep, IVDD/spine-health-heavy blog ecosystem)*
+- **DoxiePlanet** — doxieplanet.com — owner blog (Sage Osterfeld, "the Pack") — ✉️ hello@doxieplanet.com — High — *hook: fresh post "Welcome to the Pack, Jupiter!" (May 14, 2026) introducing a new dog* — **DRAFT STAGED**
+- **Dachshunds Planet** — dachshundsplanet.com — IVDD/care-focused breed blog — ✉️ info@dachshundsplanet.com — High — *hook: spine-health angle, e.g. "Can dachshunds climb stairs? Spine facts and IVDD risk"* — **DRAFT STAGED**
+- **Perfectly Polite Dachshunds** — perfectlypolitedachshunds.com — dachshund training/behaviour specialist blog — 📝 /contact — High — *hook: client case-study "Being 'neurosassy' with a spicy dachshund — Hayley and Walter" (Feb 2025)*
+- **DoxieNest** — doxienest.com — "Truthful Dachshund Care Experts," deep senior-health library — 📝 /contact-doxienest/ (newsletter lead magnet) — Med — *hook: unusually deep senior-care cluster (dementia + arthritis + life-expectancy); no owner name published*
+- **DJANGO Dog Blog** — djangobrand.com/blogs/news — dog-gear brand blog (founders Steph & Mike, dog Django) — ❓ unverified (product-brand support form likely) — Med — *hook: Django survived Stage-4 IVDD & temporary rear-leg paralysis — the brand's origin story*
+- *Could not verify: Oh My Doxie (ohmydoxie.com) — active in search but fetch returned empty.*
+
+### Corgi *(Rich ecosystem but many have gone dormant)*
+- **Navy Corgi** — navycorgi.com — DC dog-lifestyle blog (Alex, "obsessed dog mom") — ✉️ navycorgi@gmail.com — Med *(dormant — newest posts 2022)* — *hook: contact page opens "Yap at us!"; has a Brand Partnership option* — **DRAFT STAGED**
+- **Willo the Corgi** — willothecorgi.com — first-time-owner blog (corgi named Willo) — ✉️ willothecorgi@gmail.com — Low *(dormant since 2019; email verified, appears for collaborations)* — *hook: post "FOMYD: Fear Of Missing Your Dog"* — **DRAFT STAGED**
+- **Corgi Guru** — corgiguru.com — active breed-info blog (Christo Mitov, dog Benji; vet-backed) — 📝 /contact/ — High — *hook: footer © 2026; posts backed by contributing vet Dr. Mohsin Iqbal DVM*
+- **That Corgi Blog** — thatcorgiblog.com — owner blog (Sean Deaton, a computer-security researcher, corgi Monty) — 📱 IG + subscribe only — Med-High — *hook: quirky posts e.g. "How Many Corgis Did the Queen Have?"*
+- **Corgi Guide** — corgiguide.com — how-to blog (webmaster John Brendan, two Pembrokes) — 📝 /contact/ — Med — *hook: owner had a Pembroke as a child, now owns two*
+- *Excluded/dead: The Daily Corgi (dormant ~2020), Stumps + Rumps (domain redirects to shopping site), corgiaspets.com (dead DNS).*
+
+### Siberian Husky *(Moderate for owner blogs; THIN for verified emails — all form/social/blocked, ZERO drafts staged)*
+- **FiveSibes** — fivesibes.blogspot.com (fivesibes.com) — author/advocate blog (Dorothy Wills-Raftery, "#FiveSibesMom") — 📱 Facebook (20k+); contact page 404, no email — High — *hook: canine-epilepsy advocate; hosts "The Sibe Vibe"; July 7, 2026 post "GIBSON'S TREATS Are Back in Support of MUSH Rescue"* — freshest 2026 husky blog found
+- **Husky LOL** — huskylol.com — owner blog (Andreas, "Husky in Chief," dog Winter) — 📝 /contact/ · IG @wintersailo — High *(moderately stale — last post Oct 2024)* — *hook: "proud husky dad" running socials for his husky Winter*
+- **Naughty Husky** — naughtyhusky.com — owner blog (Louisa Gee) — ❓ email unconfirmed on live page (a snippet suggested james@naughtyhusky.com — NOT verified), 📱 FB/Twitter — Med *(intermittent, mostly 2020–22)* — *hook: honest self-description "we're not experts... simply husky lovers sharing our experience"*
+- **Husky Diaries** — huskydiaries.com — breed-care library — 📝 /contact/ (rendered empty on fetch) — Med — *hook: "Why Are Siberian Huskies So Stubborn?"; no owner name published*
+- *Could not verify: My Happy Husky (myhappyhusky.com) — recurred as a well-known owner blog but returned HTTP 403/Cloudflare; verify manually.*
+
+---
+
+## WAVE 2 — personalized messages (added 2026-07-14)
+
+The 10 ✉️ verified-email prospects had **Gmail drafts staged this run** (full-template, personalized) — see `.ci/outreach-drafts.json`; not repeated here. Below are paste-ready short/form-variant messages for the **form/DM/❓ prospects** to work manually. ✉️ email / 📝 form / 📱 phone-or-DM / ❓ verify contact first.
+
+### Golden Retriever
+**Majestic Manor Goldens** — 📝 form: majesticmanorgoldens.com/contact/ · IG @majesticmanorgoldens
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your "Why Some Goldens Become 'Velcro Dogs'" post is exactly the real-owner writing I love. We're building a Golden Retriever page and would love a short tip from you — anything you wish new Golden owners knew — credited with a link back to majesticmanorgoldens.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**Golden Meadows Retrievers** — 📱 (805) 532-2216 · 📝 /puppy-information-request/
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your "How to Groom a Golden Retriever at Home" guide is genuinely useful, hands-on content. We're building a Golden Retriever page and would love a short tip from you — anything you wish new Golden owners knew — credited with a link back to goldenmeadowsretrievers.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Golden Retriever News (Jerry Albers)** — 📝 goldenretrievernews.com/contact/
+> Hi Jerry — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. The origin story — quitting welding to spend every day with Cooper — is the kind of heart this niche needs more of. We're building a Golden Retriever page and would love a short tip from you — anything you wish new Golden owners knew — credited with a link back to goldenretrievernews.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+### Labrador Retriever
+**The Labrador Site (Pippa Mattinson)** — 📝 form / FB *(email Cloudflare-obfuscated)*
+> Hi Pippa — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. "The Labrador Handbook" and "Total Recall" are on plenty of Lab owners' shelves — mine included. We're building a Labrador Retriever page and would love a short tip from you — anything you wish new Lab owners knew — credited with a link back to thelabradorsite.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Kindred Pup** — 📝 form *(dormant since 2024)*
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your post digging into low inbreeding coefficients in English Lab breeding was refreshingly technical and honest. We're building a Labrador Retriever page and would love a short tip from you — anything you wish new Lab owners knew — credited with a link back to kindredpup.com. Happy to write an original piece to give the blog a fresh outing, no cost. Worth a chat? — James
+
+### Poodle
+**LoEll's Standard Poodles** — 📝 form *(active blog "Tails of LoElls")*
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. "We DON'T Temperament Test... Here's Why!" is exactly the kind of opinionated, real-owner post I enjoy. We're building a Poodle page and would love a short tip from you — anything you wish new Poodle owners knew — credited with a link back to loellsstandardpoodles.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Wool 'n Wind Standard Poodles (Donna & Bill)** — 📝 woolnwind.com/contact-us/
+> Hi Donna & Bill — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. A breeder who hosts a "Poodle Palooza" owner reunion is clearly building a real community — that's our whole thing too. We're building a Poodle page and would love a short tip from you — anything you wish new Poodle owners knew — credited with a link back to woolnwind.com. Happy to write an original piece for your site in return, no cost. Worth a chat? — James
+
+### Dachshund
+**Perfectly Polite Dachshunds** — 📝 perfectlypolitedachshunds.com/contact
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. "Being 'neurosassy' with a spicy dachshund" is a brilliant, warm case study — clearly written by someone who really gets the breed. We're building a Dachshund page and would love a short tip from you — anything you wish new dachshund owners knew — credited with a link back to perfectlypolitedachshunds.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**DoxieNest** — 📝 doxienest.com/contact-doxienest/
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your senior-dachshund coverage — dementia, arthritis, life expectancy — is deeper than almost anything else out there. We're building a Dachshund page and would love a short tip from you — anything you wish new dachshund owners knew — credited with a link back to doxienest.com. Happy to write an original piece for your site in return, no cost. Worth a chat? — James
+
+**DJANGO Dog Blog (Steph & Mike)** — ❓ verify contact first
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Django's Stage-4 IVDD recovery story behind the brand is genuinely moving — and useful for every doxie owner who fears the worst. We're building a Dachshund page and would love a short tip from you — anything you wish new dachshund owners knew — credited with a link back to djangobrand.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Corgi
+**Corgi Guru (Christo Mitov)** — 📝 corgiguru.com/contact/
+> Hi Christo — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. A vet-backed corgi blog written around your own Benji is exactly the credible voice I'd want. We're building a Corgi page and would love a short tip from you — anything you wish new Corgi owners knew — credited with a link back to corgiguru.com. Happy to return the favor with an original piece for your blog, no cost. Worth a chat? — James
+
+**That Corgi Blog (Sean Deaton)** — 📱 IG @thatcorgiblog
+> Hi Sean — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Monty's blog has a lovely nerdy charm — "How Many Corgis Did the Queen Have?" made me grin. We're building a Corgi page and would love a short tip from you — anything you wish new Corgi owners knew — credited with a link back to thatcorgiblog.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Corgi Guide (John Brendan)** — 📝 corgiguide.com/contact/
+> Hi John — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. A lifelong Pembroke owner running a proper how-to library is the kind of resource I'd love to point readers to. We're building a Corgi page and would love a short tip from you — anything you wish new Corgi owners knew — credited with a link back to corgiguide.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Siberian Husky *(no verified emails — all manual)*
+**FiveSibes (Dorothy Wills-Raftery)** — 📱 Facebook "FiveSibes: Siberian Husky K9 News & Reviews"
+> Hi Dorothy — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your canine-epilepsy advocacy and "The Sibe Vibe" make FiveSibes one of the warmest husky corners online. We're building a Siberian Husky page and would love a short tip from you — anything you wish new husky owners knew — credited with a link back to fivesibes.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Husky LOL (Andreas)** — 📝 huskylol.com/contact/ · IG @wintersailo
+> Hi Andreas — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. "Husky in Chief" running socials for Winter is exactly the fun, real-owner voice I'm after. We're building a Siberian Husky page and would love a short tip from you — anything you wish new husky owners knew — credited with a link back to huskylol.com. Happy to write an original piece to freshen up the blog, no cost. Worth a chat? — James
+
+**Naughty Husky (Louisa Gee)** — 📱 FB/Twitter *(❓ no email confirmed on live page)*
+> Hi Louisa — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Your honest "we're just husky lovers, not experts" framing is refreshing in a niche full of know-it-alls. We're building a Siberian Husky page and would love a short tip from you — anything you wish new husky owners knew — credited with a link back to naughtyhusky.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
