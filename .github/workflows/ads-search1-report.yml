@@ -42,7 +42,7 @@ jobs:
       - name: Write insight report (Claude)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: claude -p "$(cat prompts/ads-search1-report.md)" --dangerously-skip-permissions
+        run: claude -p "$(cat prompts/ads-search1-report.md)" --model claude-haiku-4-5-20251001 --max-turns 20 --dangerously-skip-permissions
 
       - name: Commit receipt stamp
         run: |
