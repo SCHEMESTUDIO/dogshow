@@ -776,3 +776,102 @@ The 13 ✉️ verified-email prospects above had **Gmail drafts staged this run*
 
 **Dane Good Blog (Karla)** — 📱 reachable via GDROMN rescue
 > Hi Karla — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Between Cash and your rescue work with GDROMN, you know these gentle giants inside out. We're building a Great Dane page and would love a short tip from you — anything you wish new Great Dane owners knew — credited with a link back to danegoodblog.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+---
+
+# WAVE 2 (run 3) — 6 more top-of-tail breeds (added 2026-07-15)
+
+Wave-2 queue heads #13–18: Doberman Pinscher, Cavalier King Charles Spaniel, Yorkshire Terrier, Chihuahua, Shih Tzu, Pomeranian. All URLs fetched/verified this run; emails listed ONLY where literally seen on-page. Each entry carries a real **hook**. ✉️ = on-page-verified email (Gmail draft staged this run) · 📝 form · 📱 phone/DM · ❓ verify before sending.
+
+### Doberman Pinscher *(Moderate — strong owner/community blogs)*
+- **Doberman Blog** — dobermanblog.com — owner blog (European Doberman focus) — ✉️ admin@dobermanblog.com — High — *hook: run since 2014 by an owner who grew up in Eastern Europe; recent post "The truth about shy doberman"* — **DRAFT STAGED**
+- **The Doberman Network** — thedobermannetwork.com — community online magazine (Amy Tourond, publisher) — ✉️ info@thedobermannetwork.com (also elizabeth@thedobermannetwork.com) — High — *hook: active Spring/Summer 2026 issue, columns "Amy's Attitude" / "Existentially Elizabeth"; has an advertising director → editorially open* — **DRAFT STAGED (to info@)**
+- **ATLAS' Den** — atlasdoberman.com — owner blog (Steve Khou, first-time Euro-Dobie owner) — 📝 form — High — *hook: post "When Your Doberman is Ready to Stay Indoor Alone" (Jul 2025); added a 2nd dog "Artemis"* — **manual (form)**
+- **Doberman Planet** — dobermanplanet.com — big breed-info resource (trainer John Walter) — 📝 form/role inboxes (no personal email) — High — *hook: LLC with media/advertising path; articles like "9 Proven Ways to Bond with a Doberman"* — **manual (form; role emails only, not personal)**
+- **Ravensown-KO Dobermans** — ravensownkodobermans.com — small breeder (Kim Owen, LVT, WA) — 📝 form/FB (no email; site says "I do not check email often") — Med — *hook: licensed vet tech breeding on 3 acres in the Cascades* — **manual (low responsiveness, no blog)**
+
+### Cavalier King Charles Spaniel *(Rich — active owner + breeder blogs)*
+- **Carlisle Cavaliers** — carlislecavaliers.com — breeder w/ active blog (Millersburg, OH) — ✉️ info@carlislecavaliers.com — High — *hook: post "Common Mistakes New Cavalier Owners Should Avoid" (June 15, 2026); blogs owner-education ~2×/month* — **DRAFT STAGED**
+- **Judy's Cavaliers** — judyscavaliers.com — breeder (Chuck & Claudia Holt, Lancaster PA) w/ "News & Tips" — ✉️ adoptions@judyscavaliers.com — High — *hook: AKC Bred with H.E.A.R.T. + Responsible Dog Breeder Network certified* — **DRAFT STAGED**
+- **Cavalier Gifts and Blog** — cavaliergifts.com — owner blog (Tonya Wilhelm, ~30-yr positive dog trainer) — 📝 form (a reply address appears in prose but form is the channel) — High — *hook: recent post on Mitral Valve Disease in Cavaliers; strongest guest-post candidate* — **manual (form)**
+- **Cavalier Matters** — cavaliermatters.org — UK health/welfare charity (#1141674) w/ News section — 📝 form — High — *hook: patron is neurologist Clare Rusbridge MBE; SM/syringomyelia focus — pitch must be community-oriented, not salesy* — **manual (form)**
+- **Cedar Creek Cavaliers** — cedarcreekcavaliers.com — breeder (Jim & Trudy Owens, AKC Breeder of Merit) — ❓ no contact/blog verified — Med — *hook: 25+ home-grown champions, show-ring pedigree* — **manual (verify contact + blog first)**
+
+### Yorkshire Terrier *(Moderate — one strong info blog, several breeders)*
+- **YorkieLove** — yorkielove.com — owner/care breed-info blog — ✉️ hello@yorkielove.com — High — *hook: post "Best Haircuts for Yorkshire Terriers: Cute and Practical Yorkie Styles"; full care library* — **DRAFT STAGED**
+- **Artisan Yorkies** — artisanyorkies.com — breeder (Caitlin, N. Virginia, in-home licensed) — ✉️ artisanyorkies@gmail.com — High — *hook: publishes Optimal Selection DNA health results (CDDY/IVVD) per dog* — **DRAFT STAGED**
+- **Sagebrooke Yorkies** — sagebrookeyorkies.com — breeder (Mount Pleasant, IA) — 📝 form / 📱 319-986-5589 (no email) — High — *hook: breeding/showing since 1988; owner is president of the Southeastern Iowa Kennel Club, YTCA member since 1997* — **manual (form/phone)**
+- **My Yorkshire Terrier Secrets** — myyorkiesecrets.com — breed-info site (Sharda Baker, dog-education author) — 📝 form (no email) — Med — *hook: author says she's published a dozen-plus dog books/audios; on-site freshness unclear* — **manual (form)**
+- **Mini Peludos** — minipeludos.com/en/ — breed-info blog, machine-translated — ❓ no contact verified — Low-Med — *⚠️ Spanish-origin site with a translated English version — NOT a native-English prospect; skip unless translated sites acceptable*
+
+### Chihuahua *(Rich — strong community blogs, all with verified emails)*
+- **I Love My Chi** — ilovemychi.com — owner/community blog (Cathy Bendzunas, ex-groomer/ex-Yorkie-breeder) — ✉️ cathy@ilovemychi.com — High — *hook: recent post "Chihuahua Overheating: Signs of Heatstroke"; frames site as a Chi-owner community. ⚠️ email was seen unmasked only inside the owner's own comment reply on /contact/ (header masks it) — verified on-page but flag the source* — **DRAFT STAGED**
+- **ChiChis And Me** — chichisandme.com — breed-info/advocacy blog (Linda Hempler, 25+ yrs, canine nutrition specialist) — ✉️ admin@chichisandme.com — High — *hook: started the site in 2016 to fight negative Chi stereotypes after managing her dog Pebbles' heart condition through diet* — **DRAFT STAGED**
+- **Salem's Finest AKC Chihuahuas** — salemsfinestchihuahuas.com — breeder (Salem, OR; also mini dachshunds) w/ blog — ✉️ salemchihuahuas@gmail.com — High — *hook: transparent, personable "Pawffice hours" note* — **DRAFT STAGED**
+- **Little Dog Tips** — littledogtips.com — small-dog/Chi owner blog (Lindsay Pevny, pet copywriter) — ❓ no email (routes biz to lindsaypevny.com) — Low activity — *hook: topically ideal but Chi posts date ~2016–2020, likely dormant* — **manual (stretch; verify activity)**
+- *Rejected: allmychihuahuas.com — real + on-topic but last post Dec 2018 (dead).*
+
+### Shih Tzu *(Moderate — one strong active blog; thin on verified emails)*
+- **Miracle Shih Tzu** — miracleshihtzu.com — breed-info site / owner blog (Janice Jones, ~50-yr Shih Tzu specialist) — 📝 form / 📱 234-380-5363 (no email) — High — *hook: post "Shih Tzu Breathing Problems Throughout Your Dog's Life" (Jul 9, 2026); deep health library — strongest guest-post target* — **manual (form)**
+- **AllShihTzu** — allshihtzu.com — breed-info/article site + care book — ✉️ Contact@AllShihTzu.com — Med — *hook: articles "Signs a Shih Tzu is in Pain" / "5 Preventable Health Issues in Shih Tzus". ⚠️ CAVEAT: email was literally on-page + domain-matched, but a placeholder phone "555-555-5555" also appeared, so the contact block may be template-seeded — lower trust; domain match is the reason I staged it* — **DRAFT STAGED (with caveat)**
+- **Southern Magnolia Shih Tzu** — southernmagnoliashihtzu.com — breeder (Matty, GA; rare color lines) — 📱 706-690-8141 / puppy request form (no email) — Med-High — *hook: 40+ yrs breeding AKC Shih Tzus, Embark DNA on all parents; active litter updates through May 2026* — **manual (phone/form)**
+- **Everything Shih Tzu** — everythingshihtzu.com — owner/info blog — 📝 form + social (no email) — Med — *hook: "advice from actual pet parents"; ⚠️ blog stale — newest post Jun 2024* — **manual (form; stale)**
+
+### Pomeranian *(Moderate — strong info blogs, most emails masked)*
+- **Silhouette Pomeranians** — silhouettepoms.com — show breeder w/ blog subdomain (Elizabeth Heckert, Hampton VA) — ✉️ silhouettepomeranians@gmail.com — High — *hook: breeding since 2004, 70+ AKC Champions; dog "Dustin" recently won two majors at the PCCV Summer Specialty, one point to finish* — **DRAFT STAGED**
+- **Avalon Pomeranians** — avalonpom.com — breeder (Annette Davis) — ✉️ info@avalonpom.com — High (Med fit — no blog) — *hook: "breeding quality Pomeranians since 1992"* — **DRAFT STAGED**
+- **Pomeranian Headquarters** — pomeranian.org — breed-info authority (Denise Leo, author of *The Pomeranian Handbook*, ANKC show judge, breeding since 1975) — ❓ email-protected / placeholder phone — High — *hook: online since 1999; recent article "What Are the Different Pomeranian Coat Stages?" — strong guest-post target* — **manual (contact page only)**
+- **Pretty Pomeranian** — prettypomeranian.com — owner blog (Wendy, ~15 yrs, first Pom "Pom Pom") — ❓ email masked by fetch tool — High — *hook: posts "Pomeranian Matting: How to Detangle Without Hurting Your Dog" / "Pomeranian Off-Leash Training"* — **manual (verify email on-site)**
+- **PetPom** — petpom.com — breed-info resource — ❓ "Contact@PetPom.com" reported but placeholder phone alongside — Med — *treat email as unverified; confirm before use* — **manual**
+
+## WAVE 2 (run 3) — personalized messages for manual prospects
+
+These are the form/phone/unverified prospects (the 12 verified-email ones have Gmail drafts staged this run and aren't repeated here). Paste into the site's form / send manually once contact is confirmed.
+
+### Doberman Pinscher
+**ATLAS' Den (Steve Khou)** — 📝 form: atlasdoberman.com
+> Hi Steve — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Following Atlas — and now Artemis — through your posts is a genuine pleasure; "When Your Doberman is Ready to Stay Indoor Alone" was a great read. We're building a Doberman Pinscher page and would love a short tip from you — anything you wish new Doberman owners knew — credited with a link back to atlasdoberman.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+**Doberman Planet (John Walter)** — 📝 media/advertising form
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Doberman Planet is one of the most thorough owner resources out there — pieces like "9 Proven Ways to Bond with a Doberman" set the bar. We're building a Doberman Pinscher page and would love a short tip — anything you wish new owners knew — credited with a link back to dobermanplanet.com. Happy to return the favor with an original piece for the site, no cost. Worth a chat? — James
+
+**Ravensown-KO Dobermans (Kim Owen)** — 📝 form/FB *(verify — low email responsiveness, no blog)*
+> Hi Kim — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. A licensed vet tech raising Dobermans on three acres in the Cascades — that health-first grounding is exactly the voice I'd want. We're building a Doberman Pinscher page and would love a short tip from you — anything you wish new owners knew — credited with a link back to ravensownkodobermans.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+### Cavalier King Charles Spaniel
+**Cavalier Gifts and Blog (Tonya Wilhelm)** — 📝 form: cavaliergifts.com/contact/
+> Hi Tonya — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Thirty years as a positive dog trainer really shows in your writing — your Mitral Valve Disease piece was clear and kind at once. We're building a Cavalier King Charles Spaniel page and would love a short tip from you — anything you wish new Cavalier owners knew — credited with a link back to cavaliergifts.com. And I'd happily write you an original piece in return, your topic, no cost. Worth a chat? — James
+
+**Cavalier Matters (UK charity)** — 📝 form: cavaliermatters.org/contact-x10/ *(welfare charity — keep it community-oriented)*
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. The health and welfare work you do — and Clare Rusbridge's research behind it — is exactly the substance this breed deserves. We're building a Cavalier King Charles Spaniel page and would love a short quote from Cavalier Matters — anything you wish new owners knew — credited with a link back to cavaliermatters.org. Happy to write an original owner-education piece for your News section in return, no cost. Worth a chat? — James
+
+**Cedar Creek Cavaliers (Jim & Trudy Owens)** — ❓ verify contact/blog first
+> Hi Jim & Trudy — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Twenty-five-plus home-grown champions is a remarkable record — that show-ring depth is just what I'd love to feature. We're building a Cavalier King Charles Spaniel page and would love a short tip from you — anything you wish new owners knew — credited with a link back to cedarcreekcavaliers.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+### Yorkshire Terrier
+**Sagebrooke Yorkies** — 📝 form / 📱 319-986-5589
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Breeding and showing Yorkies since 1988 — and running The Grooming Room — makes you a genuine show-ring insider. We're building a Yorkshire Terrier page and would love a short tip from you — anything you wish new Yorkie owners knew — credited with a link back to sagebrookeyorkies.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+**My Yorkshire Terrier Secrets (Sharda Baker)** — 📝 form
+> Hi Sharda — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. A dozen-plus books and audios on dogs is a serious body of work — Yorkie owners are lucky to have it. We're building a Yorkshire Terrier page and would love a short tip from you — anything you wish new owners knew — credited with a link back to myyorkiesecrets.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+### Chihuahua
+**Little Dog Tips (Lindsay Pevny)** — ❓ verify activity first *(likely dormant on Chi content)*
+> Hi Lindsay — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. "Little ways to make a big difference" is exactly the spirit I love — your Chihuahua pieces (the molera and raw-diet ones especially) still hold up. We're building a Chihuahua page and would love a short tip from you — anything you wish new owners knew — credited with a link back to littledogtips.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
+
+### Shih Tzu
+**Miracle Shih Tzu (Janice Jones)** — 📝 form / 📱 234-380-5363
+> Hi Janice — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Fifty years with Shih Tzus and a vet-care background — your "Breathing Problems Throughout Your Dog's Life" piece is the kind of depth this breed needs. We're building a Shih Tzu page and would love a short tip from you — anything you wish new owners knew — credited with a link back to miracleshihtzu.com. And I'd happily write you an original piece in return, no cost. Worth a chat? — James
+
+**Southern Magnolia Shih Tzu (Matty)** — 📱 706-690-8141 / puppy request form
+> Hi Matty — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Forty-plus years breeding AKC Shih Tzus — with Embark testing on every parent — is exactly the credible voice I'm after. We're building a Shih Tzu page and would love a short tip from you — anything you wish new owners knew — credited with a link back to southernmagnoliashihtzu.com. Happy to write an original piece in return, no cost. Worth a chat? — James
+
+**Everything Shih Tzu** — 📝 form *(blog stale since mid-2024 — angle: fresh content)*
+> Hi there — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. I like that your advice comes from actual pet parents — that first-hand honesty is rare. We're building a Shih Tzu page and would love a short tip from you — anything you wish new owners knew — credited with a link back to everythingshihtzu.com. Happy to write a fresh original piece for your blog in return, no cost. Worth a chat? — James
+
+### Pomeranian
+**Pomeranian Headquarters (Denise Leo)** — ❓ contact page only (email protected)
+> Hi Denise — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Author of The Pomeranian Handbook, an ANKC judge, breeding since 1975 — few voices carry more weight in this breed. We're building a Pomeranian page and would love a short tip from you — anything you wish new owners knew — credited with a link back to pomeranian.org. And I'd happily write you an original piece in return, no cost. Worth a chat? — James
+
+**Pretty Pomeranian (Wendy)** — ❓ verify email on-site
+> Hi Wendy — I run The Dog Show (dogshow.lol), a live online dog show where owners enter their dogs and the crowd cheers them on. Fifteen years of Poms since your first, Pom Pom — and posts like "Pomeranian Matting: How to Detangle Without Hurting Your Dog" — is just the owner voice I want. We're building a Pomeranian page and would love a short tip from you — anything you wish new owners knew — credited with a link back to prettypomeranian.com. Happy to write an original piece for your blog in return, no cost. Worth a chat? — James
