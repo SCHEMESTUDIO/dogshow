@@ -850,7 +850,7 @@ const BREEDS = {
 const STYLES = `
 @font-face{font-family:'Yang Bagus';src:url('/YangBagus.ttf') format('truetype');font-display:swap;}
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#f3eefb;--bg-card:#ffffff;--bg-card-2:#f8f5fd;--accent:#FF8C42;--purple:#7B68EE;--text:#2a2150;--dim:rgba(42,33,80,0.75);--gold:#FFD700;}
+:root{--bg:#f3eefb;--bg-card:#ffffff;--bg-card-2:#f8f5fd;--accent:#FF8C42;--purple:#7B68EE;--text:#2a2150;--dim:rgba(42,33,80,0.75);--gold:#806104;}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;line-height:1.6;}
 a{color: var(--accent-text, #c25a0e);}
 .wrap{max-width:760px;margin:0 auto;padding:24px 20px 60px;}
@@ -931,6 +931,7 @@ ${headHtml}
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <script src="/consent.js" defer></script>
 <script src="/analytics.js" defer></script>
+<script src="/nav.js" defer></script>
 <style>${STYLES}</style>
 </head>
 <body>
@@ -940,13 +941,14 @@ ${bodyHtml}
     <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
     <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
     <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
+    <a href="/leaderboard" style="font-size:12px;color:#5d5088;text-decoration:none;">Leaderboard</a>
     <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
     <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
     <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
     <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
     <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
   </div>
-  <div style="font-size:11px;color:#d9cfee;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+  <div style="font-size:11px;color:#5d5088;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
 </footer>
 </body>
 </html>`;

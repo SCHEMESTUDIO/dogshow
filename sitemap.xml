@@ -51,6 +51,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://dogshow.lol/leaderboard</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dogshow.lol/cutest-dog-contest</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

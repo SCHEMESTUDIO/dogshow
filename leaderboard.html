@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hall of Bones — Leaderboard | The Dog Show</title>
+<meta name="description" content="The Dog Show leaderboard: this month's Dog of the Month race, the all-time top dogs, and every past monthly champion. Every bone is a vote.">
+<link rel="canonical" href="https://dogshow.lol/leaderboard">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hall of Bones — Leaderboard | The Dog Show">
+<meta property="og:description" content="This month's Dog of the Month race, the all-time top dogs, and every past champion. Every bone is a vote.">
+<meta property="og:image" content="https://dogshow.lol/og-image.png">
+<meta property="og:url" content="https://dogshow.lol/leaderboard">
+<meta property="og:site_name" content="The Dog Show">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hall of Bones — Leaderboard | The Dog Show">
+<meta name="twitter:description" content="This month's race, the all-time top dogs, and every past champion.">
+<meta name="twitter:image" content="https://dogshow.lol/og-image.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<script src="/consent.js" defer></script>
+<script src="/analytics.js" defer></script>
+<script src="/nav.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "The Dog Show", "item": "https://dogshow.lol/" },
+    { "@type": "ListItem", "position": 2, "name": "Leaderboard", "item": "https://dogshow.lol/leaderboard" }
+  ]
+}
+</script>
+<style>
+@font-face{font-family:'Yang Bagus';src:url('/YangBagus.ttf') format('truetype');font-display:swap;}
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#f3eefb;--bg-card:#ffffff;--accent:#FF8C42;--accent-text:#c25a0e;--purple:#7B68EE;--link:#5b46d6;--text:#2a2150;--dim:rgba(42,33,80,0.75);--gold:#806104;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;line-height:1.6;}
+a{color:var(--link);}
+.wrap{max-width:860px;margin:0 auto;padding:24px 20px 60px;}
+.eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:8px;}
+.eyebrow a{color:var(--purple);text-decoration:none;}
+h1{font-family:'Yang Bagus',serif;color:var(--text);font-size:48px;line-height:1.05;margin-bottom:16px;}
+.lede{font-size:17px;color:rgba(42,33,80,0.92);margin-bottom:8px;max-width:680px;}
+.lede-sub{font-size:13px;color:var(--dim);margin-bottom:32px;}
+.champ-strip{display:none;align-items:center;gap:10px;background:rgba(255,215,0,0.12);border:1px solid rgba(255,215,0,0.45);border-radius:10px;padding:10px 14px;margin-bottom:28px;font-size:14px;}
+.champ-strip .trophy{font-size:18px;flex:0 0 auto;}
+.champ-strip strong{color:var(--gold);}
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:40px;}
+.board{background:var(--bg-card);border:1px solid rgba(42,33,80,0.11);border-radius:14px;padding:20px 18px;}
+.board h2{font-family:'Yang Bagus',serif;font-size:22px;color:var(--text);margin-bottom:2px;}
+.board .board-sub{font-size:12px;color:var(--dim);margin-bottom:14px;}
+.board-rows{display:flex;flex-direction:column;}
+.board-row{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px solid rgba(42,33,80,0.07);font-size:14px;}
+.board-row:last-child{border-bottom:none;}
+.rank{width:24px;height:24px;border-radius:50%;background:rgba(42,33,80,0.11);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#43366e;flex:0 0 auto;}
+.rank.r1{background:rgba(255,215,0,0.18);color:var(--gold);}
+.rank.r2{background:rgba(192,192,192,0.22);color:#5f5f5f;}
+.rank.r3{background:rgba(205,127,50,0.18);color:#8a4b12;}
+.row-img{width:34px;height:34px;border-radius:50%;object-fit:cover;background:rgba(42,33,80,0.08);flex:0 0 auto;}
+.row-main{flex:1;min-width:0;}
+.row-name{font-weight:600;color:var(--text);text-decoration:none;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+a.row-name:hover{color:var(--link);}
+.row-owner{font-size:11px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.row-votes{font-size:13px;font-weight:600;color:#43366e;white-space:nowrap;}
+.board-empty{font-size:13px;color:var(--dim);padding:14px 2px;}
+.vote-cta{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(255,140,66,0.10),rgba(123,104,238,0.10));border:1px solid rgba(255,140,66,0.25);border-radius:12px;padding:14px 16px;margin:0 0 40px;}
+.vote-cta-text{flex:1;font-size:14px;}
+.vote-cta-text strong{color:var(--accent-text);font-weight:700;letter-spacing:1px;font-size:11px;text-transform:uppercase;display:block;margin-bottom:2px;}
+.vote-btn{display:inline-block;background:var(--accent);color:#1a1035;font-weight:700;font-size:13px;padding:10px 18px;border-radius:8px;text-decoration:none;white-space:nowrap;}
+.past{display:none;}
+.past h2{font-family:'Yang Bagus',serif;font-size:26px;color:var(--text);margin-bottom:4px;}
+.past .past-sub{font-size:13px;color:var(--dim);margin-bottom:18px;}
+.season-card{background:var(--bg-card);border:1px solid rgba(42,33,80,0.11);border-radius:14px;padding:20px 18px;margin-bottom:16px;}
+.season-card h3{font-family:'Yang Bagus',serif;font-size:20px;color:var(--text);margin-bottom:2px;}
+.season-meta{font-size:12px;color:var(--dim);margin-bottom:12px;}
+.season-winner{display:flex;align-items:center;gap:10px;background:rgba(255,215,0,0.10);border:1px solid rgba(255,215,0,0.4);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:14px;}
+.season-winner .trophy{font-size:20px;flex:0 0 auto;}
+.season-winner strong{color:var(--gold);}
+.more-wrap{text-align:center;margin-top:6px;}
+.more-btn{background:var(--bg-card);border:1px solid rgba(42,33,80,0.2);border-radius:10px;padding:11px 22px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;font-family:inherit;}
+.more-btn:hover{border-color:var(--link);color:var(--link);}
+@media(max-width:700px){
+  .wrap{padding:18px 14px 40px;}
+  h1{font-size:36px;}
+  .boards{grid-template-columns:1fr;}
+  .vote-cta{flex-direction:column;align-items:flex-start;}
+  .vote-btn{align-self:stretch;text-align:center;}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="mainContent">
+<div class="eyebrow"><a href="/">The Dog Show</a> &middot; Leaderboard</div>
+<h1>The Hall of Bones</h1>
+<div class="lede">Every bone thrown on The Dog Show is a vote. The dog with the most votes when the month closes is crowned Best in Show — permanently, on their certificate, where their relatives can see it.</div>
+<div class="lede-sub">Standings reset on the 1st of each month. All-time totals never reset.</div>
+
+<div class="champ-strip" id="champStrip"><span class="trophy">🏆</span><span id="champText"></span></div>
+
+<div class="boards">
+  <section class="board" aria-labelledby="monthTitle">
+    <h2 id="monthTitle">Dog of the Month</h2>
+    <div class="board-sub" id="monthSub">This month's race, live</div>
+    <div class="board-rows" id="monthBoard"><div class="board-empty">Loading the standings…</div></div>
+  </section>
+  <section class="board" aria-labelledby="alltimeTitle">
+    <h2 id="alltimeTitle">All-Time Top Dogs</h2>
+    <div class="board-sub">Every vote ever counted</div>
+    <div class="board-rows" id="alltimeBoard"><div class="board-empty">Loading the legends…</div></div>
+  </section>
+</div>
+
+<aside class="vote-cta" aria-label="Vote in the live show">
+  <div class="vote-cta-text"><strong>The race is on</strong>Watch the live show and throw bones at the dogs you love — every one counts toward this month's crown.</div>
+  <a class="vote-btn" href="/show.html">Watch &amp; vote &rarr;</a>
+</aside>
+
+<section class="past" id="pastSection" aria-labelledby="pastTitle">
+  <h2 id="pastTitle">Past months</h2>
+  <div class="past-sub">Every Best in Show, preserved for the record. One month at a time, as is proper.</div>
+  <div id="pastList"></div>
+  <div class="more-wrap"><button class="more-btn" id="moreBtn" type="button">Show an earlier month</button></div>
+</section>
+
+</div>
+
+<footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(42,33,80,0.11);background:#e9e2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
+    <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
+    <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
+    <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
+    <a href="/leaderboard" style="font-size:12px;color:#5d5088;text-decoration:none;">Leaderboard</a>
+    <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
+    <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
+    <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
+    <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
+    <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
+  </div>
+  <div style="font-size:11px;color:#5d5088;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var API_BASE = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live';
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function fmtVotes(n) {
+    n = n || 0;
+    return n.toLocaleString('en-US') + ' vote' + (n === 1 ? '' : 's');
+  }
+
+  function row(rank, dog, votes) {
+    var r = el('div', 'board-row');
+    var rankEl = el('div', 'rank' + (rank <= 3 ? ' r' + rank : ''), String(rank));
+    r.appendChild(rankEl);
+    if (dog.imageUrl) {
+      var img = el('img', 'row-img');
+      img.src = dog.imageUrl;
+      img.alt = '';
+      img.loading = 'lazy';
+      img.onerror = function () { img.style.display = 'none'; };
+      r.appendChild(img);
+    }
+    var main = el('div', 'row-main');
+    var name;
+    if (dog.slug) {
+      name = el('a', 'row-name', dog.dogName || 'A good dog');
+      name.href = '/d/' + dog.slug;
+    } else {
+      name = el('span', 'row-name', dog.dogName || 'A good dog');
+    }
+    main.appendChild(name);
+    if (dog.username) main.appendChild(el('div', 'row-owner', 'entered by ' + dog.username));
+    r.appendChild(main);
+    r.appendChild(el('div', 'row-votes', fmtVotes(votes)));
+    return r;
+  }
+
+  function fillBoard(elId, dogs, voteField, emptyMsg) {
+    var box = document.getElementById(elId);
+    box.textContent = '';
+    if (!dogs || !dogs.length) {
+      box.appendChild(el('div', 'board-empty', emptyMsg));
+      return;
+    }
+    dogs.slice(0, 10).forEach(function (d, i) {
+      box.appendChild(row(i + 1, d, d[voteField]));
+    });
+  }
+
+  // Current month + all-time
+  fetch(API_BASE + '/leaderboard')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (!data || !data.ok) throw new Error('bad payload');
+      if (data.seasonLabel) {
+        document.getElementById('monthSub').textContent = data.seasonLabel + ' — live standings';
+      }
+      fillBoard('monthBoard', data.weeklyTopDogs, 'seasonBones',
+        'No votes yet this month — the crown is wide open.');
+      fillBoard('alltimeBoard', data.topDogs, 'totalBones',
+        'No dogs yet — yours could be first.');
+      if (data.reigningChampion && data.reigningChampion.dogName) {
+        var c = data.reigningChampion;
+        var strip = document.getElementById('champStrip');
+        var txt = document.getElementById('champText');
+        txt.textContent = '';
+        txt.appendChild(document.createTextNode('Reigning champion: '));
+        var strong = el('strong', null, c.dogName);
+        txt.appendChild(strong);
+        txt.appendChild(document.createTextNode(' — Best in Show, ' + (c.seasonLabel || 'last month').replace(/^Month of /, '') + '.'));
+        strip.style.display = 'flex';
+      }
+    })
+    .catch(function () {
+      fillBoard('monthBoard', null, null, 'Standings are napping — try a refresh.');
+      fillBoard('alltimeBoard', null, null, 'Standings are napping — try a refresh.');
+    });
+
+  // Past months — fetched once, revealed one month at a time.
+  var seasons = [];
+  var shown = 0;
+
+  function seasonCard(s) {
+    var card = el('div', 'season-card');
+    card.appendChild(el('h3', null, (s.seasonLabel || '').replace(/^Month of /, '') || 'A month of dogs'));
+    card.appendChild(el('div', 'season-meta', (s.dogsInRace || 0) + ' dog' + (s.dogsInRace === 1 ? '' : 's') + ' in the race'));
+    if (s.winner) {
+      var w = el('div', 'season-winner');
+      w.appendChild(el('span', 'trophy', '🏆'));
+      var span = el('span');
+      var name;
+      if (s.winner.slug) {
+        name = el('a', null, s.winner.dogName || 'A good dog');
+        name.href = '/d/' + s.winner.slug;
+        name.style.fontWeight = '700';
+      } else {
+        name = el('strong', null, s.winner.dogName || 'A good dog');
+      }
+      span.appendChild(name);
+      span.appendChild(document.createTextNode(' took Best in Show with ' + fmtVotes(s.winner.bones) + '.'));
+      w.appendChild(span);
+      card.appendChild(w);
+    }
+    if (s.standings && s.standings.length) {
+      var rows = el('div', 'board-rows');
+      s.standings.forEach(function (d, i) {
+        rows.appendChild(row(i + 1, d, d.bones));
+      });
+      card.appendChild(rows);
+    }
+    return card;
+  }
+
+  function showNext() {
+    if (shown >= seasons.length) return;
+    document.getElementById('pastList').appendChild(seasonCard(seasons[shown]));
+    shown++;
+    if (shown >= seasons.length) {
+      document.querySelector('.more-wrap').style.display = 'none';
+    }
+  }
+
+  fetch(API_BASE + '/past-seasons')
+    .then(function (r) { if (!r.ok) throw new Error('unavailable'); return r.json(); })
+    .then(function (data) {
+      if (!data || !data.ok || !data.seasons || !data.seasons.length) return;
+      seasons = data.seasons;
+      document.getElementById('pastSection').style.display = 'block';
+      showNext(); // most recent completed month, expanded by default
+    })
+    .catch(function () { /* endpoint not deployed yet, or no history — section stays hidden */ });
+
+  document.getElementById('moreBtn').addEventListener('click', showNext);
+})();
+</script>
+</body>
+</html>

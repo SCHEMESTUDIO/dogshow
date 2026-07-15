@@ -49,7 +49,7 @@
 
 .landing-body {
   background: #f3eefb;
-  color: #fff;
+  color: #2a2150;
   font-family: var(--font-system);
   min-height: 100vh;
 }
@@ -199,13 +199,13 @@
 .landing-tier-name {
   font-size: 16px;
   font-weight: 600;
-  color: #fff;
+  color: #2a2150;
 }
 
 .landing-tier-price {
   font-size: 32px;
   font-weight: 200;
-  color: #fff;
+  color: #2a2150;
 }
 
 .landing-tier-perks {
@@ -268,7 +268,7 @@
   border-radius: 8px;
   border: 1px solid rgba(42,33,80,0.25);
   background: rgba(42,33,80,0.11);
-  color: #fff;
+  color: #2a2150;
   font-size: 14px;
   width: 220px;
   outline: none;
@@ -1787,7 +1787,7 @@
 
 .dock-bone-pill-label {
   font-size: 11px;
-  color: rgba(255, 140, 66, 0.5);
+  color: #a84d08;
   font-family: var(--font-system);
 }
 
@@ -1817,11 +1817,11 @@
   color: #5b46d6;
   font-family: var(--font-system);
 }
-.my-bones-pill.low .my-bones-pill-count { color: #FFD060; }
-.my-bones-pill.empty .my-bones-pill-count { color: #FF8080; }
+.my-bones-pill.low .my-bones-pill-count { color: #806104; }
+.my-bones-pill.empty .my-bones-pill-count { color: #b3261e; }
 .my-bones-pill-label {
   font-size: 11px;
-  color: rgba(183, 168, 255, 0.55);
+  color: #5b46d6;
   font-family: var(--font-system);
 }
 

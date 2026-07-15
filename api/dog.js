@@ -44,7 +44,7 @@ function titlesFor(stats, breed) {
 const STYLES = `
 @font-face{font-family:'Yang Bagus';src:url('/YangBagus.ttf') format('truetype');font-display:swap;}
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#f3eefb;--bg-card:#ffffff;--accent:#FF8C42;--purple:#7B68EE;--text:#2a2150;--dim:rgba(42,33,80,0.7);--gold:#FFD700;}
+:root{--bg:#f3eefb;--bg-card:#ffffff;--accent:#FF8C42;--purple:#7B68EE;--text:#2a2150;--dim:rgba(42,33,80,0.7);--gold:#806104;}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;}
 /* Pre-show (Phase 4) — countdown + RSVP */
 .preshow{max-width:520px;margin:0 auto;padding:32px 20px 48px;text-align:center;}
@@ -128,6 +128,7 @@ ${headHtml}
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <script src="/consent.js" defer></script>
 <script src="/analytics.js" defer></script>
+<script src="/nav.js" defer></script>
 <style>${STYLES}</style>
 </head>
 <body>
@@ -137,13 +138,14 @@ ${bodyHtml}
     <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
     <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
     <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
+    <a href="/leaderboard" style="font-size:12px;color:#5d5088;text-decoration:none;">Leaderboard</a>
     <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
     <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
     <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
     <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
     <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
   </div>
-  <div style="font-size:11px;color:#d9cfee;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+  <div style="font-size:11px;color:#5d5088;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
 </footer>
 </body>
 </html>`;
@@ -501,7 +503,7 @@ module.exports = async function handler(req, res) {
 <button id="voteBtn" type="button" class="cert-cta-btn" style="margin:0;">🦴 Vote for ${esc(name)}</button>
 <div id="voteMsg" style="font-size:12px;color:rgba(42,33,80,0.8);margin-top:8px;">Every bone is a vote toward Best in Show. Standings reset on the 1st.</div>
 <div id="voteRegister" style="display:none;margin-top:12px;flex-direction:column;gap:8px;max-width:300px;margin-left:auto;margin-right:auto;">
-<input id="voteEmail" type="email" placeholder="Your email" style="padding:11px 12px;border-radius:8px;border:1px solid rgba(42,33,80,0.45999999999999996);background:rgba(42,33,80,0.11);color:#fff;font-size:14px;">
+<input id="voteEmail" type="email" placeholder="Your email" style="padding:11px 12px;border-radius:8px;border:1px solid rgba(42,33,80,0.45999999999999996);background:rgba(42,33,80,0.11);color:#2a2150;font-size:14px;">
 <button id="voteRegisterBtn" type="button" class="cert-cta-btn" style="margin:0;">Cast your vote</button>
 <div style="font-size:11px;color:rgba(42,33,80,0.6799999999999999);">Free — gives you 50 bones to vote with.</div>
 </div>

@@ -2024,6 +2024,25 @@ export default class DogShowServer {
           reigningChampion: lastSeason ? { ...lastSeason.winner, seasonLabel: lastSeason.seasonLabel || this.seasonLabel(lastSeason.seasonId) } : null,
         }), { headers });
       }
+      if (path === 'past-seasons' && req.method === 'GET') {
+        // Past monthly "Dog of the Month" results for the public leaderboard
+        // page (added 2026-07-15). Newest first. Each entry carries the
+        // winner + the final top-5 standings snapshot taken at rollover.
+        try { await this.ensureSeason(); } catch (e) { console.error('[Season]', e && e.message); }
+        const imgBase = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=';
+        const past = (await this.room.storage.get('pastSeasons')) || [];
+        const seasons = past.slice().reverse().map(s => ({
+          seasonId: s.seasonId,
+          seasonLabel: s.seasonLabel || this.seasonLabel(s.seasonId),
+          dogsInRace: s.dogsInRace || 0,
+          endedAt: s.endedAt || null,
+          winner: s.winner ? { ...s.winner, imageUrl: s.winner.id ? imgBase + s.winner.id : null } : null,
+          standings: (s.standings || []).map(d => ({ ...d, imageUrl: d.id ? imgBase + d.id : null })),
+        }));
+        return new Response(JSON.stringify({ ok: true, seasons }), {
+          headers: { ...headers, 'Cache-Control': 'public, max-age=300' },
+        });
+      }
     } catch (e) {
       console.error(`[Server] Unhandled error on ${path}:`, e.message, e.stack?.slice(0, 300));
       await reportToSentry(e, { path: path });
