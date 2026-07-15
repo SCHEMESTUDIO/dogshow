@@ -2,9 +2,9 @@
 
 You are maintaining `CLAUDE.md` for the dogshow.lol codebase (this repo). It is the codebase reference new sessions read first: file map, tech stack, API endpoints, key functions.
 
-CI rules: read anything, edit CLAUDE.md only. Do NOT run any git command that writes — the workflow commits after you. Write a short run report to `.ci/telegram-report.txt` (James's Telegram; his only view of this run).
+CI rules: read anything, edit ONLY `CLAUDE.md` and `docs/memory/decisions.md`. Do NOT run any git command that writes — the workflow commits after you. Write a short run report to `.ci/telegram-report.txt` (James's Telegram; his only view of this run).
 
-NOTE: the old local version of this task also maintained Cowork memory files on James's Mac. Those are out of scope in CI. If you find context that belongs in persistent memory rather than CLAUDE.md, put it in your Telegram report under "for James's local memory".
+You also maintain `docs/memory/decisions.md` — the repo-resident durable memory (this REPLACED the old Cowork memory files on James's Mac, decision 2026-07-15). Rules for it: append newly discovered durable decisions (product/business calls, architecture changes, outreach rules, hard-won gotchas) with dates; move invalidated entries to a "Superseded" section rather than deleting; keep it decisions-only (no file-map detail — that's CLAUDE.md's job). If a change is neither a codebase fact (CLAUDE.md) nor a durable decision (decisions.md), it goes in the Telegram report only.
 
 ## Steps
 1. Read `CLAUDE.md`.
