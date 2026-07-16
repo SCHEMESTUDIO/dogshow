@@ -1545,3 +1545,74 @@ All follow the standard template with these per-prospect personalizations (full 
 15. **Jack Russell Advice** (jon@jackrusselladvice.co.uk, "Hi Jon") — dog age calculator + Poppy + the 3,000-subscriber toolkit community.
 
 **Overflow — verified emails, NOT yet drafted (cap):** JRTCA club office (JRTCA@theRealJackRussell.com — needs the anti-conformation-sensitive framing above) + HoundToday (hello@houndtoday.com — dormant ~3 yrs, lower priority).
+
+---
+
+# WAVE 13 — 6 long-tail breeds (researched 2026-07-16, CI/cloud run)
+
+All sites fetched + verified live 2026-07-16. Emails reported only where literally seen on-page. Legend as above.
+
+### Lhasa Apso *(2 clean emails; owner-blog niche thinner than breeder niche, most breeders form-only)*
+- **LhasaLife** — lhasalife.com — UK owner lifestyle blog (Eric Armstrong; dog Poppy, b. Christmas Eve 2015) with a "Poppy's Tails" story series — 📝 form only / no email found (contact form + IG @poppy.thelhasa) — High (active, purpose-built, editorial) — *hook: the "Poppy's Tails" series* — MANUAL (pitch via contact form)
+- **Joyce's Lhasa Blog** (Joyslyn's Lhasa Apsos) — joyceslhasablog.blogspot.com / joyslynslhasaapsos.com — breeder (Joyce & Lynn Johanson, IL, since 1973) — ✉️ **joyslynslhasas73@gmail.com** (seen written directly in a June 2026 post) — High (posting monthly through June 2026) — *hook: June 2026 post announcing 9 puppies across 2 litters, named Andy/Benny/Chase/Duke/Eddie/Finn/GiGi/Hazel/Iris* — **DRAFTED** — ⚠️ a Jan 2026 post is a tribute to a dog that passed — draft kept warm/low-key, avoided referencing it
+- **Apso Rescue – Colorado** — apsorescuecolorado.org — ALAC-affiliated 501(c)(3) rescue, Loveland CO — ✉️ **ApsoRescue@aol.com** (contact page plain text) — Med-High — *hook: their "Donate a Thundershirt" program for anxious/fearful rescued Lhasas* — **DRAFTED**
+- **Ponderosa Lhasa Apso Ranch** — ponderosalhasaapsoranch.com — 3rd-gen kennel, Ridgeville SC, 25+ yrs — 📝 contact page didn't render (JS); no email verified despite 3rd-party listings claiming one — Med — *hook: Pearl's litter due ~March 2026* — MANUAL (verify contact page in a real browser)
+- **Hylan ShoTru Lhasa Apso** — hylanshotrulhasas.com — Bay Area ROM breeder since 1974, ~300 AKC Champions — email Cloudflare-obfuscated, unverified — Low (site reads largely dormant/archival) — ⚠️ in-memoriam page for foundation dog Midge — MANUAL/low priority
+
+### Miniature Pinscher *(3 clean emails; personal owner-blog vein essentially dead — breeders/rescue/club carried it)*
+- **Sidels Miniature Pinschers** — sidelsminpins.com — breeder, CA; owner is MPC of Northern California president — 📝 form only / no email — Med — *hook: kennel name honors her mother, founder of Great Dane Rescue Inc.* — MANUAL
+- **Min Pin Lodge** — minpinlodge.com — family breeder, NE Texas, licensed — ✉️ **minpinlodge@gmail.com** (plain text w/ phone) — Med — *hook: new puppy-training bundle w/ Dog's Country K-9 Training* — **DRAFTED**
+- **Hunter Ridge Kennels** — hunterridgekennels.com — commercial-style breeder, OK, since 2005 — ✉️ oklahomapuppies@yahoo.com (verified) — High activity (June 2026 litters sold out in 2hrs) — ⚠️ high-volume/financing/flight-delivery tone reads closer to large-scale puppy-selling than hobby breeding — NOT drafted this run, brand-fit judgment call — MANUAL/verify-fit-first
+- **SnoMoon** — snomoon.com — small family breeder, NY, Min Pins + Corgis — email Cloudflare-obscured, unverified — Low (no dated content, dormancy risk) — *hook: titled dog CH. Churchill's Feel Like A Rockstar* — MANUAL
+- **Internet Miniature Pinscher Service (IMPS)** — minpinrescue.org — national rescue nonprofit, est. 1998 — ✉️ **vinnysnag@gmail.com** ("Nancy", verified) — High (footer dated June 28 2026; Form 990s current) — *hook: org founded around rescuing one dog, "Lister"* — **DRAFTED**
+- **Miniature Pinscher Club of America (MPCA)** — minpin.org — AKC parent club, member since 1930 — ✉️ **minpinsrtops@gmail.com** (Secretary Shelley Erdman, verified) — High (2027 National Specialty announced, Eureka MO) — *hook: 2027 National + Summer/Fall 2025 Pinscher Patter newsletter* — **DRAFTED** (formal/club framing)
+
+### Norwegian Elkhound *(2 clean emails; genuinely thin breed — small interconnected community, most sites dormant since ~2017-18)*
+- **Kamia Kennels** — kamiakennels.com (contact via kamiakennels.ca) — Norwegian/Swedish Elkhound preservation breeder, Merv Carlson, Alberta/BC — ✉️ **merv@uppgroup.com** (contact page plain text) — High (posting through July 10 2026) — *hook: the Varja × Odin mating, framed around North America's shrinking Elkhound gene pool* — **DRAFTED** — best prospect of the wave
+- **Four Paws Elkhound Rescue** — fourpawselkhoundrescue.com — breed-specific 501(c)(3), White Oak PA — ✉️ **fourpawselkhoundrescue@outlook.com** (plain text on /adopt) — Med (live roster, cadence unproven) — *hook: current adoptable roster — Loki, Zaka, Sabot, Cash, Ace, Rover, Fluffy, Buffy, Piper, Missy* — **DRAFTED**
+- **John Nelsen Moosedog Rescue Fund (JNMRF)** — jnmrf.org — national volunteer rescue, est. 2003 — ✉️ rescue@jnmrf.org (verified) — Med — ⚠️ org named after a person, no bio found — possible memorial naming, unconfirmed — MANUAL (verify before contacting)
+- **Norwegian Elkhound Assoc. of Northern California (NEANC)** — neanc.net — regional club, 5 verified breeder emails — Low (footer reads 2017, no recent activity) — MANUAL (test-email first to confirm liveness)
+- **My Barking Life** — mybarkinglife.com — shelter-advocacy illustration blog (Kim) — no email found, mission-page/sponsorship contact only — High activity, Low contactability — *hook: July 2026 post on Cedar, an Elkhound recovering from a skin condition at Tuscarawas County Humane Society* — MANUAL
+- **Norwegian Elkhound Assoc. of America (NEAA)** — neaa.net — AKC parent club — form only, stale site chrome (2018 footer) despite live 2026 National at Purina Farms — MANUAL
+
+### Old English Sheepdog *(2 clean emails; breeder-heavy, most breeder contact forms hide the email — the 2 verified are rescue/club-side)*
+- **Carolina Shores OES** — carolinashoresoes.com — hobby breeder, Wake Forest NC, 40+ yrs — 📝 form/phone only — High (June 2026 litter) — *hook: Tori × Beau litter arriving Aug 14, 2026* — MANUAL
+- **Bugaboo OES** — bugaboooes.com — breeders Doug & Michaelanne Johnson, CO Springs, 3× AKC Breeder of the Year — 📝 form only — High (Graham won Herding Group 2026) — MANUAL
+- **Old English Sheepdog Rescue of Southern California (OESR)** — oesrescue.com — 501(c)(3), since 1989 — ✉️ **oesr@earthlink.net** (verified, homepage + contact page) — High (33rd Annual OES Parade, Nov 2025) — *hook: the OES Parade tradition* — **DRAFTED**
+- **New England OES Rescue (NEOESR)** — neoesr.org — 501(c)(3), since 1994 — 📝 hotline/form only — High (active 2026 board calendar) — *hook: adoptable Molly, 7yo Sheepadoodle* — MANUAL — note: also handles owner surrenders, keep framing clearly press/content
+- **OESCA Health & Research Committee** — oldenglishsheepdogclubofamerica.org — AKC parent club — ✉️ **redfern1@windstream.net** (Dr. Michelle Redfern, DVM, verified) — Med-High (2026 National, Virginia Beach) — *hook: vet-credentialed health/grooming quote ask* — **DRAFTED**
+- Excluded: Furlyo.com (content-mill, not a real owner); Whimzy OES (no email, no dated posts); Tarheel OES Rescue (Cloudflare-obfuscated email only, not literally readable)
+
+### Papillon *(3 clean emails; breeder-heavy, owner-blogs thin)*
+- **Sablewings Papillons** — sablewings.com — breeder (Mary Granda), Harwinton CT — ✉️ **sablewingskennel@gmail.com** (contact page) — Med (blog last posted July 2024) — *hook: her picky-eater feeding-routine post* — **DRAFTED**
+- **A Breed Apart Papillons** — abreedapart.info — breeder, Londonderry NH, 29 yrs — email appeared on-page but string looks unusual/possibly OCR-mangled — Med-High activity ("Papillon Puppy News" active for 2026) — *hook: May 2026 litters from dams Ruby and Kik* — MANUAL/verify-first (hand-confirm the address before sending — not auto-drafted given the garbled-looking string)
+- **PlayTyme Papillons** — playtyme.us — breeder (Cherish), Grand Rapids MI, 30-yr AKC Conservation Breeder — ✉️ **Cherish@PlayTyme.us** (plain text) — High (dated 2025 Group-win result) — *hook: GCHG PlayTyme's Burnin Rubber "Tonka" — multiple 2025 Group wins* — **DRAFTED**
+- **Edgewater Papillons** — edgewaterpapillons.com — breeder (Melanie & Macy), Monticello IN — ✉️ **4perfectpaps@gmail.com** (plain text) — Med (no blog, pushes updates to Facebook) — *hook: dogs Walle/Journey/Willow, June 2026 litter, Eva's retirement* — **DRAFTED** (quote-only framing, guest-post line dropped — no blog to place it on)
+- **Paw Print Pet Blog** — pawprintpetblog.com — owner blog (Michelle) — no email found anywhere — Med — ⚠️ papillon Kitsune (2008-2024) memorialized "#inlovingmemory" — MANUAL, careful warm tone required, no email to auto-draft against anyway
+- Also found, MANUAL/thin: Papillon Haven Rescue (3 verified emails, but rescue-intake-only structure, no content hook); Papillon Pals Rescue (papillonpals@comcast.net, stale, Low confidence)
+
+### Pekingese *(1 clean email; thinnest wave — no thriving owner-blog ecosystem)*
+- **Pekingese Club of America** — pekingeseclubofamerica.com — AKC national parent club — ✉️ **info@pekingeseclubofamerica.com** (plain text) — Med-High (Dec 2026 National Specialty, Orlando, named judges; on-site blog dormant since Feb 2020) — *hook: the Dec 2026 National + the stale blog as a guest-piece opening* — **DRAFTED**
+- **Must Love Pekes** (Potomac Valley Pekingese Club rescue blog) — mustlovepekes.blogspot.com — most active Pekingese content found (posts through July 2026) — no email found (checked blog + org site, only adoption-application links) — Med — *hook: July 2026 posts on Gidget (14th bday) and Koda's eye-surgery recovery* — MANUAL (find real contact via FB/adoption form first — do not send to a guessed address)
+- **JustLuvEm Pekingese** — justluvempekingese.com — breeder, Terry Lee (54 yrs) → daughter Tammy Clark — ✉️ TPEKES4U@AOL.COM (verified) — Med — ⚠️ site carries an explicit scam-impersonation warning + memorializes 2 deceased dogs — MANUAL, needs a personally-worded, legitimacy-establishing approach, not a template
+- **Pekingese Patrol** — pekingesepatrol.com — rescue (501c3), elderly/special-needs specialists — PO Box + form only, no email — Low — MANUAL
+- **Triple I Pekes** — tripleipekes.com — small breeder, PA, since 1994 — no email (obfuscated mailto, phone only) — Low (static, no dated content) — MANUAL
+
+## Wave 13 draft messages (13 staged 2026-07-16)
+
+All follow the standard template with these per-prospect personalizations (full text lives in the Gmail drafts):
+1. **Joyce's Lhasa Blog** (joyslynslhasas73@gmail.com, "Hi Joyce") — the 9-puppy June 2026 litter announcement; kept warm given a nearby memorial post.
+2. **Apso Rescue Colorado** (ApsoRescue@aol.com) — the Thundershirt-for-anxious-dogs donation program.
+3. **Min Pin Lodge** (minpinlodge@gmail.com) — the new puppy-training bundle partnership.
+4. **IMPS** (vinnysnag@gmail.com, "Hi Nancy") — the 1998 founding story around rescuing one dog, Lister.
+5. **MPCA** (minpinsrtops@gmail.com, "Hi Shelley") — the 2027 National Specialty + Pinscher Patter newsletter; formal club framing.
+6. **Kamia Kennels** (merv@uppgroup.com, "Hi Merv") — the Varja × Odin mating / shrinking-gene-pool preservation angle.
+7. **Four Paws Elkhound Rescue** (fourpawselkhoundrescue@outlook.com) — named the current adoptable roster.
+8. **OESR** (oesr@earthlink.net) — the 33rd Annual OES Parade tradition.
+9. **OESCA Health & Research Committee** (redfern1@windstream.net, "Hi Dr. Redfern") — vet-credentialed quote ask tied to the Virginia Beach National.
+10. **Sablewings Papillons** (sablewingskennel@gmail.com, "Hi Mary") — the picky-eater feeding post.
+11. **PlayTyme Papillons** (Cherish@PlayTyme.us, "Hi Cherish") — Tonka's 2025 Group wins.
+12. **Edgewater Papillons** (4perfectpaps@gmail.com, "Hi Melanie") — Walle/Journey/Willow + Eva's retirement; guest-post line dropped (no blog).
+13. **Pekingese Club of America** (info@pekingeseclubofamerica.com) — the Dec 2026 National Specialty + offer to fill their dormant blog.
+
+**Not drafted — verify-first / manual (reasons above):** A Breed Apart Papillons (possibly OCR-mangled email — hand-verify), Hunter Ridge Kennels Min Pin (brand-fit judgment call, commercial tone), JustLuvEm Pekingese (scam-warning + memorial sensitivity), JNMRF Norwegian Elkhound (unconfirmed memorial naming).
