@@ -1615,4 +1615,77 @@ All follow the standard template with these per-prospect personalizations (full 
 12. **Edgewater Papillons** (4perfectpaps@gmail.com, "Hi Melanie") — Walle/Journey/Willow + Eva's retirement; guest-post line dropped (no blog).
 13. **Pekingese Club of America** (info@pekingeseclubofamerica.com) — the Dec 2026 National Specialty + offer to fill their dormant blog.
 
+---
+
+# WAVE 14 — 6 long-tail breeds (researched 2026-07-17, CI/cloud run)
+
+All sites fetched + verified live 2026-07-17 (via subagent research, one breed per agent, each instructed to WebFetch — not just search snippets — before reporting an email). Emails reported only where literally seen on-page. Legend as above.
+
+### Pocket Bully *(2 clean emails; dominated by large commercial/SEO operations rather than small personal blogs)*
+- **Southeast Bully Kennels** — southeastbullykennels.com — family breeder, "Block Bloodline" 8-9 generations deep — ✉️ **southeastbullykennels@gmail.com** (footer, also phone) — High (active blog `/doggy-blogging/`, 10 posts 06/02/26–07/08/26) — *hook: founder learned sign language at age 9 to communicate with the family dog for her deaf parents, later visited deaf/blind schools; recent Icepick × Coco Banks litter* — **DRAFTED**
+- **Teenage Mutant Ninja Bullies** — teenagemutantninjabullies.com — family breeder, one litter/year — ✉️ **info@teenagemutantninjabullies.com** (footer, clickable, + phone) — Med-High (no blog) — *hook: foundation dog "Mr. Miyagi," champion dam "Poison Ivy," sire "Rambo"* — **DRAFTED** (guest-post line softened, no blog to place it on)
+- **Venomline Bullies** — venomlinebullies.com — large "American Bully Blog Hub," active (posts 06/07/26, 05/07/26) — only visible contact is texassizebullies@gmail.com, a mismatched domain suggesting shared commercial infrastructure — Low-Medium — NOT drafted, treat as a business inquiry not a peer ask if pursued
+- **Rocky Kanaka** — rockykanaka.com/pocket-bully/ — real public figure (rescue advocate, TV host, author) — displayed contact text reads support@rockykanaka.com but the underlying mailto has a typo ("suupport@") — discrepancy flagged, NOT drafted — the Pocket Bully article itself is byline-credited to a different writer, weakening the personal-hook fit anyway
+- Excluded: pocketbully.org (dead domain, doesn't resolve); dogsblog.com (UK rescue-listing site, real named Pocket Bullies, but adjacent to the UK XL Bully ban controversy — brand risk, hold); americanbullyshowto.blogspot.com (dormant since 2014)
+
+### Pointer *(English Pointer specifically, not GSP — already covered; 3 clean emails, moderately thin since most "Pointer" kennels also breed German Shorthairs/Wirehairs)*
+- **Prestige Pointers** — prestigepointers.com — Elhew-line hunting-dog breeder (Jeff & Melanie Ramey) — ✉️ **info@prestigepointers.com** (+ phone) — High (active, most recent litter Jan 2025) — *hook: Jeff's Northern Kentucky hunting roots + Melanie's fox-hunting background with the Midland Foxhounds; foundation dog "Fly'n Rascally Pete"* — **DRAFTED**
+- **Tessleymoor Gundogs** — tessleymoorgundogs.co.uk/tessleymoor-training/ — UK gundog trainer (Damian Barson) — ✉️ **bark@tessleymoorgundogs.co.uk** (+ damian@tessleymoorfarming.co.uk, + phone) — High (dated posts 2013–2023; footer © 2026 template auto-date) — *hook: the Meggie→Lola English Pointer training diary; the featured post is itself a guest post from a former trainee — site already runs the reciprocal format we're pitching* — **DRAFTED**
+- **Superior Pointers** — superiorpointers.com — Elhew-strain (Robert G. Wehle legacy) preservation breeder — ✉️ **mark@superiorpointers.com** — Medium (static "Rambling Thoughts" archive, some undated 1990s-sourced articles; reads dormant rather than a living blog) — *hook: named dogs Striking Elhew Mack/Boss/Josephine; frame around the preservation mission, not "your recent post"* — **DRAFTED**
+- **Birdsboro Pointers** — birdsborodogs.com/about-pointers/ — bench-type Pointer reference site (Olympia WA, since 1999) — 📝 contact-form only, no email literally visible — Low-Med — *hook: their bench-vs-field-type explainer content* — MANUAL
+- **HighStanding Kennel and Stable** — highstandingkennel.com — breeds BOTH GSP and English Pointer (Anthony & Dayna Rusciano) — only an obfuscated email icon, no readable address — Low (mixed-breed focus dilutes fit) — MANUAL/low priority — *hook: 9-year-old daughter Summer's own field-trial involvement*
+
+### Portuguese Water Dog *(0 verified on-page emails — genuinely thin; every real, active site found is contact-form-only)*
+- **The Portuguese Water Blog** — theportuguesewaterblog.blogspot.com — personal blog (Sue) — no email or contact form found, only a Blogger profile — High activity (post Feb 8, 2026), best voice fit of the breed — MANUAL/verify (try Blogger messaging) — ⚠️ Sue writes candidly about her own ongoing serious health issues (nephrology/cardiology) — needs a warm, low-pressure approach, not a template
+- **PWD at Oak Creek Farms** — pwdatoakcreekfarms.com — OK breeder, active blog (posts dated July 16, 2026) — Cloudflare-obfuscated email icon only, form at /contact-us.html — High activity — MANUAL — *hook: their July 16 dog-birthdays post + new litter names*
+- **Maritimo PWDs** — maritimopwds.com — OH PWDCA-approved breeder — evergreen narrative page (Jill's story with Louie/Lacey/Kirby, 2003 National win), no dated posts — contact form only — Medium — MANUAL
+- **Riptide PWDs** — riptidepwds.com — preservation breeder (Melody & Steve) — has a blog section but no visible dates and no contact link/email found at all (social-first) — Medium content / Low contactability — MANUAL/verify
+- **Bayswater PWDs** — bayswaterpwds.com — 2021/2022 "Outstanding Breeder of the Year" — site stamped "Updated 03/03/2022," likely stale — contact form only — Low priority — MANUAL
+- Also checked, too thin to recommend: Dança PWD (no blog, no names), PWD of San Diego (no blog/names), PWD Club of Great Britain (newsletter dated Dec 2023, institutionally stale)
+
+### Rat Terrier *(4 clean emails; not a thin breed — good mix of breeders + rescues)*
+- **Rat Race Rat Terriers** — ratraceratterriers.com — small CO ranch breeder (Tammy), trains for hunting/scent work, hopes for K9 drug-detection recognition — ✉️ **ratraceratterriers@hotmail.com** (spaced "@" formatting on /about/, reported as-seen) — High (dormant-but-tended: last post 2022, but a Nov 2024 comment reply shows it's monitored) — *hook: EmmaLee chasing coyotes despite her size + son Chance; Sammie sneaking through the cat door* — **DRAFTED**
+- **New Rattitude** — newrattitude.org — national foster-based rescue nonprofit — ✉️ **inquiry@newrattitude.org** (also adoption@, Webmaster@) — High (active adoption listings; no blog, news lives on social) — *hook: Molleigh's return-and-re-adoption by the same family; Raya's double knee surgery; Millie's pneumonia recovery* — **DRAFTED**
+- **Lil Ranchin Rat Terriers** — lranchinratterriers.com — SoCal heritage-line breeder since 1998 — ✉️ **deckerterrier@yahoo.com** (+ phone) — High (no blog) — *hook: preserving Fire Mountain/Sycamore Flats/Diamond Valley/Decker lines "almost extinct"; endorsement quote from Rosalie Rinear of Fire Mountain Kennels* — **DRAFTED**
+- **Ratbone Rat Terrier Rescue** — ratbonertr.org — FL-area nonprofit — ✉️ **contact@ratbonertr.org** — High (no blog, static org site) — *hook: their transparent ~$200-per-dog vetting-cost framing* — **DRAFTED**
+- **BattleBorn Terriers** — battlebornterriers.com — NV hobby breeder (John & Denise Crites, 2 litters/yr) — 📝 form + phone only, no email visible — Medium — *hook: show dogs Phineas "Phin" McGee (#4 AKC Rat Terrier) and Raven (#3 Owner-Handler)* — MANUAL
+- Also verified but held as overflow (cap): McCarty's Rat Terriers (mccartysrats@yahoo.com, verified) — ready for next touch
+
+### Scottish Terrier *(3 clean emails; not thin — one standout personal blog + active breeders + a regional club)*
+- **The Scottie Chronicles** (Winston's World) — scottiechronicles.com — long-running personal blog — ✉️ **StuartTheScotty@hotmail.com** — High (posts July 16/10/3/1, 2026: "Throwback Thursday," "Friday's Foto Fun," "Watercolor Wednesday") — *hook: blog began 2009 as "a voice for Stuart" and now continues under Winston* — **DRAFTED** — ⚠️ Stuart passed away Dec 2015 (hemangiosarcoma); the blog has memorial roots — draft kept focused entirely on Winston's current adventures, Stuart not referenced
+- **Bluegrass Scottish Terriers** — bluegrassscotties.com — KY family breeder (Diana Bertsche + Julia/Joy/Jelena/Leah + dog Bear) — ✉️ **dianabertsche@yahoo.com** (+ phone) — High (litter posts through 6/13/26) — *hook: new litter incl. puppy Archie; "Call to Glory" champion lines* — **DRAFTED**
+- **Cascade Scottish Terrier Club** — cascadescots.org — PNW regional club — ✉️ **cascadescots@cascadescots.org** — High (upcoming July 18, 2026 meet-up at Wayward Winds Lavender Farm) — *hook: the meet-up + community resource hub* — **DRAFTED** (club framing, like MPCA in Wave 13)
+- **Southern Scotties** — southernscotties.com — LA breeder (Jolene Roy), puppy-sales-forward — ✉️ **redbarnpoultry@gmail.com** (+ phone) — Med-High (listings dated through July 10, 2026) — *hook: named litters/parents (Diana, Avery, Iona, Derby, Angie, Marley, Scooter)* — NOT drafted this run (cap; commercial-forward tone is a harder guest-post sell) — verified email ready for next touch
+- **Calanclan Scottish Terriers** (Australia) — calanclan.com — international breeder — ✉️ **manda711@live.com.au** — Medium (content freshness uncertain) — NOT drafted (cap + lower certainty) — MANUAL/next touch
+- Also checked, weaker fit: Scottish Terrier Club of America (only a rescue-coordinator email, ecerny@optonline.net); STC of the Piedmont (verified email, but content stale since 2018); North Texas Scottie Rescue / Scottie Heaven / Scottie Mom all dormant (2014-2020), no verified email
+
+### Shar Pei *(3 clean emails; moderately thin for active blogs specifically — most are static breeder/rescue pages)*
+- **HapPei House** — happeihouse.com — NC family breeder — ✉️ **happeihouse@gmail.com** (+ phone/text) — High (live puppy-availability content) — *hook: founding dog "Boo-Bear" led owner into health-focused breeding after facing the breed's classic eye/skin/ear issues* — **DRAFTED**
+- **Periwrinkles Shar-Pei** — periwrinklessharpei.com — breeder since 1986 — ✉️ **periwrinklessharpei@gmail.com** — High (credible show pedigree, no dated posts) — *hook: "8Ball," two-time Top 25 at American Nationals + two-time Best of Opposite at Westminster* — **DRAFTED**
+- **Pei People Shar Pei Rescue** — peipeople.com — 501(c)(3), TX + multi-state — ✉️ **texas@peipeople.com** — High (dated April 2024 update) — *hook: expanding rescue reach into San Antonio/Texas beyond their original El Paso base* — **DRAFTED**
+- **Florida Chinese Shar-Pei Rescue** — floridasharpeirescue.com — 501(c)(3), FL/Sunbelt — ✉️ **info@floridasharpeirescue.com** — Med-High — ⚠️ site carries an active "In Loving Memory" section for deceased rescue dogs — NOT drafted this run, needs a personally-worded, mission-first approach rather than a template — MANUAL
+- **sharpei.ch** — Switzerland-based personal blog (English) — no email, contact form only — Medium — ⚠️ owner's dog Balu died in 2018 after disc surgery; she writes he's "still a big part of my motivation" — MANUAL, must be handled with genuine warmth if ever approached
+- **Lauren's Shar-Pei** — lasharpei.com — breeder since ~1985 — ✉️ sharpei1@bellsouth.net (verified) but linked blog (lasharpei.wordpress.com) dormant since Jan 2016 — Low priority — MANUAL/fallback only
+
+## Wave 14 draft messages (15 staged 2026-07-17)
+
+All follow the standard template with these per-prospect personalizations (full text lives in the Gmail drafts):
+1. **Southeast Bully Kennels** (southeastbullykennels@gmail.com) — the sign-language/deaf-parents origin story + deaf/blind school visits + Block Bloodline.
+2. **Teenage Mutant Ninja Bullies** (info@teenagemutantninjabullies.com) — foundation dog Mr. Miyagi, dam Poison Ivy, sire Rambo; guest-post line softened (no blog).
+3. **Prestige Pointers** (info@prestigepointers.com, "Hi Jeff and Melanie") — hunting/fox-hunting backgrounds + foundation dog Fly'n Rascally Pete.
+4. **Tessleymoor Gundogs** (bark@tessleymoorgundogs.co.uk, "Hi Damian") — Meggie→Lola training diary; they already run guest posts, so the ask lands naturally.
+5. **Superior Pointers** (mark@superiorpointers.com, "Hi Mark") — Elhew-strain preservation mission framing (static content, not "recent post").
+6. **Rat Race Rat Terriers** (ratraceratterriers@hotmail.com, "Hi Tammy") — EmmaLee vs. coyotes + Sammie's cat-door trick + K9 detection hope.
+7. **New Rattitude** (inquiry@newrattitude.org) — Molleigh/Raya/Millie rescue stories; adopter-angle guest offer.
+8. **Lil Ranchin Rat Terriers** (deckerterrier@yahoo.com) — near-extinct heritage lines + Rosalie Rinear's compliment.
+9. **Ratbone Rat Terrier Rescue** (contact@ratbonertr.org) — the transparent per-dog vetting-cost framing.
+10. **The Scottie Chronicles** (StuartTheScotty@hotmail.com) — kept strictly on Winston's current adventures; Stuart's 2015 passing not referenced.
+11. **Bluegrass Scottish Terriers** (dianabertsche@yahoo.com, "Hi Diana") — the family operation + new litter incl. Archie.
+12. **Cascade Scottish Terrier Club** (cascadescots@cascadescots.org) — the July 18 meet-up at Wayward Winds Lavender Farm; club framing.
+13. **HapPei House** (happeihouse@gmail.com) — Boo-Bear's origin story + health-focused breeding pivot.
+14. **Periwrinkles Shar-Pei** (periwrinklessharpei@gmail.com) — 8Ball's Nationals/Westminster record.
+15. **Pei People Shar Pei Rescue** (texas@peipeople.com) — the San Antonio/Texas rescue expansion.
+
+**Overflow — verified emails, NOT yet drafted (cap):** Southern Scotties (redbarnpoultry@gmail.com), Calanclan Scottish Terriers (manda711@live.com.au), McCarty's Rat Terriers (mccartysrats@yahoo.com) — ready for next touch. **Zero-email breed this wave:** Portuguese Water Dog (every real, active site found is contact-form-only — 5 form/manual prospects recorded above, none padded with a guessed address).
+
 **Not drafted — verify-first / manual (reasons above):** A Breed Apart Papillons (possibly OCR-mangled email — hand-verify), Hunter Ridge Kennels Min Pin (brand-fit judgment call, commercial tone), JustLuvEm Pekingese (scam-warning + memorial sensitivity), JNMRF Norwegian Elkhound (unconfirmed memorial naming).
