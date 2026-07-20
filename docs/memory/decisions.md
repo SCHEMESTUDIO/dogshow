@@ -52,8 +52,26 @@ delete. Keep entries short; link evidence.
   must show in-sync after every deploy (dirty-deploy drift was UX-audit H1/H2
   root cause; recurred 2026-07-08).
 
+- **2026-07-16 → 2026-07-19 — New external content pipeline: "postwerks".**
+  14 SEO listicle/explainer pages landed directly on `main` via commits
+  `Publish: postwerks m2 — {slug}` (+ companion `(sitemap)` commits), authored
+  `SCHEMESTUDIO <james@wearescheme.studio>`. No trace of "postwerks" anywhere
+  in this repo's `.github/workflows/`, `scripts/`, or `prompts/` — it's an
+  outside tool/service pushing finished HTML, not a repo-owned automation.
+  Pages clone the existing `nm-*` GEO-page chrome (own nav, no sitewide
+  `nav.js`/footer) and land in `sitemap.xml` already. See CLAUDE.md
+  "Postwerks-published SEO pages" for the file list. Treat these paths as
+  externally-owned like the outreach/tracker files in WORKFLOW.md, even
+  though they aren't (yet) added to `.githooks/pre-commit`'s guard list.
+
 ## One-time prod actions still open (as of 2026-07-15)
 
 - `/admin-backfill-slugs?commit=1` never run — Skeeterino has `slug: null`
   (no cert page / OG image / voting page).
 - `/admin-grant-goodwill` (legacy $3.99 buyers) — unverified.
+- **2026-07-20 — Dead link on 3 postwerks pages.** `american-dog-breeds.html`,
+  `calm-dog-breeds.html`, and `america-s-favorite-pet-contestants-2026-list.html`
+  link to `/guides`, which doesn't exist (no `guides.html`/rewrite) — the hub
+  is `/resources`. Found during weekly CLAUDE.md maintenance scan; not fixed
+  (content is postwerks-owned, out of scope for this workflow) — needs a
+  human or the postwerks pipeline to correct.
