@@ -1689,3 +1689,51 @@ All follow the standard template with these per-prospect personalizations (full 
 **Overflow — verified emails, NOT yet drafted (cap):** Southern Scotties (redbarnpoultry@gmail.com), Calanclan Scottish Terriers (manda711@live.com.au), McCarty's Rat Terriers (mccartysrats@yahoo.com) — ready for next touch. **Zero-email breed this wave:** Portuguese Water Dog (every real, active site found is contact-form-only — 5 form/manual prospects recorded above, none padded with a guessed address).
 
 **Not drafted — verify-first / manual (reasons above):** A Breed Apart Papillons (possibly OCR-mangled email — hand-verify), Hunter Ridge Kennels Min Pin (brand-fit judgment call, commercial tone), JustLuvEm Pekingese (scam-warning + memorial sensitivity), JNMRF Norwegian Elkhound (unconfirmed memorial naming).
+
+---
+
+# WAVE 15 — final 3 breeds: Teacup Yorkie, West Highland White Terrier, XL Bully (researched 2026-07-20, CI/cloud run)
+
+**This clears the entire breed queue** — every entry in `breeds.js` (except "Mixed Breed" / "Other / Not sure") has now been researched. Recommend disabling the `breed-outreach.yml` workflow schedule after this wave (see run log).
+
+All sites fetched + verified live 2026-07-20 (one breed per subagent, each instructed to WebFetch — not just search snippets — before reporting an email). Emails reported only where literally seen as plain text on-page.
+
+### Teacup Yorkie *(1 clean email — dominated by breeder-for-sale sites and SEO content mills; genuine small owner blogs with fresh posts AND verified emails are thin)*
+- **Let's Talk Yorkie** — letstalkyorkie.com — owner blog (Susan), Long Island NY — ✉️ **susan@letstalkyorkie.com** (+ phone, plain text) — High (dated posts through July 2025, incl. Dec 2024 piece on NY's retail-puppy-sale ban) — *hook: her post on New York's new ban on retail puppy sales* — **DRAFTED**
+- **Texas Teacups Yorkies** — texasteacupsyorkies.com — breeder (Robin Church), Lubbock TX, 37+ yrs — 📝 form + Facebook only, no email — Medium — *hook: 37-year personal history, "part of our family"* — MANUAL
+- **Pocketbook Pups** — pocketbookpups.net — breeder (Kerrie Engelmann), Austin/Gause TX area — email Cloudflare-obfuscated, unverified; phone numbers plain (512-565-7300, 512-944-6365) — Medium (dated puppy-listing pages into 2024) — *hook: business named after her first Yorkie, "Fritz in Your Pocket"; she + husband Scott both hold ag degrees* — MANUAL
+- **Ultimate Owner's Guide to Teacup Yorkie Dogs** — teacupyorkies.info — personal guide (Alan Kenworthy) — no plain email, contact link only — Low-Medium (content stale since ~2019, comments end 2019) — *hook: his Yorkie Sylvia (once smallest-dog record holder) + a nod to Audrey Hepburn's Yorkie "Mr. Famous"* — MANUAL, low priority
+- Excluded: yorkies-gram.com + derineteacupyorkiebreeders.com (bot/403-blocked, unverifiable); teacupyorkieshome.com (expired domain); yorkiepassion.com (contact email is startupguys.net@gmail.com — an SEO content-mill tell, not a genuine owner voice)
+- No sensitivity flags found on any of the four.
+
+### West Highland White Terrier *(2 clean emails; owner-blog scene thinner than breeder/rescue)*
+- **The West Acres** — thewestacres.com — family breeder since spring 1988, 220-acre riverside estate, northwest Missouri — ✉️ **hello@thewestacres.com** (+ phone) — High (dated blog posts incl. Jan 2025) — *hook: the farm setting — sheep, a horse, native wildlife alongside the Westies* — **DRAFTED**
+- **Westie Whispers** — westiewhispers.com — breeder, Denver CO, 30+ yrs — ✉️ **westie@westiewhispers.com** — Medium (no blog, but a "Spotlight" alumni page updated July 2026) — *hook: named alumni Lucca (Red Cross Hometown Hero) + Trystan (surfing competitor)* — **DRAFTED** (guest-post line dropped — no blog to place it on)
+- **Wisconsin Westie Rescue** — wisconsinwestierescue.com — 501(c)(3), since 1999, WI/IL/MN — ✉️ **info@wisconsinwestierescue.com** — Medium (nav has a "News and Information" section, no dated posts visible) — *hook: 27-year regional rescue footprint* — **DRAFTED**
+- **Westie Vibes** — westievibes.com — personal blog (Miruna, Portugal), her Westie Sami — 📝 contact form only, no email found — Medium-High (strongest personal voice of the wave — recent post on Sami's tail-amputation surgery) — MANUAL — light-touch approach (surgery/recovery content, not a death)
+- **Westie Rescue USA** — westierescue.com — national rescue clearinghouse — 📝 "Contact Us" nav link only, no email visible — Medium (dated Spring 2025 newsletter) — MANUAL
+- Excluded: Maryland Westie Rescue (403 on fetch, unverifiable); Westie Web (no blog, no email, social-only)
+- No memorial/scam/distress flags found on any of the five.
+
+### XL Bully *(3 clean emails; breed carries active UK/US legislation controversy — prioritized personal/positive-tone sites over political-advocacy content per the brief)*
+- **Showtime Bullies** — showtimebullies.com/blog/ — active blog, high cadence — ✉️ **russ@showtimebullies.com** ("Hi Russ") — High (posts through Jul 18 2026) — *hook: Jul 17 2026 post "Is a Family Friendly XL Bully Right for You?"* — **DRAFTED**
+- **American XL Bully** — americanxlbully.com — family-run hobby breeder, LA — ✉️ **americanxlbullyforsale@gmail.com** — Medium (no blog) — *hook: foundation pair "Son of Thunder" × "Iceey Queen," explicitly framed as a hobby, not commercial, program* — **DRAFTED** (guest-post line dropped — no blog)
+- **Kingdom Bully Kennels** — kingdombullykennels.com — family breeder, Indianapolis IN — ✉️ **KingdomBullyKennels80@gmail.com** — Medium (no blog) — *hook: wife is a protection/obedience trainer, teenage daughter Alli involved, studs "Bossy's Congo" and "Johnny Bones"* — **DRAFTED** (guest-post line dropped — no blog)
+- **Bully Owners** — bullyowners.com/xl-american-bully-guide/ — active blog, "2026 Edition" guide (Feb 2026) — 📝 form only, no email visible — Medium — ⚠️ the guide covers the UK Dangerous Dogs Act + seizure/destruction risk in detail (informational, not campaigning, but legislation-focused) — NOT drafted, flagged brand-risk per the brief — MANUAL, James's call
+- **Buff N Blue Bullies** — buffnbluebullies.com — breeder, litter listings — email present only as a footer hyperlink (buffnbullycamp@yahoo.com), not plain visible text — treated as unverified per the strict on-page-plain-text rule — Low-Medium (phone verified: 334-468-1532) — *hook: named breeding dogs Jakari + Christina Aguilera, current litter puppy-pick names* — MANUAL/verify-first
+- Excluded: Real XL Bullies (no email, thin testimonials); Lucci's House Bully Rescue (not XL-specific, no email); UK rescue orgs Hope Rescue / Birmingham Dogs Home (403-blocked on fetch, inherently DDA/legislation-focused — flagged political, not pursued); a GoFundMe for a rescue XL Bully's surgery (fundraiser, not a linkable site, financial-distress content — excluded, noted for awareness only)
+
+## Wave 15 draft messages (7 staged 2026-07-20)
+
+All follow the standard template with these per-prospect personalizations (full text lives in the Gmail drafts):
+1. **Let's Talk Yorkie** (susan@letstalkyorkie.com, "Hi Susan") — her post on NY's new retail-puppy-sale ban.
+2. **The West Acres** (hello@thewestacres.com) — the 220-acre riverside Missouri farm, sheep and horse included.
+3. **Westie Whispers** (westie@westiewhispers.com) — Spotlight alumni Lucca (Red Cross Hometown Hero) + Trystan (surfer); guest-post line dropped (no blog).
+4. **Wisconsin Westie Rescue** (info@wisconsinwestierescue.com) — the 27-year WI/IL/MN rescue footprint; guest-post reframed as newsletter offer.
+5. **Showtime Bullies** (russ@showtimebullies.com, "Hi Russ") — the Jul 17 2026 "family friendly XL Bully" post.
+6. **American XL Bully** (americanxlbullyforsale@gmail.com) — foundation pair Son of Thunder × Iceey Queen; guest-post line dropped (no blog).
+7. **Kingdom Bully Kennels** (KingdomBullyKennels80@gmail.com) — the family-training angle (wife + daughter Alli) + named studs; guest-post line dropped (no blog).
+
+**Not drafted — verify-first / manual (reasons above):** Texas Teacups Yorkies, Pocketbook Pups, teacupyorkies.info (Teacup Yorkie); Westie Vibes, Westie Rescue USA (Westie); Bully Owners (political/BSL content, brand-risk), Buff N Blue Bullies (email unverified — hyperlink only) (XL Bully).
+
+**Campaign status: the breed queue is now fully processed.** Every `breeds.js` entry (excluding "Mixed Breed" / "Other / Not sure") has been researched across Waves 0–15. Recommend James disable the `breed-outreach.yml` workflow's schedule — see `outreach-staging-log.md` run log for the same note.
