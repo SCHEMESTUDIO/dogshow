@@ -1,0 +1,86 @@
+{
+  "_readme": [
+    "Machine-checkable facts for dogshow.lol, enforced by scripts/check_constitution.py in SCHEMESTUDIO/postwerks (constitution-sync workflow, daily).",
+    "Contract: every check pins a value that BOTH the code and constitution/facts.md must agree on. If you change the code value, update facts.md AND this file in the same commit — a red constitution-sync run means one of the three disagrees.",
+    "Check types: 'expect' = regex capture group 1 must equal it; 'present': true = pattern must match; 'forbid': true = pattern must NOT match. 'facts_must_mention' = literal substring(s) that must appear in constitution/facts.md. Patterns are Python re; 'flags': 'm' adds MULTILINE. All file paths are repo-root-relative.",
+    "banned_claims: phrases under the given facts.md heading are scanned for (case-insensitive) across 'globs'; 'allow' maps a filename to phrases permitted there (e.g. a legal page quoting a retired price)."
+  ],
+  "site": "dogshow",
+  "value_checks": [
+    {
+      "id": "bones-on-register",
+      "why": "free bones granted at signup — quoted in facts, index FAQ, terms",
+      "file": "party/server.js",
+      "pattern": "const BONES_ON_REGISTER = (\\d+);",
+      "expect": "50",
+      "facts_must_mention": "50 bones"
+    },
+    {
+      "id": "bones-per-topup",
+      "why": "bones added by Dog Entry Pro / Bones Pack",
+      "file": "party/server.js",
+      "pattern": "const BONES_PER_TOPUP = (\\d+);",
+      "expect": "250",
+      "facts_must_mention": "+250 bones"
+    },
+    {
+      "id": "bones-topdog",
+      "why": "bones added by Top Dog",
+      "file": "party/server.js",
+      "pattern": "const BONES_TOPDOG = (\\d+);",
+      "expect": "1000",
+      "facts_must_mention": "+1,000 bones"
+    },
+    {
+      "id": "pro-price",
+      "why": "Dog Entry Pro price. NB: the binding price lives in Stripe behind the price_ id; this pins the priceMap comment, which is the repo's only statement of the number",
+      "file": "party/server.js",
+      "pattern": "general: 'price_[^']+',\\s*// \\$(\\d+\\.\\d\\d)",
+      "expect": "1.99",
+      "facts_must_mention": "$1.99"
+    },
+    {
+      "id": "topdog-price",
+      "why": "Top Dog price (same Stripe caveat as pro-price)",
+      "file": "party/server.js",
+      "pattern": "premium_plus: 'price_[^']+',\\s*// \\$(\\d+\\.\\d\\d)",
+      "expect": "5.99",
+      "facts_must_mention": "$5.99"
+    },
+    {
+      "id": "retired-premium-sku-stays-dead",
+      "why": "the $3.99 'premium' Enter-Your-Dog SKU was retired 2026-06-23; it must never reappear as an active priceMap key",
+      "file": "party/server.js",
+      "pattern": "^\\s*premium: 'price_",
+      "flags": "m",
+      "forbid": true
+    },
+    {
+      "id": "entry-is-free",
+      "why": "free-to-enter is the load-bearing claim of the whole site",
+      "file": "party/server.js",
+      "pattern": "free-to-enter model",
+      "present": true,
+      "facts_must_mention": "Entering a dog is FREE"
+    },
+    {
+      "id": "terms-quotes-pro-price",
+      "why": "terms.html §5.1 tier table must state the live Pro price",
+      "file": "terms.html",
+      "pattern": "\\$1\\.99",
+      "present": true
+    },
+    {
+      "id": "terms-quotes-topdog-price",
+      "why": "terms.html §5.1 tier table must state the live Top Dog price",
+      "file": "terms.html",
+      "pattern": "\\$5\\.99",
+      "present": true
+    }
+  ],
+  "banned_claims": {
+    "section": "## Banned claims",
+    "globs": ["*.html", "llms.txt"],
+    "allow": {}
+  }
+}

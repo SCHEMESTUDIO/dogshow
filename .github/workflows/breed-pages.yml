@@ -1,0 +1,92 @@
+name: Daily Breed Page Publisher
+
+# Auto-publishes 2 new /breeds/{slug} hub pages per day for SEO.
+# Claude writes the pages (prompts/breed-pages.md) into api/breed.js + updates
+# breeds.js / breeds.html / sitemap.xml / llms.txt / the queue state file;
+# an optional step generates hero images via Gemini; the commit to main
+# triggers the normal Vercel deploy. Report goes to Telegram.
+#
+# Daily 06:00 UTC.
+#
+# Secrets required: ANTHROPIC_API_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_OPS_CHAT_ID.
+# Optional: GEMINI_API_KEY (hero images; pages degrade gracefully without).
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-breed-pages:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Write breed pages (Claude)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          mkdir -p .ci
+          claude -p "$(cat prompts/breed-pages.md)" --model claude-sonnet-5 --max-turns 90 --dangerously-skip-permissions
+
+      - name: Generate hero images (optional — skips without GEMINI_API_KEY)
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_IMAGE_MODEL: gemini-3.1-flash-image
+        run: |
+          if [ -n "$GEMINI_API_KEY" ]; then
+            node scripts/generate-breed-heroes.mjs
+          else
+            echo "GEMINI_API_KEY not set — skipping hero generation (pages fall back gracefully)"
+          fi
+
+      - name: Sanity gate before publish
+        run: |
+          node --check api/breed.js
+          node --check breeds.js
+          # Refuse to publish if Claude left the queue untouched but edited content
+          # (would mean state tracking is broken and tomorrow re-publishes the same pages).
+          if ! git diff --quiet -- api/breed.js && git diff --quiet -- data/breed-page-queue.md; then
+            echo "api/breed.js changed but queue state did not — aborting publish"
+            exit 1
+          fi
+
+      - name: Commit + publish
+        run: |
+          git config user.name "Dog Show Bot"
+          git config user.email "bot@dogshow.lol"
+          git add api/breed.js breeds.js breeds.html sitemap.xml llms.txt \
+                  data/breed-page-queue.md scripts/breed-hero-prompts.json breeds-img
+          if git diff --staged --quiet; then
+            echo "No changes to publish"
+          else
+            git commit -m "breeds: publish daily pages $(date -u +%Y-%m-%d)"
+            git pull --rebase origin main && git push
+          fi
+
+      - name: Telegram report
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_OPS_CHAT_ID: ${{ secrets.TELEGRAM_OPS_CHAT_ID }}
+        run: |
+          {
+            cat .ci/telegram-report.txt 2>/dev/null || echo "breed-pages ran but produced no report"
+          } > /tmp/breed-pages-report.txt
+          bash scripts/notify_telegram.sh --file /tmp/breed-pages-report.txt
+
+      - name: Telegram failure alert
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_OPS_CHAT_ID: ${{ secrets.TELEGRAM_OPS_CHAT_ID }}
+        run: bash scripts/notify_telegram.sh "FAILED - breed-pages (dogshow). ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

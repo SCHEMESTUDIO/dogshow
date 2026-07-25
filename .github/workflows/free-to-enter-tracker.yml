@@ -40,12 +40,11 @@ jobs:
             git pull --rebase origin main && git push
           fi
 
-      - name: Telegram summary
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_OPS_CHAT_ID: ${{ secrets.TELEGRAM_OPS_CHAT_ID }}
-        run: bash scripts/notify_telegram.sh --file /tmp/summary.txt
-
+      # Daily Telegram summary REMOVED 2026-07-25 (notification redesign):
+      # 3 of 5 pings that week were +0/+0 noise. The CSV append continues as
+      # the durable record; the human-facing daily numbers now come from the
+      # postwerks daily-metrics ping (one short cross-site message). Failure
+      # alert below stays — FAILs are the one thing that still pings.
       - name: Telegram failure alert
         if: failure()
         env:

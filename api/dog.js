@@ -469,12 +469,23 @@ module.exports = async function handler(req, res) {
       'August', 'September', 'October', 'November', 'December'];
     return `${months[m - 1]} ${y}`;
   };
-  const winsHtml = (honors && honors.length)
+  // honors[] mixes two kinds as of 2026-07-15: 'Best in Show' (legacy entries
+  // all carry this title) and 'Best in Breed' (per-breed monthly ribbon).
+  const bisHonors = (honors || []).filter(h => !h.title || h.title === 'Best in Show');
+  const bibHonors = (honors || []).filter(h => h.title === 'Best in Breed');
+  const bisHtml = bisHonors.length
     ? `<div class="cert-trophies">
-<div class="cert-trophies-label">🏆 Best in Show ${honors.length > 1 ? '· ' + honors.length + '× champion' : 'champion'}</div>
-<div class="cert-trophies-row">${[...honors].reverse().map(h => `<span class="cert-trophy">🏆 ${esc(monthYearFromSeason(h.seasonId) || h.seasonLabel || '')}</span>`).join('')}</div>
+<div class="cert-trophies-label">🏆 Best in Show ${bisHonors.length > 1 ? '· ' + bisHonors.length + '× champion' : 'champion'}</div>
+<div class="cert-trophies-row">${[...bisHonors].reverse().map(h => `<span class="cert-trophy">🏆 ${esc(monthYearFromSeason(h.seasonId) || h.seasonLabel || '')}</span>`).join('')}</div>
 </div>`
     : '';
+  const bibHtml = bibHonors.length
+    ? `<div class="cert-trophies">
+<div class="cert-trophies-label">🎖️ Best in Breed ${bibHonors.length > 1 ? '· ' + bibHonors.length + ' ribbons' : ''}</div>
+<div class="cert-trophies-row">${[...bibHonors].reverse().map(h => `<span class="cert-trophy">🎖️ ${esc(h.breed || '')} · ${esc(monthYearFromSeason(h.seasonId) || h.seasonLabel || '')}</span>`).join('')}</div>
+</div>`
+    : '';
+  const winsHtml = bisHtml + bibHtml;
 
   // This month's Best in Show race banner (server-rendered, SEO-safe).
   let raceHtml = '';

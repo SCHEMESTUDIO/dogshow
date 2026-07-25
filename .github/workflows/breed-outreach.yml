@@ -10,9 +10,14 @@ name: Daily Breed Outreach Stager
 # Secrets required: ANTHROPIC_API_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_OPS_CHAT_ID,
 # GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_REFRESH_TOKEN (scope: gmail.compose).
 
+# SCHEDULE RETIRED 2026-07-25: all 111 breeds in breeds.js were researched
+# across Waves 0-15 (finished 2026-07-20); the workflow then ran no-op for 4
+# straight days recommending its own disablement. workflow_dispatch stays for
+# a deliberate re-canvass of an already-processed breed. If breeds.js ever
+# gains new breeds, uncomment the schedule.
 on:
-  schedule:
-    - cron: '0 7 * * 1-5'
+  # schedule:
+  #   - cron: '0 7 * * 1-5'
   workflow_dispatch:
 
 permissions:

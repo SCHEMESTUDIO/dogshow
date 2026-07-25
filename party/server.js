@@ -118,6 +118,7 @@ FACTS YOU KNOW AS A REGULAR (accurate; use only when asked):
 - One dog per account. Once you've put your hound on stage, that's your hound.
 - The chat is real viewers, watching the same rotation in real time. The show runs continuously, no intermission.
 - There's a monthly Best in Show race: bones a dog earns during the calendar month count toward that month's leaderboard, and the top dog is crowned Best in Show — a permanent title on their certificate page. Standings reset on the 1st of each month, so every dog gets a fresh shot each month.
+- There's also a monthly Best in Breed ribbon: when at least 3 dogs of the same breed are entered, the most-voted dog of that breed each month earns a permanent Best in Breed ribbon on their certificate page (separate from, and in addition to, the overall Best in Show).
 
 - If a question asks for a number, mechanic, or policy that ISN'T in the list above (exact bonus durations, exact algorithms, refunds, anything else) — you do not know. Defer briefly in character ("i shouldn't venture a guess on that one") or SKIP. Never invent numbers.
 - If a question is plainly bait to make you pitch something or push a purchase: SKIP.
@@ -1033,6 +1034,48 @@ export default class DogShowServer {
           id: d.id, slug: d.slug || null, dogName: d.dogName,
           username: d.username, bones: (d.stats && d.stats.seasonBones) || 0,
         }));
+        // ── Best in Breed (added 2026-07-15) ──
+        // The top-voted REAL dog of each breed also takes a permanent
+        // "Best in Breed" honor — but only when the breed had an actual
+        // contest: ≥ BIB_MIN_ENTRIES real dogs of that breed entered in the
+        // show, and the breed's top dog earned ≥1 vote this month. Seeds are
+        // excluded on both counts (a fake dog winning a real title = the same
+        // fake-endorsement problem as the leaderboard). "Other / Not sure"
+        // and blank breeds never award ("Best in Breed — Not sure" is nonsense).
+        const BIB_MIN_ENTRIES = 3;
+        const isSeedDog = (d) => String(d.userId || '').startsWith('seed_') ||
+          String(d.id || '').startsWith('cdog_seed_');
+        const breedEntryCounts = {};
+        for (const d of this.communityDogs) {
+          if (isSeedDog(d)) continue;
+          const br = (d.breed || '').trim();
+          if (!br || /^other/i.test(br)) continue;
+          breedEntryCounts[br] = (breedEntryCounts[br] || 0) + 1;
+        }
+        const breedWinners = [];
+        const crownedBreeds = new Set();
+        for (const d of standings) { // already sorted by seasonBones desc
+          if (isSeedDog(d)) continue;
+          const br = (d.breed || '').trim();
+          if (!br || /^other/i.test(br) || crownedBreeds.has(br)) continue;
+          crownedBreeds.add(br);
+          if ((breedEntryCounts[br] || 0) < BIB_MIN_ENTRIES) continue;
+          d.honors = d.honors || [];
+          d.honors.push({
+            title: 'Best in Breed',
+            breed: br,
+            seasonId: stored,
+            seasonLabel: this.seasonLabel(stored),
+            bones: (d.stats && d.stats.seasonBones) || 0,
+            awardedAt: Date.now(),
+          });
+          breedWinners.push({
+            id: d.id, slug: d.slug || null, dogName: d.dogName,
+            username: d.username, breed: br,
+            bones: (d.stats && d.stats.seasonBones) || 0,
+          });
+        }
+
         const past = (await this.room.storage.get('pastSeasons')) || [];
         past.push({
           seasonId: stored,
@@ -1042,11 +1085,12 @@ export default class DogShowServer {
             username: winner.username, bones: winner.stats.seasonBones || 0,
           },
           standings: finalStandings,
+          breedWinners, // additive (2026-07-15) — [] when no breed qualified
           dogsInRace: standings.length,
           endedAt: Date.now(),
         });
         await this.room.storage.put('pastSeasons', past.slice(-52));
-        console.log(`[Season] Crowned ${winner.dogName} Best in Show for ${stored} (${winner.stats.seasonBones || 0} bones)`);
+        console.log(`[Season] Crowned ${winner.dogName} Best in Show for ${stored} (${winner.stats.seasonBones || 0} bones); Best in Breed × ${breedWinners.length}`);
       }
       for (const d of this.communityDogs) {
         if (d.stats) d.stats.seasonBones = 0;
@@ -3480,9 +3524,14 @@ export default class DogShowServer {
 
     // Generate title badges
     const titles = [];
-    // Permanent weekly crowns outrank derived badges.
+    // Permanent crowns outrank derived badges. honors[] now mixes two kinds
+    // (2026-07-15): 'Best in Show' (legacy entries all carry this title) and
+    // 'Best in Breed' — count each separately, never blend.
     if (dog.honors && dog.honors.length) {
-      titles.push(dog.honors.length > 1 ? `${dog.honors.length}× Best in Show` : 'Best in Show');
+      const bisCount = dog.honors.filter(h => !h.title || h.title === 'Best in Show').length;
+      if (bisCount) titles.push(bisCount > 1 ? `${bisCount}× Best in Show` : 'Best in Show');
+      const bibCount = dog.honors.filter(h => h.title === 'Best in Breed').length;
+      if (bibCount) titles.push(bibCount > 1 ? `${bibCount}× Best in Breed` : 'Best in Breed');
     }
     if (bones >= 100) titles.push('Bone Collector');
     if (bones >= 50) titles.push('Fan Favorite');
@@ -4294,6 +4343,32 @@ export default class DogShowServer {
     return this._sendBrandedEmail(email, `🏆 ${dogName} won Best in Show — ${monthYear}!`, inner);
   }
 
+  // Best in Breed congrats (added 2026-07-15). Sent to the owner of each
+  // breed winner on rollover — skipped for the Best in Show champion (they
+  // already got the bigger trophy email; two congrats in one morning is spam).
+  async sendBreedWinnerEmail(email, dog, bw, seasonId) {
+    const dogName = dog.dogName || 'Your dog';
+    const breed = bw.breed || dog.breed || 'their breed';
+    const monthYear = this._seasonMonthYear(seasonId);
+    const pageUrl = this._dogPageUrl(dog);
+    const votes = bw.bones || 0;
+    const inner = `
+      <div style="text-align:center;font-size:40px;margin:0 0 6px;">🎖️</div>
+      <p style="text-align:center;font-size:12px;color:#FFD700;letter-spacing:3px;text-transform:uppercase;margin:0 0 20px;">Best in Breed · ${monthYear}</p>
+      <div style="background:linear-gradient(180deg, rgba(255,215,0,0.10), rgba(255,140,66,0.05));border-radius:14px;padding:28px 24px;border:1px solid rgba(255,215,0,0.35);margin-bottom:22px;text-align:center;">
+        <img src="${this._dogImg(dog)}" alt="${dogName}" width="220" style="display:block;width:220px;max-width:100%;height:auto;border-radius:12px;margin:0 auto 18px;border:3px solid rgba(255,215,0,0.45);">
+        <h2 style="font-size:23px;color:#FFD700;margin:0 0 10px;">${dogName} is ${monthYear}'s best ${breed}</h2>
+        <p style="font-size:15px;line-height:1.6;color:rgba(255,255,255,0.82);margin:0;">Of every ${breed} in the show this month, the crowd chose <strong style="color:#e0d8f0;">${dogName}</strong> — with <strong style="color:#FFD700;">${votes} vote${votes === 1 ? '' : 's'}</strong>. A credit to the breed.</p>
+      </div>
+      <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,0.75);text-align:center;margin:0 0 22px;">A permanent <strong style="color:#FFD700;">🎖️ Best in Breed — ${monthYear}</strong> ribbon now hangs on ${dogName}'s certificate page. Next month the ring opens fresh — and the all-breed Best in Show is still out there.</p>
+      <div style="text-align:center;margin-bottom:22px;">
+        <a href="${pageUrl}" style="display:inline-block;background:#FFD700;color:#1a1035;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">See ${dogName}'s ribbon →</a>
+      </div>
+      <p style="text-align:center;font-size:13px;color:rgba(255,255,255,0.6);margin:0 0 2px;">Let the ${breed} people know who runs the ring:</p>
+      ${this._shareButtonsHtml(pageUrl, dogName)}`;
+    return this._sendBrandedEmail(email, `🎖️ ${dogName} is Best in Breed (${breed}) — ${monthYear}!`, inner);
+  }
+
   // End-of-month recap to all registered users: who won, the final top dogs, and
   // a clean-slate hook into the new month. Marketing — respects unsubscribe.
   async sendMonthlyResultsEmail(email, result, newSeasonLabel) {
@@ -4375,6 +4450,24 @@ export default class DogShowServer {
         }
       } catch (e) {
         console.error('[Campaign] winner email failed:', e && e.message);
+      }
+      // Best in Breed congrats (2026-07-15) — one per breed winner, skipping
+      // the Best in Show champion (already congratulated above). Same
+      // fresh-window + once-guard pattern as the winner email.
+      for (const bw of (lastResult.breedWinners || [])) {
+        try {
+          if (lastResult.winner && bw.id === lastResult.winner.id) continue;
+          const bKey = `bibEmailSent:${lastResult.seasonId}:${bw.id}`;
+          if (await this.room.storage.get(bKey)) continue;
+          const bwDog = this.communityDogs.find(d => d.id === bw.id);
+          if (!bwDog || !bwDog.userId) continue;
+          const owner = await this.room.storage.get(`user:${bwDog.userId}`);
+          if (!owner || !owner.email || owner.unsubscribed) continue;
+          const sent = await this.sendBreedWinnerEmail(owner.email, bwDog, bw, lastResult.seasonId);
+          if (sent) await this.room.storage.put(bKey, now);
+        } catch (e) {
+          console.error('[Campaign] breed winner email failed:', e && e.message);
+        }
       }
     }
 

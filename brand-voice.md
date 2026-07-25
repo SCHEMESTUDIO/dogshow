@@ -117,6 +117,7 @@ stale, the bot and the copy will confidently tell users the wrong thing.
 - **Bones are glossed as "votes"** on first contact.
 - One dog per account.
 - Monthly **"Best in Show"** race — the month's top dog by votes earns a permanent honor.
+- Monthly **"Best in Breed"** ribbon (added 2026-07-15) — the month's top-voted dog of each breed with **≥3 entered dogs** earns a permanent per-breed ribbon on their certificate page.
 
 ---
 
