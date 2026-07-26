@@ -13,16 +13,14 @@ until sibling-page routing exists in `api/breed.js` / `vercel.json`.
 
 | # | Slug | Display name | Head keywords | Vol (lowfruits) | In breeds.js? | Notes |
 |---|------|--------------|---------------|-----------------|---------------|-------|
-| 1 | belgian-malinois | Belgian Malinois | belgian malinois (for sale) | 40,500 | No — add | Working group; K9/military angle is the famous-section gift |
-| 2 | maltese | Maltese | maltese puppies | 22,200 | Yes | |
-| 3 | bernese-mountain-dog | Bernese Mountain Dog | bernese mountain dog for sale | 14,800 | Yes | Parent of live bernedoodle + golden-mountain-dog — cross-link both ways |
-| 4 | vizsla | Vizsla | vizsla puppies | 14,800 | Yes | |
-| 5 | chocolate-lab | Chocolate Lab | chocolate lab puppies | 12,100 | No — add | Color variant of Labrador; frame as variety, cross-link labradoodle |
-| 6 | mini-french-bulldog | Mini French Bulldog | mini french bulldog | 12,100 | No — add | Variant of live french-bulldog — distinct H1/schema, "different variety" framing (plan §9.3) |
-| 7 | giant-schnauzer | Giant Schnauzer | giant schnauzer | 12,100 | No — add | |
-| 8 | newfoundland | Newfoundland | newfoundland puppies | 9,900 | Yes | |
-| 9 | american-bully | American Bully | american bully for sale | 8,100 | No — add | Owner-fit section must handle temperament/BSL topic honestly, in voice |
-| 10 | agouti-husky | Agouti Husky | agouti husky | 6,600 | Do NOT add | Coat-color variant — owners tag "Siberian Husky"; page fine, no dropdown entry |
+| 1 | bernese-mountain-dog | Bernese Mountain Dog | bernese mountain dog for sale | 14,800 | Yes | Parent of live bernedoodle + golden-mountain-dog — cross-link both ways |
+| 2 | vizsla | Vizsla | vizsla puppies | 14,800 | Yes | |
+| 3 | chocolate-lab | Chocolate Lab | chocolate lab puppies | 12,100 | No — add | Color variant of Labrador; frame as variety, cross-link labradoodle |
+| 4 | mini-french-bulldog | Mini French Bulldog | mini french bulldog | 12,100 | No — add | Variant of live french-bulldog — distinct H1/schema, "different variety" framing (plan §9.3) |
+| 5 | giant-schnauzer | Giant Schnauzer | giant schnauzer | 12,100 | No — add | |
+| 6 | newfoundland | Newfoundland | newfoundland puppies | 9,900 | Yes | |
+| 7 | american-bully | American Bully | american bully for sale | 8,100 | No — add | Owner-fit section must handle temperament/BSL topic honestly, in voice |
+| 8 | agouti-husky | Agouti Husky | agouti husky | 6,600 | Do NOT add | Coat-color variant — owners tag "Siberian Husky"; page fine, no dropdown entry |
 
 **SKIPPED — do not write:** `mini-australian-shepherd` (22.2K) — same breed as the live
 `/breeds/mini-aussie` page; a second page would cannibalize (plan §6 flagged this).
@@ -67,3 +65,6 @@ mini-golden size, etc.). Requires new routing + template in `api/breed.js` /
 ## Processed log
 
 (CI appends: date · slug · notes)
+
+- 2026-07-26 · belgian-malinois · Published. AKC Herding group, 24–26in/60–80lb (M) · 22–24in/40–60lb (F), 1959 recognition. Famous section: Cairo (bin Laden raid), Diesel (2015 Saint-Denis raid, #JeSuisChien), John Wick 3/4 (Dazir & Havan, Halle Berry self-trained). Cross-linked from german-shepherd (already present) + cane-corso (swapped in for weak "mastiff" link). Added to breeds.html (Working group, was "Soon"), sitemap.xml, llms.txt, breed-hero-prompts.json. Already present in breeds.js/dropdown — no change needed there.
+- 2026-07-26 · maltese · Published. AKC Toy group, 7–9in/4–7lb, recognized 1888, ~2,000+ year history (Aristotle, ancient Malta). Famous section: royal owners (Elizabeth I, Mary Queen of Scots, Josephine Bonaparte), "The Comforter" nickname + Dark Ages near-extinction saved by Chinese kennelers, modern celebrities (Marilyn Monroe's "Mafia Honey," Leona Helmsley's "Trouble," Eva Longoria's "Jinxie"). Cross-linked from maltipoo (already present). Added to breeds.html (Companions group, was "Soon"), sitemap.xml, llms.txt, breed-hero-prompts.json. Already present in breeds.js/dropdown — no change needed there.

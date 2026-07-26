@@ -800,7 +800,7 @@ const BREEDS = {
       { slug: 'german-shepherd', name: 'German Shepherd' },
       { slug: 'dalmatian', name: 'Dalmatian' },
       { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
-      { slug: 'mastiff', name: 'Mastiff' },
+      { slug: 'belgian-malinois', name: 'Belgian Malinois' },
     ],
     breedTagName: 'Cane Corso',
   },
@@ -844,6 +844,86 @@ const BREEDS = {
       { slug: 'pointer', name: 'Pointer' },
     ],
     breedTagName: 'Dalmatian',
+  },
+
+  'belgian-malinois': {
+    name: 'Belgian Malinois',
+    headKeyword: 'Belgian Malinois',
+    metaDescription: "The Belgian Malinois: the working dog behind the world's most famous military and police units, and one of the least beginner-friendly breeds alive. An honest field guide, with stage notes.",
+    facts: {
+      'Group': 'Herding',
+      'Size': 'Males 24–26 in, 60–80 lb · Females 22–24 in, 40–60 lb',
+      'Temperament': 'Confident, alert, hardworking, extremely high drive, protective',
+      'Life expectancy': '12–14 years (sources vary; well-bred working lines are sometimes reported longer)',
+      'Coat': 'Short, straight, weather-resistant double coat; sheds year-round with two heavy seasonal blowouts',
+      'Colors': 'Rich fawn to mahogany with black overlay, black mask and ears',
+      'AKC recognized': 'Yes — 1959, one of four Belgian shepherd varieties',
+      'Origin': 'Mechelen ("Malines"), Belgium, 19th century — bred to herd sheep and cattle',
+    },
+    lede: `Ask most people to name the dog that went into Osama bin Laden's compound with Navy SEAL Team Six, and the guess is almost always German Shepherd. It was Cairo, a Belgian Malinois, kitted out in a body-armor vest with night vision and a radio, and by most accounts he did the hardest, scariest part of the job first. That mix-up says everything about the breed's public profile: quietly doing the world's most demanding security work for decades while a flashier, furrier cousin got the movie roles. The Malinois is smaller, leaner, and — ask any handler — even more relentlessly driven.`,
+    spotlight: `<p>A Belgian Malinois arriving on the Dog Show stage does not saunter on so much as report for an assignment it hasn't been briefed on yet. The build is all coiled purpose — square, athletic, ears locked forward — and the eyes are already working the room before the rest of the dog has caught up. Where a lapdog waits to be noticed, a Malinois has already noticed you, catalogued the exits, and formed a provisional opinion.</p>
+<p>What makes them riveting to watch is the same trait that makes them formidable on a police perimeter: total, uninterrupted focus. A tossed bone doesn't get a wag and a polite sniff — it gets tracked mid-air with the exact intensity a working Malinois applies to a training decoy. Viewers raised on golden retrievers find this faintly unnerving for about three seconds, and then completely magnetic.</p>
+<p>They rarely soften into the frame the way a doodle does. A Malinois on our stage looks, unmistakably, like a dog that would prefer to be given a job. Since we have not yet worked out how to hand a job to a dog through a livestream, it settles for looking extremely capable of one instead. The chat always asks whether it does bite-work. It does. We do not offer bite-work on the Dog Show. Everyone involved considers this the correct call.</p>`,
+    ownerFitHeading: 'Is a Belgian Malinois right for you?',
+    ownerFit: `<p>Read the temperament column again — confident, alert, extremely high drive — and take it as a warning label, not a compliment. This is, without exaggeration, one of the most demanding breeds most people will ever consider owning.</p>
+<p><strong>This is not a first dog.</strong> Belgian Malinois are bred for police, military, and protection work because they are relentless, and relentless does not switch off in a suburban living room. Without a confident, experienced handler providing real structure from puppyhood, that drive turns into destruction, obsessive behavior, or a dog that quietly decides it is in charge.</p>
+<p><strong>Exercise is not optional, and a walk does not count.</strong> Plan on one to two hours of genuine physical and mental work daily — running, structured training, a sport like agility or bikejoring, something with a job attached. A bored Malinois is not a quiet Malinois; it is a Malinois redecorating your sofa.</p>
+<p><strong>Prey drive.</strong> Bred originally to herd, the breed chases what moves — joggers, cyclists, cats, small dogs, occasionally children on scooters. This is manageable with training and management, not with hope.</p>
+<p><strong>The popularity problem.</strong> John Wick and a thousand social-media clips have made the Malinois look like the coolest dog alive, which it may well be, and that fame is currently filling rescues with Malinois whose owners did not do the reading above. Please do the reading above.</p>
+<p><strong>Shedding.</strong> A short coat sheds more than the length suggests, with two dramatic seasonal blowouts a year.</p>
+<p><strong>Health.</strong> Generally robust and long-lived for a working breed of this size, with hip and elbow dysplasia the main structural concerns — buy from a breeder who health-tests working lines, not one breeding for looks alone.</p>
+<p><strong>The verdict:</strong> for an experienced, active owner with a genuine job to give it — sport, work, serious training — the Belgian Malinois is one of the most capable dogs alive. For anyone who just watched a movie, it is a five-alarm mismatch.</p>`,
+    famousHeading: 'Famous Belgian Malinois',
+    famous: `<p>The breed's single most famous member is Cairo, the Malinois who accompanied Navy SEAL Team Six into Osama bin Laden's compound in 2011 and was, for a while, the only member of the raid whose name was made public. He is far from alone in that line of work — the Belgian Malinois is now the standard-issue dog for the U.S. Secret Service, most Western militaries, and a growing share of police K9 units, largely because its lighter, more compact build suits the parachute jumps and tight quarters that a heavier German Shepherd struggles with.</p>
+<p>Not every story ends well, and the breed's working record includes real loss alongside the glory. Diesel, a seven-year-old Belgian Malinois with the French police, was killed in the 2015 Saint-Denis raid that followed the Paris attacks, clearing rooms so human officers didn't have to go first. The hashtag #JeSuisChien trended worldwide in tribute, and Russia's interior minister offered France a puppy in solidarity. It is, in miniature, the whole story of the breed: unglamorous, dangerous work, done without complaint, usually noticed only after the fact.</p>
+<p>The breed's more recent fame is cinematic. Halle Berry's assassin character Sofia rode into John Wick: Chapter 3 with a pair of Belgian Malinois, Dazir and Havan, and Berry reportedly spent eight months training the dogs herself before filming — well enough that her trainers joked the dogs thought she was one of them. A Malinois belonging to the character Mr. Nobody returned for John Wick: Chapter 4. In both jobs, real and fictional, the breed did the same thing it has always done: showed up, worked harder than everyone else in the room, and let someone else take the bow.</p>`,
+    relatedBreeds: [
+      { slug: 'german-shepherd', name: 'German Shepherd' },
+      { slug: 'cane-corso', name: 'Cane Corso' },
+      { slug: 'rottweiler', name: 'Rottweiler' },
+    ],
+    breedTagName: 'Belgian Malinois',
+  },
+
+  maltese: {
+    name: 'Maltese',
+    headKeyword: 'Maltese',
+    metaDescription: "The Maltese: a pure-white companion breed old enough to appear in Aristotle's writing, and confident enough to have never once acted its size. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Toy',
+      'Size': '7–9 in at shoulder · typically 4–7 lb',
+      'Temperament': 'Affectionate, gentle, intelligent, fearless, alert',
+      'Life expectancy': '12–15 years',
+      'Coat': 'Long, silky, straight single coat (no undercoat); floor-length if left ungroomed',
+      'Colors': 'Pure white',
+      'AKC recognized': 'Yes — 1888',
+      'Origin': 'Central Mediterranean/Malta, antiquity — one of Europe\'s oldest toy breeds',
+    },
+    lede: `Aristotle wrote about small white lapdogs from Malta more than two thousand years ago, which makes the Maltese one of the very few things on this list older than the concept of written law. Since then the breed has needed almost no further editing. Ancient Mediterranean traders, Renaissance nobility, and a small dog too self-possessed to notice its own size all arrived, centuries apart, at the same formula: pure white, silky-coated, fearless out of all proportion to its weight, and constitutionally certain it belongs exactly where you happen to be sitting.`,
+    spotlight: `<p>A properly presented Maltese arrives on our stage looking less like a dog and more like a small, opinionated cloud that has decided to attend in person. The coat, when it's been let grow, falls in a straight silken curtain nearly to the floor — no undercoat, no fluff, just a sheet of white hair moving as one under the studio lights, parted neatly down the spine like a tiny debutante.</p>
+<p>What surprises first-time viewers is the confidence. A dog weighing well under seven pounds ought, by any sensible logic, to be nervous in front of a glowing screen full of strangers. The Maltese did not receive that memo. It holds its head up, meets the camera dead-on, and carries itself with the settled dignity of a dog that has been someone's favorite for three thousand years running and sees no reason that streak should end tonight.</p>
+<p>The bones arrive instantly and in quantity — there is very little audience resistance to a small white dog radiating that much unearned self-assurance. It is, on balance, one of the purest crowd-pleasers we host: no drama, no chaos, just an ancient companion breed doing the one job it has always done extremely well.</p>`,
+    ownerFitHeading: 'Is a Maltese right for you?',
+    ownerFit: `<p>An excellent companion for the right household, with a short list of real commitments attached — mostly involving hair, teeth, and how much time you actually spend at home.</p>
+<p><strong>The coat is a job, not a feature.</strong> That silky sheet mats quickly without regular brushing, and most pet owners keep it in a shorter "puppy cut" rather than attempt the full show-length curtain at home. Budget for a groomer every four to six weeks, or commit properly to learning the routine yourself.</p>
+<p><strong>Tear staining.</strong> The white coat shows every mark, and Maltese are prone to reddish-brown tear staining around the eyes. Daily gentle wiping keeps it manageable; ignoring it does not make it go away.</p>
+<p><strong>They cannot be left alone all day.</strong> Maltese bond hard to their people and are prone to real separation anxiety. This is a companion breed in the most literal sense — it wants to be in the room, ideally on you — and a household empty from nine to six is a poor match.</p>
+<p><strong>Small-dog fragility.</strong> At well under seven pounds, a Maltese can be seriously hurt by a fall, a rough child, or an overly enthusiastic larger dog. Households with very young children should supervise closely.</p>
+<p><strong>They talk, and often.</strong> Fearless well past what its size ought to allow, a Maltese will alert-bark at the doorbell, the mail carrier, and any dog three times its weight without a flicker of hesitation. It makes for a surprisingly capable watchdog in a body built for a lap, but apartment neighbors deserve fair warning, and some basic "quiet" training early on saves everyone's ears.</p>
+<p><strong>Dental health.</strong> Toy breeds crowd teeth into a small jaw, and dental disease is close to universal without regular brushing and professional cleanings.</p>
+<p><strong>Other health notes.</strong> Patellar luxation (a slipping kneecap) is the most common orthopedic issue, and young white-coated dogs are occasionally prone to a treatable tremor condition vets call "white dog shaker syndrome." Neither is a common cause for alarm with a health-screening breeder and attentive care.</p>
+<p><strong>The verdict:</strong> a wonderful, adaptable companion for someone home often, prepared for real grooming upkeep, and gentle with a small, delicate dog. A poor fit for a chaotic, dog-piling household or a family expecting a low-maintenance breed.</p>`,
+    famousHeading: 'Famous Maltese',
+    famous: `<p>Few breeds have kept this much company with royalty for this long. Ancient Greek pottery depicts small Maltese-type dogs, Aristotle wrote about them directly, and for centuries the breed carried the nickname "The Comforter" — kept tucked against an aching stomach or a cold bed on the reasonable theory that a warm, devoted small dog beats most medicine. The lineage nearly didn't survive Europe's Dark Ages; the breed's own historians credit Chinese kennelers with preserving and crossbreeding the line when it was at its most fragile, which makes the modern Maltese a genuinely international rescue story disguised as a lapdog.</p>
+<p>By the Renaissance the breed was a fixture of European aristocratic life — painters including Titian featured them, and Mary Queen of Scots is said to have kept one for comfort in her final days. Queen Elizabeth I and Josephine Bonaparte both kept Maltese of their own; the breed has essentially never been out of a palace since antiquity decided to let it in.</p>
+<p>The modern celebrity record is just as thorough. Marilyn Monroe received a white Maltese named Mafia Honey as a gift from Frank Sinatra, and the dog stayed by her side through her final years. Hotelier Leona Helmsley left her Maltese, Trouble, a trust fund reported at $12 million — a detail that tells you most of what you need to know about how this breed makes people feel. Eva Longoria's Maltese, Jinxie, walked down the aisle at her wedding to Tony Parker. Three thousand years of royal laps later, the job description has never once changed.</p>`,
+    relatedBreeds: [
+      { slug: 'maltipoo', name: 'Maltipoo' },
+      { slug: 'teacup-poodle', name: 'Teacup Poodle' },
+      { slug: 'cavapoo', name: 'Cavapoo' },
+      { slug: 'yorkshire-terrier', name: 'Yorkshire Terrier' },
+    ],
+    breedTagName: 'Maltese',
   },
 };
 
