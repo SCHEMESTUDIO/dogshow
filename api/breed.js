@@ -473,6 +473,7 @@ const BREEDS = {
       { slug: 'mini-aussie', name: 'Mini Aussie' },
       { slug: 'dalmatian', name: 'Dalmatian' },
       { slug: 'belgian-malinois', name: 'Belgian Malinois' },
+      { slug: 'vizsla', name: 'Vizsla' },
     ],
     breedTagName: 'German Shepherd',
   },
@@ -881,6 +882,7 @@ const BREEDS = {
       { slug: 'german-shepherd', name: 'German Shepherd' },
       { slug: 'cane-corso', name: 'Cane Corso' },
       { slug: 'rottweiler', name: 'Rottweiler' },
+      { slug: 'vizsla', name: 'Vizsla' },
     ],
     breedTagName: 'Belgian Malinois',
   },
@@ -924,6 +926,82 @@ const BREEDS = {
       { slug: 'yorkshire-terrier', name: 'Yorkshire Terrier' },
     ],
     breedTagName: 'Maltese',
+  },
+
+  'bernese-mountain-dog': {
+    name: 'Bernese Mountain Dog',
+    headKeyword: 'Bernese Mountain Dog',
+    metaDescription: "The Bernese Mountain Dog: a tricolor Swiss farm dog built for hauling carts, now mostly employed hauling itself onto the sofa. A field guide, with stage notes — and an honest word about the years you get.",
+    facts: {
+      'Group': 'Working',
+      'Size': 'Males 25–27.5 in, 80–115 lb · Females 23–26 in, 70–95 lb',
+      'Temperament': 'Calm, gentle, eager to please, reserved with strangers, devoted to family',
+      'Life expectancy': '7–10 years (short for a breed this size, driven by a high cancer rate)',
+      'Coat': 'Long, thick double coat; heavy seasonal shedding',
+      'Colors': 'Tricolor only — black base, white blaze and chest, rust points',
+      'AKC recognized': 'Yes — 1937',
+      'Origin': 'Bernese Alps, Switzerland — bred as a farm and draft dog',
+    },
+    lede: `Before the Bernese Mountain Dog was anyone's living-room giant, it was staff. Farmers in the Swiss canton of Bern bred it to haul cartloads of milk, cheese, and produce down mountain roads, herd cattle, and guard the property overnight — a working triple-threat wrapped in a striking tricolor coat, sturdy enough for real labor and even-tempered enough to be trusted loose around children and livestock alike. Motor vehicles ended the cart-hauling career decades ago; the temperament that made the dog good at the job never got the memo. What's left is one of the gentlest large dogs alive, still built like it might be handed a harness at any moment, and still, in some corners of Switzerland, entered in carting competitions purely for the love of the old work.`,
+    spotlight: `<p>A Bernese Mountain Dog does not so much walk onto the stage as arrive, the way weather arrives — unhurried, filling the frame, entirely sure of its welcome. The tricolor coat does most of the work before the dog does anything at all: jet-black flanks, a white blaze splitting the face clean down the middle, a white marking at the chest that Swiss breeders have called the "Swiss cross" for a century, and rust points warming the cheeks, legs, and eyebrows like a wax seal. Under studio lights it photographs the way a good tapestry photographs — better the longer you look at it.</p>
+<p>What keeps viewers watching is the mismatch between the size and the manner. A dog once built to pull a loaded cart down an Alpine road sits, on our stage, with the unbothered patience of an animal that has never once been in a hurry. Ears drop. Head tilts. The tail, plumed and constantly in motion, does most of the emotional heavy lifting. Children in the chat ask, without fail, whether it bites. It does not. It leans.</p>
+<p>Bone counts for a Bernese Mountain Dog run high and steady — not the instant spike a merle Mini Aussie gets, but a slow, accumulating goodwill, the sort a genuinely trustworthy animal earns rather than performs for. Regulars in the chat tend to remember a Bernese Mountain Dog's name long after the broadcast ends, which is more than can be said for most guests.</p>`,
+    ownerFitHeading: 'Is a Bernese Mountain Dog right for you?',
+    ownerFit: `<p>Read the next paragraph before you decide whether a Bernese Mountain Dog is right for you.</p>
+<p><strong>The lifespan is the hardest fact on this page.</strong> Reputable sources put the breed's median lifespan at around eight to ten years — short even by large-breed standards — and the leading cause by a wide margin is cancer. Bernese Mountain Dogs carry an unusually high rate of a specific, aggressive cancer called histiocytic sarcoma, and malignant tumors of one kind or another account for roughly half of all Berner deaths. This is not a footnote to mention in passing. It is the single most important thing to know before committing to the breed, and it is why serious breeders health-test as far up the family tree as records allow, and why a fair number of Berner rescues exist for owners simply unprepared for the grief.</p>
+<p><strong>Size and space.</strong> Males run up to 115 pounds, females a still-substantial 70 to 95. This is a dog that needs real floor space, a car that can carry it in comfort, and a household budget sized for a large dog's food and veterinary care.</p>
+<p><strong>Grooming.</strong> The thick double coat sheds year-round with two dramatic seasonal blowouts. Brushing several times a week is the minimum to stay ahead of it; a slicker brush and an undercoat rake are not optional accessories here but standard equipment, and skipping a season is functionally the same as moving into the coat.</p>
+<p><strong>Energy.</strong> Moderate, and genuinely restful compared to most working breeds. A Bernese Mountain Dog wants a solid daily walk and some time outdoors, not a triathlon — temperamentally, one of the calmer large dogs you will meet.</p>
+<p><strong>Temperament.</strong> Famously good with children — patient, gentle, inclined to lie down rather than bowl someone over — but reserved with strangers rather than instantly friendly; it will wait for your cue before deciding a newcomer is welcome. Early, broad socialization smooths this without dulling the watchfulness that makes it a good judge of character.</p>
+<p><strong>The verdict:</strong> if you have the space, the grooming discipline, and — honestly — the emotional readiness for a short, intense companionship with a large and devoted animal, the Bernese Mountain Dog gives back more warmth than almost any breed alive. Go in with your eyes open about the years you'll actually get.</p>`,
+    famousHeading: 'Famous Bernese Mountain Dogs',
+    famous: `<p>The Bernese Mountain Dog has never produced a Rin Tin Tin, and probably never will — the breed's calm, unhurried nature is a virtue in a living room and a liability on a film set that needs a dog to hit its mark on cue, forty takes running, and act delighted about it each time. What the breed has instead is a genuinely charming run as presidential company: Ireland's President Michael D. Higgins has kept a succession of Bernese Mountain Dogs at the official residence — Bród, then Síoda, then Misneach — each one a minor national celebrity in their own right, their comings, goings, and eventual passings marked with official statements from the President's office and warm, front-page-adjacent coverage in the Irish press. It is a rare thing for a head of state's pet to be publicly mourned by name. The Bernese Mountain Dog has managed it three times running, and each successor has arrived to a public that already knew, roughly, what kind of dog it was getting: patient, watchful, and thoroughly decent.</p>
+<p>Beyond Áras an Uachtaráin, the breed's fame stays quieter and more local: the working farm dog turned beloved family giant, instantly recognizable, adored on social media, and rarely cast as anything grander than itself. Given the breed's own patient, unbothered temperament, it is hard to imagine it minding one bit.</p>`,
+    relatedBreeds: [
+      { slug: 'bernedoodle', name: 'Bernedoodle' },
+      { slug: 'golden-mountain-dog', name: 'Golden Mountain Dog' },
+      { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
+      { slug: 'newfoundland', name: 'Newfoundland' },
+    ],
+    breedTagName: 'Bernese Mountain Dog',
+  },
+
+  vizsla: {
+    name: 'Vizsla',
+    headKeyword: 'Vizsla',
+    metaDescription: "The Vizsla: Hungary's velvet-coated hunting dog, bred for the field and constitutionally unable to relax unless it's touching you. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Sporting',
+      'Size': 'Males 22–24 in, 55–60 lb · Females 21–23 in, 44–55 lb',
+      'Temperament': 'Affectionate, high-energy, sensitive, intensely bonded ("velcro dog"), gentle',
+      'Life expectancy': '12–14 years',
+      'Coat': 'Short, dense, self-cleaning single coat',
+      'Colors': 'Golden rust to red; small white markings acceptable on chest and toes',
+      'AKC recognized': 'Yes — 1960',
+      'Origin': 'Hungary — Magyar hunting dog, bred as an all-purpose pointer-retriever',
+    },
+    lede: `There is a nickname breeders use for the Vizsla that tells you most of what you need to know before you've met one: velcro dog. Not in the loose, marketing sense applied to any breed that likes its owner — a Vizsla will follow you from room to room, press against your leg mid-conversation, and treat a closed bathroom door as a small personal tragedy. Underneath the affection is a genuine working hunting dog, bred in Hungary over centuries to point and retrieve game across open plains, and it carries a hunting dog's stamina and drive whether or not anyone in the household has ever held a shotgun. Handsome, golden-rust, and constitutionally unable to relax more than three feet from a person it loves — that is the whole breed in one sentence, and the rest of this page is just footnotes.`,
+    spotlight: `<p>A Vizsla on stage looks, for the first several seconds, like it is auditioning for the cover of a hunting magazine — the coat a single unbroken sheet of golden rust, the build lean and coiled, the whole animal pointed at whatever has its attention with a stillness a Labrador never quite manages. Then the moment breaks, because a Vizsla left in a frame alone for more than four seconds starts looking for its person, and the search itself becomes the show: head swiveling, ears up, a soft worried whine that resolves the instant a familiar voice answers back.</p>
+<p>What makes them compelling to watch is the sensitivity underneath the athleticism. A Vizsla's eyes track the room constantly, reading tone more than words, and its reaction to praise is immediate and visible — the whole back half of the dog seems to agree with the compliment before the front half has finished processing it. Viewers who expect a stoic, business-like hunting dog get, instead, something closer to a muscular, golden-red exclamation mark that has just been told it's a very good boy and believes it completely.</p>
+<p>The coat helps enormously on camera. With no undercoat to fluff or mat, it lies close and dense in a single warm color — closer to good whiskey than to any dog we usually describe as "golden" — so a Vizsla never looks anything but immaculate, however much running around it has just done. Even mid-zoomies, the silhouette stays sleek.</p>`,
+    ownerFitHeading: 'Is a Vizsla right for you?',
+    ownerFit: `<p>The Vizsla's reputation as an affectionate, elegant, low-maintenance-looking dog undersells exactly how much dog is actually involved.</p>
+<p><strong>This is a genuine athlete.</strong> Bred to hunt birds across open Hungarian plains all day, a Vizsla needs real, sustained exercise — commonly cited at close to two hours daily, ideally including some off-leash running. A walk around the block is a warm-up, not a workout. An under-exercised Vizsla gets inventive, and the inventions usually involve your furniture, your garden, or both. Many owners find a Vizsla is genuinely happiest paired with a job — hiking, running, a field-trial or hunt-test program through a local club — rather than left to invent its own entertainment.</p>
+<p><strong>The velcro trait is not a figure of speech.</strong> This breed bonds hard and does not do well left alone for long stretches — genuine separation anxiety is common. A Vizsla suits a household with someone home most of the day, or a serious, honest plan for company when they're not.</p>
+<p><strong>Sensitivity.</strong> Vizslas take correction hard. Harsh training methods backfire badly with this breed; they respond to patience, consistency, and positive reinforcement, and tend to shut down or grow anxious under the kind of firm-handed training some other breeds simply shrug off.</p>
+<p><strong>Coat and grooming.</strong> About as easy as dog ownership gets on this front — a short, dense, self-cleaning coat that needs only weekly brushing, with light shedding year-round and a heavier drop each spring and fall.</p>
+<p><strong>Health.</strong> Hip dysplasia, epilepsy, hypothyroidism, and a handful of inherited eye conditions appear in the breed, along with clotting disorders such as von Willebrand's disease. The Vizsla Club of America runs a health-screening program covering hips, thyroid, and eyes, and a reputable breeder will have the paperwork to show for it. Ask to see it.</p>
+<p><strong>The verdict:</strong> a wonderful, deeply loyal companion for an active household that's rarely empty and willing to meet the breed's exercise needs honestly, not aspirationally. A rough fit for anyone hoping for a low-key dog content to entertain itself — a Vizsla left alone and under-exercised is, reliably, an unhappy and destructive one.</p>`,
+    famousHeading: 'Famous Vizslas',
+    famous: `<p>The Vizsla has never had a proper Hollywood moment, but it has quietly had a very good run through Hungarian and American history. Hungarian nobility kept vizsla-type hunting dogs for centuries — the breed's association with the Magyar aristocracy is documented back to the medieval period — and the line nearly vanished twice, first amid the upheavals of the First World War and again after the Second, saved largely by breeders who carried foundation stock out of Hungary and rebuilt it abroad, including in the United States, where the AKC recognized the breed in 1960 as its 115th breed.</p>
+<p>Its closest thing to a modern celebrity is Jasper, the Vizsla belonging to Fox News host Dana Perino, who became enough of a fixture on her program <em>The Five</em> that Perino wrote a bestselling book about him — <em>Let Me Tell You About Jasper . . . How My Best Friend Became America's Dog</em> — built around the idea that a good dog is one of the few things left that everyone, regardless of politics, can agree on. Whatever else divided her show's audience, Jasper reliably did not. It is, in miniature, the Vizsla's whole talent: winning over a room it hasn't officially been introduced to yet.</p>`,
+    relatedBreeds: [
+      { slug: 'german-shepherd', name: 'German Shepherd' },
+      { slug: 'belgian-malinois', name: 'Belgian Malinois' },
+      { slug: 'weimaraner', name: 'Weimaraner' },
+      { slug: 'pointer', name: 'Pointer' },
+    ],
+    breedTagName: 'Vizsla',
   },
 };
 
