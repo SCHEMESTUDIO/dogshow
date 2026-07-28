@@ -8,8 +8,8 @@
   <title>Extinct Dog Breeds | The Dog Show</title>
   <meta name="description" content="Every dog on the stage tonight is, in some fashion, a descendant of a ghost. Somewhere behind the Labradors and the Frenchies and the improbably fluff">
   <link rel="canonical" href="https://dogshow.lol/extinct-dog-breeds">
-  <meta property="og:title" content="Extinct Dog Breeds | The Dog Show">
-  <meta property="og:description" content="Every dog on the stage tonight is, in some fashion, a descendant of a ghost. Somewhere behind the Labradors and the Frenchies and the improbably fluff">
+  <meta property="og:title" content="Extinct Dog Breeds: The Ones History Left Behind">
+  <meta property="og:description" content="Every dog on the stage tonight is, in some fashion, a descendant of a ghost. Fifteen extinct dog breeds and the living breeds that carry them forward.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://dogshow.lol/extinct-dog-breeds">
   <meta property="og:site_name" content="The Dog Show">
@@ -20,8 +20,8 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="The Dog Show — A Live Online Dog Show">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Extinct Dog Breeds | The Dog Show">
-  <meta name="twitter:description" content="Every dog on the stage tonight is, in some fashion, a descendant of a ghost. Somewhere behind the Labradors and the Frenchies and the improbably fluff">
+  <meta name="twitter:title" content="Extinct Dog Breeds: The Ones History Left Behind">
+  <meta name="twitter:description" content="Fifteen extinct dog breeds and the living breeds that carry their look and spirit forward.">
   <meta name="twitter:image" content="https://dogshow.lol/og-image.png">
   <meta name="twitter:image:alt" content="The Dog Show — A Live Online Dog Show">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -34,10 +34,38 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      { "@type": "Question", "name": "What is the rarest extinct dog breed?", "acceptedAnswer": { "@type": "Answer", "text": "\"Rarest\" isn't really the right frame for an extinct breed — once a breed has no living members, it's extinct rather than rare. Some, like the Old Welsh Hillman, are simply less documented than others, which can make them feel more obscure." } },
-      { "@type": "Question", "name": "Why did the Turnspit Dog go extinct?", "acceptedAnswer": { "@type": "Answer", "text": "Its entire purpose — running a wheel to turn meat over a kitchen fire — was replaced by mechanical spit-turners in the 1800s. Without a job or a breeding constituency, the population dwindled and disappeared." } },
-      { "@type": "Question", "name": "Are any extinct breeds coming back through breeding?", "acceptedAnswer": { "@type": "Answer", "text": "Not literally. Breeders can recreate a similar look or working style using related modern breeds, as happened with the Saint Bernard, but the original gene pool and standard can't be restored once lost." } },
-      { "@type": "Question", "name": "What modern breed is closest to an extinct one?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on the breed in question, but some of the clearest documented lines run from the St. John's Water Dog to the Labrador Retriever, and from the Tweed Water Spaniel to the Golden Retriever." } }
+      {
+        "@type": "Question",
+        "name": "What is the rarest extinct dog breed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "\"Rarest\" isn't really the right frame for an extinct breed — once a breed has no living members, it's extinct rather than rare. Some, like the Old Welsh Hillman, are simply less documented than others, which can make them feel more obscure."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why did the Turnspit Dog go extinct?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Its entire purpose — running a wheel to turn meat over a kitchen fire — was replaced by mechanical spit-turners in the 1800s. Without a job or a breeding constituency, the population dwindled and disappeared."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are any extinct breeds coming back through breeding?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not literally. Breeders can recreate a similar look or working style using related modern breeds, as happened with the Saint Bernard, but the original gene pool and standard can't be restored once lost."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What modern breed is closest to an extinct one?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends on the breed in question, but some of the clearest documented lines run from the St. John's Water Dog to the Labrador Retriever, and from the Tweed Water Spaniel to the Golden Retriever."
+        }
+      }
     ]
   }
   </script>
@@ -192,26 +220,8 @@
       font-size: 16px; color: #453a70; margin-bottom: 32px; line-height: 1.5;
     }
 
-    .nm-sticky {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: rgba(247,243,252,0.94); backdrop-filter: blur(12px);
-      border-top: 1px solid rgba(255, 140, 66, 0.2); padding: 12px 24px;
-      display: flex; justify-content: center; align-items: center; gap: 16px;
-      z-index: 100; transform: translateY(100%); transition: transform 0.3s ease;
-    }
-    .nm-sticky.visible { transform: translateY(0); }
-    .nm-sticky-text { font-size: 14px; color: #43366e; }
-    .nm-sticky-btn {
-      padding: 14px 28px; border-radius: 8px; font-size: 16px; font-weight: 600;
-      border: none; cursor: pointer; background: #FF8C42; color: #1a1035;
-      transition: background 0.2s; text-decoration: none;
-    }
-    .nm-sticky-btn:hover { background: #ff9d5c; }
-
     @media (max-width: 640px) {
-      .nm-compare { grid-template-columns: 1fr; }
       .nm-nav-link { display: none; }
-      .nm-sticky-text { display: none; }
     }
   </style>
 </head>
@@ -225,30 +235,28 @@
       <a href="/?openModal=premium" class="nm-nav-cta">Enter Your Dog</a>
     </div>
   </nav>
-
-  <div class="nm-breadcrumb">
-    <a href="/">Home</a><span>/</span><a href="/resources">Guides</a><span>/</span>Extinct Dog Breeds
-  </div>
-
+<div class="nm-breadcrumb">
+  <a href="/">Home</a><span>/</span><a href="/resources">Guides</a><span>/</span> Extinct Dog Breeds
+</div>
 <main id="mainContent">
 
   <section class="nm-hero">
     <div class="nm-hero-badge">
       <span class="nm-hero-dot"></span>
-      Dog history
+      Breed history
     </div>
     <h1>Extinct Dog Breeds: The Ones History Left Behind</h1>
-    <p class="nm-hero-sub">Fifteen breeds bred for jobs that vanished, absorbed into cousins with better marketing, or outcompeted entirely — plus the living breeds that carry their shape forward.</p>
-    <p class="nm-hero-trust">Every dog on the stage tonight is, in some fashion, a descendant of a ghost. Here's who they were.</p>
+    <p class="nm-hero-sub">Fifteen dog breeds that no longer exist — bred for jobs that vanished, absorbed into cousins with better marketing, or simply outcompeted by a dog that did the same work slightly better — and the living breeds that carry their shape or spirit forward.</p>
+    <p class="nm-hero-trust"><strong>Quick answer:</strong> Extinct dog breeds like the St. John's Water Dog, the Talbot Hound, and the Turnspit Dog disappeared mainly because their working jobs vanished, their populations were absorbed into more standardized breeds, or wartime disruption wiped out their breeding programs. Many live on partially through descendants like the Labrador Retriever, Bloodhound, and Golden Retriever.</p>
     <div class="nm-hero-actions">
       <a href="/?openModal=premium" class="nm-btn nm-btn-primary">Enter Your Dog &mdash; Free</a>
       <a href="/breeds" class="nm-btn nm-btn-secondary">Browse Breed Guides</a>
     </div>
   </section>
 
-  <section class="nm-section" style="padding-top: 24px;">
+  <section class="nm-section" style="padding-top: 0;">
     <div class="nm-prose">
-      <h2 class="nm-section-title" style="text-align:left;font-size:26px;">Why Do Dog Breeds Go Extinct?</h2>
+      <h3>Why Do Dog Breeds Go Extinct?</h3>
       <p>Dog breeds aren't fixed points; they're populations shaped by human need, and when the need disappears, the breed often does too.</p>
 
       <h3>War, work displacement &amp; changing tastes</h3>
@@ -259,11 +267,10 @@
     </div>
   </section>
 
-  <section class="nm-section" style="padding-top:0;">
+  <section class="nm-section" style="padding-top: 0;">
     <div class="nm-section-label">The list</div>
     <h2 class="nm-section-title">15 Extinct Dog Breeds (With Their Living Look-Alikes)</h2>
     <div class="nm-prose">
-
       <h3>Talbot Hound</h3>
       <p>A white, heavy-boned scent hound kept by English nobility from roughly the Norman Conquest onward, the Talbot Hound appears on coats of arms and inn signs across England to this day — the "Talbot" pub name usually nods to it. It's widely credited by kennel historians as an ancestor of several modern scent hounds. Its closest living relative is generally considered the Bloodhound, which kept the low ears, the wrinkled brow, and the nose.</p>
 
@@ -298,4 +305,90 @@
       <p>A slender, fox-like dog kept by the Hare Indigenous people of northern Canada for hunting, first documented by 19th-century naturalists and now extinct as a distinct type, likely through interbreeding with European dogs brought north by settlers and traders.</p>
 
       <h3>Tweed Water Spaniel</h3>
-      <p>A brown water spaniel from the Scottish borders, now understood to be a key ancest
+      <p>A brown water spaniel from the Scottish borders, now understood to be a key ancestor of the modern Golden Retriever. Breed historians link it directly into early Golden Retriever breeding records from the 1800s.</p>
+
+      <h3>Southern Hound</h3>
+      <p>A slow, heavy-scenting hound used across southern England before faster foxhound-type breeding took over. It's considered a root ancestor of both the modern Beagle and the Bloodhound.</p>
+
+      <h3>Molossus</h3>
+      <p>An ancient, broad-headed dog type from the classical Mediterranean world, referenced in Greek and Roman texts as a guard and war dog. "Molossus" describes a type rather than a single documented breed by modern standards, and it's cited as a distant root of several heavy-headed breeds today, including Mastiffs.</p>
+
+      <h3>Old English Bulldog</h3>
+      <p>Not to be confused with the modern Bulldog, this earlier type was bred for bull-baiting, a blood sport outlawed in England in 1835. Once the "job" was banned, breeders reshaped the dog toward a calmer temperament and different structure, eventually producing the companion breed we know now. The name stayed; the dog underneath it changed considerably.</p>
+    </div>
+  </section>
+
+  <section class="nm-section" style="padding-top: 0;">
+    <div class="nm-prose">
+      <h3>Could Any Extinct Breed Come Back?</h3>
+      <p>Not in any meaningful sense. A breed is a population with a gene pool, a standard, and a community of breeders maintaining it generation over generation — once all three are gone, there's no genetic blueprint left to reconstruct. What does happen, and happens often, is breeders attempting to recreate the <em>look</em> or <em>function</em> of an extinct breed using related modern lines — this is essentially how the Saint Bernard's post-distemper recovery worked. That's a re-creation, not a resurrection, and reputable breed historians are careful about the distinction.</p>
+
+      <h3>Modern Breeds at Risk of Following Them</h3>
+      <p>Rare doesn't mean doomed, but a small registered population is exactly the condition that put every breed on this list at risk in the first place. Several working and regional breeds recognized today have small enough numbers that dedicated breeders are the only thing standing between them and this list. If you're curious which breeds fall into that category, our <a href="/breeds">breed guides</a> cover all 19 breeds we've written up, including notes on rarity and history for each.</p>
+      <p>If you're weighing which breed might be right for your household, our <a href="/resources">breed selection resources</a> walk through temperament, size, and lifestyle fit without the guesswork.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="nm-section">
+    <div class="nm-section-label">FAQ</div>
+    <h2 class="nm-section-title">Common questions</h2>
+    <div class="nm-faq">
+      <div class="nm-faq-item">
+        <button class="nm-faq-q">What is the rarest extinct dog breed?<span class="nm-faq-arrow">&#9662;</span></button>
+        <div class="nm-faq-a">"Rarest" isn't really the right frame for an extinct breed — once a breed has no living members, it's extinct rather than rare. Some, like the Old Welsh Hillman, are simply less documented than others, which can make them feel more obscure.</div>
+      </div>
+      <div class="nm-faq-item">
+        <button class="nm-faq-q">Why did the Turnspit Dog go extinct?<span class="nm-faq-arrow">&#9662;</span></button>
+        <div class="nm-faq-a">Its entire purpose — running a wheel to turn meat over a kitchen fire — was replaced by mechanical spit-turners in the 1800s. Without a job or a breeding constituency, the population dwindled and disappeared.</div>
+      </div>
+      <div class="nm-faq-item">
+        <button class="nm-faq-q">Are any extinct breeds coming back through breeding?<span class="nm-faq-arrow">&#9662;</span></button>
+        <div class="nm-faq-a">Not literally. Breeders can recreate a similar look or working style using related modern breeds, as happened with the Saint Bernard, but the original gene pool and standard can't be restored once lost.</div>
+      </div>
+      <div class="nm-faq-item">
+        <button class="nm-faq-q">What modern breed is closest to an extinct one?<span class="nm-faq-arrow">&#9662;</span></button>
+        <div class="nm-faq-a">It depends on the breed in question, but some of the clearest documented lines run from the St. John's Water Dog to the Labrador Retriever, and from the Tweed Water Spaniel to the Golden Retriever.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="nm-section">
+    <div class="nm-prose">
+      <p><em>Compiled by the Dog Show team, keepers of 19 breed guides at <a href="/breeds">dogshow.lol/breeds</a>. Historical claims here are drawn from AKC breed histories and Wikipedia's documented breed-origin entries — worth a visit if you want to go deeper on any one of these dogs.</em></p>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="nm-final-cta">
+    <h2>Your dog is still writing history</h2>
+    <p>If your own dog is very much still with us, enter them for free on The Dog Show — registration takes a minute, you'll get a shareable certificate page, and every dog starts with 50 bones toward the Hall of Bones.</p>
+    <a href="/?openModal=premium" class="nm-btn nm-btn-primary">Enter Your Dog &mdash; Free</a>
+  </section>
+
+</main>
+<script>
+  document.querySelectorAll('.nm-faq-q').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      btn.parentElement.classList.toggle('open');
+    });
+  });
+</script>
+<footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(42,33,80,0.11);background:#e9e2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+    <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
+      <a href="/" style="font-size:12px;color:#5d5088;text-decoration:none;">Home</a>
+      <a href="/show" style="font-size:12px;color:#5d5088;text-decoration:none;">Watch</a>
+      <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
+      <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
+      <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
+      <a href="/leaderboard" style="font-size:12px;color:#5d5088;text-decoration:none;">Leaderboard</a>
+      <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
+      <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
+      <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
+      <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
+      <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
+    </div>
+    <div style="font-size:11px;color:#574a82;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+  </footer>
+</body>
+</html>
