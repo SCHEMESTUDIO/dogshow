@@ -23,6 +23,8 @@
     "belgian-malinois": "a Belgian Malinois: a square, athletic herding/working dog with a short straight coat in rich fawn-to-mahogany with a black overlay, a black mask and black ears, erect pointed ears, and an alert, intensely focused working expression",
     "maltese": "a Maltese: a small toy companion dog entirely covered in a long, straight, silky pure-white coat falling to the floor, dark round eyes, a small black nose, and a confident, alert expression",
     "bernese-mountain-dog": "a Bernese Mountain Dog: a large sturdy tricolor dog with a jet-black body, a white blaze down the face and a white chest marking, rust-colored points on the cheeks, legs, and eyebrows, a thick long double coat, floppy ears, and a gentle, calm expression",
-    "vizsla": "a Vizsla: a lean, athletic, short-coated hunting dog with a sleek golden-rust coat, a lean muscular build, medium floppy ears, an alert pointing stance, and warm expressive eyes"
+    "vizsla": "a Vizsla: a lean, athletic, short-coated hunting dog with a sleek golden-rust coat, a lean muscular build, medium floppy ears, an alert pointing stance, and warm expressive eyes",
+    "chocolate-lab": "a Chocolate Labrador Retriever: a sturdy, athletic sporting dog entirely covered in a short, dense, solid rich chocolate-brown coat, with warm amber-brown eyes, a broad head, floppy ears, and a friendly, eager expression",
+    "mini-french-bulldog": "a Mini French Bulldog: a noticeably small, compact bulldog with a smooth fawn coat, large erect bat ears, a flat wrinkled face, and dark wide-set eyes — proportioned like a standard French Bulldog but visibly smaller in scale"
   }
 }

@@ -596,8 +596,49 @@ const BREEDS = {
       { slug: 'cavapoo', name: 'Cavapoo' },
       { slug: 'mini-dachshund', name: 'Mini Dachshund' },
       { slug: 'bulldog', name: 'Bulldog' },
+      { slug: 'mini-french-bulldog', name: 'Mini French Bulldog' },
     ],
     breedTagName: 'French Bulldog',
+  },
+
+  'mini-french-bulldog': {
+    name: 'Mini French Bulldog',
+    headKeyword: 'Mini French Bulldog',
+    metaDescription: "The Mini French Bulldog: an unofficial, unregulated size variant of America's most popular breed — charming, and worth understanding fully before you commit. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Non-Sporting (unofficial size variant of the French Bulldog)',
+      'Size': 'No industry standard — commonly marketed 15–25 lb, with more extreme "micro"/"teacup" lines claimed as low as 5–14 lb',
+      'Temperament': 'Playful, affectionate, alert, comic — same personality as the standard Frenchie',
+      'Coat': 'Short, smooth — identical to the standard French Bulldog',
+      'Colors': 'Brindle, fawn, cream, white, pied — same palette as standard',
+      'AKC recognized': 'No — the AKC recognizes only the standard-sized French Bulldog',
+      'Bred by': 'Pairing undersized Frenchies, or crossing in other small breeds (Pug, Chihuahua, Toy Poodle) to shrink the line further',
+      'Health note': 'Standard Frenchie brachycephalic risk, compounded by extreme small size — see below',
+    },
+    lede: `There is no such thing, officially, as a Mini French Bulldog. No kennel club recognizes the term, no breed standard defines it, and ask five breeders what "mini" means and you will get five different numbers on the scale. What you will get, reliably, is a French Bulldog — bat ears, flat face, and all — bred down toward the smaller end of an already small breed, sometimes by pairing undersized Frenchies together and sometimes, more controversially, by introducing other tiny breeds to shrink the line further. The charm is real. So, we need to say plainly, is the risk.`,
+    spotlightHeading: 'Why we love the Mini French Bulldog on stage',
+    spotlight: `<p>On stage, a Mini French Bulldog reads at first glance as a regular Frenchie shot through the wrong end of a telescope — same upright bat ears, same flat comic face, same gift for the perfectly timed head-tilt, just noticeably less of it. Viewers do a visible double-take the first time one trots out, checking the frame for scale before the chat fills with variations on "wait, how small is that."</p>
+<p>What survives the size reduction, entirely intact, is the personality. A Mini French Bulldog performs exactly like its standard-sized cousin: low-key, deadpan, utterly unbothered by an audience of strangers, content to sit and hold an expression that reads as commentary on the proceedings. It does not need coaxing. It arrives already convinced the room finds it funny, and the room generally agrees.</p>
+<p>Bone counts run warm rather than explosive — closer to the Teacup Poodle's protective tenderness than the Pomsky's startled-delight spike. Viewers send bones the way you'd tip extra for a particularly good waiter: pleased, a little charmed, and quietly concerned for its wellbeing.</p>`,
+    ownerFitHeading: 'Is a Mini French Bulldog right for you?',
+    ownerFit: `<p>We are going to lead with the caution here, because the marketing around "mini" and "teacup" Frenchies rarely does.</p>
+<p><strong>Breathing, twice over.</strong> A standard French Bulldog is already brachycephalic — the flat face that makes the breed so recognisable also narrows the airway, causing snoring, snorting, and in many dogs genuine difficulty breathing under exertion or heat. Breeding for a smaller overall body does nothing to fix that airway and can make the proportions worse; a Mini French Bulldog inherits the standard breed's breathing risk with less body mass to buffer it.</p>
+<p><strong>Size-reduction risks.</strong> There is no accepted, health-screened breeding program producing "mini" Frenchies the way there is for, say, the Miniature Poodle. Extreme small size in a breed not built for it is frequently achieved through dwarfism genetics or by crossing in other small breeds, and both routes carry real costs: fragile, easily-fractured bones, heart defects, and spinal issues layered on top of the hemivertebrae already common in the standard breed — with, in the smallest "teacup" extremes, hypoglycemia and dangerously fragile skulls also reported. Treat any breeder advertising guaranteed "micro" or "teacup" sizing with real skepticism.</p>
+<p><strong>No industry standard.</strong> Because "mini" isn't a recognised category, the number on the scale is whatever an individual breeder decides to call it — we've seen the same term applied to a sturdy 20-pound dog and a five-pound one, and only one of those is remotely comparable in risk to a standard Frenchie. No major breed club recognizes a miniature or teacup French Bulldog at all; the French Bull Dog Club of America's own referral standards are built entirely around the conformation breed at its normal size, with no separate category for anything smaller.</p>
+<p><strong>Vetting a breeder.</strong> Because there is no club standard to lean on, the burden of proof shifts entirely onto you. Ask directly how the small size was produced — line-breeding from naturally smaller parents is a very different (and far safer) answer than "crossed with a Chihuahua," or a shrug. Ask to see both parents in person if at all possible; a breeder unwilling to show you a dam that looks disproportionately delicate for her own health is telling you something. And budget honestly for what "great risk" tends to mean in practice: a mini Frenchie's veterinary bills, across a lifetime of managing a compressed airway and a compressed skeleton at once, are frequently higher than a standard Frenchie's, not lower, whatever the smaller sticker price on the puppy suggested.</p>
+<p><strong>Heat and water.</strong> Identical to the standard breed and, if anything, more urgent at a smaller size: a Mini French Bulldog cannot cool itself efficiently and cannot swim. Never leave one in heat or near unfenced water.</p>
+<p><strong>Energy and temperament.</strong> Low-key and affectionate, same as its full-sized relative — short walks, plenty of sofa time, comedy on tap.</p>
+<p><strong>The honest verdict:</strong> if the appeal is simply "a smaller Frenchie," look first at a well-bred standard female, who will often run toward the smaller end of the standard's own range with none of the extra risk. If you do go looking for a Mini French Bulldog specifically, find a breeder who is candid about exactly how the size was achieved and what health testing backs it up — and be prepared to walk away from anyone who isn't.</p>`,
+    famousHeading: 'Famous Mini French Bulldogs',
+    famous: `<p>There is, as far as we can establish, no individually famous Mini French Bulldog — no breakout Instagram star built specifically on the "mini" label the way Manny the Frenchie or Izzy the Frenchie built theirs on the standard breed's enormous social-media following. What exists instead is a fast-growing marketplace of "micro" and "teacup" Frenchie accounts riding the coattails of the parent breed's extraordinary rise: the French Bulldog overtook the Labrador Retriever in 2022 to become America's most popular dog after the Lab's 31-year reign, and that popularity created demand for ever-smaller, ever-more-photogenic versions of an already adored breed.</p>
+<p>We'd gently note that the demand arrived faster than any health-testing infrastructure to support it responsibly. The standard French Bulldog earned its fame the honest way — personality plus a face built for the camera. A Mini French Bulldog, if you find a genuinely well-bred one, inherits all of that charm. Make sure the breeder's practices are worth inheriting too.</p>`,
+    relatedBreeds: [
+      { slug: 'french-bulldog', name: 'French Bulldog' },
+      { slug: 'teacup-poodle', name: 'Teacup Poodle' },
+      { slug: 'mini-dachshund', name: 'Mini Dachshund' },
+      { slug: 'mini-aussie', name: 'Mini Aussie' },
+    ],
+    breedTagName: 'Mini French Bulldog',
   },
 
   cockapoo: {
@@ -678,8 +719,49 @@ const BREEDS = {
       { slug: 'australian-labradoodle', name: 'Australian Labradoodle' },
       { slug: 'bernedoodle', name: 'Bernedoodle' },
       { slug: 'cockapoo', name: 'Cockapoo' },
+      { slug: 'chocolate-lab', name: 'Chocolate Lab' },
     ],
     breedTagName: 'Labradoodle',
+  },
+
+  'chocolate-lab': {
+    name: 'Chocolate Lab',
+    headKeyword: 'Chocolate Lab',
+    metaDescription: "The Chocolate Lab isn't a separate breed — it's the rarest color a Labrador Retriever can wear, with a genuinely different health story underneath. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Sporting (color variant of the Labrador Retriever)',
+      'Size': 'Males 65–80 lb / 22.5–24.5 in · Females 55–70 lb / 21.5–23.5 in',
+      'Temperament': 'Friendly, outgoing, eager to please, food-motivated',
+      'Life expectancy': '11–13 years breed-wide; chocolate-specific median ~10.7 years — see below',
+      'Coat': 'Short, dense, water-resistant double coat',
+      'Colors': 'Solid rich brown ("chocolate") — governed by a recessive gene pair',
+      'AKC recognized': 'Yes — as a color of the Labrador Retriever, breed recognized 1917',
+      'Genetics': 'Requires two recessive TYRP1 alleles (bb) inherited from both parents',
+    },
+    lede: `Every Chocolate Lab is, quite literally, a coin that landed on its rarer side twice. Black is dominant in the Labrador Retriever's genetic code; chocolate needs a matching recessive gene from both parents to show at all, which is why chocolate puppies were once the surprise stragglers in a litter of black and yellow siblings. There is no other breed here, no cross, no invented lineage — a Chocolate Lab is a Labrador Retriever in every respect but the one detail that recessive genetics conspired to make rare, then fashionable, then, as we'll get to, a little more complicated than the coat colour alone would suggest.`,
+    spotlightHeading: 'Why we love the Chocolate Lab on stage',
+    spotlight: `<p>On stage, a Chocolate Lab behaves exactly like every other Labrador we have ever hosted, which is to say: enthusiastically, immediately, and with its whole body. The coat is the only variable. Under studio lighting a good rich chocolate coat reads almost purple-black in shadow and glows warm mahogany when it catches the light directly — genuinely one of the more photogenic colourings in the sporting group, and viewers say so in the chat every single time.</p>
+<p>What a Chocolate Lab does not do is behave like a rarer or more delicate animal on account of its unusual colour. It barrels in the same way a black or yellow Lab barrels — tail as rudder, whole rear end following the tail's lead, nose first into whatever smells most promising. Ask it to sit for the camera and you get roughly a second and a half of dignified posture before something more interesting happens off-frame.</p>
+<p>Bone counts run consistently high. There is a small, reliable spike in enthusiasm whenever a Chocolate Lab is announced — audiences seem to enjoy the colour precisely because it is the same warm, uncomplicated Labrador soul wearing a slightly less common coat.</p>`,
+    ownerFitHeading: 'Is a Chocolate Lab right for you?',
+    ownerFit: `<p>Everything true of a Labrador Retriever is true of a Chocolate Lab, with one genuinely important exception worth reading carefully before anything else.</p>
+<p><strong>A word on history first.</strong> It is worth knowing that the colour you are choosing was, for most of the breed's early life, actively unwanted. When England's Kennel Club first recognised the Labrador Retriever in 1904, only black and yellow were listed as proper colours — chocolate (then called "liver") was considered an off-colour fault, and puppies born that shade were routinely culled or given away rather than bred from. Because the gene is recessive, it kept quietly resurfacing anyway, carried invisibly by black and yellow dogs, popping up whenever two secret carriers were paired. Chocolate didn't become genuinely fashionable until the 1960s, which means the colour's popularity has had a much shorter run to catch up on than the breed itself, and the modern breeding pool behind it is correspondingly younger and narrower. That history is directly relevant to the next point.</p>
+<p><strong>Life expectancy.</strong> A large UK veterinary study (the Royal Veterinary College's VetCompass programme, tracking tens of thousands of Labradors) found chocolate-coloured dogs living a median of 10.7 years — about 1.4 years less than their black and yellow littermates. The likely cause isn't the colour itself but the breeding behind it: because chocolate requires two recessive genes to appear, breeders chasing the colour have historically drawn from a narrower gene pool, and the same research found chocolate Labs carrying meaningfully higher rates of skin and ear infections (23.4% ear-infection prevalence versus 12.8% in black dogs, by one measure). None of this makes a Chocolate Lab a bad choice — it makes "ask the breeder about health testing" a slightly more important question than usual.</p>
+<p><strong>Energy.</strong> High, full stop. Labradors were bred to retrieve game from cold water all day, and the drive hasn't faded just because the job has largely disappeared. Budget for a real daily walk plus a fetch session, or budget for a dog that redecorates the sofa cushions out of boredom.</p>
+<p><strong>Trainability.</strong> Among the best of any breed. Labradors are food-motivated to a degree that borders on comic, which makes them wonderfully easy to train and, not coincidentally, prone to weight gain if that motivation isn't managed with portion control.</p>
+<p><strong>Coat.</strong> Short and low-maintenance to brush, but it sheds — steadily year-round, heavily twice a year. A weekly brush and a good vacuum cleaner handle it.</p>
+<p><strong>Health beyond the coat-colour study.</strong> Hip and elbow dysplasia, and a Labrador's famous willingness to eat anything, including things that later require a vet visit to remove. Choose a breeder who screens hips, elbows, and eyes regardless of which colour puppy you're taking home.</p>
+<p>If you want the classic Labrador experience — big heart, bigger appetite, unstoppable enthusiasm — in the least common of the breed's three colours, a well-bred Chocolate Lab delivers it completely. Just choose the breeder as carefully as you would for any Labrador, perhaps a shade more so.</p>`,
+    famousHeading: 'Famous Chocolate Labs',
+    famous: `<p>The Chocolate Lab's most famous representative lived at the most famous address in America. Buddy, adopted by President Bill Clinton in December 1997 and named for a beloved uncle, became one of the most photographed dogs in White House history — trotting across the South Lawn, riding along in the press pool's photographs, occupying more coverage than most sitting senators. Buddy's fame was cut short in January 2002, when he was struck and killed by a car outside the Clintons' home in Chappaqua, New York — a loss that made national news in its own right.</p>
+<p>Beyond the political sphere, the Chocolate Lab's fame is mostly the Labrador's fame, borrowed and re-tinted. The breed as a whole held the title of America's most popular dog for 31 consecutive years, from 1991 to 2022, before finally losing the top spot — fittingly for this particular batch of pages — to the French Bulldog. Chocolate ones simply carried a rarer coat through all thirty-one years of that reign: the family favourite, in a slightly less common shade.</p>`,
+    relatedBreeds: [
+      { slug: 'labradoodle', name: 'Labradoodle' },
+      { slug: 'vizsla', name: 'Vizsla' },
+      { slug: 'german-shepherd', name: 'German Shepherd' },
+      { slug: 'french-bulldog', name: 'French Bulldog' },
+    ],
+    breedTagName: 'Chocolate Lab',
   },
 
   maltipoo: {
