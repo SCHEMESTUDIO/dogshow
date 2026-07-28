@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="consent.js" defer></script>
   <script src="analytics.js" defer></script>
-  <title>French Dog Breeds: 12 to Know, From Bichons to Brie | The Dog Show</title>
+  <title>French Dog Breeds: 12 to Know, From Bichons to Brie</title>
   <meta name="description" content="A warm, well-researched tour of France's dog breeds — origins, temperament, and which ones actually suit a home. Full profiles inside.">
   <link rel="canonical" href="https://dogshow.lol/french-dog-breeds">
   <meta property="og:title" content="French Dog Breeds: 12 to Know, From Bichons to Brie">
@@ -32,17 +32,6 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "French Dog Breeds: 12 to Know, From Bichons to Brie",
-    "description": "A warm, well-researched tour of France's dog breeds — origins, temperament, and which ones actually suit a home.",
-    "author": { "@type": "Organization", "name": "The Dog Show" },
-    "publisher": { "@type": "Organization", "name": "The Dog Show" },
-    "mainEntityOfPage": "https://dogshow.lol/french-dog-breeds"
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
       {
@@ -53,17 +42,17 @@
       {
         "@type": "Question",
         "name": "Are French dog breeds good with families?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Most are, though \"family-friendly\" varies enormously by energy level. Bichons, Papillons, and Frenchies adapt well to households with kids; working breeds like the Beauceron or Brittany need an active family that can match their exercise needs." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Most are, though family-friendly varies enormously by energy level. Bichons, Papillons, and Frenchies adapt well to households with kids; working breeds like the Beauceron or Brittany need an active family that can match their exercise needs." }
       },
       {
         "@type": "Question",
         "name": "What's the difference between a French Bulldog and a Boston Terrier?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Both descend from similar Bulldog stock, but the Boston Terrier was developed in the US, has a leaner build and longer legs proportionally, and typically shows a tuxedo-style coat pattern. The Frenchie is stockier with the trademark \"bat ears.\"" }
+        "acceptedAnswer": { "@type": "Answer", "text": "Both descend from similar Bulldog stock, but the Boston Terrier was developed in the US, has a leaner build and longer legs proportionally, and typically shows a tuxedo-style coat pattern. The Frenchie is stockier with the trademark bat ears." }
       },
       {
         "@type": "Question",
         "name": "Is the Poodle actually French?",
-        "acceptedAnswer": { "@type": "Answer", "text": "This one's genuinely contested. The Poodle is the FCI's national dog of France, but most breed historians trace its development to Germany as a water retriever, with France later refining the Standard and Toy varieties into the show dog we know now. Both countries have a real claim." }
+        "acceptedAnswer": { "@type": "Answer", "text": "This one's genuinely contested. The Poodle is the FCI's national dog of France, but most breed historians trace its development to Germany as a water retriever, with France later refining the Standard and Toy varieties into the show dog we know now." }
       },
       {
         "@type": "Question",
@@ -189,17 +178,36 @@
     .nm-prose h3 {
       font-size: 20px; color: #2a2150; margin: 32px 0 10px; font-weight: 600;
     }
-    .nm-prose table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
-    .nm-prose th, .nm-prose td { text-align: left; padding: 10px 12px; border-bottom: 1px solid rgba(42,33,80,0.11); }
-    .nm-prose th { color: #2a2150; font-weight: 600; }
-    .nm-prose td { color: #453a70; }
     .nm-prose a { color: #5b46d6; text-decoration: none; border-bottom: 1px solid rgba(255,140,66,0.3); }
     .nm-prose a:hover { border-color: #5b46d6; }
+    .nm-prose table {
+      width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px;
+    }
+    .nm-prose th, .nm-prose td {
+      border: 1px solid rgba(42,33,80,0.15); padding: 10px 12px; text-align: left;
+      color: #352a5e;
+    }
+    .nm-prose th { background: rgba(42,33,80,0.05); color: #2a2150; }
 
     .nm-faq { max-width: 680px; margin: 0 auto; }
-    .nm-faq-item { border-bottom: 1px solid rgba(42,33,80,0.11); padding: 20px 0; }
-    .nm-faq-q { font-size: 16px; color: #2a2150; font-weight: 500; margin-bottom: 8px; }
-    .nm-faq-a { font-size: 14px; color: #453a70; line-height: 1.7; }
+    .nm-faq-item { border-bottom: 1px solid rgba(42,33,80,0.11); }
+    .nm-faq-q {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 0; cursor: pointer; font-size: 16px; color: #2a2150;
+      font-weight: 500; background: none; border: none; width: 100%;
+      text-align: left; font-family: inherit;
+    }
+    .nm-faq-q:hover { color: #c25a0e; }
+    .nm-faq-arrow {
+      font-size: 18px; color: #453a70; transition: transform 0.2s;
+      flex-shrink: 0; margin-left: 16px;
+    }
+    .nm-faq-item.open .nm-faq-arrow { transform: rotate(180deg); }
+    .nm-faq-a {
+      display: none; padding: 0 0 20px; font-size: 14px;
+      color: #453a70; line-height: 1.7;
+    }
+    .nm-faq-item.open .nm-faq-a { display: block; }
 
     .nm-final-cta {
       text-align: center; padding: 72px 24px 110px;
@@ -246,20 +254,21 @@
     </div>
   </nav>
 
-  <div class="nm-breadcrumb">
-    <a href="/">Home</a><span>/</span><a href="/breeds">Breeds</a><span>/</span>French Dog Breeds
-  </div>
+<div class="nm-breadcrumb">
+  <a href="/">Home</a><span>/</span><a href="/resources">Guides</a><span>/</span>French Dog Breeds
+</div>
 
 <main id="mainContent">
 
+  <!-- Hero -->
   <section class="nm-hero">
     <div class="nm-hero-badge">
       <span class="nm-hero-dot"></span>
-      Breed Guide
+      Breed guide
     </div>
-    <h1>French Dog Breeds: 12 to Know</h1>
-    <p class="nm-hero-sub">France has produced some of the world's most recognizable companion and working breeds — from the couch-loving French Bulldog to the mountain-guarding Great Pyrenees. Here's an honest rundown of what each one actually needs from an owner.</p>
-    <p class="nm-hero-trust">Quick answer: France's best-known breeds include the French Bulldog, Bichon Frise, Papillon, Brittany, Beauceron, Berger Picard, Dogue de Bordeaux, Braque Français, Basset Fauve de Bretagne, and Great Pyrenees — ranging from tiny apartment companions to giant livestock guardians.</p>
+    <h1>French dog breeds</h1>
+    <p class="nm-hero-sub">France has given the world everything from the couch-loving Frenchie to the mountain-guarding Great Pyrenees. Here are twelve worth knowing, with honest notes on temperament and who they actually suit.</p>
+    <p class="nm-hero-trust"><strong>Quick answer:</strong> France's best-known dog breeds include the French Bulldog, Bichon Frise, Papillon, Brittany, Beauceron, Berger Picard, Dogue de Bordeaux, Braque Français, Basset Fauve de Bretagne, and Great Pyrenees — ranging from tiny apartment companions to giant flock guardians.</p>
     <div class="nm-hero-actions">
       <a href="/?openModal=premium" class="nm-btn nm-btn-primary">Enter Your Dog &mdash; Free</a>
       <a href="/breeds" class="nm-btn nm-btn-secondary">Browse All Breeds</a>
@@ -273,34 +282,141 @@
       <p>The one everyone already knows, and for good reason. Compact, snub-nosed, bat-eared, built for city apartments rather than long runs. Developed in the 1800s from English Bulldog stock brought over by Nottingham lacemakers who settled in France, then refined into something distinctly Parisian. Even-tempered and sociable, the Frenchie does best with owners who can manage its brachycephalic build thoughtfully — see the AKC's own breed standard for specifics. Full profile: <a href="/breeds/french-bulldog">/breeds/french-bulldog</a>.</p>
 
       <h3>Bichon Frise</h3>
-      <p>A small, cheerful, curly-coated companion breed whose name literally means "curly lap dog." Descended from Mediterranean water dogs and refined in French and Italian courts, the Bichon has centuries of practice being adored rather than working for a living. Good-natured, alert, and reliably cheerful — a dog that treats every guest like an old friend. More at /breeds/bichon-frise.</p>
+      <p>A small, cheerful, curly-coated companion breed whose name literally means "curly lap dog." Descended from Mediterranean water dogs and refined in French and Italian courts, the Bichon has centuries of practice being adored rather than working for a living. Good-natured, alert, and reliably cheerful — a dog that treats every guest like an old friend. More at <a href="/breeds/bichon-frise">/breeds/bichon-frise</a>.</p>
 
       <h3>Papillon</h3>
-      <p>Named for its butterfly-shaped ears, the Papillon is a toy spaniel with a surprisingly athletic streak for its size. It shows up in French court portraiture going back centuries, always perched somewhere aristocratic. Bright, quick to learn, and more energetic than its dainty looks suggest. See /breeds/papillon.</p>
+      <p>Named for its butterfly-shaped ears, the Papillon is a toy spaniel with a surprisingly athletic streak for its size. It shows up in French court portraiture going back centuries, always perched somewhere aristocratic. Bright, quick to learn, and more energetic than its dainty looks suggest. See <a href="/breeds/papillon">/breeds/papillon</a>.</p>
 
       <h3>Brittany</h3>
-      <p>A pointing spaniel from the Brittany region, bred for covering ground efficiently in the field. Compact, orange-and-white or liver-and-white, and built for a working day rather than a sofa. Friendly and eager, but genuinely needs exercise and a job — a Brittany without a purpose gets inventive in ways owners rarely enjoy. Details at /breeds/brittany.</p>
+      <p>A pointing spaniel from the Brittany region, bred for covering ground efficiently in the field. Compact, orange-and-white or liver-and-white, and built for a working day rather than a sofa. Friendly and eager, but genuinely needs exercise and a job — a Brittany without a purpose gets inventive in ways owners rarely enjoy. Details at <a href="/breeds/brittany">/breeds/brittany</a>.</p>
 
       <h3>Beauceron</h3>
-      <p>A large, imposing French herding breed with a history dating back centuries in the plains around Beauce. Confident, protective, and loyal to its family, the Beauceron is a serious dog for a serious owner — this isn't a first-time-dog-owner breed, but it's a superb one for someone experienced with working breeds. More at /breeds/beauceron.</p>
+      <p>A large, imposing French herding breed with a history dating back centuries in the plains around Beauce. Confident, protective, and loyal to its family, the Beauceron is a serious dog for a serious owner — this isn't a first-time-dog-owner breed, but it's a superb one for someone experienced with working breeds. More at <a href="/breeds/beauceron">/breeds/beauceron</a>.</p>
 
       <h3>Berger Picard</h3>
-      <p>France's oldest herding breed by most accounts, distinctive for its rough, weatherproof coat and slightly comic, expressive face. Rare outside France even now, and rare in North America generally. Independent-minded, loyal, and better suited to an active household than a quiet one. Full profile: /breeds/berger-picard.</p>
+      <p>France's oldest herding breed by most accounts, distinctive for its rough, weatherproof coat and slightly comic, expressive face. Rare outside France even now, and rare in North America generally. Independent-minded, loyal, and better suited to an active household than a quiet one. Full profile: <a href="/breeds/berger-picard">/breeds/berger-picard</a>.</p>
 
       <h3>Dogue de Bordeaux</h3>
-      <p>A massive, wrinkled mastiff-type breed from the Bordeaux region, historically used for guarding and hauling. Gentle and devoted with family, imposing to strangers, and — per the AKC standard — a breed that needs a confident, experienced handler given its size and strength. See /breeds/dogue-de-bordeaux.</p>
+      <p>A massive, wrinkled mastiff-type breed from the Bordeaux region, historically used for guarding and hauling. Gentle and devoted with family, imposing to strangers, and — per the AKC standard — a breed that needs a confident, experienced handler given its size and strength. See <a href="/breeds/dogue-de-bordeaux">/breeds/dogue-de-bordeaux</a>.</p>
 
       <h3>Braque Français</h3>
-      <p>A pointing breed with two recognized varieties (Gascogne and Pyrénées types), among the ancestors of many modern pointers across Europe. Affectionate, biddable, and built for long days afield. Less common as a household pet in the US, but worth knowing as one of the breeds behind half the continent's gundog lines. More at /breeds/braque-francais.</p>
+      <p>A pointing breed with two recognized varieties (Gascogne and Pyrénées types), among the ancestors of many modern pointers across Europe. Affectionate, biddable, and built for long days afield. Less common as a household pet in the US, but worth knowing as one of the breeds behind half the continent's gundog lines. More at <a href="/breeds/braque-francais">/breeds/braque-francais</a>.</p>
 
       <h3>Basset Fauve de Bretagne</h3>
-      <p>The lesser-known cousin of the familiar Basset Hound — a French scent hound bred for hunting in dense Breton undergrowth, with a wiry reddish-fawn coat and considerably more get-up-and-go than the droopier Basset Hound most people picture. If you're drawn to the low-slung, long-eared silhouette but want a dog with real working drive, this is the one to research. See /breeds/basset-fauve-de-bretagne.</p>
+      <p>The lesser-known cousin of the familiar Basset Hound — a French scent hound bred for hunting in dense Breton undergrowth, with a wiry reddish-fawn coat and considerably more get-up-and-go than the droopier Basset Hound most people picture. If you're drawn to the low-slung, long-eared silhouette but want a dog with real working drive, this is the one to research. See <a href="/breeds/basset-fauve-de-bretagne">/breeds/basset-fauve-de-bretagne</a>.</p>
 
       <h3>Great Pyrenees</h3>
-      <p>The FCI credits France as the breed's country of origin — the FCI standard for the Pyrenean Mountain Dog lists its origin as France, and the breed originates from the eastern or French side of the Pyrenees Mountains, which separate France and Spain. Its true home, though, is the mountain range itself, and the closely related Pyrenean Mastiff on the Spanish side shows how tangled the border history really is — it is recognised as a separate breed from the Mastín del Pirineo or Pyrenean Mastiff from the Spanish side of the mountains, but they are closely related. Bred for centuries to guard flocks against wolves and bears, it's a calm, watchful, enormous dog — patient with family, wary of strangers, and happiest with space to patrol. Full profile: /breeds/great-pyrenees.</p>
+      <p>The FCI credits France as the breed's country of origin — the FCI standard for the Pyrenean Mountain Dog lists its origin as France, and the breed originates from the eastern or French side of the Pyrenees Mountains, which separate France and Spain. Its true home, though, is the mountain range itself, and the closely related Pyrenean Mastiff on the Spanish side shows how tangled the border history really is — it is recognised as a separate breed from the Mastín del Pirineo or Pyrenean Mastiff from the Spanish side of the mountains, but they are closely related. Bred for centuries to guard flocks against wolves and bears, it's a calm, watchful, enormous dog — patient with family, wary of strangers, and happiest with space to patrol. Full profile: <a href="/breeds/great-pyrenees">/breeds/great-pyrenees</a>.</p>
 
     </div>
   </section>
 
+  <!-- Comparison table -->
   <section class="nm-section" style="padding-top: 0;">
-    <div class="nm-
+    <div class="nm-section-label">At a glance</div>
+    <h2 class="nm-section-title">Quick comparison table</h2>
+    <div class="nm-prose">
+      <table>
+        <thead>
+          <tr><th>Breed</th><th>Size</th><th>Energy</th><th>Shedding</th><th>Good with kids</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>French Bulldog</td><td>Small</td><td>Low–moderate</td><td>Low</td><td>Yes</td></tr>
+          <tr><td>Bichon Frise</td><td>Small</td><td>Moderate</td><td>Low (minimal shed, needs grooming)</td><td>Yes</td></tr>
+          <tr><td>Papillon</td><td>Toy</td><td>Moderate–high</td><td>Low</td><td>Yes, with gentle handling</td></tr>
+          <tr><td>Brittany</td><td>Medium</td><td>High</td><td>Moderate</td><td>Yes, active families</td></tr>
+          <tr><td>Beauceron</td><td>Large</td><td>High</td><td>Moderate</td><td>Yes, with experienced owners</td></tr>
+          <tr><td>Berger Picard</td><td>Large</td><td>High</td><td>Low–moderate</td><td>Yes, active households</td></tr>
+          <tr><td>Dogue de Bordeaux</td><td>Giant</td><td>Moderate</td><td>Moderate</td><td>Yes, with supervision given size</td></tr>
+          <tr><td>Braque Français</td><td>Medium–large</td><td>High</td><td>Moderate</td><td>Yes, active families</td></tr>
+          <tr><td>Basset Fauve de Bretagne</td><td>Medium</td><td>Moderate–high</td><td>Low</td><td>Yes</td></tr>
+          <tr><td>Great Pyrenees</td><td>Giant</td><td>Low–moderate</td><td>High</td><td>Yes, calm with family</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:13px;color:#574a82;">These are general characterizations drawn from AKC and FCI breed standards, not measured data — individual dogs vary.</p>
+    </div>
+  </section>
+
+  <!-- Choosing section -->
+  <section class="nm-section" style="padding-top: 0;">
+    <div class="nm-section-label">Making the choice</div>
+    <h2 class="nm-section-title">Choosing the right French breed for your home</h2>
+    <div class="nm-prose">
+      <p>The honest sorting question isn't "which is cutest" — it's "what did this dog get bred to do, and do I have room for that instinct." A Frenchie or Bichon wants company and a couch. A Brittany, Braque Français, or Berger Picard wants a job and daily mileage. A Beauceron or Dogue de Bordeaux wants an owner who's handled a large, strong-willed breed before. A Great Pyrenees wants space and doesn't much care about your schedule. Match the instinct, not just the face, and the rest of the relationship tends to sort itself out.</p>
+      <p>If yours happens to be one of these breeds, we'd love to see it — you can <a href="/">enter your dog</a> and put its face on a proper certificate page. And for the other seventeen breeds we've profiled in depth, the <a href="/breeds">full breed library</a> is worth a browse.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="nm-section">
+    <div class="nm-section-label">Common questions</div>
+    <h2 class="nm-section-title">FAQ</h2>
+    <div class="nm-faq">
+      <div class="nm-faq-item">
+        <button class="nm-faq-q">What is the most popular French dog breed?<span class="nm-faq-arrow">&#9662;</span></button>
+        <div class="nm-faq-a">The French Bulldog is by far the most commonly kept of the French breeds in the US and UK today, driven mostly by its size and temperament suiting apartment life.</div>
+      </div>
+      <div class="nm-faq-item">
+        <button class="nm-faq-q">Are French dog breeds good with families?<span class="nm-faq-arrow">&#9662;</span></button>
+        <div class="nm-faq-a">Most are, though "family-friendly" varies enormously by energy level. Bichons, Papillons, and Frenchies adapt well to households with kids; working breeds like the Beauceron or Brittany need an active family that can match their exercise needs.</div>
+      </div>
+      <div class="nm-faq-item">
+        <button class="nm-faq-q">What's the difference between a French Bulldog and a Boston Terrier?<span class="nm-faq-arrow">&#9662;</span></button>
+        <div class="nm-faq-a">Both descend from similar Bulldog stock, but the Boston Terrier was developed in the US, has a leaner build and longer legs proportionally, and typically shows a tuxedo-style coat pattern. The Frenchie is stockier with the trademark "bat ears."</div>
+      </div>
+      <div class="nm-faq-item">
+        <button class="nm-faq-q">Is the Poodle actually French?<span class="nm-faq-arrow">&#9662;</span></button>
+        <div class="nm-faq-a">This one's genuinely contested. The Poodle is the FCI's national dog of France, but most breed historians trace its development to Germany as a water retriever, with France later refining the Standard and Toy varieties into the show dog we know now. Both countries have a real claim.</div>
+      </div>
+      <div class="nm-faq-item">
+        <button class="nm-faq-q">What's the biggest French dog breed?<span class="nm-faq-arrow">&#9662;</span></button>
+        <div class="nm-faq-a">The Dogue de Bordeaux and Great Pyrenees are the largest by weight and frame among the widely recognized French breeds, though exact size varies by individual dog and breeder line — see the AKC breed standards linked above for reference ranges.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="nm-final-cta">
+    <h2>Got a French breed at home?</h2>
+    <p>Enter your dog in The Dog Show — free, live, and open to every breed. Upload a photo and join the rotation in minutes.</p>
+    <a href="/?openModal=premium" class="nm-btn nm-btn-primary">Enter Your Dog &mdash; Free</a>
+  </section>
+
+</main>
+
+<div class="nm-sticky" id="stickyBar">
+  <span class="nm-sticky-text">Free to enter. Free to watch.</span>
+  <a href="/?openModal=premium" class="nm-sticky-btn">Enter Your Dog</a>
+</div>
+
+<script>
+  document.querySelectorAll('.nm-faq-q').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btn.parentElement.classList.toggle('open');
+    });
+  });
+  window.addEventListener('scroll', function(){
+    var bar = document.getElementById('stickyBar');
+    if (window.scrollY > 600) bar.classList.add('visible');
+    else bar.classList.remove('visible');
+  });
+</script>
+
+<footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(42,33,80,0.11);background:#e9e2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+    <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
+      <a href="/" style="font-size:12px;color:#5d5088;text-decoration:none;">Home</a>
+      <a href="/show" style="font-size:12px;color:#5d5088;text-decoration:none;">Watch</a>
+      <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
+      <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
+      <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
+      <a href="/leaderboard" style="font-size:12px;color:#5d5088;text-decoration:none;">Leaderboard</a>
+      <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
+      <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
+      <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
+      <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
+      <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
+    </div>
+    <div style="font-size:11px;color:#574a82;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+  </footer>
+</body>
+</html>
