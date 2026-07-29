@@ -884,6 +884,7 @@ const BREEDS = {
       { slug: 'dalmatian', name: 'Dalmatian' },
       { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
       { slug: 'belgian-malinois', name: 'Belgian Malinois' },
+      { slug: 'giant-schnauzer', name: 'Giant Schnauzer' },
     ],
     breedTagName: 'Cane Corso',
   },
@@ -1084,6 +1085,88 @@ const BREEDS = {
       { slug: 'pointer', name: 'Pointer' },
     ],
     breedTagName: 'Vizsla',
+  },
+
+  'giant-schnauzer': {
+    heroImage: '/breeds-img/giant-schnauzer.jpg',
+    heroCredit: 'AI-generated image',
+    name: 'Giant Schnauzer',
+    headKeyword: 'Giant Schnauzer',
+    metaDescription: "The Giant Schnauzer: a Bavarian brewery guard dog scaled up from cattle-droving stock, all beard, eyebrows, and unblinking watchfulness. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Working',
+      'Size': 'Males 25.5–27.5 in, 60–85 lb · Females 23.5–25.5 in, 55–75 lb',
+      'Temperament': 'Composed, watchful, courageous, easily trained, deeply loyal, playful in repose',
+      'Life expectancy': '12–15 years',
+      'Coat': 'Wiry double coat; hand-stripped or clipped, low-shedding',
+      'Colors': 'Solid black or pepper-and-salt — the only two AKC colors',
+      'AKC recognized': 'Yes — 1930',
+      'Origin': 'Bavaria, Germany — cattle-driving and brewery-guard dog',
+    },
+    lede: `Long before Bavaria's breweries needed a guard smarter than a lock, they had the Giant Schnauzer — a cattle drover's dog from the hills between Munich and Augsburg, bulked up over generations (local lore credits an infusion of black Great Dane, among other crosses) until it was serious enough to march a herd to market by day and serious enough to sit outside a beer cellar all night daring anyone to try something. It has since been drafted into police work, military service, and search and rescue, which tells you plainly what sort of employee this is. Retire it into a family home and the résumé doesn't go away — it just gets redirected at your sofa, your mail carrier, and anyone it has decided, on its own authority, needs supervising.`,
+    spotlight: `<p>A Giant Schnauzer arrives on stage the way a good bouncer arrives at a bar fight: unhurried, entirely aware of the room, in no rush to prove anything. The wiry black coat reads almost architectural under studio lights — square-built, close-fitted, with that famous beard and those heavy, expressive eyebrows doing more emotional work than most dogs manage with their whole face. Before it has done a single trick, the Giant Schnauzer has already communicated an opinion about the evening.</p>
+<p>The opinion is usually favorable, once you get past the eyebrows. Underneath the stern, professorial look is a genuinely playful, people-oriented dog, and the flip between the two is the whole show: a Giant Schnauzer will hold a solemn, faintly disapproving expression for a full ten seconds and then, without warning, break into a full-body wag that undoes the entire performance. Regulars in the chat have taken to calling it "the reveal."</p>
+<p>Viewers send bones the way you'd tip a maître d' who turned out to have a sense of humor after all — a little startled, entirely won over. It is, per bone, one of the more efficient dogs we host: it does not audition for approval so much as begrudgingly accept it as its due, and that reluctance is exactly what makes the eventual tail-wag land. The salt-and-pepper coloring, when we get one, adds a distinguished, silvering effect that makes an already professorial dog look faintly retired from something important.</p>`,
+    ownerFitHeading: 'Is a Giant Schnauzer right for you?',
+    ownerFit: `<p>The Giant Schnauzer is an outstanding dog for the right owner and a genuinely difficult one for the wrong household. Read the fine print before falling for the beard.</p>
+<p><strong>Energy — a lot of it.</strong> This is not a dog you can walk around the block and call it done. Giant Schnauzers need somewhere in the neighborhood of ninety minutes to two hours of real activity a day, and they lean toward dog sports — agility, obedience, tracking, carting — where a working brain finally gets something to chew on besides your furniture. An under-exercised Giant Schnauzer does not sulk quietly; it invents its own job, and you generally will not enjoy which one it picks.</p>
+<p><strong>Training and leadership.</strong> Highly intelligent and genuinely easy to train, provided the training is consistent and starts early. Left without clear structure, that same intelligence gets applied to deciding who's actually in charge of the house, and a Giant Schnauzer that has appointed itself head of household is a considerably harder animal to live with than one that never got the chance.</p>
+<p><strong>Grooming.</strong> The wiry double coat does not shed the way a Labrador's does, which is good news for allergy sufferers and bad news for your grooming budget. Hand-stripping or clipping every six to eight weeks is standard, with brushing two or three times a week in between to keep the beard from turning into a small salad.</p>
+<p><strong>Watchfulness.</strong> Bred for generations to guard a brewery cellar unsupervised, and it never really clocked out. A Giant Schnauzer is naturally wary of strangers and will announce visitors with real conviction. Early, broad socialization keeps that instinct at "alert" rather than "hostile," and is not optional.</p>
+<p><strong>Health.</strong> Hip dysplasia and bloat are the concerns to ask a breeder about directly; both are serious in a deep-chested dog this size, and a reputable breeder will have hip scores and a clear feeding protocol to discuss.</p>
+<p>The verdict: a magnificent, whip-smart working dog for an active owner who wants a partner rather than a houseplant. A poor match for anyone hoping for a low-energy dog that keeps itself entertained — that dog does not exist in this breed, and the eyebrows will not apologize for it.</p>`,
+    famousHeading: 'Famous Giant Schnauzers',
+    famous: `<p>The Giant Schnauzer's most famous modern moment arrived on live television: in February 2025, a five-year-old Giant Schnauzer named Monty won Best in Show at the 149th Westminster Kennel Club Dog Show — the first Giant Schnauzer in the event's history to take the top prize, after placing in the Working Group three years running before finally getting the nod. His handler, Kate Bernardin, nicknamed him "my Secretariat," on account of a dog that reportedly never stops moving. It was, by any measure, the breed's biggest night.</p>
+<p>Off the show circuit, the breed has quietly kept celebrity company for decades. Zendaya grew up with a Giant Schnauzer named Midnight from the age of eight until the dog's death in 2015, a loss she marked with an unusually heartfelt public tribute — proof that a dog bred to guard beer cellars can, somewhere along the way, become someone's actual childhood.</p>
+<p>Between Monty's ring career and Midnight's long, doted-on retirement, the Giant Schnauzer's fame runs exactly the way the breed itself does: understated until called upon, and then entirely unmissable.</p>`,
+    relatedBreeds: [
+      { slug: 'cane-corso', name: 'Cane Corso' },
+      { slug: 'german-shepherd', name: 'German Shepherd' },
+      { slug: 'belgian-malinois', name: 'Belgian Malinois' },
+      { slug: 'standard-schnauzer', name: 'Standard Schnauzer' },
+    ],
+    breedTagName: 'Giant Schnauzer',
+  },
+
+  newfoundland: {
+    heroImage: '/breeds-img/newfoundland.jpg',
+    heroCredit: 'AI-generated image',
+    name: 'Newfoundland',
+    headKeyword: 'Newfoundland',
+    metaDescription: "The Newfoundland: a Canadian fisherman's water-rescue dog built like a small bear and tempered like a saint. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Working',
+      'Size': 'Males ~28 in, 130–150 lb · Females ~26 in, 100–120 lb',
+      'Temperament': 'Sweet-natured, patient, calm, devoted, gentle with children',
+      'Life expectancy': '9–10 years',
+      'Coat': 'Thick, water-resistant double coat; heavy year-round shedding',
+      'Colors': 'Black, brown, gray, and Landseer (white with black markings)',
+      'AKC recognized': 'Yes — 1886',
+      'Origin': 'Island of Newfoundland, Canada — fishermen’s working and water-rescue dog',
+    },
+    lede: `Most dogs that jump into cold water are making a mistake. A Newfoundland jumping into cold water is going to work. Bred by Canadian fishermen to haul nets, tow lines to shore, and pull half-drowned sailors out of the North Atlantic, the breed comes equipped with webbed feet, an oily water-repellent double coat, and a chest deep enough to power through a rough sea without much apparent effort. It is, by build, one of the strongest swimmers in the dog world — capable enough that lifesaving societies in more than one country have, at various points, trained Newfoundlands as actual rescue personnel. All that raw capability is wrapped around one of the gentlest temperaments in the working group, which is either an enormous stroke of luck or the whole point of the breeding program, depending who you ask.`,
+    spotlight: `<p>A Newfoundland does not enter a room so much as fill the available cubic footage of it. At up to a hundred and fifty pounds, the breed is one of the largest we regularly host, and the stage frame has to work to contain it — a broad head, a heavy, slightly mournful expression, and a coat so thick it reads as a separate weather system. And yet the overwhelming impression, within seconds, is not size. It's gentleness. The eyes do it — soft, patient, entirely unbothered by the lights or the noise or the general circus of live television.</p>
+<p>What audiences respond to is the mismatch between raw power and evident sweetness. This is a dog built to drag a grown man out of the sea, currently more concerned with whether there is a lap nearby large enough to accommodate its ambitions. A Newfoundland's default expression carries a faint, permanent sorrow that has nothing to do with its mood — it's simply how the jowls fall — and viewers who don't know this find it weirdly moving, right up until the tail starts going and the illusion collapses into pure, drooling joy.</p>
+<p>Bone counts run warm and steady rather than explosive; a Newfoundland earns its votes the way it earns everything else, by radiating calm competence and looking, throughout, entirely trustworthy. Regulars describe the feeling as being handed a very large, very damp blanket that also loves you.</p>`,
+    ownerFitHeading: 'Is a Newfoundland right for you?',
+    ownerFit: `<p>A Newfoundland rewards the right household enormously and overwhelms the wrong one just as fast. Read this section with a tape measure in hand.</p>
+<p><strong>Size and space.</strong> Males commonly reach 130 to 150 pounds, females 100 to 120. This is genuinely one of the largest common breeds, and it needs a home — and furniture, and a car, and a vet's scale — built to match. Small apartments are a hard no.</p>
+<p><strong>The lifespan is short for how big the heart is.</strong> Nine to ten years on average is on the low end even by large-breed standards, and it's the single hardest fact to sit with before committing to the breed.</p>
+<p><strong>Grooming and drool.</strong> The dense, water-resistant double coat sheds heavily year-round with two serious seasonal blowouts, and needs brushing several times a week to stay ahead of matting. Add a working jowl built to shed water rather than hold it in, and you get a dog that drools — a fact new owners chronically underestimate until they've bought their first slobber towel.</p>
+<p><strong>Energy — moderate, but real.</strong> Newfoundlands aren't hyperactive, but they need a daily walk and, ideally, regular access to water; a Newfoundland that never gets to swim is missing out on the thing its whole body was engineered for. Heat is a genuine risk given the coat, so exercise needs planning around climate.</p>
+<p><strong>Temperament with family.</strong> Famously gentle and patient, especially with children — sometimes called a "nanny dog," a reputation cemented by Nana in <em>Peter Pan</em> and earned honestly in real households. Good-natured with strangers rather than watchful, which makes it a poor guard dog and an excellent one for a busy, sociable home.</p>
+<p><strong>Health.</strong> Hip and elbow dysplasia, a heart condition called subaortic stenosis, and bloat are the main concerns in a dog this size; a reputable breeder screens for all three and can produce the paperwork.</p>
+<p>The verdict: an extraordinary, loving companion for a household with the space, the budget, and the emotional readiness for a short partnership with a very large, very devoted animal. A poor fit for small living spaces, tidy-house perfectionists, or anyone startled by dog hair in their coffee.</p>`,
+    famousHeading: 'Famous Newfoundlands',
+    famous: `<p>Few breeds have a literary and historical résumé this deep. J.M. Barrie made a Newfoundland the family nanny in the original stage version of <em>Peter Pan</em> — Nana, drawn from Barrie's own dog, cemented the breed's reputation as the gentlest of giants for more than a century of readers who'd never met one. Lewis and Clark brought a Newfoundland named Seaman on their entire transcontinental expedition, where he hunted, stood guard, and by several accounts saved the party from more than one close call; when Meriwether Lewis died, Seaman reportedly refused to eat and did not long survive him. Lord Byron loved his Newfoundland Boatswain enough to write the dog one of the most quoted epitaphs in English literature, praising virtues in Boatswain — honesty, courage, fidelity — that the poet pointedly noted he found rarer in most humans.</p>
+<p>On the show circuit, a 155-pound Newfoundland named Josh — registered as Ch. Darbydale's All Rise Pouchcove — won Best in Show at the 2004 Westminster Kennel Club Dog Show and parlayed it into a genuine media tour, appearing on <em>Late Show with David Letterman</em> and <em>Good Morning America</em>. His hometown of Flemington, New Jersey, declared an official "Josh Day" in his honor. It remains one of the more good-natured victory laps in Westminster history, which feels entirely on brand for the breed.</p>`,
+    relatedBreeds: [
+      { slug: 'bernese-mountain-dog', name: 'Bernese Mountain Dog' },
+      { slug: 'golden-mountain-dog', name: 'Golden Mountain Dog' },
+      { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
+      { slug: 'great-pyrenees', name: 'Great Pyrenees' },
+    ],
+    breedTagName: 'Newfoundland',
   },
 };
 
