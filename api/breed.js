@@ -310,6 +310,7 @@ const BREEDS = {
       { slug: 'goldendoodle', name: 'Goldendoodle' },
       { slug: 'bernedoodle', name: 'Bernedoodle' },
       { slug: 'siberian-husky', name: 'Siberian Husky' },
+      { slug: 'agouti-husky', name: 'Agouti Husky' },
     ],
     breedTagName: 'Pomsky',
   },
@@ -597,6 +598,7 @@ const BREEDS = {
       { slug: 'mini-dachshund', name: 'Mini Dachshund' },
       { slug: 'bulldog', name: 'Bulldog' },
       { slug: 'mini-french-bulldog', name: 'Mini French Bulldog' },
+      { slug: 'american-bully', name: 'American Bully' },
     ],
     breedTagName: 'French Bulldog',
   },
@@ -885,6 +887,7 @@ const BREEDS = {
       { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
       { slug: 'belgian-malinois', name: 'Belgian Malinois' },
       { slug: 'giant-schnauzer', name: 'Giant Schnauzer' },
+      { slug: 'american-bully', name: 'American Bully' },
     ],
     breedTagName: 'Cane Corso',
   },
@@ -1167,6 +1170,86 @@ const BREEDS = {
       { slug: 'great-pyrenees', name: 'Great Pyrenees' },
     ],
     breedTagName: 'Newfoundland',
+  },
+
+  'american-bully': {
+    name: 'American Bully',
+    headKeyword: 'American Bully',
+    metaDescription: "The American Bully: a UKC-recognized companion breed built like a linebacker with the temperament of a lap dog, plus a legal landscape every owner should read before falling for the look. An honest field guide, with stage notes.",
+    facts: {
+      'Group': 'Companion/guardian type — not AKC recognized; UKC Terrier Group (2013), ABKC (2004)',
+      'Size': 'Four classes — Pocket, Standard, Classic, XL — 13–23 in at the withers depending on class and sex',
+      'Weight': 'Roughly 40–88 lb, varying by size class',
+      'Temperament': 'Confident, outgoing, affectionate, eager to please, good with children',
+      'Life expectancy': '8–13 years',
+      'Coat': 'Short, smooth, glossy; moderate year-round shedding',
+      'Colors': 'Any color or color pattern',
+      'Origin': 'United States, 1980s–90s — American Pit Bull Terrier crossed with Bulldog breeds',
+      'Legal note': 'The XL variety has been banned in England and Wales since 2024',
+    },
+    lede: `The American Bully looks like it walked out of a comic book and into your living room — built low and wide, with the kind of shoulders that suggest a background in furniture removal. Then it puts its head in your lap and declines to leave. That contrast is the entire point of the breed: cartoonish muscle, bred quite deliberately around a gentle, people-pleasing temperament. It was engineered for one job — looking formidable and being lovely — and, bred responsibly, it does that job well. It also arrives with a legal and social weight that no honest guide can skip.`,
+    spotlight: `<p>An American Bully arriving on stage rearranges the room's sense of scale before it reaches center frame. The shoulders lead, the chest follows a beat later, and the whole assembly moves with a low, rolling confidence that reads — for about two seconds, before the tail starts going — like a monster-movie trailer. Then the tail starts going.</p>
+<p>What audiences aren't braced for is the collapse into goofiness. A Pocket Bully the size of a beer keg will attempt, without fail, to fold itself into a lap built for something a third its mass. A Standard will lean its full bodyweight against the nearest leg and consider the transaction complete. The XLs — the largest of the four size classes — manage the rare trick of looking like a bouncer and behaving like a golden retriever who never got the height memo.</p>
+<p>The chat reaction runs a reliable two-beat joke: a wave of nervous commentary about the jawline, followed almost immediately by "okay, that's the sweetest thing I've seen all week." Bone counts follow the same arc — cautious, then generous. Very few breeds on our stage cover that particular emotional distance in under ten seconds, and it never stops working.</p>`,
+    ownerFitHeading: 'Is an American Bully right for you?',
+    ownerFit: `<p>The American Bully's whole design brief was gentleness inside a formidable frame, and responsible breeding has mostly delivered on it. But the breed carries real practical and legal weight that deserves a straight answer, not a marketing one.</p>
+<p><strong>Temperament, honestly.</strong> Well-bred, well-socialized American Bullies are consistently described as affectionate, tolerant of children, and eager to please — closer in disposition to an oversized lap dog than to their tough-guy silhouette. As with any breed descended from bull-breed working lines, individual temperament tracks breeding and upbringing closely, and early socialization plus consistent training matter more here than with a low-stakes breed. Skip either and the dog's size turns any bad habit into a bigger problem than it would be on a spaniel.</p>
+<p><strong>The legislation problem.</strong> Most breed guides skip this, and it matters too much to skip. Since February 2024, the XL Bully has been banned outright in England and Wales under the Dangerous Dogs Act — existing owners must register, neuter, muzzle, and leash their dogs in public, or face prosecution, following a string of serious attacks that made national news. A number of U.S. cities and several states still carry breed-specific legislation aimed at "pit bull type" dogs that can sweep in the American Bully by appearance, regardless of any individual dog's temperament or paperwork. None of this reflects on any specific dog you might bring home, but it is a real, binding fact of ownership — check your local ordinances and your insurance policy before you commit, not after.</p>
+<p><strong>Space and strength.</strong> Even the Pocket class is a dense, muscular animal, and the Standard and XL classes are genuinely large, strong dogs. Leash-manners training from puppyhood isn't optional just because the dog seems friendly.</p>
+<p><strong>Health.</strong> Hip dysplasia is the most common structural concern; the breed's broader face can bring mild breathing and heat-tolerance issues in hot weather, and skin allergies turn up often enough that an early conversation with your vet about food sensitivities is worth having. Ask any breeder for hip and cardiac clearances.</p>
+<p><strong>Grooming and exercise.</strong> Low-maintenance coat, moderate shedding, and a daily walk plus playtime covers most of it — a comparatively easy breed to physically maintain, whatever else it asks of you.</p>
+<p><strong>The verdict:</strong> for an owner willing to do the legal homework, the training, and the socializing, the American Bully delivers exactly what it was bred for — a huge, muscular dog with a house-pet's heart. For anyone drawn purely to the look, that legal homework is not optional reading.</p>`,
+    famousHeading: 'Famous American Bullies',
+    famous: `<p>The American Bully is young and internet-native enough that its fame lives almost entirely on social media rather than in film credits. Within the breeding world, Gottyline Dax — from the Gottiline and Greyline bloodlines that helped found the breed alongside Dave Wilson's Razor's Edge kennel in the 1980s and 90s — is treated as close to royalty, a foundation dog whose pedigree still turns up across the sport. Wilson founded the American Bully Kennel Club in 2004 to formalize the standard, and the UKC granted its own recognition in 2013.</p>
+<p>Outside the breeding world, the closest thing to a household name is Hulk, the roughly 175-pound dog made famous by New Hampshire's Dark Dynasty K9s and a viral video of him giving a toddler pony rides. We'll note the connection honestly rather than overclaim it: outlets covering Hulk describe him only as a "Pit Bull" of undetermined exact parentage, not confirmed as an American Bully specifically. What isn't in doubt is the breed's more recent, less flattering brush with fame — the 2024 UK ban on the XL variety put "American Bully" in international headlines for reasons no breed wants.</p>`,
+    relatedBreeds: [
+      { slug: 'cane-corso', name: 'Cane Corso' },
+      { slug: 'french-bulldog', name: 'French Bulldog' },
+      { slug: 'belgian-malinois', name: 'Belgian Malinois' },
+      { slug: 'pit-bull', name: 'Pit Bull' },
+    ],
+    breedTagName: 'American Bully',
+  },
+
+  'agouti-husky': {
+    name: 'Agouti Husky',
+    headKeyword: 'Agouti Husky',
+    metaDescription: "The Agouti Husky: the rare, wolf-colored Siberian Husky coat that made the sled dog Togo famous — a field guide to the color, and the same brilliant, headstrong breed underneath. Honest, with stage notes.",
+    facts: {
+      'Group': 'Working (Siberian Husky) — agouti is a coat-color variant, not a separate breed',
+      'Size': 'Males 21–23½ in, 45–60 lb · Females 20–22 in, 35–50 lb',
+      'Temperament': 'Friendly, outgoing, independent, high-energy, not possessive or guarding',
+      'Life expectancy': '12–14 years',
+      'Coat': 'Thick double coat; each hair banded black/tan/grey ("wolf sable"), giving a mottled wild look; heavy seasonal shedding',
+      'Colors': 'Charcoal undercoat with black-tipped, tan-and-grey-banded outer hairs, often with a dark facial mask and tan "spectacles"',
+      'AKC recognized': 'Yes — 1930, Working Group (as a Siberian Husky color, not a separate registration)',
+      'Origin': 'Siberia, bred by the Chukchi people; imported to Alaska in the early 1900s',
+      'Rarity': 'One of the rarer Husky colors — more common in working/sled lines than show lines',
+    },
+    lede: `Put an ordinary Siberian Husky and an agouti Husky side by side and the agouti looks like it wandered in from a different, wilder documentary. The coloring — each hair banded through black, tan, and grey rather than dyed one flat shade — produces about the closest thing to an actual wolf's coat a housepet can legally have. It isn't a separate breed, a designer mix, or a marketing invention. It's a genuine, comparatively rare Siberian Husky color, and the dog underneath is exactly the same Husky as ever: brilliant, headstrong, and entirely unconcerned with your schedule.`,
+    spotlight: `<p>An agouti Husky under studio lights does something almost no other coloring on our stage manages: it changes color as the dog moves. Turn a shoulder toward the key light and the coat reads warm tan; turn it away and the same patch goes charcoal-grey, because every individual hair is doing three colors at once rather than one. Viewers who know Huskies mainly as black-and-white or red-and-white spend the first thirty seconds audibly recalculating what breed they're looking at.</p>
+<p>The behavior underneath is pure, unfiltered Husky, agouti or not. There's the direct, pale-eyed stare that misses nothing in the room. There's the vocal repertoire — a Husky rarely barks and frequently narrates, in a rising, almost human-sounding howl-talk that the chat finds either hilarious or faintly haunting depending on the night. And there's the total absence of interest in being anyone's obedient background prop; a Husky on stage behaves like a colleague, not an employee.</p>
+<p>Bone counts spike hard and fast for the wolf-look alone, then tend to hold, because the personality earns its own following. Regulars start requesting agouti Huskies by name once they've seen one — a genuinely rare color, spotted maybe once every few dozen shows, is its own kind of event.</p>`,
+    ownerFitHeading: 'Is an Agouti Husky right for you?',
+    ownerFit: `<p>Color doesn't change temperament, so read this as an honest Siberian Husky owner-fit with one extra wrinkle: agouti dogs more often trace back to working sled lines than show lines, which can mean even more drive than the breed average, not less.</p>
+<p><strong>Energy and exercise.</strong> Huskies were bred to run in harness for hours, in a team, and that inheritance doesn't switch off in a backyard. Plan on serious daily exercise — a jog, not a stroll — plus real mental work, or expect digging, howling, and escape attempts born of pure boredom.</p>
+<p><strong>The escape-artist reputation is earned.</strong> Huskies are famous for clearing fences that would hold most breeds, by jumping and by digging underneath. A secure, tall, buried-bottom fence isn't optional, and neither is a leash near traffic — the breed's independent streak means recall is never guaranteed once something interesting is moving.</p>
+<p><strong>Prey drive and other pets.</strong> Bred partly to hunt as well as pull, many Huskies chase small animals with real intent. Cats and small dogs in the household need careful, gradual introductions, and off-leash time around wildlife needs real caution.</p>
+<p><strong>Shedding and grooming.</strong> The thick double coat "blows" twice a year in dramatic, room-filling amounts, with lighter shedding constantly in between. Weekly brushing keeps the worst of it manageable; during a seasonal blowout, plan on daily brushing for a week or two, and never shave a Husky to "help" — the coat is doing genuine thermal work and shaving can damage regrowth and remove its insulation just when the dog needs it. If you can't live with fur on everything, this isn't your breed regardless of how striking the color is.</p>
+<p><strong>Climate.</strong> Built for Siberian winters, not a hot back patio. Huskies tolerate cold beautifully and heat poorly — shade, water, and common sense are mandatory in summer, and a Husky left in direct sun on a warm day is a dog in genuine distress, not a dog that's merely uncomfortable.</p>
+<p><strong>Sourcing an agouti specifically.</strong> Because the color is genuinely rare and turns up more in working/sled lines than conformation lines, chasing the color specifically can narrow your choice of breeder. Prioritize a health-tested, well-socialized litter over a coat pattern, and treat the color as a happy bonus rather than the main event.</p>
+<p><strong>Health.</strong> Hip dysplasia and inherited eye conditions (progressive retinal atrophy, cataracts) are the main concerns; ask any breeder for hip and eye clearances on both parents.</p>
+<p><strong>The verdict:</strong> a spectacular-looking dog wrapped around the same brilliant, independent, high-maintenance breed as any other Husky — right for an active owner with real fencing and real patience, wrong for anyone drawn in by the wolf-like coat alone.</p>`,
+    famousHeading: 'Famous Agouti Huskies',
+    famous: `<p>The most famous agouti-coated dog in history is also one of the most famous dogs, period. Togo, the lead sled dog for musher Leonhard Seppala during the legendary 1925 serum run to Nome, ran the longest and most dangerous stretch of the relay — across the breaking ice of Norton Sound — while Balto, who covered the shorter final leg, became the public face of the rescue and got the statue in Central Park. Togo's coat is consistently described by breed historians as agouti, or "wolf-gray": a banded mix of black, brown, grey, and creamy white that, fittingly, made him look every inch the wild animal he occasionally outran. Disney's 2019 film <em>Togo</em>, starring Willem Dafoe, finally gave Seppala's dog something closer to Balto's share of the credit.</p>
+<p>Beyond Togo, agouti-specific fame gets thin fast — it's a color, not a bloodline, and most famous Huskies, Balto included, were solid black-and-white or red-and-white rather than agouti. The color's real celebrity is happening now, in the sled-dog and working-Husky world and across social media, where a striking agouti coat reliably stops the scroll.</p>`,
+    relatedBreeds: [
+      { slug: 'pomsky', name: 'Pomsky' },
+      { slug: 'siberian-husky', name: 'Siberian Husky' },
+      { slug: 'belgian-malinois', name: 'Belgian Malinois' },
+      { slug: 'giant-schnauzer', name: 'Giant Schnauzer' },
+    ],
+    breedTagName: 'Siberian Husky',
   },
 };
 
