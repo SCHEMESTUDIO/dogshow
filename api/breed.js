@@ -101,6 +101,7 @@ const BREEDS = {
       { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
       { slug: 'bernese-mountain-dog', name: 'Bernese Mountain Dog' },
       { slug: 'labradoodle', name: 'Labradoodle' },
+      { slug: 'poodle', name: 'Poodle' },
     ],
     // Breed name as it will appear in the user's breeds.js dropdown — used to
     // query /dogs-by-breed and to inner-link from /d/{slug} certificate pages.
@@ -144,6 +145,7 @@ const BREEDS = {
       { slug: 'mini-golden-retriever', name: 'Mini Golden Retriever' },
       { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
       { slug: 'labradoodle', name: 'Labradoodle' },
+      { slug: 'poodle', name: 'Poodle' },
     ],
     breedTagName: 'Goldendoodle',
   },
@@ -269,6 +271,7 @@ const BREEDS = {
       { slug: 'pomsky', name: 'Pomsky' },
       { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
       { slug: 'toy-aussie', name: 'Toy Aussie' },
+      { slug: 'australian-shepherd', name: 'Australian Shepherd' },
     ],
     breedTagName: 'Mini Aussie',
   },
@@ -1250,6 +1253,85 @@ const BREEDS = {
       { slug: 'giant-schnauzer', name: 'Giant Schnauzer' },
     ],
     breedTagName: 'Siberian Husky',
+  },
+
+  poodle: {
+    name: 'Poodle',
+    headKeyword: 'Poodle',
+    metaDescription: "The Poodle: the brilliant, low-shedding water retriever sitting quietly at the top of every doodle's family tree, in three sizes and one relentless brain. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Non-Sporting (Standard & Miniature) · Toy Group (Toy)',
+      'Size': 'Standard over 15 in, 40–70 lb · Miniature 10–15 in, 10–15 lb · Toy under 10 in, 4–6 lb',
+      'Temperament': 'Brilliant, eager to please, elegant, sensitive, alert',
+      'Life expectancy': '10–18 years (smaller varieties tend longer)',
+      'Coat': 'Dense, curly, single-layer, low-shedding',
+      'Colors': 'Solid — black, white, brown/café-au-lait, apricot, cream, silver, blue, gray, red',
+      'AKC recognized': 'Yes — Standard 1887, Miniature 1929, Toy 1942',
+      'Origin': 'Germany, as a working water retriever; later refined and popularized in France',
+    },
+    lede: `Every doodle on this website — every Bernedoodle, every Goldendoodle, every Cavapoo currently drowsing in a lap somewhere — has the same relative sitting quietly at the top of its family tree, largely unbothered about getting credit for any of it. The Poodle is not, whatever its reputation suggests, a decorative invention of French high society. It began in Germany as a serious working water retriever, the elaborate show clip was a hunter's haircut and not a fashion statement, and the brain underneath all that curl is — by the most-cited scientific ranking of the lot — the second-most trainable in all of dogdom. Everything else about the Poodle, including the France of it, came later.`,
+    spotlight: `<p>A Poodle arriving on stage carries itself like it already knows how the segment is going to go, which — this is the maddening part — it usually does. Three sizes pass through our rotation: a Standard fills the frame with genuine athletic bearing, a coat like sculpted charcoal or apricot wool; a Miniature performs the same bearing at two-thirds scale and seems, if anything, more convinced of its own importance for the compression; a Toy at four or five pounds manages to look down its nose at a camera crew from a truly startling height disadvantage.</p>
+<p>What none of them do is fumble. Ask a Poodle to sit and it sits before you have finished the sentence, then appears to wait — politely, but unmistakably — for a marginally harder question. We have had Standard Poodles pick up a wave, a spin, and a "which paw" routine inside a single commercial break, entirely because a producer got bored and started teaching between segments. The dog was never the bottleneck.</p>
+<p>Viewers respond to the elegance first and the intelligence once they've clocked it — a Poodle's eyes track the chat scroll the way a chess player tracks an opponent's hand, and regulars swear the good ones are reading the bone count. We cannot confirm this. We also cannot entirely rule it out.</p>`,
+    ownerFitHeading: 'Is a Poodle right for you?',
+    ownerFit: `<p>The Poodle's reputation is unusually accurate, which is rare enough in this business that we want to say it plainly: yes, they really are that smart, and yes, that cuts both ways.</p>
+<p><strong>Intelligence needs a job.</strong> Stanley Coren's landmark canine-intelligence study ranked the Poodle second of 138 breeds tested for working and obedience intelligence — beaten only by the Border Collie. A bored Poodle does not go quiet. It gets resourceful, and Poodle resourcefulness tends to end in an opened cupboard, a solved baby gate, or a look that says it has been waiting for you to catch up.</p>
+<p><strong>Coat and shedding.</strong> Genuinely low-shedding across all three sizes — the very trait every doodle on this site was bred to chase — but low-shedding is not low-maintenance. The dense curl mats without regular brushing and needs a professional trim every four to six weeks. Skip it and you are not saving money; you are deferring a much larger grooming bill and an unhappy dog.</p>
+<p><strong>Size matters more than the stereotype suggests.</strong> A Standard is a genuine mid-size athlete that wants real daily exercise, closer in spirit to a retriever than to a lapdog. A Toy is a different animal in every practical sense — more fragile, more prone to dental crowding, better suited to an apartment. Pick the size that matches your actual life, not the size in the photo you liked.</p>
+<p><strong>Sensitivity.</strong> Poodles read tone and tension in a household with uncomfortable accuracy, and they do not thrive around raised voices or chaotic handling. Calm, consistent, reward-based training gets you the breed's full brilliance. Harshness gets you an anxious dog that has quietly stopped trying to please you — the one outcome no Poodle owner wants, and every Poodle owner can create by accident.</p>
+<p><strong>Health.</strong> Hip dysplasia and progressive retinal atrophy show up in the larger varieties; smaller Poodles carry more risk of luxating patellas and dental crowding. Standard Poodles are also among the breeds associated with bloat — ask any breeder how they feed and whether the line has a bloat history.</p>
+<p>The honest verdict: one of the most rewarding breeds going, for an owner willing to engage that brain daily and keep up with that coat. A frustrating one for anyone who wanted "smart" to mean "easy."</p>`,
+    famousHeading: 'Famous Poodles',
+    famous: `<p>The Poodle's fame runs in two very different directions at once, and both are genuine. In one direction: Louis XVI kept Toy Poodles as court companions, the Spanish painter Francisco Goya put them into more than one canvas, and 18th- and 19th-century European circuses built entire acts around the breed's trick-learning speed — the origin, more or less, of every "smartest dog" claim that followed. In the other, considerably later: Winston Churchill was, despite the bulldog mythology that still clings to him, a genuine Poodle man. His Miniature Poodle Rufus sailed the Atlantic with him to meet Roosevelt, was served his dinner off his own cloth before the family sat down to theirs, and was mourned so completely on his death that Churchill acquired a second dog and named it Rufus II rather than move on to a different name entirely.</p>
+<p>Then there is the 1950s "poodle skirt" — a felt circle skirt appliquéd with a Poodle silhouette that became, for an entire American teenage generation, cultural shorthand for the era itself. A strange kind of fame, achieved without the breed lifting a single elegantly clipped paw.</p>`,
+    relatedBreeds: [
+      { slug: 'teacup-poodle', name: 'Teacup Poodle' },
+      { slug: 'bernedoodle', name: 'Bernedoodle' },
+      { slug: 'goldendoodle', name: 'Goldendoodle' },
+      { slug: 'cockapoo', name: 'Cockapoo' },
+      { slug: 'labradoodle', name: 'Labradoodle' },
+    ],
+    breedTagName: 'Poodle',
+  },
+
+  'australian-shepherd': {
+    name: 'Australian Shepherd',
+    headKeyword: 'Australian Shepherd',
+    metaDescription: "The Australian Shepherd: an American ranch dog with a mistaken passport, a merle coat that photographs like abstract art, and a work ethic that does not know how to switch off. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Herding',
+      'Size': 'Males 20–23 in · Females 18–21 in',
+      'Weight': '40–65 lb',
+      'Temperament': 'Intelligent, energetic, work-driven, watchful, deeply loyal',
+      'Life expectancy': '12–15 years',
+      'Coat': 'Medium-length double coat; moderate to heavy seasonal shedding',
+      'Colors': 'Black, blue merle, red, red merle — each with or without white markings and/or tan points',
+      'AKC recognized': 'Yes — 1991 (Miscellaneous Class), Herding Group 1993',
+      'Origin': 'American West, 19th–20th century — despite the name, developed in the United States',
+    },
+    lede: `Despite what the passport implies, the Australian Shepherd has never set a paw in Australia. The breed was built in the American West, by ranchers who needed a herding dog smart enough to make its own decisions about sheep, and the "Australian" in the name is a hand-me-down credit to the Basque shepherds who arrived by way of Australia in the 1800s, sheepdogs in tow. Two centuries on, the Aussie remains mildly, good-naturedly confused about its own name and entirely undisputed about its own competence: this is one of the most capable working brains in the herding group, wrapped in a merle coat that photographs like abstract art.`,
+    spotlight: `<p>An Australian Shepherd does not so much appear on stage as arrive mid-assessment, one ear already swiveling toward whatever in the studio most needs organizing. The coat does the visual work before the dog does anything at all — a blue merle's marbled silver-and-black patchwork, or a red merle's rust-and-cream mottling, catches studio light in a way no solid coat can, and the eyes compound it: pale blue, amber, one of each, occasionally split straight down the middle of a single iris. Viewers who have never seen a merle Aussie tend to type some version of "wait, is that real."</p>
+<p>What breaks the portrait, reliably, is the herding instinct going off like a small internal alarm. Give an Aussie four seconds of stillness and something off-camera — a producer walking past, another dog's tail, a stray sound — earns a full-body pivot and a decisive stare, the same stare its ancestors used to move sheep down a mountainside without a word from anyone. It is not disobedience. It is a job applicant who has spotted unassigned work and cannot let it go undone.</p>
+<p>Bone counts run hot for the coat and stay hot once the personality shows up — regulars have learned to expect the merle spike in the first ten seconds and the loyalty spike over the following minute, as the dog's attention visibly narrows to the one or two humans it has decided are its actual responsibility tonight.</p>`,
+    ownerFitHeading: 'Is an Australian Shepherd right for you?',
+    ownerFit: `<p>The Australian Shepherd is, without much competition, one of the highest-drive breeds we cover on this site, and nearly every piece of good advice about the breed traces back to that one fact.</p>
+<p><strong>Energy that does not negotiate.</strong> This is a dog bred to work a full day on a ranch, and a walk around the block registers to an Aussie as a warm-up, not an outing. Plan on real, sustained daily activity — running, hiking, structured play, ideally something with a job attached — or plan on the dog inventing a job of its own, usually at the expense of your yard, your door frames, or your smaller pets.</p>
+<p><strong>Trainability, cutting both ways.</strong> Aussies are exceptionally quick studies and dominate agility, obedience, and herding trials well out of proportion to the breed's actual population. That same speed of learning means they pick up bad habits just as fast as good ones — an under-trained Aussie isn't a blank slate, it's a smart dog that has already taught itself something you didn't intend.</p>
+<p><strong>Herding will happen regardless of livestock.</strong> Children, cats, joggers, bicycles, other dogs at the park — an Aussie without sheep will herd whatever is available, sometimes with a nip at the heels that reads as instinct rather than aggression but still needs managing in a family home.</p>
+<p><strong>The merle gene needs respect.</strong> Never breed two merle Australian Shepherds together — the pairing has a one-in-four chance of producing a "double merle" puppy, predominantly white-coated and at serious risk of blindness, deafness, or both. Any breeder proposing a merle-to-merle cross is not one to buy from.</p>
+<p><strong>MDR1 drug sensitivity.</strong> Roughly half the breed carries at least one copy of the MDR1 gene mutation, which can cause severe, sometimes fatal reactions to ivermectin and several other common medications. Every Australian Shepherd — and every Aussie mix — should be genetically tested before its first round of standard veterinary drugs, not after a bad reaction.</p>
+<p><strong>Health.</strong> Otherwise a fairly sound breed — hip dysplasia runs lower than in many working breeds (roughly 6% by OFA figures), though hips, elbows, and eyes are still worth screening for in any breeder's line.</p>
+<p>The honest verdict: a spectacular partner for an owner who runs, hikes, competes, or otherwise has real daily work to hand the dog. A recipe for a frustrated household — and a frustrated dog — for anyone hoping the merle coat comes with a low-key temperament attached. It does not.</p>`,
+    famousHeading: 'Famous Australian Shepherds',
+    famous: `<p>The Australian Shepherd's biggest cultural moment came not from the show ring but from the rodeo circuit. In the 1950s and 60s, rancher and trick-dog trainer Jay Sisler toured Aussies named Stub, Shorty, and Queenie through venues as far-flung as Madison Square Garden and the Calgary Stampede, teaching them to walk on their hind legs, jump rope, and ride skateboards — a repertoire polished enough that Disney built features around the act, including 1973's "Stub: The Best Cowdog in the West." A decade or so later, an Aussie named Hyper Hank, partnered with owner Eldon McIntire, became one of flying-disc sport's first stars, performing at halftime of Super Bowl XII in New Orleans and later at the White House for the Carter family — a fairly remarkable career arc for a dog whose day job was supposed to be sheep.</p>
+<p>More recently, the breed has become an unofficial mascot of the outdoorsy-celebrity set: Susan Sarandon, Bruce Willis, Demi Moore, and Amanda Seyfried have all owned Australian Shepherds, with Seyfried's Finn a recurring, extremely photogenic presence on her social media. It's a fitting modern update on a breed that has always done its best work a half-step ahead of the camera, whether the camera was at a rodeo, a stadium, or a phone.</p>`,
+    relatedBreeds: [
+      { slug: 'mini-aussie', name: 'Mini Aussie' },
+      { slug: 'toy-aussie', name: 'Toy Aussie' },
+      { slug: 'german-shepherd', name: 'German Shepherd' },
+      { slug: 'border-collie', name: 'Border Collie' },
+    ],
+    breedTagName: 'Australian Shepherd',
   },
 };
 
