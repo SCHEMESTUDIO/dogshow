@@ -141,11 +141,11 @@ const BREEDS = {
     famous: `<p>The Goldendoodle is younger than the Bernedoodle — first deliberately bred in the late 1990s — but it has had a much faster cultural rise. Senator Mitt Romney's family Goldendoodle, Tilly, sat in on the 2012 presidential campaign. Usain Bolt has one. The actress Anne Hathaway has photographed hers more often than several of her co-stars.</p>
 <p>There is also a small subgenre of Goldendoodle social media in which the dog has been groomed into a teddy-bear silhouette — round face, short legs, fluffy coat — and posted in increasingly elaborate domestic tableaux. We have opinions about this. The dogs do not seem to mind.</p>`,
     relatedBreeds: [
+      { slug: 'golden-retriever', name: 'Golden Retriever' },
       { slug: 'bernedoodle', name: 'Bernedoodle' },
       { slug: 'mini-golden-retriever', name: 'Mini Golden Retriever' },
       { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
       { slug: 'labradoodle', name: 'Labradoodle' },
-      { slug: 'poodle', name: 'Poodle' },
     ],
     breedTagName: 'Goldendoodle',
   },
@@ -518,6 +518,7 @@ const BREEDS = {
       { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
       { slug: 'goldendoodle', name: 'Goldendoodle' },
       { slug: 'bernese-mountain-dog', name: 'Bernese Mountain Dog' },
+      { slug: 'golden-retriever', name: 'Golden Retriever' },
     ],
     breedTagName: 'Golden Mountain Dog',
   },
@@ -720,6 +721,7 @@ const BREEDS = {
     famous: `<p>The most famous thing about the Labradoodle is its origin story and the regret attached to it. Wally Conron, the man who made the first one, became an unlikely public figure late in life by going on record that he wished he hadn't — not because the dogs were bad, but because he had inadvertently kicked off a designer-dog gold rush full of unscrupulous breeders. It is one of the rare breeds whose creator became its most prominent critic, and the story has been told and retold in the press for years.</p>
 <p>Beyond that, Labradoodles have served widely as therapy and assistance dogs — the job they were invented for — and turned up in plenty of celebrity households along the way. But the Conron story is the one that sticks, and it carries a useful lesson baked right in: with this breed, the breeder is everything. Heed his warning and you get the friendly, capable dog he set out to make; ignore it and you get the cautionary tale he spent his retirement apologising for. The choice, as ever, is made long before the puppy comes home.</p>`,
     relatedBreeds: [
+      { slug: 'labrador-retriever', name: 'Labrador Retriever' },
       { slug: 'goldendoodle', name: 'Goldendoodle' },
       { slug: 'australian-labradoodle', name: 'Australian Labradoodle' },
       { slug: 'bernedoodle', name: 'Bernedoodle' },
@@ -761,6 +763,7 @@ const BREEDS = {
     famous: `<p>The Chocolate Lab's most famous representative lived at the most famous address in America. Buddy, adopted by President Bill Clinton in December 1997 and named for a beloved uncle, became one of the most photographed dogs in White House history — trotting across the South Lawn, riding along in the press pool's photographs, occupying more coverage than most sitting senators. Buddy's fame was cut short in January 2002, when he was struck and killed by a car outside the Clintons' home in Chappaqua, New York — a loss that made national news in its own right.</p>
 <p>Beyond the political sphere, the Chocolate Lab's fame is mostly the Labrador's fame, borrowed and re-tinted. The breed as a whole held the title of America's most popular dog for 31 consecutive years, from 1991 to 2022, before finally losing the top spot — fittingly for this particular batch of pages — to the French Bulldog. Chocolate ones simply carried a rarer coat through all thirty-one years of that reign: the family favourite, in a slightly less common shade.</p>`,
     relatedBreeds: [
+      { slug: 'labrador-retriever', name: 'Labrador Retriever' },
       { slug: 'labradoodle', name: 'Labradoodle' },
       { slug: 'vizsla', name: 'Vizsla' },
       { slug: 'german-shepherd', name: 'German Shepherd' },
@@ -1332,6 +1335,88 @@ const BREEDS = {
       { slug: 'border-collie', name: 'Border Collie' },
     ],
     breedTagName: 'Australian Shepherd',
+  },
+
+  'golden-retriever': {
+    name: 'Golden Retriever',
+    headKeyword: 'Golden Retriever',
+    metaDescription: "The Golden Retriever: the breed most people picture when you say \"friendly dog,\" built in the Scottish Highlands to retrieve gently and love unconditionally. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Sporting',
+      'Size': 'Males 23–24 in · Females 21.5–22.5 in',
+      'Weight': 'Males 65–75 lb · Females 55–65 lb',
+      'Temperament': 'Friendly, intelligent, eager to please, food-motivated',
+      'Life expectancy': '10–12 years',
+      'Coat': 'Dense, water-repellent double coat; wavy or straight; heavy seasonal shedding',
+      'Colors': 'Light golden to dark golden',
+      'AKC recognized': 'Yes — 1925',
+      'Origin': "Scottish Highlands, 1868 — bred by Dudley Marjoribanks, 1st Baron Tweedmouth",
+    },
+    lede: `Ask a stranger to sketch "friendly dog" from memory and you will, more often than not, get a Golden Retriever — feathered tail mid-wag, ears back, an expression set permanently to delighted. That reputation isn't marketing. It's close to the literal design brief. In 1868, a Scottish nobleman named Dudley Marjoribanks — Lord Tweedmouth — bred a yellow retriever named Nous to a Tweed Water Spaniel named Belle on his Highlands estate, chasing a gundog steady enough to carry a shot bird back to hand without so much as denting the feathers. A century and a half later, the retrieving instinct is still fully intact. So, disproportionately, is the gentleness.`,
+    spotlight: `<p>A Golden Retriever does not walk onto the Dog Show stage so much as flood it. The tail arrives roughly half a second before the rest of the dog and does not stop once it gets there — it is less a body part than a standing weather event, capable of clearing a coffee table in a single pass. Viewers clock the coat first, that warm range from pale cream to deep honey-gold catching the studio lights, and then the face does the rest of the work: soft eyes, an open panting grin, an expression that reads, with total sincerity, as pure joy at being looked at.</p>
+<p>What separates the Golden from most of the crowd-pleasers we host is the mouth. This is a retriever bred over generations for what trainers call a "soft mouth" — the ability to carry a live, unharmed bird gently enough to set it down without a mark on it. On stage that instinct shows up as a dog that will happily mouth a toy, a sleeve, or a producer's clipboard with real enthusiasm and precisely zero pressure. It is, unexpectedly, one of the more reassuring things you can watch a large dog do. Give one an actual object to hold and the whole dog visibly relaxes, as though it has finally been assigned the job it was born for.</p>
+<p>They are also, for a dog this size, remarkably quiet. Golden Retrievers rank low for nuisance barking — the breed would rather solve a stranger's presence by fetching them something than by raising an alarm about it. On a stage built around noise and spectacle, the calm is its own kind of contrast.</p>
+<p>Bone counts run high and steady — no spikes, no lulls, just a dependable stream of goodwill every time one takes the stage. The Golden Retriever is the closest thing this show has to a sure bet.</p>`,
+    ownerFitHeading: 'Is a Golden Retriever right for you?',
+    ownerFit: `<p>The Golden Retriever's reputation for being easy is mostly earned and occasionally misleading. Read past the "great family dog" headline before committing.</p>
+<p><strong>Shedding.</strong> Heavy, and not a footnote. That water-repellent double coat "blows" twice a year, carpeting furniture and clothing in fine golden fluff, and sheds at a lower background rate the rest of the time. A Golden Retriever household owns a good vacuum cleaner, or wishes it did.</p>
+<p><strong>Energy and food drive.</strong> Moderate to high, and paired with a genuinely bottomless appetite. Goldens are famously food-motivated — wonderful for training, dangerous for the waistline. Obesity is one of the more common and most preventable problems in the breed; measure the food, not the eyes.</p>
+<p><strong>Health — the hard conversation.</strong> This is the fact that matters more than any other on this page: roughly 60–65% of Golden Retrievers will develop cancer in their lifetime, most commonly hemangiosarcoma and lymphoma, making cancer the breed's leading cause of death by a wide margin. Hip dysplasia (affecting up to roughly a fifth of the breed) and a heart condition called subvalvular aortic stenosis are the other names worth knowing. None of this is a reason to avoid the breed — it's a reason to ask a breeder for OFA hip, elbow, heart, and eye clearances, and to keep up with veterinary screening throughout the dog's life.</p>
+<p><strong>Temperament.</strong> About as advertised: patient with children, sociable with strangers, low on guarding instinct (a Golden makes a poor guard dog and an excellent greeter of burglars). They dislike being left alone for long stretches and do best woven tightly into family life.</p>
+<p><strong>Trainability.</strong> Among the easiest of all breeds, provided the food motivation is channeled rather than ignored. Obedience, agility, therapy work, and guide-dog service all lean heavily on Goldens for a reason.</p>
+<p>If you have the time for daily exercise, the tolerance for fur on everything you own, and the willingness to take the breed's cancer risk seriously rather than hoping around it, a Golden Retriever will reward you with one of the most uncomplicated, devoted companionships in all of dogdom.</p>`,
+    famousHeading: 'Famous Golden Retrievers',
+    famous: `<p>The Golden Retriever's most famous ambassador lived in the White House. Liberty, President Gerald Ford's Golden Retriever, was a fixture of the mid-1970s presidency — Ford himself often walked her on the South Lawn, and her litter of White House-born puppies in 1975 became a minor national event in its own right, tracked by the press with the enthusiasm usually reserved for actual news. Ford's evident fondness for Liberty is widely credited with giving the breed's popularity a real lift in America. A decade later, Ronald Reagan kept a Golden of his own named Victory, though Victory lived out at the Reagan ranch in California rather than in Washington with the boss.</p>
+<p>On screen, the Golden Retriever has done heavier lifting than almost any other breed. Comet, the family dog on the sitcom "Full House," was a Golden. Shadow, the elderly voice of reason in "Homeward Bound: The Incredible Journey," was a Golden. And Buddy — the basketball-dribbling, football-kicking star of the "Air Bud" franchise — was played by a real Golden Retriever reportedly discovered doing exactly those tricks in his own backyard. Few breeds have been this thoroughly cast as America's default good dog, on screen and off.</p>`,
+    relatedBreeds: [
+      { slug: 'goldendoodle', name: 'Goldendoodle' },
+      { slug: 'mini-golden-retriever', name: 'Mini Golden Retriever' },
+      { slug: 'golden-mountain-dog', name: 'Golden Mountain Dog' },
+      { slug: 'labrador-retriever', name: 'Labrador Retriever' },
+      { slug: 'poodle', name: 'Poodle' },
+    ],
+    breedTagName: 'Golden Retriever',
+  },
+
+  'labrador-retriever': {
+    name: 'Labrador Retriever',
+    headKeyword: 'Labrador Retriever',
+    metaDescription: "The Labrador Retriever: America's longest-reigning most popular breed, built in Newfoundland to haul nets from the North Atlantic and now mostly retired to hauling tennis balls. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Sporting',
+      'Size': 'Males 22.5–24.5 in · Females 21.5–23.5 in',
+      'Weight': 'Males 65–80 lb · Females 55–70 lb',
+      'Temperament': 'Friendly, outgoing, eager to please, high food drive',
+      'Life expectancy': '11–13 years',
+      'Coat': 'Short, dense, water-resistant double coat',
+      'Colors': 'Black, yellow, chocolate',
+      'AKC recognized': 'Yes — 1917',
+      'Origin': "Newfoundland, Canada — descended from the St. John's Water Dog, refined in 19th-century England",
+    },
+    lede: `There is, statistically, a good chance you already know a Labrador Retriever — the breed held the American Kennel Club's most-registered-breed title for a record thirty-one consecutive years, from 1991 to 2022, before finally handing the crown to the French Bulldog. The fishermen of Newfoundland who built its ancestor, the St. John's Water Dog, were not aiming for that kind of fame; they needed a strong, biddable, water-tolerant dog to haul nets and retrieve fish from the icy North Atlantic, full stop. English sportsmen imported the breed in the early 1800s, refined it into the dog we know today, and — in one of the great unresolved mix-ups of dog naming — called it after the wrong Canadian territory. Labradors come from Newfoundland. Nobody has ever managed to fix this.`,
+    spotlight: `<p>A Labrador Retriever on our stage is, more or less, the platonic ideal of a dog encountering an audience: whole body wagging, tail working like a rudder that has come loose from the boat, mouth open in what can only be described as a grin. There is no breed here more instantly, unreservedly pleased to be looked at, and the enthusiasm reads through a screen exactly as well as it reads across a living room.</p>
+<p>The three coat colors — black, yellow, chocolate — each draw their own devoted following in the chat, and viewers are quick to claim, with zero scientific backing and total conviction, that the colors run different personalities: yellows mellow, blacks serious, chocolates a little wild. No controlled study has ever confirmed it. The anecdote refuses to die anyway, and we are not the ones to argue with a chat room united behind a shared theory.</p>
+<p>What no one disputes is the food motivation. A Labrador watching a bone-toss on this stage tracks it with the single-minded focus of a dog that understands, on some level, exactly how this economy works. It is, without exaggeration, the breed most likely to make direct and sustained eye contact with whoever last threw a bone, as though filing the information away for later.</p>
+<p>Bone counts spike hard and reliably. Few dogs campaign for the audience's approval quite this openly, or quite this well.</p>`,
+    ownerFitHeading: 'Is a Labrador Retriever right for you?',
+    ownerFit: `<p>The Labrador's thirty-one-year reign as America's favorite dog was not an accident — it is, for the right household, close to the easiest large breed there is. Read the fine print anyway.</p>
+<p><strong>The appetite has a genetic cause.</strong> Roughly a quarter of all Labradors carry a mutation in the POMC gene that disrupts the "I'm full" signal to the brain — University of Cambridge researchers found affected dogs stay hungrier between meals and burn about 25% less energy at rest than Labradors without it. This is not a training failure or a lack of willpower on the dog's part; it is wiring. Obesity is one of the breed's most common and most manageable problems, and it starts with a measuring cup, not a diet plan.</p>
+<p><strong>Energy.</strong> High, especially before age three. Labradors were bred to work a full day in cold water and need a genuine daily outlet — a run, a swim, a serious fetch session — or they will find their own project, usually involving your furniture.</p>
+<p><strong>Trainability.</strong> Outstanding, and closely tied to that same food drive. Labradors dominate guide-dog, therapy, search-and-rescue, and detection work worldwide because they are this easy to motivate with a treat and a "good dog."</p>
+<p><strong>Health.</strong> Hip and elbow dysplasia are common enough that any reputable breeder screens for both. Exercise-induced collapse (EIC) — a genetic condition that can cause sudden hind-leg weakness or collapse after intense exercise or excitement — affects a minority of the breed and is now covered by a simple DNA test; ask for it. Ear infections are frequent in a dog that swims as often as this one does.</p>
+<p><strong>Temperament.</strong> Reliably good with children, other dogs, and strangers, which is exactly why it spent three decades as the default family dog. It is not a natural guard dog — a Labrador's response to an intruder is more likely to be enthusiasm than alarm.</p>
+<p>If you can meet the exercise needs and manage the food bowl with real discipline, a Labrador Retriever gives back one of the steadiest, most good-natured companionships available in a dog.</p>`,
+    famousHeading: 'Famous Labrador Retrievers',
+    famous: `<p>The Labrador's best-known modern story is a cautionary one, and it comes with thirteen years of daily proof that "worst dog" and "best dog" can be the same animal. John Grogan's 2005 memoir "Marley & Me" turned his chaotic, furniture-destroying, thunderstorm-terrified yellow Lab into a bestseller and, in 2008, a film starring Owen Wilson and Jennifer Aniston — an entire cultural moment built on the premise that a badly behaved Labrador is still, somehow, the family's favorite member.</p>
+<p>At the opposite end of the temperament spectrum was Endal, a black Labrador assistance dog in the UK who could operate ATMs, load washing machines, and — most famously — was credited with pulling his unconscious owner into the recovery position and covering him with a blanket after a car accident, work that earned him the PDSA's Gold Medal for animal bravery and a reputation as one of the most decorated dogs in the world. On the geopolitical end of the spectrum, a black Labrador named Konni spent years as one of Vladimir Putin's most photographed companions, turning up at more than one head-of-state meeting entirely unbothered by the cameras. Between Marley's chaos and Endal's competence sits most of the breed's actual reputation: a dog capable of either, usually somewhere in between.</p>`,
+    relatedBreeds: [
+      { slug: 'labradoodle', name: 'Labradoodle' },
+      { slug: 'chocolate-lab', name: 'Chocolate Lab' },
+      { slug: 'golden-retriever', name: 'Golden Retriever' },
+      { slug: 'australian-labradoodle', name: 'Australian Labradoodle' },
+      { slug: 'poodle', name: 'Poodle' },
+    ],
+    breedTagName: 'Labrador Retriever',
   },
 };
 

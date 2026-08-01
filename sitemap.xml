@@ -221,6 +221,16 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://dogshow.lol/breeds/golden-retriever</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dogshow.lol/breeds/labrador-retriever</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dogshow.lol/america-s-favorite-pet-contestants-2026-list</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
