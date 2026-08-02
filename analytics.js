@@ -41,7 +41,7 @@
   // looks like "a2_xxxxxxxx"). Blank = pixel never loads, even with consent —
   // same kill-switch pattern as CLARITY_ID. Loaded through the consent gate;
   // Reddit campaign targeting excludes EEA/UK so ROW visitors get it bannerless.
-  var REDDIT_PIXEL_ID = '';
+  var REDDIT_PIXEL_ID = 'a2_jg65ublapy0p';
 
   // Clarity project ID: clarity.microsoft.com → project → Settings → Setup.
   // Leave blank to NOT load Clarity even with consent. Disclose session
