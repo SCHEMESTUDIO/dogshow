@@ -2256,6 +2256,9 @@
           .then(function(r) { return r.json(); })
           .then(function(data) {
             if (data.ok && data.token) {
+              // Google Ads signup conversion — success-fire (real account
+              // created + 50 bones granted), unlike the intent-fire lead pixel.
+              if (window.trackAdsSignup) window.trackAdsSignup(cleanEmail);
               localStorage.setItem('dogshow_token', data.token);
               localStorage.setItem('dogshow_tier', 'free');
               if (data.user && data.user.username) {
@@ -2634,6 +2637,26 @@
       } else if (want === 'free') {
         playCurtainAndGo('free');
       }
+    })();
+
+    // ─── AD LANDING: ?ref=gads ───────────────────────────────────────────
+    // Google Ads (Demand Gen) final URL. CTA is "Sign up, get 50 free bones",
+    // so skip the browse step and open the signup email modal immediately with
+    // bones-first copy. Param is stripped so refresh/share doesn't re-open.
+    (function () {
+      var ref;
+      try {
+        ref = new URLSearchParams(window.location.search).get('ref');
+      } catch (e) { return; }
+      if (ref !== 'gads') return;
+      try {
+        history.replaceState(null, '', window.location.pathname + window.location.hash);
+      } catch (e) {}
+      // Already signed up? Straight into the show instead of re-asking.
+      if (localStorage.getItem('dogshow_token')) { playCurtainAndGo('free'); return; }
+      openEmailModal('free');
+      emailTitle.textContent = 'Grab your 50 free bones';
+      emailSubtitle.textContent = "Sign up free — watch the live show, cheer with bones, and enter your own dog. No password, no spam.";
     })();
 
     // ─── LOGIN FLOW ──────────────────────────────────

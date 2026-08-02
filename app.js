@@ -458,6 +458,8 @@
         localStorage.setItem('dogshow_username', name);
         hasPickedUsername = true;
         isRegistered = true;
+        // Google Ads signup conversion — the 50-bones moment (see analytics.js).
+        if (window.trackAdsSignup) window.trackAdsSignup(email);
         myBones = (res.body.user && typeof res.body.user.bones === 'number')
           ? res.body.user.bones : 50;
         // Tell the server about our chosen display name (best-effort).

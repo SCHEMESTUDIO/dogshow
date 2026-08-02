@@ -75,3 +75,23 @@ delete. Keep entries short; link evidence.
   is `/resources`. Found during weekly CLAUDE.md maintenance scan; not fixed
   (content is postwerks-owned, out of scope for this workflow) — needs a
   human or the postwerks pipeline to correct.
+
+- **2026-07-31 — Google Ads relaunch under the £367 promo credit (plan mirror).**
+  Two campaigns built in account 629-033-9684, both created PAUSED pending
+  James's explicit go: (1) HWAB Search (campaignId 24094793005) £7.50/day,
+  Maximise Clicks w/ ~£1.20 CPC cap, 3 ad groups (cheap/budget, AI generic,
+  funny/novelty exact-only), day-one negatives free/"photographer near me"/
+  jobs/course/"bird photography"; (2) DOGSHOW Demand Gen (campaignId
+  24090073862) £10/day, Max Conversions (no tCPA until 30+ signups), goal
+  scoped to dogshow_signup ONLY, Dog Lovers affinity + Dogs in-market with
+  optimised targeting ON, final URL https://dogshow.lol/?ref=gads. Targeting
+  both: worldwide English MINUS EEA+UK+CH+IS+LI+NO (32 exclusions — aligns
+  with consent.js ROW auto-grant so paid traffic is never banner-gated).
+  Tracking: Google tag AW-18212544394; dogshow_signup label
+  KxqZCJvU09kcEIq_texD fires on register success (50-bones moment) via
+  window.trackAdsSignup with hashed-email enhanced conversions; hwab_purchase
+  label d6XuCLvDy9kcEIq_texD (value by tier USD, transaction_id=jobId).
+  Success metric (dogshow): cost per signup + 7-day return rate of paid
+  signups vs organic (quality guardrail). Cadence: prune search terms every
+  2-3 days (HWAB), day-5 geo report, day-10 creative prune, day 20-22 final
+  cost-to-convert readout. Credit: £372.50 earned, expires 23 Sept 2026.

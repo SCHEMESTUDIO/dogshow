@@ -25,11 +25,23 @@
 
   // ─── PASTE YOUR IDS HERE ───────────────────────────────────────────────────
   var GA_MEASUREMENT_ID = 'G-V830P7PPHQ';
+
+  // Google Ads conversion tracking (Scheme Studio account 629-033-9684).
+  // Loaded through the same consent gate as GA4: ROW visitors get it without a
+  // banner, EEA/UK only after accept — Demand Gen targeting excludes EEA/UK.
+  var ADS_ID = 'AW-18212544394';
+  var ADS_SIGNUP_LABEL = 'KxqZCJvU09kcEIq_texD'; // dogshow_signup (count: One)
   var FAURYA_WEBSITE_ID = 'cmosekmvz000xl204a7bhm4cm';
   var FAURYA_DOMAIN = 'dogshow.lol';
 
   // UET tag ID: Microsoft Advertising → Tools → Conversion tracking → UET tag.
   var UET_TAG_ID = '97248525';
+
+  // Reddit Ads pixel ID (ads.reddit.com → Events Manager → Reddit Pixel,
+  // looks like "a2_xxxxxxxx"). Blank = pixel never loads, even with consent —
+  // same kill-switch pattern as CLARITY_ID. Loaded through the consent gate;
+  // Reddit campaign targeting excludes EEA/UK so ROW visitors get it bannerless.
+  var REDDIT_PIXEL_ID = '';
 
   // Clarity project ID: clarity.microsoft.com → project → Settings → Setup.
   // Leave blank to NOT load Clarity even with consent. Disclose session
@@ -63,6 +75,10 @@
       window.gtag = function () { window.dataLayer.push(arguments); };
       window.gtag('js', new Date());
       window.gtag('config', GA_MEASUREMENT_ID);
+      if (ADS_ID) {
+        // Google Ads tag shares gtag.js with GA4 — one loader, two configs.
+        window.gtag('config', ADS_ID, { allow_enhanced_conversions: true });
+      }
     }
 
     // ── Faurya Analytics ──
@@ -99,6 +115,25 @@
         i = d.getElementsByTagName(t)[0];
         i.parentNode.insertBefore(n, i);
       })(window, document, 'script', '//bat.bing.net/bat.js', 'uetq');
+    }
+
+    // ── Reddit Ads pixel ──
+    if (REDDIT_PIXEL_ID) {
+      (function (w, d) {
+        if (!w.rdt) {
+          var p = (w.rdt = function () {
+            p.sendEvent ? p.sendEvent.apply(p, arguments) : p.callQueue.push(arguments);
+          });
+          p.callQueue = [];
+          var t = d.createElement('script');
+          t.src = 'https://www.redditstatic.com/ads/pixel.js';
+          t.async = true;
+          var s = d.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(t, s);
+        }
+      })(window, document);
+      window.rdt('init', REDDIT_PIXEL_ID);
+      window.rdt('track', 'PageVisit');
     }
 
     // ── Microsoft Clarity (heatmaps + session recordings) ──
@@ -174,6 +209,30 @@
           currency: 'USD',
           items: [{ item_name: label, price: value, quantity: 1 }],
         });
+      }
+    } catch (e) {}
+  };
+
+  // Google Ads signup conversion (dogshow_signup). Fired from the SUCCESS path
+  // of registration (the 50-bones moment) — index.html enterShow() and app.js
+  // submitRegistration(). Enhanced conversions: hashed email via user_data.
+  // localStorage guard stops repeat fires from the same browser; the action is
+  // count-One server-side anyway.
+  window.trackAdsSignup = function (email) {
+    var cleanEmail = email ? String(email).trim().toLowerCase() : null;
+    try {
+      if (window.gtag && ADS_ID && !localStorage.getItem('dogshow_ads_signup_fired')) {
+        if (cleanEmail) window.gtag('set', 'user_data', { email: cleanEmail });
+        window.gtag('event', 'conversion', { send_to: ADS_ID + '/' + ADS_SIGNUP_LABEL });
+        localStorage.setItem('dogshow_ads_signup_fired', '1');
+      }
+    } catch (e) {}
+    // Reddit SignUp conversion — same success-moment call sites, its own
+    // once-guard so adding Reddit later doesn't depend on the Google flag.
+    try {
+      if (window.rdt && REDDIT_PIXEL_ID && !localStorage.getItem('dogshow_rdt_signup_fired')) {
+        window.rdt('track', 'SignUp', cleanEmail ? { email: cleanEmail } : {});
+        localStorage.setItem('dogshow_rdt_signup_fired', '1');
       }
     } catch (e) {}
   };
