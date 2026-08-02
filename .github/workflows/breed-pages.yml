@@ -3,6 +3,7 @@ name: Daily Breed Page Publisher
 # Auto-publishes 2 new /breeds/{slug} hub pages per day for SEO.
 # Claude writes the pages (prompts/breed-pages.md) into api/breed.js + updates
 # breeds.js / breeds.html / sitemap.xml / llms.txt / the queue state file;
+# sitemap-urls.txt is then regenerated from sitemap.xml (scripts/generate-sitemap-urls.sh);
 # an optional step generates hero images via Gemini; the commit to main
 # triggers the normal Vercel deploy. Report goes to Telegram.
 #
@@ -61,11 +62,14 @@ jobs:
             exit 1
           fi
 
+      - name: Regenerate sitemap-urls.txt (plain-text sitemap, kept in sync with sitemap.xml)
+        run: bash scripts/generate-sitemap-urls.sh
+
       - name: Commit + publish
         run: |
           git config user.name "Dog Show Bot"
           git config user.email "bot@dogshow.lol"
-          git add api/breed.js breeds.js breeds.html sitemap.xml llms.txt \
+          git add api/breed.js breeds.js breeds.html sitemap.xml llms.txt sitemap-urls.txt \
                   data/breed-page-queue.md scripts/breed-hero-prompts.json breeds-img
           if git diff --staged --quiet; then
             echo "No changes to publish"
