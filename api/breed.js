@@ -1418,6 +1418,88 @@ const BREEDS = {
     ],
     breedTagName: 'Labrador Retriever',
   },
+
+  'siberian-husky': {
+    name: 'Siberian Husky',
+    headKeyword: 'Siberian Husky',
+    metaDescription: "The Siberian Husky: bred by the Chukchi of northeastern Siberia to run a team, not take an order. A field guide to the breed behind Balto and the Iditarod, with stage notes.",
+    facts: {
+      'Group': 'Working',
+      'Size': 'Males 21–23½ in, 45–60 lb · Females 20–22 in, 35–50 lb',
+      'Temperament': 'Friendly, outgoing, mischievous, independent, high-energy',
+      'Life expectancy': '12–14 years',
+      'Coat': 'Thick double coat; sheds constantly, "blows" the undercoat completely twice a year',
+      'Colors': 'Black & white, red & white, grey & white, sable, pure white, agouti — often with a dark facial mask; eyes brown, blue, or one of each',
+      'AKC recognized': 'Yes — 1930, Working Group',
+      'Origin': 'Siberia, bred over centuries by the Chukchi people; imported to Nome, Alaska in 1908',
+    },
+    lede: `Ask a Siberian Husky to sit and it will treat the request as an opening bid, not an instruction — the Chukchi people of northeastern Siberia spent centuries breeding a dog that could run all day beside a human partner, not one that would leap to obey a human boss, and the distinction has survived the trip intact. A Russian fur trader imported the first nine Siberians to Nome, Alaska in 1908, hoping their speed would win him sled-race prize money. It did. Within two decades the breed had gone from regional curiosity to national legend, on the strength of one extraordinary winter relay through a diphtheria outbreak that every Husky owner can still recite from memory.`,
+    spotlightHeading: 'Why we love the Siberian Husky on stage',
+    spotlight: `<p>The first thing the chat notices about a Siberian Husky is rarely the coat — it's the eyes. Huskies are one of the few breeds that regularly show brilliant blue eyes, and a striking number carry one blue eye and one brown, a trait called heterochromia that reads, under studio lighting, like a special effect nobody arranged on purpose. Viewers who have never met a Husky in person spend the first several seconds simply staring back.</p>
+<p>What happens next is the personality. A Husky presented with an audience does not perform so much as negotiate. It will make its own assessment of the situation — is this stage worth the effort, is that far corner more interesting, would a full-volume opinion improve matters — and act accordingly. When it does object, it rarely barks; Huskies "talk," a rising, warbling almost-word that sounds uncannily like a complaint being lodged in a language just short of English.</p>
+<p>Underneath the theatre is a dog built to run in a team, and it shows even standing still: a Husky on our stage keeps checking who else is in the frame, the way a teammate checks a lineup rather than the way a pet checks for approval. There is also, reliably, a moment of pure escapology — a Husky testing the edges of the set, the doorway, the cable run, anything that looks like an exit — because three thousand years of breeding never quite got around to installing a respect for boundaries. Bone counts run hot and fast for the eyes, then stay hot for the sheer unpredictability of what the dog decides to do next.</p>`,
+    ownerFitHeading: 'Is a Siberian Husky right for you?',
+    ownerFit: `<p>Gorgeous, brilliant, and one of the most-surrendered breeds in America for reasons that are entirely predictable if you read the fine print first.</p>
+<p><strong>Energy and exercise.</strong> Huskies were bred to pull a sled for hours across genuine distance, and a walk around the block does not begin to touch that inheritance. Plan on real daily exercise — running, hiking, or proper working activities — or expect the dog to invent its own outlet, usually a hole in your fence.</p>
+<p><strong>The escape-artist reputation is earned, not exaggerated.</strong> Huskies jump fences, dig under them, and slip leashes with a determination that has surprised a great many confident first-time owners. A secure, tall enclosure with a buried bottom edge is not optional, and recall off-leash is never guaranteed once something interesting moves.</p>
+<p><strong>Prey drive.</strong> Bred in part to hunt as well as haul, many Huskies chase small animals with real seriousness. Cats and small dogs need slow, careful introductions; wildlife encounters off-leash need real caution.</p>
+<p><strong>Independence and training.</strong> Huskies are intelligent and famously unbothered by your preferences. They understand a command and then decide, visibly, whether it's worth their while. Obedience is achievable with patience and consistency; blind obedience is not on offer.</p>
+<p><strong>Shedding and climate.</strong> The coat sheds year-round and "blows" completely, in dramatic quantity, twice a year — brushing several times a week is the minimum, daily during a blowout. Built for Siberian winters, Huskies tolerate cold beautifully and heat poorly; shade, water, and common sense are mandatory once the temperature climbs.</p>
+<p><strong>Social needs.</strong> Bred to work in a team, Huskies do not thrive as a dog left alone all day in a backyard. They tend to bond to the whole household rather than a single person, get along well with other dogs when properly introduced, and are prone to separation-related howling and destruction if left isolated for long stretches — a second dog or a genuinely present household solves more Husky behavior problems than any training class.</p>
+<p><strong>Health.</strong> Generally a robust, long-lived working breed. Hip dysplasia and inherited eye conditions — progressive retinal atrophy and juvenile cataracts among them — are the main concerns; ask any breeder for hip and eye clearances on both parents before you commit.</p>
+<p><strong>The verdict:</strong> a spectacular, whip-smart companion for an active owner with serious fencing and a sense of humor about being out-argued — and a hard pass for anyone drawn in by the wolf-blue eyes alone.</p>`,
+    famousHeading: 'Famous Siberian Huskies',
+    famous: `<p>Every Husky's fame traces back, one way or another, to the winter of 1925. When diphtheria threatened Nome, Alaska, twenty sled-dog teams relayed antitoxin serum 674 miles across the Iditarod Trail in brutal cold. Balto, a black Siberian Husky bred and driven by Leonhard Seppala's rival musher Gunnar Kaasen, led the final and most celebrated leg — he was cast in bronze in New York's Central Park within the year, and the statue remains one of the park's most-visited. (Seppala's own lead dog on the run's hardest, most dangerous stretch was Togo, whose distinctive coat coloring gets its own telling on our Agouti Husky page — the two dogs, and the two fandoms, have been arguing about who deserves more credit for a century.)</p>
+<p>The breed's screen career has stayed close to its working roots. Disney's 2006 family adventure "Eight Below" cast six Siberian Huskies alongside two Alaskan Malamutes as sled dogs stranded in Antarctica, leaning on the same stamina and pack loyalty that got the 1925 serum through. The Iditarod itself, first run in 1973 in tribute to that relay, keeps the Husky's working legend a live, televised event every March rather than a museum piece.</p>`,
+    relatedBreeds: [
+      { slug: 'pomsky', name: 'Pomsky' },
+      { slug: 'agouti-husky', name: 'Agouti Husky' },
+      { slug: 'belgian-malinois', name: 'Belgian Malinois' },
+      { slug: 'giant-schnauzer', name: 'Giant Schnauzer' },
+      { slug: 'alaskan-malamute', name: 'Alaskan Malamute' },
+    ],
+    breedTagName: 'Siberian Husky',
+  },
+
+  dachshund: {
+    name: 'Dachshund',
+    headKeyword: 'Dachshund',
+    metaDescription: "The Dachshund: a badger-hunting hound with a written breed standard dating to 1879, still shaped exactly like a bad idea that turned out to work. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Hound',
+      'Size': 'Standard 16–32 lb, ~8–9 in at shoulder (Miniature is 11 lb and under — see our Mini Dachshund page)',
+      'Temperament': 'Clever, bold, stubborn, devoted, vocal',
+      'Life expectancy': '12–16 years',
+      'Coat': 'Three types — smooth, longhaired, wirehaired',
+      'Colors': 'Red, black & tan, cream, chocolate, dapple, piebald, brindle',
+      'AKC recognized': 'Yes — breed standard written 1879; first AKC registration 1885',
+      'Origin': "Germany — bred to hunt badgers underground (\"Dachs\" = badger, \"Hund\" = dog)",
+    },
+    lede: `In 1879, German breed clubs sat down and wrote out, in exacting technical language, the specifications for a dog built to follow a badger into its own tunnel and win the ensuing argument: short legs for the dig, a barrel chest for leverage, a nose built for tracking, and enough raw nerve to finish the job underground and out of sight of any human who might help. The American Kennel Club registered its first Dachshund six years later, in 1885, and the design has not needed revising since. This page covers the full-size Standard Dachshund — for the under-eleven-pound Miniature version of the same blueprint, see our Mini Dachshund page.`,
+    spotlightHeading: 'Why we love the Dachshund on stage',
+    spotlight: `<p>A Standard Dachshund carries real weight behind that low-slung shape — up to thirty-two pounds of genuine hunting hound, not a lapdog scaled down for effect — and it shows the moment one crosses our stage nose-first. This is a scent hound before it is anything else, and a Dachshund that catches an interesting trail across the studio floor will follow it with total, oblivious commitment, audience be damned.</p>
+<p>The voice is the other giveaway. Dachshunds don't so much bark as bay — a deep, surprisingly loud, almost hound-dog howl built to carry across a field and down a tunnel, wildly out of proportion to the body producing it. The first time a Dachshund lets one rip mid-broadcast, the chat reliably asks whether a much larger dog has wandered in off-camera.</p>
+<p>Then there's the bearing. A Dachshund holds itself like a dog that has never once considered its own size a limitation, because for two centuries of German breed history, it wasn't one. The three coats add their own variety act — a smooth-coated Dachshund moves like a small seal, a longhaired one trails ear feathering that seems designed for slow motion, and a wirehaired one arrives already looking like it has opinions about the weather. Viewers who arrive expecting a novelty leave having watched something closer to a small, extremely confident badger-hunting specialist clock in for work.</p>`,
+    ownerFitHeading: 'Is a Dachshund right for you?',
+    ownerFit: `<p>Charming, characterful, and built around one serious structural caveat that has to come first, before temperament or grooming or anything else.</p>
+<p><strong>The back.</strong> That long spine is the breed's defining vulnerability. The DachsLife 2015 study of the breed found roughly 19–24% of Dachshunds show clinical signs of intervertebral disc disease (IVDD) in their lifetime — with the Standard Smooth-Haired variety hit hardest of all the coat types, at nearly a quarter of dogs affected. A single bad jump off a sofa can herniate a disc. The household has to adapt for life: ramps instead of jumps, stairs minimized, careful lifting that supports chest and rear together, and strict weight control, since every extra ounce loads that same spine. This is the one fact about the breed that matters more than any other.</p>
+<p><strong>Digging and prey drive.</strong> Bred to go to ground after a badger, a Dachshund left to its own devices will excavate your flowerbeds with real professional focus. A securely fenced yard and an outlet for that instinct — a dig pit, scent-work games — save the landscaping.</p>
+<p><strong>Stubbornness.</strong> Dachshunds are clever and self-directed; they learn a command, then visibly weigh whether obeying it serves their interests today. Housetraining is famously slow. Patient, reward-based, consistent training wins; battles of will do not.</p>
+<p><strong>Voice.</strong> A Dachshund's bay carries. Apartment neighbors will know when something interesting has happened.</p>
+<p><strong>Coat upkeep.</strong> The lowest-maintenance of the three is the smooth coat — an occasional wipe-down covers it. Longhaired Dachshunds need regular brushing to keep the feathering from matting, and wirehaired ones need hand-stripping a couple of times a year to keep the coat's texture correct, which most owners outsource to a groomer who knows the breed.</p>
+<p><strong>Small-dog dental and weight concerns.</strong> Like most small breeds, Dachshunds are prone to dental crowding and tartar buildup — regular brushing or dental chews matter — and because obesity is one of the single biggest controllable risk factors for triggering a back injury, keeping a Dachshund lean is not a cosmetic choice but a genuine spinal-health measure.</p>
+<p><strong>The verdict:</strong> a devoted, genuinely funny, surprisingly tough little hound for an owner willing to protect that back for sixteen years and let the stubborn streak be a personality trait rather than a flaw.</p>`,
+    famousHeading: 'Famous Dachshunds',
+    famous: `<p>The Dachshund has the unusual distinction of being an Olympic mascot. Waldi, designed for the 1972 Munich Games by Otl Aicher, was the first official mascot in Olympic history — chosen, organizers said, because the breed's resistance, tenacity, and agility matched what an athlete needed. Munich's marathon route was even plotted, reportedly, to trace Waldi's own outline: start at the "neck," loop through the "body," finish at the "tail."</p>
+<p>The shape itself has been famous on its own terms for longer. Pixar's "Toy Story" gave the toy box its own Dachshund in Slinky Dog, whose stretchable metal-coil midsection is a sight gag that only works because the breed's actual silhouette already looks like nature's version of the toy. And a century before that, the Dachshund's very German-ness briefly made it a liability: during the First World War, American owners floated "liberty pup" as a patriotic replacement name for their dogs, rather than abandon a breed anti-German sentiment had turned suspicious. The nickname never stuck. The dogs, mercifully, outlasted it, and the breed's popularity recovered fully well before the century was out — proof, if any were needed, that a good dog eventually wins the argument regardless of the politics of the moment.</p>`,
+    relatedBreeds: [
+      { slug: 'mini-dachshund', name: 'Mini Dachshund' },
+      { slug: 'french-bulldog', name: 'French Bulldog' },
+      { slug: 'teacup-poodle', name: 'Teacup Poodle' },
+      { slug: 'corgi', name: 'Corgi' },
+    ],
+    breedTagName: 'Dachshund',
+  },
 };
 
 const STYLES = `

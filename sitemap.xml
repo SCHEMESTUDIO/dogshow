@@ -231,6 +231,16 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://dogshow.lol/breeds/siberian-husky</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dogshow.lol/breeds/dachshund</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dogshow.lol/america-s-favorite-pet-contestants-2026-list</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

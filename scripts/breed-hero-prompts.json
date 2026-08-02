@@ -33,6 +33,8 @@
     "poodle": "a Standard Poodle with a dense, tightly curled solid black or apricot coat groomed in a neat, natural pet trim, a long refined muzzle, dark alert eyes, and long pendant ears with curly fringe",
     "australian-shepherd": "an Australian Shepherd with a medium-length blue-merle coat (mottled grey-and-black patches) with copper/tan points and white markings on the face, chest, and legs, semi-erect triangular ears, a natural bobtail or docked tail, and one blue eye and one brown eye",
     "golden-retriever": "a Golden Retriever with a dense, wavy, water-repellent double coat in warm honey-gold, feathered ears and tail, dark friendly eyes, a broad head, and an open panting grin",
-    "labrador-retriever": "a Labrador Retriever with a short, dense, water-resistant double coat in solid yellow, a broad head, an otter-like tail, floppy ears, and an alert, eager expression"
+    "labrador-retriever": "a Labrador Retriever with a short, dense, water-resistant double coat in solid yellow, a broad head, an otter-like tail, floppy ears, and an alert, eager expression",
+    "siberian-husky": "a Siberian Husky with a thick double coat in black-and-white markings, a well-defined dark facial mask, erect triangular ears, striking pale blue eyes, and an alert, mischievous expression",
+    "dachshund": "a Dachshund: a long-bodied, short-legged hound with a smooth shiny coat in rich red, long floppy ears, a confident alert stance, and an inquisitive expression"
   }
 }
