@@ -226,6 +226,7 @@ const BREEDS = {
     relatedBreeds: [
       { slug: 'bernedoodle', name: 'Bernedoodle' },
       { slug: 'goldendoodle', name: 'Goldendoodle' },
+      { slug: 'sheepadoodle', name: 'Sheepadoodle' },
       { slug: 'pomsky', name: 'Pomsky' },
       { slug: 'bernese-mountain-dog', name: 'Bernese Mountain Dog' },
     ],
@@ -558,6 +559,7 @@ const BREEDS = {
     relatedBreeds: [
       { slug: 'mini-aussie', name: 'Mini Aussie' },
       { slug: 'pomsky', name: 'Pomsky' },
+      { slug: 'aussiedoodle', name: 'Aussiedoodle' },
       { slug: 'german-shepherd', name: 'German Shepherd' },
       { slug: 'australian-shepherd', name: 'Australian Shepherd' },
     ],
@@ -1053,6 +1055,7 @@ const BREEDS = {
       { slug: 'bernedoodle', name: 'Bernedoodle' },
       { slug: 'golden-mountain-dog', name: 'Golden Mountain Dog' },
       { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
+      { slug: 'sheepadoodle', name: 'Sheepadoodle' },
       { slug: 'newfoundland', name: 'Newfoundland' },
     ],
     breedTagName: 'Bernese Mountain Dog',
@@ -1331,6 +1334,7 @@ const BREEDS = {
     relatedBreeds: [
       { slug: 'mini-aussie', name: 'Mini Aussie' },
       { slug: 'toy-aussie', name: 'Toy Aussie' },
+      { slug: 'aussiedoodle', name: 'Aussiedoodle' },
       { slug: 'german-shepherd', name: 'German Shepherd' },
       { slug: 'border-collie', name: 'Border Collie' },
     ],
@@ -1499,6 +1503,86 @@ const BREEDS = {
       { slug: 'corgi', name: 'Corgi' },
     ],
     breedTagName: 'Dachshund',
+  },
+
+  aussiedoodle: {
+    name: 'Aussiedoodle',
+    headKeyword: 'Aussiedoodle',
+    metaDescription: "The Aussiedoodle: an Australian Shepherd and a Poodle, two of the hardest-working brains in dogdom, crossed into one coat. A field guide to the breed, with stage notes.",
+    facts: {
+      'Group': 'Designer mix (Australian Shepherd × Poodle)',
+      'Size': 'Toy under 20 lb/~14 in · Mini ~30–40 lb/~20 in · Standard up to ~75 lb/~25 in',
+      'Temperament': 'Playful, energetic, highly intelligent, work-driven, eager to please',
+      'Life expectancy': '10–12 years',
+      'Coat': 'Straight-to-wavy through tightly curled, depending on which parent’s genes dominate',
+      'Colors': 'Black, blue merle, red merle, chocolate, cream, apricot, tricolor',
+      'AKC recognized': 'No — designer mix (mixed-breed dogs may compete via AKC Canine Partners)',
+      'First bred': 'Late 1990s–2000s, United States — no single credited originator',
+    },
+    lede: `Breed two of the most naturally driven working brains in all of dogdom and you do not, strictly speaking, get relaxation. The Aussiedoodle pairs the Australian Shepherd — a ranch dog that has never once clocked out — with the Poodle, a retriever so clever it invented its own reputation for vanity. Neither parent breed believes in idle hands. The resulting puppy inherits a herding instinct with nowhere left to herd, a problem-solving mind with nothing yet to solve, and a coat that could go three different directions depending on which grandparent showed up strongest.`,
+    spotlight: `<p>On stage, an Aussiedoodle rarely just sits — it patrols. Ask any regular viewer and they'll tell you: this is the dog most likely to reposition itself three times in a single segment, angling for a sightline on literally everything happening in the studio, because somewhere in its genetic code is a dog whose entire job used to be keeping track of two hundred sheep at once. A single glowing camera and a chat scrolling by is, for this breed, a mild professional underachievement.</p>
+<p>The coat does the rest of the work. Depending on which grandparent's genes won out, an Aussiedoodle arrives looking like a slightly fluffier Australian Shepherd or a merle-coated Goldendoodle cousin, and either way the effect on camera is the same: a dog that looks soft enough to hug and moves like it's still being paid by a rancher. Merle Aussiedoodles in particular photograph like they were colour-graded on purpose, all marbled greys and coppers, occasionally with one ice-blue eye that the chat cannot stop mentioning.</p>
+<p>Give one a bone-throw to react to and the herding brain kicks in immediately — a slight crouch, a level stare, the unmistakable posture of a dog assessing whether the bone is trying to escape. It isn't. The Aussiedoodle checks anyway. That instinct has nowhere useful to go on a stage with no sheep in it, so it gets redirected, gamely, at whichever object moves fastest — usually the bone, occasionally another dog's tail.</p>`,
+    ownerFitHeading: 'Is an Aussiedoodle right for you?',
+    ownerFit: `<p>The honest short version: wonderful dog, real commitment, and the commitment is bigger than the "designer lap dog" marketing sometimes implies.</p>
+<p><strong>Energy.</strong> This is the single biggest misconception buyers walk in with. Even a Mini or Toy Aussiedoodle, built from a small Poodle parent, still carries a working herding dog's engine — daily exercise needs sit closer to "working dog" than "companion breed," and an under-exercised Aussiedoodle will find its own jobs, which tend to involve your furniture, your other pets, or the mail carrier. A yard and a walk are the minimum; a dog sport (agility, flyball, herding trials) is the ideal.</p>
+<p><strong>Grooming.</strong> Unpredictable by design. Coat texture depends on which parent's genes came through stronger, from loosely wavy to properly curly, and it's genuinely hard to know which you'll get until the adult coat comes in. Curlier coats shed less but need daily brushing and a professional trim every six to eight weeks; looser coats shed more but need less upkeep. Budget for the higher-maintenance outcome and be pleasantly surprised if you get the easier one.</p>
+<p><strong>Trainability.</strong> Very high — arguably too high. Aussiedoodles pick up commands fast and get bored just as fast, and a bored Aussiedoodle invents its own entertainment. Short, varied training sessions beat long repetitive ones.</p>
+<p><strong>Health.</strong> Hip and elbow dysplasia are the main structural concerns, at roughly the rate you'd expect for a medium-to-large mixed working breed. More specific to this cross: roughly half of Aussiedoodles carry at least one copy of the MDR1 gene mutation inherited from the Australian Shepherd side, which can cause severe reactions to ivermectin and several other common medications — worth a cheek-swab test, and worth mentioning to any vet before a new prescription. Progressive retinal atrophy and patellar luxation (mainly in the smaller sizes) also turn up in some lines.</p>
+<p><strong>Merle-to-merle breeding.</strong> If you're buying rather than adopting, ask whether both parents are merle. Two merle-patterned parents bred together risk "double merle" puppies with a substantially higher rate of blindness and deafness — a responsible breeder never pairs two merles.</p>
+<p>Add it up and the Aussiedoodle rewards owners who wanted a working dog's brain in a slightly gentler package, and mildly punishes anyone who wanted a low-key lap dog and read "Poodle" as the whole story.</p>`,
+    famousHeading: 'Famous Aussiedoodles',
+    famous: `<p>The Aussiedoodle is a genuinely young breed — first crossed sometime in the late 1990s or early 2000s, with no single credited originator the way the Bernedoodle has Sherry Rupke or the Labradoodle has Wally Conron — and it has not yet produced an individual dog famous enough to have its own Wikipedia page. No film role, no royal owner, no viral rescue story that's held up to a second look. We checked; we'd tell you if there were one.</p>
+<p>What the breed does have is a legitimate way onto a competitive field: since 2009, the American Kennel Club's Canine Partners program has let mixed-breed dogs like the Aussiedoodle compete in AKC agility, rally, and obedience trials and earn the very same titles a purebred does. Given an Australian Shepherd's working drive and a Poodle's competitive obedience pedigree — the breed Stanley Coren's canine-intelligence rankings put second only to the Border Collie — an Aussiedoodle that finds its way into an agility ring has a genuine shot at being good at it. The famous one, individually, just hasn't shown up yet. Given the parents involved, we wouldn't bet against it.</p>`,
+    relatedBreeds: [
+      { slug: 'australian-shepherd', name: 'Australian Shepherd' },
+      { slug: 'poodle', name: 'Poodle' },
+      { slug: 'mini-aussie', name: 'Mini Aussie' },
+      { slug: 'toy-aussie', name: 'Toy Aussie' },
+      { slug: 'goldendoodle', name: 'Goldendoodle' },
+    ],
+    breedTagName: 'Aussiedoodle',
+  },
+
+  sheepadoodle: {
+    name: 'Sheepadoodle',
+    headKeyword: 'Sheepadoodle',
+    metaDescription: "The Sheepadoodle: an Old English Sheepdog and a Poodle, crossed into one shaggy, clownish, lower-shedding companion. A field guide to the breed, with stage notes.",
+    facts: {
+      'Group': 'Designer mix (Old English Sheepdog × Poodle)',
+      'Size': 'Mini 30–55 lb/15–20 in (Mini Poodle parent) · Standard 55–85 lb/18–24 in (Standard Poodle parent)',
+      'Temperament': 'Affectionate, playful, easygoing, clownish, adaptable',
+      'Life expectancy': '12–15 years',
+      'Coat': 'Wavy to curly, dense, grows continuously rather than shedding out seasonally',
+      'Colors': 'Black-and-white "panda" pattern most common; solid black, solid white, and merle also occur',
+      'AKC recognized': 'No — designer mix',
+      'First bred': 'Designer-dog boom of the 2000s; popularity took off after 2007 and again after 2017',
+    },
+    lede: `Every Sheepadoodle has, a couple of branches up its family tree, a dog who was famous before designer mixes were even a marketing category: the Old English Sheepdog immortalised as the shaggy "Dulux Dog" on British television since 1961. Cross that instantly recognisable mop of a herding dog with a Poodle, and you get the modern Sheepadoodle — a dog that trades some of the Sheepdog's sheer bulk of coat for a lower-shedding version of the same good-natured, clownish personality, in a body that's usually a size or two more manageable.`,
+    spotlight: `<p>On stage, a Sheepadoodle's first move is usually to make itself look bigger than it is by way of hair alone — that dense, continuously-growing coat puffs out into a genuine spectacle under studio lighting, and a well-groomed "panda" Sheepadoodle, all crisp black-and-white patches, reads on camera less like a dog and more like a plush toy that unionised. Viewers regularly ask, in chat, whether it's real.</p>
+<p>It is, and underneath the coat is a dog with almost no edges left. The Old English Sheepdog side was bred, historically, to herd livestock to market without losing its temper at anyone — livestock, drovers, or the odd child underfoot — and that patience survived the cross intact. Add a Poodle's quick problem-solving mind and the result is a dog that performs like it already knows the bit is funny: leaning its full, considerable weight against the nearest leg, tipping its head until the fringe parts over one eye, or flopping over mid-segment as if the whole show has simply become too pleasant to remain upright for.</p>
+<p>Given a bone to chase, a Sheepadoodle rarely sprints — it lumbers, cheerfully, entirely unconcerned about dignity, and gets there anyway.</p>`,
+    ownerFitHeading: 'Is a Sheepadoodle right for you?',
+    ownerFit: `<p>The Sheepadoodle is one of the easier-tempered doodles on this list, but the coat is a real, recurring cost that catches new owners off guard.</p>
+<p><strong>Grooming.</strong> This is the headline issue. Like a Poodle's, a Sheepadoodle's coat grows continuously rather than shedding out on a seasonal cycle, which means it doesn't self-maintain the way a Sheepdog's or a Labrador's coat does. Left alone, it mats — badly, and close to the skin, which can become painful and even require a vet visit to resolve. Budget for professional grooming every four to six weeks, brushing several times a week in between, and accept that the coat is a permanent line item in the dog's upkeep, not a one-time cost.</p>
+<p><strong>Size and space.</strong> Standard Sheepadoodles (Standard Poodle parent) run up to 85 pounds — a genuinely large dog that wants floor space and a couch to occupy most of. Mini Sheepadoodles (Mini Poodle parent), at 30 to 55 pounds, suit smaller homes while keeping most of the temperament.</p>
+<p><strong>Energy.</strong> Moderate, and more flexible than most doodles on this site — a Sheepadoodle is happy with a daily walk and some play rather than a job to do, reflecting the Sheepdog side's droving-dog stamina without its herding drive. This is a doodle for people who want a companion more than an athlete.</p>
+<p><strong>Temperament.</strong> About as close to bombproof as the designer-dog world offers — patient with children, generally good with other pets, rarely aggressive when properly socialized. The flip side is a mild tendency toward separation anxiety; Sheepadoodles bond hard and don't love being left alone for long stretches.</p>
+<p><strong>Trainability.</strong> High, and unusually forgiving of a first-time owner's mistakes. The Poodle side supplies the quick uptake; the Sheepdog side supplies the patience to sit through a repetitive session without getting bored or defensive about it. Puppy adolescence still happens — expect some selective deafness between eight and eighteen months — but a Sheepadoodle rarely turns stubborn the way a more independent working breed can.</p>
+<p><strong>Health.</strong> Hip dysplasia and progressive retinal atrophy turn up in both parent breeds and can appear in the cross; the coat's insulating density also means a Sheepadoodle can overheat faster than a shorter-coated breed, so watch for that in hot weather and skip the aggressive midday exercise once summer arrives. Reputable breeders screen both parents' hips and eyes before breeding, and it's a fair question to ask before you put down a deposit.</p>
+<p>If the grooming bill and the shedding-fur bill get swapped for each other, most owners consider it a fair trade for a dog this even-tempered.</p>`,
+    famousHeading: 'Famous Sheepadoodles',
+    famous: `<p>The Sheepadoodle's most genuinely famous representative is Bunny, a Sheepadoodle in Washington state who learned, starting as a puppy in 2020, to communicate using a board of sound-emitting buttons — words like "outside," "play," and "ouch," pressed in sequences that researchers and journalists alike have spent years arguing over. Bunny's owner, Alexis Devine, has documented the whole project since it began; the dog has since drawn coverage from outlets including Salon and ABC News, has her own Wikipedia page, and has been studied by cognitive scientists trying to work out what dogs may or may not be capable of expressing.</p>
+<p>The other reliably-cited Sheepadoodle is Bayley, whose black-and-white "panda" coat and round dark eyes turned out to be an almost exact match for Snoopy — Charlie Brown's cartoon Beagle, of all things, despite the two breeds having nothing in common on paper. A single side-by-side photo comparison went viral in the early 2020s, and Bayley's own account has carried the resemblance to a real following since.</p>
+<p>Further up the family tree, the coat's fame predates the cross entirely: an Old English Sheepdog has been advertising Dulux paint in the UK since 1961, which makes the Sheepadoodle's mop-topped good looks, in a sense, inherited celebrity.</p>`,
+    relatedBreeds: [
+      { slug: 'poodle', name: 'Poodle' },
+      { slug: 'bernedoodle', name: 'Bernedoodle' },
+      { slug: 'goldendoodle', name: 'Goldendoodle' },
+      { slug: 'saint-berdoodle', name: 'Saint Berdoodle' },
+      { slug: 'old-english-sheepdog', name: 'Old English Sheepdog' },
+    ],
+    breedTagName: 'Sheepadoodle',
   },
 };
 

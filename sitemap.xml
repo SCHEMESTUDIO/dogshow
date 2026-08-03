@@ -241,6 +241,16 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://dogshow.lol/breeds/aussiedoodle</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dogshow.lol/breeds/sheepadoodle</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dogshow.lol/america-s-favorite-pet-contestants-2026-list</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
