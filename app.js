@@ -176,6 +176,23 @@
     showBreedFact(dog.breed);
   }
 
+
+  // ─── LOWER-THIRD NAMEPLATE (redesign 2026-08-03) ──
+  // Renders name + breed + owner into #dogNameplate. Escapes via textContent
+  // pattern is preserved from the old inline writes (server-sanitized values).
+  function renderNameplate(dog) {
+    var nameplate = document.getElementById('dogNameplate');
+    if (!nameplate) return;
+    var isCommunity = !!(dog && dog.isCommunity);
+    nameplate.classList.toggle('community', isCommunity);
+    var breedLine = (dog && dog.breed) ? '<span class="dog-nameplate-breed">' + dog.breed + '</span>' : '';
+    var ownerLine = (isCommunity && dog.submittedBy) ? '<span class="community-badge">submitted by ' + dog.submittedBy + '</span>' : '';
+    nameplate.innerHTML =
+      '<div class="dog-nameplate-label">Now presenting</div>' +
+      '<div class="dog-nameplate-name" id="dogName">' + ((dog && dog.name) || '...') + '</div>' +
+      (breedLine || ownerLine ? '<div class="dog-nameplate-meta">' + breedLine + ownerLine + '</div>' : '');
+  }
+
   // Show a loading state until server sends the first dog
   var dogNameInit = document.getElementById('dogName');
   if (dogNameInit) dogNameInit.textContent = 'The curtain is about to rise…';
@@ -192,7 +209,7 @@
     var userSpan = document.createElement('span');
     userSpan.className = 'chat-msg-user';
     if (isMe) userSpan.classList.add('me');
-    userSpan.style.color = isMe ? '#5b46d6' : '#43366e';
+    if (user === 'sir_barks_alot') userSpan.classList.add('bot-host');
     userSpan.textContent = user;
 
     var textSpan = document.createElement('span');
@@ -200,7 +217,7 @@
     // Make URLs clickable in chat messages
     var msgWithLinks = (': ' + msg).replace(
       /(https?:\/\/[^\s]+)/g,
-      '<a href="$1" target="_blank" style="color:#c25a0e;">$1</a>'
+      '<a href="$1" target="_blank" class="chat-msg-link">$1</a>'
     );
     textSpan.innerHTML = msgWithLinks;
 
@@ -665,7 +682,7 @@
   function spawnBone(x, y) {
     var el = document.createElement('span');
     el.className = 'bone-float';
-    el.textContent = '🦴';
+    el.innerHTML = '<svg class="bone-glyph bone-glyph--float" aria-hidden="true"><use href="#boneGlyph"/></svg>';
     el.style.left = x + 'px';
     el.style.top = y + 'px';
     boneRain.appendChild(el);
@@ -914,7 +931,7 @@
         viewerCountEl.textContent = viewerCount;
 
         // Total fans
-        if (data.totalFans) {
+        if (data.totalFans && totalFansCountEl) {
           totalFansCountEl.textContent = data.totalFans;
         }
 
@@ -936,10 +953,8 @@
           raceSetDog(data.currentDog._communityId || null, data.currentDog.name);
         }
 
-        if (data.currentDog && data.currentDog.isCommunity) {
-          var nameplate = document.getElementById('dogNameplate');
-          nameplate.classList.add('community');
-          nameplate.innerHTML = '<div class="dog-nameplate-label">Now presenting</div><div class="dog-nameplate-name">' + data.currentDog.name + '</div><span class="community-badge">submitted by ' + data.currentDog.submittedBy + '</span>';
+        if (data.currentDog) {
+          renderNameplate(data.currentDog);
         }
 
         // Show intermission if server is in intermission
@@ -956,7 +971,7 @@
       }
 
       if (data.type === 'totalFans') {
-        totalFansCountEl.textContent = data.count;
+        if (totalFansCountEl) totalFansCountEl.textContent = data.count;
       }
 
       if (data.type === 'newdog') {
@@ -968,20 +983,8 @@
         raceSetDog(data.dog && data.dog.isCommunity ? data.dog.id : null,
           data.dog ? data.dog.name : '');
 
-        // Show/hide community dog frame
-        var nameplate = document.getElementById('dogNameplate');
-        if (data.dog && data.dog.isCommunity) {
-          nameplate.classList.add('community');
-          nameplate.innerHTML = '<div class="dog-nameplate-label">Now presenting</div><div class="dog-nameplate-name">' + data.dog.name + '</div><span class="community-badge">submitted by ' + data.dog.submittedBy + '</span>';
-        } else {
-          nameplate.classList.remove('community');
-          var dogNameEl = document.getElementById('dogName');
-          if (dogNameEl) {
-            dogNameEl.textContent = data.dog ? data.dog.name : '...';
-          } else {
-            nameplate.innerHTML = '<div class="dog-nameplate-label">Now presenting</div><div class="dog-nameplate-name" id="dogName">' + (data.dog ? data.dog.name : '...') + '</div>';
-          }
-        }
+        // Lower-third nameplate: name + breed + owner
+        renderNameplate(data.dog);
       }
 
       if (data.type === 'communityCount') {
@@ -1081,6 +1084,28 @@
     var user = pick(FAKE_USERS);
     var msg = pick(FAKE_MESSAGES);
     addChatMessage(user, msg);
+  }
+
+
+  // ─── CHAT DOCK (mobile pull-up sheet, redesign 2026-08-03) ──
+  var chatDockEl = document.getElementById('chatDock');
+  var chatDockToggle = document.getElementById('chatDockToggle');
+  if (chatDockEl && chatDockToggle) {
+    chatDockToggle.addEventListener('click', function () {
+      var open = chatDockEl.classList.toggle('open');
+      chatDockToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open && chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+    // Focusing the input opens the sheet so the log is visible while typing.
+    if (chatInput) {
+      chatInput.addEventListener('focus', function () {
+        if (!chatDockEl.classList.contains('open')) {
+          chatDockEl.classList.add('open');
+          chatDockToggle.setAttribute('aria-expanded', 'true');
+          if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+      });
+    }
   }
 
   // ─── BREED FACTS / TRIVIA ───────────────────────
@@ -1264,12 +1289,12 @@
     if (d.id) chip.setAttribute('data-id', d.id);
     var thumb = d.imageUrl
       ? '<img class="race-thumb" src="' + d.imageUrl + '" alt="">'
-      : '<span class="race-thumb race-thumb--empty">🐾</span>';
+      : '<span class="race-thumb race-thumb--empty"></span>';
     chip.innerHTML =
       thumb +
       '<span class="race-rank">#' + rank + '</span>' +
       '<span class="race-name">' + (d.dogName || 'A Good Dog') + '</span>' +
-      '<span class="race-bones">🦴 ' + (d.seasonBones || 0) + '</span>';
+      '<span class="race-bones">' + (d.seasonBones || 0) + ' votes</span>';
     return chip;
   }
 
@@ -1368,7 +1393,7 @@
             if (href !== '#') entry.target = '_blank';
             var thumbHtml = dog.imageUrl
               ? '<img class="leaderboard-thumb" src="' + dog.imageUrl + '" alt="' + dog.dogName + '">'
-              : '<div class="leaderboard-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🐕</div>';
+              : '<div class="leaderboard-thumb leaderboard-thumb--empty"></div>';
             entry.innerHTML =
               thumbHtml +
               '<span class="leaderboard-rank">' + (i + 1) + '</span>' +
@@ -1376,33 +1401,21 @@
                 '<div class="leaderboard-name">' + dog.dogName + '</div>' +
                 '<div class="leaderboard-meta">' + dog.breed + ' &middot; by ' + dog.username + '</div>' +
               '</div>' +
-              '<span class="leaderboard-bones">🦴 ' + (dog.seasonBones || 0) + '</span>';
+              '<span class="leaderboard-bones"><svg class="bone-glyph" aria-hidden="true"><use href="#boneGlyph"/></svg> ' + (dog.seasonBones || 0) + '</span>';
             leaderboardWeeklyEl.appendChild(entry);
           });
-          // One entry CTA at the foot of the board — drive the submit action.
-          var enterSlot = document.createElement('a');
-          enterSlot.className = 'leaderboard-entry leaderboard-entry--cta';
-          enterSlot.href = '/?openModal=premium';
-          enterSlot.innerHTML =
-            '<div class="leaderboard-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;border:1px dashed rgba(255,140,66,0.35);">🐾</div>' +
-            '<span class="leaderboard-rank" style="color:var(--accent);">＋</span>' +
-            '<div class="leaderboard-info">' +
-              '<div class="leaderboard-name" style="color:var(--accent);">Enter your dog →</div>' +
-              '<div class="leaderboard-meta">Climb the board before the month ends</div>' +
-            '</div>';
-          leaderboardWeeklyEl.appendChild(enterSlot);
           if (reigningChampionEl && data.reigningChampion && data.reigningChampion.dogName) {
             var ch = data.reigningChampion;
-            reigningChampionEl.innerHTML = '👑 Reigning champion: <strong style="color:var(--accent);">' +
+            reigningChampionEl.innerHTML = 'Reigning champion: <strong style="color:var(--link);">' +
               ch.dogName + '</strong>' + (ch.seasonLabel ? ' — ' + ch.seasonLabel : '') +
-              ' (' + (ch.bones || 0) + ' 🦴)';
+              ' (' + (ch.bones || 0) + ' bones)';
             reigningChampionEl.hidden = false;
           }
           weeklyRaceSection.hidden = false;
         }
 
-        if (data.topDogs && data.topDogs.length > 0) {
-          leaderboardEl.hidden = false;
+        if (leaderboardEl) leaderboardEl.hidden = false;
+        if (leaderboardTopEl && data.topDogs && data.topDogs.length > 0) {
           leaderboardTopEl.innerHTML = '';
           data.topDogs.slice(0, 5).forEach(function (dog, i) {
             var href = dog.slug ? '/d/' + dog.slug : (dog.id ? 'dog.html?id=' + dog.id : '#');
@@ -1412,7 +1425,7 @@
             if (href !== '#') entry.target = '_blank';
             var thumbHtml = dog.imageUrl
               ? '<img class="leaderboard-thumb" src="' + dog.imageUrl + '" alt="' + dog.dogName + '">'
-              : '<div class="leaderboard-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🐕</div>';
+              : '<div class="leaderboard-thumb leaderboard-thumb--empty"></div>';
             entry.innerHTML =
               thumbHtml +
               '<span class="leaderboard-rank">' + (i + 1) + '</span>' +
@@ -1420,12 +1433,12 @@
                 '<div class="leaderboard-name">' + dog.dogName + '</div>' +
                 '<div class="leaderboard-meta">' + dog.breed + ' &middot; by ' + dog.username + '</div>' +
               '</div>' +
-              '<span class="leaderboard-bones">🦴 ' + dog.totalBones + '</span>';
+              '<span class="leaderboard-bones"><svg class="bone-glyph" aria-hidden="true"><use href="#boneGlyph"/></svg> ' + dog.totalBones + '</span>';
             leaderboardTopEl.appendChild(entry);
           });
         }
 
-        if (data.recentDogs && data.recentDogs.length > 0) {
+        if (leaderboardRecentEl && data.recentDogs && data.recentDogs.length > 0) {
           leaderboardRecentEl.innerHTML = '';
           data.recentDogs.slice(0, 5).forEach(function (dog) {
             var href = dog.slug ? '/d/' + dog.slug : (dog.id ? 'dog.html?id=' + dog.id : '#');
@@ -1435,7 +1448,7 @@
             if (href !== '#') entry.target = '_blank';
             var thumbHtml = dog.imageUrl
               ? '<img class="leaderboard-thumb" src="' + dog.imageUrl + '" alt="' + dog.dogName + '">'
-              : '<div class="leaderboard-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🐕</div>';
+              : '<div class="leaderboard-thumb leaderboard-thumb--empty"></div>';
             entry.innerHTML =
               thumbHtml +
               '<span class="leaderboard-rank" style="color: var(--text-faint);">NEW</span>' +
@@ -1615,7 +1628,7 @@
     if (communityUpload) communityUpload.hidden = false;
     if (dockStatus) dockStatus.hidden = true;
     if (uploadBtn) {
-      uploadBtn.textContent = '📸 Upload your dog now';
+      uploadBtn.textContent = 'Upload your dog now';
       uploadBtn.className = 'dock-enter-btn paid-user-upload-btn';
       uploadBtn.disabled = false;
     }
@@ -1840,7 +1853,7 @@
           showUploadStatus(data.error || 'Upload failed.', true, data.code || 'server_rejected');
           if (uploadBtn) {
             uploadBtn.disabled = false;
-            uploadBtn.textContent = '📸 Upload your dog now';
+            uploadBtn.textContent = 'Upload your dog now';
           }
           if (uploadInput) uploadInput.value = '';  // Reset so they can try again
         }
@@ -1849,7 +1862,7 @@
         showUploadStatus('Upload failed. Try again.', true, 'network');
         if (uploadBtn) {
           uploadBtn.disabled = false;
-          uploadBtn.textContent = '📸 Upload your dog now';
+          uploadBtn.textContent = 'Upload your dog now';
         }
       });
   }
@@ -1887,7 +1900,7 @@
       clearUploadError();
       if (uploadBtn) {
         uploadBtn.disabled = false;
-        uploadBtn.textContent = '📸 Upload your dog now';
+        uploadBtn.textContent = 'Upload your dog now';
       }
       if (uploadInput) {
         uploadInput.value = '';
@@ -1971,7 +1984,7 @@
       cta: 'Get notified →',
       action: 'interest',
       feature: 'stage_frames',
-      modalIcon: '🎭',
+      modalIcon: '',
       modalTitle: 'Custom stage frames',
       modalSubtitle: "Coming Soon! Pick a frame that matches your dog — gilded, bone-themed, beach bum, royal velvet. We'll email you when frames launch.",
     },
@@ -2004,7 +2017,7 @@
       cta: 'Get notified →',
       action: 'interest',
       feature: 'funny_video',
-      modalIcon: '🎬',
+      modalIcon: '',
       modalTitle: 'A funny video of your dog',
       modalSubtitle: "Coming Soon! We'll turn your dog's photo into a shareable little video — dancing, singing, the works. Drop your email and we'll let you know when it launches.",
     },
@@ -2014,7 +2027,7 @@
       cta: 'Learn more →',
       action: 'interest',
       feature: 'rescue_donation',
-      modalIcon: '💝',
+      modalIcon: '',
       modalTitle: 'Helping dogs in need',
       modalSubtitle: 'Coming Soon! Every month we donate to a dog rescue near the dog with the most bones. Drop your email and we will share our plans first.',
     },

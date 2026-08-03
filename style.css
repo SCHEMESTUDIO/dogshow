@@ -23,24 +23,30 @@
 [hidden] { display: none !important; }
 
 :root {
-  --bg: #f3eefb;
-  --bg-card: #ffffff;
-  --bg-warm: #ece3f8;
-  --accent: #5b46d6;
-  --accent-dark: #6a5acd;
+  /* ── Redesign tokens (2026-08-03, HANDOFF.md §1) ──
+     Paper & surfaces */
+  --bg: #f7f2e9;            /* warm cream page (was var(--bg) lavender) */
+  --bg-card: #fffdf8;       /* card surface (was #ffffff) */
+  --border: rgba(42,33,80,.12);
+
+  /* Ink */
   --text-bright: #2a2150;
-  --text-mid: #a89cdb;
-  /* Lightened 2026-06-11 for older-eye contrast (core paid audience skews 65+).
-     Old values: --text-dim #52447e (~3.5:1 on --bg), --text-faint #5a4d80
-     (~2.3:1) — both below the WCAG 4.5:1 body-text floor. */
-  --text-dim: #52447e;
-  --text-faint: #5d5088;
-  --border: #d9cfee;
-  --curtain: #4a2d8b;
-  --curtain-light: #6a4dbb;
-  --curtain-dark: #2d1560;
-  --white: #f0ecff;
-  --live-dot: #7B68EE;
+  --text-dim: #4a4070;
+  --text-mid: #6d628f;
+  --text-faint: #736795;    /* 4.59:1 on --bg — clears WCAG 4.5 for 12px+ */
+
+  /* Stage / chat chrome (dark) */
+  --curtain-dark: #1e0f45;  /* chat dock + stage overlays + footer */
+  --curtain: #2d1560;
+
+  /* Accents — STRICT ROLES */
+  --bone: #e8721c;          /* ONLY: Give a bone, Send, landing "Watch the Show" hero CTA. Nothing else. */
+  --brass: #b98a2f;         /* rank #1, section eyebrows, active-nav underline, ticket */
+  --brass-dark: #7a5a14;    /* text on brass ticket */
+  --link: #5b46d6;          /* links, LIVE dot, ALL "Enter your dog" actions (nav CTA, DOM-card footer row) */
+  --gold-text: #e9c87e;     /* small caps on dark chrome ("THE MAIN STAGE") */
+  --lavender-on-dark: #b7a9e8; /* usernames/labels on dark chrome */
+
   --font-serif: Georgia, 'Times New Roman', serif;
   --font-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -48,7 +54,7 @@
 /* ─── LANDING PAGE ─────────────────────────────── */
 
 .landing-body {
-  background: #f3eefb;
+  background: var(--bg);
   color: #2a2150;
   font-family: var(--font-system);
   min-height: 100vh;
@@ -68,7 +74,7 @@
   font-size: 11px;
   letter-spacing: 6px;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--link);
 }
 
 .landing-title {
@@ -133,7 +139,7 @@
 }
 
 .landing-enter {
-  background: var(--accent);
+  background: var(--link);
   color: #fff;
   border: none;
   border-radius: 50px;
@@ -151,8 +157,8 @@
 
 .landing-enter.premium {
   background: transparent;
-  color: var(--accent);
-  border: 1px solid var(--accent);
+  color: var(--link);
+  border: 1px solid var(--link);
 }
 
 .landing-enter.premium:hover {
@@ -179,14 +185,14 @@
 }
 
 .landing-tier.tier-premium {
-  border-color: var(--accent);
+  border-color: var(--link);
   background: rgba(123, 104, 238, 0.08);
 }
 
 .landing-tier-badge {
   position: absolute;
   top: -10px;
-  background: var(--accent);
+  background: var(--link);
   color: #fff;
   font-size: 10px;
   font-weight: 700;
@@ -288,7 +294,7 @@
   transition: background 0.2s;
 }
 .landing-login-btn:hover {
-  background: rgba(255,140,66,0.15);
+  background: rgba(232,114,28,0.15);
 }
 .landing-login-btn:disabled {
   opacity: 0.5;
@@ -316,7 +322,7 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: #f3eefb;
+  background: var(--bg);
   display: none;
   align-items: center;
   justify-content: center;
@@ -331,7 +337,7 @@
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 12px;
-  background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+  background: var(--link);
   z-index: 1002;
 }
 
@@ -347,13 +353,13 @@
 
 .curtain-left {
   left: 0;
-  background: linear-gradient(90deg, var(--curtain) 0%, var(--curtain-light) 60%, var(--curtain-dark) 100%);
+  background: linear-gradient(90deg, var(--curtain) 0%, var(--curtain) 60%, var(--curtain-dark) 100%);
   box-shadow: inset -20px 0 40px rgba(0,0,0,0.4);
 }
 
 .curtain-right {
   right: 0;
-  background: linear-gradient(270deg, var(--curtain) 0%, var(--curtain-light) 60%, var(--curtain-dark) 100%);
+  background: linear-gradient(270deg, var(--curtain) 0%, var(--curtain) 60%, var(--curtain-dark) 100%);
   box-shadow: inset 20px 0 40px rgba(0,0,0,0.4);
 }
 
@@ -376,7 +382,7 @@
 }
 
 .curtain-welcome { font-size: 24px; margin-bottom: 8px; }
-.curtain-show-name { font-family: 'Yang Bagus', 'YangBagus', cursive; font-size: 56px; color: #FF8C42; }
+.curtain-show-name { font-family: 'Yang Bagus', 'YangBagus', cursive; font-size: 56px; color: var(--gold-text); }
 .curtain-enjoy { font-size: 16px; margin-top: 12px; color: var(--text-dim); }
 
 /* ─── SHOW PAGE ────────────────────────────────── */
@@ -427,11 +433,11 @@
 
 .live-badge {
   font-size: 12px;
-  color: var(--live-dot);
+  color: var(--link);
 }
 
 .btn-vip {
-  background: var(--accent);
+  background: var(--link);
   color: #fff;
   border: none;
   padding: 5px 14px;
@@ -443,8 +449,8 @@
 }
 
 .btn-upload {
-  background: var(--curtain-light);
-  color: var(--white);
+  background: var(--curtain);
+  color: #fff;
   border: none;
   padding: 5px 14px;
   font-size: 11px;
@@ -455,7 +461,7 @@
 }
 
 .btn-lifetime {
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  background: var(--link);
   color: #fff;
   border: none;
   padding: 5px 14px;
@@ -469,7 +475,7 @@
 /* Sponsor banner */
 .sponsor-banner {
   background: var(--bg-card);
-  color: var(--accent);
+  color: var(--link);
   text-align: center;
   padding: 6px;
   font-size: 12px;
@@ -481,21 +487,6 @@
 
 .sponsor-banner.visible {
   display: block;
-}
-
-/* Main layout */
-/* Total fans counter */
-.total-fans {
-  text-align: center;
-  padding: 10px 0;
-  font-size: 14px;
-  color: rgba(42,33,80,0.92);
-  letter-spacing: 0.5px;
-}
-.total-fans-count {
-  font-weight: bold;
-  color: #2a2150;
-  font-size: 16px;
 }
 
 .show-main {
@@ -524,68 +515,6 @@
   text-transform: uppercase;
   color: rgba(42,33,80,0.6);
   margin-bottom: 12px;
-}
-
-/* Premium stage frame — sized as the hero element (Twitch-style).
-   Was capped at 480px which left the dog-stage column mostly empty on
-   desktop. 800px lets the stage actually dominate the layout. */
-.dog-frame {
-  position: relative;
-  border: 2px solid rgba(255, 140, 66, 0.2);
-  border-radius: 4px;
-  background: #f3eefb;
-  max-width: 800px;
-  width: 100%;
-  overflow: hidden;
-}
-
-.dog-frame::before {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, rgba(255, 140, 66, 0.25), rgba(123, 104, 238, 0.2), rgba(255, 140, 66, 0.1));
-  z-index: -1;
-}
-
-.dog-frame-drape {
-  height: 34px;
-  background: linear-gradient(180deg, var(--curtain), var(--curtain-dark));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-shadow: inset 0 -7px 12px rgba(0, 0, 0, 0.28);
-}
-
-/* Ambient stage-light sheen across the valance — full width so it reads as
-   soft lighting rather than a blob competing with the plaque. */
-.dog-frame-drape-inner {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 70% 140% at 50% -30%, rgba(42,33,80,0.2), transparent 70%);
-  pointer-events: none;
-}
-
-/* The plaque sits as a crisp pill straddling the seam between the valance and
-   the stage, with a drop shadow so it reads as a mounted theatre placard. */
-.dog-frame-plaque {
-  position: absolute;
-  bottom: -11px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, #2a1a4a, #160d2c);
-  border: 1px solid rgba(255, 140, 66, 0.38);
-  border-radius: 7px;
-  padding: 4px 18px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(255, 178, 120, 0.95);
-  white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
-  z-index: 3;
 }
 
 .dog-viewport {
@@ -617,14 +546,9 @@
   transform: translateX(-50%);
   width: 80%;
   height: 60%;
-  background: radial-gradient(ellipse at top center, rgba(255, 140, 66, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse at top center, rgba(232, 114, 28, 0.08) 0%, transparent 70%);
   pointer-events: none;
   z-index: 2;
-}
-
-.dog-frame-footer {
-  height: 4px;
-  background: linear-gradient(90deg, var(--curtain-dark), var(--accent), var(--curtain-dark));
 }
 
 /* Dog name plate — split label + name */
@@ -668,8 +592,8 @@
 }
 
 .community-upload-btn {
-  background: rgba(255, 140, 66, 0.1);
-  border: 1px solid rgba(255, 140, 66, 0.4);
+  background: rgba(232, 114, 28, 0.1);
+  border: 1px solid rgba(232, 114, 28, 0.4);
   color: #c25a0e;
   padding: 8px 18px;
   border-radius: 8px;
@@ -678,7 +602,7 @@
   transition: all 0.2s;
 }
 .community-upload-btn:hover:not(:disabled) {
-  background: rgba(255, 140, 66, 0.2);
+  background: rgba(232, 114, 28, 0.2);
   border-color: #c25a0e;
 }
 .community-upload-btn:disabled {
@@ -702,8 +626,8 @@
 
 /* Community dog nameplate */
 .dog-nameplate.community {
-  background: rgba(255, 140, 66, 0.08);
-  border: 1px solid rgba(255, 140, 66, 0.3);
+  background: rgba(232, 114, 28, 0.08);
+  border: 1px solid rgba(232, 114, 28, 0.3);
   border-radius: 8px;
   padding: 10px 24px;
 }
@@ -736,8 +660,8 @@
   font-size: 15px;
   font-family: var(--font-serif);
   font-weight: bold;
-  background: rgba(255, 140, 66, 0.1);
-  border: 2px solid #FF8C42;
+  background: rgba(232, 114, 28, 0.1);
+  border: 2px solid var(--bone);
   border-radius: 8px;
   padding: 10px 22px;
   cursor: pointer;
@@ -750,7 +674,7 @@
 }
 
 .bone-btn:hover {
-  background: rgba(255, 140, 66, 0.2);
+  background: rgba(232, 114, 28, 0.2);
 }
 
 .bone-btn:active {
@@ -850,17 +774,6 @@
   50% { transform: scale(1.05); }
 }
 
-/* Frenzy mode — dog frame glow */
-.dog-frame.frenzy {
-  border-color: #D4AF37;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3), 0 0 40px rgba(212, 175, 55, 0.1);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.dog-frame.frenzy .dog-frame-footer {
-  background: linear-gradient(90deg, #D4AF37, #FF6B35, #D4AF37);
-}
-
 /* Intermission overlay */
 .intermission-overlay {
   position: absolute;
@@ -911,43 +824,6 @@
   font-style: italic;
 }
 
-.intermission-divider {
-  width: 50px;
-  height: 3px;
-  background: var(--accent);
-  margin: 0 auto 18px;
-}
-
-.intermission-sponsor {
-  font-size: 11px;
-  color: var(--text-faint);
-  border: 1px solid var(--border);
-  padding: 10px 16px;
-  background: var(--bg-warm);
-  font-style: italic;
-}
-
-.intermission-sponsor strong {
-  color: var(--text-mid);
-}
-
-.intermission-music {
-  margin-top: 16px;
-  font-size: 11px;
-  color: var(--text-faint);
-  font-style: italic;
-}
-
-/* ─── CHAT PANEL ───────────────────────────────── */
-
-.chat-panel {
-  flex: 0 0 360px;
-  display: flex;
-  flex-direction: column;
-  border-left: 2px solid var(--border);
-  background: var(--bg-card);
-}
-
 .chat-header {
   padding: 8px 12px;
   border-bottom: 1px solid var(--border);
@@ -959,7 +835,7 @@
 }
 
 .chat-header-intermission {
-  color: var(--accent);
+  color: var(--link);
   font-weight: normal;
   font-style: italic;
   display: none;
@@ -996,7 +872,7 @@
 }
 
 .chat-msg-user.me {
-  color: var(--accent);
+  color: var(--link);
 }
 
 .chat-msg-text {
@@ -1014,7 +890,7 @@
   flex: 1;
   padding: 8px 10px;
   border: 1px solid var(--border);
-  background: var(--bg-warm);
+  background: var(--bg);
   font-family: var(--font-serif);
   font-size: 13px;
   outline: none;
@@ -1023,7 +899,7 @@
 
 .chat-send {
   padding: 8px 14px;
-  background: var(--accent);
+  background: var(--link);
   color: #fff;
   border: none;
   font-family: var(--font-serif);
@@ -1351,8 +1227,8 @@
 .username-modal-btn {
   width: 100%;
   padding: 12px;
-  background: #FF8C42;
-  color: #1a1035;
+  background: var(--bone);
+  color: #fff;
   border: none;
   border-radius: 10px;
   font-size: 15px;
@@ -1460,7 +1336,7 @@
 }
 
 .leaderboard-entry:hover {
-  border-color: rgba(255, 140, 66, 0.3);
+  border-color: rgba(232, 114, 28, 0.3);
 }
 
 .leaderboard-thumb {
@@ -1528,8 +1404,8 @@
 
 /* The monthly board is the hero — give it an accented frame. */
 .leaderboard-section--month {
-  background: rgba(255, 140, 66, 0.05);
-  border: 1px solid rgba(255, 140, 66, 0.22);
+  background: rgba(232, 114, 28, 0.05);
+  border: 1px solid rgba(232, 114, 28, 0.22);
   border-radius: 14px;
   padding: 16px 16px 14px;
 }
@@ -1547,8 +1423,8 @@
 
 .leaderboard-entry--cta {
   border-style: dashed;
-  border-color: rgba(255, 140, 66, 0.4);
-  background: rgba(255, 140, 66, 0.04);
+  border-color: rgba(232, 114, 28, 0.4);
+  background: rgba(232, 114, 28, 0.04);
 }
 
 /* Desktop leaderboard layout — Dog of the Month on the left, New Arrivals over
@@ -1608,98 +1484,6 @@
   }
 }
 
-/* ─── SHARE RAIL (inline below dock) ─────────── */
-
-.show-share-rail {
-  text-align: center;
-  margin-top: 16px;
-  padding: 0 12px;
-}
-
-.show-share-rail-label {
-  font-size: 11px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 4px;
-}
-
-.show-share-rail-sub {
-  font-size: 12px;
-  color: rgba(42,33,80,0.5);
-  font-style: italic;
-  margin-bottom: 14px;
-}
-
-.show-share-rail-buttons {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.show-share-rail-buttons a,
-.show-share-rail-buttons button {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  font-family: inherit;
-}
-
-.show-share-rail-buttons a:hover,
-.show-share-rail-buttons button:hover { opacity: 0.85; }
-
-.show-share-rail-buttons .s-facebook { background: #1877F2; }
-.show-share-rail-buttons .s-twitter { background: #000; }
-.show-share-rail-buttons .s-whatsapp { background: #25D366; }
-.show-share-rail-buttons .s-instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-.show-share-rail-buttons .s-sms { background: #2e7d32; }
-.show-share-rail-buttons .s-copy { background: rgba(42,33,80,0.2); color: var(--text-bright); }
-.show-share-rail-buttons .s-native { background: var(--accent); color: var(--bg); }
-
-.show-share-rail-copied {
-  font-size: 12px;
-  color: #2e7d32;
-  margin-top: 8px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.show-share-rail-copied.show { opacity: 1; }
-
-/* ─── SHOW FOOTER ────────────────────────────── */
-
-.show-footer {
-  text-align: center;
-  padding: 24px 20px;
-  font-size: 12px;
-  color: var(--text-faint);
-}
-
-.show-footer a {
-  color: var(--text-faint);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.show-footer a:hover {
-  color: #5b46d6;
-}
-
-.show-footer-dot {
-  margin: 0 8px;
-  color: var(--border);
-}
-
 /* ─── BOTTOM DOCK ─────────────────────────────── */
 
 .bottom-dock {
@@ -1739,8 +1523,8 @@
 }
 
 .dock-bone-btn {
-  background: #FF8C42;
-  color: #1a1035;
+  background: var(--bone);
+  color: #fff;
   font-weight: 600;
   font-size: 14px;
   font-family: var(--font-system);
@@ -1770,7 +1554,7 @@
 }
 
 .dock-bone-pill {
-  background: rgba(255, 140, 66, 0.12);
+  background: rgba(232, 114, 28, 0.12);
   border-radius: 8px;
   padding: 5px 10px;
   display: flex;
@@ -1851,7 +1635,7 @@
 }
 
 .dock-status-dot.pending {
-  background: #FF8C42;
+  background: var(--brass);
   animation: pulse 1.5s ease-in-out infinite;
 }
 
@@ -1877,8 +1661,8 @@
 }
 
 .dock-upload-btn {
-  background: rgba(255, 140, 66, 0.08);
-  border: 1px solid rgba(255, 140, 66, 0.3);
+  background: rgba(232, 114, 28, 0.08);
+  border: 1px solid rgba(232, 114, 28, 0.3);
   color: #c25a0e;
   font-size: 12px;
   font-family: var(--font-system);
@@ -1890,7 +1674,7 @@
 }
 
 .dock-upload-btn:hover:not(:disabled) {
-  background: rgba(255, 140, 66, 0.15);
+  background: rgba(232, 114, 28, 0.15);
 }
 
 .dock-upload-btn:disabled {
@@ -1904,8 +1688,8 @@
 }
 
 .dock-enter-btn {
-  background: rgba(255, 140, 66, 0.1);
-  border: 1px solid rgba(255, 140, 66, 0.4);
+  background: rgba(232, 114, 28, 0.1);
+  border: 1px solid rgba(232, 114, 28, 0.4);
   color: #c25a0e;
   font-size: 13px;
   font-weight: 600;
@@ -1918,7 +1702,7 @@
 }
 
 .dock-enter-btn:hover {
-  background: rgba(255, 140, 66, 0.2);
+  background: rgba(232, 114, 28, 0.2);
   border-color: #c25a0e;
 }
 
@@ -1937,8 +1721,8 @@
 
 /* Dock frenzy state */
 .dock-bar.frenzy {
-  border-color: rgba(255, 140, 66, 0.3);
-  background: rgba(255, 140, 66, 0.06);
+  border-color: rgba(232, 114, 28, 0.3);
+  background: rgba(232, 114, 28, 0.06);
 }
 
 /* Frenzy badge is a floating ribbon pinned to the top-right of the header row,
@@ -1964,12 +1748,6 @@
   animation: frenzyPulse 0.6s ease-in-out infinite;
 }
 
-.dock-bar.frenzy .dock-frenzy-badge,
-.stage-header-row.frenzy .dock-frenzy-badge,
-.dock-frenzy-badge.active {
-  display: block;
-}
-
 /* ─── UPGRADE PROMPT MODAL ─────────────────────── */
 
 .upgrade-overlay {
@@ -1989,7 +1767,7 @@
 
 .upgrade-modal {
   background: #ffffff;
-  border: 1px solid rgba(255, 140, 66, 0.2);
+  border: 1px solid rgba(232, 114, 28, 0.2);
   border-radius: 16px;
   padding: 36px 28px 28px;
   max-width: 360px;
@@ -2029,8 +1807,8 @@
   padding: 12px;
   border-radius: 10px;
   border: none;
-  background: #FF8C42;
-  color: #1a1035;
+  background: var(--bone);
+  color: #fff;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -2047,7 +1825,7 @@
   padding: 10px;
   border-radius: 10px;
   border: none;
-  background: rgba(255, 140, 66, 0.15);
+  background: rgba(232, 114, 28, 0.15);
   color: #c25a0e;
   font-size: 13px;
   font-weight: 600;
@@ -2057,7 +1835,7 @@
 }
 
 .upgrade-btn-secondary:hover {
-  background: rgba(255, 140, 66, 0.25);
+  background: rgba(232, 114, 28, 0.25);
   color: #c25a0e;
 }
 
@@ -2080,87 +1858,6 @@
 }
 
 .upgrade-dismiss:hover { color: #52447e; }
-
-/* ─── NEW MOBILE LAYOUT ─────────────────────────────
- * Components introduced when applying James's mobile UX wireframe.
- * Bones cluster moves up beside the nameplate; paid-user row sits
- * above the breed fact; a house rotator (real CTA + fake-door cards)
- * sits between the breed fact and the chat panel. Bottom dock is
- * dissolved (its inner elements redistribute; IDs preserved for app.js).
- * ──────────────────────────────────────────────────── */
-
-/* Header row beneath the stage: nameplate left, bones cluster right.
-   Carries id="dockBar" so the existing app.js frenzy-class toggle still
-   targets the correct element. Constrained to dog-frame's 480px max-width
-   so on desktop it stacks cleanly under the stage rather than stretching
-   the full dog-stage column width. */
-.stage-header-row {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 14px auto 0;
-  padding: 10px 14px;
-  width: 100%;
-  max-width: 800px;
-  box-sizing: border-box;
-  background: rgba(42,33,80,0.06);
-  border: 1px solid rgba(42,33,80,0.11);
-  border-radius: 12px;
-  flex-wrap: wrap;
-  transition: border-color 0.3s ease, background 0.3s ease;
-}
-
-/* Suppress the .dog-nameplate.community box (border + bg + padding) when it
-   sits inside the new stage-header-row — otherwise you get a doubled-frame
-   read (community orange border nested inside the row's white-tint border).
-   The "submitted by X" badge alone provides the attribution cue. */
-.stage-header-row .dog-nameplate.community {
-  background: none;
-  border: none;
-  padding: 0;
-  border-radius: 0;
-}
-
-.stage-header-row.frenzy {
-  border-color: rgba(255, 140, 66, 0.35);
-  background: rgba(255, 140, 66, 0.06);
-}
-
-.stage-header-row .dog-nameplate {
-  flex: 0 1 auto;
-  min-width: 0;
-  margin: 0;
-  text-align: left;
-  padding: 0;
-}
-
-.stage-header-row .dog-nameplate-label {
-  text-align: left;
-}
-
-.stage-header-row .dog-nameplate-name {
-  text-align: left;
-  font-size: clamp(20px, 4.5vw, 28px);
-  padding: 0;
-  /* Names must never wrap to a second line — truncate with an ellipsis as a
-     safety net (overrides the mobile word-break rule via higher specificity). */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: normal;
-  overflow-wrap: normal;
-  max-width: 100%;
-}
-
-.bones-cluster {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
 
 /* (frenzy badge visibility handled by the consolidated rule near
    .dock-frenzy-badge — kept here only as a no-op anchor for clarity) */
@@ -2192,8 +1889,8 @@
 .paid-user-upload-btn {
   width: auto;
   padding: 12px 24px;
-  background: rgba(255, 140, 66, 0.12);
-  border: 1px solid rgba(255, 140, 66, 0.5);
+  background: rgba(232, 114, 28, 0.12);
+  border: 1px solid rgba(232, 114, 28, 0.5);
   border-radius: 10px;
   color: #c25a0e;
   font-size: 14px;
@@ -2204,7 +1901,7 @@
 }
 
 .paid-user-upload-btn:hover {
-  background: rgba(255, 140, 66, 0.22);
+  background: rgba(232, 114, 28, 0.22);
   border-color: #c25a0e;
 }
 
@@ -2272,115 +1969,6 @@
   border-color: #c62828;
 }
 
-/* House rotator: rotating real CTAs + fake-door interest captures.
-   Replaces the old fixed "Enter Your Dog" dock button by turning it into
-   a position in the rotation, plus 4 fake-door cards. Constrained to 480px
-   so it stacks under the stage frame on desktop instead of stretching. */
-.house-rotator {
-  margin: 14px auto 0;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 10px;
-  width: 100%;
-  max-width: 800px;
-  box-sizing: border-box;
-}
-
-.house-rotator-card {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  padding: 14px 16px;
-  background: linear-gradient(135deg, rgba(123, 104, 238, 0.10), rgba(255, 140, 66, 0.06));
-  border: 1px solid rgba(255, 140, 66, 0.28);
-  border-radius: 12px;
-  cursor: pointer;
-  font-family: var(--font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
-  text-align: left;
-  transition: opacity 0.25s ease, transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-  color: inherit;
-}
-
-.house-rotator-card:hover {
-  border-color: rgba(255, 140, 66, 0.55);
-  background: linear-gradient(135deg, rgba(123, 104, 238, 0.16), rgba(255, 140, 66, 0.10));
-  transform: translateY(-1px);
-}
-
-.house-rotator.fading .house-rotator-card {
-  opacity: 0.35;
-}
-
-.house-rotator-eyebrow {
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: rgba(255, 140, 66, 0.8);
-  font-weight: 600;
-}
-
-.house-rotator-eyebrow:empty {
-  display: none;
-}
-
-.house-rotator-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #2a2150;
-  line-height: 1.35;
-}
-
-.house-rotator-cta {
-  font-size: 12px;
-  color: #c25a0e;
-  font-weight: 500;
-  margin-top: 4px;
-}
-
-.house-rotator-dots {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-  margin-top: 2px;
-}
-
-.house-rotator-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(42,33,80,0.48);
-  transition: background 0.25s ease, transform 0.2s ease;
-  cursor: pointer;
-  border: none;
-  padding: 0;
-}
-
-.house-rotator-dot.active {
-  background: #FF8C42;
-  transform: scale(1.2);
-}
-
-/* Share rail variant: appears below chat, de-emphasized */
-.show-share-rail-bottom {
-  margin: 20px auto 12px;
-  padding: 16px 16px 12px;
-  text-align: center;
-  border-top: 1px solid rgba(42,33,80,0.11);
-  background: transparent;
-  max-width: 600px;
-}
-
-.show-share-rail-bottom .show-share-rail-label {
-  font-size: 12px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: rgba(42,33,80,0.75);
-  margin-bottom: 10px;
-}
-
 /* Interest (fake-door) modal — appears when user clicks any fake-door card */
 .interest-overlay {
   position: fixed;
@@ -2400,7 +1988,7 @@
 
 .interest-modal {
   background: var(--bg-card, #ffffff);
-  border: 1px solid rgba(255, 140, 66, 0.25);
+  border: 1px solid rgba(232, 114, 28, 0.25);
   border-radius: 16px;
   padding: 28px 24px;
   max-width: 380px;
@@ -2445,7 +2033,7 @@
 
 .interest-modal-input:focus {
   outline: none;
-  border-color: rgba(255, 140, 66, 0.5);
+  border-color: rgba(232, 114, 28, 0.5);
   background: rgba(42,33,80,0.11);
 }
 
@@ -2484,10 +2072,10 @@
 .interest-modal-submit {
   flex: 1 1 auto;
   padding: 12px 18px;
-  background: #FF8C42;
+  background: var(--bone);
   border: none;
   border-radius: 10px;
-  color: #1a1035;
+  color: #fff;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -2598,10 +2186,10 @@
 .register-modal-submit {
   flex: 1 1 auto;
   padding: 12px 18px;
-  background: #FF8C42;
+  background: var(--bone);
   border: none;
   border-radius: 10px;
-  color: #1a1035;
+  color: #fff;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -2670,7 +2258,7 @@
 .upload-modal-select {
   width: 100%;
   padding: 11px 12px;
-  background: #f3eefb;
+  background: var(--bg);
   border: 1px solid rgba(42,33,80,0.2);
   border-radius: 9px;
   color: #2a2150;
@@ -2710,136 +2298,16 @@
 }
 .upload-modal-cancel:hover { border-color: rgba(42,33,80,0.6499999999999999); }
 .upload-modal-submit {
-  background: #FF8C42;
+  background: var(--bone);
   border-color: #c25a0e;
-  color: #1a1035;
+  color: #fff;
 }
 .upload-modal-submit:hover { background: #ff9d5c; }
 .upload-modal-submit:disabled { opacity: 0.6; cursor: default; }
-
-/* ── Live Best in Show race bar (added 2026-06-11) ───────────────────────────
-   Sits directly under the stage header so the race is visible while voting.
-   Chips tick + bump live as bones land (app.js renderRaceBar). */
-/* Dog of the Month marquee (2026-06-22 redesign). The whole bar is one entry
-   link; real dogs scroll steadily through a clipped viewport. */
-.race-bar {
-  display: block;
-  width: 100%;
-  max-width: 800px;
-  box-sizing: border-box;
-  overflow: hidden;
-  margin: 10px auto 0;
-  padding: 10px 12px 11px;
-  background: rgba(255, 140, 66, 0.06);
-  border: 1px solid rgba(255, 140, 66, 0.22);
-  border-radius: 12px;
-  text-decoration: none;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-.race-bar:hover {
-  border-color: rgba(255, 140, 66, 0.5);
-  background: rgba(255, 140, 66, 0.1);
-}
-.race-bar-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-.race-bar-label {
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.race-bar-cta {
-  flex-shrink: 0;
-  font-size: 12px;
-  font-weight: 700;
-  color: #1a1035;
-  background: var(--accent);
-  padding: 5px 12px;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-/* Clipped viewport; the track scrolls left and is duplicated in JS so the loop
-   is seamless. mask fades the edges so chips slide in/out softly. */
-.race-bar-viewport {
-  overflow: hidden;
-  position: relative;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-}
-.race-bar-chips {
-  display: flex;
-  gap: 8px;
-  width: max-content;
-  animation: raceMarquee 32s linear infinite;
-}
-.race-bar:hover .race-bar-chips { animation-play-state: paused; }
 @keyframes raceMarquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
-.race-chip {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 12px 5px 5px;
-  background: rgba(42,33,80,0.07);
-  border: 1px solid rgba(42,33,80,0.14);
-  border-radius: 999px;
-  font-size: 14px;
-  color: var(--text-bright);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.race-thumb {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-  background: rgba(42,33,80,0.11);
-}
-.race-thumb--empty { display: inline-flex; align-items: center; justify-content: center; font-size: 13px; }
-.race-chip .race-rank { color: var(--accent); font-weight: 700; flex-shrink: 0; }
-.race-chip .race-name { max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.race-chip .race-bones { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; flex-shrink: 0; }
-.race-chip.current {
-  border-color: rgba(255, 140, 66, 0.65);
-  background: rgba(255, 140, 66, 0.13);
-}
-
-/* ─── Vote education (2026-06-22) ─────────────── */
-.vote-howto {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  width: 100%;
-  max-width: 800px;
-  box-sizing: border-box;
-  margin: 10px auto 0;
-  padding: 8px 12px;
-  background: rgba(42,33,80,0.06);
-  border: 1px solid rgba(42,33,80,0.12);
-  border-radius: 10px;
-  font-size: 12.5px;
-  color: var(--text-dim);
-  line-height: 1.5;
-}
-.vote-howto-key {
-  flex-shrink: 0;
-  font-weight: 700;
-  color: #1a1035;
-  background: var(--accent);
-  padding: 3px 9px;
-  border-radius: 999px;
-  font-size: 12px;
-}
-.vote-howto-text strong { color: var(--text-bright); }
 
 .owner-vote-cue {
   width: 100%;
@@ -2847,8 +2315,8 @@
   box-sizing: border-box;
   margin: 10px auto 0;
   padding: 10px 14px;
-  background: rgba(255, 140, 66, 0.14);
-  border: 1px solid rgba(255, 140, 66, 0.5);
+  background: rgba(232, 114, 28, 0.14);
+  border: 1px solid rgba(232, 114, 28, 0.5);
   border-radius: 10px;
   font-size: 13.5px;
   color: var(--text-bright);
@@ -2857,8 +2325,8 @@
 }
 .owner-vote-cue strong { color: #c25a0e; }
 @keyframes ownerCuePulse {
-  0%, 100% { border-color: rgba(255, 140, 66, 0.4); }
-  50% { border-color: rgba(255, 140, 66, 0.85); }
+  0%, 100% { border-color: rgba(232, 114, 28, 0.4); }
+  50% { border-color: rgba(232, 114, 28, 0.85); }
 }
 
 /* Persistent owner vote bar — vote for your own dog any time. */
@@ -2881,7 +2349,7 @@
   flex: 1;
   min-width: 180px;
   padding: 11px 18px;
-  background: var(--accent);
+  background: var(--link);
   color: #1a1035;
   border: none;
   border-radius: 999px;
@@ -2902,9 +2370,6 @@
   transition: opacity 0.2s ease;
 }
 .owner-vote-flash.show { opacity: 1; }
-
-/* First-visit bone coachmark — a small callout under the Give-a-bone button. */
-.bones-cluster { position: relative; }
 .bone-coach {
   position: absolute;
   top: calc(100% + 8px);
@@ -2912,8 +2377,8 @@
   z-index: 20;
   max-width: 240px;
   padding: 8px 12px;
-  background: #FF8C42;
-  color: #1a1035;
+  background: var(--bone);
+  color: #fff;
   font-size: 12.5px;
   font-weight: 600;
   border-radius: 10px;
@@ -2927,7 +2392,7 @@
   right: 24px;
   width: 12px;
   height: 12px;
-  background: #FF8C42;
+  background: var(--bone);
   transform: rotate(45deg);
 }
 @keyframes boneCoachIn {
@@ -2950,7 +2415,7 @@ select:focus-visible,
 textarea:focus-visible,
 [tabindex]:focus-visible,
 [role="button"]:focus-visible {
-  outline: 3px solid #FF8C42;
+  outline: 3px solid var(--link);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -2975,8 +2440,8 @@ textarea:focus-visible,
   left: 8px;
   top: -48px;
   z-index: 10000;
-  background: #FF8C42;
-  color: #1a1035;
+  background: var(--bone);
+  color: #fff;
   padding: 10px 16px;
   border-radius: 6px;
   font: 600 14px var(--font-system, -apple-system, sans-serif);
@@ -2999,3 +2464,601 @@ textarea:focus-visible,
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Terms clickwrap note in entry modals (2026-08-03) ── */
+.lp-modal-terms-note,
+.upload-modal-terms-note {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-faint);
+  text-align: center;
+}
+.lp-modal-terms-note a,
+.upload-modal-terms-note a {
+  color: var(--link);
+  text-decoration: underline;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   REDESIGN 2026-08-03 — HANDOFF.md §1–§5
+   Three layers + chat dock. Mobile-first (audience 30–60 on phones):
+   16px+ body, 44px+ hit targets, 48px+ primary.
+   Accent discipline: orange = bones/money ONLY, purple = enter/links,
+   brass = ranks/details.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Bone glyph (SVG, no emoji) ── */
+.bone-glyph {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  vertical-align: -0.12em;
+  flex-shrink: 0;
+}
+.bone-glyph--float { width: 26px; height: 26px; color: #d9925a; }
+
+/* ── Page chrome ── */
+.show-body {
+  background: var(--bg);
+  color: var(--text-bright);
+}
+.show-header {
+  background: transparent;
+  border-bottom: 0;
+}
+.live-badge-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--link);
+  box-shadow: 0 0 0 3px rgba(91,70,214,0.18);
+  animation: liveDotPulse 1.6s infinite;
+}
+@keyframes liveDotPulse { 50% { box-shadow: 0 0 0 6px rgba(91,70,214,0.07); } }
+
+/* ── Layout: single column mobile, 1fr + 340px rail ≥1024px ── */
+.show-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  width: 100%;             /* body is a column flexbox — auto margins otherwise shrink-to-fit */
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 12px 12px calc(140px + env(safe-area-inset-bottom)); /* room for the chat sheet */
+  align-items: start;
+}
+.show-col-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* ── LAYER 1: the stage card ── */
+.stage-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(42,33,80,0.07);
+}
+.stage-drape {
+  background: linear-gradient(180deg, var(--curtain-dark), var(--curtain));
+  padding: 9px 16px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.stage-drape::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: -1px; height: 6px;
+  background: radial-gradient(circle at 8px -2px, transparent 7px, var(--curtain) 7px);
+  background-size: 16px 8px;
+  background-repeat: repeat-x;
+  pointer-events: none;
+}
+.stage-plaque {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+.stage-card .dog-viewport {
+  position: relative;
+  width: 100%;
+  padding-bottom: 0;       /* override legacy padding-bottom:100% ratio hack */
+  aspect-ratio: 1 / 1;              /* square, no crop (recolor set 46e8516) */
+  background: radial-gradient(ellipse at 50% 42%, #fdf6ec 0%, #f0e2d0 55%, #e2cdb4 100%);
+  overflow: hidden;
+  display: block;
+}
+.stage-card .dog-viewport img#dogImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.stage-card .dog-viewport img#dogImage.loaded { opacity: 1; }
+.stage-card .dog-viewport-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 28%, rgba(255,255,255,0.5), transparent 55%);
+  pointer-events: none;
+}
+
+/* Lower-third nameplate — overlaid on a curtain-dark gradient */
+.stage-lowerthird {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 44px 16px 12px;
+  background: linear-gradient(180deg, rgba(30,15,69,0) 0%, rgba(30,15,69,0.55) 34%, rgba(30,15,69,0.92) 100%);
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+}
+.stage-lowerthird .dog-nameplate { min-width: 0; }
+.stage-lowerthird .dog-nameplate-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+.stage-lowerthird .dog-nameplate-name {
+  font-family: 'Yang Bagus', 'YangBagus', cursive;
+  font-size: 34px;
+  line-height: 1.05;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stage-lowerthird .dog-nameplate-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin-top: 2px;
+}
+.stage-lowerthird .dog-nameplate-breed {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--lavender-on-dark);
+}
+.stage-lowerthird .community-badge {
+  font-size: 12px;
+  color: var(--lavender-on-dark);
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.stage-lowerthird .dock-frenzy-badge {
+  margin-left: auto;
+  align-self: center;
+}
+
+/* Fact strip — italic, between stage and the act row */
+.fact-strip {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+}
+.fact-strip-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+/* ── LAYER 2: the act row ── */
+.act-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  position: relative;
+}
+.act-row .dock-bone-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 22px;
+  font-size: 19px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--bone);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(232,114,28,0.35);
+  white-space: nowrap;
+}
+.act-row .dock-bone-btn:active { transform: scale(0.97); }
+.act-row .dock-bone-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.15;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 7px 14px;
+}
+.act-row .dock-bone-pill-count {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+.act-row .dock-bone-pill-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* Brass ticket — Get more bones (money surface, plain copy) */
+.brass-ticket {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brass-dark);
+  background: linear-gradient(180deg, #fdf6e6, #f6e8c8);
+  border: 1px solid #cfa64a;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.brass-ticket::before,
+.brass-ticket::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid #cfa64a;
+  transform: translateY(-50%);
+}
+.brass-ticket::before { left: -7px; }
+.brass-ticket::after { right: -7px; }
+.brass-ticket-divider {
+  align-self: stretch;
+  width: 0;
+  border-left: 1px dashed #cfa64a;
+}
+.brass-ticket-price {
+  font-family: var(--font-serif);
+  font-weight: 700;
+}
+
+/* Personal balance — "N bones in your pouch" */
+.act-row .my-bones-pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-dim);
+  background: none;
+  border: 0;
+  padding: 4px 2px;
+}
+.act-row .my-bones-pill-count {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+.act-row .my-bones-pill-label {
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  text-transform: none;
+  color: var(--text-dim);
+}
+
+/* ── LAYER 3: the Dog of the Month card ── */
+.dom-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.dom-card-section { padding: 18px 18px 8px; }
+.dom-card-head { margin-bottom: 12px; }
+.dom-card-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #8a681f;   /* darker brass for small text — 5.06:1 on card */
+}
+.dom-card-title {
+  font-family: 'Yang Bagus', 'YangBagus', cursive;
+  font-size: 27px;
+  color: var(--text-bright);
+  margin-top: 2px;
+}
+.dom-card-sub {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  margin-top: 3px;
+}
+.dom-rows { display: flex; flex-direction: column; }
+.dom-champion {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  padding: 10px 2px 10px;
+}
+/* Row anatomy (reusing .leaderboard-entry markup from app.js):
+   rank (Georgia, brass #1) · round thumb · name + "Breed · by owner" · count */
+.dom-rows .leaderboard-entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 8px;
+  border-radius: 10px;
+  text-decoration: none;
+  min-height: 44px;
+}
+.dom-rows .leaderboard-entry:nth-child(even) { background: var(--bg); }
+.dom-rows .leaderboard-rank {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-mid);
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.dom-rows .leaderboard-entry:first-child .leaderboard-rank { color: #8a681f; font-size: 19px; }
+.dom-rows .leaderboard-thumb {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  flex-shrink: 0;
+}
+.dom-rows .leaderboard-thumb--empty { background: var(--bg); }
+.dom-rows .leaderboard-info { flex: 1; min-width: 0; }
+.dom-rows .leaderboard-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dom-rows .leaderboard-meta {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dom-rows .leaderboard-bones {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+/* Entry CTA — solid purple footer row. Never orange. */
+.dom-enter-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  background: var(--link);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.dom-enter-cta:hover { background: #4c39c0; }
+.dom-full-link {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--link);
+  text-decoration: none;
+  padding: 4px 0 8px;
+  min-height: 30px;
+}
+
+/* ── CHAT DOCK — dark, always visible ──
+   Mobile: pinned bottom pull-up sheet. Desktop ≥1024px: 340px rail. */
+.chat-dock {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 950;
+  display: flex;
+  flex-direction: column;
+  background: var(--curtain-dark);
+  border-top: 1px solid rgba(183,169,232,0.25);
+  border-radius: 16px 16px 0 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -6px 24px rgba(30,15,69,0.25);
+}
+.chat-dock-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 46px;
+  padding: 8px 16px 4px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  position: relative;
+}
+.chat-dock-grabber {
+  position: absolute;
+  top: 5px; left: 50%;
+  transform: translateX(-50%);
+  width: 40px; height: 4px;
+  border-radius: 2px;
+  background: rgba(183,169,232,0.4);
+}
+.chat-dock-title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+.chat-dock .chat-header-intermission {
+  font-size: 11px;
+  color: var(--lavender-on-dark);
+  display: none;
+}
+.chat-dock-caret {
+  margin-left: auto;
+  width: 9px; height: 9px;
+  border-right: 2px solid var(--lavender-on-dark);
+  border-bottom: 2px solid var(--lavender-on-dark);
+  transform: rotate(-135deg);   /* points up = pull up */
+  transition: transform 0.2s ease;
+}
+.chat-dock.open .chat-dock-caret { transform: rotate(45deg); }
+.chat-dock .chat-messages {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 10px 16px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+.chat-dock.open .chat-messages { display: block; }
+.chat-dock.open { height: min(64vh, 520px); }
+.chat-dock .chat-msg {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #efeaff;
+  margin-bottom: 8px;
+}
+.chat-dock .chat-msg-user { font-weight: 800; color: var(--lavender-on-dark); }
+.chat-dock .chat-msg-user.me { color: #d8cfff; }
+.chat-dock .chat-msg-user.bot-host { color: var(--gold-text); font-style: italic; }
+.chat-dock .chat-msg-text { color: #efeaff; }
+.chat-dock .chat-msg-link { color: #ffb27d; }
+.chat-dock .chat-input-area {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px 10px;
+  border-top: 1px solid rgba(183,169,232,0.18);
+  background: none;
+}
+.chat-dock .chat-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  font-size: 16px;             /* ≥16px stops iOS zoom */
+  font-family: inherit;
+  color: #fff;
+  background: rgba(183,169,232,0.14);
+  border: 1px solid rgba(183,169,232,0.3);
+  border-radius: 999px;
+  padding: 0 16px;
+}
+.chat-dock .chat-input::placeholder { color: rgba(183,169,232,0.75); }
+.chat-dock .chat-send {
+  min-height: 44px;
+  min-width: 64px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--bone);      /* Send is --bone per §5 */
+  border: none;
+  border-radius: 999px;
+  padding: 0 18px;
+  cursor: pointer;
+}
+
+/* ── Dark sitewide footer ── */
+.site-footer-dark {
+  background: var(--curtain-dark);
+  padding: 26px 16px calc(160px + env(safe-area-inset-bottom));  /* clears the chat sheet on mobile */
+  text-align: center;
+  font-family: var(--font-system);
+}
+.site-footer-dark-links {
+  display: flex;
+  justify-content: center;
+  gap: 8px 20px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.site-footer-dark-links a {
+  font-size: 13px;
+  color: var(--lavender-on-dark);
+  text-decoration: none;
+  padding: 8px 2px;             /* ≥44px effective target with line box */
+  display: inline-block;
+}
+.site-footer-dark-links a:hover { color: #fff; }
+.site-footer-dark-cr { font-size: 12px; color: rgba(183,169,232,0.7); }
+
+/* ── Desktop ≥1024px: two columns, chat becomes a permanent right rail ── */
+@media (min-width: 1024px) {
+  .show-main {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 20px;
+    padding: 20px 20px 32px;   /* no bottom sheet — no clearance needed */
+  }
+  .stage-card .dog-viewport { aspect-ratio: 4 / 3; }
+  .chat-dock {
+    position: sticky;
+    top: 66px;
+    z-index: 1;
+    border-radius: 16px;
+    border: 1px solid rgba(183,169,232,0.25);
+    height: calc(100vh - 120px);
+    max-height: 760px;
+    box-shadow: 0 6px 24px rgba(30,15,69,0.18);
+  }
+  .chat-dock .chat-messages { display: block; }       /* always open */
+  .chat-dock-head { cursor: default; }
+  .chat-dock-grabber, .chat-dock-caret { display: none; }
+  .site-footer-dark { padding-bottom: 26px; }
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+  .stage-lowerthird .dog-nameplate-name { font-size: 27px; }
+  .act-row .dock-bone-btn { flex: 1 1 100%; }
+}
+
+/* Focus ring inside the dark chat dock — purple vanishes on #1e0f45 */
+.chat-dock button:focus-visible,
+.chat-dock input:focus-visible {
+  outline: 3px solid #ffb27d;
+}
+
+/* nav.js provides the wordmark — avoid the double brand row */
+.show-header .show-header-left { display: none; }
+.show-header { justify-content: flex-end; padding: 6px 16px 0; }

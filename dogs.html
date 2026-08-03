@@ -42,9 +42,9 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #f3eefb;
-      --bg-card: #ffffff;
-      --accent: #FF8C42;
+      --bg: #f7f2e9;
+      --bg-card: #fffdf8;
+      --accent: #5b46d6; --brass: #b98a2f; --brass-dark: #7a5a14;
       --text-bright: #2a2150;
       --text-dim: rgba(42,33,80,0.7);
     }
@@ -110,17 +110,72 @@
       min-width: 180px;
     }
     .dir-controls select:focus, .dir-controls input:focus {
-      border-color: var(--accent-text, #c25a0e);
+      border-color: var(--brass-dark);
     }
 
     /* Dog grid */
     .dog-grid {
-      max-width: 800px;
+      max-width: 1080px;
       margin: 0 auto;
       padding: 0 20px 40px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    @media (min-width: 720px) {
+      .dog-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .dog-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    /* Breed filter chips */
+    .breed-chips {
+      max-width: 1080px;
+      margin: 0 auto 4px;
+      padding: 0 20px 14px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .breed-chip-btn {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-bright);
+      background: var(--bg-card);
+      border: 1px solid rgba(42,33,80,0.17);
+      border-radius: 999px;
+      padding: 9px 15px;
+      min-height: 40px;
+      cursor: pointer;
+    }
+    .breed-chip-btn[aria-pressed="true"] {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    /* Dashed "Your dog here" cell */
+    .your-dog-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 240px;
+      border: 2px dashed rgba(91,70,214,0.45);
+      border-radius: 12px;
+      background: none;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      text-align: center;
+      padding: 16px;
+    }
+    .your-dog-cell small {
+      font-weight: 400;
+      font-size: 12.5px;
+      color: var(--text-dim);
     }
 
     .dog-card {
@@ -134,7 +189,7 @@
       display: block;
     }
     .dog-card:hover {
-      border-color: var(--accent-text, #c25a0e);
+      border-color: var(--brass-dark);
       transform: translateY(-2px);
     }
 
@@ -159,7 +214,7 @@
 
     .dog-card-breed {
       font-size: 12px;
-      color: var(--accent-text, #c25a0e);
+      color: var(--brass-dark);
       margin-bottom: 8px;
     }
 
@@ -205,7 +260,7 @@
     .dir-cta-btn {
       display: inline-block;
       background: var(--accent);
-      color: #1a1035;
+      color: #fff;
       font-weight: 700;
       font-size: 15px;
       padding: 14px 32px;
@@ -280,6 +335,8 @@
     </select>
   </div>
 
+  <div class="breed-chips" id="breedChips" hidden></div>
+
   <div id="loading" class="loading-state">Loading dogs...</div>
 
   <div class="dog-grid" id="dogGrid" hidden></div>
@@ -287,7 +344,7 @@
   <div class="dir-cta" id="dirCta" hidden>
     <a href="https://dogshow.lol/show.html" class="dir-cta-btn">Watch The Dog Show Live</a>
     <div class="dir-cta-sub">Anyone can enter their dog in the show &mdash; free</div>
-    <div style="margin-top: 16px;"><a href="/dog-photo-contest" style="color: #c25a0e; font-size: 14px; text-decoration: none; border-bottom: 1px solid rgba(255,140,66,0.3);">Learn more about the Dog Photo Contest &rarr;</a></div>
+    <div style="margin-top: 16px;"><a href="/dog-photo-contest" style="color: #7a5a14; font-size: 14px; text-decoration: none; border-bottom: 1px solid rgba(185,138,47,0.4);">Learn more about the Dog Photo Contest &rarr;</a></div>
   </div>
 
   <div class="seo-footer">
@@ -322,10 +379,9 @@
         if (!data.ok || !data.dogs || data.dogs.length === 0) {
           document.getElementById('loading').innerHTML =
             '<div style="text-align:center;padding:40px 20px;">' +
-            '<div style="font-size:48px;margin-bottom:16px;">🐕</div>' +
-            '<div style="font-family:\'Yang Bagus\',cursive;font-size:24px;color:#c25a0e;margin-bottom:8px;">The show is just getting started.</div>' +
+            '<div style="font-family:\'Yang Bagus\',cursive;font-size:24px;color:#7a5a14;margin-bottom:8px;">The show is just getting started.</div>' +
             '<div style="color:#52447e;margin-bottom:24px;">Be one of the founding dogs. Enter yours free.</div>' +
-            '<a href="/" style="display:inline-block;padding:12px 24px;background:#FF8C42;color:#1a1035;border-radius:10px;font-weight:600;text-decoration:none;">Enter Your Dog</a>' +
+            '<a href="/" style="display:inline-block;padding:12px 24px;background:#5b46d6;color:#fff;border-radius:10px;font-weight:600;text-decoration:none;">Enter Your Dog</a>' +
             '</div>';
           return;
         }
@@ -346,10 +402,53 @@
         document.getElementById('totalBonesCount').textContent = totalBones.toLocaleString();
         document.getElementById('totalAppearancesCount').textContent = totalAppearances;
 
+        buildBreedChips(allDogs);
         renderDogs(allDogs);
       } catch (e) {
         document.getElementById('loading').textContent = 'Failed to load dogs. Please try again.';
       }
+    }
+
+    var activeBreedChip = 'All';
+
+    function buildBreedChips(dogs) {
+      var counts = {};
+      dogs.forEach(function (d) {
+        var b = d.breed || 'Mystery Breed';
+        counts[b] = (counts[b] || 0) + 1;
+      });
+      var breeds = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; }).slice(0, 8);
+      var wrap = document.getElementById('breedChips');
+      if (!wrap) return;
+      wrap.innerHTML = '';
+      ['All'].concat(breeds).forEach(function (b) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'breed-chip-btn';
+        btn.textContent = b === 'All' ? 'All breeds' : b;
+        btn.setAttribute('aria-pressed', b === activeBreedChip ? 'true' : 'false');
+        btn.addEventListener('click', function () {
+          activeBreedChip = b;
+          Array.prototype.forEach.call(wrap.children, function (c) {
+            c.setAttribute('aria-pressed', c === btn ? 'true' : 'false');
+          });
+          refilter();
+        });
+        wrap.appendChild(btn);
+      });
+      wrap.hidden = false;
+    }
+
+    function refilter() {
+      var q = document.getElementById('searchInput').value.toLowerCase().trim();
+      var filtered = allDogs.filter(function (d) {
+        var matchesQ = !q || d.dogName.toLowerCase().includes(q) ||
+          (d.breed || '').toLowerCase().includes(q) ||
+          d.username.toLowerCase().includes(q);
+        var matchesBreed = activeBreedChip === 'All' || (d.breed || 'Mystery Breed') === activeBreedChip;
+        return matchesQ && matchesBreed;
+      });
+      applySortAndRender(filtered);
     }
 
     function renderDogs(dogs) {
@@ -379,37 +478,28 @@
             '<div class="dog-card-name">' + dog.dogName + '</div>' +
             '<div class="dog-card-breed">' + (dog.breed || 'Mystery Breed') + '</div>' +
             '<div class="dog-card-meta">' +
-              '<span>🦴 <strong>' + bones + '</strong></span>' +
-              '<span>🎬 <strong>' + appearances + '</strong></span>' +
+              '<span><strong>' + bones + '</strong> bones</span>' +
+              '<span><strong>' + appearances + '</strong> appearances</span>' +
             '</div>' +
             '<div class="dog-card-owner">by ' + dog.username + '</div>' +
           '</div>';
 
         grid.appendChild(card);
       });
+
+      // Dashed "Your dog here" cell — the gallery's entry CTA.
+      var yours = document.createElement('a');
+      yours.className = 'your-dog-cell';
+      yours.href = '/?openModal=premium';
+      yours.innerHTML = 'Your dog here &rarr;<small>Entry is free &mdash; they get a page like these</small>';
+      grid.appendChild(yours);
     }
 
     // Search
-    document.getElementById('searchInput').addEventListener('input', function() {
-      var q = this.value.toLowerCase().trim();
-      var filtered = allDogs.filter(function(d) {
-        return d.dogName.toLowerCase().includes(q) ||
-               (d.breed || '').toLowerCase().includes(q) ||
-               d.username.toLowerCase().includes(q);
-      });
-      applySortAndRender(filtered);
-    });
+    document.getElementById('searchInput').addEventListener('input', refilter);
 
     // Sort
-    document.getElementById('sortSelect').addEventListener('change', function() {
-      var q = document.getElementById('searchInput').value.toLowerCase().trim();
-      var filtered = allDogs.filter(function(d) {
-        return !q || d.dogName.toLowerCase().includes(q) ||
-               (d.breed || '').toLowerCase().includes(q) ||
-               d.username.toLowerCase().includes(q);
-      });
-      applySortAndRender(filtered);
-    });
+    document.getElementById('sortSelect').addEventListener('change', refilter);
 
     function applySortAndRender(dogs) {
       var sort = document.getElementById('sortSelect').value;
@@ -454,19 +544,19 @@
 
     loadDogs();
   </script>
-  <footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(42,33,80,0.11);background:#e9e2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <footer style="text-align:center;padding:26px 16px;background:#1e0f45;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
     <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
-      <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
-      <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
-      <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
-      <a href="/leaderboard" style="font-size:12px;color:#5d5088;text-decoration:none;">Leaderboard</a>
-      <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
-      <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
-      <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
-      <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
-      <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
+      <a href="/about" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">About</a>
+      <a href="/about#contact" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Contact</a>
+      <a href="/dogs" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">All Dogs</a>
+      <a href="/leaderboard" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Leaderboard</a>
+      <a href="/privacy" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Privacy</a>
+      <a href="#" data-cookie-settings style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Cookie settings</a>
+      <a href="/terms" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Terms</a>
+      <a href="/resources" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Guides</a>
+      <a href="/breeds" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Breeds</a>
     </div>
-    <div style="font-size:11px;color:#5d5088;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+    <div style="font-size:12px;color:rgba(183,169,232,0.7);">The Dog Show &copy; 2026. All dogs are good dogs.</div>
   </footer>
 </body>
 </html>

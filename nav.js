@@ -18,14 +18,14 @@
   var CTA = { href: '/?openModal=premium', label: 'Enter Your Dog' };
 
   var css = [
-    '.site-nav{position:sticky;top:0;z-index:900;display:flex;align-items:center;gap:18px;padding:10px 18px;background:rgba(243,238,251,0.94);backdrop-filter:blur(8px);border-bottom:1px solid rgba(42,33,80,0.11);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}',
+    '.site-nav{position:sticky;top:0;z-index:900;display:flex;align-items:center;gap:18px;padding:10px 18px;background:rgba(247,242,233,0.94);backdrop-filter:blur(8px);border-bottom:1px solid rgba(42,33,80,0.12);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}',
     '.site-nav-brand{font-family:"Yang Bagus","YangBagus",Georgia,serif;font-size:20px;color:#2a2150;text-decoration:none;line-height:1;flex-shrink:0;}',
     '.site-nav-links{display:flex;align-items:center;gap:16px;margin-left:auto;}',
     '.site-nav-links a{font-size:13px;font-weight:600;color:#2a2150;text-decoration:none;padding:6px 2px;}',
     '.site-nav-links a:hover{color:#5b46d6;}',
-    '.site-nav-links a[aria-current="page"]{color:#5b46d6;border-bottom:2px solid #5b46d6;}',
-    '.site-nav-cta{background:#FF8C42;color:#1a1035 !important;padding:8px 16px !important;border-radius:8px;font-weight:700 !important;}',
-    '.site-nav-cta:hover{opacity:0.9;color:#1a1035 !important;}',
+    '.site-nav-links a[aria-current="page"]{color:#2a2150;border-bottom:2px solid #8a681f;}',
+    '.site-nav-cta{background:#5b46d6;color:#fff !important;padding:10px 16px !important;border-radius:8px;font-weight:700 !important;}',
+    '.site-nav-cta:hover{opacity:0.9;color:#fff !important;}',
     '.site-nav-burger{display:none;margin-left:auto;background:none;border:1px solid rgba(42,33,80,0.25);border-radius:8px;padding:6px 10px;font-size:18px;line-height:1;color:#2a2150;cursor:pointer;}',
     '@media(max-width:760px){',
     '.site-nav{flex-wrap:wrap;}',

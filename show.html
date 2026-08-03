@@ -35,32 +35,19 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* Secondary "top up your bones" button next to Give-a-bone. Visually a
-       button, but quieter than the primary orange CTA. */
-    .dock-getbones-btn {
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--accent);
-      background: rgba(255, 140, 66, 0.10);
-      border: 1px solid rgba(255, 140, 66, 0.45);
-      border-radius: 8px;
-      padding: 7px 11px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s, border-color 0.15s, transform 0.1s;
-    }
-    .dock-getbones-btn:hover {
-      background: rgba(255, 140, 66, 0.18);
-      border-color: rgba(255, 140, 66, 0.7);
-    }
-    .dock-getbones-btn:active { transform: scale(0.97); }
-  </style>
 </head>
 <body class="show-body">
 
   <a href="#showMain" class="skip-link">Skip to the show</a>
+
+  <!-- Reusable bone glyph (no emoji in UI — HANDOFF §6) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="boneGlyph" viewBox="0 0 24 24">
+      <circle cx="5.2" cy="7.2" r="3"/><circle cx="7.2" cy="5.2" r="3"/>
+      <circle cx="16.8" cy="18.8" r="3"/><circle cx="18.8" cy="16.8" r="3"/>
+      <path d="M5.8 8.6 15.4 18.2 18.2 15.4 8.6 5.8Z"/>
+    </symbol>
+  </svg>
 
   <!-- Header -->
   <div class="show-header">
@@ -69,170 +56,153 @@
       <span class="show-header-est">est. 2026</span>
     </div>
     <div class="show-header-right">
-      <span class="live-badge" id="liveBadge">&#9679; LIVE &mdash; <span id="viewerCount">0</span> watching</span>
+      <span class="live-badge" id="liveBadge"><span class="live-badge-dot" aria-hidden="true"></span> LIVE &mdash; <span id="viewerCount">0</span> watching</span>
     </div>
   </div>
 
   <!-- Sponsor banner -->
   <div class="sponsor-banner" id="sponsorBanner"></div>
 
-  <!-- Total fans top banner (hidden on mobile via CSS; spans full width on desktop) -->
-  <div class="total-fans" id="totalFans">
-    <span class="total-fans-count" id="totalFansCount">0</span> fans have entered The Dog Show
-  </div>
+  <!-- Main content — three layers + chat dock (HANDOFF §3).
+       Mobile: single column, chat pinned at the bottom as a pull-up sheet.
+       Desktop ≥1024px: two-column grid, chat is a permanent 340px right rail. -->
+  <main class="show-main" id="showMain">
 
-  <!-- Main content — two columns on desktop (stage 60% + chat 300px), stacked on mobile -->
-  <div class="show-main" id="showMain">
+    <div class="show-col-main">
 
-    <!-- Dog display area -->
-    <div class="dog-stage">
+      <!-- ── LAYER 1: THE STAGE ─────────────────────────────── -->
+      <section class="stage-card">
+        <div class="stage-drape"><span class="stage-plaque">The Main Stage</span></div>
 
-      <!-- Intermission overlay -->
-      <div class="intermission-overlay" id="intermission">
-        <div class="intermission-card">
-          <div class="intermission-label">&mdash; Intermission &mdash;</div>
-          <div class="intermission-title" id="intermissionTitle">Please Stand By</div>
-          <div class="intermission-subtitle">The dogs will return shortly.</div>
-          <div class="intermission-divider"></div>
-          <div class="intermission-sponsor">
-            This intermission sponsored by:<br>
-            <strong>Your Ad Here &mdash; $5.00</strong>
-          </div>
-          <div class="intermission-music">&#9835; (imagine an old-timey jangle playing) &#9835;</div>
-        </div>
-      </div>
-
-      <!-- Dog frame -->
-      <div class="dog-frame">
-        <div class="dog-frame-drape">
-          <div class="dog-frame-drape-inner"></div>
-          <div class="dog-frame-plaque">The Main Stage</div>
-        </div>
         <div class="dog-viewport">
           <img id="dogImage" src="" alt="A good dog">
           <div class="dog-viewport-glow"></div>
-        </div>
-        <div class="dog-frame-footer"></div>
-      </div>
 
-      <!-- Header row: dog name on the left, bones cluster on the right.
-           id="dockBar" is preserved so app.js can still toggle the .frenzy class. -->
-      <div class="stage-header-row" id="dockBar">
-        <div class="dog-nameplate" id="dogNameplate">
-          <div class="dog-nameplate-label">Now presenting</div>
-          <div class="dog-nameplate-name" id="dogName">...</div>
+          <!-- Intermission overlay -->
+          <div class="intermission-overlay" id="intermission">
+            <div class="intermission-card">
+              <div class="intermission-label">&mdash; Intermission &mdash;</div>
+              <div class="intermission-title" id="intermissionTitle">Please Stand By</div>
+              <div class="intermission-subtitle">The dogs will return shortly.</div>
+            </div>
+          </div>
+
+          <!-- Lower-third nameplate — name + breed + owner overlaid on a
+               curtain-dark gradient. id="dockBar" preserved: app.js toggles
+               the .frenzy class here. app.js rewrites #dogNameplate's
+               innerHTML on each dog change. -->
+          <div class="stage-lowerthird" id="dockBar">
+            <div class="dog-nameplate" id="dogNameplate">
+              <div class="dog-nameplate-label">Now presenting</div>
+              <div class="dog-nameplate-name" id="dogName">...</div>
+            </div>
+            <div class="dock-frenzy-badge" id="boneFrenzy"><span>BONE FRENZY</span></div>
+          </div>
         </div>
-        <div class="bones-cluster">
-          <button class="dock-bone-btn" id="boneBtn">🦴 Give a bone</button>
-          <!-- Top up your bone supply — opens the same checkout the empty-balance
-               nudge uses. Shown by app.js to registered users at all times. -->
-          <button class="dock-getbones-btn" id="getBonesBtn" hidden>➕ Get bones</button>
-          <!-- First-visit coachmark (shown once via localStorage in app.js). -->
-          <div class="bone-coach" id="boneCoach" hidden>👆 A bone is a vote — tap to back this dog!</div>
-          <div class="dock-bone-pill">
+
+        <!-- Fact strip — italic, changes with the dog on stage (reuses the
+             #breedFact / #breedFactText data path in app.js). -->
+        <div class="fact-strip" id="breedFact" hidden>
+          <em class="fact-strip-text" id="breedFactText"></em>
+        </div>
+
+        <!-- ── LAYER 2: THE ACT ROW ─────────────────────────── -->
+        <div class="act-row">
+          <button class="dock-bone-btn" id="boneBtn">
+            <svg class="bone-glyph" aria-hidden="true"><use href="#boneGlyph"/></svg>
+            Give a bone
+          </button>
+          <div class="dock-bone-pill" title="Bones this dog has received">
             <span class="dock-bone-pill-count" id="boneCount">0</span>
             <span class="dock-bone-pill-label">bones</span>
           </div>
-          <!-- Personal bones balance (registered users only). Shown by app.js
-               after a `boneBalance` WebSocket message arrives. -->
+          <!-- Brass ticket — bones top-up. Shown by app.js to registered users. -->
+          <button class="brass-ticket" id="getBonesBtn" hidden>
+            <span class="brass-ticket-main">Get more bones</span>
+            <span class="brass-ticket-divider" aria-hidden="true"></span>
+            <span class="brass-ticket-price">250 for $1.99</span>
+          </button>
+          <!-- Personal balance — "N bones in your pouch". Revealed by app.js
+               after a boneBalance WebSocket message. -->
           <div class="my-bones-pill" id="myBonesPill" hidden>
             <span class="my-bones-pill-count" id="myBonesPillCount">0</span>
-            <span class="my-bones-pill-label">yours</span>
+            <span class="my-bones-pill-label">bones in your pouch</span>
           </div>
-          <!-- Frenzy text overlay. Pure visual — no multiplier, no counter.
-               app.js toggles the .active class when bones/sec exceeds the
-               frenzy threshold. -->
-          <div class="dock-frenzy-badge" id="boneFrenzy"><span>BONE FRENZY</span></div>
+          <!-- First-visit coachmark (shown once via localStorage in app.js). -->
+          <div class="bone-coach" id="boneCoach" hidden>A bone is a vote &mdash; tap to back this dog!</div>
         </div>
-      </div>
 
-      <!-- Vote education (2026-06-22) — paying owners weren't voting, so spell
-           out that a bone IS a vote, right under the stage where they act. -->
-      <div class="vote-howto" id="voteHowto">
-        <span class="vote-howto-key">🦴 = 1 vote</span>
-        <span class="vote-howto-text">Tap <strong>Give a bone</strong> to vote for the dog on stage. Most votes this month wins Best in Show.</span>
-      </div>
-      <!-- Owner cue — revealed by app.js only when the logged-in owner's own dog
-           is the one currently on stage. Closes the submit→vote gap. -->
-      <div class="owner-vote-cue" id="ownerVoteCue" hidden>
-        ⭐ <strong>That's your dog on stage!</strong> Throw bones now to vote them up the Best in Show board.
-      </div>
-      <!-- Persistent owner vote bar (2026-06-22) — lets an owner vote for their
-           own dog ANY time, not only during its ~10s slot. Revealed by app.js
-           once /my-dog confirms ownership. -->
-      <div class="owner-vote-bar" id="ownerVoteBar" hidden>
-        <button class="owner-vote-btn" id="ownerVoteBtn">🦴 Vote for <span id="ownerVoteDogName">your dog</span></button>
-        <span class="owner-vote-meta">
-          <span class="owner-vote-flash" id="ownerVoteFlash" hidden>+1 vote!</span>
-          <span id="ownerVoteBalance" class="owner-vote-balance"></span>
-        </span>
-      </div>
-
-      <!-- Dog of the Month marquee (2026-06-22 redesign) — sits directly under
-           the stage. Steadily scrolls through the real dogs competing this month
-           (app.js renderRaceBar). The ENTIRE bar is one link to the entry flow;
-           a single "Your dog here" button is the call to action. -->
-      <a class="race-bar" id="raceBar" href="/?openModal=premium" hidden>
-        <div class="race-bar-top">
-          <div class="race-bar-label">&#127942; <span id="raceBarLabel">Dog of the Month &mdash; June</span></div>
-          <span class="race-bar-cta">Your dog here &rarr;</span>
+        <!-- Owner cue — revealed by app.js only when the logged-in owner's own
+             dog is the one currently on stage. -->
+        <div class="owner-vote-cue" id="ownerVoteCue" hidden>
+          <strong>That's your dog on stage!</strong> Throw bones now to vote them up the board.
         </div>
-        <div class="race-bar-viewport">
-          <div class="race-bar-chips" id="raceBarChips"></div>
+        <!-- Persistent owner vote bar — lets an owner vote for their own dog
+             any time. Revealed by app.js once /my-dog confirms ownership. -->
+        <div class="owner-vote-bar" id="ownerVoteBar" hidden>
+          <button class="owner-vote-btn" id="ownerVoteBtn"><svg class="bone-glyph" aria-hidden="true"><use href="#boneGlyph"/></svg> Vote for <span id="ownerVoteDogName">your dog</span></button>
+          <span class="owner-vote-meta">
+            <span class="owner-vote-flash" id="ownerVoteFlash" hidden>+1 vote!</span>
+            <span id="ownerVoteBalance" class="owner-vote-balance"></span>
+          </span>
         </div>
-      </a>
 
-      <!-- Paid-user row: upload prompt → status link once uploaded.
-           id="bottomDock" preserved for any legacy refs.
-           Hidden by default; app.js reveals based on tier. -->
-      <div class="paid-user-row" id="bottomDock" hidden>
-        <div id="communityUpload" class="paid-user-upload" hidden>
-          <button class="dock-enter-btn paid-user-upload-btn" id="uploadBtn">📸 Upload your dog now</button>
-          <input type="file" id="uploadInput" accept="image/jpeg,image/png,image/webp" hidden>
+        <!-- Entered-user row: upload prompt → status link once uploaded.
+             Hidden by default; app.js reveals based on account state. -->
+        <div class="paid-user-row" id="bottomDock" hidden>
+          <div id="communityUpload" class="paid-user-upload" hidden>
+            <button class="dock-enter-btn paid-user-upload-btn" id="uploadBtn">Upload your dog now</button>
+            <input type="file" id="uploadInput" accept="image/jpeg,image/png,image/webp" hidden>
+          </div>
+          <div class="paid-user-status" id="dockStatus" hidden>
+            <div class="dock-status-dot" id="dockStatusDot"></div>
+            <span id="dockStatusText">Your dog is in the show</span>
+            <a class="dock-link" id="dockDogLink" href="#" target="_blank">View certificate <span>&rarr;</span></a>
+          </div>
+          <div class="dock-patience" id="dockPatience" hidden>Your dog is in the show &mdash; they'll appear in the rotation shortly</div>
+          <div class="paid-user-error" id="dockError" role="alert" hidden>
+            <span class="paid-user-error-icon" aria-hidden="true">&#9888;</span>
+            <span class="paid-user-error-text" id="dockErrorText"></span>
+            <button class="paid-user-error-retry" id="dockErrorRetry" type="button">Try again</button>
+          </div>
         </div>
-        <div class="paid-user-status" id="dockStatus" hidden>
-          <div class="dock-status-dot" id="dockStatusDot"></div>
-          <span id="dockStatusText">Your dog is in the show</span>
-          <a class="dock-link" id="dockDogLink" href="#" target="_blank">View certificate <span>&rarr;</span></a>
+
+        <div class="bone-rain" id="boneRain"></div>
+
+        <!-- Hidden elements for JS compatibility -->
+        <span id="communityNum" hidden>0</span>
+        <span id="communityPlural" hidden>s</span>
+      </section>
+
+      <!-- ── LAYER 3: COMPETE — one Dog of the Month card ───── -->
+      <section class="dom-card" id="leaderboard" hidden>
+        <div class="dom-card-section" id="weeklyRaceSection" hidden>
+          <div class="dom-card-head">
+            <div class="dom-card-eyebrow">Dog of the Month</div>
+            <div class="dom-card-title" id="weeklyRaceLabel">Dog of the Month</div>
+            <div class="dom-card-sub" id="weeklyRaceCountdown">Every bone is a vote &middot; standings reset on the 1st</div>
+          </div>
+          <div class="dom-rows" id="leaderboardWeekly"></div>
+          <div class="dom-champion" id="reigningChampion" hidden></div>
         </div>
-        <div class="dock-patience" id="dockPatience" hidden>Your dog is in the show &mdash; they'll appear in the rotation shortly</div>
-        <div class="paid-user-error" id="dockError" role="alert" hidden>
-          <span class="paid-user-error-icon" aria-hidden="true">&#9888;</span>
-          <span class="paid-user-error-text" id="dockErrorText"></span>
-          <button class="paid-user-error-retry" id="dockErrorRetry" type="button">Try again</button>
-        </div>
-      </div>
+        <!-- Entry CTA — the show page's only entry action. Purple, never
+             orange (orange is reserved for bones/money). -->
+        <a class="dom-enter-cta" href="/?openModal=premium">Enter your dog &mdash; free &rarr;</a>
+      </section>
 
-      <!-- Breed fact card -->
-      <div class="breed-fact" id="breedFact" hidden>
-        <span class="breed-fact-icon">&#128054;</span>
-        <span class="breed-fact-text" id="breedFactText"></span>
-      </div>
+      <a class="dom-full-link" href="/leaderboard">See the full Hall of Bones &rarr;</a>
 
-      <!-- House rotator: rotates real CTA + fake-door interest captures.
-           See app.js HOUSE_ROTATOR for messages + click handlers. -->
-      <div class="house-rotator" id="houseRotator">
-        <button class="house-rotator-card" id="houseRotatorCard" type="button">
-          <span class="house-rotator-eyebrow" id="houseRotatorEyebrow"></span>
-          <span class="house-rotator-title" id="houseRotatorTitle">Loading...</span>
-          <span class="house-rotator-cta" id="houseRotatorCta">Learn more &rarr;</span>
-        </button>
-        <div class="house-rotator-dots" id="houseRotatorDots"></div>
-      </div>
-
-      <div class="bone-rain" id="boneRain"></div>
-
-      <!-- Hidden elements for JS compatibility -->
-      <span id="communityNum" hidden>0</span>
-      <span id="communityPlural" hidden>s</span>
     </div>
 
-    <!-- Chat panel (moved up to be the main content area below the stage) -->
-    <div class="chat-panel">
-      <div class="chat-header">
-        <span>Live Chat</span>
-        <span class="chat-header-intermission" id="chatIntermissionLabel">&#9835; intermission &#9835;</span>
-      </div>
+    <!-- ── CHAT DOCK — dark, always visible.
+         Mobile: pinned bottom pull-up sheet. Desktop: 340px right rail. ── -->
+    <aside class="chat-dock" id="chatDock" aria-label="Live chat">
+      <button class="chat-dock-head" id="chatDockToggle" aria-expanded="false" aria-controls="chatMessages">
+        <span class="chat-dock-grabber" aria-hidden="true"></span>
+        <span class="chat-dock-title">Live Chat</span>
+        <span class="chat-header-intermission" id="chatIntermissionLabel">intermission</span>
+        <span class="chat-dock-caret" aria-hidden="true"></span>
+      </button>
 
       <div class="chat-messages" id="chatMessages" role="log" aria-live="polite" aria-label="Live chat messages"></div>
 
@@ -241,25 +211,15 @@
         <input type="text" class="chat-input" id="chatInput" placeholder="Say something..." maxlength="200">
         <button class="chat-send" id="chatSend">Send</button>
       </div>
-    </div>
+    </aside>
 
-  </div>
-
-  <!-- Share rail — full-width band below the main content area on desktop;
-       falls below chat on mobile (natural document order). De-emphasized — on
-       mobile users can also use the browser's native share button at the top. -->
-  <div class="show-share-rail show-share-rail-bottom" id="showShareRail">
-    <div class="show-share-rail-label">Share this good dog</div>
-    <div class="show-share-rail-buttons" id="showShareButtons"></div>
-    <div class="show-share-rail-copied" id="showShareCopied">Link copied!</div>
-  </div>
+  </main>
 
   <!-- Inline registration modal (bones-as-currency model, 2026-05-26). Shown
        when an unregistered visitor tries to chat or send a bone. No magic
        link — name + email → instant 50 bones → unlock UI. -->
   <div class="register-overlay" id="registerOverlay" role="dialog" aria-modal="true" aria-labelledby="registerTitle">
     <div class="register-modal">
-      <div class="register-modal-icon" aria-hidden="true">&#129460;</div>
       <div class="register-modal-title" id="registerTitle">Sign up to send bones</div>
       <div class="register-modal-subtitle" id="registerSubtitle">It's free. You'll get 50 bones to spend right away.</div>
       <label for="registerName" class="sr-only">Display name</label>
@@ -271,14 +231,15 @@
         <button class="register-modal-cancel" id="registerCancel">No thanks</button>
         <button class="register-modal-submit" id="registerSubmit">Get 50 bones</button>
       </div>
-      <div class="register-modal-hint">By signing up you'll get occasional updates about the show. Unsubscribe anytime.</div>
+      <div class="register-modal-hint">By signing up you agree to our <a href="/terms" target="_blank" rel="noopener">Terms</a> and <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>, and you'll get occasional updates about the show. Unsubscribe anytime.</div>
     </div>
   </div>
 
-  <!-- "Coming soon — get notified" modal for fake-door CTAs in the house rotator -->
+  <!-- "Coming soon — get notified" modal (interest capture; kept for any
+       future fake-door surfaces even though the house rotator is retired) -->
   <div class="interest-overlay" id="interestOverlay" role="dialog" aria-modal="true" aria-labelledby="interestTitle">
     <div class="interest-modal">
-      <div class="interest-modal-icon" id="interestIcon" aria-hidden="true">&#127775;</div>
+      <div class="interest-modal-icon" id="interestIcon" aria-hidden="true"></div>
       <div class="interest-modal-title" id="interestTitle">Coming soon</div>
       <div class="interest-modal-subtitle" id="interestSubtitle">Drop your email and we'll let you know when this lands.</div>
       <label for="interestInput" class="sr-only">Email address</label>
@@ -292,66 +253,22 @@
     </div>
   </div>
 
-  <!-- Leaderboard -->
-  <div class="leaderboard" id="leaderboard" hidden>
-    <div class="leaderboard-header">Hall of Bones</div>
-    <div class="leaderboard-columns">
-      <!-- LEFT: Dog of the Month race (monthly). Every bone thrown this month is a
-           vote toward Best in Show; standings reset to zero on the 1st. Shows the
-           whole field competing this month, including dogs at zero votes. -->
-      <div class="leaderboard-col">
-        <div class="leaderboard-section leaderboard-section--month" id="weeklyRaceSection" hidden>
-          <div class="leaderboard-label">&#127942; <span id="weeklyRaceLabel">Dog of the Month &mdash; June</span></div>
-          <div class="leaderboard-month-sub" id="weeklyRaceCountdown">Every bone is a vote &middot; standings reset on the 1st &middot; the winner is crowned Best in Show &middot; the top dog of every breed (3+ entered) takes Best in Breed</div>
-          <div class="leaderboard-list" id="leaderboardWeekly"></div>
-          <div id="reigningChampion" style="font-size: 12px; color: var(--text-faint); margin-top: 8px;" hidden></div>
-        </div>
-      </div>
-      <!-- RIGHT: New Arrivals (top 5) above All-Time (top 5). -->
-      <div class="leaderboard-col">
-        <div class="leaderboard-section">
-          <div class="leaderboard-label">New Arrivals</div>
-          <div class="leaderboard-list" id="leaderboardRecent"></div>
-        </div>
-        <div class="leaderboard-section">
-          <div class="leaderboard-label">All-Time Top Dogs</div>
-          <div class="leaderboard-list" id="leaderboardTop"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <div class="show-footer">
-    <a href="/">Home</a>
-    <span class="show-footer-dot">&middot;</span>
-    <a href="about.html">About</a>
-    <span class="show-footer-dot">&middot;</span>
-    <a href="about.html#contact">Contact</a>
-    <span class="show-footer-dot">&middot;</span>
-    <a href="dogs.html">All Dogs</a>
-    <span class="show-footer-dot">&middot;</span>
-    <a href="/dog-photo-contest">Dog Photo Contest</a>
-  </div>
-
-
   <!-- Username Modal -->
   <div class="username-modal-overlay" id="usernameModal" role="dialog" aria-modal="true" aria-labelledby="usernameModalTitle">
     <div class="username-modal">
-      <div class="username-modal-icon" aria-hidden="true">🐾</div>
       <div class="username-modal-title" id="usernameModalTitle">Pick a name</div>
       <div class="username-modal-subtitle">This is how you'll appear in chat</div>
       <label for="usernameInput" class="sr-only">Display name</label>
       <input type="text" class="username-modal-input" id="usernameInput" placeholder="e.g. barkfan42" maxlength="20" autocomplete="off" spellcheck="false">
       <button class="username-modal-btn" id="usernameSubmit">Enter the show</button>
-      <div class="username-modal-hint">You can't change this later — choose wisely</div>
+      <div class="username-modal-hint">You can't change this later &mdash; choose wisely</div>
     </div>
   </div>
 
   <!-- Upgrade Prompt Modal -->
   <div class="upgrade-overlay" id="upgradeOverlay" role="dialog" aria-modal="true" aria-labelledby="upgradeTitle">
     <div class="upgrade-modal">
-      <div class="upgrade-icon" id="upgradeIcon" aria-hidden="true">&#129460;</div>
+      <div class="upgrade-icon" id="upgradeIcon" aria-hidden="true"></div>
       <div class="upgrade-title" id="upgradeTitle">Bones are for ticket holders.</div>
       <div class="upgrade-subtitle" id="upgradeSubtitle">Upgrade once and give bones forever.</div>
       <div class="upgrade-actions">
@@ -366,39 +283,41 @@
   <!-- Dog details modal — name + breed, shown after a photo is picked (#48) -->
   <div class="upload-modal-overlay" id="uploadModalOverlay" role="dialog" aria-modal="true" aria-labelledby="uploadModalTitle">
     <div class="upload-modal">
-      <div class="upload-modal-icon" aria-hidden="true">🐶</div>
       <div class="upload-modal-title" id="uploadModalTitle">Tell us about your dog</div>
       <div class="upload-modal-subtitle">This is how they'll appear in the show.</div>
       <label class="upload-modal-label" for="uploadDogName">Dog's name</label>
       <input type="text" class="upload-modal-input" id="uploadDogName" placeholder="e.g. Biscuit" maxlength="20" autocomplete="off" spellcheck="false">
       <label class="upload-modal-label" for="uploadDogBreed">Breed</label>
       <select class="upload-modal-select" id="uploadDogBreed">
-        <option value="">Select breed…</option>
+        <option value="">Select breed&hellip;</option>
       </select>
       <div class="upload-modal-error" id="uploadModalError"></div>
       <div class="upload-modal-actions">
         <button class="upload-modal-cancel" id="uploadModalCancel" type="button">Cancel</button>
         <button class="upload-modal-submit" id="uploadModalSubmit" type="button">Add to the show</button>
       </div>
+      <div class="upload-modal-terms-note">By entering your dog you agree to our <a href="/terms" target="_blank" rel="noopener">Terms</a>, including the photo licence in section 7.2.</div>
     </div>
   </div>
 
   <script src="breeds.js"></script>
   <script src="app.js"></script>
 
-  <footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(42,33,80,0.11);background:#e9e2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
-    <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
-      <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
-      <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
-      <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
-      <a href="/leaderboard" style="font-size:12px;color:#5d5088;text-decoration:none;">Leaderboard</a>
-      <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
-      <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
-      <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
-      <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
-      <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
+  <!-- Sitewide footer — dark chrome per redesign -->
+  <footer class="site-footer-dark">
+    <div class="site-footer-dark-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/about#contact">Contact</a>
+      <a href="/dogs">All Dogs</a>
+      <a href="/leaderboard">Leaderboard</a>
+      <a href="/privacy">Privacy</a>
+      <a href="#" data-cookie-settings>Cookie settings</a>
+      <a href="/terms">Terms</a>
+      <a href="/resources">Guides</a>
+      <a href="/breeds">Breeds</a>
     </div>
-    <div style="font-size:11px;color:#5d5088;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+    <div class="site-footer-dark-cr">The Dog Show &copy; 2026. All dogs are good dogs.</div>
   </footer>
 </body>
 </html>

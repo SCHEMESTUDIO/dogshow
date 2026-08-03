@@ -5,3 +5,4 @@ node_modules/
 # CI scratch
 .ci/
 __pycache__/
+submitted-dog-images/
