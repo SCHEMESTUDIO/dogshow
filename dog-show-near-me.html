@@ -101,7 +101,7 @@
     }
 
     .nm-page {
-      background: #f3eefb;
+      background: #f7f2e9;
       color: #2a2150;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       overflow-x: hidden;
@@ -120,11 +120,11 @@
     .nm-nav-link { font-size: 13px; color: #52447e; text-decoration: none; transition: color 0.2s; }
     .nm-nav-link:hover { color: #2a2150; }
     .nm-nav-cta {
-      font-size: 13px; font-weight: 600; color: #c25a0e; text-decoration: none;
-      border: 1px solid rgba(255, 140, 66, 0.3); padding: 6px 16px; border-radius: 6px;
+      font-size: 13px; font-weight: 600; color: #7a5a14; text-decoration: none;
+      border: 1px solid rgba(185, 138, 47, 0.3); padding: 6px 16px; border-radius: 6px;
       transition: all 0.2s;
     }
-    .nm-nav-cta:hover { background: rgba(255, 140, 66, 0.1); border-color: #c25a0e; }
+    .nm-nav-cta:hover { background: rgba(185, 138, 47, 0.1); border-color: #7a5a14; }
 
     /* ─── BREADCRUMB ──────────────────────────── */
     .nm-breadcrumb {
@@ -132,7 +132,7 @@
     }
     .nm-breadcrumb a { color: #5d5088; text-decoration: none; }
     .nm-breadcrumb a:hover { color: #43366e; }
-    .nm-breadcrumb span { color: #d9cfee; margin: 0 6px; }
+    .nm-breadcrumb span { color: rgba(42,33,80,0.12); margin: 0 6px; }
 
     /* ─── HERO ────────────────────────────────── */
     .nm-hero {
@@ -141,8 +141,8 @@
     }
     .nm-hero-badge {
       display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(255, 140, 66, 0.1); border: 1px solid rgba(255, 140, 66, 0.2);
-      color: #c25a0e; font-size: 12px; font-weight: 600;
+      background: rgba(185, 138, 47, 0.1); border: 1px solid rgba(185, 138, 47, 0.2);
+      color: #7a5a14; font-size: 12px; font-weight: 600;
       padding: 6px 14px; border-radius: 20px; margin-bottom: 28px;
       text-transform: uppercase; letter-spacing: 1px;
     }
@@ -171,13 +171,13 @@
       min-height: 52px; padding: 16px 32px; border-radius: 10px; font-size: 17px; font-weight: 600;
       border: none; cursor: pointer; transition: all 0.2s; text-decoration: none;
     }
-    .nm-btn-primary { background: #FF8C42; color: #1a1035; }
+    .nm-btn-primary { background: #5b46d6; color: #fff; }
     .nm-btn-primary:hover {
-      background: #ff9d5c; transform: translateY(-1px);
-      box-shadow: 0 4px 20px rgba(255, 140, 66, 0.3);
+      background: #6f5ce0; transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(185, 138, 47, 0.3);
     }
-    .nm-btn-secondary { background: transparent; color: #2a2150; border: 1px solid #d9cfee; }
-    .nm-btn-secondary:hover { border-color: #5b46d6; background: rgba(123, 104, 238, 0.08); }
+    .nm-btn-secondary { background: transparent; color: #2a2150; border: 1px solid rgba(42,33,80,0.12); }
+    .nm-btn-secondary:hover { border-color: #5b46d6; background: rgba(91, 70, 214, 0.08); }
 
     /* ─── STATS BAR ───────────────────────────── */
     .nm-stats {
@@ -218,15 +218,15 @@
       border: 1px solid rgba(42,33,80,0.11);
     }
     .nm-compare-col.online {
-      background: rgba(255, 140, 66, 0.04);
-      border: 1px solid rgba(255, 140, 66, 0.2);
+      background: rgba(185, 138, 47, 0.04);
+      border: 1px solid rgba(185, 138, 47, 0.2);
     }
     .nm-compare-label {
       font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
       margin-bottom: 16px;
     }
     .nm-compare-label.dim { color: #52447e; }
-    .nm-compare-label.accent { color: #c25a0e; }
+    .nm-compare-label.accent { color: #7a5a14; }
     .nm-compare-row {
       display: flex; justify-content: space-between; align-items: baseline;
       padding: 10px 0; border-bottom: 1px solid rgba(42,33,80,0.07);
@@ -235,7 +235,7 @@
     .nm-compare-row:last-child { border-bottom: none; }
     .nm-compare-key { color: #52447e; }
     .nm-compare-val { color: #2a2150; font-weight: 500; text-align: right; }
-    .nm-compare-val.accent { color: #c25a0e; }
+    .nm-compare-val.accent { color: #7a5a14; }
 
     /* ─── TYPES OF DOG SHOWS ──────────────────── */
     .nm-types {
@@ -253,7 +253,7 @@
     .nm-type-link {
       display: inline-block; margin-top: 12px; font-size: 13px;
       color: #5b46d6; text-decoration: none;
-      border-bottom: 1px solid rgba(255,140,66,0.3);
+      border-bottom: 1px solid rgba(185,138,47,0.3);
     }
     .nm-type-link:hover { border-color: #5b46d6; }
 
@@ -263,17 +263,17 @@
       gap: 20px; max-width: 860px; margin: 0 auto;
     }
     .nm-dog-card {
-      background: #ffffff; border: 1px solid rgba(255, 140, 66, 0.15);
+      background: #fffdf8; border: 1px solid rgba(185, 138, 47, 0.15);
       border-radius: 14px; overflow: hidden;
       transition: transform 0.2s, border-color 0.2s;
       text-decoration: none; color: inherit; display: block;
     }
-    .nm-dog-card:hover { transform: translateY(-3px); border-color: #c25a0e; }
-    .nm-dog-img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #f3eefb; }
+    .nm-dog-card:hover { transform: translateY(-3px); border-color: #7a5a14; }
+    .nm-dog-img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #f7f2e9; }
     .nm-dog-info { padding: 12px 14px; }
     .nm-dog-name {
       font-family: 'Yang Bagus', 'YangBagus', cursive;
-      font-size: 18px; color: #c25a0e; margin-bottom: 2px;
+      font-size: 18px; color: #7a5a14; margin-bottom: 2px;
     }
     .nm-dog-breed { font-size: 12px; color: #52447e; }
     .nm-dog-bones { font-size: 12px; color: #43366e; margin-top: 4px; }
@@ -308,7 +308,7 @@
       font-weight: 500; background: none; border: none; width: 100%;
       text-align: left; font-family: inherit;
     }
-    .nm-faq-q:hover { color: #c25a0e; }
+    .nm-faq-q:hover { color: #7a5a14; }
     .nm-faq-arrow {
       font-size: 18px; color: #5d5088; transition: transform 0.2s;
       flex-shrink: 0; margin-left: 16px;
@@ -337,7 +337,7 @@
     .nm-sticky {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: rgba(247,243,252,0.94); backdrop-filter: blur(12px);
-      border-top: 1px solid rgba(255, 140, 66, 0.2); padding: 12px 24px;
+      border-top: 1px solid rgba(185, 138, 47, 0.2); padding: 12px 24px;
       display: flex; justify-content: center; align-items: center; gap: 16px;
       z-index: 100; transform: translateY(100%); transition: transform 0.3s ease;
     }
@@ -345,10 +345,10 @@
     .nm-sticky-text { font-size: 14px; color: #43366e; }
     .nm-sticky-btn {
       padding: 14px 28px; border-radius: 8px; font-size: 16px; font-weight: 600;
-      border: none; cursor: pointer; background: #FF8C42; color: #1a1035;
+      border: none; cursor: pointer; background: #5b46d6; color: #fff;
       transition: background 0.2s; text-decoration: none;
     }
-    .nm-sticky-btn:hover { background: #ff9d5c; }
+    .nm-sticky-btn:hover { background: #6f5ce0; }
 
     /* ─── RESPONSIVE ──────────────────────────── */
     @media (max-width: 640px) {
@@ -388,7 +388,7 @@
     <p class="nm-hero-sub">Looking for a dog show near you? Good news: there's one running right now, right here. No driving, no entry forms, no standing in a field while someone evaluates your dog's gait. Just dogs on a stage, an audience throwing bones, and zero parking fees.</p>
     <p class="nm-hero-trust">Watching is always free. Want your own dog on stage? That's free too &mdash; no subscription, ever.</p>
     <div class="nm-hero-actions">
-      <a href="show.html" class="nm-btn nm-btn-primary">Watch the Live Show</a>
+      <a href="show.html" class="nm-btn nm-btn-primary" style="background:#e8721c;color:#fff;">Watch the Live Show</a>
       <a href="/?openModal=premium" class="nm-btn nm-btn-secondary">Enter Your Dog &mdash; Free</a>
     </div>
   </section>
@@ -416,7 +416,7 @@
   <!-- Promo video — autoplay, muted, looped -->
   <div class="promo-video-wrap" style="max-width: 760px; margin: 28px auto 0; padding: 0 24px; box-sizing: border-box;">
     <video autoplay muted loop playsinline preload="auto" poster="/dogshow-promo-poster.jpg" aria-label="The Dog Show promo video"
-           style="width: 100%; display: block; border-radius: 14px; border: 1px solid rgba(255,140,66,0.25); background: #f3eefb;">
+           style="width: 100%; display: block; border-radius: 14px; border: 1px solid rgba(185,138,47,0.25); background: #f7f2e9;">
       <source src="/dogshow-promo-video.mp4" type="video/mp4">
     </video>
   </div>
@@ -587,17 +587,17 @@
   <section style="padding: 40px 24px; text-align: center; border-top: 1px solid rgba(42,33,80,0.14);">
     <h3 style="font-size: 20px; margin: 0 0 16px; color: var(--text-bright, #fff); font-weight: 600;">Related</h3>
     <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; max-width: 720px; margin: 0 auto;">
-      <a href="/dog-photo-contest" style="color: #c25a0e; font-size: 15px; text-decoration: none; border-bottom: 1px solid rgba(255,140,66,0.3);">Dog Photo Contest &rarr;</a>
-      <a href="/cutest-dog-contest" style="color: #c25a0e; font-size: 15px; text-decoration: none; border-bottom: 1px solid rgba(255,140,66,0.3);">Cutest Dog Contest &rarr;</a>
-      <a href="/puppy-picture-contest" style="color: #c25a0e; font-size: 15px; text-decoration: none; border-bottom: 1px solid rgba(255,140,66,0.3);">Puppy Picture Contest &rarr;</a>
-      <a href="/dogs.html" style="color: #c25a0e; font-size: 15px; text-decoration: none; border-bottom: 1px solid rgba(255,140,66,0.3);">All Dogs Gallery &rarr;</a>
+      <a href="/dog-photo-contest" style="color: #7a5a14; font-size: 15px; text-decoration: none; border-bottom: 1px solid rgba(185,138,47,0.3);">Dog Photo Contest &rarr;</a>
+      <a href="/cutest-dog-contest" style="color: #7a5a14; font-size: 15px; text-decoration: none; border-bottom: 1px solid rgba(185,138,47,0.3);">Cutest Dog Contest &rarr;</a>
+      <a href="/puppy-picture-contest" style="color: #7a5a14; font-size: 15px; text-decoration: none; border-bottom: 1px solid rgba(185,138,47,0.3);">Puppy Picture Contest &rarr;</a>
+      <a href="/dogs.html" style="color: #7a5a14; font-size: 15px; text-decoration: none; border-bottom: 1px solid rgba(185,138,47,0.3);">All Dogs Gallery &rarr;</a>
     </div>
   </section>
 
   <!-- Sticky CTA -->
   <div class="nm-sticky" id="stickyBar">
     <span class="nm-sticky-text">The show is live right now</span>
-    <a href="show.html" class="nm-sticky-btn">Watch the Show</a>
+    <a href="show.html" class="nm-sticky-btn" style="background:#e8721c;color:#fff;">Watch the Show</a>
   </div>
 
   <script>
@@ -646,19 +646,19 @@
     });
   </script>
 
-  <footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(42,33,80,0.11);background:#e9e2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <footer style="text-align:center;padding:26px 16px;background:#1e0f45;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
     <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
-      <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
-      <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
-      <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
-      <a href="/leaderboard" style="font-size:12px;color:#5d5088;text-decoration:none;">Leaderboard</a>
-      <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
-      <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
-      <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
-      <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
-      <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
+      <a href="/about" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">About</a>
+      <a href="/about#contact" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Contact</a>
+      <a href="/dogs" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">All Dogs</a>
+      <a href="/leaderboard" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Leaderboard</a>
+      <a href="/privacy" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Privacy</a>
+      <a href="#" data-cookie-settings style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Cookie settings</a>
+      <a href="/terms" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Terms</a>
+      <a href="/resources" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Guides</a>
+      <a href="/breeds" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Breeds</a>
     </div>
-    <div style="font-size:11px;color:#5d5088;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+    <div style="font-size:12px;color:rgba(183,169,232,0.7);">The Dog Show &copy; 2026. All dogs are good dogs.</div>
   </footer>
 </body>
 </html>

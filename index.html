@@ -84,7 +84,8 @@
       font-size: 11px;
       letter-spacing: 4px;
       text-transform: uppercase;
-      color: #2a2150;
+      font-weight: 700;
+      color: #8a681f;
       margin-bottom: 12px;
       text-align: center;
     }
@@ -169,9 +170,9 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(232, 114, 28, 0.1);
-      border: 1px solid rgba(232, 114, 28, 0.2);
-      color: #7a5a14;
+      background: rgba(91, 70, 214, 0.07);
+      border: 1px solid rgba(91, 70, 214, 0.28);
+      color: #5b46d6;
       font-size: 12px;
       font-weight: 600;
       padding: 6px 14px;
@@ -182,7 +183,7 @@
     .lp-hero-dot {
       width: 6px;
       height: 6px;
-      background: #2e7d32;
+      background: #5b46d6;
       border-radius: 50%;
       animation: lp-pulse 2s ease-in-out infinite;
     }
@@ -201,6 +202,7 @@
     }
 
     .lp-hero-sub {
+      font-family: Georgia, 'Times New Roman', serif;
       font-size: clamp(17px, 2.5vw, 22px);
       color: #43366e;
       line-height: 1.4;
@@ -223,67 +225,87 @@
     }
 
     .lp-hero-race {
-      max-width: 420px;
-      margin: 0 auto;
-      background: rgba(232, 114, 28, 0.06);
-      border: 1px solid rgba(232, 114, 28, 0.22);
+      max-width: 480px;
+      margin: 26px auto 0;
+      background: #fffdf8;
+      border: 1px solid rgba(42,33,80,0.12);
       border-radius: 14px;
-      padding: 14px 18px;
       text-align: left;
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(42,33,80,0.06);
     }
-    .lp-hero-race-label {
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #2a2150;
-      margin-bottom: 8px;
-      text-align: center;
+    .lp-hero-race-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 16px;
+      border-bottom: 1px solid rgba(42,33,80,0.09);
     }
+    .lp-hero-race-title { font-size: 14.5px; font-weight: 700; color: #2a2150; }
+    .lp-hero-race-month { color: #8a681f; }
+    .lp-hero-race-reset { font-size: 12px; color: #736795; white-space: nowrap; }
     .lp-hero-race-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 5px 0;
-      font-size: 14px;
+      gap: 12px;
+      padding: 8px 16px;
+      font-size: 15px;
       color: #2a2150;
     }
-    .lp-hero-race-row .rank { color: #7a5a14; font-weight: 700; width: 22px; }
-    .lp-hero-race-row .race-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .lp-hero-race-row .race-bones { color: #52447e; font-size: 13px; }
-    .lp-hero-race-open { font-size: 13px; color: #574a82; text-align: center; }
+    .lp-hero-race-row:nth-child(even) { background: #f7f2e9; }
+    .lp-hero-race-row .rank {
+      font-family: Georgia, serif;
+      font-weight: 700;
+      color: #8a681f;
+      width: 16px;
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .lp-hero-race-row .thumb {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #f2ead9;
+      border: 1px solid rgba(42,33,80,0.12);
+      flex-shrink: 0;
+    }
+    .lp-hero-race-row .race-name { flex: 1; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .lp-hero-race-row .race-bones { color: #4a4070; font-size: 13px; white-space: nowrap; }
+    .lp-hero-race-row .race-bones b { font-family: Georgia, serif; font-size: 15px; color: #2a2150; }
+    .lp-hero-race-open { font-size: 13.5px; color: #574a82; text-align: center; padding: 14px 16px; }
+    .lp-hero-race-footer {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      border-top: 1px dashed rgba(42,33,80,0.22);
+      color: #5b46d6;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      padding: 13px 16px;
+      cursor: pointer;
+      min-height: 44px;
+    }
+    .lp-hero-race-footer:hover { background: rgba(91,70,214,0.05); }
 
-    /* Dog of the Month urgency band — high-signal reason to enter. */
-    .lp-month-banner {
-      display: flex; align-items: center; justify-content: center; gap: 20px;
-      flex-wrap: wrap;
-      max-width: 880px; margin: 0 auto; padding: 18px 24px;
-      background: rgba(185,138,47,0.10);
-      border-top: 1px solid rgba(185,138,47,0.35);
-      border-bottom: 1px solid rgba(185,138,47,0.35);
-    }
-    .lp-month-banner-main { display: flex; align-items: center; gap: 14px; text-align: left; }
-    .lp-month-banner-icon { font-size: 32px; flex-shrink: 0; }
-    .lp-month-banner-text { display: flex; flex-direction: column; gap: 3px; }
-    .lp-month-banner-text strong { font-size: 18px; color: #7a5a14; }
-    .lp-month-banner-text span { font-size: 13px; color: #43366e; max-width: 460px; }
-    .lp-month-banner-cta { flex-shrink: 0; white-space: nowrap; }
-    @media (max-width: 600px) {
-      .lp-month-banner { flex-direction: column; gap: 14px; padding: 18px 20px; text-align: center; }
-      .lp-month-banner-main { flex-direction: column; text-align: center; gap: 8px; }
-      .lp-month-banner-text strong { font-size: 17px; }
-      .lp-month-banner-cta { width: 100%; max-width: 320px; }
-    }
 
     /* Live stats card (mirrors the SEO landing pages) + promo video */
     .lp-stats {
-      display: flex; justify-content: center; gap: 48px; padding: 36px 24px;
-      border-top: 1px solid rgba(42,33,80,0.07);
-      border-bottom: 1px solid rgba(42,33,80,0.07);
+      display: flex; justify-content: center; gap: 56px; padding: 38px 24px;
+      background: rgba(255,253,248,0.75);
+      border-top: 1px solid rgba(42,33,80,0.08);
+      border-bottom: 1px solid rgba(42,33,80,0.08);
     }
     .lp-stat { text-align: center; }
-    .lp-stat-num { font-size: 28px; font-weight: 700; color: #2a2150; }
+    .lp-stat-num {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 32px; font-weight: 700; color: #2a2150;
+    }
     .lp-stat-label {
-      font-size: 12px; color: #5d5088; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;
+      font-size: 11px; color: #736795; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; font-weight: 600;
     }
     .lp-promo-video-wrap {
       max-width: 760px; margin: 28px auto 8px; padding: 0 24px; box-sizing: border-box;
@@ -703,6 +725,7 @@
       border-radius: 12px;
       padding: 28px 24px;
       transition: border-color 0.2s;
+      text-align: left;
     }
 
     .lp-feature:hover {
@@ -1510,17 +1533,12 @@
       min-height: 44px;
     }
     .lp-feature-num {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      border: 1.5px solid #b98a2f;
-      color: #7a5a14;
       font-family: Georgia, 'Times New Roman', serif;
-      font-size: 19px;
+      font-size: 27px;
       font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 12px;
+      color: #8a681f;
+      margin-bottom: 10px;
+      line-height: 1;
     }
 
     .lp-why-icon--check {
@@ -1553,16 +1571,6 @@
 
   <a href="#mainContent" class="skip-link">Skip to main content</a>
 
-  <!-- Nav -->
-  <nav class="lp-nav">
-    <a href="/" class="lp-nav-brand">The Dog Show</a>
-    <div class="lp-nav-links">
-      <a href="#how-it-works" class="lp-nav-link">How It Works</a>
-      <a href="#pricing" class="lp-nav-link">Pricing</a>
-      <a href="about.html" class="lp-nav-link">About</a>
-      <a href="#pricing" class="lp-nav-cta">Enter Your Dog</a>
-    </div>
-  </nav>
 
   <!-- Hero -->
   <section class="lp-hero" id="mainContent" tabindex="-1">
@@ -1575,28 +1583,20 @@
     <div class="lp-hero-actions">
       <button class="lp-btn lp-btn-primary" id="heroFree">Watch the Show &mdash; Free</button>
     </div>
+    <div class="lp-hero-trust" style="margin-bottom: 12px;">No signup &middot; Nothing to download &middot; Plays right in your browser</div>
     <button class="lp-hero-enter-link" id="heroCta">Have a dog? Enter them free &rarr;</button>
-    <div class="lp-hero-trust" style="margin-bottom: 20px;">Free to enter &middot; No subscription &middot; Nothing to download &mdash; plays right in your browser</div>
     <!-- This month's Best in Show race — populated from /leaderboard (weeklyTopDogs).
          Hidden until the fetch succeeds; shows an open-field line when nobody
          has bones yet. Real dogs only — never seed/sample dogs here. -->
     <div class="lp-hero-race" id="heroRace" style="display: none;">
-      <div class="lp-hero-race-label" id="heroRaceLabel">Dog of the Month</div>
+      <div class="lp-hero-race-head">
+        <div class="lp-hero-race-title" id="heroRaceLabel">Dog of the Month</div>
+        <div class="lp-hero-race-reset" id="heroRaceReset"></div>
+      </div>
       <div class="lp-hero-race-rows" id="heroRaceRows"></div>
+      <button class="lp-hero-race-footer" id="heroRaceEnter" type="button">Your dog here &mdash; enter free &rarr;</button>
     </div>
   </section>
-
-  <!-- Dog of the Month urgency band — the headline reason to enter. Countdown +
-       reset framing populated by JS (monthBanner*). -->
-  <div class="lp-month-banner" id="monthBanner">
-    <div class="lp-month-banner-main">
-            <div class="lp-month-banner-text">
-        <strong id="monthBannerTitle">June's Best in Show is up for grabs</strong>
-        <span id="monthBannerSub">Every bone fans throw is a vote. The most-voted dog this month wins — then it all resets on the 1st.</span>
-      </div>
-    </div>
-    <button class="lp-btn lp-btn-enter lp-month-banner-cta" id="monthBannerCta">Enter Your Dog &rarr;</button>
-  </div>
 
   <!-- Live stats card -->
   <div class="lp-stats" id="liveStats">
@@ -1638,34 +1638,34 @@
 
     <div class="lp-features-grid">
       <div class="lp-feature">
-        <div class="lp-feature-num" aria-hidden="true">1</div>
-        <div class="lp-feature-title">Live Dog Rotation</div>
-        <div class="lp-feature-desc">A new dog appears every 15 seconds. Random breeds, community uploads, and the occasional mystery mutt. You never know what's next.</div>
+        <div class="lp-feature-num" aria-hidden="true">01</div>
+        <div class="lp-feature-title">Live dog rotation</div>
+        <div class="lp-feature-desc">A new dog every 15 seconds &mdash; community uploads and the occasional mystery mutt.</div>
       </div>
       <div class="lp-feature">
-        <div class="lp-feature-num" aria-hidden="true">2</div>
-        <div class="lp-feature-title">Live Chat</div>
-        <div class="lp-feature-desc">React in real time with other viewers. Rate dogs. Argue about breeds. Cheer along with dog lovers from all over the world.</div>
+        <div class="lp-feature-num" aria-hidden="true">02</div>
+        <div class="lp-feature-title">Bones are votes</div>
+        <div class="lp-feature-desc">Throw bones at dogs you love. The most-voted dog each month is crowned Best in Show.</div>
       </div>
       <div class="lp-feature">
-        <div class="lp-feature-num" aria-hidden="true">3</div>
-        <div class="lp-feature-title">Bone Economy</div>
-        <div class="lp-feature-desc">Throw bones at the dogs you love &mdash; every bone is a vote. More bones means more time on stage and a higher spot in this month's Best in Show race.</div>
+        <div class="lp-feature-num" aria-hidden="true">03</div>
+        <div class="lp-feature-title">Live chat</div>
+        <div class="lp-feature-desc">React in real time, argue about breeds, cheer with dog lovers everywhere.</div>
       </div>
       <div class="lp-feature">
-        <div class="lp-feature-num" aria-hidden="true">4</div>
-        <div class="lp-feature-title">Enter Your Dog</div>
-        <div class="lp-feature-desc">Upload your dog to appear in the live rotation. AI verifies it's actually a dog. Your dog gets a permanent certificate page.</div>
+        <div class="lp-feature-num" aria-hidden="true">04</div>
+        <div class="lp-feature-title">Enter your dog</div>
+        <div class="lp-feature-desc">Upload once, free. AI verifies it's actually a dog. They join the rotation.</div>
       </div>
       <div class="lp-feature">
-        <div class="lp-feature-num" aria-hidden="true">5</div>
-        <div class="lp-feature-title">Dog Certificates</div>
-        <div class="lp-feature-desc">Every dog gets a shareable stats page with bones earned, peak viewers, screen time, and fun titles. Brag-worthy.</div>
+        <div class="lp-feature-num" aria-hidden="true">05</div>
+        <div class="lp-feature-title">A page for every dog</div>
+        <div class="lp-feature-desc">A permanent certificate page with bones earned, screen time, and titles. Brag-worthy.</div>
       </div>
       <div class="lp-feature">
-        <div class="lp-feature-num" aria-hidden="true">6</div>
-        <div class="lp-feature-title">Always Live</div>
-        <div class="lp-feature-desc">The show runs 24/7. There's always a dog on screen. Even at 3am. Especially at 3am.</div>
+        <div class="lp-feature-num" aria-hidden="true">06</div>
+        <div class="lp-feature-title">Always live</div>
+        <div class="lp-feature-desc">The show runs 24/7. There is always a dog on screen. Especially at 3am.</div>
       </div>
     </div>
   </section>
@@ -1798,11 +1798,18 @@
             if (weekly.length === 0) {
               // Bridge: show the real field at honest 0 votes this month.
               weekly = (data.topDogs || []).slice(0, 3).map(function (d) {
-                return { dogName: d.dogName, breed: d.breed, seasonBones: 0 };
+                return { dogName: d.dogName, breed: d.breed, imageUrl: d.imageUrl, seasonBones: 0 };
               });
             }
             var monthName = (data.seasonLabel || 'This Month').replace(/^Month of /, '');
-            if (label) label.textContent = 'Dog of the Month — ' + monthName;
+            if (label) label.innerHTML = 'Dog of the Month <span class="lp-hero-race-month">— ' + monthName + '</span>';
+            var resetEl = document.getElementById('heroRaceReset');
+            if (resetEl) {
+              var now = new Date();
+              var end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+              var days = Math.max(0, Math.ceil((end - now) / 86400000));
+              resetEl.textContent = days <= 0 ? 'resets tonight' : (days === 1 ? 'resets tomorrow' : 'resets in ' + days + ' days');
+            }
             if (weekly.length === 0) {
               rows.innerHTML = '<div class="lp-hero-race-open">The field is wide open this month &mdash; the first bone takes the lead.</div>';
             } else {
@@ -1811,14 +1818,26 @@
                 row.className = 'lp-hero-race-row';
                 var rank = document.createElement('span');
                 rank.className = 'rank';
-                rank.textContent = '#' + (i + 1);
+                rank.textContent = String(i + 1);
+                var thumb;
+                if (d.imageUrl) {
+                  thumb = document.createElement('img');
+                  thumb.className = 'thumb';
+                  thumb.src = d.imageUrl;
+                  thumb.alt = '';
+                  thumb.loading = 'lazy';
+                  thumb.onerror = function () { thumb.style.visibility = 'hidden'; };
+                } else {
+                  thumb = document.createElement('span');
+                  thumb.className = 'thumb';
+                }
                 var nm = document.createElement('span');
                 nm.className = 'race-name';
-                nm.textContent = d.dogName + (d.breed && d.breed !== 'Mystery Breed' ? ' · ' + d.breed : '');
+                nm.textContent = d.dogName;
                 var bones = document.createElement('span');
                 bones.className = 'race-bones';
-                bones.textContent = (d.seasonBones || 0) + ' votes';
-                row.appendChild(rank); row.appendChild(nm); row.appendChild(bones);
+                bones.innerHTML = '<b>' + (d.seasonBones || 0) + '</b> bones';
+                row.appendChild(rank); row.appendChild(thumb); row.appendChild(nm); row.appendChild(bones);
                 rows.appendChild(row);
               });
             }
@@ -2102,7 +2121,7 @@
           <button class="lp-modal-btn-cancel" id="uploadCancel">Cancel</button>
           <button class="lp-modal-btn-submit" id="uploadNext" disabled>Continue</button>
         </div>
-        <div class="lp-modal-terms-note">By entering your dog you agree to our <a href="/terms" target="_blank" rel="noopener">Terms</a>, including the photo licence in section 7.2, and our <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</div>
+        <div class="lp-modal-terms-note">By entering your dog you agree to our <a href="/terms" target="_blank" rel="noopener">Terms</a> and <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</div>
       </div>
     </div>
   </div>
@@ -2637,20 +2656,9 @@
     var pendingDogTier = 'free';
     document.getElementById('heroCta').addEventListener('click', function() { pendingDogTier = 'free'; startDogEntry(); });
     document.getElementById('heroFree').addEventListener('click', function() { playCurtainAndGo('free'); });
-    // Dog of the Month band — CTA + live countdown to month end.
-    (function () {
-      var cta = document.getElementById('monthBannerCta');
-      if (cta) cta.addEventListener('click', function () { pendingDogTier = 'free'; startDogEntry(); });
-      var titleEl = document.getElementById('monthBannerTitle');
-      var now = new Date();
-      var monthName = now.toLocaleString('en-US', { month: 'long' });
-      var end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-      var days = Math.max(0, Math.ceil((end - now) / 86400000));
-      if (titleEl) {
-        var left = days <= 0 ? 'Final hours' : (days === 1 ? '1 day left' : days + ' days left');
-        titleEl.textContent = left + ' to win ' + monthName + "'s Best in Show";
-      }
-    })();
+    // Hero DOM-card footer — same free entry flow as the hero link.
+    var heroRaceEnterBtn = document.getElementById('heroRaceEnter');
+    if (heroRaceEnterBtn) heroRaceEnterBtn.addEventListener('click', function () { pendingDogTier = 'free'; startDogEntry(); });
     document.getElementById('previewCta').addEventListener('click', function() { pendingDogTier = 'free'; startDogEntry(); });
     document.getElementById('certCta').addEventListener('click', function() { pendingDogTier = 'free'; startDogEntry(); });
     // Dog Entry (free) — collect the dog, then register free (no checkout).

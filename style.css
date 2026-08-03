@@ -2952,6 +2952,8 @@ textarea:focus-visible,
   overflow-y: auto;
   flex: 1;
   min-height: 0;
+  max-height: none;   /* legacy mobile rule caps at 120px — kill it */
+  height: auto;
 }
 .chat-dock.open .chat-messages { display: block; }
 .chat-dock.open { height: min(64vh, 520px); }
@@ -2967,6 +2969,7 @@ textarea:focus-visible,
 .chat-dock .chat-msg-text { color: #efeaff; }
 .chat-dock .chat-msg-link { color: #ffb27d; }
 .chat-dock .chat-input-area {
+  margin-top: auto;
   display: flex;
   gap: 8px;
   padding: 8px 12px 10px;

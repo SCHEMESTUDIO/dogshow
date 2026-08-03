@@ -44,23 +44,23 @@ function titlesFor(stats, breed) {
 const STYLES = `
 @font-face{font-family:'Yang Bagus';src:url('/YangBagus.ttf') format('truetype');font-display:swap;}
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#f3eefb;--bg-card:#ffffff;--accent:#FF8C42;--purple:#7B68EE;--text:#2a2150;--dim:rgba(42,33,80,0.7);--gold:#806104;}
+:root{--bg:#f7f2e9;--bg-card:#ffffff;--accent:#5b46d6;--purple:#5b46d6;--text:#2a2150;--dim:rgba(42,33,80,0.7);--gold:#806104;}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;}
 /* Pre-show (Phase 4) — countdown + RSVP */
 .preshow{max-width:520px;margin:0 auto;padding:32px 20px 48px;text-align:center;}
 .preshow-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:8px;}
 .preshow-header{font-family:'Yang Bagus',serif;color: #2a2150;font-size:36px;margin-bottom:24px;}
-.preshow-frame{position:relative;border:3px solid var(--purple);border-radius:12px;padding:6px;background:rgba(123,104,238,0.08);margin-bottom:20px;}
+.preshow-frame{position:relative;border:3px solid var(--purple);border-radius:12px;padding:6px;background:rgba(91,70,214,0.08);margin-bottom:20px;}
 .preshow-frame img{width:100%;border-radius:8px;display:block;}
 .preshow-dog-name{font-family:'Yang Bagus',serif;font-size:30px;margin-bottom:4px;}
 .preshow-dog-meta{font-size:14px;color:var(--dim);margin-bottom:24px;}
-.preshow-when{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(123,104,238,0.85);margin-bottom:6px;}
+.preshow-when{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(91,70,214,0.85);margin-bottom:6px;}
 .preshow-time{font-family:'Yang Bagus',serif;font-size:22px;color:var(--text);margin-bottom:14px;}
 .preshow-countdown{display:flex;justify-content:center;gap:10px;margin-bottom:24px;}
-.preshow-count-cell{background:var(--bg-card);border:1px solid rgba(123,104,238,0.3);border-radius:10px;padding:14px 12px;min-width:64px;}
+.preshow-count-cell{background:var(--bg-card);border:1px solid rgba(91,70,214,0.3);border-radius:10px;padding:14px 12px;min-width:64px;}
 .preshow-count-num{font-size:28px;font-weight:700;color:var(--purple);line-height:1;}
 .preshow-count-label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;margin-top:4px;}
-.preshow-rsvp{background:var(--bg-card);border:1px solid rgba(123,104,238,0.2);border-radius:12px;padding:22px 18px;margin-bottom:20px;}
+.preshow-rsvp{background:var(--bg-card);border:1px solid rgba(91,70,214,0.2);border-radius:12px;padding:22px 18px;margin-bottom:20px;}
 .preshow-rsvp-title{font-family:'Yang Bagus',serif;font-size:22px;color:var(--purple);margin-bottom:6px;}
 .preshow-rsvp-sub{font-size:13px;color:rgba(42,33,80,0.92);margin-bottom:14px;}
 .preshow-rsvp-form{display:flex;flex-direction:column;gap:8px;}
@@ -72,7 +72,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .preshow-rsvp-msg{font-size:12px;color:rgba(42,33,80,0.92);min-height:16px;}
 .preshow-rsvp-msg.ok{color:#5b46d6;}
 .preshow-rsvp-msg.err{color:#c62828;}
-.preshow-airingnow{background:linear-gradient(135deg,rgba(255,140,66,0.18),rgba(123,104,238,0.18));border:1px solid var(--accent);border-radius:12px;padding:18px;margin-bottom:18px;}
+.preshow-airingnow{background:linear-gradient(135deg,rgba(185,138,47,0.18),rgba(91,70,214,0.18));border:1px solid var(--accent);border-radius:12px;padding:18px;margin-bottom:18px;}
 .preshow-airingnow-title{font-family:'Yang Bagus',serif;font-size:24px;color: #2a2150;}
 .preshow-airingnow-sub{font-size:13px;color:rgba(42,33,80,0.92);margin:4px 0 12px;}
 .preshow-watch-btn{display:inline-block;background:var(--accent);color:#1a1035;font-weight:700;font-size:15px;padding:12px 24px;border-radius:10px;text-decoration:none;}
@@ -80,12 +80,12 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .certificate{max-width:600px;margin:0 auto;padding:24px 20px 40px;text-align:center;}
 .cert-header{font-family:'Yang Bagus',serif;color: #2a2150;font-size:36px;margin-bottom:4px;}
 .cert-subtitle{font-size:12px;color:var(--dim);letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;}
-.cert-frame{position:relative;border:3px solid var(--accent);border-radius:12px;padding:6px;background:rgba(255,140,66,0.05);margin-bottom:24px;}
+.cert-frame{position:relative;border:3px solid var(--accent);border-radius:12px;padding:6px;background:rgba(185,138,47,0.05);margin-bottom:24px;}
 .cert-frame img{width:100%;border-radius:8px;display:block;object-fit:cover;background:var(--bg-card);}
-.cert-breed-badge{position:absolute;bottom:14px;left:14px;background:rgba(0,0,0,0.75);padding:6px 14px;border-radius:20px;font-size:12px;color: var(--accent-text, #c25a0e);border:1px solid rgba(255,140,66,0.3);}
+.cert-breed-badge{position:absolute;bottom:14px;left:14px;background:rgba(0,0,0,0.75);padding:6px 14px;border-radius:20px;font-size:12px;color: var(--accent-text, #7a5a14);border:1px solid rgba(185,138,47,0.3);}
 .cert-dog-name{font-family:'Yang Bagus',serif;font-size:28px;color:var(--text);margin-bottom:4px;}
 .cert-owner{font-size:14px;color:var(--dim);margin-bottom:24px;}
-.cert-owner strong{color: var(--accent-text, #c25a0e);}
+.cert-owner strong{color: var(--accent-text, #7a5a14);}
 .cert-titles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:24px;}
 .cert-title-badge{background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);color:var(--gold);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;}
 .cert-trophies{background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.32);border-radius:12px;padding:16px 18px;margin:0 0 24px;text-align:center;}
@@ -94,7 +94,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .cert-trophy{background:rgba(255,215,0,0.16);border:1px solid rgba(255,215,0,0.5);color:var(--gold);padding:7px 14px;border-radius:20px;font-size:13px;font-weight:700;white-space:nowrap;}
 .cert-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
 .cert-stat{background:var(--bg-card);border-radius:10px;padding:16px 12px;border:1px solid rgba(42,33,80,0.11);}
-.cert-stat-value{font-size:26px;font-weight:700;color: var(--accent-text, #c25a0e);line-height:1;margin-bottom:4px;}
+.cert-stat-value{font-size:26px;font-weight:700;color: var(--accent-text, #7a5a14);line-height:1;margin-bottom:4px;}
 .cert-stat-label{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;}
 .cert-stat.full{grid-column:1/-1;}
 .cert-date{font-size:13px;color:var(--dim);margin-bottom:28px;font-style:italic;}
@@ -133,19 +133,19 @@ ${headHtml}
 </head>
 <body>
 ${bodyHtml}
-<footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(42,33,80,0.11);background:#e9e2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+<footer style="text-align:center;padding:26px 16px;background:#1e0f45;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
   <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
-    <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
-    <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
-    <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
-    <a href="/leaderboard" style="font-size:12px;color:#5d5088;text-decoration:none;">Leaderboard</a>
-    <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
-    <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
-    <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
-    <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
-    <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
+    <a href="/about" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">About</a>
+    <a href="/about#contact" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Contact</a>
+    <a href="/dogs" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">All Dogs</a>
+    <a href="/leaderboard" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Leaderboard</a>
+    <a href="/privacy" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Privacy</a>
+    <a href="#" data-cookie-settings style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Cookie settings</a>
+    <a href="/terms" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Terms</a>
+    <a href="/resources" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Guides</a>
+    <a href="/breeds" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Breeds</a>
   </div>
-  <div style="font-size:11px;color:#5d5088;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+  <div style="font-size:12px;color:rgba(183,169,232,0.7);">The Dog Show &copy; 2026. All dogs are good dogs.</div>
 </footer>
 </body>
 </html>`;
@@ -492,16 +492,16 @@ module.exports = async function handler(req, res) {
   if (season && season.rank) {
     const leading = season.rank === 1;
     const gap = !leading && season.leader ? (season.leader.seasonBones - season.seasonBones) : 0;
-    raceHtml = `<div style="background:rgba(255,140,66,0.08);border:1px solid rgba(255,140,66,0.3);border-radius:12px;padding:16px 20px;margin:0 0 24px;">
-<div style="font-size:16px;font-weight:700;color:#c25a0e;">🏆 #${season.rank} of ${season.dogsInRace} in this month's Best in Show race</div>
+    raceHtml = `<div style="background:rgba(185,138,47,0.08);border:1px solid rgba(185,138,47,0.3);border-radius:12px;padding:16px 20px;margin:0 0 24px;">
+<div style="font-size:16px;font-weight:700;color:#7a5a14;">🏆 #${season.rank} of ${season.dogsInRace} in this month's Best in Show race</div>
 <div style="font-size:13px;color:rgba(42,33,80,0.8500000000000001);margin-top:4px;">${leading
       ? `Leading the pack with ${season.seasonBones} bone${season.seasonBones !== 1 ? 's' : ''} — the title is decided at the end of the month.`
       : `${season.seasonBones} bone${season.seasonBones !== 1 ? 's' : ''} this month — ${gap} behind ${esc(season.leader ? season.leader.dogName : 'the leader')}. Every bone counts.`}</div>
-<div style="font-size:12px;color:rgba(42,33,80,0.7);margin-top:8px;">Standings reset on the 1st of each month. <a href="${SITE}/show.html" style="color:#c25a0e;">Watch live &amp; throw a bone &rarr;</a></div>
+<div style="font-size:12px;color:rgba(42,33,80,0.7);margin-top:8px;">Standings reset on the 1st of each month. <a href="${SITE}/show.html" style="color:#7a5a14;">Watch live &amp; throw a bone &rarr;</a></div>
 </div>`;
   } else if (season) {
-    raceHtml = `<div style="background:rgba(255,140,66,0.06);border:1px solid rgba(255,140,66,0.2);border-radius:12px;padding:14px 20px;margin:0 0 24px;">
-<div style="font-size:13px;color:rgba(42,33,80,0.8500000000000001);">🏆 No bones yet in this month's Best in Show race${season.dogsInRace ? ` — ${season.dogsInRace} dog${season.dogsInRace !== 1 ? 's are' : ' is'} already racing` : ' — the field is wide open'}. <a href="${SITE}/show.html" style="color:#c25a0e;">Watch live &amp; throw the first bone &rarr;</a></div>
+    raceHtml = `<div style="background:rgba(185,138,47,0.06);border:1px solid rgba(185,138,47,0.2);border-radius:12px;padding:14px 20px;margin:0 0 24px;">
+<div style="font-size:13px;color:rgba(42,33,80,0.8500000000000001);">🏆 No bones yet in this month's Best in Show race${season.dogsInRace ? ` — ${season.dogsInRace} dog${season.dogsInRace !== 1 ? 's are' : ' is'} already racing` : ' — the field is wide open'}. <a href="${SITE}/show.html" style="color:#7a5a14;">Watch live &amp; throw the first bone &rarr;</a></div>
 </div>`;
   }
 
@@ -509,7 +509,7 @@ module.exports = async function handler(req, res) {
   // can vote for this dog without hunting for it in the live rotation. Logged-out
   // visitors register inline (free, 250 bones) and the vote fires immediately.
   const seasonVotes = season && typeof season.seasonBones === 'number' ? season.seasonBones : 0;
-  const votePanelHtml = `<div style="background:rgba(123,104,238,0.1);border:1px solid rgba(123,104,238,0.34);border-radius:12px;padding:18px 20px;margin:0 0 24px;text-align:center;">
+  const votePanelHtml = `<div style="background:rgba(91,70,214,0.1);border:1px solid rgba(91,70,214,0.34);border-radius:12px;padding:18px 20px;margin:0 0 24px;text-align:center;">
 <div style="font-size:13px;color:rgba(42,33,80,0.9199999999999999);margin-bottom:8px;">🦴 <span id="voteCount">${seasonVotes}</span> vote${seasonVotes === 1 ? '' : 's'} this month</div>
 <button id="voteBtn" type="button" class="cert-cta-btn" style="margin:0;">🦴 Vote for ${esc(name)}</button>
 <div id="voteMsg" style="font-size:12px;color:rgba(42,33,80,0.8);margin-top:8px;">Every bone is a vote toward Best in Show. Standings reset on the 1st.</div>

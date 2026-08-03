@@ -1589,9 +1589,9 @@ const BREEDS = {
 const STYLES = `
 @font-face{font-family:'Yang Bagus';src:url('/YangBagus.ttf') format('truetype');font-display:swap;}
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#f3eefb;--bg-card:#ffffff;--bg-card-2:#f8f5fd;--accent:#FF8C42;--purple:#7B68EE;--text:#2a2150;--dim:rgba(42,33,80,0.75);--gold:#806104;}
+:root{--bg:#f7f2e9;--bg-card:#ffffff;--bg-card-2:#fbf7ef;--accent:#5b46d6;--purple:#5b46d6;--text:#2a2150;--dim:rgba(42,33,80,0.75);--gold:#806104;}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh;line-height:1.6;}
-a{color: var(--accent-text, #c25a0e);}
+a{color: var(--accent-text, #7a5a14);}
 .wrap{max-width:760px;margin:0 auto;padding:24px 20px 60px;}
 .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:8px;}
 .eyebrow a{color:var(--purple);text-decoration:none;}
@@ -1602,24 +1602,24 @@ h1.breed-h1{font-family:'Yang Bagus',serif;color:#2a2150;font-size:44px;line-hei
 .breed-hero-fig{margin:0 0 28px;}
 .breed-hero{display:block;position:relative;margin:0 0 28px;border-radius:14px;overflow:hidden;border:1px solid rgba(42,33,80,0.14);background:var(--bg-card);text-decoration:none;}
 .breed-hero-fig .breed-hero{margin:0;}
-.breed-hero img{width:100%;aspect-ratio:1/1;max-height:560px;object-fit:contain;background:#e9e2f5;display:block;}
+.breed-hero img{width:100%;aspect-ratio:1/1;max-height:560px;object-fit:contain;background:#f2ead9;display:block;}
 .breed-hero-cap{position:absolute;left:0;right:0;bottom:0;padding:24px 16px 12px;font-size:13px;color:#fff;background:linear-gradient(to top,rgba(10,6,23,0.88),rgba(10,6,23,0));}
-.breed-hero-cap .nm{font-weight:700;color: var(--accent-text, #c25a0e);}
+.breed-hero-cap .nm{font-weight:700;color: var(--accent-text, #7a5a14);}
 .breed-hero-credit{font-size:11px;color:var(--dim);padding:6px 2px 0;}
 .breed-hero-credit a{color:var(--purple);}
-.breed-hero-empty{display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;background:linear-gradient(135deg,rgba(123,104,238,0.18),rgba(255,140,66,0.12));}
-.breed-hero-empty-inner{font-family:'Yang Bagus',serif;color: var(--accent-text, #c25a0e);font-size:24px;line-height:1.15;text-align:center;padding:24px;}
+.breed-hero-empty{display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;background:linear-gradient(135deg,rgba(91,70,214,0.18),rgba(185,138,47,0.12));}
+.breed-hero-empty-inner{font-family:'Yang Bagus',serif;color: var(--accent-text, #7a5a14);font-size:24px;line-height:1.15;text-align:center;padding:24px;}
 .section{margin:36px 0;}
 .section h2{font-family:'Yang Bagus',serif;color: #2a2150;font-size:26px;margin-bottom:14px;}
 .section h3{font-size:16px;color:var(--text);margin:20px 0 8px;font-weight:600;}
 .section p{font-size:15px;color:rgba(42,33,80,0.92);margin-bottom:12px;}
 .section p strong{color:var(--text);}
 /* Live show widget — always populated, no PartyKit dependency at render-time */
-.live-widget{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(255,140,66,0.10),rgba(123,104,238,0.10));border:1px solid rgba(255,140,66,0.25);border-radius:12px;padding:14px 16px;margin:28px 0;}
-.live-pip{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(255,140,66,0.7);animation:pulse 1.6s ease-out infinite;flex:0 0 auto;}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,140,66,0.7);}70%{box-shadow:0 0 0 12px rgba(255,140,66,0);}100%{box-shadow:0 0 0 0 rgba(255,140,66,0);}}
+.live-widget{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(185,138,47,0.10),rgba(91,70,214,0.10));border:1px solid rgba(185,138,47,0.25);border-radius:12px;padding:14px 16px;margin:28px 0;}
+.live-pip{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(185,138,47,0.7);animation:pulse 1.6s ease-out infinite;flex:0 0 auto;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(185,138,47,0.7);}70%{box-shadow:0 0 0 12px rgba(185,138,47,0);}100%{box-shadow:0 0 0 0 rgba(185,138,47,0);}}
 .live-text{flex:1;font-size:14px;color:rgba(42,33,80,0.92);}
-.live-text strong{color: var(--accent-text, #c25a0e);font-weight:700;letter-spacing:1px;font-size:11px;text-transform:uppercase;display:block;margin-bottom:2px;}
+.live-text strong{color: var(--accent-text, #7a5a14);font-weight:700;letter-spacing:1px;font-size:11px;text-transform:uppercase;display:block;margin-bottom:2px;}
 .live-btn{display:inline-block;background:var(--accent);color:#1a1035;font-weight:700;font-size:13px;padding:10px 18px;border-radius:8px;text-decoration:none;white-space:nowrap;}
 /* Facts table */
 .facts{background:var(--bg-card);border:1px solid rgba(42,33,80,0.11);border-radius:12px;padding:18px;margin:28px 0;}
@@ -1627,13 +1627,13 @@ h1.breed-h1{font-family:'Yang Bagus',serif;color:#2a2150;font-size:44px;line-hei
 .facts dt{color:var(--purple);font-weight:600;}
 .facts dd{color:rgba(42,33,80,0.92);}
 /* CTA */
-.cta-block{text-align:center;background:linear-gradient(135deg,rgba(123,104,238,0.10),rgba(255,140,66,0.05));border:1px solid rgba(123,104,238,0.25);border-radius:12px;padding:28px 22px;margin:36px 0;}
+.cta-block{text-align:center;background:linear-gradient(135deg,rgba(91,70,214,0.10),rgba(185,138,47,0.05));border:1px solid rgba(91,70,214,0.25);border-radius:12px;padding:28px 22px;margin:36px 0;}
 .cta-block h2{font-family:'Yang Bagus',serif;color:var(--text);font-size:24px;margin-bottom:8px;}
 .cta-block p{font-size:14px;color:rgba(42,33,80,0.92);margin-bottom:16px;}
 .cta-btn{display:inline-block;background:var(--accent);color:#1a1035;font-weight:700;font-size:15px;padding:14px 28px;border-radius:10px;text-decoration:none;}
 .cta-btn-sub{font-size:12px;color:var(--dim);margin-top:10px;}
 .cta-secondary{font-size:13px;color:var(--dim);margin:16px 0 0;}
-.cta-secondary a{color: var(--accent-text, #c25a0e);text-decoration:none;font-weight:600;}
+.cta-secondary a{color: var(--accent-text, #7a5a14);text-decoration:none;font-weight:600;}
 /* Free "watch" button at the foot of the show-bridge section */
 .spotlight-watch{margin-top:6px;}
 /* User dogs grid (bonus, hidden when N=0) */
@@ -1645,7 +1645,7 @@ h1.breed-h1{font-family:'Yang Bagus',serif;color:#2a2150;font-size:44px;line-hei
 .user-dog-card-owner{font-size:11px;color:var(--dim);padding:0 10px 10px;}
 /* Related breeds */
 .related-breeds{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
-.related-breed-chip{display:inline-block;background:var(--bg-card);border:1px solid rgba(123,104,238,0.3);border-radius:20px;padding:8px 16px;font-size:13px;text-decoration:none;color:var(--text);}
+.related-breed-chip{display:inline-block;background:var(--bg-card);border:1px solid rgba(91,70,214,0.3);border-radius:20px;padding:8px 16px;font-size:13px;text-decoration:none;color:var(--text);}
 .related-breed-chip:hover{border-color:var(--purple);}
 .related-breed-chip.soon{color:var(--dim);border-color:rgba(42,33,80,0.11);background:rgba(42,33,80,0.06);cursor:default;}
 .related-breed-chip.soon em{font-style:normal;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-left:4px;}
@@ -1675,19 +1675,19 @@ ${headHtml}
 </head>
 <body>
 ${bodyHtml}
-<footer style="text-align:center;padding:24px 16px;border-top:1px solid rgba(42,33,80,0.11);background:#e9e2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+<footer style="text-align:center;padding:26px 16px;background:#1e0f45;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
   <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
-    <a href="/about" style="font-size:12px;color:#5d5088;text-decoration:none;">About</a>
-    <a href="/about#contact" style="font-size:12px;color:#5d5088;text-decoration:none;">Contact</a>
-    <a href="/dogs" style="font-size:12px;color:#5d5088;text-decoration:none;">All Dogs</a>
-    <a href="/leaderboard" style="font-size:12px;color:#5d5088;text-decoration:none;">Leaderboard</a>
-    <a href="/privacy" style="font-size:12px;color:#5d5088;text-decoration:none;">Privacy</a>
-    <a href="#" data-cookie-settings style="font-size:12px;color:#5d5088;text-decoration:none;">Cookie settings</a>
-    <a href="/terms" style="font-size:12px;color:#5d5088;text-decoration:none;">Terms</a>
-    <a href="/resources" style="font-size:12px;color:#5d5088;text-decoration:none;">Guides</a>
-    <a href="/breeds" style="font-size:12px;color:#5d5088;text-decoration:none;">Breeds</a>
+    <a href="/about" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">About</a>
+    <a href="/about#contact" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Contact</a>
+    <a href="/dogs" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">All Dogs</a>
+    <a href="/leaderboard" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Leaderboard</a>
+    <a href="/privacy" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Privacy</a>
+    <a href="#" data-cookie-settings style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Cookie settings</a>
+    <a href="/terms" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Terms</a>
+    <a href="/resources" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Guides</a>
+    <a href="/breeds" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Breeds</a>
   </div>
-  <div style="font-size:11px;color:#5d5088;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+  <div style="font-size:12px;color:rgba(183,169,232,0.7);">The Dog Show &copy; 2026. All dogs are good dogs.</div>
 </footer>
 </body>
 </html>`;
