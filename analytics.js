@@ -31,6 +31,7 @@
   // banner, EEA/UK only after accept — Demand Gen targeting excludes EEA/UK.
   var ADS_ID = 'AW-18212544394';
   var ADS_SIGNUP_LABEL = 'KxqZCJvU09kcEIq_texD'; // dogshow_signup (count: One)
+  var ADS_DOG_ENTERED_LABEL = 'CXotCKXbzt0cEIq_texD'; // dogshow_dog_entered (count: One)
   var FAURYA_WEBSITE_ID = 'cmosekmvz000xl204a7bhm4cm';
   var FAURYA_DOMAIN = 'dogshow.lol';
 
@@ -233,6 +234,22 @@
       if (window.rdt && REDDIT_PIXEL_ID && !localStorage.getItem('dogshow_rdt_signup_fired')) {
         window.rdt('track', 'SignUp', cleanEmail ? { email: cleanEmail } : {});
         localStorage.setItem('dogshow_rdt_signup_fired', '1');
+      }
+    } catch (e) {}
+  };
+
+  // Google Ads dog-entered conversion (dogshow_dog_entered) — the hero KPI.
+  // Fired from the SUCCESS path of /upload-dog in app.js submitDogImage()
+  // (data.ok === true, i.e. a NEW dog was accepted — not the 409
+  // already_have_dog path). Enhanced conversions: hashed email via user_data.
+  // Own localStorage guard; the action is count-One server-side anyway.
+  window.trackAdsDogEntered = function (email) {
+    var cleanEmail = email ? String(email).trim().toLowerCase() : null;
+    try {
+      if (window.gtag && ADS_ID && !localStorage.getItem('dogshow_ads_dog_entered_fired')) {
+        if (cleanEmail) window.gtag('set', 'user_data', { email: cleanEmail });
+        window.gtag('event', 'conversion', { send_to: ADS_ID + '/' + ADS_DOG_ENTERED_LABEL });
+        localStorage.setItem('dogshow_ads_dog_entered_fired', '1');
       }
     } catch (e) {}
   };

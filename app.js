@@ -1837,6 +1837,11 @@
           // Server confirmed the dog exists — now it's safe to drop the stash
           // (audit M3: never clear before this point).
           clearPendingDog();
+          // Google Ads hero-KPI conversion: a NEW dog was accepted. Fires only
+          // on this branch — never on already_have_dog or the /my-dog check.
+          if (typeof window.trackAdsDogEntered === 'function') {
+            window.trackAdsDogEntered(localStorage.getItem('dogshow_email'));
+          }
           showDogCertificate(data.slug, data.id, true);
           // After a bit, switch from "waiting" to "live".
           setTimeout(function () {
