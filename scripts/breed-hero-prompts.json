@@ -37,6 +37,8 @@
     "siberian-husky": "a Siberian Husky with a thick double coat in black-and-white markings, a well-defined dark facial mask, erect triangular ears, striking pale blue eyes, and an alert, mischievous expression",
     "dachshund": "a Dachshund: a long-bodied, short-legged hound with a smooth shiny coat in rich red, long floppy ears, a confident alert stance, and an inquisitive expression",
     "aussiedoodle": "an Aussiedoodle (Australian Shepherd and Poodle cross): a medium fluffy dog with a wavy blue-merle coat (mottled grey-and-black patches) with copper points and white markings on the face and chest, semi-erect ears, and one blue eye and one brown eye",
-    "sheepadoodle": "a Sheepadoodle (Old English Sheepdog and Poodle cross): a large shaggy dog with a dense wavy-to-curly coat in a black-and-white 'panda' pattern, a fringe partly covering the eyes, floppy ears, and a big-hearted, clownish expression"
+    "sheepadoodle": "a Sheepadoodle (Old English Sheepdog and Poodle cross): a large shaggy dog with a dense wavy-to-curly coat in a black-and-white 'panda' pattern, a fringe partly covering the eyes, floppy ears, and a big-hearted, clownish expression",
+    "corgi": "a Pembroke Welsh Corgi: a small long-bodied herding dog with short stubby legs, a medium-length double coat in red-and-white, large erect triangular ears, a fox-like face, and an alert, confident expression",
+    "shih-tzu": "a Shih Tzu: a small toy companion dog with a long flowing double coat in gold-and-white, a round broad head, large dark round eyes, a short pushed-up nose, and a plumed tail carried over the back"
   }
 }

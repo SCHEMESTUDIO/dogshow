@@ -396,6 +396,7 @@ const BREEDS = {
       { slug: 'cavapoo', name: 'Cavapoo' },
       { slug: 'poodle', name: 'Poodle' },
       { slug: 'pomsky', name: 'Pomsky' },
+      { slug: 'shih-tzu', name: 'Shih Tzu' },
     ],
     breedTagName: 'Teacup Poodle',
   },
@@ -1017,6 +1018,7 @@ const BREEDS = {
       { slug: 'maltipoo', name: 'Maltipoo' },
       { slug: 'teacup-poodle', name: 'Teacup Poodle' },
       { slug: 'cavapoo', name: 'Cavapoo' },
+      { slug: 'shih-tzu', name: 'Shih Tzu' },
       { slug: 'yorkshire-terrier', name: 'Yorkshire Terrier' },
     ],
     breedTagName: 'Maltese',
@@ -1583,6 +1585,87 @@ const BREEDS = {
       { slug: 'old-english-sheepdog', name: 'Old English Sheepdog' },
     ],
     breedTagName: 'Sheepadoodle',
+  },
+
+  corgi: {
+    name: 'Corgi',
+    headKeyword: 'Corgi',
+    metaDescription: "The Pembroke Welsh Corgi: a thousand-year-old cattle heeler in a comically small body, and — thanks to one very famous owner — the most photographed dog in the British monarchy. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Herding',
+      'Size': 'Up to 30 lb (dogs) · up to 28 lb (bitches) · 10–12 in at shoulder',
+      'Temperament': 'Alert, affectionate, intelligent, famously stubborn',
+      'Life expectancy': '12–15 years',
+      'Coat': 'Medium-length double coat, straight and weather-resistant; heavy seasonal shedder',
+      'Colors': 'Red, sable, fawn, or black and tan, usually with white markings',
+      'AKC recognized': '1934 (as a breed distinct from the Cardigan Welsh Corgi)',
+      'Origin': 'Pembrokeshire, Wales — a cattle drover’s "heeler," possibly with 12th-century Flemish-weaver dogs in the mix',
+    },
+    lede: `The Welsh word for corgi is usually translated as "dwarf dog," a name coined by someone who plainly never watched one work. For centuries the Pembroke Welsh Corgi earned its keep on the hill farms of Pembrokeshire by driving cattle three and four times its height — darting in low, nipping a heel, and skipping the returning kick because its whole body was built too close to the ground to catch. It is, by any reasonable measure, a comically small dog with an enormous job description. Somewhere in the twentieth century it also became, without trying especially hard, the most photographed dog in the British monarchy.`,
+    spotlight: `<p>On the Dog Show stage, the Corgi's herding wiring never quite clocks off, and there is nothing on Earth for it to herd. What results is a dog that treats the whole studio as loosely under its jurisdiction — head swiveling toward every new arrival, ears rotating like a pair of independently operated satellite dishes, one paw occasionally lifted as if it is about to issue a correction to somebody's positioning. Nobody has told the Corgi that this is a livestream and not a paddock. We have decided not to be the ones who break the news.</p>
+<p>Then there is the trot. A Corgi at speed does not so much run as scuttle, its comparatively enormous ears leading the way while a body built like a loaf of bread on four stubby legs does its determined best to keep up. Bone-throws set it off instantly — a full-body wiggle, a low charge, a stop-and-stare that says, quite clearly, that the bone had better not try anything.</p>
+<p>The other reliable crowd reaction is the rear view. Whole corners of the internet have organized themselves around what a Corgi looks like walking away, and our chat is no exception — someone mentions "the fluff" within roughly the first ten seconds of any Corgi's segment, and mostly they are right to.</p>`,
+    ownerFitHeading: 'Is a Corgi right for you?',
+    ownerFit: `<p>The Corgi's compact frame invites a comparison to a lap dog that the breed does not, in any respect, deserve.</p>
+<p><strong>The back is the headline issue.</strong> That short-legged, long-backed build (chondrodysplasia — the same trait that shapes a Dachshund) leaves Corgis genuinely prone to intervertebral disc disease: premature wear on the cushioning discs between vertebrae that can, in a bad case, cause sudden paralysis and require emergency surgery. A meaningful share of the breed also carries the SOD1 gene mutation behind degenerative myelopathy, a slow, painless nerve disease that usually shows up between nine and fourteen years old as a gradual loss of coordination in the back legs. Neither condition is preventable outright, but keeping a Corgi lean does measurably lower the risk — which matters, because:</p>
+<p><strong>Corgis get fat easily, and fat makes the back problem worse.</strong> This is a breed with a big appetite and a body poorly designed to carry extra weight on a spine already working overtime. Measured meals rather than free-feeding, and a vet's honest opinion on body condition, are not optional extras here — they are load-bearing.</p>
+<p><strong>The herding instinct doesn't know the herding is over.</strong> A Corgi with nothing to herd will often improvise, and the classic outlet is nipping at the heels of running children, joggers, or bicycles — an instinct rather than aggression, but one that needs early redirection all the same.</p>
+<p><strong>Exercise.</strong> Moderate to high, and frequently underestimated because of the short legs. A Corgi wants a real daily walk plus mental work — the breed excels at herding trials, agility, and flyball for an owner willing to give it a job.</p>
+<p><strong>Shedding.</strong> Considerable. That weather-resistant double coat blows out seasonally in volumes that surprise first-time owners; regular brushing is the only real defense.</p>
+<p><strong>Vocal.</strong> Alert-barking is a Corgi specialty — useful in a watchdog, less useful in a thin-walled apartment.</p>
+<p><strong>The verdict:</strong> a whip-smart, big-personality companion for an owner who will manage its weight, its back, and its opinions about who is allowed near the front door — and who has already made peace with the fact that a dog this small should not, by any physical logic, be this much dog.</p>`,
+    famousHeading: 'Famous Corgis',
+    famous: `<p>No breed on this list owes more of its modern fame to one owner. Queen Elizabeth II received her first Pembroke Welsh Corgi, Susan, as an eighteenth-birthday gift in 1944, and the attachment was immediate and lifelong — Susan reportedly travelled hidden under blankets in the honeymoon carriage when the then-Princess married Prince Philip in 1947. (Susan wasn't technically the family's first: in 1933, breeder Thelma Gray brought a litter to show the future King George VI, and the family chose a puppy named Dookie.) Over a seventy-year reign, Elizabeth II went on to own more than thirty Pembrokes, breeding many of them herself, and effectively made the Corgi a synonym for the House of Windsor.</p>
+<p>That fame outlived the Queen. "The Queen's Corgi" (2019), an animated comedy loosely inspired by her dogs, followed a fictional palace Corgi named Rex on a chaotic escape through London — reviews were unkind, but the premise alone tells you how thoroughly the breed and the monarchy had merged in the public imagination.</p>
+<p>More recently, the Corgi has found a second act as one of the internet's favourite subjects — "corgi butt" photography is its own durable sub-genre, and Know Your Meme named the Corgi its top meme of 2013. Not bad, for a dog whose own name translates to "dwarf."</p>`,
+    relatedBreeds: [
+      { slug: 'dachshund', name: 'Dachshund' },
+      { slug: 'mini-dachshund', name: 'Mini Dachshund' },
+      { slug: 'australian-shepherd', name: 'Australian Shepherd' },
+      { slug: 'cardigan-welsh-corgi', name: 'Cardigan Welsh Corgi' },
+    ],
+    breedTagName: 'Corgi',
+  },
+
+  'shih-tzu': {
+    name: 'Shih Tzu',
+    headKeyword: 'Shih Tzu',
+    metaDescription: "The Shih Tzu: bred for centuries as the exclusive property of the Chinese imperial court, now a floor-coated companion with an unbothered stage presence. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Toy',
+      'Size': '9–16 lb · 9–10½ in at shoulder (8–11 in range)',
+      'Temperament': 'Affectionate, outgoing, playful, alert without being aggressive',
+      'Life expectancy': '10–16 years, with many living into their late teens',
+      'Coat': 'Long, dense double coat; commonly clipped short in a "puppy cut" outside the show ring',
+      'Colors': 'Any color acceptable — solid, particolor, and brindle all occur',
+      'AKC recognized': '1969, Toy Group',
+      'Origin': 'Tibet and China — descended from small Tibetan "lion dogs," refined at the Chinese imperial court',
+    },
+    lede: `For most of its existence, owning a Shih Tzu outside the Forbidden City's walls could get you executed. That isn't a figure of speech about how much the breed's fans love it today — it's the documented rule under which Ming and Qing dynasty palace eunuchs bred these dogs as the exclusive property of the imperial court, descended from Tibetan "lion dogs" and refined with Pekingese and Lhasa Apso blood into the round-faced, floor-coated companion we know now. The name translates, roughly, to "lion dog." The temperament, mercifully, did not come with the same enforcement policy.`,
+    spotlight: `<p>On stage, a Shih Tzu behaves like a dog that has never once doubted it belongs there — which tracks, given that its entire evolutionary history is "professional palace companion." There's no stage fright, no hesitation at the lights, just an unbothered stroll to centre-frame and a settling-in that suggests the cameras are, if anything, overdue.</p>
+<p>The face does most of the work. Wide-set dark eyes, a pushed-up nose, and a coat that — properly maintained — parts clean down the middle like a small, dignified curtain: the Shih Tzu was bred for exactly this kind of close-range scrutiny, and it shows. Viewers in chat reliably narrate the underbite as "unimpressed," which is a misreading; the Shih Tzu is not unimpressed. The Shih Tzu is at work.</p>
+<p>Give one a bone-throw and the response is rarely athletic — this is not a breed built for a sprint — but it's reliably enthusiastic: a determined little trot toward the reward, with the confident air of a dog collecting something it was always owed. Groomed into the full show-length coat, a Shih Tzu on stage draws the kind of gasp usually reserved for a costume reveal. Most of ours arrive in the shorter "puppy cut" instead, and lose none of the composure for it.</p>`,
+    ownerFitHeading: 'Is a Shih Tzu right for you?',
+    ownerFit: `<p>This is a genuinely easygoing companion breed with a short but important list of physical limitations to plan around.</p>
+<p><strong>Breathing and heat.</strong> Like other short-muzzled (brachycephalic) breeds, Shih Tzus can struggle to move air efficiently, especially in heat or humidity — snoring and noisy breathing are normal, but heavy panting on a hot walk is a signal to stop, not push through. Midday exercise in summer is a bad idea for this breed specifically.</p>
+<p><strong>Eyes.</strong> Those large, prominent eyes are part of the appeal and part of the risk — they're exposed to scratches, dryness, and in serious cases proptosis (the eye bulging out of the socket under trauma). Keep the face fur trimmed back from the eyes and don't let rough play near the face go unsupervised.</p>
+<p><strong>Grooming is not optional.</strong> The full coat mats close to the skin within days if left unbrushed, and a badly matted coat is a genuine welfare problem, not just a cosmetic one. Most owners either commit to daily brushing and keep the show coat, or clip it short in a "puppy cut" and brush less — either is fine; doing neither is not.</p>
+<p><strong>Dental crowding.</strong> That compact skull leaves little room for a full set of teeth, and dental disease is close to universal without regular brushing and professional cleanings.</p>
+<p><strong>Tear staining.</strong> Lighter-coated Shih Tzus in particular show every mark below the eyes, and the breed runs prominent enough eyes to produce plenty of them. Daily gentle wiping keeps the reddish-brown staining manageable; skipping it for a few weeks does not.</p>
+<p><strong>Small-dog fragility.</strong> At well under twenty pounds, a Shih Tzu can be seriously hurt by a fall, a slammed door, or an overeager larger dog or toddler. Supervise closely around small children.</p>
+<p><strong>Energy and training.</strong> Low-to-moderate exercise needs and a genuinely easygoing temperament make this a good fit for apartment living and first-time owners, though the same independence that made it a self-possessed palace dog for centuries can show up at training time as a mild stubborn streak. Patience and short sessions beat repetition.</p>
+<p><strong>The verdict:</strong> an affectionate, adaptable companion for someone willing to manage a face built more for a portrait than a marathon — and to treat the grooming and the breathing both as real, ongoing commitments rather than afterthoughts.</p>`,
+    famousHeading: 'Famous Shih Tzus',
+    famous: `<p>The breed's fame starts in the Forbidden City rather than in front of a camera. Under the Ming and Qing dynasties, small "lion dogs" descended from Tibetan temple dogs — reportedly gifts from the Dalai Lama — were bred by palace eunuchs as the exclusive property of the Chinese imperial court; the dogs rarely left the palace grounds, and for long stretches an ordinary person caught owning one risked execution. It is, by a wide margin, the most severe protection any dog breed on this site has ever enjoyed.</p>
+<p>Modern fame is gentler. In Christopher Guest's mockumentary "Best in Show" (2000), the Shih Tzu Miss Agnes — doted on by an especially fussy pair of owners — is one of the film's most memorable entrants, a gentle parody of exactly the kind of pampered small-dog handling real shows are full of. A more literal brush with stardom came via Bonny, a rescue Shih Tzu adopted just weeks before filming and cast in Martin McDonagh's "Seven Psychopaths" (2012), where her character's kidnapping drives the entire plot — Bonny worked alongside Christopher Walken, Sam Rockwell, and Colin Farrell after only five weeks of training. Off-screen, Mariah Carey has kept two Shih Tzus, Bing and Bong, for years — proof the breed's talent for looking thoroughly unbothered by fame translates just fine to real life.</p>`,
+    relatedBreeds: [
+      { slug: 'maltese', name: 'Maltese' },
+      { slug: 'teacup-poodle', name: 'Teacup Poodle' },
+      { slug: 'lhasa-apso', name: 'Lhasa Apso' },
+      { slug: 'pekingese', name: 'Pekingese' },
+      { slug: 'yorkshire-terrier', name: 'Yorkshire Terrier' },
+    ],
+    breedTagName: 'Shih Tzu',
   },
 };
 
