@@ -1,0 +1,32 @@
+{
+  "_README": "Per-article subject descriptions for article-page hero images. The script (generate-article-heroes.mjs) wraps each 'subject' in a shared photoreal 16:9 scene template. Slugs match the article HTML filenames. IP rule: pages about copyrighted characters or real people (Bluey, Cinnamoroll, MHA, Heartopia, Froplay, Elvis, Lewis Hamilton, Indy/Good Boy) get a REAL-dog stand-in scene, never the character or person. Add new slugs here when new article pages are written.",
+  "prompts": {
+    "america-s-favorite-pet-contestants-2026-list": "a proud mixed-breed dog sitting beside a large prize rosette ribbon on a small wooden podium, warm event lighting",
+    "american-dog-breeds": "an American Foxhound standing alert in a sunlit meadow, a weathered red barn softly blurred in the background",
+    "animal-competitions": "a border collie captured mid-leap over a striped agility jump on a grass course, ears flying",
+    "australian-dog-breeds": "an Australian Cattle Dog standing proudly in warm golden-hour light on dry grassland",
+    "belgian-dog-breeds": "a Belgian Malinois sitting at attention in a green field, fawn coat and black mask crisp in soft daylight",
+    "best-family-dog-breeds": "a golden retriever lying contentedly on a living-room rug surrounded by scattered rope toys and tennis balls",
+    "bluey-dog-breeds": "a blue-mottled Australian Cattle Dog puppy sitting on a sunny suburban backyard lawn, tongue out, joyful",
+    "calm-dog-breeds": "a basset hound dozing peacefully on a cushioned window seat in soft golden afternoon light",
+    "common-dog-breeds": "a friendly yellow Labrador Retriever sitting in a park path scattered with autumn leaves",
+    "cowboy-corgi-puppies": "a corgi and cattle-dog cross puppy with a speckled merle coat sitting on the wooden steps of a ranch porch",
+    "cutest-puppy-ever": "an impossibly fluffy golden retriever puppy sitting in a wicker basket lined with a knitted blanket",
+    "cutest-puppy-in-the-world": "a tiny pomeranian puppy with huge hopeful eyes sitting on a velvet cushion, soft studio light",
+    "dog-show-near-me": "a beautifully groomed standard poodle standing on a small spotlit stage with deep red theater curtains behind",
+    "extinct-dog-breeds": "a shaggy otterhound-type dog posed nobly in moody classical portrait lighting, like an old oil painting come to life",
+    "french-dog-breeds": "a French Bulldog sitting on a bistro chair at an empty Parisian cafe table, striped awning softly blurred behind",
+    "froplay-dog": "a real Jack Russell puppy curiously sniffing a small silver toy robot dog on a wooden living-room floor",
+    "heartopia-dog-breeds": "a Shiba Inu sitting in a whimsical pastel flower garden with soft dreamy morning light",
+    "hound-dog-mha": "a large grey shaggy wolfhound standing in a heroic stance on a city rooftop at dusk, wind in its fur",
+    "hound-dog-song": "a basset hound wearing a black bow tie sitting beside a vintage 1950s chrome stage microphone, moody stage lighting",
+    "how-online-dog-shows-work": "a beagle sitting at a desk looking intently at a glowing laptop screen in a cozy dim room",
+    "how-to-enter-a-dog-show": "a dachshund sitting patiently in front of a camera on a tripod against a clean studio backdrop, one ear cocked",
+    "indy-the-dog": "a Nova Scotia Duck Tolling Retriever standing in a warm lamplit hallway, cinematic shallow depth of field",
+    "is-cinnamoroll-a-dog": "a very fluffy small white puppy with long soft ears curled on a pastel blue blanket, dreamy high-key light",
+    "lewis-hamilton-dog": "an English Bulldog sitting on pit-lane asphalt beside a plain racing helmet, race track blurred in the background",
+    "origami-dog": "a neatly folded origami paper dog standing on a wooden desk beside squares of colored folding paper, macro detail",
+    "puppy-love-meaning": "two sleepy puppies leaning against each other in a sunlit wicker basket",
+    "where-to-stream-dog-show": "a corgi sitting on a sofa watching a softly glowing television in a cozy dark living room, seen from behind at an angle"
+  }
+}

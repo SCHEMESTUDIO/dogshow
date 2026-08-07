@@ -47,6 +47,9 @@ jobs:
         run: |
           if [ -n "$GEMINI_API_KEY" ]; then
             node scripts/generate-breed-heroes.mjs
+            # Article-page heroes (article-img/): skips slugs that already have an
+            # image, so this only generates for newly added article-hero-prompts entries.
+            node scripts/generate-article-heroes.mjs
           else
             echo "GEMINI_API_KEY not set — skipping hero generation (pages fall back gracefully)"
           fi
@@ -70,7 +73,10 @@ jobs:
           git config user.name "Dog Show Bot"
           git config user.email "bot@dogshow.lol"
           git add api/breed.js breeds.js breeds.html sitemap.xml llms.txt sitemap-urls.txt \
-                  data/breed-page-queue.md scripts/breed-hero-prompts.json breeds-img
+                  data/breed-page-queue.md scripts/breed-hero-prompts.json breeds-img \
+                  scripts/article-hero-prompts.json
+          # article-img may not exist until the first article-hero generation ran
+          git add article-img 2>/dev/null || true
           if git diff --staged --quiet; then
             echo "No changes to publish"
           else
