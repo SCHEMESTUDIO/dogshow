@@ -310,7 +310,7 @@ const BREEDS = {
     famous: `<p>There are no famous Pomskies. The breed is too new — first deliberately bred in 2009 and waitlisted ever since. What there are: Pomskies on every social-media platform that rewards a striking first frame. The breed has, depending on the year, been one of the top three "most Googled dog breeds in America," which is a statistic that does not correlate well with the breed's suitability for most households.</p>
 <p>We anticipate the first Pomsky cameo in a major film within five years. It will be a dating-app comedy. The dog will be billed as adorable. The dog will, in real life, have required three handlers and a chiropractor for the camera operator.</p>`,
     relatedBreeds: [
-      { slug: 'mini-aussie', name: 'Mini Aussie' },
+      { slug: 'pomeranian', name: 'Pomeranian' },
       { slug: 'goldendoodle', name: 'Goldendoodle' },
       { slug: 'bernedoodle', name: 'Bernedoodle' },
       { slug: 'siberian-husky', name: 'Siberian Husky' },
@@ -1666,6 +1666,89 @@ const BREEDS = {
       { slug: 'yorkshire-terrier', name: 'Yorkshire Terrier' },
     ],
     breedTagName: 'Shih Tzu',
+  },
+  'yorkshire-terrier': {
+    name: 'Yorkshire Terrier',
+    headKeyword: 'Yorkshire Terrier',
+    metaDescription: "The Yorkshire Terrier: bred to hunt rats in Yorkshire mill floors, groomed since Audrey Hepburn into a silk-coated lap icon. A field guide to the Yorkie, with stage notes.",
+    facts: {
+      'Group': 'Toy',
+      'Size': 'Up to 7 lb · about 8 in at shoulder',
+      'Temperament': 'Bold, affectionate, alert, feisty for its size',
+      'Life expectancy': '11–15 years',
+      'Coat': 'Long, straight, silky, low-shedding; often clipped short as a "puppy cut"',
+      'Colors': 'Blue and tan (classic), also black and tan, black and gold, blue and gold',
+      'AKC recognized': '1885, Toy Group',
+      'Origin': 'Yorkshire, England — a mill-and-mine ratter bred down from working terriers',
+    },
+    lede: `Nobody set out to design a lap dog. The Yorkshire Terrier's ancestors were working terriers, brought north by Scottish mill workers in the mid-1800s and crossed with local Yorkshire breeds for one job only: going down a hole after a rat and coming back out having won. A dog named Huddersfield Ben, whelped in 1865, is the one modern breeders point to as the template — he never herded, never guarded, and never met a rat he respected — and from him came the long silky coat and compact, confident frame the breed carries today. The mills are gone. The confidence never left.`,
+    spotlightHeading: 'Why we love the Yorkshire Terrier on stage',
+    spotlight: `<p>A Yorkie does not appear to have received the memo about its own size. On the Dog Show stage it squares up to the whole operation — lights, cameras, a chat scrolling past at a rate no seven-pound animal should be expected to track — with the flat, unbothered confidence of a much larger dog that simply hasn't checked a mirror lately. This is not bravado. This is a terrier doing what terriers do, which is assume the room needs managing and getting on with it.</p>
+<p>The coat helps the case enormously. Properly grown out, a Yorkshire Terrier's fall is straight, silky, and parts clean down the spine like something out of a shampoo advertisement it never auditioned for — and under stage lighting it does genuinely gleam. Most of ours arrive in a shorter, more practical trim, and lose none of the swagger for it; the walk stays the same either way, a brisk, high-stepping little strut that suggests somewhere there is a runway this dog is late for.</p>
+<p>Throw a bone and the Yorkie's terrier wiring switches on instantly — a full charge, a decisive pounce, and a triumphant little shake of the head as if the bone had, at some point, needed correcting. Our chat reliably calls this "unbothered main character energy," and for once chat has undersold it.</p>`,
+    ownerFitHeading: 'Is a Yorkshire Terrier right for you?',
+    ownerFit: `<p>The Yorkshire Terrier is a genuinely portable, adaptable companion with a real terrier underneath the ribbon, and a specific list of small-dog fragilities to plan around.</p>
+<p><strong>Fragility.</strong> At well under ten pounds, a Yorkie can be seriously injured by a fall from a couch, a slammed door, a rough toddler, or a larger dog that doesn't know its own strength. This is a supervise-around-small-children breed, not a hand-it-to-the-kids breed.</p>
+<p><strong>Joints.</strong> Patellar luxation — a kneecap that slips out of its groove — is the single most common orthopedic finding in the breed, showing up as an occasional skip or hop mid-stride. Mild grades often need no treatment; a vet check confirms which grade you're dealing with.</p>
+<p><strong>Breathing and the trachea.</strong> Toy-breed windpipes can weaken over time, producing a dry, honking cough, especially under excitement or on a leash pulling against the throat. A harness instead of a collar is the standard fix, not a suggestion.</p>
+<p><strong>Blood sugar, especially in puppies.</strong> Yorkie puppies carry so little body fat that a skipped meal or a burst of excited play can drop their blood sugar fast, causing weakness or, in serious cases, seizures. Regular small meals matter more here than in most breeds; adults grow out of the worst of it.</p>
+<p><strong>Liver shunt.</strong> A minority of Yorkies are born with a vascular shortcut that lets blood bypass the liver's filtering job — worth knowing about if a puppy is failing to thrive or gain weight normally, and a reason to buy from a breeder who screens for it.</p>
+<p><strong>Teeth.</strong> That compact toy-breed jaw crowds a full set of adult teeth into very little space, and dental disease is close to universal without brushing and regular professional cleanings.</p>
+<p><strong>Grooming and temperament.</strong> The full show coat is a genuine daily-brushing commitment; most pet owners clip it short instead and are much happier for it. Underneath the coat is a real terrier — alert, a touch stubborn, prone to announcing visitors at volume — which suits an owner who wanted a dog with actual opinions, not a decorative accessory that happens to breathe.</p>
+<p><strong>Exercise and apartment life.</strong> A short daily walk plus some indoor play covers most of a Yorkie's physical needs, which makes the breed a genuinely good fit for apartment or city living. Do not mistake "low exercise needs" for "low maintenance," though — a bored, under-stimulated Yorkie will find its own entertainment, and a determined seven-pound terrier's idea of entertainment is not always compatible with your furniture.</p>
+<p><strong>The verdict:</strong> a bold, adaptable, apartment-friendly companion for someone willing to treat "small" as a structural fact requiring care, not a marketing detail.</p>`,
+    famousHeading: 'Famous Yorkshire Terriers',
+    famous: `<p>The breed's most decorated resident is Smoky, a four-pound Yorkie found in an abandoned foxhole in the New Guinea jungle in 1944 and adopted by American Corporal William Wynne. Smoky survived twelve combat missions and more than 150 air raids, helped run a telegraph wire through a 70-foot pipe under an airbase runway — a job that would otherwise have taken days of digging under fire — and is credited as the first documented therapy dog on record, visiting wounded soldiers in hospital wards for the rest of the war. She is also widely credited with reviving American interest in a breed that had, until then, stayed a niche English curiosity.</p>
+<p>Peacetime fame arrived courtesy of Audrey Hepburn, whose Yorkshire Terrier Mr. Famous appeared alongside her in a scene in "Funny Face" (1957) and rode in the bicycle basket between takes with a bow in his hair. Hepburn is widely credited with starting Hollywood's small-dog-as-fashion-statement habit, and Mr. Famous — later succeeded by a second Yorkie, Assam of Assam, after Mr. Famous was fatally struck by a car — was where that habit began. Small wonder the breed has stayed a red-carpet fixture ever since.</p>`,
+    relatedBreeds: [
+      { slug: 'maltese', name: 'Maltese' },
+      { slug: 'shih-tzu', name: 'Shih Tzu' },
+      { slug: 'teacup-poodle', name: 'Teacup Poodle' },
+      { slug: 'pomeranian', name: 'Pomeranian' },
+      { slug: 'teacup-yorkie', name: 'Teacup Yorkie' },
+    ],
+    breedTagName: 'Yorkshire Terrier',
+  },
+  pomeranian: {
+    name: 'Pomeranian',
+    headKeyword: 'Pomeranian',
+    metaDescription: "The Pomeranian: a 30-pound sled dog, shrunk by royal decree into a five-pound cloud of opinions. A field guide to the Pom, with stage notes.",
+    facts: {
+      'Group': 'Toy',
+      'Size': '3–7 lb (4–6 lb ideal) · 6–7 in at shoulder',
+      'Temperament': 'Lively, bold, extroverted, alert, intelligent',
+      'Life expectancy': '12–16 years',
+      'Coat': 'Thick double coat with a fluffy standoff outer layer and soft undercoat',
+      'Colors': 'Orange, red, cream, black, blue, sable, and more — one of the widest color ranges of any breed',
+      'AKC recognized': '1900, Toy Group',
+      'Origin': 'Pomerania (modern Poland/Germany) — descended from larger Spitz-type sledding and herding dogs',
+    },
+    lede: `The Pomeranian's ancestors pulled sleds and herded sheep at something like thirty pounds — a working Spitz dog built for cold weather and long hours, not a lap. Queen Victoria changed that math. After falling for a small red sable Pomeranian on a trip to Italy in 1888, she spent the rest of her reign breeding the line down, and by some estimates halved the breed's size within a few decades of royal enthusiasm. What survived the shrinking was, improbably, the entire original personality — the Pomeranian still carries itself like a sled dog that simply hasn't been informed of its own dimensions.`,
+    spotlightHeading: 'Why we love the Pomeranian on stage',
+    spotlight: `<p>A Pomeranian arrives on the Dog Show stage looking, structurally, like a dandelion that has been given legs and opinions. The famous standoff coat — a soft dense undercoat with a longer, fluffier outer layer standing straight out from the body — catches stage light in a way that makes even a five-pound dog read as a genuine presence, and the breed knows it. Poms do not slink onto a stage. Poms arrive.</p>
+<p>The tail is doing most of the showmanship. Carried flat and plumed over the back like a fox's, it is in near-constant motion, punctuating every head-tilt and bark with an extra flourish nobody asked for and everybody enjoys. And the bark itself is a whole personality — a small, sharp, confident sound that a Pomeranian will deploy at a passing shadow, a new arrival in chat, or simply the general injustice of not currently holding the floor.</p>
+<p>Bone-throws produce a full-body pounce disproportionate to the dog's actual mass, followed by a triumphant little strut back to center stage that says, unmistakably, this was never in doubt. Our chat has taken to calling this "unearned confidence," which is both accurate and, for a Pomeranian, exactly the point.</p>`,
+    ownerFitHeading: 'Is a Pomeranian right for you?',
+    ownerFit: `<p>The Pomeranian is a genuinely big personality in a genuinely small body, and the size is the part that needs real planning.</p>
+<p><strong>Joints.</strong> Luxating patella — a kneecap that slips its groove — is the breed's most common orthopedic issue, graded 1 through 4 by severity; mild cases show only an occasional skip mid-stride, while advanced cases need surgical correction. Ask a breeder whether the parents have been checked.</p>
+<p><strong>Breathing.</strong> Small toy-breed windpipes can weaken with age into tracheal collapse — a dry, honking cough that worsens with excitement or collar pressure. A harness rather than a collar is standard practice for this breed, not an optional accessory choice.</p>
+<p><strong>The coat, and the coat loss.</strong> That famous double coat needs brushing several times a week to stay mat-free, and the Pomeranian is also the poster breed for alopecia X — a poorly understood, non-itchy hair-loss condition that thins the coat and darkens the exposed skin. It's cosmetic rather than dangerous, but it can be a surprise if nobody warned you it exists.</p>
+<p><strong>Teeth.</strong> A compact jaw crowds a full set of adult teeth into very little space, and dental disease is close to universal without a regular brushing routine and professional cleanings.</p>
+<p><strong>Fragility and temperament.</strong> At well under ten pounds, a Pomeranian can be badly hurt by a fall, a slammed door, or an over-enthusiastic child or larger dog — this is a supervise-closely breed, not a hand-to-the-toddler breed. The confident, alert temperament that makes the breed such fun also makes it a determined watchdog with a genuine bark habit; owners in thin-walled apartments should plan for that honestly rather than hope it trains out entirely.</p>
+<p><strong>Exercise and training.</strong> Physical needs are modest — a short walk and some indoor play will do — which suits apartment living well. Training is a different matter: Pomeranians are intelligent enough to learn quickly and stubborn enough to decide learning isn't currently a priority. Short, consistent, reward-based sessions started early work far better than long ones started late, and a Pomeranian that isn't given a job to do will happily invent one, usually involving the doorbell.</p>
+<p><strong>The verdict:</strong> an intelligent, adaptable companion for an owner who wants real personality in a portable package, and who treats the coat, the knees, and the size itself as ongoing commitments rather than a one-time cute purchase.</p>`,
+    famousHeading: 'Famous Pomeranians',
+    famous: `<p>Royal patronage is where the modern Pomeranian's fame starts. Queen Victoria's decades of breeding down the size — and her habit of showing her own Poms at dog shows under her own name — did more than any single event to turn a working Spitz dog into a fashionable companion breed, and Pomeranians have carried a faint whiff of royal approval ever since.</p>
+<p>The breed also has an oddly specific claim on maritime history: when Titanic went down in 1912, one of the few animals to survive was Lady, a Pomeranian belonging to 24-year-old passenger Margaret Hays, who wrapped the dog in a blanket and carried her into a lifeboat — crew members apparently mistaking the bundle for an infant. Lady lived another eight years as a New York fixture, reportedly even accompanying Hays to the opera.</p>
+<p>More recently, a Pomeranian named Boo became one of the internet's first bona fide dog celebrities — a Facebook page built around his teddy-bear face drew over 16 million followers, spun off children's books and plush toys, and earned him the unofficial title "World's Cutest Dog" before his death in 2019. Between a queen, a shipwreck, and a Facebook empire, it's a strange arc for a dog descended from sled-pullers — and the Pomeranian seems entirely unbothered by the whiplash.</p>`,
+    relatedBreeds: [
+      { slug: 'pomsky', name: 'Pomsky' },
+      { slug: 'yorkshire-terrier', name: 'Yorkshire Terrier' },
+      { slug: 'maltese', name: 'Maltese' },
+      { slug: 'teacup-poodle', name: 'Teacup Poodle' },
+      { slug: 'siberian-husky', name: 'Siberian Husky' },
+    ],
+    breedTagName: 'Pomeranian',
   },
 };
 
