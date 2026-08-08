@@ -33,7 +33,14 @@ jobs:
           TELEGRAM_OPS_CHAT_ID: ${{ secrets.TELEGRAM_OPS_CHAT_ID }}
         run: |
           mkdir -p .ci
-          claude -p "$(cat prompts/wiki-update.md)" --model claude-sonnet-5 --max-turns 30 --dangerously-skip-permissions
+          # 2026-08-08: runs #3 (Jul 27) and #4 (Aug 3) both died on
+          # "Reached max turns (30)" and committed nothing — CLAUDE.md is ~90KB
+          # and surveying + rewriting it does not fit in 30 turns. Turns raised
+          # to 60 and the model moved to Haiku (doc maintenance is mechanical);
+          # a Haiku run at 60 turns costs less than the Sonnet run at 30 that
+          # was producing nothing. STRUCTURAL follow-up: CLAUDE.md needs
+          # splitting — this will re-break as the file grows.
+          claude -p "$(cat prompts/wiki-update.md)" --model claude-haiku-4-5-20251001 --max-turns 60 --dangerously-skip-permissions
 
       - name: Commit + push
         run: |

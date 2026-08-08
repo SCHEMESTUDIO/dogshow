@@ -37,7 +37,17 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           mkdir -p .ci
-          claude -p "$(cat prompts/breed-pages.md)" --model claude-sonnet-5 --max-turns 90 --dangerously-skip-permissions
+          # 2026-08-08: moved off sonnet-5 to Haiku. The quality bet is that
+          # the 40-page corpus in api/breed.js carries the voice and structure
+          # (the prompt now makes reading 3 live entries and diffing against
+          # them a hard step), and the VERIFY block catches thin output.
+          # Paired with 2 breeds/run -> 1 breed/run in the prompt: a weaker
+          # model needs more turns per page, and the failure mode here is
+          # all-or-nothing (a max-turns death commits NOTHING — see the
+          # wiki-update failures of Jul 27 / Aug 3).
+          # WATCH: word count and lede repetition on the first ~5 pages. If
+          # they read thin or samey, this is the line to revert.
+          claude -p "$(cat prompts/breed-pages.md)" --model claude-haiku-4-5-20251001 --max-turns 90 --dangerously-skip-permissions
 
       - name: Generate hero images (optional — skips without GEMINI_API_KEY)
         continue-on-error: true
