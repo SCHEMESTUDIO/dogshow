@@ -1750,6 +1750,46 @@ const BREEDS = {
     ],
     breedTagName: 'Pomeranian',
   },
+
+  beagle: {
+    name: 'Beagle',
+    headKeyword: 'Beagle',
+    metaDescription: "The Beagle: a pack hound with a nose that outweighs its judgment, and a centuries-long track record of following scent straight through the fence. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Hound',
+      'Size': 'Two sizes — Under 13 inches / 13–15 inches; typically 18–30 lb depending on variety',
+      'Temperament': 'Friendly, curious, driven, merry, intelligent, pack-oriented',
+      'Life expectancy': '10–15 years',
+      'Coat': 'Short, dense double coat; sheds seasonally',
+      'Colors': 'Tricolor (black/white/tan), red/white, lemon/white, and variations',
+      'AKC recognized': 'Yes — recognized 1885; first AKC registration was a Beagle named Blunder',
+      'Scent receptors': '~220 million (humans have ~5 million)',
+    },
+    lede: `The Beagle is a hunting dog that hunts by principle, and principle is the thing most likely to catch it. Small enough to fit in a city apartment, it was bred to work in packs chasing rabbits and hares across the English countryside, which means it carries in its compact, sturdy frame the temperament of an animal designed for relentless pursuit and pack cooperation. It also carries the single-mindedness of a creature whose sense of smell is so overdeveloped that it has essentially outsourced decision-making to its nose, and that nose is capable of dragging the rest of the dog — and, historically, the fence, your plans, and any dinner left unattended — in whatever direction the scent highway leads.`,
+    spotlight: `<p>The Beagle arrives on stage as a study in focus. Those floppy ears are not decoration — they work. The long ears dangle close to the ground, and the basal ridge where they attach acts as a scent-particle trap, funneling odor molecules directly toward the nose. On film this gives the Beagle a particular intentional look, head down, nose active, moment-to-moment utterly absorbed in whatever invisible information is available in the air. A Beagle does not perform for the camera the way a Goldendoodle performs. A Beagle investigates the camera as a source of potential information.</p>
+<p>What reads on screen is a compact, sturdy dog — neither tall nor short, neither heavy nor lean, but built to last through a full day's hunt. The coat is short and easy to read; the color-pattern (the classic tricolor is most common, but the reds and lemons vary beautifully) photographs well under studio lights. The face itself is merry in a nearly impossible way — upright alert eyes, the floppy ears framing the expression, a body language that says nothing is as interesting as whatever comes next.</p>
+<p>Bone counts run warm and steady. The Beagle doesn't command the instant spike a novelty breed does, but something about the whole package — the authenticity of the drive, the compact size, the obvious intelligence — keeps viewers engaged. Regulars in the chat have often met a Beagle IRL and can't stop anthropomorphizing at length.</p>`,
+    ownerFitHeading: 'Is a Beagle right for you?',
+    ownerFit: `<p>The Beagle is the gateway to the larger truth about hound ownership: a dog bred to track scent for miles without checking in with its handler is, functionally, a dog that does not listen to you. It is not stubbornness, exactly, and it is not stupidity — Beagles are clever creatures with better recall than many breeds — but it is an animal whose deepest drive, when activated, overrides training, the recall command, and sometimes the fence. If you are the kind of owner who can accept this and plan accordingly, a Beagle is a wonderful companion. If you are expecting a small Golden Retriever, you are about to be surprised.</p>
+<p><strong>The nose is a feature and a problem.</strong> Beagles follow scent with what can only be described as religious devotion. A Beagle on a long line will spend the walk with its nose permanently in the grass, detecting, cross-referencing, and pursuing information invisible to you. This is why Beagles were used to find explosives in Iraq and Afghanistan and why the USDA employs dozens of them to detect contraband at borders. It is also why a Beagle must be on a leash or in a securely fenced yard, always, because a detected scent — a rabbit, a deer, literally anything with a smell — can overpower months of training in seconds flat.</p>
+<p><strong>The ears are not cute; they're work.</strong> Those long floppy ears trap moisture and air in a dark, warm environment that fungi and bacteria find irresistible. Ear infections are common in the breed and require vigilant cleaning and prevention. A weekly ear-check and gentle cleaning, especially after swimming, is non-negotiable.</p>
+<p><strong>Obesity is the silent killer.</strong> Beagles have, without exaggeration, an insatiable appetite. They are food-motivated to the point of obsession and will eat anything even remotely edible. Measured portions are not optional — many Beagles will eat twice their correct body weight if given access, and obesity compounds every other health issue the breed carries. A fat Beagle is a dog in serious pain and shortened life.</p>
+<p><strong>Exercise is not optional.</strong> These are working dogs with real stamina. A short walk around the block meets nobody's needs — yours or the dog's. Plan for an hour or more of daily activity, ideally off-leash in a secure space (a fenced yard is non-negotiable given the scent-drive). A Beagle without adequate exercise becomes a household problem: destructive, escape-oriented, and convinced that your house is a hunting ground.</p>
+<p><strong>Health notes.</strong> Beyond the ear infections and obesity: epilepsy (typically emerging between ages 2-5), hypothyroidism, patellar luxation, and cherry eye (treatable, usually surgically). Allergies are common and often linked to the ear infections. Choose a breeder who health-tests for epilepsy and hip dysplasia.</p>
+<p><strong>They have opinions, and they express them at volume.</strong> Beagles bay — a distinctive, penetrating howl that's music to a hunter's ears and a genuine problem with close neighbors. This is not a breed that learns "quiet" because bay is genetically hardwired.</p>
+<p><strong>The honest verdict:</strong> a remarkable, intelligent, genuinely affectionate companion for an owner who respects the breed's working drive, provides the exercise and boundaries it needs, and accepts that a Beagle will always, always be a dog with its own ideas about where it wants to be.</p>`,
+    famousHeading: 'Famous Beagles',
+    famous: `<p>Snoopy is perhaps the most famous Beagle in the world, and has been since October 4, 1950, when he debuted in Charles M. Schulz's Peanuts comic strip — an icon with staying power that outlasted the strip itself, which ran for fifty years. Schulz based Snoopy on one of his own childhood dogs, Spike, and the character evolved over decades from a literal dog sleeping on his doghouse roof to the philosophical, imaginative, occasionally delusional best friend of a depressed kid named Charlie Brown. In 2009, celebrating the American Kennel Club's 125th anniversary, Snoopy was voted the No. 1 dog in pop culture, a ranking that has likely held ever since.</p>
+<p>But Snoopy's fame is cartoon fame, and real Beagles have earned their own glory on the show ring. Uno, registered as Ch. K-Run's Park Me in First, became the first Beagle ever to win Best in Show at the Westminster Kennel Club Dog Show in 2008 — a fifteen-inch specimen from Belleville, Illinois who won over a field of 2,626 competitors. Seven years later, in 2015, Miss P (Ch. Tashtins Looking for Trouble) became only the second Beagle to claim the same title, making her Uno's grand-niece and cementing the breed's place in Westminster's most prestigious honor roll.</p>
+<p>The breed has never lacked for real-world prominence. President Lyndon B. Johnson kept two Beagles, Him and Her, who became minor celebrities in their own right, often photographed on the White House lawn. The modern celebrity Beagle record runs deep, from Barry Manilow's Bagel and Biscuit to countless beloved family dogs whose claims to fame are simply that they were born charming and good-natured, which is perhaps the truest measure of the breed's genuine worth.</p>`,
+    relatedBreeds: [
+      { slug: 'basset-hound', name: 'Basset Hound' },
+      { slug: 'english-springer-spaniel', name: 'English Springer Spaniel' },
+      { slug: 'cane-corso', name: 'Cane Corso' },
+      { slug: 'german-shepherd', name: 'German Shepherd' },
+    ],
+    breedTagName: 'Beagle',
+  },
 };
 
 const STYLES = `
