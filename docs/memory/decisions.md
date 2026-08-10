@@ -52,7 +52,7 @@ delete. Keep entries short; link evidence.
   must show in-sync after every deploy (dirty-deploy drift was UX-audit H1/H2
   root cause; recurred 2026-07-08).
 
-- **2026-07-16 → 2026-07-19 — New external content pipeline: "postwerks".**
+- **2026-07-16 → 2026-07-19 — New external content pipeline: "postwerks" (first wave: 14 pages).**
   14 SEO listicle/explainer pages landed directly on `main` via commits
   `Publish: postwerks m2 — {slug}` (+ companion `(sitemap)` commits), authored
   `SCHEMESTUDIO <james@wearescheme.studio>`. No trace of "postwerks" anywhere
@@ -63,6 +63,21 @@ delete. Keep entries short; link evidence.
   "Postwerks-published SEO pages" for the file list. Treat these paths as
   externally-owned like the outreach/tracker files in WORKFLOW.md, even
   though they aren't (yet) added to `.githooks/pre-commit`'s guard list.
+- **2026-08-XX — Postwerks M2 wave: 11 additional pages** (animal-competitions,
+  bluey-dog-breeds, froplay-dog, lewis-hamilton-dog, indy-the-dog, origami-dog,
+  hound-dog-song, hound-dog-mha, is-cinnamoroll-a-dog, national-dog-show-finalists,
+  where-to-stream-dog-show). Total postwerks inventory: 25 pages.
+
+## Design / UX
+
+- **2026-08-03 — Redesign: cream paper + strict accent roles** (`89b3d5f` + `beea99c`).
+  Theme shifted from pale-lavender to warm cream (`--bg: #f7f2e9`, `--bg-card: #fffdf8`).
+  **Strict accent roles (HANDOFF.md §1):** bone orange (`--bone: #e8721c`, ONLY Give-a-bone/Send/hero CTA),
+  brass yellow (`--brass: #b98a2f`, rank #1 + eyebrows + nav + ticket), link purple (`--link: #5b46d6`,
+  all Enter-your-dog + LIVE dot), gold-text (`#e9c87e`, dark-chrome labels), lavender-on-dark (`#b7a9e8`).
+  Three-layer show-page rule: Stage → Act (fact strip + Give bone + bonus pill) → Compete (monthly race card + entry CTA).
+  Type system: YangBagus display, Georgia numerals/serif accents, system stack for body/UI.
+  Update check: HANDOFF.md maps all changes (§4 per-page, §5 component specs). See HANDOFF.md for full impl guide.
 
 ## One-time prod actions still open (as of 2026-07-15)
 
