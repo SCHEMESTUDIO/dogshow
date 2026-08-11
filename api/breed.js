@@ -858,6 +858,46 @@ const BREEDS = {
     breedTagName: 'Cavapoo',
   },
 
+  chihuahua: {
+    name: 'Chihuahua',
+    headKeyword: 'Chihuahua',
+    metaDescription: "The Chihuahua: the smallest AKC-recognized dog and one of the longest-living, a tiny body housing a personality twice its size. An honest field guide, with stage notes.",
+    facts: {
+      'Group': 'Toy',
+      'Size': 'Under 6 lb (ideal weight) · 5–8 inches at shoulder',
+      'Temperament': 'Alert, graceful, saucy, loyal, attention-seeking, terrier-like',
+      'Life expectancy': '14–16 years (some live into their 20s)',
+      'Coat': 'Two varieties — smooth and long-coated',
+      'Colors': 'Any color or color combination (fawn most common; also black, white, cream, chocolate, tan)',
+      'AKC recognized': 'Yes — recognized 1904; 11th most popular of 155 breeds',
+      'Origin': 'Ancient pre-Columbian kingdoms; modern breed developed in Mexico, national symbol',
+    },
+    lede: `The Chihuahua is the sound of ambition in a very small body. Weighing no more than six pounds, small enough to fit in a teacup (hence a whole separate breed category invented around the concept), the Chihuahua carries the personality of a dog four times its size and the conviction that size is irrelevant and, frankly, beside the point. It is a breed that arrived from ancient Mexico and has never once seemed to register that it is supposed to be lap furniture. The Chihuahua knows exactly what it is: the centre of attention, non-negotiable.`,
+    spotlight: `<p>On stage, the Chihuahua is a study in confidence writ small. The build is delicate — the long, narrow face, the high-set ears that can swivel independently, the legs that look as though they might snap if someone sneezed in the wrong direction — and yet the whole package carries itself with the bearing of a dog twice the height. A Chihuahua does not trot out; it marches.</p>
+<p>The eyes are enormous and very, very focused. A Chihuahua arriving on the show floor seems, within seconds, to have assessed the lighting conditions, catalogued the threats, and determined the optimal position from which to receive the adoration it considers its due. They are not nervous dogs in the way small dogs sometimes are. They are small dogs in the way bulldozers are small vehicles — it is not a size descriptor, it is a misconception.</p>
+<p>What viewers find irresistible is the mismatch. A dog this tiny does not get to have this much confidence, and yet here we are. The bones arrive like applause at a small, surprisingly arrogant performance.</p>`,
+    ownerFitHeading: 'Is a Chihuahua right for you?',
+    ownerFit: `<p>The Chihuahua suits a very particular owner, and it is worth understanding what you are signing up for before you fall for the size.</p>
+<p><strong>Fragility first.</strong> These are small dogs, physically delicate in a way that toy breeds in general are and Chihuahuas in particular are. A fall from sofa height can break a leg. Handling must be firm but gentle; a Chihuahua dropped or squeezed roughly can suffer serious injury. If your household includes young children who haven't yet mastered delicate handling, this is the wrong breed.</p>
+<p><strong>Temperament and socialization.</strong> The personality is fearless bordering on confrontational, which reads as cute at four pounds but can tip into aggression if the dog isn't socialized early and broadly. Small dogs are often permitted to bark at other dogs, snap at strangers, and generally behave in ways that are overlooked because they are not a physical threat. In a Chihuahua, this matters more than most. They need to learn that other creatures are not invading their territory.</p>
+<p><strong>Health.</strong> Collapsing trachea (a narrowing of the airway that causes chronic coughing and can be life-threatening), patellar luxation (knee dislocation), hydrocephalus, and dental crowding are the main concerns. Hypoglycemia can be serious in puppies. Choose a breeder who has health-tested the parents and can speak candidly about the breed's vulnerabilities.</p>
+<p><strong>Housetraining.</strong> Notoriously slow. Small-dog owners often give up on perfect reliability — a Chihuahua in your house may never be 100% trustworthy away from a wee-pad. Patience, consistency, and realistic expectations help.</p>
+<p><strong>Attention requirements.</strong> These dogs want to be with you, near you, on you. A Chihuahua left alone for ten hours a day is not living its best life. They are companions first, everything else a distant second.</p>
+<p><strong>Trainability.</strong> Smart and spirited, but they do have opinions and will voice them. Training works best with small, high-value rewards and a handler with patience and humor.</p>
+<p><strong>The honest verdict:</strong> a wonderful companion for a calm, attentive household that appreciates a small dog with a large personality and will take the health and socialization seriously. A poor fit for a busy household, a rough environment, or anyone who wants a decorative handbag ornament — though Chihuahuas have certainly had success at being those things.</p>`,
+    famousHeading: 'Famous Chihuahuas',
+    famous: `<p>The single most famous Chihuahua in advertising history is Gidget, better known as the Taco Bell Chihuahua. From 1997 to 2000, her catchphrase "¡Yo quiero Taco Bell!" — a small dog demanding fast food in Spanish — became so culturally embedded that it drove half a billion dollars in revenue for the chain and made her a household name. She appeared on talk shows, toured the country, and made a cameo in Legally Blonde 2 before the campaign ended. She lived to 15, dying in 2009, and remains one of the most recognizable brand mascots in advertising history.</p>
+<p>Beyond the Taco Bell phenomenon: Paris Hilton's Tinkerbell became a fixture of The Simple Life and early celebrity Instagram culture, forever associated with the handbag-dog era of the 2000s. The Beverly Hills Chihuahua film franchise (2008 onward) rode that wave. Celebrity owners abound — Madonna, Demi Moore, Mickey Rourke, Jamie Lee Curtis, George Lopez — perhaps because the Chihuahua's refusal to act small translates remarkably well to camera work. A dog convinced it is larger than life photographs like one.</p>`,
+    relatedBreeds: [
+      { slug: 'teacup-poodle', name: 'Teacup Poodle' },
+      { slug: 'french-bulldog', name: 'French Bulldog' },
+      { slug: 'maltese', name: 'Maltese' },
+      { slug: 'mini-dachshund', name: 'Mini Dachshund' },
+      { slug: 'pomeranian', name: 'Pomeranian' },
+    ],
+    breedTagName: 'Chihuahua',
+  },
+
   'cane-corso': {
     heroImage: '/breeds-img/cane-corso.jpg',
     heroCredit: 'AI-generated image',
