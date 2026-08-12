@@ -1874,6 +1874,47 @@ const BREEDS = {
     ],
     breedTagName: 'Beagle',
   },
+
+  boxer: {
+    name: 'Boxer',
+    headKeyword: 'Boxer',
+    metaDescription: "The Boxer: a German working dog with the soul of a goofball, the build of a weight lifter, and a centuries-old talent for reading a room. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Working',
+      'Size': 'Males 22.5–25 in, ~70 lb · Females 21–23.5 in, ~60 lb',
+      'Temperament': 'Affectionate, fun-loving, eager to please, playful, loyal, alert, dignified',
+      'Life expectancy': '10–12 years',
+      'Coat': 'Short, smooth, shiny double coat; sheds seasonally',
+      'Colors': 'Fawn or brindle, always with white markings',
+      'AKC recognized': 'Yes — 1904 (Non-Sporting Group 1924–1936); moved to Working Group 1936',
+      'Origin': 'Munich, Germany — late 1800s, descended from the Bullenbeisser (bull-biter)',
+    },
+    lede: `The Boxer is what happens when you take a dog bred to bait bulls and guard monasteries, then refine it in 1880s Bavaria into something with the musculature of a boxer (hence the name) and the emotional intelligence of a golden retriever who has just realized it can tell jokes. The result is a creature that looks like it could win an actual boxing match, behaves like your most loyal friend, and will steal your dinner off the counter with the casual confidence of someone who has already decided the consequences are worth it. Boxers are, functionally, clowns in weight-lifter bodies.`,
+    spotlight: `<p>The Boxer arrives on stage as a study in coiled energy barely contained by the laws of physics. That broad chest, those powerful shoulders, the muscular haunches — this is a dog built to drive, to leap, to work for hours. But the moment it enters frame, what viewers see is not menace. What they see is the mouth. The Boxer's underbite is a genetic feature of the breed — the lower jaw extends beyond the upper — and combined with the alert forward ears and intelligent eyes, it creates an expression that reads as perpetual gentle bemusement. This dog is built like a tank and convinced that whatever happens next will be charming.</p>
+<p>Movement is where Boxers distinguish themselves on stage. They do not slink or circle. They move with a particular springy energy, bouncing almost, as though the ground is slightly more fun than expected. For a dog that weighs seventy pounds, there is remarkable grace — a lightness that reads as playfulness rather than nervousness. The short coat photographs beautifully; the brindle or fawn colorwork catches light in ways that solid colors cannot. When a Boxer settles and makes eye contact with the camera, the effect is immediate: alert, present, entirely undisturbed by the live audience.</p>
+<p>Bone counts for Boxers run warm. There is something about the whole package — the obvious physicality combined with the visible personality, the seriousness of the build combined with the silliness of the expression — that keeps viewers engaged. The chat fills with people describing their own Boxers and their inexplicable house-training mishaps, their capacity to move five-pound objects with the deliberation of a heavyweight, their habit of sitting on your lap despite weighing as much as a small sofa. An owner speaks and usually adds, with fondness and exhaustion, "he never stops moving." Accurate.</p>`,
+    ownerFitHeading: 'Is a Boxer right for you?',
+    ownerFit: `<p>The Boxer is a wonderful dog and an exhausting dog. Whether it is wonderful enough to justify the exhaustion depends on your household and your tolerance for organized chaos.</p>
+<p><strong>Energy is relentless.</strong> Boxers were bred to work, and that work ethic remains hardwired into the modern breed. This is not a dog that is satisfied with a walk around the block. A young Boxer — and they stay juvenile in temperament well into their third year — needs serious daily activity: running, play sessions, ideally some kind of structured activity or training. An under-stimulated Boxer becomes a creative problem-solver, and Boxer creativity tends to express itself as counter-surfing, furniture destruction, and the inexplicable moving of small objects from one room to another for reasons no human will ever understand.</p>
+<p><strong>Health is the honest conversation.</strong> Boxers face three serious genetic concerns that every prospective owner must understand: Cancer is the most common cause of death in the breed, accounting for roughly 14% of all disorders and a significant cause of mortality. Boxer cardiomyopathy — an inherited heart condition that causes irregular heartbeat — affects approximately 48% of the breed according to breed-club health surveys, though not all carriers develop clinical symptoms. Hip dysplasia affects about 25% of the breed. Any Boxer owner must commit to regular veterinary screening and accept that the breed's lifespan is genuinely shorter than many others of similar size. Choose a breeder who screens parents for all three conditions and provides health certifications.</p>
+<p><strong>Breathing issues are real.</strong> Boxers are a brachycephalic (flat-faced) breed. They are prone to overheating, breathing difficulty in heat or humidity, and exercise intolerance in high temperatures. This is not cosmetic — it is a structural concern that shortens many Boxers' active years and can cause genuine distress. Air conditioning and careful management of exercise during warm weather are non-negotiable.</p>
+<p><strong>They are emotionally intelligent and emotionally needy.</strong> Boxers bond intensely to their families and do not handle isolation or change gracefully. A Boxer left alone for eight hours regularly may develop separation anxiety, destructiveness, or behavioral problems. This is a dog that needs to be part of the household, not relegated to a backyard or left crated for long periods.</p>
+<p><strong>Trainability is excellent, with patience.</strong> Boxers are intelligent and eager to please, which makes them highly trainable — but they also retain adolescence-level stubbornness well into their third year. Early socialization and consistent training yield a well-mannered, responsive companion. Without it, you get a large, enthusiastic dog with very few manners.</p>
+<p><strong>Coat maintenance is minimal.</strong> Short and smooth, the Boxer coat requires no grooming beyond regular brushing to manage seasonal shedding. This is one area where the breed is genuinely low-maintenance.</p>
+<p><strong>The honest verdict:</strong> if you have the space, the time for daily exercise, the financial capacity to manage potential health emergencies, and the emotional availability to provide a Boxer the companionship it craves, you will have one of the most rewarding, entertaining, and genuinely loyal dogs in your life. If any of those conditions are not met, choose a different breed. A bored, isolated, or under-exercised Boxer is a genuine household problem.</p>`,
+    famousHeading: 'Famous Boxers',
+    famous: `<p>The Boxer has had an unusual relationship with fame. Decades before Boxers appeared in major films or claimed celebrity ownership, they were already proving themselves in the ring — the show ring, that is. Ch. Arriba's Prima Donna, nicknamed "Suzie," won Best in Show at the Westminster Kennel Club Dog Show in 1970, a record that still stands as the only female Boxer to ever claim the title. The judge, seeing Suzie in the ring, described her as "elegance personified." That single victory cemented the Boxer as one of the most successful breeds in Westminster history — only a handful of breeds have more Best in Show wins than the four claimed by Boxers.</p>
+<p>In entertainment, Boxers have had a modest but respectable presence. The movie Good Boy! featured a Boxer named Wilson, and the breed has appeared in various television shows and commercials over the decades. But Boxer fame is not primarily a matter of film — it is a matter of household presence. Hugh Jackman, Ryan Reynolds, Cameron Diaz, Jessica Biel, and Justin Timberlake have all owned Boxers. Kim Kardashian has owned multiple Boxers. The breed carried the classic-film royalty cache of Humphrey Bogart and Lauren Bacall, who were so devoted to the breed that they owned three: George, Harvey, and Baby.</p>
+<p>In recent years, Boxers have found a particular niche on social media. Boxer videos on TikTok rack up millions of views not because of tricks or dramatic moments, but because Boxers are, fundamentally, funny dogs. Videos of Boxers demanding attention from owners on phone calls, Boxers greeting neighbors with enthusiasm, Boxers confused by their own reflections — these go viral because the breed's physical presence combined with its emotional transparency creates a kind of comedy that needs no narration. A Boxer being a Boxer is enough. That authenticity has made the breed something of a social-media favorite among dog owners who value personality over spectacle.</p>`,
+    relatedBreeds: [
+      { slug: 'german-shepherd', name: 'German Shepherd' },
+      { slug: 'cane-corso', name: 'Cane Corso' },
+      { slug: 'belgian-malinois', name: 'Belgian Malinois' },
+      { slug: 'labrador-retriever', name: 'Labrador Retriever' },
+      { slug: 'american-bully', name: 'American Bully' },
+    ],
+    breedTagName: 'Boxer',
+  },
 };
 
 const STYLES = `
