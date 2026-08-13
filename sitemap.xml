@@ -176,6 +176,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://dogshow.lol/breeds/great-dane</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dogshow.lol/breeds/maltese</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

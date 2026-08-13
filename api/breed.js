@@ -1915,6 +1915,50 @@ const BREEDS = {
     ],
     breedTagName: 'Boxer',
   },
+
+  'great-dane': {
+    name: 'Great Dane',
+    headKeyword: 'Great Dane',
+    metaDescription: "The Great Dane: the Apollo of Dogs, a German gentle giant bred from medieval boarhounds and refined into the most patient of giants. An honest field guide, with stage notes.",
+    facts: {
+      'Group': 'Working',
+      'Size': 'Males 30+ in (32+ preferred) / 140–175 lb · Females 28+ in (30+ preferred) / 110–140 lb',
+      'Temperament': 'Gentle, affectionate, patient, dignified, calm, intelligent, good with family and children',
+      'Life expectancy': '8–10 years (sources cite 6–12 year range)',
+      'Coat': 'Short, dense, glossy double coat; sheds seasonally',
+      'Colors': 'Fawn, brindle, black, blue, harlequin (white with black patches), mantle (black with white chest/legs), merle',
+      'AKC recognized': 'Yes — 1887',
+      'Origin': 'Germany — descended from medieval boarhounds; modern breed refined in 1870s–1880s from Irish Wolfhound × English Mastiff crosses',
+    },
+    lede: `There is a word breeders use for the Great Dane: the Apollo of Dogs. Not because Danes are vain — though they carry themselves with a certain quiet dignity — but because of the sheer architectural audacity of the thing. A dog that can stand on its hind legs and look a human dead in the eye, that weighs as much as a professional athlete, that was originally bred to hunt boar in medieval Germany and somehow ended up refined into one of the most peaceful creatures in the modern kennel. The Great Dane is, in essence, all the dog anyone could ever need, and none of the attitude you might expect to come with it.`,
+    spotlight: `<p>A Great Dane arriving on stage creates an immediate optical recalibration. The frame, suddenly, is mostly dog. The build is architectural — deep chest, long legs that seem to go on forever, the broad head held at an elegant angle. The coat, short and glossy, catches every light. Whether it comes in fawn, brindle, black, harlequin, or mantle, the sheer presence of the animal dominates the frame before it has moved an inch.</p>
+<p>What viewers are rarely prepared for is the gentleness. A dog this large, this powerful, this built for ancient boar-hunting duty, moves with the restraint of something that knows exactly how much damage it could do and has decided, with absolute certainty, not to. A Great Dane does not bounce. It does not demand. It arrives, settles, and regards the camera with the patience of a statue that has decided to participate in the evening.</p>
+<p>On stage, Danes move with a particular kind of grace — not a Labrador's eager efficiency, but a dancer's economy. Every motion seems deliberate. The tail, when it moves, is a pendulum. The eyes track the room steadily. A Great Dane in frame is visibly capable of vast gentleness and vast strength, and the combination reads as nobility. Viewers respond with warmth and a kind of careful respect — the bones arrive like a formal acknowledgment rather than enthusiasm.</p>
+<p>The chat, watching a Dane, frequently says the same thing: "I had no idea they were that calm." Most preconceptions about giant breeds involve energy and chaos. A Great Dane demolishes that assumption in about forty seconds of footage.</p>`,
+    ownerFitHeading: 'Is a Great Dane right for you?',
+    ownerFit: `<p>The Great Dane is one of the best companion dogs alive — for the right household. That household needs to be very clear-eyed about what it is committing to.</p>
+<p><strong>Space.</strong> A Great Dane will take up floor space. Furniture becomes shared real estate. A dog that weighs 150 pounds and believes it is a lapdog is a practical architectural question. Apartments can work if the building allows it and you are genuinely okay with a very large animal in a small space — many Danes adapt beautifully to apartment living because of their low energy — but you need honesty about the size, not hope.</p>
+<p><strong>The lifespan conversation.</strong> This is the critical one. Great Danes live 7–10 years, which is short even by large-breed standards. This is not a dog you get when you are young and keep for twenty years. This is a dog you get for a defined, shorter companionship, and you need to go into it knowing that. Some people find this acceptable because the intensity of the bond over that shorter span is genuinely profound. Others find it impossible to accept. Decide before you buy.</p>
+<p><strong>Health: bloat is the nightmare.</strong> Gastric dilatation-volvulus — bloat, where the stomach fills with gas and twists — is the leading emergency in the breed and can be fatal in hours. Approximately 37 percent of Great Danes will experience bloat in their lifetime. Learn the warning signs: restlessness, pacing, unsuccessful vomiting attempts, a distended abdomen. Bloat can strike even a well-fed, well-exercised Dane, though feeding smaller frequent meals (not one large meal) and avoiding vigorous exercise immediately before or after eating may reduce risk. A Dane owner must be prepared to recognize bloat instantly and get to an emergency vet immediately — every minute counts. Many owners keep emergency vet numbers visible and know the route to an after-hours clinic before they own the dog.</p>
+<p><strong>Dilated cardiomyopathy (heart disease).</strong> Heart enlargement is shockingly common in the breed — often the second leading cause of death after bloat. The prognosis, once clinical signs appear, is grim: most dogs live only five weeks after symptoms show up. Responsible breeders screen parents via echocardiogram. Your Dane should have regular cardiac checkups with a vet experienced in giant-breed heart disease — find that vet before you own the dog, not during an emergency.</p>
+<p><strong>Hip dysplasia.</strong> About 20 percent of Great Danes are affected. Choose a breeder who has hip-scored the parents and can show you the paperwork. Not optional. This is a filter question for any Dane breeder — if they haven't health-tested, keep looking.</p>
+<p><strong>Energy and exercise.</strong> Despite the size, Great Danes are moderate-energy dogs. A couple of solid walks a day and some gentle play usually cover it. They do not need hours of running. What they need is consistent, gentle exercise and presence. A Dane left completely inactive becomes stiff and unhappy; a Dane pushed into high-impact sport (agility, dock diving) risks joint and cardiac stress.</p>
+<p><strong>Temperament.</strong> Danes are genuinely good-natured. They are affectionate with family, patient with children, and aloof but not aggressive with strangers. Early socialization keeps them appropriately cautious without fear. Their size alone makes them a presence — you do not need a Dane with aggression problems.</p>
+<p><strong>The honest verdict:</strong> if you have space, financial capacity for a large dog's food and veterinary care (including emergency medicine), acceptance of a shorter lifespan, and emotional readiness for an intense but brief companionship, the Great Dane gives back more quiet loyalty than almost any dog alive. If the lifespan or the health realities are deal-breakers, choose a different breed. A Great Dane is not a casual commitment.</p>`,
+    famousHeading: 'Famous Great Danes',
+    famous: `<p>The Great Dane's fame splits neatly into fiction and reality. Scooby-Doo, the cowardly, Scooby-snack-obsessed mystery-solving Great Dane, debuted on CBS Saturday mornings in September 1969 — the Hanna-Barbera creation of Joe Ruby and Ken Spears, designed by animator Iwao Takamoto. Takamoto famously drew Scooby as the <em>opposite</em> of a prize-winning Dane: humped back, bowed legs, small chin. The result was iconic. Scooby's friendly, lovable personality perfectly matched the breed's genuine temperament, and the cartoon so captured the public imagination that Great Dane registrations jumped 24 percent in 1969 alone. While Scooby-Doo shaped how people think the breed acts, the real Great Dane is considerably more dignified.</p>
+<p>Real-world fame has centered on record-breaking heights. Giant George, a blue Dane owned by David Nasser of Tucson, Arizona, held the Guinness World Record for world's tallest living dog from 2010 to 2012, standing 39⅛ inches at the shoulder and weighing 245 pounds. George appeared on The Oprah Winfrey Show. Gibson, a harlequin Dane from California, took the record at 42.2 inches, working as a certified therapy animal and appearing on The Tonight Show, The Oprah Winfrey Show, and The Ellen DeGeneres Show before dying of cancer at age seven. Most recently, Freddy, a fawn Dane from Essex, England, held the Guinness record from 2016 onward, standing 103.5 centimeters (3 feet 4 inches) at the withers. All three captured the public imagination not for being aggressive or dramatic, but for being impossibly large and utterly gentle — the breed's actual temperament, just supersized.</p>
+<p>The recurring pattern in Great Dane fame is consistent: they arrive, they are enormous, and they behave better than most dogs half their size. That combination — the gap between what the size suggests and what the dog actually does — is what makes the breed memorable.</p>`,
+    relatedBreeds: [
+      { slug: 'boxer', name: 'Boxer' },
+      { slug: 'german-shepherd', name: 'German Shepherd' },
+      { slug: 'belgian-malinois', name: 'Belgian Malinois' },
+      { slug: 'cane-corso', name: 'Cane Corso' },
+      { slug: 'bernese-mountain-dog', name: 'Bernese Mountain Dog' },
+      { slug: 'newfoundland', name: 'Newfoundland' },
+    ],
+    breedTagName: 'Great Dane',
+  },
 };
 
 const STYLES = `

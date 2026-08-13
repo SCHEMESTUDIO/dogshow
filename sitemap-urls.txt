@@ -33,6 +33,7 @@ https://dogshow.lol/breeds/french-bulldog
 https://dogshow.lol/breeds/dalmatian
 https://dogshow.lol/breeds/belgian-malinois
 https://dogshow.lol/breeds/boxer
+https://dogshow.lol/breeds/great-dane
 https://dogshow.lol/breeds/maltese
 https://dogshow.lol/breeds/bernese-mountain-dog
 https://dogshow.lol/breeds/vizsla
@@ -81,3 +82,4 @@ https://dogshow.lol/froplay-dog
 https://dogshow.lol/bluey-dog-breeds
 https://dogshow.lol/where-to-stream-dog-show
 https://dogshow.lol/national-dog-show-finalists
+https://dogshow.lol/how-long-is-the-dog-show
