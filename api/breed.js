@@ -1959,6 +1959,48 @@ const BREEDS = {
     ],
     breedTagName: 'Great Dane',
   },
+
+  rottweiler: {
+    name: 'Rottweiler',
+    headKeyword: 'Rottweiler',
+    metaDescription: "The Rottweiler: a German working dog descended from Roman legions, built for purpose and loyalty, and — if you read this carefully first — the right guardian for the right household. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Working',
+      'Size': 'Males 24–27 in, 95–135 lb · Females 22–25 in, 80–100 lb',
+      'Temperament': 'Confident, loyal, intelligent, protective, aloof with strangers',
+      'Life expectancy': '9–11 years',
+      'Coat': 'Short, dense double coat; sheds seasonally',
+      'Colors': 'Black with rust/mahogany markings (chest, legs, face)',
+      'AKC recognized': 'Yes — 1935, Working Group',
+      'Origin': 'Rottweil, Germany — descended from Roman war dogs; used as cattle drovers and cart-pullers',
+    },
+    lede: `The Rottweiler carries in its bones the history of the Roman legions. Descended from the war dogs that marched with Roman armies across Europe, refined over centuries as a cattle drover's dog in the town of Rottweil (hence the name), the breed arrived in the modern era as a police and military working dog — steady, intelligent, protective, and entirely unbothered by the attention of strangers. The Rottweiler's reputation has been distorted by decades of irresponsible breeding and Hollywood casting, so let me say this plainly at the start: a well-bred, properly trained Rottweiler from a responsible breeder is one of the most loyal, trustworthy, and genuinely gentle large dogs alive. A poorly bred, untrained Rottweiler from someone breeding for size and aggression is a serious liability. The difference is measured in whether you read the owner-fit section honestly before committing.`,
+    spotlight: `<p>On the Dog Show stage, a Rottweiler arrives with the unshowy confidence of an animal that has never doubted its own competence. The build is immediately impressive — deep chest, powerful hindquarters, the short black coat with its signature rust markings photographing like a finely tailored suit under stage lights. What reads on camera is not menace. What reads is presence.</p>
+<p>The eyes are where the intelligence shows. A Rottweiler tracks the room with the focus of a dog assessing, constantly, what it is seeing and whether it requires a response. This is not nervousness — it is a working dog's baseline awareness. Compared to the eager-to-please bounce of a Golden Retriever or the play-seeking energy of a young Boxer, the Rottweiler moves with purpose and deliberation. Every step reads as intentional. The head stays level. The temperament, visible in body language, is one of quiet confidence rather than urgency or need.</p>
+<p>Bone counts for Rottweilers run steady and warm. Viewers who know the breed recognize the intelligence immediately; those who don't sometimes mistake the confidence for aloofness. By the time the dog settles fully, most of the chat has arrived at the same conclusion: this is a dog that knows exactly what it is, and that certainty is attractive. The ones who send bones tend to be people who understand that a confident dog is different from an aggressive one.</p>`,
+    ownerFitHeading: 'Is a Rottweiler right for you?',
+    ownerFit: `<p>This section matters even more than most on this site. The honest answer is: only if you approach the breed with genuine respect, have experience with large guardian dogs, and commit to responsible breeding and training.</p>
+<p><strong>Experience and confidence are required.</strong> A Rottweiler is not a first large dog, and it is emphatically not a first dog for someone seeking a "tough" image. This breed needs an owner who is calm, confident, and consistent — not harsh, not domineering, but genuinely in command. A Rottweiler picks up on uncertainty and can test boundaries if it senses any. An insecure owner with a Rottweiler creates the exact dynamic that leads to the stories that have poisoned the breed's reputation.</p>
+<p><strong>Socialization and training are not optional extras.</strong> Early, broad, lifelong socialization and steady obedience training from a knowledgeable handler are the difference between a sound guardian and a dangerous one. An under-socialized Rottweiler with protective instincts and no outlet is a serious risk. Plan for professional training from puppyhood, not as a luxury but as part of the cost of ownership. The early months are where it gets decided.</p>
+<p><strong>The protective instinct must be managed, not encouraged.</strong> A Rottweiler is naturally aloof with strangers and watchful over its family — that is the breed's actual purpose. That instinct needs consistent channeling and control. Never, ever encourage suspicion or aggression as a way to make the dog "tougher" or "more protective." A confident, well-socialized Rottweiler does not need encouragement to defend its family. It will know.</p>
+<p><strong>Health screening is non-negotiable.</strong> Hip and elbow dysplasia are common in the breed, as is dilated cardiomyopathy — some lines run a shocking prevalence of cardiac issues. Cancer rates are elevated. Choose a breeder who has hip-scored and elbow-scored both parents and conducted cardiac screening. Ask directly. A breeder who gets defensive about health screening is a breeder to avoid entirely.</p>
+<p><strong>Appearance matters less than temperament and health.</strong> The Rottweiler has been ruined in many bloodlines by breeders selecting for size and head shape at the expense of movement, soundness, and temperament. A smaller, lighter-boned dog from a responsible breeder who selects for working soundness and stable temperament is infinitely preferable to a massive dog from a backyard breeder.</p>
+<p><strong>Exercise and work.</strong> Rottweilers are moderate-energy dogs, not marathon runners. What they need is consistent daily activity, a sense of purpose, and mental stimulation. A Rottweiler without a job often creates one, and Rottweiler creativity can be destructive or defensive. The breed excels at obedience and structured work. A bored, under-exercised Rottweiler is a problem waiting to happen.</p>
+<p><strong>Breeding and the breed's future matter.</strong> The Rottweiler has been decimated by irresponsible breeders. If you own this breed, choose carefully from a breeder transparent about health testing, working with the breed club, and breeding for working temperament and genetic soundness — not Instagram followers or a dangerous-dog image. The breed's future depends on responsible people.</p>
+<p><strong>The honest verdict:</strong> for an experienced, confident owner who approaches the breed with respect and commits to proper training, health screening, and socialization, a Rottweiler is one of the most loyal, intelligent, and rewarding companions a dog can be. For anyone who sees it as a status symbol or tough-guy accessory, it is a recipe for disaster. Choose accordingly.</p>`,
+    famousHeading: 'Famous Rottweilers',
+    famous: `<p>The Rottweiler's fame has always been split between working-dog legitimacy and Hollywood villainy. On the legitimate side: the breed has served as police dogs, military dogs, and protection animals for decades. K-9 units across America have used Rottweilers for patrol work. The breed's working heritage is genuine, earned through steady professional service rather than headline-grabbing rescue stories.</p>
+<p>In entertainment, the Rottweiler has mostly drawn the short straw. Hollywood has used the breed as a villain's dog — the dangerous guard dog, the beast that attacks without provocation — a pattern that has done the breed enormous damage in public imagination. There are Rottweilers in film, but they are rarely the heroes, and the casting choices have typically reinforced fears rather than challenge them. This is not the breed's fault. It is the fault of filmmakers who chose dogs to look scary.</p>
+<p>Real Rottweiler fame tends to be quieter. The breed has an extensive working record with law enforcement and military organizations — dogs whose names will never appear on Wikipedia but whose work has genuine impact. The breed club maintains registries of Rottweilers in protection and police work. These are the dogs defining the breed's real reputation among people who know it: intelligent, capable, loyal, and reliable. Which is precisely what a working dog should be.</p>`,
+    relatedBreeds: [
+      { slug: 'belgian-malinois', name: 'Belgian Malinois' },
+      { slug: 'german-shepherd', name: 'German Shepherd' },
+      { slug: 'cane-corso', name: 'Cane Corso' },
+      { slug: 'boxer', name: 'Boxer' },
+      { slug: 'great-dane', name: 'Great Dane' },
+    ],
+    breedTagName: 'Rottweiler',
+  },
 };
 
 const STYLES = `
