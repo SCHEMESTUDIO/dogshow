@@ -817,6 +817,50 @@ const BREEDS = {
     breedTagName: 'Maltipoo',
   },
 
+  'cavalier-king-charles-spaniel': {
+    name: 'Cavalier King Charles Spaniel',
+    headKeyword: 'Cavalier King Charles Spaniel',
+    metaDescription: "The Cavalier King Charles Spaniel: named for a king who could not part with them, the breed is a study in gentleness, devotion, and the complicated gift of a short life. An honest field guide, with stage notes.",
+    facts: {
+      'Group': 'Toy',
+      'Size': '12–13 inches at shoulder · 13–18 pounds',
+      'Temperament': 'Gay, friendly, non-aggressive, adaptable, affectionate, gentle',
+      'Life expectancy': '9–14 years (varies by study; 10–11 years common)',
+      'Coat': 'Medium-length, silky, smooth, slightly wavy with feathering',
+      'Colors': 'Blenheim (chestnut & white), Tricolor (black/white/tan), Black & tan, Ruby',
+      'AKC recognized': 'Yes — 1995, Toy Group (British KC 1945)',
+      'Origin': 'British; developed from English Toy Spaniel. Named for King Charles II, who was known for his devotion to small spaniels.',
+    },
+    lede: `King Charles II spent so much time with his little spaniels that courtiers complained — the dogs followed him everywhere, a constant presence at council and court. Whether the claim is legend or fact, the Cavalier King Charles Spaniel carries the association as its namesake. What the breed actually is: a toy spaniel of genuine gentleness, bred to be a companion and nothing else, gifted with the kind of soft temperament that makes you forget how much heartbreak is baked into the bones. The Cavalier will break your heart, if you let it get close enough. And if you own this breed, you will absolutely let it get that close.`,
+    spotlight: `<p>On the Dog Show stage, a Cavalier arrives looking like a dog designed specifically for the camera. The silky coat catches light beautifully. The size is perfect for framing — large enough to read on screen, small enough not to dominate it. The eyes are what stop the room first: large, dark, round, set in a face that has been called gentle and melting, and those adjectives fit exactly.</p>
+<p>The Blenheim coloring — chestnut and white in soft patches, often with a white blaze down the face — reads like painterly composition, and many arrive in exactly that palette. Ruby Cavaliers (solid red) and Tricolors photograph equally well, but the Blenheim is the breed's signature. The coat's silky texture and the floppy ears frame the face in a way that pulls the eye constantly back to those eyes.</p>
+<p>Behaviorally, a Cavalier on stage does not perform. The Cavalier arrives, settles, and regards the situation with calm affection. Excitement is present but restrained. The bone reactions are steady and warm — not explosive, but constant, reflecting a kind of devotion. A Cavalier in frame reads as fundamentally optimistic, genuinely pleased to be there, and utterly unbothered by the strangeness of the situation. That is the temperament: even and trusting.</p>`,
+    ownerFitHeading: 'Is a Cavalier King Charles Spaniel right for you?',
+    ownerFit: `<p>Own this breed only if you have read this section and are genuinely okay with what it says. This is not a gentle caveat — it is a hard requirement.</p>
+<p><strong>Mitral Valve Disease — the central fact of the breed.</strong> Over 50 percent of Cavaliers develop a heart murmur by age five. By age ten, greater than 90 percent are affected. The disease is twenty times more prevalent in Cavaliers than in other breeds. Symptoms include shortness of breath, exercise intolerance, rapid breathing during sleep, and a murmur detected by a vet's stethoscope. The progression can happen within one to three years. If you own this breed, annual veterinary heart screening is non-negotiable. If a murmur is detected, management with medications (ACE inhibitors and other drugs depending on disease stage) can extend quality of life, but this is a disease you will manage, not a disease you can avoid.</p>
+<p><strong>Syringomyelia.</strong> Fluid-filled cavities form in the spinal cord, causing pain and neurological symptoms, most commonly excessive scratching, often triggered by excitement or collar pressure. Some Cavaliers show no signs; others are profoundly affected. The breed's prevalence is high enough that any Cavalier owner should watch for air scratching or pain behaviors and discuss any concerns with a vet experienced in neurological conditions. There is no cure, only management.</p>
+<p><strong>Other health concerns.</strong> Hip dysplasia, ear infections (from the floppy ears and narrowed ear canals), dental crowding, and eye conditions can occur. Choose a breeder who has health-tested the parents and is transparent about the lineage.</p>
+<p><strong>The lifespan conversation.</strong> The breed's shorter lifespan is not incidental. It is structural. You do not get a Cavalier as a lifelong companion from youth to old age. You get seven to ten years of extraordinary devotion, and then you lose it. Some people find this acceptable because the intensity of the bond over that span is genuinely profound. Others cannot accept it emotionally. Decide before you buy.</p>
+<p><strong>They are velcro dogs.</strong> A Cavalier bonds intensely to its people and does not handle separation gracefully. Extended time alone produces real separation anxiety. The breed suits someone home much of the day, not someone working a full-time office job five days a week. They want to be with you, constantly, and that is not a training issue — it is the breed.</p>
+<p><strong>Grooming.</strong> Regular brushing is required to prevent the silky coat from matting. Professional grooming every four to six weeks is standard practice. The floppy ears need regular cleaning to prevent infections.</p>
+<p><strong>Exercise.</strong> Moderate. A couple of daily walks and some gentle play usually cover it. They are companions, not athletes. Do not push a Cavalier into high-impact exercise — the heart and the genetics aren't built for it.</p>
+<p><strong>Temperament and training.</strong> Cavaliers are highly trainable and eager to please. They respond beautifully to positive reinforcement. What they are not is independent — they want to do what you want because they love you, and that is their actual magic. They are also prone to housetraining accidents if they are anxious about being left alone.</p>
+<p><strong>The honest verdict:</strong> the Cavalier King Charles Spaniel is one of the most devoted, gentle, affectionate companions a dog can be — for someone prepared to own the shortened lifespan, manage serious inherited heart disease, and handle a dog that cannot bear to be separated from you. If the health realities or the lifespan make you uncomfortable, or if you need an independent dog that is fine alone all day, choose a different breed. But if you can go in with eyes open, you get a dog of genuine sweetness in return.</p>`,
+    famousHeading: 'Famous Cavaliers',
+    famous: `<p>The Cavalier King Charles Spaniel's fame starts with a king. Charles II of England (1630–1685) was known for his devotion to small spaniels — he kept them constantly with him, to the point where courtiers complained about the dogs' presence at formal events. The breed carries his name and his legacy: the devoted companion that will not leave you alone. Whether this historical account is legend or simple fact, the association is genuine enough that the breed has defined itself by it for centuries.</p>
+<p>Royal ownership did not end with Charles II. Mary Queen of Scots owned small spaniels. Queen Victoria kept them and was an enthusiastic admirer. Princess Margaret, sister of Queen Elizabeth II, owned a Cavalier named Rowley for many years — photographic evidence documents the bond between the princess and her dog. The pattern across royal history is consistent: people with unlimited dog-owning options repeatedly chose small, devoted spaniels.</p>
+<p>Modern celebrity ownership is equally documented. President Ronald Reagan and his wife Nancy had a beloved Cavalier named Rex. Lauren Bacall owned a Cavalier named Blenheim — so devoted to the dog that a portrait of it still hangs in her home. Frank Sinatra, Sylvester Stallone, Jaclyn Smith, and Tom Selleck have all owned Cavaliers. Brad Paisley and his wife own a Cavalier named "Holler." Jennifer Love Hewitt has a Blenheim named Charlie. The pattern holds: people drawn to the breed recognize in it a particular kind of devotion, and once they own one, they tend to own Cavaliers for life.</p>
+<p>The breed does not often appear in film or television as a named character, which is perhaps fitting — Cavaliers have never needed the help of a script. Their fame is private, household-level, and measured in how many times per day an owner has to say "yes, you can sit on the couch" before accepting that this dog has made a decision and you are simply part of that decision now.</p>`,
+    relatedBreeds: [
+      { slug: 'cavapoo', name: 'Cavapoo' },
+      { slug: 'maltese', name: 'Maltese' },
+      { slug: 'shih-tzu', name: 'Shih Tzu' },
+      { slug: 'pomeranian', name: 'Pomeranian' },
+      { slug: 'poodle', name: 'Poodle' },
+    ],
+    breedTagName: 'Cavalier King Charles Spaniel',
+  },
+
   cavapoo: {
     heroImage: '/breeds-img/cavapoo.jpg',
     heroCredit: 'AI-generated image',
