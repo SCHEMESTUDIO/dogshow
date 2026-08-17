@@ -63,10 +63,12 @@ delete. Keep entries short; link evidence.
   "Postwerks-published SEO pages" for the file list. Treat these paths as
   externally-owned like the outreach/tracker files in WORKFLOW.md, even
   though they aren't (yet) added to `.githooks/pre-commit`'s guard list.
-- **2026-08-XX — Postwerks M2 wave: 11 additional pages** (animal-competitions,
-  bluey-dog-breeds, froplay-dog, lewis-hamilton-dog, indy-the-dog, origami-dog,
-  hound-dog-song, hound-dog-mha, is-cinnamoroll-a-dog, national-dog-show-finalists,
-  where-to-stream-dog-show). Total postwerks inventory: 25 pages.
+- **2026-08-12 → (ongoing) — Postwerks M2 wave: 13+ pages published so far**
+  (animal-competitions, bluey-dog-breeds, dog-show-app, froplay-dog, how-long-is-the-dog-show,
+  lewis-hamilton-dog, indy-the-dog, origami-dog, hound-dog-song, hound-dog-mha,
+  is-cinnamoroll-a-dog, national-dog-show-finalists, where-to-stream-dog-show). Total
+  postwerks inventory: 27+ pages. Two new pages (dog-show-app, how-long-is-the-dog-show)
+  not in the original M2 list were also published. All pages in sitemap + committed to repo.
 
 ## Design / UX
 
