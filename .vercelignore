@@ -15,3 +15,7 @@ data
 preview-pale.html
 preview-show-redesign.html
 submitted-dog-images
+
+# Exception: the sitemap serverless function must deploy (2026-08-21;
+# *.py above otherwise strips it and the build fails on the functions pattern)
+!api/sitemap.py
