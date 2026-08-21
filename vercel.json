@@ -8,7 +8,7 @@
     {
       "source": "/sitemap.xml",
       "missing": [{ "type": "header", "key": "x-sitemap-internal" }],
-      "destination": "/api/sitemap.py",
+      "destination": "/api/sitemap",
       "permanent": false
     }
   ],
@@ -27,7 +27,7 @@
       ]
     },
     {
-      "source": "/api/sitemap.py",
+      "source": "/api/sitemap",
       "headers": [
         { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
         { "key": "Content-Disposition", "value": "inline" },
