@@ -37,6 +37,38 @@ Cluster parents first (they inherit internal links from live variant pages), the
 | 29 | rottweiler → done (2026-08-14) | Rottweiler | | Yes |
 | 30 | cavalier-king-charles-spaniel → done (2026-08-15) | Cavalier King Charles Spaniel | Parent of cavapoo | Yes |
 
+## Phase B2 — link-debt backfill (PENDING, highest priority)
+
+Added 2026-08-22. These 8 slugs were each **linked from a live M2 article that assumed the
+page existed**. The links were dead (4xx) and have been removed from the articles; the anchor
+sentences were deleted rather than left pointing at a 404. Publishing these pages clears the
+debt — **and the run that publishes each one should re-add the internal link in the source
+article listed below.** That re-link step is the whole point of this section; skipping it
+leaves the page orphaned from the article that wanted it.
+
+Ordering below is a judgment call on rough mainstream familiarity, **not researched search
+volume** — re-order if lowfruits/DataForSEO data says otherwise.
+
+| # | Slug | Display name | Re-link into | Notes |
+|---|------|--------------|--------------|-------|
+| 31 | pug | Pug | `cutest-puppy-in-the-world.html` | Brachycephalic health must lead owner-fit, same treatment as french-bulldog |
+| 32 | shiba-inu | Shiba Inu | `cutest-puppy-in-the-world.html` | Famous section: the "doge" meme dog Kabosu is well documented — verify before use |
+| 33 | cocker-spaniel | Cocker Spaniel | `cutest-puppy-in-the-world.html` | Disambiguate American vs. English Cocker in the lede |
+| 34 | samoyed | Samoyed | `cutest-puppy-in-the-world.html` | Sledding/working origin; relates to live siberian-husky + agouti-husky |
+| 35 | bichon-frise | Bichon Frise | `french-dog-breeds.html` | Companion breed; relates to live maltese, shih-tzu, poodle |
+| 36 | great-pyrenees | Great Pyrenees | `french-dog-breeds.html` | Already a "Soon" related-chip on the live newfoundland page — that chip goes live automatically on publish |
+| 37 | papillon | Papillon | `french-dog-breeds.html` | Toy spaniel; relates to live cavalier-king-charles-spaniel, pomeranian |
+| 38 | cairn-terrier | Cairn Terrier | `cutest-puppy-ever.html` | Toto (Wizard of Oz) is the obvious famous dog — the article already says so, so don't contradict it |
+
+**Deliberately NOT queued** (links removed, no page planned — too little US search volume to
+justify a page, and the anti-doorway rule applies): `basset-fauve-de-bretagne`, `beauceron`,
+`berger-picard`, `braque-francais`, `brittany`, `dogue-de-bordeaux`. If one of these ever gets
+written, restore its sentence in `french-dog-breeds.html` at the same time.
+
+**Redirected, no page needed:** `pembroke-welsh-corgi` → the live `/breeds/corgi` page, which
+is explicitly about the Pembroke. The article link was retargeted 2026-08-22.
+
+
 When Phase B nears exhaustion, the run report should say so and recommend either
 building Phase C (sibling pages — needs routing work) or fresh keyword research.
 
@@ -87,7 +119,9 @@ mini-golden size, etc.). Requires new routing + template in `api/breed.js` /
 - 2026-08-10 · border-collie · Published. AKC Herding group, recognized 1995 (Full recognition; Miscellaneous 1955–1995), Males 19–22in/30–55lb · Females 18–21in/27–45lb, 12–15yr life. Origins: Scotland-England border 1800s+, herding sheep. Temperament: intense focus, high drive, emotionally sensitive, independent worker, highly trainable. Famous: Chaser (1,022-toy vocabulary record, peer-reviewed research, 2004–2019); Rico (200+ words, Max Planck study); Babe (1995 film). Health: hip dysplasia primary concern. Owner-fit emphasizes the brutal honesty: not a pet dog, a working dog that needs a genuine job daily or becomes destructive/anxious. Herding wiring doesn't switch off. Already present in breeds.js/dropdown as "Border Collie" — no change. Cross-linked from Australian Shepherd, Poodle, German Shepherd, Belgian Malinois (added reciprocals to those 4 live pages per task instruction). Added to breeds.html (Working & strong opinions group), sitemap.xml, llms.txt, breed-hero-prompts.json (no heroImage set — launches on "Be the first Border Collie" fallback). ~1,050 words across all copy sections.
 - 2026-08-11 · chihuahua · Published. AKC Toy group, recognized 1904 (11th most popular breed), 2–6 lb / 5–8 in at shoulder, 14–16 yr life expectancy (one of longest-living). Temperament: alert, graceful, saucy, loyal, attention-seeking. Health: collapsing trachea, patellar luxation, hydrocephalus. Colors: any color allowed (fawn most common). Famous: Gidget (Taco Bell Chihuahua, "Yo quiero Taco Bell!", 1997–2000, Legally Blonde 2, died 2009 at 15); Tinkerbell (Paris Hilton, The Simple Life); Beverly Hills Chihuahua movies; celebrity owners Madonna (3 dogs: Chiquita, Evita, Rosita), Mickey Rourke, Demi Moore, Jamie Lee Curtis, George Lopez. Already present in breeds.js/dropdown as "Chihuahua" — no change needed. Added to breeds.html (Companions & ornament group, new live chip), sitemap.xml, llms.txt, breed-hero-prompts.json (no heroImage set — launches on "Be the first Chihuahua" fallback). Related breeds linked: teacup-poodle, french-bulldog, maltese, mini-dachshund, pomeranian (all live). ~1,060 words total.
 
-**Phase B in progress.** Next run picks up at queue item #30 (cavalier-king-charles-spaniel).
+**Phase B table is exhausted** (item #30, cavalier-king-charles-spaniel, published 2026-08-15).
+**Next run picks up at Phase B2 item #31 (pug)** — the link-debt backfill added 2026-08-22.
+Each B2 run must also re-add the internal link in the source article named in that table.
 
 - 2026-08-12 · boxer · Published. AKC Working group, recognized 1904; moved to Working group 1936, Males 22.5–25in/~70lb · Females 21–23.5in/~60lb, 10–12yr life expectancy. Origin: Munich, Germany, late 1800s descent from Bullenbeisser ("bull-biter"). Temperament: affectionate, fun-loving, eager to please, playful, alert. Health: cancer (14.2%), cardiomyopathy (48%), hip dysplasia (25%), brachycephalic issues; all flagged prominently in owner-fit. Famous section: Arriba's Prima Donna (1970 Westminster Best in Show, only female Boxer winner, 4 total Boxer Best in Show titles), celebrity owners (Hugh Jackman, Ryan Reynolds, Cameron Diaz, Jessica Biel, Justin Timberlake, Kim Kardashian, Humphrey Bogart & Lauren Bacall had 3). Cross-linked from german-shepherd, cane-corso, belgian-malinois, labrador-retriever, american-bully (added reciprocals per task instruction); related list also points to those same 5 live breeds. Added to breeds.html (Working & strong opinions group, new live chip), sitemap.xml, llms.txt, breed-hero-prompts.json (no heroImage set — launches on "Be the first Boxer" fallback). Already present in breeds.js/dropdown as "Boxer" — no change needed there. 1,243 total visible words.
 - 2026-08-13 · great-dane · Published. AKC Working group, recognized 1887; Males 30+ in (32+ preferred) / 140–175 lb · Females 28+ in (30+ preferred) / 110–140 lb, 8–10 yr life expectancy (range 6–12 yrs). Origin: Germany; modern breed refined 1870s–1880s from Irish Wolfhound × English Mastiff crosses. Temperament: gentle, affectionate, patient, dignified, calm, intelligent, good with family. Health: bloat (GDV) affects ~37% of Danes over lifetime, leading emergency; dilated cardiomyopathy (heart disease) second most serious, prognosis ~5 weeks post-symptom onset; hip dysplasia ~20%. Famous section: Scooby-Doo (1969 Hanna-Barbera debut, character design details + breed popularity jump 24% that year), Giant George (2005–2013, 39⅛ in tall, Guinness record 2010–2012, Oprah appearance), Gibson (2002–2009, 42.2 in, Guinness record, therapy dog on multiple shows), Freddy (2012–2021, 103.5 cm, Guinness record 2016). All three modern records verified via Guinness, Wikipedia, media outlets. Cross-linked from boxer, german-shepherd, belgian-malinois, cane-corso, bernese-mountain-dog, newfoundland (added reciprocals per task instruction from most similar live large working/companion breeds). Added to breeds.html (Working & strong opinions group, new live chip between Boxer and Cane Corso), sitemap.xml, llms.txt, breed-hero-prompts.json (no heroImage set — launches on "Be the first Great Dane" fallback). Already present in breeds.js/dropdown as "Great Dane" — no change needed. ~1,350 total visible words. Fact sources: verified via Guinness World Records, Wikipedia, AKC, breed-club health data, all major famous-dog references cross-checked.

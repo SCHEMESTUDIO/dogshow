@@ -82,5 +82,17 @@
     "section": "## Banned claims",
     "globs": ["*.html", "llms.txt"],
     "allow": {}
+  },
+  "link_targets": {
+    "_status": "PROPOSAL, INERT AS OF 2026-08-22 — scripts/check_constitution.py in SCHEMESTUDIO/postwerks does not read this key yet, so it currently does nothing (the checker ignores unknown top-level keys; adding it cannot turn a green run red). Schema is a proposal — reconcile with the Postwerks side before implementing.",
+    "_why": "Referential-integrity check, a class the existing value_checks/banned_claims do not cover: they assert what a page SAYS, this asserts that what a page LINKS TO exists. Motivated by two incidents on this site — 58 dead internal /breeds/* links (2026-07-25, 'Ahrefs crash', fixed in 9a899fa) and 15 more that regressed by 2026-08-22. Both were links to breed pages that had never been written. Deliberately site-agnostic: the property declares its own URL corpus, so the same check works for dollarbets/instaheadshots/any future site with no per-site code.",
+    "_relationship_to_the_link_rail": "Complements, does not replace, seo_common.check_internal_links(). That rail is a live HTTP probe at GENERATION time and fails open on network trouble; this is a deterministic offline check at AUDIT time that also catches links written by humans, other tools, and future modules. Run both.",
+    "corpus": [
+      { "type": "sitemap", "file": "sitemap.xml" },
+      { "type": "files", "glob": "*.html", "as": "/{basename}" }
+    ],
+    "scope": ["/breeds/*", "/resources", "/guides"],
+    "ignore": ["/d/*"],
+    "on_miss": "fail"
   }
 }
