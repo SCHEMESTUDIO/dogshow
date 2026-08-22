@@ -1186,7 +1186,11 @@ const BREEDS = {
   },
 
   'giant-schnauzer': {
-    heroImage: '/breeds-img/giant-schnauzer.jpg',
+    // heroImage removed 2026-08-22: '/breeds-img/giant-schnauzer.jpg' was never
+    // generated, so the live page rendered a broken image from 2026-07-29 on.
+    // Falls back to a real submitted dog, else the "Be the first" prompt — the
+    // same path the other 27 image-less breeds already take. Restore the field
+    // only after scripts/generate-breed-heroes.mjs has actually written the file.
     heroCredit: 'AI-generated image',
     name: 'Giant Schnauzer',
     headKeyword: 'Giant Schnauzer',
@@ -1227,7 +1231,8 @@ const BREEDS = {
   },
 
   newfoundland: {
-    heroImage: '/breeds-img/newfoundland.jpg',
+    // heroImage removed 2026-08-22 — see the giant-schnauzer note above; the
+    // file '/breeds-img/newfoundland.jpg' was never generated either.
     heroCredit: 'AI-generated image',
     name: 'Newfoundland',
     headKeyword: 'Newfoundland',

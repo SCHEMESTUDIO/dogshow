@@ -6,3 +6,12 @@ node_modules/
 .ci/
 __pycache__/
 submitted-dog-images/
+
+# Scratch/quarantine dir. Was accidentally COMMITTED in c0f3a77 and, because it
+# was never in .vercelignore either, stale duplicate copies of index/show/
+# breeds/dogs/leaderboard/terms were being served publicly at
+# /_to_delete/restage/* — duplicate content of the real pages. Deleted and
+# ignored 2026-08-22. Also used as the workaround for stale .git/*.lock files
+# that cloud sessions cannot unlink, so it will keep reappearing; keep it
+# ignored in BOTH files.
+_to_delete/

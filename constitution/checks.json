@@ -84,15 +84,19 @@
     "allow": {}
   },
   "link_targets": {
-    "_status": "PROPOSAL, INERT AS OF 2026-08-22 — scripts/check_constitution.py in SCHEMESTUDIO/postwerks does not read this key yet, so it currently does nothing (the checker ignores unknown top-level keys; adding it cannot turn a green run red). Schema is a proposal — reconcile with the Postwerks side before implementing.",
-    "_why": "Referential-integrity check, a class the existing value_checks/banned_claims do not cover: they assert what a page SAYS, this asserts that what a page LINKS TO exists. Motivated by two incidents on this site — 58 dead internal /breeds/* links (2026-07-25, 'Ahrefs crash', fixed in 9a899fa) and 15 more that regressed by 2026-08-22. Both were links to breed pages that had never been written. Deliberately site-agnostic: the property declares its own URL corpus, so the same check works for dollarbets/instaheadshots/any future site with no per-site code.",
+    "_status": "LIVE as of 2026-08-22 — implemented by run_link_targets() in scripts/check_constitution.py (SCHEMESTUDIO/postwerks) and run by the constitution-sync workflow alongside value_checks and banned_claims. A dead internal link in scope now turns that run red.",
+    "_why": "Referential-integrity check, a class the existing value_checks/banned_claims do not cover: they assert what a page SAYS, this asserts that what a page LINKS TO exists. Motivated by two incidents on this site — 58 dead internal /breeds/* links (2026-07-25, 'Ahrefs crash', fixed in 9a899fa) and 15 more that regressed by 2026-08-22. Both were links to breed pages that had never been written; CI was silent both times. Deliberately site-agnostic: the property declares its own URL corpus, so the same check works for dollarbets/instaheadshots/any future site with no per-site code.",
     "_relationship_to_the_link_rail": "Complements, does not replace, seo_common.check_internal_links(). That rail is a live HTTP probe at GENERATION time and fails open on network trouble; this is a deterministic offline check at AUDIT time that also catches links written by humans, other tools, and future modules. Run both.",
+    "_corpus_note": "Three sources, unioned. sitemap.xml is the broad one; api/breed.js is included because IT, not the sitemap, is what actually decides whether /breeds/{slug} renders — if the two ever drift, the breed page is the authority. The files glob covers root .html pages served by the /:slug rewrite.",
     "corpus": [
       { "type": "sitemap", "file": "sitemap.xml" },
-      { "type": "files", "glob": "*.html", "as": "/{basename}" }
+      { "type": "files", "glob": "*.html", "as": "/{basename}" },
+      { "type": "regex", "file": "api/breed.js", "pattern": "^  '?([a-z0-9-]{3,})'?:\\s*\\{\\s*$", "flags": "m", "as": "/breeds/{0}" }
     ],
-    "scope": ["/breeds/*", "/resources", "/guides"],
+    "_scope_note": "Whitelist, deliberately narrow. Checking every href would drag in query-string CTAs (/?openModal=premium), asset paths and anchors, and the false positives would get the check switched off. /d/{slug} is ignored: those pages are generated per user at request time and are not in any static corpus.",
+    "scope": ["/breeds/*", "/resources", "/guides", "/leaderboard", "/dogs", "/show"],
     "ignore": ["/d/*"],
+    "globs": ["*.html"],
     "on_miss": "fail"
   }
 }

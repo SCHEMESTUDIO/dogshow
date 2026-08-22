@@ -3,6 +3,20 @@
 // certificate page at /d/{slug} so search engines and social crawlers see
 // real content + per-dog meta tags (audit #27 — the point of the Vercel
 // migration). vercel.json rewrites /d/:slug → /api/dog?slug=:slug.
+//
+// NOINDEX (decided 2026-08-22 — do not "fix" this by removing it). Both
+// rendered states send `robots: noindex,follow`. These pages exist to be
+// SHARED, not to rank: one thin, near-identical page per signup, growing
+// without bound. An external audit flagged all 30 as thin content, and GSC
+// has never recorded a single impression for a /d/ URL across seven weekly
+// reports (2026-07-16 → 2026-08-16). Nothing is being given up.
+//   - `follow` is deliberate: link equity still flows out to /breeds/* and
+//     the show, which is the only SEO value these pages ever had.
+//   - Sharing is UNAFFECTED. noindex governs search indexing only; the
+//     og:/twitter: tags below are still read by Facebook/WhatsApp/X crawlers,
+//     so previews render exactly as before. This is the whole reason the
+//     trade-off is free.
+//   - Reversal is one line per state if the calculus ever changes.
 // ─────────────────────────────────────────────────────────────────────────
 const PARTY = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live';
 const SITE = 'https://dogshow.lol';
@@ -183,6 +197,7 @@ function renderPreShow(res, ctx) {
 
   const head = `<title>${esc(name)} on The Dog Show</title>
 <meta name="description" content="${esc(metaDesc)}">
+<meta name="robots" content="noindex,follow">
 <link rel="canonical" href="${esc(url)}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(name)} — live on The Dog Show">
@@ -439,6 +454,7 @@ module.exports = async function handler(req, res) {
 
   const head = `<title>${esc(name)} — The Dog Show Certificate</title>
 <meta name="description" content="${esc(metaDesc)}">
+<meta name="robots" content="noindex,follow">
 <link rel="canonical" href="${esc(url)}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(name)} — The Dog Show">

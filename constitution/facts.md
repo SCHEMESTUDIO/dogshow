@@ -24,7 +24,7 @@
 - Payments via Stripe Checkout server-side; bones non-refundable once credited; Top Dog slot service refundable within 7 days before first stage appearance. <!-- src: party/server.js /create-checkout, /verify-checkout; terms.html §6 -->
 
 ## URLs / stack
-- Routes: / · /show · /dogs · /d/{slug} (dog certificate) · /breeds + /breeds/{slug} (48 live guides as of 2026-08-22, +2/day via CI when the queue is stocked) · /leaderboard · /resources · /about · /terms · /privacy · /llms.txt. <!-- src: api/breed.js BREEDS keys + sitemap.xml, both counted 2026-08-22 -->
+- Routes: / · /show · /dogs · /d/{slug} (dog certificate — **noindex,follow since 2026-08-22**: share surface, not a search surface; never treat these as rankable pages or link-building targets) · /breeds + /breeds/{slug} (48 live guides as of 2026-08-22, +2/day via CI when the queue is stocked) · /leaderboard · /resources · /about · /terms · /privacy · /llms.txt. <!-- src: api/breed.js BREEDS keys + sitemap.xml, both counted 2026-08-22; noindex per api/dog.js header note -->
 - SEO landing pages: /how-to-enter-a-dog-show, /how-online-dog-shows-work, /dog-photo-contest, /cutest-dog-contest, /puppy-picture-contest, /dog-show-near-me. <!-- src: llms.txt -->
 - Stack: Vercel (static + api/dog.js, api/breed.js SSR) + PartyKit/Cloudflare realtime backend + Stripe + Resend. <!-- src: vercel.json; party/partykit.json; privacy.html §3; live server header -->
 
