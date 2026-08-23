@@ -25,6 +25,10 @@ User-agent: TelegramBot
 Allow: /
 
 Sitemap: https://dogshow.lol/sitemap.xml
+# Cross-host copy served from a non-Vercel host (GSC cannot read any sitemap
+# served from this domain — see sitemap saga, Aug 2026). Both sites are
+# verified in the same Search Console account, which makes this valid.
+Sitemap: https://headshotswithabird.com/dogshow-sitemap.xml
 
 # AI / LLM guidance file (non-standard directive; ignored by crawlers that don't support it)
 LLM: https://dogshow.lol/llms.txt
