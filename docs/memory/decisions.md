@@ -51,6 +51,25 @@ delete. Keep entries short; link evidence.
 - **PartyKit deploys only from clean, pushed HEAD** — `npm run check-deploy`
   must show in-sync after every deploy (dirty-deploy drift was UX-audit H1/H2
   root cause; recurred 2026-07-08).
+- **2026-08-20 — Sitemap served via serverless (api/sitemap.py)** (workaround).
+  GSC reports "Sitemap could not be read" on EVERY sitemap on this Vercel domain
+  across all formats (XML, XML + query, plain text) for 7+ weeks, while parsing
+  the same file fine on a non-Vercel host + fetching regular pages fine here.
+  Root cause: Vercel's *static file* response path breaks GSC's parser (unclear why,
+  confirmed w/ multiple formats + Content-Type/Disposition tuning). Workaround:
+  `api/sitemap.py` serverless function loads sitemap.xml locally at build time,
+  falls back to HTTP fetch (w/ loop-guard header) if absent. vercel.json redirects
+  `/sitemap.xml` → `/api/sitemap` (when loop-guard header missing). Static file
+  stays in repo (for publishing automation) but no longer answers. Paired with
+  cross-host sitemap copy in robots.txt (2026-08-24) as secondary signal to GSC.
+- **2026-08-22 — `/d/{slug}` certificate pages: noindex,follow (deliberate).**
+  Certificate pages are thin, near-identical, and exist to be SHARED, not ranked.
+  GSC has zero recorded impressions for /d/ URLs across 7 weekly reports
+  (2026-07-16 → 2026-08-16). noindex removes them from index; follow preserves
+  link equity to /breeds/* and the show. Social sharing unaffected (og:/twitter: tags
+  still read by crawlers) — sharing is the entire use case. Decision: not a bug,
+  not a regression, a deliberate SEO posture (external audit flagged all 30 as
+  thin content). Reverse is one line per state if calculus changes.
 
 - **2026-07-16 → 2026-07-19 — New external content pipeline: "postwerks" (first wave: 14 pages).**
   14 SEO listicle/explainer pages landed directly on `main` via commits
