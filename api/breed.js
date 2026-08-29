@@ -2050,6 +2050,51 @@ const BREEDS = {
     ],
     breedTagName: 'Rottweiler',
   },
+
+  pug: {
+    name: 'Pug',
+    headKeyword: 'Pug',
+    metaDescription: "The Pug: a small dog with an enormous personality and a flat face that reads perfectly on camera — but with serious health considerations every owner should know. An honest field guide, with stage notes.",
+    facts: {
+      'Group': 'Toy',
+      'Size': '10–13 inches at shoulder · 14–18 pounds',
+      'Temperament': 'Playful, charming, affectionate, eager to please, comedic',
+      'Life expectancy': '13–15 years',
+      'Coat': 'Short, smooth, glossy double coat; sheds year-round',
+      'Colors': 'Fawn, apricot, black — lighter colors have a black mask and ears',
+      'AKC recognized': 'Yes — recognized 1885, Toy Group',
+      'Origin': 'China; bred as companion dogs for emperors and monks over 2,000 years, arriving in Europe via Dutch traders in the 16th–17th centuries',
+    },
+    lede: `The Pug is a study in contradictions: a dog of ancient imperial heritage now perfectly at home on a sofa, a face that looks perpetually snuffly and bemused, a body small enough to fit on your lap but a personality that fills a room. Originally bred in China as a companion to emperors and Tibetan monks, it arrived in Europe via the Dutch East India Company and became a fashion icon among European royalty — Marie-Antoinette had one, Josephine Bonaparte had one that smuggled notes from her to Napoleon, the Duke and Duchess of Windsor kept eleven. They are the definition of a lapdog. They are also, and any honest guide must say this, a breed whose distinctive flat face comes with serious health obligations built in.`,
+    spotlight: `<p>The Pug is a broadcaster's gift. That wrinkled, pushed-in face, those enormous dark eyes that seem to regard the camera with quiet judgment, the compact body that photographs with perfect proportions — the Pug does not need to do anything to be interesting. It exists and the viewer's eye is stuck.</p>
+<p>What makes a Pug extraordinary on stage is the expressiveness. The breed specializes in a particular kind of comedic non-reaction — something happens, something changes, and the Pug slowly turns its head and gives you a look of such patient bemusement that the chat erupts. There is no bounce, no enthusiasm, no urgent need to engage. A Pug arrives, settles, and radiates a kind of dignified indifference to the proceedings that is absolutely hilarious.</p>
+<p>The wrinkles, the snuffling (a Pug cannot breathe silently), the occasional snort, the way they move with a kind of dignified waddle — none of it is performed. All of it reads as pure comedy. Viewers send bones steadily and warmly, less from the frenzy that certain other breeds inspire and more from a kind of fond appreciation: here is a small creature that is having a perfectly fine time and would like you to have a fine time too.</p>`,
+    ownerFitHeading: 'Is a Pug right for you?',
+    ownerFit: `<p>Pugs are wonderful companions — but own one only with your eyes open to what the breed entails, because the charming flat face that sells the breed is tangled up with the health challenges that define it.</p>
+<p><strong>Breathing — the central reality of the breed.</strong> Pugs are brachycephalic — the flat face that makes them recognizable also shortens and narrows the airway. Snoring is universal; snorting is constant. Many Pugs struggle to breathe efficiently, especially when excited, exerted, or overheated. Some need corrective surgery (soft palate reduction, nostril widening). Buy from a breeder selecting for a slightly longer muzzle and wider nostrils, not the most pushed-in face possible. This single choice, made at purchase, makes a substantial difference in the dog's daily comfort.</p>
+<p><strong>Heat — this is life-or-death, not fussiness.</strong> A Pug cannot cool itself efficiently and can overheat fatally. Never leave one in a warm car, never leave one in direct sun, and keep exercise gentle and short in hot weather. Many Pugs benefit from being kept in air conditioning during summer months. The breed's shortened airway compounds the problem — they cannot pant effectively, which is how dogs cool themselves. This is not a breed for outdoor all-day activities in warm climates.</p>
+<p><strong>They cannot swim.</strong> The dense, barrel-shaped body with short legs and a flat face is not built for water. Pugs sink easily and can panic. A Pug near an unfenced pool or pond is in real danger. Treat water with caution and never assume they will manage.</p>
+<p><strong>Eye health.</strong> The prominent, bulbous eyes sit in shallow sockets and are easily injured — a fingernail, a branch, rough play. Proptosis (the eye popping partially out of the socket) can happen, and requires immediate veterinary attention. Keep the eyes moist (some Pugs need artificial tears) and watch for excessive tearing or redness, which can indicate infection or abrasion.</p>
+<p><strong>Obesity.</strong> Pugs have a serious tendency to become obese unless diet and exercise are watched carefully. They are food-motivated — often willing to eat anything — and a fat Pug is a Pug in respiratory distress. Monitor weight obsessively and do not let the breed's love of food override its health needs.</p>
+<p><strong>Skin and ear care.</strong> The wrinkles need cleaning and drying regularly to prevent fungal and bacterial infections. The ears are prone to infection and need routine cleaning. Skin allergies are common, often triggered by the wrinkles trapping moisture.</p>
+<p><strong>Dental health.</strong> Crowded teeth predispose to dental disease. Regular brushing and professional cleaning are recommended.</p>
+<p><strong>Other concerns.</strong> Legg-Calvé-Perthes disease (a hip condition affecting small breeds), patellar luxation (knee dislocation), and spinal issues can occur. Choose a breeder who has health-tested the parents.</p>
+<p><strong>Exercise and energy.</strong> Low. Pugs tire quickly and overheat easily, so long walks are not their thing. Short, frequent outings in cool weather suit them best. They are content with a quiet life indoors — actually, they prefer it.</p>
+<p><strong>Temperament and training.</strong> Pugs are eager to please, respond well to positive reinforcement, and are generally good with children and other pets. They are affectionate without being demanding, which makes them adaptable companions. They do not need a job; they just want to be near you.</p>
+<p><strong>The honest verdict:</strong> a charming, affectionate, entertaining lapdog — for an owner who has read the health profile honestly, chosen a responsible breeder, and is committed to managing heat sensitivity, breathing challenges, eye care, and weight. If the health realities make you uncomfortable, choose a different breed. But if you go in prepared, you get a dog of genuine character and humor in return.</p>`,
+    famousHeading: 'Famous Pugs',
+    famous: `<p>Pug fame is split between history and pop culture. Historically, the breed has been intimate with power. Napoleon Bonaparte's wife Josephine owned a beloved Pug named Fortune who, by legend, carried secret messages hidden in his collar, smuggling them from Josephine to Napoleon — the theory being that guards would never search a cute little dog. Marie-Antoinette, Queen of France, owned a Pug called Mops. The Duke and Duchess of Windsor, exiled from Britain and living in Paris, kept eleven Pugs across their decades together, so devoted to the breed that they were photographed constantly with them. The breed has always been a choice of the devoted.</p>
+<p>In entertainment, Frank the Pug became a cultural icon as the cigar-smoking, wisecracking alien-in-Pug-form in Men in Black (1997 and sequels), stealing scenes with nothing more than a look and a perfectly timed reaction — the film proved to Hollywood that Pugs were comedy gold and could carry their own subplot. More recently, Doug the Pug rose to Instagram fame in 2014, accumulating millions of followers across social media, and provided all the voice work for Monchi, the family's Pug, in the Oscar-nominated animated film The Mitchells vs. The Machines (2021). The animated series Puppy Dog Pals (2017–present) features two Pug brothers, Bingo and Rolly, as the leads. The Adventures of Milo and Otis (1986) featured a Pug named Otis alongside the cat Milo on their epic cross-country journey.</p>
+<p>Modern celebrity Pug ownership is prolific. Paris Hilton's adopted Pug Mugsy became a fixture of her lifestyle brand; Rob Zombie owns a black Pug named Dracula; Gerard Butler, Jessica Alba, Hugh Laurie, and Tori Spelling have all owned Pugs. The breed's popularity as both a companion dog and a social-media star has soared in recent decades — the Pug climbed from 31st most popular breed in 2000 to consistently ranking in the top 10. That popularity creates responsibility: a trendy breed that attracts impulse buyers and careless breeders is exactly where health and welfare suffer. Choose a responsible breeder, and you get a dog that has delighted emperors, queens, and comedians. Choose carelessly, and you inherit health problems that will cost far more than you saved on the puppy price.</p>`,
+    relatedBreeds: [
+      { slug: 'french-bulldog', name: 'French Bulldog' },
+      { slug: 'maltese', name: 'Maltese' },
+      { slug: 'chihuahua', name: 'Chihuahua' },
+      { slug: 'mini-french-bulldog', name: 'Mini French Bulldog' },
+      { slug: 'pomeranian', name: 'Pomeranian' },
+    ],
+    breedTagName: 'Pug',
+  },
 };
 
 const STYLES = `
