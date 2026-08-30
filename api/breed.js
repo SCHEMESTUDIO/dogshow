@@ -2095,6 +2095,50 @@ const BREEDS = {
     ],
     breedTagName: 'Pug',
   },
+
+  'shiba-inu': {
+    name: 'Shiba Inu',
+    headKeyword: 'Shiba Inu',
+    metaDescription: "The Shiba Inu: Japan's ancient hunting dog, built small but unbothered, with the independent spirit of a sled dog and the meme immortality of a skeptical glance. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Non-Sporting',
+      'Size': 'Males 14½–16½ in · Females 13½–15½ in at shoulder',
+      'Weight': 'Males ~23 lb · Females ~17 lb',
+      'Temperament': 'Spirited, bold, good-natured, independent, reserved with strangers, loyal to family',
+      'Life expectancy': '13–16 years',
+      'Coat': 'Double coat — soft, dense undercoat; straight outer coat. Seasonal heavy shedding.',
+      'Colors': 'Red, Black & Tan, Sesame (red with black overlay); all with required white urajiro markings',
+      'AKC recognized': '1992, Non-Sporting Group (136th breed)',
+      'Origin': 'Japan — one of Japan\'s six native breeds; hunted game birds and small game for centuries',
+    },
+    lede: `The Shiba Inu is what you get when you ask a hunting dog to stand about twenty inches tall and then tell it that all the usual working-dog rules no longer apply. It listened, mostly. What emerged is a breed with the independent spirit of a dog bred to flush birds and chase small game across Japanese mountain terrain, compressed into a frame small enough to fit on a lap — though the Shiba would like to stress that a lap was never part of the original job description. The breed carries itself with the confidence of a dog that has read the room and concluded the room's concerns are not its own. This attitude is not negotiable.`,
+    spotlight: `<p>A Shiba Inu arrives on the Dog Show stage the way it arrives everywhere else: convinced it has sized up the situation and found it acceptable, though room for improvement certainly exists. There is no stage fright here. The Shiba is not here to perform for you; the Shiba is here because the Shiba determined that this is, on balance, where the Shiba should be.</p>
+<p>What strikes viewers immediately is the posture. The Shiba does not lounge. The Shiba does not relax into the moment. The Shiba sits in a perfect stack — front legs perpendicular to the floor, tail carried up and over the back in that distinctive curl — and surveys the proceedings with the expression that made Kabosu, the Shiba who inspired the Doge meme, an internet icon: mouth slightly closed, eyes half-lidded, an overall demeanor suggesting that whatever you just said was not quite up to standard. The Shiba is not displeased. The Shiba is simply unimpressed, reserving judgment.</p>
+<p>Bone counts for Shibas run steady and warm. Chat reliably fills with people who say things like "my Shiba has never let me pet it" or "mine sits in the sunlight and ignores everyone" — a mutual appreciation from people who value a dog that has boundaries and will enforce them. When a Shiba does acknowledge a bone, there is rarely any gratitude displayed; the Shiba takes the vote as evidence that standards are finally being met.</p>`,
+    ownerFitHeading: 'Is a Shiba Inu right for you?',
+    ownerFit: `<p>The Shiba Inu is intelligent, adaptable, and genuinely good-natured — and all three of those qualities come packaged with a profound indifference to your opinions. This is a breed for people who value dogs with actual boundaries, not dogs designed to be universally pleasing.</p>
+<p><strong>Independence and training.</strong> A Shiba learns quickly but obeys only when it has decided your instruction aligns with its own assessment of the situation. This is not stubbornness, exactly. This is a dog built to work alone, solve problems independently, and prioritize its own judgment. Leash training is non-negotiable from puppyhood — a Shiba's prey drive can override its recall in an instant, and off-leash time requires a completely secure yard or a deep understanding of your individual dog's limits. Do not assume a well-trained Shiba is a dog that has forgotten what "independent" means; it is a dog that has decided you are occasionally worth listening to.</p>
+<p><strong>Socialization.</strong> The breed standard describes the Shiba as "reserved toward strangers," which is a polite way of saying that your Shiba may decide your friends are not its friends, and it will not be changing its mind. Early and extensive socialization helps, but the breed's default setting is cautious politeness to outsiders and loyalty to the family unit. Plan for a dog that may warm up to people over years, or may politely decline the opportunity.</p>
+<p><strong>Prey drive.</strong> The Shiba was bred to hunt. That wiring is still active. Small pets — cats, rabbits, birds — should be introduced carefully and supervised always, if at all. Some Shibas coexist fine with other small animals; others do not. Individual temperament varies, but the genetic heritage does not.</p>
+<p><strong>Other dogs.</strong> The breed standard notes the Shiba is "at times aggressive toward other dogs." This typically expresses as a low tolerance for other dogs' social invasions — the Shiba will defend its space, its toys, and its dignity with a speed that surprises owners expecting a small dog to back down. Early socialization helps, but multi-dog households require careful management and honest assessment of your individual dog's temperament.</p>
+<p><strong>Shedding.</strong> The Shiba sheds year-round and catastrophically during seasonal coat blows. Expect tumbleweeds of undercoat and a semi-permanent layer of fur on every surface. Regular brushing with a deshedding tool helps; ignoring it is not an option.</p>
+<p><strong>Grooming and coat care.</strong> The Shiba's double coat is hardy and weather-resistant, and most owners bathe only a few times a year; however, the seasonal shedding requires serious brushing commitment. A slicker brush and undercoat rake used several times weekly during heavy shed seasons is standard. Nail trimming, ear cleaning, and dental care follow the same schedule as any breed.</p>
+<p><strong>Exercise and energy.</strong> Moderate. A Shiba is content with a couple of daily walks and some indoor play; it does not need the hours of activity a herding dog demands. The breed is adaptable to apartment living, though a secure yard where it can investigate on its own terms is ideal.</p>
+<p><strong>Health.</strong> Hip dysplasia and some eye conditions can occur, though both are less common in well-bred lines than in some larger breeds. Ask a breeder about health screening on the parents. Shibas are generally a robust, healthy breed with a lifespan that reliably reaches the mid-teens.</p>
+<p><strong>The verdict:</strong> the Shiba Inu is a magnificent small dog for an owner who wants a genuine dog with opinions, not a decorative accessory that happens to breathe. It will give you loyalty, independence, and the occasional moment of genuine affection — usually timed to demonstrate that affection was the Shiba's idea, not yours. If that sounds right, a Shiba is irreplaceable. If you want a dog that is pleased to see you, consider a different breed.</p>`,
+    famousHeading: 'Famous Shiba Inus',
+    famous: `<p>The Shiba Inu's modern fame rests entirely on one dog: Kabosu, a light golden Shiba born in November 2005 and adopted in 2008 by Atsuko Sato, a kindergarten teacher in Japan. In 2010, Sato photographed Kabosu's face — an expression of profound skeptical indifference, eyes half-lidded, mouth slightly open — and posted it to her personal blog. Within years, the photo went viral across the internet, spawning the "Doge" meme: Kabosu's face paired with broken-English internal monologue fragments ("such amaze," "very scare," "wow") meant to capture what a dog's thoughts supposedly sounded like.</p>
+<p>Kabosu became one of the internet's first true dog celebrities — the meme was inescapable for nearly a decade, inspiring an actual cryptocurrency (Dogecoin, launched 2013) and establishing Kabosu as perhaps the most-viewed dog face in internet history. Despite the fame, Kabosu remained a rescue dog living a domestic life with Sato in Japan, her skeptical expression never changing regardless of how many millions of people were staring at it. Kabosu died peacefully at home on May 24, 2024, at age 18, leaving behind a legacy that fundamentally changed how dog breeds appear in internet culture.</p>
+<p>Beyond Kabosu's meme immortality, the Shiba Inu served its historical role as Japan's own native hunting dog — one of six Japanese breeds formally protected by the government, which designated the Shiba Inu a Natural Monument of Japan in 1936. In that capacity, the breed's real fame is the quiet kind: centuries of Japanese hunters and families who knew exactly what they had in a dog built by their own hands, for their own purposes. The internet meme is recent. The Shiba's actual significance runs far deeper.</p>`,
+    relatedBreeds: [
+      { slug: 'siberian-husky', name: 'Siberian Husky' },
+      { slug: 'pomeranian', name: 'Pomeranian' },
+      { slug: 'dachshund', name: 'Dachshund' },
+      { slug: 'corgi', name: 'Corgi' },
+      { slug: 'akita', name: 'Akita' },
+    ],
+    breedTagName: 'Shiba Inu',
+  },
 };
 
 const STYLES = `
