@@ -116,6 +116,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://dogshow.lol/breeds/cocker-spaniel</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dogshow.lol/breeds/cavapoo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

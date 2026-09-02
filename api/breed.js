@@ -2139,6 +2139,53 @@ const BREEDS = {
     ],
     breedTagName: 'Shiba Inu',
   },
+
+  'cocker-spaniel': {
+    heroImage: '/breeds-img/cocker-spaniel.jpg',
+    heroCredit: 'AI-generated image',
+    name: 'Cocker Spaniel',
+    headKeyword: 'Cocker Spaniel',
+    metaDescription: "The Cocker Spaniel: born to flush game birds and retrieve, now perfectly happy retrieving your heart. A field guide to America's littlest sporting dog, with stage notes.",
+    facts: {
+      'Group': 'Sporting',
+      'Size': 'American: 13.5–15.5 in / 20–30 lb · English: 15–17 in / 26–34 lb',
+      'Temperament': 'Cheerful, affectionate, merry, responsive, playful, well-tempered',
+      'Life expectancy': 'American: 10–14 years · English: 12–15 years',
+      'Coat': 'Silky, flat or slightly wavy; double coat, medium length',
+      'Colors': 'Solid black, liver, red, parti-colors, and combinations (15+ recognized patterns)',
+      'AKC recognized': 'Yes — original charter breed (pre-1884). English Cocker split as separate breed 1946',
+      'Origin': 'Spain (spaniel heritage); modern types refined in America and England',
+    },
+    lede: `The Cocker Spaniel comes in two flavors, and the distinction matters more than you'd think. The American Cocker Spaniel is the smallest member of the Sporting Group — a compact, refined bundle of 20 to 30 pounds dressed in a silky coat that photographs beautifully and requires daily attention to prevent matting. The English Cocker Spaniel is a noticeably larger, sturdier animal, closer to 26 to 34 pounds, with a longer head and the bearing of a dog that remembers, in its bones, what it was bred to do: flush game birds across muddy fields. Both trace their lineage to Spanish hunting spaniels and share the breed's defining trait: an ever-wagging tail and a temperament so genuinely cheerful that the breed standard describes the American Cocker's personality as "eager to please." What they also share, less cheerfully, is a genetic predisposition to ear infections that make them one of the most ear-plagued breeds in existence.`,
+    spotlight: `<p>On the Dog Show stage, a Cocker Spaniel arrives like a reunion with someone you've always meant to call. There is no guile here, no subtle negotiation with the camera. A Cocker simply appears and is immediately, visibly, glad to be alive in this exact moment with these exact strangers.</p>
+<p>The visual is striking — the silky coat catches light warmly, the feathering on the legs and chest moves with every shift of weight, and the muzzle is proportioned in a way that reads as perpetually cheerful rather than pushed-in or extreme. The ears, depending on which Cocker you're watching, either frame the face prettily (American, higher-set) or hang in the classic spaniel way that immediately reads as "working dog heritage" (English, lower-slung). An American Cocker's face can fit nearly into your palm. An English Cocker's says it has a job.</p>
+<p>What they share on camera is energy. Not hyperactivity — Cockers aren't neurotic — but a baseline assumption that participation is better than standing still. They want to know what's happening. They want to be part of it. Bone counts track this warmly: viewers reliably send votes for the simple fact of a Cocker's enthusiasm, the willingness to engage, the tail that never stops.</p>`,
+    ownerFitHeading: 'Is a Cocker Spaniel right for you?',
+    ownerFit: `<p>Cockers are wonderful family companions — genuinely so — but the choice between an American or English type matters, and both come with non-negotiable health realities that every owner must understand before signing on.</p>
+<p><strong>Ear infections: the breed's defining health challenge.</strong> English Cockers are roughly 15 times more likely than other dog breeds to suffer ear infections (otitis externa), driven by the long, floppy ears that trap moisture and debris. American Cockers show even higher prevalence in some studies: 27% develop infections compared to 15.7% in English Cockers. This is not a training issue or a diet problem; it's anatomy and genetics. Weekly ear inspection, regular professional cleaning, and quick veterinary attention to early signs (odor, excessive scratching, redness) are not optional. Chronic ear infections can lead to permanent damage and deafness. If you cannot commit to preventative ear care, do not buy this breed.</p>
+<p><strong>Eye health.</strong> Progressive retinal atrophy (PRA) is an inherited condition that causes gradual vision loss and eventual blindness; both American and English Cockers can carry the genetic mutation. DNA testing is available, and responsible breeders screen for it. Dry eye (keratoconjunctivitis sicca) is also common, especially in English Cockers, requiring artificial tears and regular veterinary monitoring. Secondary cataracts often follow PRA; ask a breeder about eye clearances on both parents.</p>
+<p><strong>Temperament and training.</strong> Cockers are responsive, eager-to-please dogs that take to training well. However, they bond deeply with their family and do not thrive when left alone for long stretches — they were bred as hunting companions, and isolation brings anxiety and destructive behavior. This is a dog that wants to be *with* you.</p>
+<p><strong>Grooming: high maintenance, non-negotiable.</strong> The coat requires daily brushing to prevent matting, professional grooming every 4 to 8 weeks, and regular attention to ears, nails, and anal glands. Many owners budget $75–$150 monthly for professional grooming. If the idea of a daily grooming routine feels burdensome, this breed is not for you.</p>
+<p><strong>Exercise and energy.</strong> Both American and English Cockers need daily walks, fetch sessions, and play — they are sporting dogs and retain the hunting drive that comes with that heritage. They are not couch-only dogs, though they do enjoy being on the couch *with* you. They thrive with families that enjoy outdoor activities.</p>
+<p><strong>Size matters for lifestyle.</strong> American Cockers fit apartments; their smaller size and slightly less intense temperament suit tighter spaces. English Cockers need more room and more exercise, and their more independent personality fits larger homes and active families better. The choice between types should reflect your household size and activity level.</p>
+<p><strong>Shedding.</strong> Moderate to heavy year-round, with seasonal blowouts that require serious brushing commitment. Expect dog hair on furniture, clothes, and floor.</p>
+<p><strong>Hip dysplasia.</strong> Common in the breed, though Cockers show lower prevalence than many larger breeds. Choose a breeder who screens both parents via OFA or PennHIP.</p>
+<p><strong>Dental care.</strong> The breed is prone to periodontal disease; regular tooth brushing and professional cleanings are recommended.</p>
+<p><strong>The honest verdict:</strong> A Cocker Spaniel is a cheerful, affectionate, genuinely good-natured companion for an owner who has read the health profile carefully — especially regarding ear care and eye health — chosen a responsible breeder, and committed to daily grooming. They are family dogs that want to participate in family life, not dogs that can be left in backyards or kennels. If you can meet those terms, you get a dog with a personality that makes everyone in the room smile. If the grooming, ear care, and separation issues sound daunting, choose differently.</p>`,
+    famousHeading: 'Famous Cocker Spaniels',
+    famous: `<p>The Cocker Spaniel's fame is split between cinema history and American political legend. The most iconic Cocker Spaniel in entertainment is Lady, the protagonist of Disney's 1955 animated classic "Lady and the Tramp" — a refined American Cocker Spaniel who navigates love, class, and a fateful night on the town with a streetwise Mongrel named Tramp. Lady became the visual touchstone for the breed's elegance and is, for many people, their first memory of what a Cocker Spaniel looks like.</p>
+<p>In entertainment history, another Cocker Spaniel–mix named Daisy became a working dog actor across 50+ Hollywood films in the 1930s and 1940s, most famously as the animal star of the Blondie film franchise (appearing in 27 of the 28 films). Her trainer, Rennie Renfro, had purchased her for $3; her expressive face and ability to execute precise trick gestures made her invaluable to producers seeking a dog that could convey panic, surprise, and mischief on camera.</p>
+<p>The Cocker Spaniel's entry into American political history arrives via Checkers, the black and white spotted Cocker Spaniel sent to Richard Nixon in 1952 as a political gift when he was the Republican vice-presidential nominee. Nixon's young daughter Tricia named the dog; the dog became a symbol in the "Checkers Speech" (September 23, 1952), a televised defense against campaign finance allegations that became a turning point in American politics. Nixon's famous assertion — "regardless of what they say about it, we are going to keep it" — has been credited with saving his political career. Checkers never lived in the White House but became a celebrity nonetheless, living until 1964.</p>
+<p>President Harry Truman, Truman's successor, also owned a Cocker Spaniel named Feller, who arrived at the White House in 1947 as a gift from Missouri but was eventually rehomed to a family farm — Truman preferred a pet-free household, much to the disapproval of dog lovers across the nation.</p>`,
+    relatedBreeds: [
+      { slug: 'english-cocker-spaniel', name: 'English Cocker Spaniel' },
+      { slug: 'springer-spaniel', name: 'Springer Spaniel' },
+      { slug: 'american-spaniel', name: 'American Spaniel' },
+      { slug: 'poodle', name: 'Poodle' },
+      { slug: 'golden-retriever', name: 'Golden Retriever' },
+    ],
+    breedTagName: 'Cocker Spaniel',
+  },
 };
 
 const STYLES = `
