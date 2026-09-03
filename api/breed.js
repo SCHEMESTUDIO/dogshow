@@ -2186,6 +2186,49 @@ const BREEDS = {
     ],
     breedTagName: 'Cocker Spaniel',
   },
+
+  samoyed: {
+    name: 'Samoyed',
+    headKeyword: 'Samoyed',
+    metaDescription: "The Samoyed: a white Arctic sled dog bred by northern Siberian herders, carrying the breed's famous smile and an impeccable frost-white coat. A field guide to the working dog, with stage notes.",
+    facts: {
+      'Group': 'Working',
+      'Size': 'Males 21–23.5 in · Females 19–21 in',
+      'Weight': '45–65 lb',
+      'Temperament': 'Friendly, bold, independent, alert, gentle',
+      'Life expectancy': '12–14 years',
+      'Coat': 'Thick double coat, always white; sheds heavily year-round, "blows" completely twice yearly',
+      'Colors': 'White (pure white, or white with biscuit/cream markings)',
+      'AKC recognized': 'Yes — 1906, Working Group',
+      'Origin': 'Northern Siberia, bred by the Samoyede people for sledding, herding reindeer, and guarding',
+    },
+    lede: `For over a thousand years, the Samoyede people of northern Siberia bred a dog to do three jobs in the same animal: haul sleds across vast frozen distances, herd and guard reindeer herds, and serve as a companion during the long Arctic winters when the sun never rose. The result is a dog built from white fur so thick and water-resistant that it sheds in literal tumbleweeds, with a natural smile so distinctive the breed was called the "Smiling Sammie" long before social media made us expect dogs to perform on camera. The Samoyed's temperament is as notably gentle as its appearance — a working dog that was never bred for aggression or dominance, but for cooperative partnership with humans and other animals. This history shapes everything about the breed today: not the fierce independence of a guard dog, but the steady reliability of a partner who likes you and was designed to get along.`,
+    spotlight: `<p>The Samoyed's entrance to the Dog Show stage is almost always the same: a white cloud that somehow contains a dog, moving with the assured gait of a dog that has seen worse weather than studio lighting and found it unremarkable. The coat catches light in a way that photographs almost unnaturally well — a Samoyed is the dog professional photographers request, because the white fur photographs like a soft-focus filter applied at birth.</p>
+<p>What stops the chat, reliably, is the face. The Samoyed's expression is less a dog face and more a statement: eyes dark and alert, mouth set in an expression that reads as perpetually amused, the whole configuration adding up to a dog that appears to be in on a joke the rest of us don't know. This is not acting or performance — the Samoyed's skull is built this way. But on camera, it reads as pure charisma. Viewers send bones steadily and warmly, with frequent comments along the lines of "so polite," "very gentle," "I trust this dog."</p>
+<p>The coat's movement is its own act. Long, feathered, impossibly thick, a Samoyed in motion looks like a walking cumulus cloud with four legs. Bone-throw reactions are swift but unhurried — this is not a frenzy dog — with a kind of assured competence that reads on camera as deeply reassuring. The breed does not panic. It does not forget the task. It simply goes about it.</p>`,
+    ownerFitHeading: 'Is a Samoyed right for you?',
+    ownerFit: `<p>Samoyeds are genuinely wonderful companions, but they come with some non-negotiable commitments, starting with shedding so significant that it reshapes your approach to household maintenance.</p>
+<p><strong>Shedding — not negotiable, not optional, not something you'll get used to.</strong> The Samoyed's double coat sheds year-round; twice yearly it "blows" entirely, producing enough white fur that owners report tumbleweeds rolling across hardwood floors. Brush several times weekly minimum, daily during a blowout. A good vacuum is not a purchase, it's a lifestyle choice. If continuous dog hair on furniture, clothes, car, and floors would genuinely distress you, this breed is not for you.</p>
+<p><strong>Health: hip dysplasia and hereditary concerns.</strong> Hip dysplasia is common in the breed, and responsible breeders screen both parents via OFA or PennHIP before breeding. Progressive retinal atrophy (PRA) — an inherited eye disease causing gradual vision loss — can occur; DNA testing is available. Samoyed Hereditary Glomerulopathy (SHG) is a kidney disease specific to the breed that can show up in adolescence or early adulthood; genetic testing is available and reputable breeders use it to screen breeding stock. Ask any prospective breeder about their health testing and ask to see the documentation.</p>
+<p><strong>Exercise and energy.</strong> Samoyeds were bred to pull sleds all day, and that heritage is wired in. A daily walk is the minimum, not the maximum — this breed thrives with genuine running, pulling work (a harness and cart, a dog sport like weight pulling), or long-distance hiking. A Samoyed left under-exercised will find its own job, usually involving your garden.</p>
+<p><strong>Grooming and coat care.</strong> Beyond the shedding: professional bathing and grooming every 6 to 8 weeks helps manage the coat. Regular ear checks and nail trimming are standard. Some owners invest in deshedding tools and professional grooming during blowouts, while others opt for home bathing and high-velocity drying (a specialty dog dryer, not a household hair dryer).</p>
+<p><strong>Independence and training.</strong> Samoyeds are intelligent but not eager-to-please in the way a Border Collie is. They understand a command, acknowledge it was a good suggestion, and then decide whether it aligns with their current plans. This is not stubbornness, exactly — it's a dog bred to work independently, solve problems on its own, and maintain its dignity. Training requires patience and a sense of humor.</p>
+<p><strong>Sociability.</strong> One of the breed's greatest strengths: Samoyeds are genuinely gentle and friendly, rarely aggressive toward people or other dogs. They were designed for companionship during Arctic winters, and that heritage shows — they bond to their entire family rather than one person, get along well with other animals when properly introduced, and are patient with children. This is a dog that wants to be part of the household, not isolated in a backyard.</p>
+<p><strong>Cold weather dog, heat sensitivity.</strong> Built for Arctic conditions, a Samoyed tolerates cold beautifully and heat poorly. In warm climates or hot seasons, shade, water, and gentler exercise are mandatory. Clip the coat short in summer if you live where heat is prolonged — the breed's thick insulation works against it in heat.</p>
+<p><strong>The honest verdict:</strong> A Samoyed is an affectionate, genuine, remarkably stable companion for an owner willing to commit to serious shedding management, chosen a responsible breeder who screens for hip dysplasia and hereditary kidney/eye disease, and can provide the exercise and companionship this working breed was designed for. If the shedding and the independence appeal to you, if you can meet the exercise needs, and if you've read the health profile honestly, a Samoyed rewards you with a dog of genuine character and warmth. If continuous shedding would genuinely frustrate you, choose a different breed.</p>`,
+    famousHeading: 'Famous Samoyeds',
+    famous: `<p>The Samoyed's early fame in the Western world is tied to Arctic exploration. The breed appeared in several polar expeditions in the late 1800s and early 1900s, and while the 1925 Nome diphtheria serum run is most famous for Siberian Huskies, some of the relay legs did use Samoyed teams and other northern sled-dog breeds — the Samoyed's role in that historic relay was significant, though less celebrated in popular memory than Balto or Togo's stories.</p>
+<p>In modern times, Samoyeds have achieved consistent success in sled-dog racing, notably in long-distance weight-pulling competitions where the breed's strength and steady temperament shine. The breed has also become a fixture in search-and-rescue work and therapy-dog programs, where their gentle nature and stable temperament make them exceptionally good at calming anxious or grieving people.</p>
+<p>The Samoyed made a memorable appearance in the Disney film "Snow Dogs" (2002), where the breed's appearance and good nature were featured prominently — though the film's plot focused on Huskies and Malamutes, the Samoyeds in the cast were universally praised by viewers for their steady professionalism and that unmistakable gentle smile. In the realm of modern celebrity, while no single famous Samoyed has achieved the kind of solo fame a Doge-meme dog might, the breed has become increasingly popular on social media, where their white coat and smiling expression photograph beautifully and garner devoted followings. The breed's reliable, genuinely kind temperament — not a performance, but the real underlying character — is what keeps viewers and owners affectionate across generations.</p>`,
+    relatedBreeds: [
+      { slug: 'siberian-husky', name: 'Siberian Husky' },
+      { slug: 'agouti-husky', name: 'Agouti Husky' },
+      { slug: 'alaskan-malamute', name: 'Alaskan Malamute' },
+      { slug: 'great-pyrenees', name: 'Great Pyrenees' },
+      { slug: 'standard-schnauzer', name: 'Standard Schnauzer' },
+    ],
+    breedTagName: 'Samoyed',
+  },
 };
 
 const STYLES = `
