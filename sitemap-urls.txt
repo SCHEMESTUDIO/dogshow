@@ -58,6 +58,7 @@ https://dogshow.lol/breeds/shih-tzu
 https://dogshow.lol/breeds/yorkshire-terrier
 https://dogshow.lol/breeds/pomeranian
 https://dogshow.lol/breeds/beagle
+https://dogshow.lol/breeds/bichon-frise
 https://dogshow.lol/breeds/border-collie
 https://dogshow.lol/breeds/rottweiler
 https://dogshow.lol/breeds/pug
@@ -91,3 +92,4 @@ https://dogshow.lol/national-dog-show-finalists
 https://dogshow.lol/how-long-is-the-dog-show
 https://dogshow.lol/dog-show-app
 https://dogshow.lol/america-s-favorite-pet-contest-2026
+https://dogshow.lol/westminster-dog-show-2026-winner

@@ -70,6 +70,8 @@ is explicitly about the Pembroke. The article link was retargeted 2026-08-22.
 When Phase B nears exhaustion, the run report should say so and recommend either
 building Phase C (sibling pages — needs routing work) or fresh keyword research.
 
+- 2026-09-07 · bichon-frise · Published. Phase B2 item #35 (link-debt backfill). Bichon Frise: 9.5–11.5in/12–18lb, 12–15yr, AKC Non-Sporting Group (recognized 1973). Mediterranean origin, Canary Islands; royal patronage; French verb "bichonner." Famous: J.R. (Westminster 2001, 101 BIS), Flynn (Westminster 2018). Facts verified via AKC, veterinary sources, Westminster records. Added to breeds.html, sitemap.xml, llms.txt, breed-hero-prompts.json. ~1,100 visible words. No heroImage set. Anchored against Maltese and Cocker Spaniel for quality. Queue note: re-link into `french-dog-breeds.html` pending.
+
 ## Phase C — sibling/cluster sub-pages (BLOCKED — infra not built)
 
 Planned in `seo-breed-hub-plan.md` §6 (bernedoodle-vs-goldendoodle, pomsky health,

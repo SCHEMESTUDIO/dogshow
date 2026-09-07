@@ -2229,6 +2229,47 @@ const BREEDS = {
     ],
     breedTagName: 'Samoyed',
   },
+
+  'bichon-frise': {
+    name: 'Bichon Frise',
+    headKeyword: 'Bichon Frise',
+    metaDescription: "The Bichon Frise: a Mediterranean companion breed so cheerful it appears to be genuinely delighted by absolutely everything. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Non-Sporting',
+      'Size': '9.5–11.5 in at shoulder · 12–18 lb',
+      'Temperament': 'Gentle-mannered, sensitive, playful, affectionate, cheerful, alert',
+      'Life expectancy': '12–15 years',
+      'Coat': 'Double coat with soft dense undercoat and coarser curly outer layer; low-shedding but requires regular grooming',
+      'Colors': 'White (buff, cream, or apricot shadings up to 10% of coat acceptable)',
+      'AKC recognized': 'Yes — 1973, Non-Sporting Group',
+      'Origin': 'Mediterranean — Canary Islands (Tenerife); refined in France as "Bichon à Poil Frisé"; royal patronage 13th–18th centuries',
+    },
+    lede: `The Bichon Frise appears to have been engineered in a laboratory specifically to be cheerful. A small white ball of curls that bounces rather than walks, with a temperament so consistently upbeat that trainers swear the breed has not yet discovered the concept of a bad day. Originally a companion breed traveling Mediterranean trade routes, the Bichon was refined in Spain and France over centuries and never once asked for a more exciting job — it arrived at the entirely correct conclusion that being near you and being delighted about it is sufficient purpose for an entire lifetime.`,
+    spotlight: `<p>A Bichon Frise taking the stage is a study in pure, uncomplicated enthusiasm. The coat catches studio lights like a small cumulus cloud, white and impossibly fluffy, the result of meticulous grooming that most owners manage every four to six weeks at a professional groomer — a non-negotiable investment in the breed's upkeep. Under the fluff is a compact, sturdy frame, but what viewers see first is the face: dark round eyes, a small black nose, and an expression of permanent, unshakeable delight.</p>
+<p>What separates the Bichon from other small white dogs is not the coat or the size but the baseline emotional state. A Bichon does not appear on stage and assess the room. It does not consider whether this is worth its time or energy. It arrives already convinced that this is the best thing that has ever happened, and it will broadcast that opinion for the entire thirty seconds it is on camera, regardless of what else is happening. The bones arrive because viewers cannot help themselves — the dog's certainty that it is loved is, eventually, contagious.</p>
+<p>Regulars in the chat have learned to anticipate the moment a Bichon realizes it has an audience. The bounce increases. The already-present smile seems to grow. This is a dog that was born understanding that joy is a choice, made it, and has never once reconsidered.</p>`,
+    ownerFitHeading: 'Is a Bichon Frise right for you?',
+    ownerFit: `<p>The Bichon Frise's cheerful, adaptable nature makes it one of the most broadly suitable small companion breeds — but that cheerfulness comes with a grooming commitment that every prospective owner must understand upfront.</p>
+<p><strong>Grooming: non-negotiable, monthly, professional.</strong> That white curly coat is the breed's defining feature and also its primary owner commitment. Without regular brushing (several times a week) and professional grooming every four to six weeks, the coat mats into an uncomfortable, felted mess. Budget $75–$150 monthly for professional grooming, or commit to learning the skill yourself — and learning it properly is a meaningful time investment. This is not optional cute maintenance; it is foundational to the dog's comfort and health.</p>
+<p><strong>Temperament is genuinely this good.</strong> Bichons are bred as companion dogs, and they inherit that genetics honestly. They are cheerful without being neurotic, playful without being chaotic, and affectionate without being clingy — a rare combination. They tend to get along well with children, other dogs, and even cats when properly socialized, making them good fits for mixed households.</p>
+<p><strong>Exercise needs are moderate and manageable.</strong> A daily walk and some indoor play cover most of a Bichon's exercise requirements. They are not a high-energy breed like a Border Collie or a Husky, which actually makes them well-suited to apartment living, provided the grooming commitment is met.</p>
+<p><strong>Trainability: good, with rewards.</strong> Bichons respond well to positive reinforcement and are capable learners, though they have a slightly independent streak that keeps them from being quite as eager-to-please as, say, a Cavalier. Harsh training methods backfire; consistent, reward-based approaches work beautifully.</p>
+<p><strong>Health: generally sound, with several breed-specific concerns to discuss with a breeder.</strong> Hip dysplasia appears in the breed at moderate rates; responsible breeders screen for it via OFA or PennHIP. Patellar luxation (a slipping kneecap) can occur in small dogs and is largely genetic — weight management reduces strain on the knees. Hereditary cataracts cloud the lens and can lead to blindness; early veterinary detection enables timely surgical removal. Dental disease is nearly universal in small breeds, so regular teeth brushing and professional cleanings are non-negotiable. Allergies to food and environment show up in the breed more often than ideal; work with your vet on an elimination diet if needed. Cushing's disease (excessive cortisol production) occurs occasionally. Ask any prospective breeder for documentation on hip screening, eye clearances, and family health history on both sides — and consider dental care from puppyhood, not as an afterthought.</p>
+<p><strong>Separation sensitivity.</strong> Bichons bond to their people and do not thrive when left alone for long stretches. This is not a breed for households empty nine-to-five; they need regular companionship and do best when someone is home much of the day, or a structured dog-walker or daycare arrangement is in place.</p>
+<p><strong>The honest verdict:</strong> a wonderful, genuinely cheerful companion for someone willing to make the grooming commitment and spend real time with the dog. An excellent fit for families, retired couples, or anyone home regularly enough to provide that companionship. A poor fit for anyone hoping to minimize grooming costs or for a household with nobody around most of the day.</p>`,
+    famousHeading: 'Famous Bichon Frises',
+    famous: `<p>The Bichon Frise's most celebrated recent moments arrive not from cinema but from the show ring. In 2001, a Bichon named J.R. (officially Champion Special Times Just Right) became the first Bichon Frise ever to win Best in Show at Westminster, the highest honour in American dog showing. His 101 lifetime Best in Show wins make him the top-winning Bichon in breed history, and he sired over 60 champions. Seventeen years later, in 2018, another Bichon named Flynn claimed the Westminster Best in Show title, only the second of his breed to reach that pinnacle. In doing so, Flynn proved that J.R.'s 2001 win was not a one-time upset but the beginning of the breed's sustained competitive presence at the sport's highest level.</p>
+<p>Beyond the show ring, the breed played a curious role in European history and art. King Henry III of France (1574–1589) was so devoted to Bichon Frises that he carried multiple dogs in specially designed small baskets. The Spanish painter Francisco de Goya immortalised the breed in several paintings across the 18th century. The French verb <em>bichonner</em> — meaning "to pamper" — derives from the breed's historical role as a cherished court companion.</p>
+<p>In modern culture, the Bichon has become a fixture in therapy-dog programs, where the breed's natural cheerfulness, gentle manner, and small non-threatening size make it ideally suited to hospital visits and senior-care facilities. The breed has also risen steadily in social media popularity, where its small size, white coat, and consistently optimistic demeanor make it a natural Instagram star — several Bichon accounts have accumulated tens of thousands of followers simply by documenting what the breed does best: looking impossibly cute and appearing to be having a very good time.</p>`,
+    relatedBreeds: [
+      { slug: 'maltese', name: 'Maltese' },
+      { slug: 'poodle', name: 'Poodle' },
+      { slug: 'shih-tzu', name: 'Shih Tzu' },
+      { slug: 'cavalier-king-charles-spaniel', name: 'Cavalier King Charles Spaniel' },
+      { slug: 'maltipoo', name: 'Maltipoo' },
+    ],
+    breedTagName: 'Bichon Frise',
+  },
 };
 
 const STYLES = `
