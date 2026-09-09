@@ -36,6 +36,7 @@ https://dogshow.lol/breeds/dalmatian
 https://dogshow.lol/breeds/belgian-malinois
 https://dogshow.lol/breeds/boxer
 https://dogshow.lol/breeds/great-dane
+https://dogshow.lol/breeds/great-pyrenees
 https://dogshow.lol/breeds/maltese
 https://dogshow.lol/breeds/bernese-mountain-dog
 https://dogshow.lol/breeds/vizsla

@@ -54,7 +54,6 @@ volume** — re-order if lowfruits/DataForSEO data says otherwise.
 | 33 | cocker-spaniel | Cocker Spaniel | `cutest-puppy-in-the-world.html` | Disambiguate American vs. English Cocker in the lede |
 | 34 | samoyed | Samoyed | `cutest-puppy-in-the-world.html` | Sledding/working origin; relates to live siberian-husky + agouti-husky |
 | 35 | bichon-frise | Bichon Frise | `french-dog-breeds.html` | Companion breed; relates to live maltese, shih-tzu, poodle |
-| 36 | great-pyrenees | Great Pyrenees | `french-dog-breeds.html` | Already a "Soon" related-chip on the live newfoundland page — that chip goes live automatically on publish |
 | 37 | papillon | Papillon | `french-dog-breeds.html` | Toy spaniel; relates to live cavalier-king-charles-spaniel, pomeranian |
 | 38 | cairn-terrier | Cairn Terrier | `cutest-puppy-ever.html` | Toto (Wizard of Oz) is the obvious famous dog — the article already says so, so don't contradict it |
 
@@ -71,6 +70,7 @@ When Phase B nears exhaustion, the run report should say so and recommend either
 building Phase C (sibling pages — needs routing work) or fresh keyword research.
 
 - 2026-09-07 · bichon-frise · Published. Phase B2 item #35 (link-debt backfill). Bichon Frise: 9.5–11.5in/12–18lb, 12–15yr, AKC Non-Sporting Group (recognized 1973). Mediterranean origin, Canary Islands; royal patronage; French verb "bichonner." Famous: J.R. (Westminster 2001, 101 BIS), Flynn (Westminster 2018). Facts verified via AKC, veterinary sources, Westminster records. Added to breeds.html, sitemap.xml, llms.txt, breed-hero-prompts.json. ~1,100 visible words. No heroImage set. Anchored against Maltese and Cocker Spaniel for quality. Queue note: re-link into `french-dog-breeds.html` pending.
+- 2026-09-09 · great-pyrenees · Published. Phase B2 item #36 (link-debt backfill). Great Pyrenees: 25–32in/~85lb (F), 100+ lb (M), 10–12yr, AKC Working Group (recognized 1933/1934). Pyrenees Mountains (France/Spain border), Basque shepherds, 1,000+ years guarding livestock. Famous: Urdos de Soum (first AKC champion 1934), Jennifer Aniston's rescue, royal patronage (Queen Victoria, Marie-Antoinette). Health: hip/elbow dysplasia, patellar luxation, GDV/bloat, eye conditions. Facts verified via AKC, veterinary sources, breed club. Added to breeds.html (Working & strong opinions group), sitemap.xml, llms.txt, breed-hero-prompts.json. Converted "Soon" related-chip from newfoundland. 1,434 visible words. No heroImage set (hero generation pending). Anchored against Newfoundland and Border Collie for quality. Already present in breeds.js dropdown. Queue note: re-link into `french-dog-breeds.html` per Phase B2 structure, but article verification needed.
 
 ## Phase C — sibling/cluster sub-pages (BLOCKED — infra not built)
 
