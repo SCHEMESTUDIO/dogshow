@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -74,6 +74,14 @@ jobs:
             echo "api/breed.js changed but queue state did not — aborting publish"
             exit 1
           fi
+          # Claude must never touch the PartyKit server from this pipeline.
+          if ! git diff --quiet -- party/; then
+            echo "party/ was modified by the breed-page run — aborting publish"
+            git diff --stat -- party/
+            exit 1
+          fi
+          echo "Tracked files modified by this run:"
+          git status --short --untracked-files=no
 
       - name: Regenerate sitemap-urls.txt (plain-text sitemap, kept in sync with sitemap.xml)
         run: bash scripts/generate-sitemap-urls.sh
@@ -82,16 +90,24 @@ jobs:
         run: |
           git config user.name "Dog Show Bot"
           git config user.email "bot@dogshow.lol"
-          git add api/breed.js breeds.js breeds.html sitemap.xml llms.txt sitemap-urls.txt \
-                  data/breed-page-queue.md scripts/breed-hero-prompts.json breeds-img \
-                  scripts/article-hero-prompts.json
+          # 2026-09-08 fix: the old explicit `git add <list>` missed files the prompt
+          # legitimately edits (Phase B2 re-links the new page into a source article
+          # like french-dog-breeds.html). Those edits stayed UNSTAGED, so
+          # `git pull --rebase` refused with "You have unstaged changes" (exit 128)
+          # and the whole run — page included — was thrown away. Root cause of the
+          # Aug 31 / Sep 1 / Sep 4-6 / Sep 8 failures. Now: stage every tracked
+          # modification (`-u`; party/ is guarded in the sanity gate above) plus the
+          # generated-image dirs, and rebase with --autostash so a stray leftover
+          # can never block the push again.
+          git add -u
+          git add breeds-img scripts/breed-hero-prompts.json scripts/article-hero-prompts.json
           # article-img may not exist until the first article-hero generation ran
           git add article-img 2>/dev/null || true
           if git diff --staged --quiet; then
             echo "No changes to publish"
           else
             git commit -m "breeds: publish daily pages $(date -u +%Y-%m-%d)"
-            git pull --rebase origin main && git push
+            git pull --rebase --autostash origin main && git push
           fi
 
       - name: Telegram report

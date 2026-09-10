@@ -31,7 +31,8 @@ THIS RUN — for the 1 breed:
 6. `llms.txt`: add the page to the breed-guides link section (this file is part of the hardcoded-facts sync set — keep its format).
 7. `scripts/breed-hero-prompts.json`: add a subject line for the slug matching the style of existing entries. The workflow generates the hero image AFTER you run (if a Gemini key is configured), so do NOT set `heroImage`/`heroAlt`/`heroCredit` on your new entries — a heroImage pointing at a not-yet-existing file renders broken. New pages launch on the "Be the first {Breed}" fallback, which is fine.
 7b. Hero BACKFILL (self-healing from prior runs): for every slug that HAS an image in `breeds-img/` but whose `BREEDS` entry lacks `heroImage`, add `heroImage: '/breeds-img/{slug}.{ext}'` (match the actual file extension), a descriptive `heroAlt`, and `heroCredit: 'AI-generated image'` — same pattern as existing entries.
-8. `data/breed-page-queue.md`: move the 2 rows to the Processed log with today's date and a one-line note.
+7c. Phase B2 RE-LINK (mandatory when the queue row has a "Re-link into" article): open that article HTML file, find the sentence/list item that names the breed (the dead link was removed 2026-08-22, so the mention may now be plain text — or you may need to restore a short natural sentence in the right section), and link it to `/breeds/{slug}`. Edit only that article file; the workflow stages every tracked file you modify, so the article edit is committed with the page. Report the article + anchor text in the run report. Skipping this leaves the page orphaned — it is not optional.
+8. `data/breed-page-queue.md`: move the processed row to the Processed log with today's date and a one-line note.
 
 VERIFY (must pass before you finish — if a check fails, fix it):
 - `node --check api/breed.js` and `node --check breeds.js` both exit 0.
