@@ -58,6 +58,7 @@ https://dogshow.lol/breeds/corgi
 https://dogshow.lol/breeds/shih-tzu
 https://dogshow.lol/breeds/yorkshire-terrier
 https://dogshow.lol/breeds/pomeranian
+https://dogshow.lol/breeds/papillon
 https://dogshow.lol/breeds/beagle
 https://dogshow.lol/breeds/bichon-frise
 https://dogshow.lol/breeds/border-collie

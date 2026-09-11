@@ -70,6 +70,7 @@ Key facts:
 - [Shih Tzu](https://dogshow.lol/breeds/shih-tzu): Temperament, care, and owner-fit for the Shih Tzu, the Chinese imperial court companion breed.
 - [Yorkshire Terrier](https://dogshow.lol/breeds/yorkshire-terrier): Temperament, care, and owner-fit for the Yorkshire Terrier, the Yorkshire mill ratter behind Smoky the war dog and Audrey Hepburn's Mr. Famous.
 - [Pomeranian](https://dogshow.lol/breeds/pomeranian): Temperament, care, and owner-fit for the Pomeranian, the Spitz sled dog Queen Victoria bred down to lap size, and the parent of the Pomsky.
+- [Papillon](https://dogshow.lol/breeds/papillon): Temperament, care, and owner-fit for the Papillon, the toy spaniel descended from King Charles court dogs but with the intellect and athleticism of a Border Collie.
 - [Beagle](https://dogshow.lol/breeds/beagle): Temperament, care, and owner-fit for the Beagle, the English pack hound whose nose has gotten it into more trouble than its judgment can talk its way out of.
 - [Bichon Frise](https://dogshow.lol/breeds/bichon-frise): Temperament, care, and owner-fit for the Bichon Frise, the Mediterranean toy companion breed with a dense white curly coat and a cheerful disposition — including J.R.'s legendary Westminster Best in Show record.
 - [Border Collie](https://dogshow.lol/breeds/border-collie): Temperament, care, and owner-fit for the Border Collie, the Scotland-England border herder with one of the sharpest minds in the dog world — Chaser's record-breaking 1,022-toy vocabulary.
