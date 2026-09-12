@@ -902,6 +902,46 @@ const BREEDS = {
     breedTagName: 'Cavapoo',
   },
 
+  'cairn-terrier': {
+    name: 'Cairn Terrier',
+    headKeyword: 'Cairn Terrier',
+    metaDescription: "The Cairn Terrier: a Scottish working terrier with the confidence of a dog twice its size, the hardness of a dog built for rock scrub, and a warmth that defies the rocky origins. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Terrier',
+      'Size': 'Males 10 in, 14 lb · Females 9.5 in, 13 lb',
+      'Temperament': 'Independent, alert, intelligent, friendly, outgoing, fearless but not aggressive',
+      'Life expectancy': '13–16 years',
+      'Coat': 'Shaggy double coat, weather-resistant, natural appearance',
+      'Colors': 'Cream, wheaten, red, grizzle, black, brindle; dark ears and muzzle preferred',
+      'AKC recognized': 'Yes — formally by the Kennel Club 1910',
+      'Origin': 'Isle of Skye and Scottish Highlands — bred for hunting foxes and other small game in rocky terrain',
+    },
+    lede: `The Cairn Terrier comes from the Isle of Skye and the Scottish Highlands, where it was bred to hunt foxes, badgers, and other small game among the rock piles — cairns — that give the breed its name. It is, in essence, a dog made for hardship: sturdy, weather-resistant, independent in the way of a creature that once had to think for itself while chasing prey underground. And yet the Cairn's actual temperament is not grim. It is cheerful. It is game. It carries itself with the unselfconscious confidence of a small dog that has genuinely never registered its own size as a limitation.`,
+    spotlight: `<p>A Cairn Terrier arrives on stage as a small, concentrated package of purpose. The build is sturdy — short legs, a long body, the whole thing built low and narrow enough to fit into rocky burrows — but the carriage is entirely unselfconscious. Where a toy breed might tiptoe, a Cairn walks. The shaggy coat, weather-roughed and tousled, gives the impression of a dog that has just come in from the moors, which is essentially true to the breed's origin.</p>
+<p>What strikes viewers first is the face. The expression is alert, intelligent, neither soft nor silly. There is a seriousness there, balanced by a visible friendliness — this is a dog that has work to do and is reasonably happy to see you in the meantime. The ears stand forward. The gaze is direct. A Cairn does not perform softness; it simply shows up, prepared and genuine.</p>
+<p>The bones arrive steadily. Viewers respond not to cuteness — the Cairn is appealingly scruffy rather than conventionally cute — but to competence and character. A small dog that carries itself like it has a job is, on some level, profoundly reassuring to watch.</p>`,
+    ownerFitHeading: 'Is a Cairn Terrier right for you?',
+    ownerFit: `<p>The Cairn is a working dog in a small package, which means the owner-fit conversation is largely about honesty and realistic expectations.</p>
+<p><strong>Independence and training.</strong> Cairns were bred to think for themselves — to follow a fox or a badger into a burrow and make split-second decisions underground. That independence is baked in genetically and shows up as stubbornness. They respond well to training with small, high-value rewards and a handler with patience and clear leadership, but they will not obey out of a desire to please; they will obey because they have decided you are right. This requires a different mindset from training a Labrador.</p>
+<p><strong>Prey drive and prey-oriented behavior.</strong> Small animals — cats, rabbits, guinea pigs, small dogs — may trigger a chase instinct. Socialization from puppyhood helps, but the drive is genetic. A secure fence and careful management are non-negotiable if you have other small pets.</p>
+<p><strong>Energy and exercise.</strong> Moderate but steady. They want a daily walk and some play, not a marathon. What they do need is engagement — a bored Cairn becomes an inventive problem-solver, and Cairn creativity tends to express itself in destroyed cushions and unauthorized digging.</p>
+<p><strong>Grooming.</strong> The shaggy coat needs regular brushing — twice a week is reasonable — to keep it from matting. Most owners keep them in a "puppy cut" rather than attempting full show coat at home. Professional grooming every 6-8 weeks is typical.</p>
+<p><strong>Health — read this part.</strong> Cairns are a generally healthy breed with good lifespan, but several breed-specific issues exist. Craniomandibular Osteopathy (CMO, sometimes called "Lion Jaw") can appear in puppies between four and eight months, causing jaw pain and eating difficulty — most cases resolve by 12 months but require veterinary monitoring. Eye conditions including juvenile and adult-onset cataracts and progressive retinal atrophy (PRA) can develop. Less common but serious: Globoid Cell Leukodystrophy (Krabbe disease) and Pyruvate Kinase Deficiency (PKD). Buy only from a breeder who health-tests and is open about the family history.</p>
+<p><strong>Socialization.</strong> Early, broad socialization — meeting many people, dogs, and experiences as a puppy — mellows the breed's natural reserve with strangers and prevents suspicious or aggressive behavior.</p>
+<p><strong>The verdict:</strong> an excellent dog for an experienced owner who appreciates independence, can provide consistent leadership, and will engage with the breed's working nature. A poor fit for a first-time dog owner or anyone wanting an obedient lapdog that is easy to manage.</p>`,
+    famousHeading: 'Famous Cairn Terriers',
+    famous: `<p>The Cairn Terrier's most iconic claim to fame is, of course, Toto in The Wizard of Oz (1939). The dog who played Toto was a female Cairn named Terry, born November 17, 1933. She was already an experienced film actress when MGM cast her opposite Judy Garland; by the time production began, she was comfortable on a film set and ready for the job. During filming, one of the Winkie guards accidentally stepped on her foot and broke it — a stunt double was used while she healed — but Terry recovered and completed the picture. She earned $125 per week, which was more than some of the actors playing Munchkins received. Her salary and star power tell you everything about how seriously Hollywood took the part of the dog who would become cinema's most beloved terrier.</p>
+<p>Beyond Oz: Terry appeared in at least 23 films across her career, including Bright Eyes (1934) with Shirley Temple. A Cairn Terrier also had a memorable role on the classic sitcom I Love Lucy, where the character Fred was the family dog. The breed has never quite had another Toto moment, which is perhaps only fair — lightning that bright does not strike twice. What it has instead is a steady, devoted following among owners who recognize the breed for what it actually is: a small, fearless, genuinely intelligent working dog that happens to be utterly charming when it decides to charm you.</p>`,
+    relatedBreeds: [
+      { slug: 'scottish-terrier', name: 'Scottish Terrier' },
+      { slug: 'west-highland-white-terrier', name: 'West Highland White Terrier' },
+      { slug: 'skye-terrier', name: 'Skye Terrier' },
+      { slug: 'border-terrier', name: 'Border Terrier' },
+      { slug: 'yorkshire-terrier', name: 'Yorkshire Terrier' },
+    ],
+    breedTagName: 'Cairn Terrier',
+  },
+
   chihuahua: {
     name: 'Chihuahua',
     headKeyword: 'Chihuahua',
