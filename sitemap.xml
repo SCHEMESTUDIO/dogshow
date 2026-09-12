@@ -166,6 +166,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://dogshow.lol/breeds/cairn-terrier</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dogshow.lol/breeds/french-bulldog</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -297,6 +302,11 @@
   </url>
   <url>
     <loc>https://dogshow.lol/breeds/pomeranian</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dogshow.lol/breeds/papillon</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -477,6 +487,16 @@
   </url>
   <url>
     <loc>https://dogshow.lol/westminster-dog-show-2026-winner</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dogshow.lol/pupvote</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dogshow.lol/ugliest-dog-in-the-world-contest</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

@@ -902,6 +902,46 @@ const BREEDS = {
     breedTagName: 'Cavapoo',
   },
 
+  'cairn-terrier': {
+    name: 'Cairn Terrier',
+    headKeyword: 'Cairn Terrier',
+    metaDescription: "The Cairn Terrier: a Scottish working terrier with the confidence of a dog twice its size, the hardness of a dog built for rock scrub, and a warmth that defies the rocky origins. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Terrier',
+      'Size': 'Males 10 in, 14 lb · Females 9.5 in, 13 lb',
+      'Temperament': 'Independent, alert, intelligent, friendly, outgoing, fearless but not aggressive',
+      'Life expectancy': '13–16 years',
+      'Coat': 'Shaggy double coat, weather-resistant, natural appearance',
+      'Colors': 'Cream, wheaten, red, grizzle, black, brindle; dark ears and muzzle preferred',
+      'AKC recognized': 'Yes — formally by the Kennel Club 1910',
+      'Origin': 'Isle of Skye and Scottish Highlands — bred for hunting foxes and other small game in rocky terrain',
+    },
+    lede: `The Cairn Terrier comes from the Isle of Skye and the Scottish Highlands, where it was bred to hunt foxes, badgers, and other small game among the rock piles — cairns — that give the breed its name. It is, in essence, a dog made for hardship: sturdy, weather-resistant, independent in the way of a creature that once had to think for itself while chasing prey underground. And yet the Cairn's actual temperament is not grim. It is cheerful. It is game. It carries itself with the unselfconscious confidence of a small dog that has genuinely never registered its own size as a limitation.`,
+    spotlight: `<p>A Cairn Terrier arrives on stage as a small, concentrated package of purpose. The build is sturdy — short legs, a long body, the whole thing built low and narrow enough to fit into rocky burrows — but the carriage is entirely unselfconscious. Where a toy breed might tiptoe, a Cairn walks. The shaggy coat, weather-roughed and tousled, gives the impression of a dog that has just come in from the moors, which is essentially true to the breed's origin.</p>
+<p>What strikes viewers first is the face. The expression is alert, intelligent, neither soft nor silly. There is a seriousness there, balanced by a visible friendliness — this is a dog that has work to do and is reasonably happy to see you in the meantime. The ears stand forward. The gaze is direct. A Cairn does not perform softness; it simply shows up, prepared and genuine.</p>
+<p>The bones arrive steadily. Viewers respond not to cuteness — the Cairn is appealingly scruffy rather than conventionally cute — but to competence and character. A small dog that carries itself like it has a job is, on some level, profoundly reassuring to watch.</p>`,
+    ownerFitHeading: 'Is a Cairn Terrier right for you?',
+    ownerFit: `<p>The Cairn is a working dog in a small package, which means the owner-fit conversation is largely about honesty and realistic expectations.</p>
+<p><strong>Independence and training.</strong> Cairns were bred to think for themselves — to follow a fox or a badger into a burrow and make split-second decisions underground. That independence is baked in genetically and shows up as stubbornness. They respond well to training with small, high-value rewards and a handler with patience and clear leadership, but they will not obey out of a desire to please; they will obey because they have decided you are right. This requires a different mindset from training a Labrador.</p>
+<p><strong>Prey drive and prey-oriented behavior.</strong> Small animals — cats, rabbits, guinea pigs, small dogs — may trigger a chase instinct. Socialization from puppyhood helps, but the drive is genetic. A secure fence and careful management are non-negotiable if you have other small pets.</p>
+<p><strong>Energy and exercise.</strong> Moderate but steady. They want a daily walk and some play, not a marathon. What they do need is engagement — a bored Cairn becomes an inventive problem-solver, and Cairn creativity tends to express itself in destroyed cushions and unauthorized digging.</p>
+<p><strong>Grooming.</strong> The shaggy coat needs regular brushing — twice a week is reasonable — to keep it from matting. Most owners keep them in a "puppy cut" rather than attempting full show coat at home. Professional grooming every 6-8 weeks is typical.</p>
+<p><strong>Health — read this part.</strong> Cairns are a generally healthy breed with good lifespan, but several breed-specific issues exist. Craniomandibular Osteopathy (CMO, sometimes called "Lion Jaw") can appear in puppies between four and eight months, causing jaw pain and eating difficulty — most cases resolve by 12 months but require veterinary monitoring. Eye conditions including juvenile and adult-onset cataracts and progressive retinal atrophy (PRA) can develop. Less common but serious: Globoid Cell Leukodystrophy (Krabbe disease) and Pyruvate Kinase Deficiency (PKD). Buy only from a breeder who health-tests and is open about the family history.</p>
+<p><strong>Socialization.</strong> Early, broad socialization — meeting many people, dogs, and experiences as a puppy — mellows the breed's natural reserve with strangers and prevents suspicious or aggressive behavior.</p>
+<p><strong>The verdict:</strong> an excellent dog for an experienced owner who appreciates independence, can provide consistent leadership, and will engage with the breed's working nature. A poor fit for a first-time dog owner or anyone wanting an obedient lapdog that is easy to manage.</p>`,
+    famousHeading: 'Famous Cairn Terriers',
+    famous: `<p>The Cairn Terrier's most iconic claim to fame is, of course, Toto in The Wizard of Oz (1939). The dog who played Toto was a female Cairn named Terry, born November 17, 1933. She was already an experienced film actress when MGM cast her opposite Judy Garland; by the time production began, she was comfortable on a film set and ready for the job. During filming, one of the Winkie guards accidentally stepped on her foot and broke it — a stunt double was used while she healed — but Terry recovered and completed the picture. She earned $125 per week, which was more than some of the actors playing Munchkins received. Her salary and star power tell you everything about how seriously Hollywood took the part of the dog who would become cinema's most beloved terrier.</p>
+<p>Beyond Oz: Terry appeared in at least 23 films across her career, including Bright Eyes (1934) with Shirley Temple. A Cairn Terrier also had a memorable role on the classic sitcom I Love Lucy, where the character Fred was the family dog. The breed has never quite had another Toto moment, which is perhaps only fair — lightning that bright does not strike twice. What it has instead is a steady, devoted following among owners who recognize the breed for what it actually is: a small, fearless, genuinely intelligent working dog that happens to be utterly charming when it decides to charm you.</p>`,
+    relatedBreeds: [
+      { slug: 'scottish-terrier', name: 'Scottish Terrier' },
+      { slug: 'west-highland-white-terrier', name: 'West Highland White Terrier' },
+      { slug: 'skye-terrier', name: 'Skye Terrier' },
+      { slug: 'border-terrier', name: 'Border Terrier' },
+      { slug: 'yorkshire-terrier', name: 'Yorkshire Terrier' },
+    ],
+    breedTagName: 'Cairn Terrier',
+  },
+
   chihuahua: {
     name: 'Chihuahua',
     headKeyword: 'Chihuahua',
@@ -2312,6 +2352,45 @@ const BREEDS = {
       { slug: 'maltipoo', name: 'Maltipoo' },
     ],
     breedTagName: 'Bichon Frise',
+  },
+
+  papillon: {
+    name: 'Papillon',
+    headKeyword: 'Papillon',
+    metaDescription: "The Papillon: a toy spaniel descended from King Charles court dogs, but with the intellect and athleticism of a border collie tucked into five pounds. A field guide, with stage notes.",
+    facts: {
+      'Group': 'Toy',
+      'Size': '8–10 in at shoulder · 5–10 lb',
+      'Temperament': 'Alert, friendly, obedient, intelligent, eager to please, sensitive',
+      'Life expectancy': '13–16 years',
+      'Coat': 'Long, fine, silky; feathered on ears, chest, legs, and tail; low-shedding',
+      'Colors': 'White with patches of any color (parti-color); most commonly black or brown',
+      'AKC recognized': 'Yes — 1935, Toy Group',
+      'Origin': 'France and Belgium — descended from toy King Charles Spaniels, refined at European royal courts',
+    },
+    lede: `The Papillon sits at the intersection of three distinct dog traditions and never quite makes peace with any of them. It inherited the spaniel gene pool and the name — papillon means butterfly in French, after those distinctive ears that stick straight up and out like a creature mid-metamorphosis. It inherited the toy-breed body: five to ten pounds, small enough to fit in a child's lap with room to spare. And then, inexplicably, it inherited the working dog's brain — a wiring so preternaturally alert and capable that it has spent the last century out-thinking nearly every other dog in competitions designed to test exactly that. A Papillon is what happens when you ask a Brussels aristocrat and a working spaniel to compromise on a dog, and the result is one of the smartest creatures alive, convinced it is also your personal responsibility.`,
+    spotlight: `<p>A Papillon arrives on stage as a small, purposeful creature convinced it understands exactly what you need and has opinions about how to deliver it. Those butterfly ears are always moving — tracking sound, reading the room, processing information a quieter dog wouldn't even notice was there. For a dog under ten pounds, there is an almost unsettling amount of awareness behind the eyes.</p>
+<p>The coat, when properly maintained, photographs beautifully under studio lights — a silky, feathered cascade flowing from ears and chest and the high-carried tail. The parti-color variety (usually white with large patches of black or brown) creates a striking contrast; the solid fawn or red varieties read with equal elegance, just different. Movement is where Papillons most distinguish themselves on stage: trotting with a particular lively bounce that reads as controlled energy, never frantic or anxious, just a small dog that has decided this moment is worth its full attention.</p>
+<p>What viewers most often remark upon is the responsiveness. Ask a Papillon to sit, to wait, to look at the camera, and it doesn't perform these actions so much as anticipate them — reading your intent before you've quite finished the command. This is partly breed temperament and partly the Papillon's genuine comfort in a training relationship. The dog does not do things because it is told. The dog does things because it has calculated that you probably want it to, and it has decided to agree. Bone counts run warm and steady: viewers recognize the intelligence immediately and appreciate a dog that keeps the stage genuinely interesting without demanding constant entertainment.</p>`,
+    ownerFitHeading: 'Is a Papillon right for you?',
+    ownerFit: `<p><strong>The intelligence is a gift and a responsibility.</strong> Papillons are consistently ranked among the top five most intelligent dog breeds — some breed experts argue they rank second only to the Border Collie, and the argument has real merit. This is not "smart for a small dog" — this is genuinely intelligent by any measure, any breed, anywhere. An under-stimulated Papillon becomes a creative problem-solver, and Papillon creativity tends to express itself in unexpected ways: learning to open gates, figuring out how to reach countertops a dog its size shouldn't be able to reach, or simply losing interest in basic household rules because nothing is challenging anymore. Mental exercise is not optional for this breed. A puzzle toy is background noise. They need a genuine job — obedience training, dog sports like agility or rally, or a household that respects their wiring and engages their minds daily.</p>
+<p><strong>They are not lap dogs, despite their size.</strong> Papillons are descended from toy King Charles Spaniels but they are functionally not small companions — they are working dogs at heart, and confining one to a lap is like asking a Border Collie to nap. They want activity, engagement, and a reason to use their capabilities. They will sit on your lap, but only after they've decided there's nothing more interesting happening. A Papillon that is kept as a pure companion dog without mental or physical challenge tends toward anxiety and destructive behavior.</p>
+<p><strong>Exercise and structure.</strong> A moderate amount of actual physical activity — a walk, some play — satisfies the body. What satisfies the mind is the hard part. An hour of structured training or sport work exhausts a Papillon far more than two hours of casual running. They excel at dog agility, obedience trials, rally, and canine freestyle (trick training and dance). These are not hobbies the breed enjoys — they are necessities. Without them, you need a household that can provide genuine mental engagement daily.</p>
+<p><strong>Coat and grooming.</strong> The long, silky coat needs regular brushing to prevent mats, especially in the feathered areas around the ears and tail. Many owners maintain it in a shorter "puppy cut" for practicality; show dogs keep the full silky length. Grooming every six to eight weeks is standard, or commit to learning to maintain it yourself. The good news is that Papillons shed less than many breeds — the silky coat is lower-shedding than a Cavalier or a Maltese.</p>
+<p><strong>Health concerns.</strong> Patellar luxation (a kneecap that slips its groove) is the most common orthopedic issue in toy breeds, and Papillons are no exception — ask a breeder whether the parents have been patella-graded. Progressive retinal atrophy (PRA) and other eye conditions appear in the breed; a good breeder will have dogs eye-tested by the Canine Eye Registration Foundation. Hip dysplasia is less common in this breed than in larger dogs but still worth screening for.</p>
+<p><strong>Small-dog fragility and household management.</strong> At under ten pounds, a Papillon can be badly injured by a fall, an enthusiastic child, or a larger dog playing too roughly. This is a supervise-closely breed in a household with very young children or untrained dogs. Despite their intelligence and capability, they are still delicate physically.</p>
+<p><strong>The honest verdict:</strong> a remarkable, deeply capable companion for someone ready to treat their dog as a working partner rather than a living decoration. The Papillon repays engagement with unwavering loyalty and a willingness to do genuinely difficult things. A poor match for anyone hoping for a small, independent dog content to entertain itself.</p>`,
+    famousHeading: 'Famous Papillons',
+    famous: `<p>The Papillon's greatest fame runs through the dog show and obedience-trial world rather than through entertainment, which tells you plainly what this breed's actual strengths are. In 1915, a Papillon named Ch. Joliette of Tani won Best in Show at the Morris and Essex Kennel Club Dog Show, making it one of the earliest toy breeds to achieve that honor. In the 1970s and 1980s, Papillons began a sustained presence in obedience competitions, where they have competed — and won — at levels most other breeds never approach, consistently finishing in top rankings at national obedience championships year after year.</p>
+<p>Beyond the show ring, the Papillon's fame runs through the research world: Stanley Coren's "The Intelligence of Dogs" (1994), which ranked 138 breeds by working and obedience intelligence, placed the Pomeranian relatively low but the Papillon — though admittedly less famous — appears in discussions of canine cognition specifically because the breed's proven ability to learn complex commands and retain instruction genuinely outpaces much larger, supposedly more "serious" working breeds. The Border Collie earned the number-one spot; the Papillon is often cited as a competitor for second place depending on the researcher, the test design, and the specific dogs involved.</p>
+<p>In popular culture, Papillons have had fewer starring roles than Chihuahuas or Corgis, but they have appeared consistently as supporting players: in various films and television shows portraying small court dogs, in advertising for pet products, and most recently in social media as increasingly popular Instagram subjects for owners who have discovered that the breed photographs beautifully and is far more trainable and athletic than most people assume when they see the butterfly ears and the toy-sized frame.</p>`,
+    relatedBreeds: [
+      { slug: 'cavalier-king-charles-spaniel', name: 'Cavalier King Charles Spaniel' },
+      { slug: 'pomeranian', name: 'Pomeranian' },
+      { slug: 'maltese', name: 'Maltese' },
+      { slug: 'poodle', name: 'Poodle' },
+    ],
+    breedTagName: 'Papillon',
   },
 };
 
