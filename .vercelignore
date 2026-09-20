@@ -17,6 +17,14 @@ preview-show-redesign.html
 submitted-dog-images
 _to_delete
 
+# Internal ops files that were being served at 200 (audit 2026-09-20).
+# vercel.json, .vercelignore and middleware.ts stay deployed: the platform
+# reads the first two and the third is live edge middleware.
+google-ads-negative-keywords.txt
+notify-policy.json
+CNAME
+_redirects
+
 # Exception: the sitemap serverless function must deploy (2026-08-21;
 # *.py above otherwise strips it and the build fails on the functions pattern)
 !api/sitemap.py
