@@ -7,7 +7,7 @@
   <script src="consent.js" defer></script>
   <script src="analytics.js" defer></script>
   <script src="/nav.js" defer></script>
-  <title>The Dog Show — Live</title>
+  <title>The Dog Show · Live</title>
   <meta name="description" content="The internet's live dog show. One dog at a time, everyone watching. Give bones, chat with fans, or enter your own dog for a permanent show page.">
   <link rel="canonical" href="https://dogshow.lol/show.html">
 
@@ -56,7 +56,7 @@
       <span class="show-header-est">est. 2026</span>
     </div>
     <div class="show-header-right">
-      <span class="live-badge" id="liveBadge"><span class="live-badge-dot" aria-hidden="true"></span> LIVE &mdash; <span id="viewerCount">0</span> watching</span>
+      <span class="live-badge" id="liveBadge"><span class="live-badge-dot" aria-hidden="true"></span> LIVE &middot; <span id="viewerCount">0</span> watching</span>
     </div>
   </div>
 
@@ -71,7 +71,7 @@
     <!-- Semantic page heading. Visually hidden: the stage itself is the visual
          "title" of this page, so a printed H1 would fight the layout. Screen
          readers and crawlers still get one. (SEO audit 2026-08-22.) -->
-    <h1 class="sr-only">The Dog Show — live online dog show, streaming now</h1>
+    <h1 class="sr-only">The Dog Show · live online dog show, streaming now</h1>
 
     <div class="show-col-main">
 
@@ -86,7 +86,7 @@
           <!-- Intermission overlay -->
           <div class="intermission-overlay" id="intermission">
             <div class="intermission-card">
-              <div class="intermission-label">&mdash; Intermission &mdash;</div>
+              <div class="intermission-label">· Intermission ·</div>
               <div class="intermission-title" id="intermissionTitle">Please Stand By</div>
               <div class="intermission-subtitle">The dogs will return shortly.</div>
             </div>
@@ -134,7 +134,7 @@
             <span class="my-bones-pill-label">bones in your pouch</span>
           </div>
           <!-- First-visit coachmark (shown once via localStorage in app.js). -->
-          <div class="bone-coach" id="boneCoach" hidden>A bone is a vote &mdash; tap to back this dog!</div>
+          <div class="bone-coach" id="boneCoach" hidden>A bone is a vote. Tap to back this dog!</div>
         </div>
 
         <!-- Owner cue — revealed by app.js only when the logged-in owner's own
@@ -164,7 +164,7 @@
             <span id="dockStatusText">Your dog is in the show</span>
             <a class="dock-link" id="dockDogLink" href="#" target="_blank">View certificate <span>&rarr;</span></a>
           </div>
-          <div class="dock-patience" id="dockPatience" hidden>Your dog is in the show &mdash; they'll appear in the rotation shortly</div>
+          <div class="dock-patience" id="dockPatience" hidden>Your dog is in the show and will appear in the rotation shortly</div>
           <div class="paid-user-error" id="dockError" role="alert" hidden>
             <span class="paid-user-error-icon" aria-hidden="true">&#9888;</span>
             <span class="paid-user-error-text" id="dockErrorText"></span>
@@ -192,7 +192,7 @@
         </div>
         <!-- Entry CTA — the show page's only entry action. Purple, never
              orange (orange is reserved for bones/money). -->
-        <a class="dom-enter-cta" href="/?openModal=premium">Enter your dog &mdash; free &rarr;</a>
+        <a class="dom-enter-cta" href="/?openModal=premium">Enter your dog · free &rarr;</a>
       </section>
 
       <a class="dom-full-link" href="/leaderboard">See the full Hall of Bones &rarr;</a>
@@ -266,7 +266,7 @@
       <label for="usernameInput" class="sr-only">Display name</label>
       <input type="text" class="username-modal-input" id="usernameInput" placeholder="e.g. barkfan42" maxlength="20" autocomplete="off" spellcheck="false">
       <button class="username-modal-btn" id="usernameSubmit">Enter the show</button>
-      <div class="username-modal-hint">You can't change this later &mdash; choose wisely</div>
+      <div class="username-modal-hint">You can't change this later, so choose wisely</div>
     </div>
   </div>
 
@@ -277,8 +277,8 @@
       <div class="upgrade-title" id="upgradeTitle">Bones are for ticket holders.</div>
       <div class="upgrade-subtitle" id="upgradeSubtitle">Upgrade once and give bones forever.</div>
       <div class="upgrade-actions">
-        <button class="upgrade-btn-primary" id="upgradePrimary">Unlock Bones &mdash; $1.99</button>
-        <button class="upgrade-btn-secondary" id="upgradeSecondary">Enter Your Dog Instead &mdash; Free</button>
+        <button class="upgrade-btn-primary" id="upgradePrimary">Get Bones · $1.99</button>
+        <button class="upgrade-btn-secondary" id="upgradeSecondary">Enter Your Dog Instead · Free</button>
         <div class="upgrade-hint" id="upgradeHint"></div>
         <button class="upgrade-dismiss" id="upgradeDismiss">Maybe later</button>
       </div>
