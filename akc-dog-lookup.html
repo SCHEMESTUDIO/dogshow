@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="consent.js" defer></script>
+  <script src="analytics.js" defer></script>
+  <title>Akc Dog Lookup | The Dog Show</title>
+  <meta name="description" content="You've got a registration number scribbled on a piece of paper, or a breeder who swears the litter is &quot;fully AKC,&quot; and you want to know what that actu">
+  <link rel="canonical" href="https://dogshow.lol/akc-dog-lookup">
+  <meta property="og:title" content="Akc Dog Lookup | The Dog Show">
+  <meta property="og:description" content="You've got a registration number scribbled on a piece of paper, or a breeder who swears the litter is &quot;fully AKC,&quot; and you want to know what that actu">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://dogshow.lol/akc-dog-lookup">
+  <meta property="og:site_name" content="The Dog Show">
+  <meta property="og:image" content="https://dogshow.lol/og-image.png">
+  <meta property="og:image:secure_url" content="https://dogshow.lol/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Dog Show · A Live Online Dog Show">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Akc Dog Lookup | The Dog Show">
+  <meta name="twitter:description" content="You've got a registration number scribbled on a piece of paper, or a breeder who swears the litter is &quot;fully AKC,&quot; and you want to know what that actu">
+  <meta name="twitter:image" content="https://dogshow.lol/og-image.png">
+  <meta name="twitter:image:alt" content="The Dog Show · A Live Online Dog Show">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dogshow.lol/" },
+      { "@type": "ListItem", "position": 2, "name": "AKC Dog Lookup", "item": "https://dogshow.lol/akc-dog-lookup" }
+    ]
+  }
+  </script>
+  <style>
+    @font-face {
+      font-family: 'Yang Bagus';
+      src: url('YangBagus.ttf') format('truetype');
+      font-weight: normal; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'YangBagus';
+      src: url('YangBagus.ttf') format('truetype');
+      font-weight: normal; font-style: normal; font-display: swap;
+    }
+
+    .nm-page {
+      background: #f7f2e9;
+      color: #2a2150;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .nm-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: 960px; margin: 0 auto; padding: 20px 24px;
+    }
+    .nm-nav-brand {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: 22px; color: #2a2150; text-decoration: none;
+    }
+    .nm-nav-links { display: flex; gap: 24px; align-items: center; }
+    .nm-nav-link { font-size: 13px; color: #52447e; text-decoration: none; transition: color 0.2s; }
+    .nm-nav-link:hover { color: #2a2150; }
+    .nm-nav-cta {
+      font-size: 13px; font-weight: 600; color: #7a5a14; text-decoration: none;
+      border: 1px solid rgba(185, 138, 47, 0.3); padding: 6px 16px; border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .nm-nav-cta:hover { background: rgba(185, 138, 47, 0.1); border-color: #7a5a14; }
+
+    .nm-breadcrumb {
+      max-width: 960px; margin: 0 auto; padding: 12px 24px 0; font-size: 12px;
+    }
+    .nm-breadcrumb a { color: #5d5088; text-decoration: none; }
+    .nm-breadcrumb a:hover { color: #43366e; }
+    .nm-breadcrumb span { color: #574a82; margin: 0 6px; }
+
+    .nm-hero {
+      text-align: center; padding: 72px 24px 52px;
+      max-width: 760px; margin: 0 auto;
+    }
+    .nm-hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(185, 138, 47, 0.1); border: 1px solid rgba(185, 138, 47, 0.2);
+      color: #7a5a14; font-size: 12px; font-weight: 600;
+      padding: 6px 14px; border-radius: 20px; margin-bottom: 28px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .nm-hero-dot {
+      width: 6px; height: 6px; background: #2e7d32; border-radius: 50%;
+      animation: nm-pulse 2s ease-in-out infinite;
+    }
+    @keyframes nm-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .nm-hero h1 {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: clamp(36px, 7vw, 56px); color: #2a2150; line-height: 1.1; margin-bottom: 20px;
+    }
+    .nm-hero-sub {
+      font-size: clamp(17px, 2.6vw, 20px); color: #352a5e; line-height: 1.55;
+      max-width: 620px; margin: 0 auto 24px;
+    }
+    .nm-hero-trust {
+      font-size: 15px; color: #453a70; line-height: 1.5;
+      max-width: 580px; margin: 0 auto 32px;
+    }
+    .nm-hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    .nm-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 52px; padding: 16px 32px; border-radius: 10px; font-size: 17px; font-weight: 600;
+      border: none; cursor: pointer; transition: all 0.2s; text-decoration: none;
+    }
+    .nm-btn-primary { background: #5b46d6; color: #fff; }
+    .nm-btn-primary:hover {
+      background: #6f5ce0; transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(185, 138, 47, 0.3);
+    }
+    .nm-btn-secondary { background: transparent; color: #2a2150; border: 1px solid #574a82; }
+    .nm-btn-secondary:hover { border-color: #5b46d6; background: rgba(91, 70, 214, 0.08); }
+
+    .nm-section { max-width: 880px; margin: 0 auto; padding: 64px 24px; }
+    .nm-section-label {
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: #2a2150; margin-bottom: 12px; text-align: center;
+    }
+    .nm-section-title {
+      font-family: 'Yang Bagus', 'YangBagus', cursive;
+      font-size: clamp(28px, 5vw, 40px); color: #2a2150;
+      text-align: center; margin-bottom: 16px; line-height: 1.2;
+    }
+    .nm-section-subtitle {
+      font-size: 15px; color: #453a70; text-align: center;
+      max-width: 600px; margin: 0 auto 48px; line-height: 1.6;
+    }
+    .nm-prose { max-width: 680px; margin: 0 auto; }
+    .nm-prose p { font-size: 16px; color: #352a5e; line-height: 1.7; margin: 0 0 18px; }
+    .nm-prose h2 {
+      font-size: 26px; color: #2a2150; margin: 40px 0 14px; font-weight: 700;
+    }
+    .nm-prose h3 {
+      font-size: 20px; color: #2a2150; margin: 32px 0 10px; font-weight: 600;
+    }
+    .nm-prose a { color: #5b46d6; text-decoration: none; border-bottom: 1px solid rgba(185,138,47,0.3); }
+    .nm-prose a:hover { border-color: #5b46d6; }
+
+    .nm-bridge {
+      max-width: 640px; margin: 4px auto 0; padding: 24px 26px;
+      background: rgba(91,70,214,0.05); border: 1px solid rgba(91,70,214,0.18);
+      border-radius: 14px; text-align: center;
+    }
+    .nm-bridge-kicker {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: #7a5a14; font-weight: 600; margin-bottom: 10px;
+    }
+    .nm-bridge-line {
+      font-size: 17px; font-weight: 600; color: #2a2150;
+      line-height: 1.45; margin: 0 0 8px;
+    }
+    .nm-bridge-sub {
+      font-size: 14px; color: #453a70; line-height: 1.55; margin: 0 0 18px;
+    }
+    .nm-bridge-alt {
+      display: block; margin-top: 12px; font-size: 13px; color: #5d5088;
+      text-decoration: none;
+    }
+    .nm-bridge-alt:hover { color: #2a2150; text-decoration: underline; }
+
+    .nm-funnel { max-width: 880px; margin: 0 auto; padding: 64px 24px 110px; text-align: center; }
+    .nm-funnel-sub {
+      font-size: 16px; color: #453a70; max-width: 560px;
+      margin: 0 auto 40px; line-height: 1.6;
+    }
+    .nm-funnel-sub a { color: #5b46d6; text-decoration: none; border-bottom: 1px solid rgba(91,70,214,0.3); }
+    .nm-funnel-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    .nm-hero-img { max-width: 720px; margin: 8px auto 26px; }
+    .nm-hero-img img {
+      display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
+      object-fit: cover; border-radius: 16px;
+      border: 1px solid rgba(42,33,80,0.1);
+      box-shadow: 0 6px 24px rgba(42,33,80,0.08);
+    }
+
+    @media (max-width: 640px) {
+      .nm-nav-link { display: none; }
+    }
+  </style>
+</head>
+<body class="nm-page">
+<nav class="nm-nav">
+    <a href="/" class="nm-nav-brand">The Dog Show</a>
+    <div class="nm-nav-links">
+      <a href="/" class="nm-nav-link">Home</a>
+      <a href="/show" class="nm-nav-link">Watch</a>
+      <a href="/dogs" class="nm-nav-link">All Dogs</a>
+      <a href="/?openModal=premium" class="nm-nav-cta">Enter Your Dog</a>
+    </div>
+  </nav>
+<div class="nm-breadcrumb">
+  <a href="/">Home</a><span>/</span>AKC Dog Lookup
+</div>
+<main id="mainContent">
+
+  <section class="nm-hero">
+    <div class="nm-hero-badge">
+      <span class="nm-hero-dot"></span>
+      Registration records
+    </div>
+    <h1>AKC Dog Lookup: Find and Verify Registration Records</h1>
+    <p class="nm-hero-sub">You've got a registration number scribbled on a piece of paper, or a breeder who swears the litter is "fully AKC," and you want to know what that actually means before you hand over a deposit. Fair enough. The official tools exist. They're just scattered across a few different corners of akc.org, which is why half the internet's advice on this topic lives in decade-old forum threads instead of one clear page.</p>
+    <aside class="nm-bridge">
+      <div class="nm-bridge-kicker">Meanwhile, on this site</div>
+      <p class="nm-bridge-line">While you're verifying paperwork, your dog can already be famous.</p>
+      <p class="nm-bridge-sub">The Dog Show is a live online dog show. Upload a photo, no registration number required, and your dog joins the live rotation and collects votes from the audience. Free to enter.</p>
+      <a href="/?openModal=premium" class="nm-btn nm-btn-primary">Enter Your Dog &middot; Free</a>
+      <a href="/show" class="nm-bridge-alt">or just watch the show &middot; also free</a>
+    </aside>
+  </section>
+
+  <section class="nm-section" style="padding-top: 0;">
+    <div class="nm-prose">
+      <h2>Why Look Up AKC Records?</h2>
+      <p>An AKC registration links a dog to a documented line of ancestry. Once a determination of eligibility is met, either by litter application or registry research, the dog can be registered as purebred by the AKC, though registration indicates only that the dog's parents were registered as one recognized breed. That's the whole point of checking a number: it confirms lineage on paper, nothing more and nothing less.</p>
+      <p>People usually look up a record for one of three reasons: they've lost their own dog's paperwork, they want to check that a breeder's claims match what's actually on file, or they're researching a litter before they commit to a puppy. AKC registration paperwork is a good way to verify a dog's pedigree, but some sellers forge it to fetch a higher price, or promise papers later and never follow through. A five-minute lookup won't catch every scam, but it closes the easiest one.</p>
+
+      <h2>How to Use the AKC Lookup Tool</h2>
+      <p>The AKC's dog search sits inside its Reports &amp; Pedigree section on akc.org. It lets you search for dogs and track their points progression, and logging in gives you access to a 'Dog Search' tab with additional details. You don't need an account to run a basic search, but AKC has folded more of its record access behind a free login over the past few years, so creating one saves you a step if you plan to look up more than one dog.</p>
+
+      <h3>Finding a dog by registration number</h3>
+      <p>This is the cleanest path. Not having the registration number can make finding a specific dog more difficult, since the number provides the most accurate and efficient lookup results. Type it in exactly as it appears on the paperwork, no spaces added or removed, and the tool should return the dog's registered name, breed, and sex, plus a pedigree option.</p>
+
+      <h3>Searching without a registration number</h3>
+      <p>No number? You can still search. If you know the registered dog's name but not its AKC registration number, you can search by name, and vice versa. The catch is that common names produce a pile of results, especially in popular breeds, so the more precise the spelling (including any kennel prefix), the faster you'll narrow it down.</p>
+      <p>If you're trying to confirm a puppy's parents rather than the puppy itself, ask the breeder for the sire and dam's registered names or numbers and run those instead. A legitimate breeder should hand this over without hesitation.</p>
+
+      <h3>What the record tells you (and doesn't)</h3>
+      <p>A returned record typically shows the registered name, breed, sex, and a multi-generation pedigree. It includes a listing of the selected dog's ancestry for four or five generations. What it does not include is any owner contact information. Due to privacy policies, personal contact details aren't displayed publicly through basic searches. So a lookup confirms that a dog exists in the registry with a given lineage, useful for verifying paperwork, but not for tracking down a current owner or a lost dog. That's what microchip registries are for.</p>
+
+      <h2>Common Lookup Scenarios</h2>
+      <p><strong>Lost your dog's registration paperwork.</strong> If you registered the dog yourself, logging into your AKC account should surface it under your dog's profile. If you're not the original registrant, or the litter was registered by the breeder, you may need to contact AKC customer service directly with whatever details you have (name, breed, approximate whelping date) to track down the number.</p>
+      <p><strong>Checking a breeder's claims.</strong> Run the sire and dam's numbers too, since a litter application is what actually creates the eligibility. AKC registration primarily verifies the lineage of a dog and confirms that the parents are also registered with the AKC. If a breeder can't or won't produce numbers for the parents, treat that as a bigger red flag than a slow website.</p>
+      <p><strong>Researching a litter before you buy.</strong> Beyond the basic lookup, AKC's Marketplace lists breeders and can show whether a breeder participates in AKC programs, letting you search by breed, location, and whether they take part in programs like Bred with H.E.A.R.T. That program flag is a decent secondary signal, though it's not a substitute for visiting the breeder or asking about health testing directly.</p>
+
+      <h2>What an AKC Record Doesn't Tell You</h2>
+      <p>This is the part worth sitting with before you get too comfortable with a clean lookup result. Registration indicates only that the dog's parents were registered as one recognized breed; it does not necessarily indicate that the dog comes from healthy or show-quality bloodlines, nor is registration necessarily a reflection on the quality of the breeder or how the puppy was raised.</p>
+      <p>A registration number confirms paperwork, not welfare. It won't tell you whether the parents were hip- or eye-tested, whether the puppies were raised underfoot in a home or in a barn out back, or whether the breeder has ever had a health complaint filed against them. It's worth remembering that it's the litter that gets registered, not the breeder, and the AKC does not recommend or endorse breeders. A forged pedigree is rare, but a legitimate pedigree attached to a careless breeding program is not.</p>
+      <p>If you want that fuller picture, ask directly for OFA hip and elbow clearances, eye certifications relevant to the breed, and, ideally, a chance to meet at least one parent. None of that shows up in a registration search, and no honest breeder will treat the question as an insult.</p>
+
+      <h2>Beyond AKC: Other Resources for Breed and Breeder Info</h2>
+      <p>AKC registration is one data point among several. Pet recovery and microchip registries are a separate system entirely, worth checking if the concern is a lost dog rather than a pedigree. Registries participating in the AAHA Universal Pet Microchip Lookup Tool, such as AKC Reunite, HomeAgain, and Pawbase, exist specifically to reunite lost pets with owners. Breed-specific parent clubs are another good stop. They often keep their own health-testing recommendations and sometimes maintain breeder referral lists that go further than AKC's baseline requirements.</p>
+      <p>For the parts of dog ownership that a registration number can't capture, temperament, exercise needs, grooming demands, our <a href="https://dogshow.lol/breeds">breed guides</a> go into what actually living with a given breed looks like, for a friendlier, less official take on what makes a breed tick than any registry certificate will give you. And if you're still assembling your research toolkit before bringing a dog home, our <a href="https://dogshow.lol/resources">breed registries</a> resource page rounds up the other lookup tools worth bookmarking alongside AKC's.</p>
+    </div>
+  </section>
+
+  <section class="nm-funnel">
+    <div class="nm-section-label">In the meantime</div>
+    <h2 class="nm-section-title">Skip the paperwork, just enter the show</h2>
+    <p class="nm-funnel-sub">The Dog Show doesn't need a registration number, a pedigree, or a kennel prefix. Any dog, any breed, purebred or not, can join the live rotation and start collecting votes. Watching is free, entering is free, and your dog gets a permanent show page either way. See <a href="/how-to-enter-a-dog-show">how to enter a dog show</a> for the full walkthrough.</p>
+    <div class="nm-funnel-actions">
+      <a href="/?openModal=premium" class="nm-btn nm-btn-primary">Enter Your Dog &middot; Free</a>
+      <a href="/show" class="nm-btn nm-btn-secondary">Watch the Show</a>
+    </div>
+  </section>
+
+</main>
+<footer style="text-align:center;padding:26px 16px;background:#1e0f45;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+    <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
+      <a href="/" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Home</a>
+      <a href="/show" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Watch</a>
+      <a href="/about" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">About</a>
+      <a href="/about#contact" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Contact</a>
+      <a href="/dogs" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">All Dogs</a>
+      <a href="/leaderboard" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Leaderboard</a>
+      <a href="/privacy" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Privacy</a>
+      <a href="#" data-cookie-settings style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Cookie settings</a>
+      <a href="/terms" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Terms</a>
+      <a href="/resources" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Guides</a>
+      <a href="/breeds" style="font-size:13px;color:#b7a9e8;text-decoration:none;display:inline-block;padding:6px 2px;">Breeds</a>
+    </div>
+    <div style="font-size:11px;color:#574a82;">The Dog Show &copy; 2026. All dogs are good dogs.</div>
+  </footer>
+</body>
+</html>
