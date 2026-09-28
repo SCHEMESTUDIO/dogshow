@@ -82,12 +82,12 @@ delete. Keep entries short; link evidence.
   "Postwerks-published SEO pages" for the file list. Treat these paths as
   externally-owned like the outreach/tracker files in WORKFLOW.md, even
   though they aren't (yet) added to `.githooks/pre-commit`'s guard list.
-- **2026-08-12 → (ongoing) — Postwerks M2 wave: 15+ pages published so far**
-  (america-s-favorite-pet-contest-2026, animal-competitions, bluey-dog-breeds, dog-show-app,
+- **2026-08-12 → (ongoing) — Postwerks M2 wave: 18 pages published (2026-09-28)**
+  (akc-dog-lookup, america-s-favorite-pet-contest-2026, animal-competitions, bluey-dog-breeds, dog-show-app,
   froplay-dog, how-long-is-the-dog-show, lewis-hamilton-dog, indy-the-dog, origami-dog,
-  hound-dog-song, hound-dog-mha, is-cinnamoroll-a-dog, national-dog-show-finalists,
-  westminster-dog-show-2026-winner, where-to-stream-dog-show). Total postwerks inventory:
-  29+ pages. All pages in sitemap + committed to repo.
+  hound-dog-song, hound-dog-mha, is-cinnamoroll-a-dog, national-dog-show-finalists, pupvote,
+  ugliest-dog-in-the-world-contest, westminster-dog-show-2026-winner, where-to-stream-dog-show).
+  Total postwerks inventory: 32 pages (14 first-wave + 18 M2). All pages in sitemap + committed to repo.
 - **2026-09-02 → (ongoing) — Automated breed-page publishing (Phase B/C expansion).** Daily
   `breed-pages.yml` action publishes 2 breed pages/run per `data/breed-page-queue.md` (Phase A
   exhausted by 2026-07-30). State evolved 22 → 65 breeds in 6 days (2026-08-31 → 2026-09-06).
