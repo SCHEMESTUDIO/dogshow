@@ -27,6 +27,11 @@
       "source": "/calm-dog-breeds",
       "destination": "https://dogshow.lol",
       "permanent": true
+    },
+    {
+      "source": "/indy-the-dog",
+      "destination": "https://dogshow.lol",
+      "permanent": true
     }
   ],
   "rewrites": [
