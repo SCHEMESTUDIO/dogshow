@@ -22,6 +22,11 @@
       "source": "/bluey-dog-breeds",
       "destination": "https://dogshow.lol",
       "permanent": true
+    },
+    {
+      "source": "/calm-dog-breeds",
+      "destination": "https://dogshow.lol",
+      "permanent": true
     }
   ],
   "rewrites": [
