@@ -32,6 +32,11 @@
       "source": "/indy-the-dog",
       "destination": "https://dogshow.lol",
       "permanent": true
+    },
+    {
+      "source": "/origami-dog",
+      "destination": "https://dogshow.lol",
+      "permanent": true
     }
   ],
   "rewrites": [
