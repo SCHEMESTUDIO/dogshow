@@ -8,3 +8,4 @@
 # for any future host migration.
 /contest  /dog-photo-contest  301
 /dog-contest  /dog-photo-contest  301
+/bluey-dog-breeds  https://dogshow.lol  301
