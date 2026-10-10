@@ -37,6 +37,11 @@
       "source": "/origami-dog",
       "destination": "https://dogshow.lol",
       "permanent": true
+    },
+    {
+      "source": "/national-dog-show-finalists",
+      "destination": "https://dogshow.lol",
+      "permanent": true
     }
   ],
   "rewrites": [
