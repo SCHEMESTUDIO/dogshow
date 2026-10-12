@@ -182,7 +182,7 @@ Non-essential trackers no longer fire on page load. They're gated behind explici
 
 ### Postwerks-published SEO pages (added 2026-07-16 → 2026-07-19, M2 wave 2026-08-12→)
 
-**New external publishing pipeline, not part of this repo's own tooling.** Commits titled `Publish: postwerks m2 — {slug}` (+ a companion `(sitemap)` commit) land directly on `main`, authored by `SCHEMESTUDIO <james@wearescheme.studio>` — "postwerks" is an outside content system (no trace of it in `.github/workflows/`, `scripts/`, or `prompts/` in this repo). **First wave (2026-07-16 → 2026-07-19):** 14 pages. **M2 wave (2026-08-12→):** 20 additional pages published so far (plus 2026-10-04: best-online-dog-shows-to-watch, jim-rau-dog-shows). **Retired pages:** origami-dog, indy-the-dog, calm-dog-breeds (removed from repo but remain in this table as historical record). Total live: 34 postwerks pages. Each page is a standalone ~250–360 line static HTML file cloning the `nm-*` chrome (own `<nav class="nm-nav">` header — Home/Watch/All Dogs/Enter Your Dog, no sitewide `nav.js` — plus its own breadcrumb, FAQ block, and FAQPage/BreadcrumbList JSON-LD; no sitewide footer), same pattern as the existing `dog-show-near-me.html`-style GEO pages. Clean URL = filename (`/:slug` rewrite), and each is present in `sitemap.xml`.
+**New external publishing pipeline, not part of this repo's own tooling.** Commits titled `Publish: postwerks m2 — {slug}` (+ a companion `(sitemap)` commit) land directly on `main`, authored by `SCHEMESTUDIO <james@wearescheme.studio>` — "postwerks" is an outside content system (no trace of it in `.github/workflows/`, `scripts/`, or `prompts/` in this repo). **First wave (2026-07-16 → 2026-07-19):** 14 pages. **M2 wave (2026-08-12→):** 23 additional pages published so far (plus 2026-10-04: best-online-dog-shows-to-watch, jim-rau-dog-shows; plus 2026-10-11: jack-onofrio-dog-shows). **Retired pages:** bluey-dog-breeds, calm-dog-breeds, indy-the-dog, national-dog-show-finalists, origami-dog (removed from repo but remain in this table as historical record). Total live: 30 postwerks pages. Each page is a standalone ~250–360 line static HTML file cloning the `nm-*` chrome (own `<nav class="nm-nav">` header — Home/Watch/All Dogs/Enter Your Dog, no sitewide `nav.js` — plus its own breadcrumb, FAQ block, and FAQPage/BreadcrumbList JSON-LD; no sitewide footer), same pattern as the existing `dog-show-near-me.html`-style GEO pages. Clean URL = filename (`/:slug` rewrite), and each is present in `sitemap.xml`.
 
 | File | Lines | Clean URL | Topic |
 |------|-------|-----------|-------|
@@ -194,8 +194,8 @@ Non-essential trackers no longer fire on page load. They're gated behind explici
 | `belgian-dog-breeds.html` | ~288 | `/belgian-dog-breeds` | 4 Belgian Shepherd types |
 | `best-family-dog-breeds.html` | ~328 | `/best-family-dog-breeds` | Family-breed picks by temperament |
 | `best-online-dog-shows-to-watch.html` | ~526 | `/best-online-dog-shows-to-watch` | **M2 article (2026-10-04)** — Streaming + live-show guide + Dog Show positioning |
-| `bluey-dog-breeds.html` | ~355 | `/bluey-dog-breeds` | **M2 article (2026-08-XX)** — Bluey show dog-breed tie-in guide |
-| `calm-dog-breeds.html` | ~311 | `/calm-dog-breeds` | Easygoing/low-energy breeds |
+| `bluey-dog-breeds.html` | ~355 | `/bluey-dog-breeds` | ~~M2 article — Bluey show dog-breed tie-in guide~~ **(retired 2026-10-06)** |
+| `calm-dog-breeds.html` | ~311 | `/calm-dog-breeds` | ~~Easygoing/low-energy breeds~~ **(retired 2026-10-06)** |
 | `common-dog-breeds.html` | ~244 | `/common-dog-breeds` | Popular-breeds overview |
 | `cowboy-corgi-puppies.html` | ~306 | `/cowboy-corgi-puppies` | Corgi × Cattle Dog mix buyer's guide |
 | `cutest-puppy-ever.html` | ~314 | `/cutest-puppy-ever` | "Cutest puppy" cluster listicle |
@@ -208,12 +208,13 @@ Non-essential trackers no longer fire on page load. They're gated behind explici
 | `hound-dog-mha.html` | ~316 | `/hound-dog-mha` | **M2 article (2026-08-XX)** — My Hero Academia dog-breed tie-in |
 | `hound-dog-song.html` | ~329 | `/hound-dog-song` | **M2 article (2026-08-XX)** — "Hound Dog" song cultural references + breeds |
 | `how-long-is-the-dog-show.html` | ~493 | `/how-long-is-the-dog-show` | **M2 article (2026-08-12)** — No runtime/schedule; 24/7 rotation mechanics vs traditional shows |
-| `indy-the-dog.html` | ~337 | `/indy-the-dog` | **M2 article (2026-08-XX)** — Indy's Home Barkathalon TV-show dog breeds |
+| `indy-the-dog.html` | ~337 | `/indy-the-dog` | ~~M2 article — Indy's Home Barkathalon TV-show dog breeds~~ **(retired 2026-10-06)** |
 | `is-cinnamoroll-a-dog.html` | ~314 | `/is-cinnamoroll-a-dog` | **M2 article (2026-08-XX)** — Sanrio Cinnamoroll character species + dog breed info |
 | `jim-rau-dog-shows.html` | ~492 | `/jim-rau-dog-shows` | **M2 article (2026-10-04)** — Jim Rau dog-show history + modern online alternatives |
+| `jack-onofrio-dog-shows.html` | ~489 | `/jack-onofrio-dog-shows` | **M2 article (2026-10-11)** — Jack Onofrio dog-show history + modern online alternatives |
 | `lewis-hamilton-dog.html` | ~333 | `/lewis-hamilton-dog` | **M2 article (2026-08-XX)** — Lewis Hamilton's dog + celebrity pet breeds |
-| `national-dog-show-finalists.html` | ~322 | `/national-dog-show-finalists` | **M2 article (2026-08-XX)** — National Dog Show finalists + Westminster breeds |
-| `origami-dog.html` | ~341 | `/origami-dog` | **M2 article (2026-08-XX)** — Origami dog art + realistic dog-breed anatomy |
+| `national-dog-show-finalists.html` | ~322 | `/national-dog-show-finalists` | ~~M2 article — National Dog Show finalists + Westminster breeds~~ **(retired 2026-10-10)** |
+| `origami-dog.html` | ~341 | `/origami-dog` | ~~M2 article — Origami dog art + realistic dog-breed anatomy~~ **(retired 2026-10-07)** |
 | `puppy-love-meaning.html` | ~362 | `/puppy-love-meaning` | "Puppy love" phrase/meaning explainer |
 | `pupvote.html` | ~453 | `/pupvote` | **M2 article** — PUPvote interactive voting game + Dog Show positioning |
 | `america-s-favorite-pet-contestants-2026-list.html` | ~316 | `/america-s-favorite-pet-contestants-2026-list` | Explainer distinguishing the unrelated "America's Favorite Pet" (Colossal/PAWS) contest from dogshow.lol |
