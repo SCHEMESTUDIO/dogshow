@@ -42,6 +42,11 @@
       "source": "/national-dog-show-finalists",
       "destination": "https://dogshow.lol",
       "permanent": true
+    },
+    {
+      "source": "/australian-dog-breeds",
+      "destination": "https://dogshow.lol",
+      "permanent": true
     }
   ],
   "rewrites": [
