@@ -47,6 +47,11 @@
       "source": "/australian-dog-breeds",
       "destination": "https://dogshow.lol",
       "permanent": true
+    },
+    {
+      "source": "/french-dog-breeds",
+      "destination": "https://dogshow.lol",
+      "permanent": true
     }
   ],
   "rewrites": [
