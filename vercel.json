@@ -52,6 +52,11 @@
       "source": "/french-dog-breeds",
       "destination": "https://dogshow.lol",
       "permanent": true
+    },
+    {
+      "source": "/belgian-dog-breeds",
+      "destination": "https://dogshow.lol",
+      "permanent": true
     }
   ],
   "rewrites": [
