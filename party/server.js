@@ -7,7 +7,16 @@
 
 // Build stamp (commit + deploy time), baked in by stamp-version.cjs at deploy.
 // Exposed at GET /version so `npm run check-deploy` can detect prod↔repo drift.
+import { Server, routePartykitRequest } from 'partyserver';
 import { BUILD_INFO } from './build-info.js';
+
+// Public host of this Worker. The hosted PartyKit platform shut down on
+// 2026-10-23; the server now runs as a Cloudflare Worker (PartyServer) on
+// our own account. Old-style /party/<room>/ paths are rewritten to
+// /parties/main/<room>/ in the fetch handler below, so every existing URL
+// shape keeps working. Change API_HOST in one place if the Worker moves.
+const API_HOST = 'dogshow.james-c08.workers.dev';
+const API_BASE = 'https://' + API_HOST + '/party/dogshow-live';
 
 const SITE_URL = 'https://dogshow.lol';
 const FAN_COUNT_OFFSET = 100; // Seed number — real fans count from here
@@ -209,9 +218,9 @@ async function reportToSentry(err, context) {
   }
 }
 
-export default class DogShowServer {
-  constructor(room) {
-    this.room = room;
+export class DogShowServer extends Server {
+  constructor(ctx, env) {
+    super(ctx, env);
     this.boneCount = 0;
     this.messages = [];       // last 100 messages
     this.botInterval = null;
@@ -252,12 +261,12 @@ export default class DogShowServer {
 
   async onStart() {
     // Load persisted fan count from storage
-    this.totalFans = (await this.room.storage.get('totalFans')) || 0;
-    const storedIds = (await this.room.storage.get('fanIds')) || [];
+    this.totalFans = (await this.ctx.storage.get('totalFans')) || 0;
+    const storedIds = (await this.ctx.storage.get('fanIds')) || [];
     this.fanIds = new Set(storedIds);
 
     // Load community dogs list
-    this.communityDogs = (await this.room.storage.get('communityDogs')) || [];
+    this.communityDogs = (await this.ctx.storage.get('communityDogs')) || [];
 
     // Phase 3: re-arm precision timers for any slots that haven't fired yet.
     // setTimeout doesn't survive a worker restart, so without this every
@@ -276,7 +285,7 @@ export default class DogShowServer {
   }
 
   async seedDogs() {
-    const seeded = await this.room.storage.get('_seeded_v2');
+    const seeded = await this.ctx.storage.get('_seeded_v2');
     if (seeded) return;
 
     const seeds = [
@@ -338,9 +347,9 @@ export default class DogShowServer {
         const slug = await this.getUniqueSlug(seed.name);
 
         // Store image
-        await this.room.storage.put(`img:${id}`, dataUrl);
+        await this.ctx.storage.put(`img:${id}`, dataUrl);
         // Store slug mapping
-        await this.room.storage.put(`slug:${slug}`, id);
+        await this.ctx.storage.put(`slug:${slug}`, id);
 
         const uploadedAt = Date.now() - (seed.daysAgo * 86400000);
         const firstAppearance = uploadedAt + 60000; // 1 min after upload
@@ -372,8 +381,8 @@ export default class DogShowServer {
       }
     }
 
-    await this.room.storage.put('communityDogs', this.communityDogs);
-    await this.room.storage.put('_seeded_v2', true);
+    await this.ctx.storage.put('communityDogs', this.communityDogs);
+    await this.ctx.storage.put('_seeded_v2', true);
     console.log(`[Seed] Done — ${seeds.length} dogs seeded`);
   }
 
@@ -383,7 +392,7 @@ export default class DogShowServer {
       type: 'sync',
       boneCount: this.boneCount,
       messages: this.messages.slice(-50),
-      viewers: ([...this.room.getConnections()].length + this.activeBots.length) || 1,
+      viewers: ([...this.getConnections()].length + this.activeBots.length) || 1,
       totalFans: this.totalFans + FAN_COUNT_OFFSET,
       currentDog: this.currentDog,
       isIntermission: this.isIntermission,
@@ -409,7 +418,7 @@ export default class DogShowServer {
     this.broadcastViewers();
 
     // Stop bot and dog slideshow if no one is connected
-    const count = [...this.room.getConnections()].length;
+    const count = [...this.getConnections()].length;
     if (count === 0) {
       if (this.botInterval) {
         clearTimeout(this.botInterval);
@@ -427,7 +436,7 @@ export default class DogShowServer {
     }
   }
 
-  async onMessage(message, sender) {
+  async onMessage(sender, message) {
     let data;
     try {
       data = JSON.parse(message);
@@ -440,12 +449,12 @@ export default class DogShowServer {
       if (fanId && !this.fanIds.has(fanId)) {
         this.fanIds.add(fanId);
         this.totalFans++;
-        await this.room.storage.put('totalFans', this.totalFans);
+        await this.ctx.storage.put('totalFans', this.totalFans);
         // Persist fan IDs (keep last 50000 to avoid unbounded growth)
         const ids = [...this.fanIds].slice(-50000);
-        await this.room.storage.put('fanIds', ids);
+        await this.ctx.storage.put('fanIds', ids);
         // Broadcast new total
-        this.room.broadcast(JSON.stringify({
+        this.broadcast(JSON.stringify({
           type: 'totalFans',
           count: this.totalFans + FAN_COUNT_OFFSET,
         }));
@@ -490,7 +499,7 @@ export default class DogShowServer {
         ts: Date.now(),
       };
       this.addMessage(msg);
-      this.room.broadcast(JSON.stringify(msg));
+      this.broadcast(JSON.stringify(msg));
 
       // Fire-and-forget: maybe have sir_barks_alot react via Haiku. All gating
       // (kill switch, cooldown, hourly cap, probability) lives in the method.
@@ -534,7 +543,7 @@ export default class DogShowServer {
       this.boneCount++;
       // Each bone extends current dog's screen time by 500ms (max 15s total bonus)
       this.dogBonusTime = Math.min((this.dogBonusTime || 0) + 500, 15000);
-      this.room.broadcast(JSON.stringify({
+      this.broadcast(JSON.stringify({
         type: 'bone',
         count: this.boneCount,
         from: this.sanitize((authed && authed.username) || data.user || 'anon').slice(0, 20),
@@ -569,10 +578,10 @@ export default class DogShowServer {
   // Used by the WebSocket join handler to establish authenticated identity.
   async resolveUserByToken(token) {
     if (!token || typeof token !== 'string') return null;
-    const tokenData = await this.room.storage.get(`token:${token}`);
+    const tokenData = await this.ctx.storage.get(`token:${token}`);
     if (!tokenData || !tokenData.userId) return null;
     if (tokenData.expires && tokenData.expires < Date.now()) return null;
-    const user = await this.room.storage.get(`user:${tokenData.userId}`);
+    const user = await this.ctx.storage.get(`user:${tokenData.userId}`);
     return user || null;
   }
 
@@ -580,11 +589,11 @@ export default class DogShowServer {
   // `bones` field, writes back. Last-write-wins; bones can only be spent from
   // one active connection at a time per user in practice.
   async persistBonesForUser(userId, bones) {
-    const user = await this.room.storage.get(`user:${userId}`);
+    const user = await this.ctx.storage.get(`user:${userId}`);
     if (!user) return;
     user.bones = bones;
     user.hasVoted = true;  // spending a bone counts as voting (no-vote nudge gate)
-    await this.room.storage.put(`user:${userId}`, user);
+    await this.ctx.storage.put(`user:${userId}`, user);
   }
 
   // Apply `count` votes directly to a specific dog, independent of who's on
@@ -605,7 +614,7 @@ export default class DogShowServer {
     dog.stats.totalBones = (dog.stats.totalBones || 0) + count;
     dog.stats.seasonBones = (dog.stats.seasonBones || 0) + count;
     this.communityDogs[idx] = dog;
-    await this.room.storage.put('communityDogs', this.communityDogs);
+    await this.ctx.storage.put('communityDogs', this.communityDogs);
     return dog.stats.seasonBones;
   }
 
@@ -614,7 +623,7 @@ export default class DogShowServer {
   // balance server-side (legacy unlimited 'general' users bypass the decrement).
   // Returns { ok, bones, seasonBones } or { ok:false, reason }.
   async spendVote(userId, dogId, count = 1) {
-    const user = await this.room.storage.get(`user:${userId}`);
+    const user = await this.ctx.storage.get(`user:${userId}`);
     if (!user) return { ok: false, reason: 'no_user' };
     if ((user.bones || 0) < count) {
       return { ok: false, reason: 'no_bones', bones: user.bones || 0 };
@@ -623,7 +632,7 @@ export default class DogShowServer {
     if (seasonBones === null) return { ok: false, reason: 'no_dog' };
     user.bones = (user.bones || 0) - count;
     user.hasVoted = true;
-    await this.room.storage.put(`user:${userId}`, user);
+    await this.ctx.storage.put(`user:${userId}`, user);
     return { ok: true, bones: user.bones, seasonBones };
   }
 
@@ -804,7 +813,7 @@ export default class DogShowServer {
     if (due) {
       isSlottedAppearance = true;
       this.currentDog = {
-        url: `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${due.dog.id}`,
+        url: `${API_BASE}/community-image?id=${due.dog.id}`,
         name: due.dog.dogName || 'A Good Dog',
         breed: due.dog.breed || null,
         isCommunity: true,
@@ -818,7 +827,7 @@ export default class DogShowServer {
       // to post-show state (Phase 4). Persist so it survives restarts.
       if (!due.dog.firstAppearedAt) {
         due.dog.firstAppearedAt = Date.now();
-        this.room.storage.put('communityDogs', this.communityDogs)
+        this.ctx.storage.put('communityDogs', this.communityDogs)
           .catch(e => console.error('[Slot] firstAppearedAt persist failed:', e && e.message));
         // Real testimonials replaced the fake landing-page quotes. Fire a
         // one-shot ask to the owner now that their dog has actually aired.
@@ -843,14 +852,14 @@ export default class DogShowServer {
         // Mark first appearance for non-slot dogs the first time they air.
         if (!communityDog.firstAppearedAt) {
           communityDog.firstAppearedAt = Date.now();
-          this.room.storage.put('communityDogs', this.communityDogs)
+          this.ctx.storage.put('communityDogs', this.communityDogs)
             .catch(e => console.error('[Rotation] firstAppearedAt persist failed:', e && e.message));
           // One-shot testimonial request — see slot path above.
           this.maybeSendTestimonialRequest(communityDog)
             .catch(e => console.error('[Testimonial] request failed:', e && e.message));
         }
         this.currentDog = {
-          url: `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${communityDog.id}`,
+          url: `${API_BASE}/community-image?id=${communityDog.id}`,
           name: communityDog.dogName || 'A Good Dog',
           breed: communityDog.breed || null,
           isCommunity: true,
@@ -874,7 +883,7 @@ export default class DogShowServer {
     this.dogBonusTime = 0;
 
     // Broadcast new dog + bone reset to all clients
-    this.room.broadcast(JSON.stringify({
+    this.broadcast(JSON.stringify({
       type: 'newdog',
       dog: {
         url: this.currentDog.url,
@@ -927,7 +936,7 @@ export default class DogShowServer {
     this.boneCount = 0;
     this.dogBonusTime = 0;
 
-    this.room.broadcast(JSON.stringify({
+    this.broadcast(JSON.stringify({
       type: 'newdog',
       dog: {
         url: this.currentDog.url,
@@ -1013,7 +1022,7 @@ export default class DogShowServer {
 
   async ensureSeason() {
     const cur = this.currentSeasonId();
-    const stored = await this.room.storage.get('seasonId');
+    const stored = await this.ctx.storage.get('seasonId');
     if (stored === cur) return;
     if (stored) {
       // Crown the winner of the season that just ended.
@@ -1076,7 +1085,7 @@ export default class DogShowServer {
           });
         }
 
-        const past = (await this.room.storage.get('pastSeasons')) || [];
+        const past = (await this.ctx.storage.get('pastSeasons')) || [];
         past.push({
           seasonId: stored,
           seasonLabel: this.seasonLabel(stored),
@@ -1089,15 +1098,15 @@ export default class DogShowServer {
           dogsInRace: standings.length,
           endedAt: Date.now(),
         });
-        await this.room.storage.put('pastSeasons', past.slice(-52));
+        await this.ctx.storage.put('pastSeasons', past.slice(-52));
         console.log(`[Season] Crowned ${winner.dogName} Best in Show for ${stored} (${winner.stats.seasonBones || 0} bones); Best in Breed × ${breedWinners.length}`);
       }
       for (const d of this.communityDogs) {
         if (d.stats) d.stats.seasonBones = 0;
       }
-      await this.room.storage.put('communityDogs', this.communityDogs);
+      await this.ctx.storage.put('communityDogs', this.communityDogs);
     }
-    await this.room.storage.put('seasonId', cur);
+    await this.ctx.storage.put('seasonId', cur);
   }
 
   async recordCommunityDogStats(dogId) {
@@ -1110,7 +1119,7 @@ export default class DogShowServer {
     // when the monthly season system landed (2026-06-11). Fixed 2026-06-22.
     const bones = this.boneCount;
     const appearedAt = (this.currentDog && this.currentDog._appearedAt) || Date.now();
-    const viewers = [...this.room.getConnections()].length + this.activeBots.length;
+    const viewers = [...this.getConnections()].length + this.activeBots.length;
 
     const idx = this.communityDogs.findIndex(d => d.id === dogId);
     if (idx === -1) return;
@@ -1138,7 +1147,7 @@ export default class DogShowServer {
     }
 
     this.communityDogs[idx] = dog;
-    await this.room.storage.put('communityDogs', this.communityDogs);
+    await this.ctx.storage.put('communityDogs', this.communityDogs);
 
     // Build clean page URL
     const pageUrl = dog.slug ? `${SITE_URL}/d/${dog.slug}` : `${SITE_URL}/dog.html?id=${dogId}`;
@@ -1153,7 +1162,7 @@ export default class DogShowServer {
         ts: Date.now(),
       };
       this.addMessage(notifyMsg);
-      this.room.broadcast(JSON.stringify(notifyMsg));
+      this.broadcast(JSON.stringify(notifyMsg));
     }
 
     // NOTE (2026-06-22): the per-appearance "your dog is on stage" email was
@@ -1169,7 +1178,7 @@ export default class DogShowServer {
       ? Math.floor(screenTimeSec / 60) + 'm ' + (screenTimeSec % 60) + 's'
       : screenTimeSec + 's';
 
-    if (!this.room.env.RESEND_API_KEY) {
+    if (!this.env.RESEND_API_KEY) {
       console.error('[Email] RESEND_API_KEY env var is not set, skipping appearance email');
       return;
     }
@@ -1186,7 +1195,7 @@ export default class DogShowServer {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+          'Authorization': `Bearer ${this.env.RESEND_API_KEY}`,
         },
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
@@ -1261,20 +1270,20 @@ export default class DogShowServer {
 
   startIntermission() {
     this.isIntermission = true;
-    this.room.broadcast(JSON.stringify({ type: 'intermission', active: true }));
+    this.broadcast(JSON.stringify({ type: 'intermission', active: true }));
 
     // End intermission after 8 seconds
     setTimeout(() => {
       this.isIntermission = false;
-      this.room.broadcast(JSON.stringify({ type: 'intermission', active: false }));
+      this.broadcast(JSON.stringify({ type: 'intermission', active: false }));
       this.advanceDog();
     }, 8000);
   }
 
   broadcastViewers() {
-    const realCount = [...this.room.getConnections()].length;
+    const realCount = [...this.getConnections()].length;
     const totalCount = realCount + this.activeBots.length;
-    this.room.broadcast(JSON.stringify({
+    this.broadcast(JSON.stringify({
       type: 'viewers',
       count: Math.max(totalCount, 1),
     }));
@@ -1284,7 +1293,7 @@ export default class DogShowServer {
   // gate the always-present seeding below — if there's no LLM, there's no
   // reason to pin sir_barks_alot's presence.
   responsiveBotEnabled() {
-    return !!(this.room && this.room.env && this.room.env.ANTHROPIC_API_KEY);
+    return !!(this.env && this.env.ANTHROPIC_API_KEY);
   }
 
   startBot() {
@@ -1317,7 +1326,7 @@ export default class DogShowServer {
 
     // Bots join and leave periodically
     this.botJoinLeaveInterval = setInterval(() => {
-      const connections = [...this.room.getConnections()];
+      const connections = [...this.getConnections()];
       if (connections.length === 0) return;
 
       const roll = Math.random();
@@ -1353,7 +1362,7 @@ export default class DogShowServer {
 
   doBotChat() {
     if (this.activeBots.length === 0) return;
-    const connections = [...this.room.getConnections()];
+    const connections = [...this.getConnections()];
     if (connections.length === 0) return;
 
     // Pick a bot that didn't just speak
@@ -1391,13 +1400,13 @@ export default class DogShowServer {
       ts: Date.now(),
     };
     this.addMessage(msg);
-    this.room.broadcast(JSON.stringify(msg));
+    this.broadcast(JSON.stringify(msg));
 
     // Bots also throw bones sometimes
     if (Math.random() > 0.65) {
       this.boneCount++;
       this.dogBonusTime = Math.min((this.dogBonusTime || 0) + 500, 15000);
-      this.room.broadcast(JSON.stringify({
+      this.broadcast(JSON.stringify({
         type: 'bone',
         count: this.boneCount,
         from: bot.name,
@@ -1417,7 +1426,7 @@ export default class DogShowServer {
   // money) but unsent rolls don't.
   async maybeBarksReply() {
     // 1. Kill switch by absence — no API key, feature is off.
-    const apiKey = this.room && this.room.env && this.room.env.ANTHROPIC_API_KEY;
+    const apiKey = this.env && this.env.ANTHROPIC_API_KEY;
     if (!apiKey) return;
 
     // 2. Concurrency guard — never run two API calls in parallel for one room.
@@ -1509,7 +1518,7 @@ export default class DogShowServer {
         ts: Date.now(),
       };
       this.addMessage(msg);
-      this.room.broadcast(JSON.stringify(msg));
+      this.broadcast(JSON.stringify(msg));
 
       // Update state so the canned scheduler doesn't immediately pick him
       // again (would double-speak). lastBotSpeaker is consulted in doBotChat.
@@ -1537,14 +1546,14 @@ export default class DogShowServer {
     const url = new URL(req.url);
     const key = url.searchParams.get('key');
     const commit = url.searchParams.get('commit') === '1';
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     if (!adminKey || !key || key !== adminKey) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
     }
     // List all user keys. PartyKit storage.list returns a Map.
     let userList;
     try {
-      userList = await this.room.storage.list({ prefix: 'user:' });
+      userList = await this.ctx.storage.list({ prefix: 'user:' });
     } catch (e) {
       return new Response(JSON.stringify({ error: 'storage list failed', detail: e && e.message }), { status: 500, headers });
     }
@@ -1562,7 +1571,7 @@ export default class DogShowServer {
         u.tier = 'free';
         u.bones = Math.max(u.bones || 0, BONES_LEGACY_GRANDFATHER);
         u.paidSku = u.paidSku || 'general';
-        await this.room.storage.put(c.key, u);
+        await this.ctx.storage.put(c.key, u);
         migrated++;
         if (sample.length < 5) sample.push({ id: u.id, email: u.email, bones: u.bones });
       }
@@ -1593,13 +1602,13 @@ export default class DogShowServer {
     const commit = url.searchParams.get('commit') === '1';
     const grant = Math.max(0, parseInt(url.searchParams.get('bones') || '1000', 10) || 0);
     const days = Math.max(0, parseInt(url.searchParams.get('days') || '0', 10) || 0);
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     if (!adminKey || !key || key !== adminKey) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
     }
     let userList;
     try {
-      userList = await this.room.storage.list({ prefix: 'user:' });
+      userList = await this.ctx.storage.list({ prefix: 'user:' });
     } catch (e) {
       return new Response(JSON.stringify({ error: 'storage list failed', detail: e && e.message }), { status: 500, headers });
     }
@@ -1614,13 +1623,13 @@ export default class DogShowServer {
     const sample = [];
     for (const c of candidates) {
       const u = c.user;
-      const already = await this.room.storage.get(`goodwill:${u.id}`);
+      const already = await this.ctx.storage.get(`goodwill:${u.id}`);
       if (already) { alreadyGranted++; continue; }
       if (sample.length < 5) sample.push({ id: u.id, email: u.email, bonesBefore: (u.bones || 0) });
       if (commit) {
         u.bones = (u.bones || 0) + grant;
-        await this.room.storage.put(c.key, u);
-        await this.room.storage.put(`goodwill:${u.id}`, { at: Date.now(), bones: grant });
+        await this.ctx.storage.put(c.key, u);
+        await this.ctx.storage.put(`goodwill:${u.id}`, { at: Date.now(), bones: grant });
         granted++;
         if (u.email) {
           const ok = await this.sendBenefitsChangeEmail(u.email, grant).catch(() => false);
@@ -1642,7 +1651,7 @@ export default class DogShowServer {
     const url = new URL(req.url);
     const key = url.searchParams.get('key');
     const commit = url.searchParams.get('commit') === '1';
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     if (!adminKey || !key || key !== adminKey) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
     }
@@ -1653,10 +1662,10 @@ export default class DogShowServer {
       fixed.push({ id: dog.id, dogName: dog.dogName, slug });
       if (commit) {
         dog.slug = slug;
-        await this.room.storage.put(`slug:${slug}`, dog.id);
+        await this.ctx.storage.put(`slug:${slug}`, dog.id);
       }
     }
-    if (commit && fixed.length) await this.room.storage.put('communityDogs', this.communityDogs);
+    if (commit && fixed.length) await this.ctx.storage.put('communityDogs', this.communityDogs);
     return new Response(JSON.stringify({ ok: true, dryRun: !commit, fixedCount: fixed.length, fixed }), { headers });
   }
 
@@ -1671,7 +1680,7 @@ export default class DogShowServer {
     const url = new URL(req.url);
     const key = url.searchParams.get('key');
     const commit = url.searchParams.get('commit') === '1';
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     if (!adminKey || !key || key !== adminKey) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
     }
@@ -1686,8 +1695,8 @@ export default class DogShowServer {
       }
     }
     if (commit) {
-      await this.room.storage.put('communityDogs', this.communityDogs);
-      await this.room.storage.put('seasonId', seasonId);
+      await this.ctx.storage.put('communityDogs', this.communityDogs);
+      await this.ctx.storage.put('seasonId', seasonId);
     }
     return new Response(JSON.stringify({
       ok: true, dryRun: !commit, seasonId, seasonLabel: this.seasonLabel(seasonId),
@@ -1763,7 +1772,7 @@ export default class DogShowServer {
         sent1h: false,
         sent5m: false,
       });
-      await this.room.storage.put('communityDogs', this.communityDogs);
+      await this.ctx.storage.put('communityDogs', this.communityDogs);
       // Re-arm the alarm so the wakeup is set for this RSVP's reminder times.
       this.scheduleNextWakeup()
         .catch(e => console.error('[Reminder] Re-arm after RSVP failed:', e && e.message));
@@ -1783,7 +1792,7 @@ export default class DogShowServer {
   async _ensureRegisteredUser(email) {
     const normalizedEmail = email.toLowerCase().trim();
     const userId = 'user_' + this.hashEmail(normalizedEmail);
-    let user = await this.room.storage.get(`user:${userId}`);
+    let user = await this.ctx.storage.get(`user:${userId}`);
     let isNew = false;
     if (!user) {
       isNew = true;
@@ -1796,8 +1805,8 @@ export default class DogShowServer {
         username: null,
         createdAt: Date.now(),
       };
-      await this.room.storage.put(`user:${userId}`, user);
-      await this.room.storage.put(`email:${normalizedEmail}`, userId);
+      await this.ctx.storage.put(`user:${userId}`, user);
+      await this.ctx.storage.put(`email:${normalizedEmail}`, userId);
       // Welcome email is NOT sent inline anymore (2026-07-08). RSVP'd fans have
       // no dog of their own, so they receive the single deferred welcome from
       // processEmailCampaigns() after WELCOME_GRACE_MS. See the onboarding gate.
@@ -1806,10 +1815,10 @@ export default class DogShowServer {
       user.bones = (user.tier === 'general' || user.tier === 'premium')
         ? BONES_LEGACY_GRANDFATHER
         : BONES_ON_REGISTER;
-      await this.room.storage.put(`user:${userId}`, user);
+      await this.ctx.storage.put(`user:${userId}`, user);
     }
     const token = this.generateToken(userId);
-    await this.room.storage.put(`token:${token}`, {
+    await this.ctx.storage.put(`token:${token}`, {
       userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000,
     });
     return { token, userId, bones: user.bones, isNew };
@@ -1985,7 +1994,7 @@ export default class DogShowServer {
       }
       if (path === 'landing-stats' && req.method === 'GET') {
         const totalBones = this.communityDogs.reduce((sum, d) => sum + ((d.stats && d.stats.totalBones) || 0), 0) + this.boneCount;
-        const watching = [...this.room.getConnections()].length + this.activeBots.length;
+        const watching = [...this.getConnections()].length + this.activeBots.length;
         return new Response(JSON.stringify({
           ok: true,
           totalFans: this.totalFans + FAN_COUNT_OFFSET,
@@ -1997,7 +2006,7 @@ export default class DogShowServer {
       if (path === 'leaderboard' && req.method === 'GET') {
         // Roll the week over if the boundary passed since the last activity.
         try { await this.ensureSeason(); } catch (e) { console.error('[Season]', e && e.message); }
-        const imgBase = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=';
+        const imgBase = API_BASE + '/community-image?id=';
         // Seed dogs for early days — replaced as real dogs accumulate bones
         const seedDogs = [
           { dogName: 'Biscuit', breed: 'Golden Retriever', username: 'sarahk', totalBones: 64, imageUrl: 'https://images.dog.ceo/breeds/retriever-golden/n02099601_2688.jpg' },
@@ -2053,7 +2062,7 @@ export default class DogShowServer {
           totalBones: (d.stats && d.stats.totalBones) || 0,
           imageUrl: imgBase + d.id,
         }));
-        const pastSeasons = (await this.room.storage.get('pastSeasons')) || [];
+        const pastSeasons = (await this.ctx.storage.get('pastSeasons')) || [];
         const lastSeason = pastSeasons.length ? pastSeasons[pastSeasons.length - 1] : null;
         return new Response(JSON.stringify({
           ok: true,
@@ -2073,8 +2082,8 @@ export default class DogShowServer {
         // page (added 2026-07-15). Newest first. Each entry carries the
         // winner + the final top-5 standings snapshot taken at rollover.
         try { await this.ensureSeason(); } catch (e) { console.error('[Season]', e && e.message); }
-        const imgBase = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=';
-        const past = (await this.room.storage.get('pastSeasons')) || [];
+        const imgBase = API_BASE + '/community-image?id=';
+        const past = (await this.ctx.storage.get('pastSeasons')) || [];
         const seasons = past.slice().reverse().map(s => ({
           seasonId: s.seasonId,
           seasonLabel: s.seasonLabel || this.seasonLabel(s.seasonId),
@@ -2117,7 +2126,7 @@ export default class DogShowServer {
     const isInterest = typeof tier === 'string' && tier.startsWith('interest_');
 
     // Check if already registered
-    const existing = await this.room.storage.get(`user:${userId}`);
+    const existing = await this.ctx.storage.get(`user:${userId}`);
     if (existing) {
       if (isInterest) {
         // Fake-door lead from someone who already has an account — record the
@@ -2137,9 +2146,9 @@ export default class DogShowServer {
           ? BONES_LEGACY_GRANDFATHER
           : BONES_ON_REGISTER;
       }
-      await this.room.storage.put(`user:${userId}`, existing);
+      await this.ctx.storage.put(`user:${userId}`, existing);
       const token = this.generateToken(userId);
-      await this.room.storage.put(`token:${token}`, { userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
+      await this.ctx.storage.put(`token:${token}`, { userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
       return new Response(JSON.stringify({ ok: true, token, user: existing }), { headers });
     }
 
@@ -2158,8 +2167,8 @@ export default class DogShowServer {
       username: null,
       createdAt: Date.now(),
     };
-    await this.room.storage.put(`user:${userId}`, user);
-    await this.room.storage.put(`email:${normalizedEmail}`, userId);
+    await this.ctx.storage.put(`user:${userId}`, user);
+    await this.ctx.storage.put(`email:${normalizedEmail}`, userId);
 
     // Notify admin of new signup
     this.sendAdminSignupNotification(normalizedEmail, user.tier).catch(e =>
@@ -2173,7 +2182,7 @@ export default class DogShowServer {
 
     // Generate session token
     const token = this.generateToken(userId);
-    await this.room.storage.put(`token:${token}`, { userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
+    await this.ctx.storage.put(`token:${token}`, { userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
 
     return new Response(JSON.stringify({ ok: true, token, user }), { headers });
   }
@@ -2186,7 +2195,7 @@ export default class DogShowServer {
     }
 
     const normalizedEmail = email.toLowerCase().trim();
-    const userId = await this.room.storage.get(`email:${normalizedEmail}`);
+    const userId = await this.ctx.storage.get(`email:${normalizedEmail}`);
 
     if (!userId) {
       // Don't reveal whether email exists — still say "sent"
@@ -2196,7 +2205,7 @@ export default class DogShowServer {
     // Generate magic link token (valid 60 minutes — tolerates delayed email
     // delivery; audit Medium-5).
     const magicToken = this.generateToken('magic');
-    await this.room.storage.put(`magic:${magicToken}`, { userId, expires: Date.now() + 60 * 60 * 1000 });
+    await this.ctx.storage.put(`magic:${magicToken}`, { userId, expires: Date.now() + 60 * 60 * 1000 });
 
     // Send email via Resend
     const loginUrl = `${SITE_URL}/login.html?token=${magicToken}`;
@@ -2212,7 +2221,7 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'token required' }), { status: 400, headers });
     }
 
-    const magicData = await this.room.storage.get(`magic:${token}`);
+    const magicData = await this.ctx.storage.get(`magic:${token}`);
     if (!magicData || magicData.expires < Date.now()) {
       return new Response(JSON.stringify({ error: 'invalid or expired link' }), { status: 401, headers });
     }
@@ -2222,22 +2231,22 @@ export default class DogShowServer {
     // then it is dead (audit Medium-5).
     const now = Date.now();
     if (magicData.consumedAt && now - magicData.consumedAt > 2 * 60 * 1000) {
-      await this.room.storage.delete(`magic:${token}`);
+      await this.ctx.storage.delete(`magic:${token}`);
       return new Response(JSON.stringify({ error: 'invalid or expired link' }), { status: 401, headers });
     }
     if (!magicData.consumedAt) {
       magicData.consumedAt = now;
-      await this.room.storage.put(`magic:${token}`, magicData);
+      await this.ctx.storage.put(`magic:${token}`, magicData);
     }
 
     // Get user and issue session token
-    const user = await this.room.storage.get(`user:${magicData.userId}`);
+    const user = await this.ctx.storage.get(`user:${magicData.userId}`);
     if (!user) {
       return new Response(JSON.stringify({ error: 'user not found' }), { status: 404, headers });
     }
 
     const sessionToken = this.generateToken(magicData.userId);
-    await this.room.storage.put(`token:${sessionToken}`, { userId: magicData.userId, expires: now + 30 * 24 * 60 * 60 * 1000 });
+    await this.ctx.storage.put(`token:${sessionToken}`, { userId: magicData.userId, expires: now + 30 * 24 * 60 * 60 * 1000 });
 
     return new Response(JSON.stringify({ ok: true, token: sessionToken, user }), { headers });
   }
@@ -2249,18 +2258,18 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'token and username required' }), { status: 400, headers });
     }
 
-    const session = await this.room.storage.get(`token:${token}`);
+    const session = await this.ctx.storage.get(`token:${token}`);
     if (!session || session.expires < Date.now()) {
       return new Response(JSON.stringify({ error: 'invalid session' }), { status: 401, headers });
     }
 
-    const user = await this.room.storage.get(`user:${session.userId}`);
+    const user = await this.ctx.storage.get(`user:${session.userId}`);
     if (!user) {
       return new Response(JSON.stringify({ error: 'user not found' }), { status: 404, headers });
     }
 
     user.username = this.sanitize(username).slice(0, 20);
-    await this.room.storage.put(`user:${session.userId}`, user);
+    await this.ctx.storage.put(`user:${session.userId}`, user);
 
     return new Response(JSON.stringify({ ok: true, user }), { headers });
   }
@@ -2272,12 +2281,12 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'token required' }), { status: 400, headers });
     }
 
-    const session = await this.room.storage.get(`token:${token}`);
+    const session = await this.ctx.storage.get(`token:${token}`);
     if (!session || session.expires < Date.now()) {
       return new Response(JSON.stringify({ error: 'invalid session' }), { status: 401, headers });
     }
 
-    const user = await this.room.storage.get(`user:${session.userId}`);
+    const user = await this.ctx.storage.get(`user:${session.userId}`);
     if (!user) {
       return new Response(JSON.stringify({ error: 'user not found' }), { status: 404, headers });
     }
@@ -2301,11 +2310,11 @@ export default class DogShowServer {
     if (!token) {
       return new Response(JSON.stringify({ error: 'token required' }), { status: 400, headers });
     }
-    const session = await this.room.storage.get(`token:${token}`);
+    const session = await this.ctx.storage.get(`token:${token}`);
     if (!session || session.expires < Date.now()) {
       return new Response(JSON.stringify({ error: 'invalid session' }), { status: 401, headers });
     }
-    const user = await this.room.storage.get(`user:${session.userId}`);
+    const user = await this.ctx.storage.get(`user:${session.userId}`);
     if (!user) {
       return new Response(JSON.stringify({ error: 'user not found' }), { status: 404, headers });
     }
@@ -2358,7 +2367,7 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'invalid tier' }), { status: 400, headers });
     }
 
-    if (!this.room.env.STRIPE_SK) {
+    if (!this.env.STRIPE_SK) {
       console.error('[Stripe] STRIPE_SK env var is not set');
       return new Response(JSON.stringify({ error: 'payment system misconfigured' }), { status: 500, headers });
     }
@@ -2388,7 +2397,7 @@ export default class DogShowServer {
       const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.room.env.STRIPE_SK}`,
+          'Authorization': `Bearer ${this.env.STRIPE_SK}`,
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: params.toString(),
@@ -2428,7 +2437,7 @@ export default class DogShowServer {
     if (!sessionId || typeof sessionId !== 'string') {
       return new Response(JSON.stringify({ error: 'session_id required' }), { status: 400, headers });
     }
-    if (!this.room.env.STRIPE_SK) {
+    if (!this.env.STRIPE_SK) {
       console.error('[Stripe] STRIPE_SK env var is not set');
       return new Response(JSON.stringify({ error: 'payment system misconfigured' }), { status: 500, headers });
     }
@@ -2438,7 +2447,7 @@ export default class DogShowServer {
     try {
       const res = await fetch(
         `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`,
-        { headers: { 'Authorization': `Bearer ${this.room.env.STRIPE_SK}` } }
+        { headers: { 'Authorization': `Bearer ${this.env.STRIPE_SK}` } }
       );
       session = await res.json();
     } catch (e) {
@@ -2476,12 +2485,12 @@ export default class DogShowServer {
     // refresh just re-issues a session token for the same user — no duplicate
     // emails, no duplicate admin pings.
     const sessionKey = `checkout:${session.id}`;
-    const prior = await this.room.storage.get(sessionKey);
+    const prior = await this.ctx.storage.get(sessionKey);
     if (prior && prior.userId) {
-      const existingUser = await this.room.storage.get(`user:${prior.userId}`);
+      const existingUser = await this.ctx.storage.get(`user:${prior.userId}`);
       if (existingUser) {
         const token = this.generateToken(prior.userId);
-        await this.room.storage.put(`token:${token}`,
+        await this.ctx.storage.put(`token:${token}`,
           { userId: prior.userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
         return new Response(JSON.stringify({ ok: true, token, user: existingUser }), { headers });
       }
@@ -2493,7 +2502,7 @@ export default class DogShowServer {
       stripeSessionId: session.id,
       stripePaymentIntentId: typeof session.payment_intent === 'string' ? session.payment_intent : null,
     });
-    await this.room.storage.put(sessionKey, { userId: user.id, at: Date.now() });
+    await this.ctx.storage.put(sessionKey, { userId: user.id, at: Date.now() });
 
     // Admin notification + buyer confirmation email (fire-and-forget).
     this.sendAdminSignupNotification(user.email, tier).catch(e =>
@@ -2509,7 +2518,7 @@ export default class DogShowServer {
   async _provisionPaidUser({ email, tier, stripeSessionId, stripePaymentIntentId }) {
     const normalizedEmail = email.toLowerCase().trim();
     const userId = 'user_' + this.hashEmail(normalizedEmail);
-    const existing = await this.room.storage.get(`user:${userId}`);
+    const existing = await this.ctx.storage.get(`user:${userId}`);
     const isNew = !existing;
 
     const user = existing || {
@@ -2548,17 +2557,17 @@ export default class DogShowServer {
     // before Critical-2; store the session id so paid users are traceable.
     user.stripeCustomerId = stripeSessionId || user.stripeCustomerId || null;
     user.paidAt = user.paidAt || Date.now();
-    await this.room.storage.put(`user:${userId}`, user);
-    await this.room.storage.put(`email:${normalizedEmail}`, userId);
+    await this.ctx.storage.put(`user:${userId}`, user);
+    await this.ctx.storage.put(`email:${normalizedEmail}`, userId);
 
     // Reverse lookup so the Stripe webhook can map a refund/dispute — which
     // arrives as a charge carrying a payment_intent — back to this user.
     if (stripePaymentIntentId) {
-      await this.room.storage.put(`stripe_pi:${stripePaymentIntentId}`, userId);
+      await this.ctx.storage.put(`stripe_pi:${stripePaymentIntentId}`, userId);
     }
 
     const token = this.generateToken(userId);
-    await this.room.storage.put(`token:${token}`, { userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
+    await this.ctx.storage.put(`token:${token}`, { userId, expires: Date.now() + 30 * 24 * 60 * 60 * 1000 });
 
     return { token, user, isNew };
   }
@@ -2575,10 +2584,10 @@ export default class DogShowServer {
   // POST /stripe-webhook — handles refunds and disputes so a reversed payment
   // does not leave a user holding a paid tier forever. Configure in the Stripe
   // dashboard pointing at:
-  //   https://dogshow.schemestudio.partykit.dev/party/dogshow-live/stripe-webhook
+  //   https://<API_HOST>/party/dogshow-live/stripe-webhook  (API_HOST at the top of this file)
   // and set STRIPE_WEBHOOK_SECRET (`npx partykit env add STRIPE_WEBHOOK_SECRET`).
   async handleStripeWebhook(req, headers) {
-    const secret = this.room.env.STRIPE_WEBHOOK_SECRET;
+    const secret = this.env.STRIPE_WEBHOOK_SECRET;
     if (!secret) {
       console.error('[Stripe] STRIPE_WEBHOOK_SECRET not set — rejecting webhook');
       return new Response(JSON.stringify({ error: 'webhook not configured' }), { status: 500, headers });
@@ -2623,7 +2632,7 @@ export default class DogShowServer {
       console.error('[Stripe] Refund event has no payment_intent');
       return;
     }
-    const userId = await this.room.storage.get(`stripe_pi:${paymentIntentId}`);
+    const userId = await this.ctx.storage.get(`stripe_pi:${paymentIntentId}`);
     if (!userId) {
       // Pre-Critical-2 users have no stripe_pi mapping — alert James to
       // reconcile by hand.
@@ -2635,7 +2644,7 @@ export default class DogShowServer {
          Downgrade the user manually in the dashboard if needed.</p>`);
       return;
     }
-    const user = await this.room.storage.get(`user:${userId}`);
+    const user = await this.ctx.storage.get(`user:${userId}`);
     if (!user) {
       console.error('[Stripe] Refund: user record missing for', userId);
       return;
@@ -2643,7 +2652,7 @@ export default class DogShowServer {
     const previousTier = user.tier;
     user.tier = 'free';
     user.refundedAt = Date.now();
-    await this.room.storage.put(`user:${userId}`, user);
+    await this.ctx.storage.put(`user:${userId}`, user);
     console.log(`[Stripe] Refund processed — ${user.email} downgraded ${previousTier} -> free`);
     await this.sendAdminAlert('Stripe refund processed',
       `<h2 style="color:#FF8C42;">Refund processed</h2>
@@ -2659,7 +2668,7 @@ export default class DogShowServer {
       console.error('[Stripe] Dispute event has no payment_intent');
       return;
     }
-    const userId = await this.room.storage.get(`stripe_pi:${paymentIntentId}`);
+    const userId = await this.ctx.storage.get(`stripe_pi:${paymentIntentId}`);
     if (!userId) {
       await this.sendAdminAlert('Stripe dispute — user not matched',
         `<h2 style="color:#FF8C42;">Dispute opened</h2>
@@ -2667,11 +2676,11 @@ export default class DogShowServer {
          matched <code>${paymentIntentId}</code>. Review in the Stripe dashboard.</p>`);
       return;
     }
-    const user = await this.room.storage.get(`user:${userId}`);
+    const user = await this.ctx.storage.get(`user:${userId}`);
     if (!user) return;
     user.flagged = 'dispute';
     user.disputedAt = Date.now();
-    await this.room.storage.put(`user:${userId}`, user);
+    await this.ctx.storage.put(`user:${userId}`, user);
     console.log(`[Stripe] Dispute opened for ${user.email} (reason: ${reason})`);
     // Disputes are not final — flag for review, leave the tier unchanged.
     await this.sendAdminAlert('Stripe dispute opened',
@@ -2759,14 +2768,14 @@ export default class DogShowServer {
     }
 
     // Verify session
-    const session = await this.room.storage.get(`token:${token}`);
+    const session = await this.ctx.storage.get(`token:${token}`);
     if (!session || session.expires < Date.now()) {
       return new Response(JSON.stringify({ error: 'invalid session', code: 'session_invalid' }), { status: 401, headers });
     }
 
     // Get user. Entry is free (2026-06-23) — any registered user may upload one
     // dog. Slot booking, however, is a Top Dog ($5.99) perk only (checked below).
-    const user = await this.room.storage.get(`user:${session.userId}`);
+    const user = await this.ctx.storage.get(`user:${session.userId}`);
     if (!user) {
       return new Response(JSON.stringify({ error: 'user not found', code: 'user_not_found' }), { status: 404, headers });
     }
@@ -2783,8 +2792,8 @@ export default class DogShowServer {
     // page; it never reaches a normal client) so test uploads aren't blocked.
     // On rejection we return the existing dog's slug so the client can show
     // the certificate link instead of a dead-end error.
-    const isAdminUpload = !!adminKey && !!this.room.env.ADMIN_KEY
-      && adminKey === this.room.env.ADMIN_KEY;
+    const isAdminUpload = !!adminKey && !!this.env.ADMIN_KEY
+      && adminKey === this.env.ADMIN_KEY;
     if (!isAdminUpload) {
       const existingUpload = this.communityDogs.find(d => d.userId === session.userId);
       if (existingUpload) {
@@ -2824,12 +2833,12 @@ export default class DogShowServer {
 
     // Store image
     const id = 'cdog_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-    await this.room.storage.put(`img:${id}`, imageData);
+    await this.ctx.storage.put(`img:${id}`, imageData);
 
     // Generate clean URL slug
     const cleanName = this.sanitize(dogName || 'A Good Dog').slice(0, 20);
     const slug = await this.getUniqueSlug(cleanName);
-    await this.room.storage.put(`slug:${slug}`, id);
+    await this.ctx.storage.put(`slug:${slug}`, id);
 
     // Breed comes from the uploader's dropdown pick (#48) — far more accurate
     // than the AI guess. Fall back to the classifier's guess only if empty.
@@ -2843,7 +2852,7 @@ export default class DogShowServer {
     const cleanUsername = username ? this.sanitize(username).trim().slice(0, 20) : '';
     if (!user.username && cleanUsername) {
       user.username = cleanUsername;
-      await this.room.storage.put(`user:${session.userId}`, user);
+      await this.ctx.storage.put(`user:${session.userId}`, user);
     }
     const dogUsername = user.username || cleanUsername || 'Anonymous';
 
@@ -2891,10 +2900,10 @@ export default class DogShowServer {
       // Schedule the precision trigger so the dog appears at the second.
       this.scheduleSlotTimer(entry);
     }
-    await this.room.storage.put('communityDogs', this.communityDogs);
+    await this.ctx.storage.put('communityDogs', this.communityDogs);
 
     // Broadcast updated community count
-    this.room.broadcast(JSON.stringify({
+    this.broadcast(JSON.stringify({
       type: 'communityCount',
       count: this.communityDogs.length,
     }));
@@ -2911,7 +2920,7 @@ export default class DogShowServer {
     if (!user.onboardedAt) {
       user.onboardedAt = Date.now();
       user.emailQuietUntil = user.onboardedAt + EMAIL_QUIET_MS;
-      await this.room.storage.put(`user:${session.userId}`, user);
+      await this.ctx.storage.put(`user:${session.userId}`, user);
     }
 
     return new Response(JSON.stringify({
@@ -2933,7 +2942,7 @@ export default class DogShowServer {
       return new Response('not found', { status: 404 });
     }
 
-    const imageData = await this.room.storage.get(`img:${id}`);
+    const imageData = await this.ctx.storage.get(`img:${id}`);
     if (!imageData) {
       return new Response('not found', { status: 404 });
     }
@@ -2964,8 +2973,8 @@ export default class DogShowServer {
   async handleAdminAudit(req, headers) {
     const url = new URL(req.url);
     const key = url.searchParams.get('key');
-    // PartyKit exposes env vars via this.room.env, not process.env.
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    // PartyKit exposes env vars via this.env, not process.env.
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     if (!adminKey || !key || key !== adminKey) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
     }
@@ -2983,7 +2992,7 @@ export default class DogShowServer {
   // `stuckResolutions` storage so we have a paper trail of who was handled, by
   // whom, and when. Lightweight Zendesk-style ticket close.
   async handleAdminResolveStuck(req, headers) {
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     let body;
     try { body = await req.json(); } catch (_) { body = {}; }
     if (!adminKey || !body.key || body.key !== adminKey) {
@@ -2995,10 +3004,10 @@ export default class DogShowServer {
     }
     const note = String(body.note || '').slice(0, 280);
 
-    const resolutions = (await this.room.storage.get('stuckResolutions')) || {};
+    const resolutions = (await this.ctx.storage.get('stuckResolutions')) || {};
     // Look up the email so the historical row still has it even if the user
     // record is later deleted. Best-effort — empty string if not found.
-    const user = await this.room.storage.get(`user:${userId}`);
+    const user = await this.ctx.storage.get(`user:${userId}`);
     resolutions[userId] = {
       userId,
       email: (user && user.email) || (resolutions[userId] && resolutions[userId].email) || null,
@@ -3006,7 +3015,7 @@ export default class DogShowServer {
       resolvedAtIso: new Date().toISOString(),
       note,
     };
-    await this.room.storage.put('stuckResolutions', resolutions);
+    await this.ctx.storage.put('stuckResolutions', resolutions);
     console.log(`[Admin] Resolved stuck user ${userId}${note ? ` — ${note}` : ''}`);
     return new Response(JSON.stringify({ ok: true, userId, resolvedAt: resolutions[userId].resolvedAt }), { headers });
   }
@@ -3018,7 +3027,7 @@ export default class DogShowServer {
   // tombstone — if you want the history back, the user reappears in the
   // active stuck list via computeAudit).
   async handleAdminUnresolveStuck(req, headers) {
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     let body;
     try { body = await req.json(); } catch (_) { body = {}; }
     if (!adminKey || !body.key || body.key !== adminKey) {
@@ -3028,10 +3037,10 @@ export default class DogShowServer {
     if (!userId) {
       return new Response(JSON.stringify({ error: 'userId required' }), { status: 400, headers });
     }
-    const resolutions = (await this.room.storage.get('stuckResolutions')) || {};
+    const resolutions = (await this.ctx.storage.get('stuckResolutions')) || {};
     const existed = !!resolutions[userId];
     delete resolutions[userId];
-    await this.room.storage.put('stuckResolutions', resolutions);
+    await this.ctx.storage.put('stuckResolutions', resolutions);
     console.log(`[Admin] Unresolved stuck user ${userId} (existed=${existed})`);
     return new Response(JSON.stringify({ ok: true, userId, removed: existed }), { headers });
   }
@@ -3044,7 +3053,7 @@ export default class DogShowServer {
     const url = new URL(req.url);
     const key = url.searchParams.get('key');
     const id = url.searchParams.get('id');
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     if (!adminKey || !key || key !== adminKey) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
     }
@@ -3053,7 +3062,7 @@ export default class DogShowServer {
     }
 
     // Read fresh from storage.
-    const communityDogs = (await this.room.storage.get('communityDogs')) || [];
+    const communityDogs = (await this.ctx.storage.get('communityDogs')) || [];
     const idx = communityDogs.findIndex(d => d.id === id);
     if (idx === -1) {
       return new Response(JSON.stringify({ error: 'dog not found', id }), { status: 404, headers });
@@ -3061,12 +3070,12 @@ export default class DogShowServer {
     const removed = communityDogs[idx];
 
     communityDogs.splice(idx, 1);
-    await this.room.storage.put('communityDogs', communityDogs);
+    await this.ctx.storage.put('communityDogs', communityDogs);
     this.communityDogs = communityDogs; // keep the in-memory copy in sync
 
     // Clean up associated storage keys.
-    await this.room.storage.delete(`img:${id}`);
-    if (removed.slug) await this.room.storage.delete(`slug:${removed.slug}`);
+    await this.ctx.storage.delete(`img:${id}`);
+    if (removed.slug) await this.ctx.storage.delete(`slug:${removed.slug}`);
 
     // Phase 3: if a precision slot timer was armed for this dog, kill it so
     // it doesn't fire after the dog is gone.
@@ -3080,7 +3089,7 @@ export default class DogShowServer {
     }
 
     // Broadcast the new community count.
-    this.room.broadcast(JSON.stringify({
+    this.broadcast(JSON.stringify({
       type: 'communityCount',
       count: communityDogs.length,
     }));
@@ -3105,14 +3114,14 @@ export default class DogShowServer {
   async handleAdminAiTest(req, headers) {
     const url = new URL(req.url);
     const key = url.searchParams.get('key');
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     if (!adminKey || !key || key !== adminKey) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
     }
 
     const diag = {};
-    const accountId = this.room.env.CF_ACCOUNT_ID;
-    const apiToken = this.room.env.CF_AI_TOKEN;
+    const accountId = this.env.CF_ACCOUNT_ID;
+    const apiToken = this.env.CF_AI_TOKEN;
     diag.cfAccountIdSet = !!accountId;
     diag.cfApiTokenSet = !!apiToken;
 
@@ -3177,7 +3186,7 @@ export default class DogShowServer {
   async handleAdminSentryTest(req, headers) {
     const url = new URL(req.url);
     const key = url.searchParams.get('key');
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     if (!adminKey || !key || key !== adminKey) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
     }
@@ -3189,8 +3198,8 @@ export default class DogShowServer {
   // reconciliation alarm. Reads fresh from storage so it is correct even on
   // an alarm-triggered cold wake (where in-memory state may not be loaded).
   async computeAudit() {
-    const communityDogs = (await this.room.storage.get('communityDogs')) || [];
-    const userEntries = await this.room.storage.list({ prefix: 'user:' });
+    const communityDogs = (await this.ctx.storage.get('communityDogs')) || [];
+    const userEntries = await this.ctx.storage.list({ prefix: 'user:' });
     const users = [...userEntries.values()];
 
     const tierCounts = {};
@@ -3205,7 +3214,7 @@ export default class DogShowServer {
     // Resolved follow-ups — James has manually marked these handled (refunded,
     // contacted, etc). We keep the record forever so the admin panel has a
     // history. Lightweight Zendesk-style ticket log, keyed by userId.
-    const stuckResolutions = (await this.room.storage.get('stuckResolutions')) || {};
+    const stuckResolutions = (await this.ctx.storage.get('stuckResolutions')) || {};
 
     // Premium users WITHOUT a community dog entry. Split into two lists:
     //   • stuckPremium  — unresolved, the active follow-up worklist
@@ -3247,10 +3256,10 @@ export default class DogShowServer {
     const validDogIds = new Set(communityDogs.map(d => d.id));
     const validDogSlugs = new Set(communityDogs.map(d => d.slug).filter(Boolean));
 
-    const imgEntries = await this.room.storage.list({ prefix: 'img:' });
+    const imgEntries = await this.ctx.storage.list({ prefix: 'img:' });
     const orphanedImgKeys = [...imgEntries.keys()].filter(k => !validDogIds.has(k.slice('img:'.length)));
 
-    const slugEntries = await this.room.storage.list({ prefix: 'slug:' });
+    const slugEntries = await this.ctx.storage.list({ prefix: 'slug:' });
     const orphanedSlugKeys = [...slugEntries.keys()].filter(k => !validDogSlugs.has(k.slice('slug:'.length)));
 
     return {
@@ -3324,14 +3333,14 @@ export default class DogShowServer {
   async scheduleNextWakeup() {
     try {
       const reminderWakeup = this.computeNextWakeupAt();
-      const lastAudit = (await this.room.storage.get('lastAuditAt')) || 0;
+      const lastAudit = (await this.ctx.storage.get('lastAuditAt')) || 0;
       const auditWakeup = lastAudit + 24 * 60 * 60 * 1000;
       const next = reminderWakeup
         ? Math.min(reminderWakeup, auditWakeup)
         : auditWakeup;
       // Never arm for a past time — bump forward 60s if so.
       const safe = Math.max(next, Date.now() + 60 * 1000);
-      await this.room.storage.setAlarm(safe);
+      await this.ctx.storage.setAlarm(safe);
     } catch (e) {
       console.error('[Alarm] Could not schedule wakeup:', e && e.message);
     }
@@ -3383,7 +3392,7 @@ export default class DogShowServer {
       }
     }
     if (changed) {
-      await this.room.storage.put('communityDogs', this.communityDogs);
+      await this.ctx.storage.put('communityDogs', this.communityDogs);
     }
   }
 
@@ -3427,20 +3436,20 @@ export default class DogShowServer {
     // computeAudit(), so neither the summary nor the nudge re-pings James about
     // a user he's already handled.
     try {
-      const lastAudit = (await this.room.storage.get('lastAuditAt')) || 0;
+      const lastAudit = (await this.ctx.storage.get('lastAuditAt')) || 0;
       if (Date.now() - lastAudit >= 24 * 60 * 60 * 1000) {
         const audit = await this.computeAudit();
         const stuck = audit.stuckPremium || [];
         if (stuck.length > 0) {
-          const lastSummary = (await this.room.storage.get('lastStuckSummaryAt')) || 0;
+          const lastSummary = (await this.ctx.storage.get('lastStuckSummaryAt')) || 0;
           const weekMs = 7 * 24 * 60 * 60 * 1000;
           if (Date.now() - lastSummary >= weekMs) {
             await this.sendStuckUserAdminAlert(stuck);
-            await this.room.storage.put('lastStuckSummaryAt', Date.now());
+            await this.ctx.storage.put('lastStuckSummaryAt', Date.now());
           }
           await this.nudgeStuckPremiumUsers(stuck);
         }
-        await this.room.storage.put('lastAuditAt', Date.now());
+        await this.ctx.storage.put('lastAuditAt', Date.now());
         console.log(`[Audit] Daily reconciliation — ${stuck.length} unresolved stuck premium user(s)`);
       }
     } catch (e) {
@@ -3465,9 +3474,9 @@ export default class DogShowServer {
         const age = now - (u.createdAt || now);
         if (age < twoHours || age > thirtyDays) continue;
         const nudgeKey = `nudged:${u.userId}`;
-        if (await this.room.storage.get(nudgeKey)) continue;
+        if (await this.ctx.storage.get(nudgeKey)) continue;
         const sent = await this.sendUploadNudgeEmail(u.email);
-        if (sent) await this.room.storage.put(nudgeKey, now);
+        if (sent) await this.ctx.storage.put(nudgeKey, now);
       } catch (e) {
         console.error('[Audit] Nudge failed for', u.email, '-', e.message);
       }
@@ -3478,7 +3487,7 @@ export default class DogShowServer {
   handleShowMeta() {
     const totalDogs = this.communityDogs.length;
     const totalBones = this.communityDogs.reduce((sum, d) => sum + ((d.stats && d.stats.totalBones) || 0), 0) + this.boneCount;
-    const watching = ([...this.room.getConnections()].length + this.activeBots.length) || 1;
+    const watching = ([...this.getConnections()].length + this.activeBots.length) || 1;
 
     const title = 'The Dog Show — A Live Dog-Viewing Experience';
     const desc = `${watching} watching now · ${totalDogs} dogs entered · ${totalBones} bones thrown. Watch dogs appear one at a time in a shared, real-time slideshow. Give bones. Chat with fans.`;
@@ -3515,7 +3524,7 @@ export default class DogShowServer {
     const dog = this.communityDogs.find(d => d.id === id);
     if (!dog) return new Response('not found', { status: 404 });
 
-    const imageUrl = `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${dog.id}`;
+    const imageUrl = `${API_BASE}/community-image?id=${dog.id}`;
     const pageUrl = dog.slug ? `${SITE_URL}/d/${dog.slug}` : `${SITE_URL}/dog.html?id=${dog.id}`;
     const bones = (dog.stats && dog.stats.totalBones) || 0;
     const appearances = (dog.stats && dog.stats.totalAppearances) || 0;
@@ -3616,7 +3625,7 @@ export default class DogShowServer {
         breed: dog.breed || 'Mystery Breed',
         breedConfidence: dog.breedConfidence || 0,
         uploadedAt: dog.uploadedAt,
-        imageUrl: `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=${dog.id}`,
+        imageUrl: `${API_BASE}/community-image?id=${dog.id}`,
         // Phase 4: these two together determine cert page state.
         //   firstAppearedAt === null  → pre-show (countdown + RSVP)
         //   firstAppearedAt !== null  → post-show (existing certificate)
@@ -3670,7 +3679,7 @@ export default class DogShowServer {
     const requested = parseInt(url.searchParams.get('limit') || '12', 10);
     const limit = Math.max(1, Math.min(24, isFinite(requested) ? requested : 12));
     const target = breed.toLowerCase();
-    const imgBase = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=';
+    const imgBase = API_BASE + '/community-image?id=';
     const matches = this.communityDogs
       .filter(d => d && d.breed && d.breed.toLowerCase() === target)
       .filter(d => d.firstAppearedAt)  // only aired dogs — pre-show pages don't fit the cert grid
@@ -3698,7 +3707,7 @@ export default class DogShowServer {
     }
 
     // Try slug lookup first
-    const id = await this.room.storage.get(`slug:${slug}`);
+    const id = await this.ctx.storage.get(`slug:${slug}`);
     if (id) {
       return new Response(JSON.stringify({ ok: true, id }), { headers });
     }
@@ -3723,15 +3732,26 @@ export default class DogShowServer {
       // Classify via the Cloudflare Workers AI REST API. The in-deployment AI
       // binding is not provisioned (audit #38), so we call the REST endpoint
       // with an account-scoped API token instead.
-      const accountId = this.room.env.CF_ACCOUNT_ID;
-      const apiToken = this.room.env.CF_AI_TOKEN;
-      if (!accountId || !apiToken) {
-        console.error('[AI] CF_ACCOUNT_ID / CF_AI_TOKEN not set — failing open');
-        return { isDog: true, breed: 'Mystery Breed', confidence: 0 };
-      }
+      const accountId = this.env.CF_ACCOUNT_ID;
+      const apiToken = this.env.CF_AI_TOKEN;
 
       let result = null;
-      try {
+      // Preferred since the Workers move (2026-11-02): the in-deployment AI
+      // binding needs no token. The REST path below stays as the fallback.
+      if (this.env.AI && typeof this.env.AI.run === 'function') {
+        try {
+          const out = await this.env.AI.run('@cf/microsoft/resnet-50', { image: Array.from(binary) });
+          if (Array.isArray(out)) result = out;
+          else console.error('[AI] Binding returned no usable result:', JSON.stringify(out).slice(0, 200));
+        } catch (e) {
+          console.error('[AI] Binding call failed:', e.message);
+        }
+      }
+      if (!result && (!accountId || !apiToken)) {
+        console.error('[AI] No AI binding result and CF_ACCOUNT_ID / CF_AI_TOKEN not set — failing open');
+        return { isDog: true, breed: 'Mystery Breed', confidence: 0 };
+      }
+      if (!result) try {
         const aiRes = await fetch(
           `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/microsoft/resnet-50`,
           {
@@ -3837,13 +3857,13 @@ export default class DogShowServer {
         || 'unknown';
       const key = `rl:${endpoint}:${ip}`;
       const now = Date.now();
-      const hits = (await this.room.storage.get(key)) || [];
+      const hits = (await this.ctx.storage.get(key)) || [];
       const recent = hits.filter(t => now - t < windowMs);
       if (recent.length >= limit) {
         return false;
       }
       recent.push(now);
-      await this.room.storage.put(key, recent);
+      await this.ctx.storage.put(key, recent);
       return true;
     } catch (e) {
       console.error('[RateLimit] check failed, allowing request:', e.message);
@@ -3865,11 +3885,11 @@ export default class DogShowServer {
   async getUniqueSlug(name) {
     const base = this.slugify(name);
     let slug = base;
-    let existing = await this.room.storage.get(`slug:${slug}`);
+    let existing = await this.ctx.storage.get(`slug:${slug}`);
     let counter = 2;
     while (existing) {
       slug = base + '-' + counter;
-      existing = await this.room.storage.get(`slug:${slug}`);
+      existing = await this.ctx.storage.get(`slug:${slug}`);
       counter++;
     }
     return slug;
@@ -3893,7 +3913,7 @@ export default class DogShowServer {
   async _userIdFromEmail(email) {
     if (!email) return null;
     const normalized = String(email).toLowerCase().trim();
-    return await this.room.storage.get(`email:${normalized}`);
+    return await this.ctx.storage.get(`email:${normalized}`);
   }
 
   // Returns true if the given email belongs to a user who has unsubscribed.
@@ -3903,7 +3923,7 @@ export default class DogShowServer {
   async _isUnsubscribed(email) {
     const userId = await this._userIdFromEmail(email);
     if (!userId) return false;
-    const user = await this.room.storage.get(`user:${userId}`);
+    const user = await this.ctx.storage.get(`user:${userId}`);
     return !!(user && user.unsubscribed);
   }
 
@@ -3916,7 +3936,7 @@ export default class DogShowServer {
   // Unforgeable without server access; deterministic so the same user
   // always gets the same link (no need to store anything extra).
   async _unsubToken(userId) {
-    const secret = this.room.env.RESEND_API_KEY || 'unsub_fallback_v1';
+    const secret = this.env.RESEND_API_KEY || 'unsub_fallback_v1';
     const data = new TextEncoder().encode(userId + ':' + secret + ':unsub_v1');
     const buf = await crypto.subtle.digest('SHA-256', data);
     return Array.from(new Uint8Array(buf))
@@ -3941,7 +3961,7 @@ export default class DogShowServer {
     // did NOT fix it, confirming the mangling is in the mail pipeline, not the
     // HTML.) The handler still accepts the legacy ?u=..&t=.. form.
     const x = encodeURIComponent(`${userId}.${token}`);
-    const partyUnsubUrl = `https://dogshow.schemestudio.partykit.dev/party/dogshow-live/unsubscribe?x=${x}`;
+    const partyUnsubUrl = `${API_BASE}/unsubscribe?x=${x}`;
     // Physical mailing address — required for CAN-SPAM. Shown at the bottom
     // of every user-facing email next to the unsubscribe link.
     const ADDR_LINE = '222 Spaniel Dr, Morrisville, NC 27560, USA';
@@ -3982,7 +4002,7 @@ export default class DogShowServer {
     if (token !== expected) {
       return renderPage(401, 'Invalid link', '<p>This unsubscribe link is invalid or has been tampered with.</p>');
     }
-    const user = await this.room.storage.get(`user:${userId}`);
+    const user = await this.ctx.storage.get(`user:${userId}`);
     if (!user) {
       // Idempotent — looks the same as success from the user's view.
       return renderPage(200, "You're unsubscribed", "<p>You'll no longer receive emails from The Dog Show.</p>");
@@ -3990,7 +4010,7 @@ export default class DogShowServer {
     if (!user.unsubscribed) {
       user.unsubscribed = true;
       user.unsubscribedAt = Date.now();
-      await this.room.storage.put(`user:${userId}`, user);
+      await this.ctx.storage.put(`user:${userId}`, user);
     }
     return renderPage(200, "You're unsubscribed",
       `<p>You'll no longer receive emails from The Dog Show.</p>
@@ -3998,7 +4018,7 @@ export default class DogShowServer {
   }
 
   async sendMagicLinkEmail(email, loginUrl) {
-    if (!this.room.env.RESEND_API_KEY) {
+    if (!this.env.RESEND_API_KEY) {
       console.error('[Email] RESEND_API_KEY env var is not set, skipping magic link email');
       return false;
     }
@@ -4012,7 +4032,7 @@ export default class DogShowServer {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+          'Authorization': `Bearer ${this.env.RESEND_API_KEY}`,
         },
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
@@ -4043,7 +4063,7 @@ export default class DogShowServer {
   }
 
   async sendAdminSignupNotification(email, tier) {
-    if (!this.room.env.RESEND_API_KEY) return;
+    if (!this.env.RESEND_API_KEY) return;
 
     const tierLabel = tier === 'premium_plus' ? 'Top Dog ($5.99)'
       : tier === 'premium' ? 'Enter Your Dog (legacy $3.99)'
@@ -4055,7 +4075,7 @@ export default class DogShowServer {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+        'Authorization': `Bearer ${this.env.RESEND_API_KEY}`,
       },
       body: JSON.stringify({
         from: 'Dog Show <noreply@dogshow.lol>',
@@ -4078,7 +4098,7 @@ export default class DogShowServer {
   // Sent to a new free signup — welcomes them and links back into the show.
   // Free signups previously got no user-facing email at all (audit #39).
   async sendWelcomeEmail(email) {
-    if (!this.room.env.RESEND_API_KEY) {
+    if (!this.env.RESEND_API_KEY) {
       console.error('[Email] RESEND_API_KEY not set, skipping welcome email');
       return false;
     }
@@ -4092,7 +4112,7 @@ export default class DogShowServer {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+          'Authorization': `Bearer ${this.env.RESEND_API_KEY}`,
         },
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
@@ -4181,7 +4201,7 @@ export default class DogShowServer {
   // Low-level branded sender — standard chrome/footer, NO unsubscribe check.
   // Use for transactional sends (welcome, certificate, contest win).
   async _sendBrandedEmail(email, subject, innerHtml) {
-    if (!this.room.env.RESEND_API_KEY || !email) return false;
+    if (!this.env.RESEND_API_KEY || !email) return false;
     const userId = await this._userIdFromEmail(email);
     const footer = await this.unsubscribeFooter(userId);
     const html = `
@@ -4195,7 +4215,7 @@ export default class DogShowServer {
     try {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}` },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.env.RESEND_API_KEY}` },
         body: JSON.stringify({ from: 'Dog Show <noreply@dogshow.lol>', to: [email], subject, html }),
       });
       if (!res.ok) console.error('[Email] branded send failed:', subject, res.status);
@@ -4224,7 +4244,7 @@ export default class DogShowServer {
   }
 
   _dogImg(dog) {
-    return 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=' + dog.id;
+    return API_BASE + '/community-image?id=' + dog.id;
   }
 
   _dogPageUrl(dog) {
@@ -4407,7 +4427,7 @@ export default class DogShowServer {
   // Walk all users and send any due cadence emails. Runs on the storage alarm
   // (at least daily via the audit horizon; sooner near month-end boundaries).
   async processEmailCampaigns() {
-    if (!this.room.env.RESEND_API_KEY) return;
+    if (!this.env.RESEND_API_KEY) return;
     const now = Date.now();
     const DAY = 24 * 60 * 60 * 1000;
     const seasonId = this.currentSeasonId();
@@ -4422,7 +4442,7 @@ export default class DogShowServer {
     const standings = this.seasonStandings();
     const dogsInRace = standings.length;
 
-    const userEntries = await this.room.storage.list({ prefix: 'user:' });
+    const userEntries = await this.ctx.storage.list({ prefix: 'user:' });
     const users = [...userEntries.values()];
     const dogsByUserId = new Map();
     this.communityDogs.forEach(d => { if (d.userId) dogsByUserId.set(d.userId, d); });
@@ -4432,7 +4452,7 @@ export default class DogShowServer {
     // haven't announced it yet. Winner email goes to the champion's owner (once);
     // the recap goes to every registered user (once each). Kept on the alarm —
     // never in a request path — so a big user base can't slow a page load.
-    const pastSeasons = (await this.room.storage.get('pastSeasons')) || [];
+    const pastSeasons = (await this.ctx.storage.get('pastSeasons')) || [];
     const lastResult = pastSeasons.length ? pastSeasons[pastSeasons.length - 1] : null;
     const resultFresh = lastResult && (now - (lastResult.endedAt || 0) <= 3 * DAY);
     let winnerOwnerId = null;
@@ -4441,11 +4461,11 @@ export default class DogShowServer {
         const winnerDog = this.communityDogs.find(d => d.id === lastResult.winner.id);
         winnerOwnerId = winnerDog ? winnerDog.userId : null;
         const wKey = `winnerEmailSent:${lastResult.seasonId}`;
-        if (winnerDog && winnerOwnerId && !(await this.room.storage.get(wKey))) {
-          const owner = await this.room.storage.get(`user:${winnerOwnerId}`);
+        if (winnerDog && winnerOwnerId && !(await this.ctx.storage.get(wKey))) {
+          const owner = await this.ctx.storage.get(`user:${winnerOwnerId}`);
           if (owner && owner.email) {
             const sent = await this.sendWinnerEmail(owner.email, winnerDog, lastResult);
-            if (sent) await this.room.storage.put(wKey, now);
+            if (sent) await this.ctx.storage.put(wKey, now);
           }
         }
       } catch (e) {
@@ -4458,13 +4478,13 @@ export default class DogShowServer {
         try {
           if (lastResult.winner && bw.id === lastResult.winner.id) continue;
           const bKey = `bibEmailSent:${lastResult.seasonId}:${bw.id}`;
-          if (await this.room.storage.get(bKey)) continue;
+          if (await this.ctx.storage.get(bKey)) continue;
           const bwDog = this.communityDogs.find(d => d.id === bw.id);
           if (!bwDog || !bwDog.userId) continue;
-          const owner = await this.room.storage.get(`user:${bwDog.userId}`);
+          const owner = await this.ctx.storage.get(`user:${bwDog.userId}`);
           if (!owner || !owner.email || owner.unsubscribed) continue;
           const sent = await this.sendBreedWinnerEmail(owner.email, bwDog, bw, lastResult.seasonId);
-          if (sent) await this.room.storage.put(bKey, now);
+          if (sent) await this.ctx.storage.put(bKey, now);
         } catch (e) {
           console.error('[Campaign] breed winner email failed:', e && e.message);
         }
@@ -4490,7 +4510,7 @@ export default class DogShowServer {
               console.error('[Campaign] welcome email failed:', e && e.message));
             u.onboardedAt = now;
             u.emailQuietUntil = now + EMAIL_QUIET_MS;
-            await this.room.storage.put(`user:${u.id}`, u);
+            await this.ctx.storage.put(`user:${u.id}`, u);
             continue; // now inside their quiet window
           }
           if (dog || age > WELCOME_MAX_AGE) {
@@ -4498,7 +4518,7 @@ export default class DogShowServer {
             // that predates this field — backfill and process normally (no email,
             // no fresh quiet window for these established users).
             u.onboardedAt = u.createdAt || now;
-            await this.room.storage.put(`user:${u.id}`, u);
+            await this.ctx.storage.put(`user:${u.id}`, u);
           } else {
             continue; // brand-new owner mid-entry, or still within grace — wait
           }
@@ -4512,44 +4532,44 @@ export default class DogShowServer {
         // email instead.
         if (resultFresh && u.id !== winnerOwnerId) {
           const key = `monthlyResults:${lastResult.seasonId}:${u.id}`;
-          if (!(await this.room.storage.get(key))) {
+          if (!(await this.ctx.storage.get(key))) {
             const sent = await this.sendMonthlyResultsEmail(u.email, lastResult, seasonLabel);
-            if (sent) await this.room.storage.put(key, now);
+            if (sent) await this.ctx.storage.put(key, now);
           }
         }
         // 1) No-vote nudge — registered ≥3d ago, never spent a bone, once ever.
         if (!u.hasVoted && (now - (u.createdAt || now)) >= 3 * DAY) {
           const key = `noVoteNudged:${u.id}`;
-          if (!(await this.room.storage.get(key))) {
+          if (!(await this.ctx.storage.get(key))) {
             const sent = await this.sendNoVoteNudgeEmail(u.email, dog);
-            if (sent) await this.room.storage.put(key, now);
+            if (sent) await this.ctx.storage.put(key, now);
           }
         }
         // 3a/3b) Month-end urgency — all registered users, once per season.
         if (within24h) {
           const key = `urgency24h:${u.id}:${seasonId}`;
-          if (!(await this.room.storage.get(key))) {
+          if (!(await this.ctx.storage.get(key))) {
             const ctx = dog ? this._raceCtx(dog, standings, dogsInRace, seasonLabel) : null;
             const sent = await this.sendUrgencyEmail(u.email, dog, '24h', { hoursLeft, daysLeft, seasonLabel, ctx });
-            if (sent) await this.room.storage.put(key, now);
+            if (sent) await this.ctx.storage.put(key, now);
           }
         } else if (within3d) {
           const key = `urgency3d:${u.id}:${seasonId}`;
-          if (!(await this.room.storage.get(key))) {
+          if (!(await this.ctx.storage.get(key))) {
             const ctx = dog ? this._raceCtx(dog, standings, dogsInRace, seasonLabel) : null;
             const sent = await this.sendUrgencyEmail(u.email, dog, '3d', { hoursLeft, daysLeft, seasonLabel, ctx });
-            if (sent) await this.room.storage.put(key, now);
+            if (sent) await this.ctx.storage.put(key, now);
           }
         }
         // 2) Weekly digest — owners only, ≥7d since last. Suppressed in the final
         //    3 days so it never stacks with an urgency email the same day.
         if (dog && !within3d) {
           const key = `weeklyDigest:${u.id}`;
-          const last = (await this.room.storage.get(key)) || 0;
+          const last = (await this.ctx.storage.get(key)) || 0;
           if (now - last >= 7 * DAY) {
             const ctx = this._raceCtx(dog, standings, dogsInRace, seasonLabel);
             const sent = await this.sendWeeklyDigestEmail(u.email, dog, ctx, daysLeft);
-            if (sent) await this.room.storage.put(key, now);
+            if (sent) await this.ctx.storage.put(key, now);
           }
         }
       } catch (e) {
@@ -4561,7 +4581,7 @@ export default class DogShowServer {
   // Sent immediately after a verified purchase. Premium buyers get an upload
   // prompt; general buyers get a watch-the-show nudge.
   async sendPurchaseConfirmationEmail(email, tier) {
-    if (!this.room.env.RESEND_API_KEY) {
+    if (!this.env.RESEND_API_KEY) {
       console.error('[Email] RESEND_API_KEY not set, skipping purchase confirmation');
       return false;
     }
@@ -4579,7 +4599,7 @@ export default class DogShowServer {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+          'Authorization': `Bearer ${this.env.RESEND_API_KEY}`,
         },
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
@@ -4619,7 +4639,7 @@ export default class DogShowServer {
   // /admin-grant-goodwill. Relationship/transactional — sent regardless of unsub,
   // but carries the standard footer.
   async sendBenefitsChangeEmail(email, bonesGranted) {
-    if (!this.room.env.RESEND_API_KEY || !email) return false;
+    if (!this.env.RESEND_API_KEY || !email) return false;
     const userId = await this._userIdFromEmail(email);
     const footer = await this.unsubscribeFooter(userId);
     const showUrl = `${SITE_URL}/show.html`;
@@ -4628,7 +4648,7 @@ export default class DogShowServer {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+          'Authorization': `Bearer ${this.env.RESEND_API_KEY}`,
         },
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
@@ -4674,7 +4694,7 @@ export default class DogShowServer {
   // exact lateness — the email copy reads "in about an hour" / "in 5 minutes."
   async sendSlotReminderEmail(email, dog, minutesUntil) {
     if (!email) return false;
-    if (!this.room.env.RESEND_API_KEY) {
+    if (!this.env.RESEND_API_KEY) {
       console.error('[Email] RESEND_API_KEY not set, skipping slot reminder');
       return false;
     }
@@ -4686,7 +4706,7 @@ export default class DogShowServer {
     const userId = await this._userIdFromEmail(email);
     const footer = await this.unsubscribeFooter(userId);
     const dogName = dog.dogName || 'A good dog';
-    const imageUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=' + dog.id;
+    const imageUrl = API_BASE + '/community-image?id=' + dog.id;
     const pageUrl = dog.slug ? `${SITE_URL}/d/${dog.slug}` : `${SITE_URL}/dog.html?id=${dog.id}`;
     const showUrl = `${SITE_URL}/show.html`;
     const isImminent = minutesUntil <= 10;
@@ -4704,7 +4724,7 @@ export default class DogShowServer {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+          'Authorization': `Bearer ${this.env.RESEND_API_KEY}`,
         },
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
@@ -4741,7 +4761,7 @@ export default class DogShowServer {
 
   async sendCertificateEmail(email, dog) {
     if (!email) return false;
-    if (!this.room.env.RESEND_API_KEY) {
+    if (!this.env.RESEND_API_KEY) {
       console.error('[Email] RESEND_API_KEY not set, skipping certificate email');
       return false;
     }
@@ -4750,7 +4770,7 @@ export default class DogShowServer {
     const footer = await this.unsubscribeFooter(userId);
     const dogName = dog.dogName || 'Your dog';
     const breed = dog.breed || 'Mystery Breed';
-    const imageUrl = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/community-image?id=' + dog.id;
+    const imageUrl = API_BASE + '/community-image?id=' + dog.id;
     const pageUrl = dog.slug ? `${SITE_URL}/d/${dog.slug}` : `${SITE_URL}/dog.html?id=${dog.id}`;
     // A booked (scheduled) dog hasn't aired yet, so the page is a countdown/RSVP
     // page, not a certificate — the copy + CTA must reflect that (audit L8).
@@ -4791,7 +4811,7 @@ export default class DogShowServer {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+          'Authorization': `Bearer ${this.env.RESEND_API_KEY}`,
         },
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
@@ -4834,7 +4854,7 @@ export default class DogShowServer {
 
   // One-time nudge to a premium buyer who hasn't uploaded a dog yet.
   async sendUploadNudgeEmail(email) {
-    if (!this.room.env.RESEND_API_KEY) {
+    if (!this.env.RESEND_API_KEY) {
       console.error('[Email] RESEND_API_KEY not set, skipping upload nudge');
       return false;
     }
@@ -4850,7 +4870,7 @@ export default class DogShowServer {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+          'Authorization': `Bearer ${this.env.RESEND_API_KEY}`,
         },
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
@@ -4885,7 +4905,7 @@ export default class DogShowServer {
 
   // Plain admin alert to James (refunds, disputes, reconciliation).
   async sendAdminAlert(subject, bodyHtml) {
-    if (!this.room.env.RESEND_API_KEY) {
+    if (!this.env.RESEND_API_KEY) {
       console.error('[Email] RESEND_API_KEY not set, skipping admin alert:', subject);
       return false;
     }
@@ -4894,7 +4914,7 @@ export default class DogShowServer {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+          'Authorization': `Bearer ${this.env.RESEND_API_KEY}`,
         },
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
@@ -4933,7 +4953,7 @@ export default class DogShowServer {
   // extra state per dog.
 
   async _testimonialToken(dogId) {
-    const secret = this.room.env.RESEND_API_KEY || 'testimonial_fallback_v1';
+    const secret = this.env.RESEND_API_KEY || 'testimonial_fallback_v1';
     const data = new TextEncoder().encode(dogId + ':' + secret + ':testimonial_v1');
     const buf = await crypto.subtle.digest('SHA-256', data);
     return Array.from(new Uint8Array(buf))
@@ -5014,13 +5034,13 @@ export default class DogShowServer {
   // so a dog that re-airs many times doesn't get spammed.
   async maybeSendTestimonialRequest(dog) {
     if (!dog || !dog.id) return;
-    if (!this.room.env.RESEND_API_KEY) return;  // no email backend, skip silently
+    if (!this.env.RESEND_API_KEY) return;  // no email backend, skip silently
     const flagKey = `testimonialRequest:${dog.id}`;
-    const already = await this.room.storage.get(flagKey);
+    const already = await this.ctx.storage.get(flagKey);
     if (already) return;
     // Look up the owner's email via the user record. dog.userId is the link.
     if (!dog.userId) return;
-    const user = await this.room.storage.get(`user:${dog.userId}`);
+    const user = await this.ctx.storage.get(`user:${dog.userId}`);
     if (!user || !user.email) return;
     // Respect the onboarding quiet window (2026-07-08): a brand-new owner should
     // not get the "how did it go?" ask on top of their certificate email within
@@ -5030,12 +5050,12 @@ export default class DogShowServer {
     // Set the flag BEFORE sending so a transient send failure doesn't
     // un-guard us (re-sending the same ask the next time the dog airs is
     // worse than a silently-dropped one).
-    await this.room.storage.put(flagKey, Date.now());
+    await this.ctx.storage.put(flagKey, Date.now());
     await this.sendTestimonialRequestEmail(user.email, dog);
   }
 
   async sendTestimonialRequestEmail(email, dog) {
-    if (!email || !this.room.env.RESEND_API_KEY) return false;
+    if (!email || !this.env.RESEND_API_KEY) return false;
     // Marketing-ish ask, not strictly transactional — respect unsubscribe.
     if (await this._isUnsubscribed(email)) {
       console.log('[Testimonial] Skipping unsubscribed recipient');
@@ -5050,7 +5070,7 @@ export default class DogShowServer {
     // Reply-To routes inbound replies to the curated mailbox / inbound webhook.
     // Falls back to noreply if the env var isn't set (replies will then go
     // nowhere useful — fine for dev, but production needs INBOUND_REPLY_TO).
-    const replyTo = this.room.env.INBOUND_REPLY_TO || 'replies@dogshow.lol';
+    const replyTo = this.env.INBOUND_REPLY_TO || 'replies@dogshow.lol';
     const subject = `How did ${dogName}'s appearance go? ${refTag}`;
     // mailto: pre-fills the reply for one-click submission. Subject MUST be
     // URL-encoded — many clients break on unencoded brackets/spaces, and we
@@ -5061,7 +5081,7 @@ export default class DogShowServer {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}`,
+          'Authorization': `Bearer ${this.env.RESEND_API_KEY}`,
         },
         body: JSON.stringify({
           from: 'Dog Show <noreply@dogshow.lol>',
@@ -5128,7 +5148,7 @@ export default class DogShowServer {
   async handleInboundEmail(req, headers) {
     const url = new URL(req.url);
     const providedSecret = url.searchParams.get('secret');
-    const expectedSecret = (this.room.env && this.room.env.INBOUND_WEBHOOK_SECRET) || null;
+    const expectedSecret = (this.env && this.env.INBOUND_WEBHOOK_SECRET) || null;
     if (!expectedSecret) {
       return new Response(JSON.stringify({ error: 'inbound endpoint not configured' }), { status: 403, headers });
     }
@@ -5153,13 +5173,13 @@ export default class DogShowServer {
     // explicitly (event type) or implicitly (email_id present + text empty).
     const isResendEvent = payload.type === 'email.received' || !!data.email_id;
     if (isResendEvent && data.email_id && !rawText && !rawHtml) {
-      if (!this.room.env.RESEND_API_KEY) {
+      if (!this.env.RESEND_API_KEY) {
         console.error('[Inbound] Resend event received but RESEND_API_KEY not set — cannot fetch body');
         return new Response(JSON.stringify({ error: 'cannot retrieve body' }), { status: 500, headers });
       }
       try {
         const apiRes = await fetch(`https://api.resend.com/emails/receiving/${data.email_id}`, {
-          headers: { 'Authorization': `Bearer ${this.room.env.RESEND_API_KEY}` },
+          headers: { 'Authorization': `Bearer ${this.env.RESEND_API_KEY}` },
         });
         if (!apiRes.ok) {
           const txt = await apiRes.text();
@@ -5195,7 +5215,7 @@ export default class DogShowServer {
     const fromMatch = String(from).match(/<([^>]+)>/);
     const fromEmail = (fromMatch ? fromMatch[1] : from).trim();
 
-    const testimonials = (await this.room.storage.get('testimonials')) || [];
+    const testimonials = (await this.ctx.storage.get('testimonials')) || [];
     const entry = {
       id: 't_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4),
       dogId: dog.id,
@@ -5210,7 +5230,7 @@ export default class DogShowServer {
       rawSubject: String(subject).slice(0, 200),
     };
     testimonials.push(entry);
-    await this.room.storage.put('testimonials', testimonials);
+    await this.ctx.storage.put('testimonials', testimonials);
 
     // Action-prompt notification to James. Subject prefixed so it's easy to
     // filter; body is the quoted text + a single big CTA to the admin page.
@@ -5235,11 +5255,11 @@ export default class DogShowServer {
   async handleAdminTestimonials(req, headers) {
     const url = new URL(req.url);
     const key = url.searchParams.get('key');
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     if (!adminKey || !key || key !== adminKey) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
     }
-    const all = (await this.room.storage.get('testimonials')) || [];
+    const all = (await this.ctx.storage.get('testimonials')) || [];
     const sortDesc = (a, b) => (b.receivedAt || 0) - (a.receivedAt || 0);
     const pending = all.filter(t => t.status === 'pending').sort(sortDesc);
     const approved = all.filter(t => t.status === 'approved').sort(sortDesc);
@@ -5258,14 +5278,14 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'invalid json' }), { status: 400, headers });
     }
     const { key, id, action, edited } = body || {};
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     if (!adminKey || !key || key !== adminKey) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
     }
     if (!id || !['approve', 'reject', 'delete'].includes(action)) {
       return new Response(JSON.stringify({ error: 'id + valid action required' }), { status: 400, headers });
     }
-    const all = (await this.room.storage.get('testimonials')) || [];
+    const all = (await this.ctx.storage.get('testimonials')) || [];
     const idx = all.findIndex(t => t.id === id);
     if (idx === -1) {
       return new Response(JSON.stringify({ error: 'not found' }), { status: 404, headers });
@@ -5284,7 +5304,7 @@ export default class DogShowServer {
       t.status = action === 'approve' ? 'approved' : 'rejected';
       t.moderatedAt = Date.now();
     }
-    await this.room.storage.put('testimonials', all);
+    await this.ctx.storage.put('testimonials', all);
     return new Response(JSON.stringify({ ok: true }), { headers });
   }
 
@@ -5299,7 +5319,7 @@ export default class DogShowServer {
       return new Response(JSON.stringify({ error: 'invalid json' }), { status: 400, headers });
     }
     const { key, dogId, text, status } = body || {};
-    const adminKey = (this.room && this.room.env && this.room.env.ADMIN_KEY) || null;
+    const adminKey = (this.env && this.env.ADMIN_KEY) || null;
     if (!adminKey || !key || key !== adminKey) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
     }
@@ -5314,7 +5334,7 @@ export default class DogShowServer {
     if (!cleanText) {
       return new Response(JSON.stringify({ error: 'text empty after sanitize' }), { status: 400, headers });
     }
-    const testimonials = (await this.room.storage.get('testimonials')) || [];
+    const testimonials = (await this.ctx.storage.get('testimonials')) || [];
     const entry = {
       id: 't_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4),
       dogId: dog.id,
@@ -5329,7 +5349,7 @@ export default class DogShowServer {
       source: 'manual',
     };
     testimonials.push(entry);
-    await this.room.storage.put('testimonials', testimonials);
+    await this.ctx.storage.put('testimonials', testimonials);
     return new Response(JSON.stringify({ ok: true, id: entry.id }), { headers });
   }
 
@@ -5337,7 +5357,7 @@ export default class DogShowServer {
   // Public — returns approved testimonials for the landing-page rail.
   // Cached short to keep load light; landing page hits this on every visit.
   async handleGetTestimonials(req, headers) {
-    const all = (await this.room.storage.get('testimonials')) || [];
+    const all = (await this.ctx.storage.get('testimonials')) || [];
     const approved = all
       .filter(t => t.status === 'approved')
       .sort((a, b) => (b.moderatedAt || b.receivedAt || 0) - (a.moderatedAt || a.receivedAt || 0))
@@ -5381,3 +5401,19 @@ export default class DogShowServer {
        </table>`);
   }
 }
+
+// ─── Worker entry point (PartyServer) ─────────────────────────
+// Routes /parties/:server/:room to the Durable Object. The hosted-PartyKit
+// path shape /party/<room>/... is rewritten to /parties/main/<room>/... so
+// the frontend, Stripe/Resend webhooks and emailed links keep working.
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    if (url.pathname.startsWith('/party/')) {
+      url.pathname = '/parties/main/' + url.pathname.slice('/party/'.length);
+      request = new Request(url.toString(), request);
+    }
+    const res = await routePartykitRequest(request, env);
+    return res || new Response('Not found', { status: 404 });
+  },
+};

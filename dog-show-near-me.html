@@ -689,7 +689,7 @@
 
   <script>
     // ── Fetch live stats ──
-    fetch('https://dogshow.schemestudio.partykit.dev/parties/main/dogshow-live/landing-stats')
+    fetch('https://dogshow.james-c08.workers.dev/parties/main/dogshow-live/landing-stats')
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (data.totalBones != null) document.getElementById('statBones').textContent = Number(data.totalBones).toLocaleString();
@@ -700,7 +700,7 @@
       .catch(function() {});
 
     // ── Fetch dog gallery ──
-    fetch('https://dogshow.schemestudio.partykit.dev/parties/main/dogshow-live/leaderboard')
+    fetch('https://dogshow.james-c08.workers.dev/parties/main/dogshow-live/leaderboard')
       .then(function(r) { return r.json(); })
       .then(function(data) {
         var gallery = document.getElementById('dogGallery');

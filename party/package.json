@@ -1,14 +1,19 @@
 {
   "name": "dogshow-party",
   "version": "1.0.0",
-  "description": "PartyKit server for dogshow.lol real-time chat + bones",
+  "description": "Dog Show real-time server: Cloudflare Worker (PartyServer) for dogshow.lol chat, bones, entries, auth, Stripe",
   "main": "server.js",
   "scripts": {
-    "dev": "npx partykit dev",
-    "deploy": "node stamp-version.cjs && npx partykit deploy && git checkout -- build-info.js",
-    "check-deploy": "node check-deploy.cjs"
+    "dev": "npx wrangler dev",
+    "deploy": "node stamp-version.cjs && npx wrangler deploy && git checkout -- build-info.js",
+    "check-deploy": "node check-deploy.cjs",
+    "secret": "npx wrangler secret put"
   },
   "dependencies": {
-    "partykit": "^0.0.108"
-  }
+    "partyserver": "^0.5.10"
+  },
+  "devDependencies": {
+    "wrangler": "^4.156.2"
+  },
+  "type": "module"
 }

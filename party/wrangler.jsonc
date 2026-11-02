@@ -1,0 +1,26 @@
+// Dog Show real-time server on Cloudflare Workers (PartyServer).
+// Replaces partykit.json: the hosted PartyKit platform shut down 2026-10-23.
+// Deploy: `npm run deploy` (stamps build-info.js, runs `wrangler deploy`).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dogshow",
+  "main": "server.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "observability": { "enabled": true },
+  // Workers AI: the dog classifier (@cf/microsoft/resnet-50) runs on this
+  // binding first; CF_ACCOUNT_ID + CF_AI_TOKEN secrets are only a fallback.
+  "ai": { "binding": "AI" },
+  // One Durable Object per server class. The binding MUST be called "Main":
+  // PartyServer routes /parties/main/<room> to it, and the Worker's fetch
+  // handler rewrites the old /party/<room> shape onto that path.
+  "durable_objects": {
+    "bindings": [{ "name": "Main", "class_name": "DogShowServer" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["DogShowServer"] }]
+  // Secrets (set with `npx wrangler secret put <NAME>`, never in this file):
+  //   ADMIN_KEY, RESEND_API_KEY, STRIPE_SK, STRIPE_WEBHOOK_SECRET,
+  //   ANTHROPIC_API_KEY (optional: sir_barks_alot), INBOUND_WEBHOOK_SECRET,
+  //   INBOUND_REPLY_TO (optional), CF_ACCOUNT_ID + CF_AI_TOKEN (optional fallback).
+}

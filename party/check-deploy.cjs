@@ -1,9 +1,10 @@
-/* Compares the LIVE PartyKit prod version (GET /version) against your local
+/* Compares the LIVE Worker prod version (GET /version) against your local
  * repo HEAD, so you can tell at a glance whether prod has drifted from the repo.
  * Run with `npm run check-deploy` from the party/ directory. */
 const { execSync } = require('child_process');
 
-const ENDPOINT = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live/version';
+// Keep in step with API_HOST at the top of server.js.
+const ENDPOINT = 'https://dogshow.james-c08.workers.dev/party/dogshow-live/version';
 
 let local = '?';
 try { local = execSync('git rev-parse --short HEAD').toString().trim(); } catch { /* not a git repo */ }
