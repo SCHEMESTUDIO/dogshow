@@ -143,3 +143,13 @@ delete. Keep entries short; link evidence.
   signups vs organic (quality guardrail). Cadence: prune search terms every
   2-3 days (HWAB), day-5 geo report, day-10 creative prune, day 20-22 final
   cost-to-convert readout. Credit: £372.50 earned, expires 23 Sept 2026.
+
+- **2026-11-02 — Sitemap back on the static path; api/sitemap.py removed.**
+  The 2026-08-20 workaround turned `/sitemap.xml` into a 307 to the
+  function. GSC's sitemaps API showed the 2026-08-21 submission never
+  downloaded and still pending 73 days later; the six SCHEME sites serving a
+  static sitemap at 200 are all read. Google's Sitemaps report doc:
+  "Redirects are not followed." Redirect, `functions` block, the
+  `/api/sitemap` header rule and `api/sitemap.py` all removed. Keep the
+  `headshotswithabird.com/dogshow-sitemap.xml` proxy line in robots.txt until
+  `https://dogshow.lol/sitemap.xml` shows a download date in GSC.
