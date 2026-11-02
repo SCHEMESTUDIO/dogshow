@@ -12,7 +12,7 @@
 // remaining 19 P1 breeds, refactor BREEDS to file-based content/breeds/*.js
 // so editorial diffs stay scoped to one breed at a time.
 // ─────────────────────────────────────────────────────────────────────────
-const PARTY = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live';
+const PARTY = 'https://dogshow.james-c08.workers.dev/party/dogshow-live';
 const SITE = 'https://dogshow.lol';
 
 function esc(s) {

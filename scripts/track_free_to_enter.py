@@ -16,7 +16,7 @@ import json
 import sys
 import urllib.request
 
-URL = "https://dogshow.schemestudio.partykit.dev/party/dogshow-live/landing-stats"
+URL = "https://dogshow.james-c08.workers.dev/party/dogshow-live/landing-stats"
 CSV_PATH = "free-to-enter-tracking.csv"
 
 CAVEAT = ("Caveat: totalBones is NOT revenue — it's the sum of user balances, "

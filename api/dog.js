@@ -18,7 +18,7 @@
 //     trade-off is free.
 //   - Reversal is one line per state if the calculus ever changes.
 // ─────────────────────────────────────────────────────────────────────────
-const PARTY = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live';
+const PARTY = 'https://dogshow.james-c08.workers.dev/party/dogshow-live';
 const SITE = 'https://dogshow.lol';
 
 function esc(s) {
@@ -271,7 +271,7 @@ ${hasSlot ? `
 (function(){
   var slotIso = ${JSON.stringify(slotIso)};
   var dogId = ${JSON.stringify(dog.id)};
-  var partyBase = ${JSON.stringify('https://dogshow.schemestudio.partykit.dev/party/dogshow-live')};
+  var partyBase = ${JSON.stringify('https://dogshow.james-c08.workers.dev/party/dogshow-live')};
   var siteUrl = ${JSON.stringify(SITE)};
 
   // ─── Countdown ─────────────────────────────────
@@ -622,7 +622,7 @@ ${breedBlock}
 </div>
 <script>
 (function(){
-  var partyBase = ${JSON.stringify('https://dogshow.schemestudio.partykit.dev/party/dogshow-live')};
+  var partyBase = ${JSON.stringify('https://dogshow.james-c08.workers.dev/party/dogshow-live')};
   var dogId = ${JSON.stringify(dog.id)};
   var btn = document.getElementById('voteBtn');
   var countEl = document.getElementById('voteCount');

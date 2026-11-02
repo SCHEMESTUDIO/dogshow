@@ -1088,7 +1088,7 @@
 
   <script>
     // ── Fetch live stats ──
-    fetch('https://dogshow.schemestudio.partykit.dev/parties/main/dogshow-live/landing-stats')
+    fetch('https://dogshow.james-c08.workers.dev/parties/main/dogshow-live/landing-stats')
       .then(r => r.json())
       .then(data => {
         if (data.totalBones != null) document.getElementById('statBones').textContent = Number(data.totalBones).toLocaleString();
@@ -1099,7 +1099,7 @@
       .catch(() => {});
 
     // ── Fetch featured dog (top of leaderboard) ──
-    fetch('https://dogshow.schemestudio.partykit.dev/parties/main/dogshow-live/leaderboard')
+    fetch('https://dogshow.james-c08.workers.dev/parties/main/dogshow-live/leaderboard')
       .then(r => r.json())
       .then(data => {
         var top = (data.topDogs || data.recent || data.top || [])[0];

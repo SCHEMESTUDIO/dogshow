@@ -4,7 +4,7 @@
 const { execSync } = require('child_process');
 
 // Keep in step with API_HOST at the top of server.js.
-const ENDPOINT = 'https://dogshow.schemestudio.workers.dev/party/dogshow-live/version';
+const ENDPOINT = 'https://dogshow.james-c08.workers.dev/party/dogshow-live/version';
 
 let local = '?';
 try { local = execSync('git rev-parse --short HEAD').toString().trim(); } catch { /* not a git repo */ }

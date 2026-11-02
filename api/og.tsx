@@ -14,7 +14,7 @@ import { ImageResponse } from '@vercel/og';
 
 export const config = { runtime: 'edge' };
 
-const PARTY = 'https://dogshow.schemestudio.partykit.dev/party/dogshow-live';
+const PARTY = 'https://dogshow.james-c08.workers.dev/party/dogshow-live';
 const SITE = 'https://dogshow.lol';
 
 export default async function handler(req: Request) {

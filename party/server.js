@@ -15,7 +15,7 @@ import { BUILD_INFO } from './build-info.js';
 // our own account. Old-style /party/<room>/ paths are rewritten to
 // /parties/main/<room>/ in the fetch handler below, so every existing URL
 // shape keeps working. Change API_HOST in one place if the Worker moves.
-const API_HOST = 'dogshow.schemestudio.workers.dev';
+const API_HOST = 'dogshow.james-c08.workers.dev';
 const API_BASE = 'https://' + API_HOST + '/party/dogshow-live';
 
 const SITE_URL = 'https://dogshow.lol';

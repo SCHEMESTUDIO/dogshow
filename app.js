@@ -9,8 +9,8 @@
 
   // ─── CONFIG ─────────────────────────────────────
 
-  // PartyKit server URL — update after deploying party server
-  var PARTY_HOST = 'dogshow.schemestudio.partykit.dev';
+  // Real-time server host: the Cloudflare Worker in party/ (was hosted PartyKit until 2026-10-23)
+  var PARTY_HOST = 'dogshow.james-c08.workers.dev';
   var PARTY_ROOM = 'dogshow-live';
   var API_BASE = 'https://' + PARTY_HOST + '/party/' + PARTY_ROOM;
   var ws = null;
@@ -2261,7 +2261,7 @@
       }
     } catch (e) {}
 
-    fetch('https://dogshow.schemestudio.partykit.dev/party/dogshow-live/register', {
+    fetch('https://dogshow.james-c08.workers.dev/party/dogshow-live/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
